@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-08 16:47+0200\n"
+"POT-Creation-Date: 2017-01-22 21:46+0100\n"
 "PO-Revision-Date: 2008-01-24 12:18+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,9 +26,9 @@ msgstr ""
 msgid "SSH2 login failed at %s@%s"
 msgstr ""
 
-#: includes/net/CommanderCrossbar.php:250
-#: modules/com_networkdevice/networkdevice.index.php:794
-#: modules/com_networkdevice/networkdevice.index.php:811
+#: includes/net/CommanderCrossbar.php:252
+#: modules/com_networkdevice/networkdevice.index.php:796
+#: modules/com_networkdevice/networkdevice.index.php:813
 #, php-format
 msgid "Login successfull: mikrotik API %s@%s"
 msgstr ""
@@ -57,7 +58,7 @@ msgid "KB ABO"
 msgstr ""
 
 #: includes/tables/BankAccountEntry.php:112
-#: modules/com_paymentreport/paymentreport.html.php:378
+#: modules/com_paymentreport/paymentreport.html.php:383
 msgid "Other"
 msgstr ""
 
@@ -401,8 +402,8 @@ msgstr ""
 #: modules/com_bankaccount/bankaccount.index.php:19
 #: modules/com_changelog/changelog.html.php:19
 #: modules/com_changelog/changelog.index.php:19
-#: modules/com_charge/charge.html.php:19
-#: modules/com_charge/charge.index.php:19 modules/com_common/PageNav.php:19
+#: modules/com_charge/charge.html.php:19 modules/com_charge/charge.index.php:19
+#: modules/com_common/PageNav.php:19
 #: modules/com_configuration/configuration.html.php:4
 #: modules/com_configuration/configuration.index.php:4
 #: modules/com_group/group.html.php:19 modules/com_group/group.index.php:19
@@ -426,8 +427,7 @@ msgstr ""
 #: modules/com_networkdevice/networkdevice.index.php:19
 #: modules/com_paymentreport/paymentreport.html.php:19
 #: modules/com_paymentreport/paymentreport.index.php:19
-#: modules/com_person/person.html.php:19
-#: modules/com_person/person.index.php:19
+#: modules/com_person/person.html.php:19 modules/com_person/person.index.php:19
 #: modules/com_personaccount/personaccount.html.php:19
 #: modules/com_personaccount/personaccount.index.php:19
 #: modules/com_role/role.html.php:19 modules/com_role/role.index.php:19
@@ -531,7 +531,7 @@ msgstr ""
 #: modules/com_charge/charge.html.php:47 modules/com_group/group.html.php:46
 #: modules/com_handleevent/handleevent.html.php:46
 #: modules/com_internet/internet.html.php:46 modules/com_log/log.html.php:42
-#: modules/com_network/network.html.php:75
+#: modules/com_network/network.html.php:76
 #: modules/com_networkdevice/networkdevice.html.php:43
 #: modules/com_person/person.html.php:50
 #: modules/com_personaccount/personaccount.html.php:47
@@ -599,7 +599,7 @@ msgstr ""
 #: modules/com_person/person.html.php:1117
 #: modules/com_person/person.html.php:1137
 #: modules/com_person/person.html.php:1158
-#: modules/com_personaccount/personaccount.html.php:1074
+#: modules/com_personaccount/personaccount.html.php:1080
 msgid "Calendar"
 msgstr ""
 
@@ -793,10 +793,10 @@ msgstr ""
 #: modules/com_handleevent/handleevent.html.php:238
 #: modules/com_internet/internet.html.php:263
 #: modules/com_internet/internet.html.php:264
-#: modules/com_network/network.html.php:450
-#: modules/com_network/network.html.php:451
-#: modules/com_network/network.html.php:658
-#: modules/com_network/network.html.php:659
+#: modules/com_network/network.html.php:452
+#: modules/com_network/network.html.php:453
+#: modules/com_network/network.html.php:661
+#: modules/com_network/network.html.php:662
 #: modules/com_networkdevice/networkdevice.html.php:387
 #: modules/com_networkdevice/networkdevice.html.php:388
 #: modules/com_networkdevice/networkdevice.html.php:880
@@ -830,10 +830,10 @@ msgstr ""
 #: modules/com_internet/internet.html.php:271
 #: modules/com_myprofile/myprofile.html.php:731
 #: modules/com_myprofile/myprofile.html.php:732
-#: modules/com_network/network.html.php:457
-#: modules/com_network/network.html.php:458
-#: modules/com_network/network.html.php:665
-#: modules/com_network/network.html.php:666
+#: modules/com_network/network.html.php:459
+#: modules/com_network/network.html.php:460
+#: modules/com_network/network.html.php:668
+#: modules/com_network/network.html.php:669
 #: modules/com_networkdevice/networkdevice.html.php:394
 #: modules/com_networkdevice/networkdevice.html.php:395
 #: modules/com_networkdevice/networkdevice.html.php:887
@@ -873,10 +873,10 @@ msgstr ""
 #: modules/com_internet/internet.html.php:278
 #: modules/com_myprofile/myprofile.html.php:738
 #: modules/com_myprofile/myprofile.html.php:739
-#: modules/com_network/network.html.php:464
-#: modules/com_network/network.html.php:465
-#: modules/com_network/network.html.php:672
-#: modules/com_network/network.html.php:673
+#: modules/com_network/network.html.php:466
+#: modules/com_network/network.html.php:467
+#: modules/com_network/network.html.php:675
+#: modules/com_network/network.html.php:676
 #: modules/com_networkdevice/networkdevice.html.php:401
 #: modules/com_networkdevice/networkdevice.html.php:402
 #: modules/com_networkdevice/networkdevice.html.php:894
@@ -1102,7 +1102,7 @@ msgstr ""
 #: modules/com_bankaccount/bankaccount.html.php:1164
 #: modules/com_charge/charge.html.php:390
 #: modules/com_paymentreport/paymentreport.html.php:177
-#: modules/com_personaccount/personaccount.html.php:1067
+#: modules/com_personaccount/personaccount.html.php:1073
 msgid "Amount:"
 msgstr ""
 
@@ -1119,7 +1119,7 @@ msgid "Type of transaction:"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:1180
-#: modules/com_personaccount/personaccount.html.php:1078
+#: modules/com_personaccount/personaccount.html.php:1084
 msgid "Comment:"
 msgstr ""
 
@@ -1194,7 +1194,7 @@ msgstr ""
 #: modules/com_handleevent/handleevent.html.php:54
 #: modules/com_internet/internet.html.php:54
 #: modules/com_message/message.html.php:38
-#: modules/com_network/network.html.php:83
+#: modules/com_network/network.html.php:84
 #: modules/com_networkdevice/networkdevice.html.php:51
 #: modules/com_person/person.html.php:58 modules/com_role/role.html.php:54
 msgid "Please select record to delete"
@@ -1204,7 +1204,7 @@ msgstr ""
 #: modules/com_handleevent/handleevent.html.php:56
 #: modules/com_internet/internet.html.php:56 modules/com_log/log.html.php:44
 #: modules/com_message/message.html.php:40
-#: modules/com_network/network.html.php:85
+#: modules/com_network/network.html.php:86
 #: modules/com_networkdevice/networkdevice.html.php:53
 #: modules/com_person/person.html.php:60 modules/com_role/role.html.php:56
 msgid "Do you really want to delete selected records ?"
@@ -1350,8 +1350,8 @@ msgstr ""
 #: modules/com_charge/charge.html.php:133
 #: modules/com_internet/internet.html.php:128 modules/com_log/log.html.php:156
 #: modules/com_myprofile/myprofile.html.php:539
-#: modules/com_network/network.html.php:283
-#: modules/com_network/network.html.php:792 modules/com_role/role.html.php:124
+#: modules/com_network/network.html.php:284
+#: modules/com_network/network.html.php:795 modules/com_role/role.html.php:124
 msgid "Description"
 msgstr ""
 
@@ -1367,8 +1367,8 @@ msgstr[1] ""
 #: modules/com_charge/charge.html.php:491
 #: modules/com_handleevent/handleevent.html.php:363
 #: modules/com_internet/internet.html.php:317
-#: modules/com_network/network.html.php:716
-#: modules/com_network/network.html.php:761
+#: modules/com_network/network.html.php:719
+#: modules/com_network/network.html.php:764
 #: modules/com_networkdevice/networkdevice.html.php:201
 #: modules/com_networkdevice/networkdevice.html.php:235
 #: modules/com_networkdevice/networkdevice.html.php:463
@@ -1492,9 +1492,9 @@ msgstr ""
 #: modules/com_charge/charge.index.php:179
 #: modules/com_group/group.index.php:135
 #: modules/com_handleevent/handleevent.index.php:150
-#: modules/com_internet/internet.index.php:143
-#: modules/com_log/log.index.php:97 modules/com_message/message.index.php:109
-#: modules/com_networkdevice/networkdevice.index.php:448
+#: modules/com_internet/internet.index.php:143 modules/com_log/log.index.php:97
+#: modules/com_message/message.index.php:109
+#: modules/com_networkdevice/networkdevice.index.php:450
 #: modules/com_person/person.index.php:309 modules/com_role/role.index.php:129
 msgid "Please select record to erase"
 msgstr ""
@@ -1658,7 +1658,7 @@ msgid "Manage Internet services"
 msgstr ""
 
 #: modules/com_common/html_mainmenu.php:45
-#: modules/com_network/network.html.php:495
+#: modules/com_network/network.html.php:497
 #: modules/com_networkdevice/networkdevice.html.php:1362
 msgid "Network"
 msgstr ""
@@ -2365,7 +2365,7 @@ msgid "Networks"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:538
-#: modules/com_network/network.html.php:790
+#: modules/com_network/network.html.php:793
 msgid "Network address"
 msgstr ""
 
@@ -2434,8 +2434,8 @@ msgid "Passwords doesn't match"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.index.php:197
-#: modules/com_networkdevice/networkdevice.index.php:311
-#: modules/com_networkdevice/networkdevice.index.php:765
+#: modules/com_networkdevice/networkdevice.index.php:313
+#: modules/com_networkdevice/networkdevice.index.php:767
 #: modules/com_person/person.index.php:207
 msgid "User passwords are not same"
 msgstr ""
@@ -2445,206 +2445,206 @@ msgstr ""
 msgid "User '%s' actualized his profile"
 msgstr ""
 
-#: modules/com_network/network.html.php:91
+#: modules/com_network/network.html.php:92
 msgid "Do you really want to delete actual selected network ?"
 msgstr ""
 
-#: modules/com_network/network.html.php:115
 #: modules/com_network/network.html.php:116
-#: modules/com_network/network.html.php:124
+#: modules/com_network/network.html.php:117
 #: modules/com_network/network.html.php:125
+#: modules/com_network/network.html.php:126
 msgid "New network"
 msgstr ""
 
-#: modules/com_network/network.html.php:134
 #: modules/com_network/network.html.php:135
-#: modules/com_network/network.html.php:143
+#: modules/com_network/network.html.php:136
 #: modules/com_network/network.html.php:144
+#: modules/com_network/network.html.php:145
 #: modules/com_networkdevice/networkdevice.html.php:1340
 msgid "Edit network"
 msgstr ""
 
-#: modules/com_network/network.html.php:153
 #: modules/com_network/network.html.php:154
-#: modules/com_network/network.html.php:162
+#: modules/com_network/network.html.php:155
 #: modules/com_network/network.html.php:163
+#: modules/com_network/network.html.php:164
 msgid "Delete network"
 msgstr ""
 
-#: modules/com_network/network.html.php:172
 #: modules/com_network/network.html.php:173
-#: modules/com_network/network.html.php:181
+#: modules/com_network/network.html.php:174
 #: modules/com_network/network.html.php:182
+#: modules/com_network/network.html.php:183
 msgid "New IP address"
 msgstr ""
 
-#: modules/com_network/network.html.php:191
 #: modules/com_network/network.html.php:192
-#: modules/com_network/network.html.php:200
+#: modules/com_network/network.html.php:193
 #: modules/com_network/network.html.php:201
+#: modules/com_network/network.html.php:202
 msgid "Edit IP address"
 msgstr ""
 
-#: modules/com_network/network.html.php:210
 #: modules/com_network/network.html.php:211
-#: modules/com_network/network.html.php:219
+#: modules/com_network/network.html.php:212
 #: modules/com_network/network.html.php:220
+#: modules/com_network/network.html.php:221
 msgid "Delete IP address"
 msgstr ""
 
-#: modules/com_network/network.html.php:231
-#: modules/com_network/network.html.php:473
-#: modules/com_network/network.html.php:681
+#: modules/com_network/network.html.php:232
+#: modules/com_network/network.html.php:475
+#: modules/com_network/network.html.php:684
 msgid "IP network management"
 msgstr ""
 
-#: modules/com_network/network.html.php:249
+#: modules/com_network/network.html.php:250
 msgid "Show IP network headers"
 msgstr ""
 
-#: modules/com_network/network.html.php:280
+#: modules/com_network/network.html.php:281
 msgid "Selected network"
 msgstr ""
 
-#: modules/com_network/network.html.php:281
-#: modules/com_network/network.html.php:791
+#: modules/com_network/network.html.php:282
+#: modules/com_network/network.html.php:794
 msgid "Netmask"
 msgstr ""
 
-#: modules/com_network/network.html.php:282
+#: modules/com_network/network.html.php:283
 msgid "Broadcast"
 msgstr ""
 
-#: modules/com_network/network.html.php:284
-#: modules/com_network/network.html.php:305
-#: modules/com_network/network.html.php:562
-#: modules/com_network/network.html.php:793
+#: modules/com_network/network.html.php:285
+#: modules/com_network/network.html.php:306
+#: modules/com_network/network.html.php:564
+#: modules/com_network/network.html.php:796
 msgid "Owner"
 msgstr ""
 
-#: modules/com_network/network.html.php:285
+#: modules/com_network/network.html.php:286
 msgid "IP filter device"
 msgstr ""
 
-#: modules/com_network/network.html.php:303
+#: modules/com_network/network.html.php:304
 msgid "IP"
 msgstr ""
 
-#: modules/com_network/network.html.php:304
+#: modules/com_network/network.html.php:305
 msgid "DNS"
 msgstr ""
 
-#: modules/com_network/network.html.php:421
+#: modules/com_network/network.html.php:423
 msgid "Please select IP address"
 msgstr ""
 
-#: modules/com_network/network.html.php:423
-#: modules/com_network/network.html.php:631
+#: modules/com_network/network.html.php:425
+#: modules/com_network/network.html.php:634
 msgid "Please select owner"
 msgstr ""
 
-#: modules/com_network/network.html.php:473
+#: modules/com_network/network.html.php:475
 msgid "IP address edit"
 msgstr ""
 
-#: modules/com_network/network.html.php:500
-#: modules/com_network/network.html.php:708
-#: modules/com_network/network.html.php:736
+#: modules/com_network/network.html.php:502
+#: modules/com_network/network.html.php:711
+#: modules/com_network/network.html.php:739
 msgid "Network address:"
 msgstr ""
 
-#: modules/com_network/network.html.php:504
-#: modules/com_network/network.html.php:712
+#: modules/com_network/network.html.php:506
+#: modules/com_network/network.html.php:715
 msgid "Netmask:"
 msgstr ""
 
-#: modules/com_network/network.html.php:508
-#: modules/com_network/network.html.php:720
+#: modules/com_network/network.html.php:510
+#: modules/com_network/network.html.php:723
 msgid "Owner:"
 msgstr ""
 
-#: modules/com_network/network.html.php:519
+#: modules/com_network/network.html.php:521
 msgid "IPv4 address"
 msgstr ""
 
-#: modules/com_network/network.html.php:524
+#: modules/com_network/network.html.php:526
 msgid "IP Address:"
 msgstr ""
 
-#: modules/com_network/network.html.php:548
+#: modules/com_network/network.html.php:550
 msgid "DNS:"
 msgstr ""
 
-#: modules/com_network/network.html.php:567
-#: modules/com_network/network.html.php:765
+#: modules/com_network/network.html.php:569
+#: modules/com_network/network.html.php:768
 msgid "Owner name:"
 msgstr ""
 
-#: modules/com_network/network.html.php:570
-#: modules/com_network/network.html.php:768
+#: modules/com_network/network.html.php:572
+#: modules/com_network/network.html.php:771
 msgid "- Choose owner -"
 msgstr ""
 
-#: modules/com_network/network.html.php:629
+#: modules/com_network/network.html.php:632
 #: modules/com_networkdevice/networkdevice.html.php:1295
 msgid "Please select network"
 msgstr ""
 
-#: modules/com_network/network.html.php:681
+#: modules/com_network/network.html.php:684
 msgid "Network edit"
 msgstr ""
 
-#: modules/com_network/network.html.php:703
+#: modules/com_network/network.html.php:706
 msgid "Parent network"
 msgstr ""
 
-#: modules/com_network/network.html.php:731
+#: modules/com_network/network.html.php:734
 msgid "Subnet"
 msgstr ""
 
-#: modules/com_network/network.html.php:787
+#: modules/com_network/network.html.php:790
 msgid "Subnets in parent network"
 msgstr ""
 
-#: modules/com_network/network.index.php:408
-#: modules/com_network/network.index.php:413
+#: modules/com_network/network.index.php:410
+#: modules/com_network/network.index.php:415
 #, php-format
 msgid "IP: %s in network %s assigned to person '%s'"
 msgstr ""
 
-#: modules/com_network/network.index.php:437
-#: modules/com_network/network.index.php:445
+#: modules/com_network/network.index.php:439
+#: modules/com_network/network.index.php:447
 msgid "Network address has bad format"
 msgstr ""
 
-#: modules/com_network/network.index.php:449
+#: modules/com_network/network.index.php:451
 msgid "Cannot create network identical with it's parent'"
 msgstr ""
 
-#: modules/com_network/network.index.php:469
+#: modules/com_network/network.index.php:471
 msgid "Entered network collide with existing networks"
 msgstr ""
 
-#: modules/com_network/network.index.php:472
+#: modules/com_network/network.index.php:474
 msgid "Entered network is not subnetwork of it's parent"
 msgstr ""
 
-#: modules/com_network/network.index.php:500
-#: modules/com_network/network.index.php:505
+#: modules/com_network/network.index.php:502
+#: modules/com_network/network.index.php:507
 #, php-format
 msgid "Network %s assigned to user '%s'"
 msgstr ""
 
-#: modules/com_network/network.index.php:520
+#: modules/com_network/network.index.php:522
 msgid "Select IP address to delete"
 msgstr ""
 
-#: modules/com_network/network.index.php:533
+#: modules/com_network/network.index.php:535
 #, php-format
 msgid "IP %s from user %s was deleted"
 msgstr ""
 
-#: modules/com_network/network.index.php:566
+#: modules/com_network/network.index.php:568
 #, php-format
 msgid "Network %s from user %s was deleted"
 msgstr ""
@@ -2890,100 +2890,100 @@ msgstr ""
 msgid "Network:"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:320
+#: modules/com_networkdevice/networkdevice.index.php:322
 msgid "Internet download bandwidth (kbps): is not numeric value"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:330
+#: modules/com_networkdevice/networkdevice.index.php:332
 msgid "Internet upload bandwidth (kbps): is not numeric value"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:432
+#: modules/com_networkdevice/networkdevice.index.php:434
 #, php-format
 msgid "Network device '%s' updated"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:437
+#: modules/com_networkdevice/networkdevice.index.php:439
 #, php-format
 msgid "Network device '%s' saved"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:467
+#: modules/com_networkdevice/networkdevice.index.php:469
 #, php-format
 msgid "Network device '%s' deleted"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:518
+#: modules/com_networkdevice/networkdevice.index.php:520
 #, php-format
 msgid "Network device network '%s' updated for network device %s"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:523
+#: modules/com_networkdevice/networkdevice.index.php:525
 #, php-format
 msgid "Network device network '%s' saved for network device %s"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:542
+#: modules/com_networkdevice/networkdevice.index.php:544
 #, php-format
 msgid "Network device managed network '%s' for network device '%s' deleted"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:589
+#: modules/com_networkdevice/networkdevice.index.php:591
 #, php-format
 msgid "Network interface '%s' updated"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:594
+#: modules/com_networkdevice/networkdevice.index.php:596
 #, php-format
 msgid "Network interface '%s' saved"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:611
+#: modules/com_networkdevice/networkdevice.index.php:613
 #, php-format
 msgid "Network interface '%s' for network device '%s' deleted"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:656
+#: modules/com_networkdevice/networkdevice.index.php:658
 #, php-format
 msgid "Network wireless interface '%s' updated"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:661
+#: modules/com_networkdevice/networkdevice.index.php:663
 #, php-format
 msgid "Network wireless interface '%s' saved"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:678
+#: modules/com_networkdevice/networkdevice.index.php:680
 #, php-format
 msgid "Network wireless interface '%s' for network device '%s' deleted"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:716
+#: modules/com_networkdevice/networkdevice.index.php:718
 #, php-format
 msgid "Network device property '%s' updated"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:721
+#: modules/com_networkdevice/networkdevice.index.php:723
 #, php-format
 msgid "Network device property '%s' saved"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:738
+#: modules/com_networkdevice/networkdevice.index.php:740
 #, php-format
 msgid "Network device property '%s' for network device '%s' deleted"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:785
+#: modules/com_networkdevice/networkdevice.index.php:787
 #, php-format
 msgid "Login successfull: ssh %s@%s"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:822
+#: modules/com_networkdevice/networkdevice.index.php:824
 #, php-format
 msgid "iptables not found on specified path %s"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:847
+#: modules/com_networkdevice/networkdevice.index.php:849
 #, php-format
 msgid "Login failed: ssh %s@%s: %s"
 msgstr ""
@@ -3013,77 +3013,82 @@ msgstr ""
 msgid "Balance"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:263
-#: modules/com_paymentreport/paymentreport.html.php:346
+#: modules/com_paymentreport/paymentreport.html.php:199
+#: modules/com_personaccount/personaccount.html.php:446
+msgid "Variable symbol"
+msgstr ""
+
+#: modules/com_paymentreport/paymentreport.html.php:268
+#: modules/com_paymentreport/paymentreport.html.php:351
 #: modules/com_person/person.html.php:628
 msgid "Payed"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:274
-#: modules/com_paymentreport/paymentreport.html.php:350
+#: modules/com_paymentreport/paymentreport.html.php:279
+#: modules/com_paymentreport/paymentreport.html.php:355
 msgid "Payed with delay"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:285
+#: modules/com_paymentreport/paymentreport.html.php:290
 msgid "Pending payments"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:296
+#: modules/com_paymentreport/paymentreport.html.php:301
 msgid "Delayed payments"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:307
+#: modules/com_paymentreport/paymentreport.html.php:312
 msgid "Number of excused payments"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:318
+#: modules/com_paymentreport/paymentreport.html.php:323
 #: modules/com_personaccount/personaccount.html.php:166
 msgid "Total income"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:340
+#: modules/com_paymentreport/paymentreport.html.php:345
 msgid "Legend"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:354
+#: modules/com_paymentreport/paymentreport.html.php:359
 msgid "Pending payment"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:358
+#: modules/com_paymentreport/paymentreport.html.php:363
 msgid "Waiting for pay, payment not yet created"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:362
+#: modules/com_paymentreport/paymentreport.html.php:367
 msgid "Delayed payment in tolerance, number described NO of delayed days"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:366
+#: modules/com_paymentreport/paymentreport.html.php:371
 msgid "Delayes payment out of tolerance, number describer NO of delayed days"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:370
+#: modules/com_paymentreport/paymentreport.html.php:375
 msgid "Free of charge"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:374
+#: modules/com_paymentreport/paymentreport.html.php:379
 msgid "Has no charge"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.index.php:169
-#: modules/com_paymentreport/paymentreport.index.php:177
-#: modules/com_paymentreport/paymentreport.index.php:181
-#: modules/com_paymentreport/paymentreport.index.php:238
-#: modules/com_paymentreport/paymentreport.index.php:246
-#: modules/com_paymentreport/paymentreport.index.php:250
-#: modules/com_paymentreport/paymentreport.index.php:325
-#: modules/com_paymentreport/paymentreport.index.php:333
-#: modules/com_paymentreport/paymentreport.index.php:337
-#: modules/com_paymentreport/paymentreport.index.php:412
-#: modules/com_paymentreport/paymentreport.index.php:420
-#: modules/com_paymentreport/paymentreport.index.php:424
-#: modules/com_paymentreport/paymentreport.index.php:497
-#: modules/com_paymentreport/paymentreport.index.php:505
-#: modules/com_paymentreport/paymentreport.index.php:509
+#: modules/com_paymentreport/paymentreport.index.php:167
+#: modules/com_paymentreport/paymentreport.index.php:175
+#: modules/com_paymentreport/paymentreport.index.php:179
+#: modules/com_paymentreport/paymentreport.index.php:237
+#: modules/com_paymentreport/paymentreport.index.php:245
+#: modules/com_paymentreport/paymentreport.index.php:249
+#: modules/com_paymentreport/paymentreport.index.php:328
+#: modules/com_paymentreport/paymentreport.index.php:336
+#: modules/com_paymentreport/paymentreport.index.php:340
+#: modules/com_paymentreport/paymentreport.index.php:415
+#: modules/com_paymentreport/paymentreport.index.php:423
+#: modules/com_paymentreport/paymentreport.index.php:427
+#: modules/com_paymentreport/paymentreport.index.php:500
+#: modules/com_paymentreport/paymentreport.index.php:508
+#: modules/com_paymentreport/paymentreport.index.php:512
 #, php-format
 msgid "+%s day"
 msgid_plural "+%s days"
@@ -3411,10 +3416,6 @@ msgstr ""
 msgid "Account balance:"
 msgstr ""
 
-#: modules/com_personaccount/personaccount.html.php:446
-msgid "Variable symbol"
-msgstr ""
-
 #: modules/com_personaccount/personaccount.html.php:509
 msgid "Return"
 msgstr ""
@@ -3439,7 +3440,7 @@ msgstr ""
 msgid "Please enter date in valid format"
 msgstr ""
 
-#: modules/com_personaccount/personaccount.html.php:1071
+#: modules/com_personaccount/personaccount.html.php:1077
 msgid "Date:"
 msgstr ""
 
