@@ -1,0 +1,15 @@
+table.adminlist tbody tr td.payment-report-status-finished-in-time						{ background-color: Green; text-align: center; }
+
+table.adminlist tbody tr td.payment-report-status-finished-overdue						{ background-color: Teal; text-align: center; }
+
+table.adminlist tbody tr td.payment-report-status-pending								{ background-color: #FFEFD5; text-align: center; }
+
+table.adminlist tbody tr td.payment-report-status-pending-payment-not-created			{ background-color: Yellow; text-align: center; }
+
+table.adminlist tbody tr td.payment-report-status-pending-insufficient-funds			{ background-color: #FFA500; text-align: center; }
+
+table.adminlist tbody tr td.payment-report-status-pending-insufficient-funds-overdue	{ background-color: Red; font-weight: bold; text-align: center; }
+
+table.adminlist tbody tr td.payment-report-status-free-of-charge						{ background-color: Blue; text-align: center; }
+
+table.adminlist tbody tr td.payment-report-status-other									{ background-color: Black; text-align: center; }

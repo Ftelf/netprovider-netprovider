@@ -1,0 +1,12 @@
+Vážený uživateli |PERSON_NAME| sítě OVJih.NET,
+vaše platba za službu |CHARGE_NAME| placená |CHARGE_PERIOD| je v prodlení. Pokud neuhradíte částku |CHARGE_AMOUNT|Kč do |CHARGE_SWITCH_OFF|, služba se automaticky deaktivuje.
+
+
+Platba za období: |CHARGE_PERIOD_DATE|
+Datum splatnosti: |CHARGE_WRITE_OFF|
+Datum datum deaktivace: |CHARGE_SWITCH_OFF|
+
+toto je automaticky generovaná zpráva, pokud se domníváte že je chybná, kontaktujte neprodleně správce OVJih.NET.
+
+S pozdravem,
+správce OVJih.NET

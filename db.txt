@@ -1,0 +1,20 @@
+ALTER TABLE `networkdevice` ADD `ND_useCommandSudo` BOOL NOT NULL ,
+ADD `ND_commandSudo` VARCHAR( 255 ) NOT NULL ,
+ADD `ND_commandIptables` VARCHAR( 255 ) NOT NULL ,
+ADD `ND_commandIp` VARCHAR( 255 ) NOT NULL ,
+ADD `ND_commandTc` VARCHAR( 255 ) NOT NULL ,
+ADD `ND_qosEnabled` BOOL NOT NULL ,
+ADD `ND_ND_ipFilterEnabled` BOOL NOT NULL ,
+ADD `ND_qosBandwidthDownload` BIGINT NOT NULL ,
+ADD `ND_qosBandwidthUpload` BIGINT NOT NULL ,
+ADD `ND_lanInterfaceid` INT NOT NULL ,
+ADD `ND_wanInterfaceid` INT NOT NULL ;
+
+
+CREATE TABLE `HasManagedNetwork` (
+`MN_hasmanagednetworkid` INT NOT NULL ,
+`MN_networkdeviceid` INT NOT NULL ,
+`MN_networkid` INT NOT NULL
+) ENGINE = innodb;
+
+ ALTER TABLE `hasmanagednetwork` ADD PRIMARY KEY ( `MN_hasmanagednetworkid` )  

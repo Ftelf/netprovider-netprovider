@@ -1,0 +1,3692 @@
+# Language cz translations for PACKAGE package.
+# Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: QOSNG-1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-06-08 16:47+0200\n"
+"PO-Revision-Date: 2010-06-08 16:29+0100\n"
+"Last-Translator: \n"
+"Language-Team: Stealth\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>=2 && n<=4 ? 1 : 2;\n"
+
+#: debug/db.php:31 site/index.php:35 site/index2.php:40
+msgid "Cannot connect to database"
+msgstr "Nelze se připojit do databáze"
+
+#: includes/Executor.php:98 includes/Executor.php:130
+#, php-format
+msgid "SSH2 login failed at %s@%s"
+msgstr "SSH2 příhlášení selhalo na %s@%s"
+
+#: includes/net/CommanderCrossbar.php:250
+#: modules/com_networkdevice/networkdevice.index.php:794
+#: modules/com_networkdevice/networkdevice.index.php:811
+#, php-format
+msgid "Login successfull: mikrotik API %s@%s"
+msgstr "Úspěšné přihlášení: mikrotik API %s@%s"
+
+#: includes/net/email/EmailUtil.php:114
+msgid "Email notification sent"
+msgstr "Emailové upozornění posláno"
+
+#: includes/tables/BankAccount.php:74
+msgid "Manual"
+msgstr "Ručně"
+
+#: includes/tables/BankAccount.php:77
+msgid "EMail content"
+msgstr "Obsah E-mailu"
+
+#: includes/tables/BankAccount.php:94
+msgid "ABO"
+msgstr "ABO"
+
+#: includes/tables/BankAccount.php:97
+msgid "CSOB xml"
+msgstr "ČSOB xml"
+
+#: includes/tables/BankAccount.php:100
+msgid "KB ABO"
+msgstr "KB ABO"
+
+#: includes/tables/BankAccountEntry.php:112
+#: modules/com_paymentreport/paymentreport.html.php:378
+msgid "Other"
+msgstr "Jíný"
+
+#: includes/tables/BankAccountEntry.php:115
+msgid "Transfer"
+msgstr "Převod"
+
+#: includes/tables/BankAccountEntry.php:118
+msgid "Incoming payment"
+msgstr "Příchozí platba"
+
+#: includes/tables/BankAccountEntry.php:121
+msgid "Cash deposit"
+msgstr "Vklad hotovosti"
+
+#: includes/tables/BankAccountEntry.php:124
+msgid "Continuing transfer"
+msgstr "Trvalý převod"
+
+#: includes/tables/BankAccountEntry.php:127
+msgid "Other transaction fee"
+msgstr "Jiný trans. poplatek"
+
+#: includes/tables/BankAccountEntry.php:130
+msgid "Positive increase"
+msgstr "Kladný úrok"
+
+#: includes/tables/BankAccountEntry.php:133
+msgid "Cash dispencer draft"
+msgstr "Výběr z bankomatu"
+
+#: includes/tables/BankAccountEntry.php:136
+msgid "Credit card payment"
+msgstr "Platba kreditní kartou"
+
+#: includes/tables/BankAccountEntry.php:139
+msgid "Account list generation"
+msgstr "Generování výpisu účtu"
+
+#: includes/tables/BankAccountEntry.php:142
+msgid "Credit card administration fee"
+msgstr "Poplatek za vedení karty"
+
+#: includes/tables/BankAccountEntry.php:145
+msgid "Distribution of bank list"
+msgstr "Distribuce bankovního výpisu"
+
+#: includes/tables/BankAccountEntry.php:148
+msgid "Pool transfer"
+msgstr "Poolovací převod"
+
+#: includes/tables/BankAccountEntry.php:151
+msgid "Using and managing of Internet"
+msgstr "Využívání a správa Internetového bankovnictví"
+
+#: includes/tables/BankAccountEntry.php:154
+msgid "Loan increase"
+msgstr "Úročení úvěru"
+
+#: includes/tables/BankAccountEntry.php:157
+msgid "Loan payment"
+msgstr "Splácení úvěru"
+
+#: includes/tables/BankAccountEntry.php:160
+msgid "Using and managing of Account"
+msgstr "Využívání a správa Konta"
+
+#: includes/tables/BankAccountEntry.php:163
+msgid "External fee"
+msgstr "Poplatek za externí zpracování"
+
+#: includes/tables/BankAccountEntry.php:166
+msgid "Bank certificate"
+msgstr "Vydání dávkového certifikátu"
+
+#: includes/tables/BankAccountEntry.php:169
+msgid "Dissaving investment"
+msgstr "Čerpání Investičního"
+
+#: includes/tables/BankAccountEntry.php:172
+msgid "Transaction fee"
+msgstr "Transakční poplatek"
+
+#: includes/tables/BankAccountEntry.php:175
+msgid "Cash withdraw"
+msgstr "Výběr hotovosti"
+
+#: includes/tables/BankAccountEntry.php:190 includes/tables/ChargeEntry.php:67
+#: includes/tables/Message.php:48
+msgid "Pending"
+msgstr "Čeká na zpracování"
+
+#: includes/tables/BankAccountEntry.php:193
+msgid "Processed"
+msgstr "Zpracováno"
+
+#: includes/tables/BankAccountEntry.php:212
+msgid "Waiting for identification"
+msgstr "Čeká na identifikaci"
+
+#: includes/tables/BankAccountEntry.php:215
+msgid "Person account"
+msgstr "Uživatelský účet"
+
+#: includes/tables/BankAccountEntry.php:218
+msgid "Internal transaction"
+msgstr "Interní transakce"
+
+#: includes/tables/BankAccountEntry.php:221
+#: modules/com_personaccount/personaccount.html.php:699
+msgid "Ignore"
+msgstr "Ignorovat"
+
+#: includes/tables/Charge.php:67
+msgid "Once"
+msgstr "Jednorázově"
+
+#: includes/tables/Charge.php:70
+msgid "Monthly"
+msgstr "Měsičně"
+
+#: includes/tables/Charge.php:73
+msgid "Quarterly"
+msgstr "Čtvrtletně"
+
+#: includes/tables/Charge.php:76
+msgid "Half-yearly"
+msgstr "Půlročně"
+
+#: includes/tables/Charge.php:79
+msgid "Yearly"
+msgstr "Ročně"
+
+#: includes/tables/Charge.php:98 includes/tables/Log.php:55
+msgid "Unspecified"
+msgstr "Nespecifikováno"
+
+#: includes/tables/Charge.php:101
+msgid "Internet payment"
+msgstr "Platba internetu"
+
+#: includes/tables/Charge.php:104
+msgid "Entry fee"
+msgstr "Vstupní poplatek"
+
+#: includes/tables/Charge.php:107
+msgid "Penalty"
+msgstr "Pokuta"
+
+#: includes/tables/ChargeEntry.php:64
+msgid "Finished"
+msgstr "Zpracováno"
+
+#: includes/tables/ChargeEntry.php:70
+msgid "Pending, insufficient funds"
+msgstr "Čeká na zaplacení"
+
+#: includes/tables/ChargeEntry.php:73
+msgid "Testing, free of charge"
+msgstr "Zkušební doba, zdarma"
+
+#: includes/tables/ChargeEntry.php:76
+msgid "Disabled for this period"
+msgstr "Vypnuto pro toto období"
+
+#: includes/tables/ChargeEntry.php:79 includes/tables/EmailList.php:57
+#: includes/tables/Log.php:70
+msgid "Error"
+msgstr "Chyba"
+
+#: includes/tables/EmailList.php:54
+msgid "Waiting for process"
+msgstr "Čeká na zpracování"
+
+#: includes/tables/EmailList.php:60
+msgid "Completed"
+msgstr "Dokončeno"
+
+#: includes/tables/Group.php:44
+msgid "User"
+msgstr "Uživatel"
+
+#: includes/tables/Group.php:47
+msgid "Administrator"
+msgstr "Administrátor"
+
+#: includes/tables/Group.php:50
+msgid "Super administrator"
+msgstr "Super administátor"
+
+#: includes/tables/HandleEvent.php:52
+#: modules/com_myprofile/myprofile.html.php:283
+msgid "Disabled"
+msgstr "Zakázáno"
+
+#: includes/tables/HandleEvent.php:55
+#: modules/com_handleevent/handleevent.html.php:123
+#: modules/com_myprofile/myprofile.html.php:280
+msgid "Enabled"
+msgstr "Povoleno"
+
+#: includes/tables/HandleEvent.php:72
+msgid "Charge payment deadline"
+msgstr "Termín pro zaplacení platby"
+
+#: includes/tables/HandleEvent.php:78
+msgid "Invoice created"
+msgstr "Faktura vytvořena"
+
+#: includes/tables/HasCharge.php:53 includes/tables/HasCharge.php:72
+msgid "Deactivated"
+msgstr "Neaktivní"
+
+#: includes/tables/HasCharge.php:56 includes/tables/HasCharge.php:75
+msgid "Activated"
+msgstr "Aktivní"
+
+#: includes/tables/HasCharge.php:59
+msgid "Service is always deactivated"
+msgstr "Služba je vždy neaktivní"
+
+#: includes/tables/HasCharge.php:62
+msgid "Service is always activated"
+msgstr "Služba je vždy aktivní"
+
+#: includes/tables/Log.php:58 modules/com_admin/admin.html.php:204
+#: modules/com_common/html_mainmenu.php:52
+msgid "Log"
+msgstr "Log"
+
+#: includes/tables/Log.php:61
+msgid "Debug"
+msgstr "Ladění"
+
+#: includes/tables/Log.php:64
+msgid "Info"
+msgstr "Info"
+
+#: includes/tables/Log.php:67
+msgid "Warning"
+msgstr "Varování"
+
+#: includes/tables/Log.php:73
+msgid "Critical"
+msgstr "Kritické"
+
+#: includes/tables/Log.php:76
+msgid "Security"
+msgstr "Bezpečnost"
+
+#: includes/tables/Message.php:51
+msgid "Sent"
+msgstr "Posláno"
+
+#: includes/tables/Message.php:54
+msgid "Cannot be sent"
+msgstr "Nelze poslat"
+
+#: includes/tables/NetworkDevice.php:79
+msgid "GNU Linux Debian"
+msgstr "GNU/Linux Debian"
+
+#: includes/tables/NetworkDevice.php:82
+msgid "RouterOS (Mikrotik)"
+msgstr "RouterOS (Mikrotik)"
+
+#: includes/tables/NetworkDeviceWirelessInterface.php:66
+msgid "2.4Ghz 802.11b"
+msgstr "2,4Ghz 802.11b"
+
+#: includes/tables/NetworkDeviceWirelessInterface.php:69
+msgid "2.4Ghz 802.11b/g"
+msgstr "2,4Ghz 802.11b/g"
+
+#: includes/tables/NetworkDeviceWirelessInterface.php:72
+msgid "2.4Ghz 802.11g"
+msgstr "2,4Ghz 802.11g"
+
+#: includes/tables/NetworkDeviceWirelessInterface.php:75
+msgid "2.4Ghz 802.11g turbo"
+msgstr "2,4Ghz 802.11g turbo"
+
+#: includes/tables/NetworkDeviceWirelessInterface.php:78
+msgid "5Ghz 802.11a 5MHz kanál"
+msgstr "5Ghz 802.11a 5MHz kanál"
+
+#: includes/tables/NetworkDeviceWirelessInterface.php:81
+msgid "5Ghz 802.11a 10MHz kanál"
+msgstr "5Ghz 802.11a 10MHz kanál"
+
+#: includes/tables/NetworkDeviceWirelessInterface.php:84
+msgid "5Ghz 802.11a"
+msgstr "5Ghz 802.11a"
+
+#: includes/tables/NetworkDeviceWirelessInterface.php:87
+msgid "5Ghz 802.11a turbo"
+msgstr "5Ghz 802.11a turbo"
+
+#: includes/tables/NetworkDeviceWirelessInterface.php:106
+msgid "Undefined"
+msgstr "Nedefinováno"
+
+#: includes/tables/NetworkDeviceWirelessInterface.php:109
+msgid "AP Bridge"
+msgstr "AP bridge"
+
+#: includes/tables/NetworkDeviceWirelessInterface.php:112
+msgid "Client"
+msgstr "Klient"
+
+#: includes/tables/NetworkDeviceWirelessInterface.php:115
+msgid "WDS bridge"
+msgstr "WDS bridge"
+
+#: includes/tables/Person.php:87 modules/com_person/person.html.php:187
+msgid "Passive"
+msgstr "Pasivní"
+
+#: includes/tables/Person.php:90 modules/com_person/person.html.php:192
+msgid "Active"
+msgstr "Aktivní"
+
+#: includes/tables/Person.php:93
+msgid "Discarted"
+msgstr "Vyřazen"
+
+#: includes/tables/PersonAccountEntry.php:52
+msgid "Bank transaction"
+msgstr "Bankovní transakce"
+
+#: includes/tables/PersonAccountEntry.php:55
+msgid "Cash"
+msgstr "Hotově"
+
+#: includes/tables/PersonAccountEntry.php:58
+msgid "Discount"
+msgstr "Sleva"
+
+#: modules/com_admin/admin.html.php:19 modules/com_admin/admin.index.php:19
+#: modules/com_bankaccount/bankaccount.html.php:19
+#: modules/com_bankaccount/bankaccount.index.php:19
+#: modules/com_changelog/changelog.html.php:19
+#: modules/com_changelog/changelog.index.php:19
+#: modules/com_charge/charge.html.php:19
+#: modules/com_charge/charge.index.php:19 modules/com_common/PageNav.php:19
+#: modules/com_configuration/configuration.html.php:4
+#: modules/com_configuration/configuration.index.php:4
+#: modules/com_group/group.html.php:19 modules/com_group/group.index.php:19
+#: modules/com_handleevent/handleevent.html.php:19
+#: modules/com_handleevent/handleevent.index.php:19
+#: modules/com_internet/internet.html.php:19
+#: modules/com_internet/internet.index.php:19
+#: modules/com_invoice/invoice.html.php:19
+#: modules/com_invoice/invoice.index.php:19
+#: modules/com_invoice/invoice.index.php:22
+#: modules/com_iptrafficreport/iptrafficreport.html.php:19
+#: modules/com_iptrafficreport/iptrafficreport.index.php:19
+#: modules/com_log/log.html.php:19 modules/com_log/log.index.php:19
+#: modules/com_message/message.html.php:19
+#: modules/com_message/message.index.php:19
+#: modules/com_myprofile/myprofile.html.php:19
+#: modules/com_myprofile/myprofile.index.php:19
+#: modules/com_network/network.html.php:19
+#: modules/com_network/network.index.php:19
+#: modules/com_networkdevice/networkdevice.html.php:19
+#: modules/com_networkdevice/networkdevice.index.php:19
+#: modules/com_paymentreport/paymentreport.html.php:19
+#: modules/com_paymentreport/paymentreport.index.php:19
+#: modules/com_person/person.html.php:19
+#: modules/com_person/person.index.php:19
+#: modules/com_personaccount/personaccount.html.php:19
+#: modules/com_personaccount/personaccount.index.php:19
+#: modules/com_role/role.html.php:19 modules/com_role/role.index.php:19
+#: modules/com_scripts/scripts.html.php:19
+#: modules/com_scripts/scripts.index.php:19
+msgid "Direct access into this section is not allowed"
+msgstr "Přímý přístup do této sekce není povolen"
+
+#: modules/com_admin/admin.html.php:48
+msgid "Main page"
+msgstr "Hlavní stránka"
+
+#: modules/com_admin/admin.html.php:69 modules/com_admin/admin.html.php:70
+#: modules/com_common/html_mainmenu.php:27
+#: modules/com_common/html_mainmenu.php:28
+msgid "Users"
+msgstr "Uživatelé"
+
+#: modules/com_admin/admin.html.php:79 modules/com_common/html_mainmenu.php:29
+#: modules/com_group/group.html.php:102
+msgid "User groups"
+msgstr "Uživatelské skupiny"
+
+#: modules/com_admin/admin.html.php:87 modules/com_admin/admin.html.php:88
+#: modules/com_common/html_mainmenu.php:30
+msgid "Roles and responsibilities"
+msgstr "Zodpovědnosti a role"
+
+#: modules/com_admin/admin.html.php:96 modules/com_admin/admin.html.php:97
+#: modules/com_common/html_mainmenu.php:36
+msgid "Bank accounts"
+msgstr "Bankovní účty"
+
+#: modules/com_admin/admin.html.php:105 modules/com_admin/admin.html.php:106
+#: modules/com_common/html_mainmenu.php:37
+#: modules/com_personaccount/personaccount.html.php:115
+#: modules/com_personaccount/personaccount.html.php:361
+#: modules/com_personaccount/personaccount.html.php:820
+msgid "User's accounts"
+msgstr "Uživatelské účty"
+
+#: modules/com_admin/admin.html.php:114 modules/com_admin/admin.html.php:115
+#: modules/com_common/html_mainmenu.php:39
+msgid "Payment templates"
+msgstr "Šablony plateb"
+
+#: modules/com_admin/admin.html.php:123 modules/com_admin/admin.html.php:124
+#: modules/com_common/html_mainmenu.php:46
+msgid "IP networks"
+msgstr "IP sítě"
+
+#: modules/com_admin/admin.html.php:132 modules/com_admin/admin.html.php:133
+#: modules/com_common/html_mainmenu.php:57
+#: modules/com_paymentreport/paymentreport.html.php:76
+msgid "Payment report"
+msgstr "Report plateb"
+
+#: modules/com_admin/admin.html.php:141 modules/com_admin/admin.html.php:142
+#: modules/com_common/html_mainmenu.php:50
+msgid "Scripts"
+msgstr "Skripty"
+
+#: modules/com_admin/admin.html.php:158
+msgid "Logged in"
+msgstr "Přihlášení"
+
+#: modules/com_admin/admin.html.php:165
+msgid "Users logged in"
+msgstr "Přihlášení uživatelé"
+
+#: modules/com_admin/admin.html.php:180
+msgid "Edit user"
+msgstr "Editovat uživatele"
+
+#: modules/com_admin/admin.html.php:183
+#, php-format
+msgid "%s second"
+msgid_plural "%s seconds"
+msgstr[0] "%s sekunda"
+msgstr[1] "%s sekundy"
+msgstr[2] "%s sekund"
+
+#: modules/com_admin/admin.html.php:190
+msgid "Force logout"
+msgstr "Násilně odhlásit"
+
+#: modules/com_admin/admin.html.php:211
+msgid "Last 10 entries"
+msgstr "Posledních 10 položek"
+
+#: modules/com_admin/admin.index.php:60
+#, php-format
+msgid "User '%s' was forcelly logged out"
+msgstr "Uživatel: '%s' byl násilně odlogován"
+
+#: modules/com_admin/admin.index.php:64
+#, php-format
+msgid "User '%s' wasn't forcelly logged out, probably was logged out itself"
+msgstr "Uživatel: '%s' nebyl násilně odlogován. Pravděpodobně se již odhlásil sám"
+
+#: modules/com_bankaccount/bankaccount.html.php:49
+#: modules/com_charge/charge.html.php:47 modules/com_group/group.html.php:46
+#: modules/com_handleevent/handleevent.html.php:46
+#: modules/com_internet/internet.html.php:46 modules/com_log/log.html.php:42
+#: modules/com_network/network.html.php:75
+#: modules/com_networkdevice/networkdevice.html.php:43
+#: modules/com_person/person.html.php:50
+#: modules/com_personaccount/personaccount.html.php:47
+#: modules/com_role/role.html.php:46
+msgid "Please select record to edit"
+msgstr "Prosím vyber položku k editaci"
+
+#: modules/com_bankaccount/bankaccount.html.php:98
+#: modules/com_bankaccount/bankaccount.html.php:99
+msgid "Bank printouts"
+msgstr "Bankovní výpisy"
+
+#: modules/com_bankaccount/bankaccount.html.php:107
+#: modules/com_bankaccount/bankaccount.html.php:108
+msgid "Edit bank account"
+msgstr "Editovat bankovní účet"
+
+#: modules/com_bankaccount/bankaccount.html.php:116
+#: modules/com_bankaccount/bankaccount.html.php:117
+msgid "Edit account entry"
+msgstr "Editovat položku"
+
+#: modules/com_bankaccount/bankaccount.html.php:125
+#: modules/com_bankaccount/bankaccount.html.php:514
+#: modules/com_bankaccount/bankaccount.html.php:799
+#: modules/com_bankaccount/bankaccount.html.php:1101
+msgid "Bank account entry printout"
+msgstr "List bankovních položek"
+
+#: modules/com_bankaccount/bankaccount.html.php:143
+#: modules/com_invoice/invoice.html.php:113
+#: modules/com_iptrafficreport/iptrafficreport.html.php:93
+#: modules/com_log/log.html.php:120
+#: modules/com_networkdevice/networkdevice.html.php:145
+#: modules/com_paymentreport/paymentreport.html.php:94
+#: modules/com_person/person.html.php:123
+#: modules/com_personaccount/personaccount.html.php:133
+msgid "Filter:"
+msgstr "Filtr:"
+
+#: modules/com_bankaccount/bankaccount.html.php:151
+msgid "- No bank account defined -"
+msgstr "- Žádný bankovní účet definován -"
+
+#: modules/com_bankaccount/bankaccount.html.php:168
+#: modules/com_bankaccount/bankaccount.html.php:173
+#: modules/com_invoice/invoice.html.php:154
+#: modules/com_invoice/invoice.html.php:159
+#: modules/com_iptrafficreport/iptrafficreport.html.php:110
+#: modules/com_iptrafficreport/iptrafficreport.html.php:115
+#: modules/com_log/log.html.php:132 modules/com_log/log.html.php:134
+#: modules/com_message/message.html.php:131
+#: modules/com_message/message.html.php:133
+#: modules/com_myprofile/myprofile.html.php:608
+#: modules/com_myprofile/myprofile.html.php:805
+#: modules/com_paymentreport/paymentreport.html.php:140
+#: modules/com_paymentreport/paymentreport.html.php:145
+#: modules/com_person/person.html.php:502
+#: modules/com_person/person.html.php:988
+#: modules/com_person/person.html.php:1005
+#: modules/com_person/person.html.php:1019
+#: modules/com_person/person.html.php:1033
+#: modules/com_person/person.html.php:1050
+#: modules/com_person/person.html.php:1097
+#: modules/com_person/person.html.php:1117
+#: modules/com_person/person.html.php:1137
+#: modules/com_person/person.html.php:1158
+#: modules/com_personaccount/personaccount.html.php:1074
+msgid "Calendar"
+msgstr "Kalendář"
+
+#: modules/com_bankaccount/bankaccount.html.php:184
+msgid "- Type of transaction -"
+msgstr "- Typ transakce -"
+
+#: modules/com_bankaccount/bankaccount.html.php:196
+#: modules/com_invoice/invoice.html.php:127
+#: modules/com_invoice/invoice.html.php:139
+#: modules/com_paymentreport/paymentreport.html.php:101
+#: modules/com_person/person.html.php:137
+#: modules/com_personaccount/personaccount.html.php:137
+msgid "- Status -"
+msgstr "- Status -"
+
+#: modules/com_bankaccount/bankaccount.html.php:208
+msgid "- Identification -"
+msgstr "- Identifikace -"
+
+#: modules/com_bankaccount/bankaccount.html.php:233
+#: modules/com_bankaccount/bankaccount.html.php:821
+#: modules/com_bankaccount/bankaccount.html.php:1332
+msgid "Bank account"
+msgstr "Bankovní účet"
+
+#: modules/com_bankaccount/bankaccount.html.php:238
+#: modules/com_bankaccount/bankaccount.html.php:542
+#: modules/com_bankaccount/bankaccount.html.php:826
+#: modules/com_bankaccount/bankaccount.html.php:1337
+msgid "Bank name:"
+msgstr "Jméno banky:"
+
+#: modules/com_bankaccount/bankaccount.html.php:242
+#: modules/com_bankaccount/bankaccount.html.php:562
+#: modules/com_bankaccount/bankaccount.html.php:830
+#: modules/com_bankaccount/bankaccount.html.php:1140
+#: modules/com_bankaccount/bankaccount.html.php:1341
+msgid "Account name:"
+msgstr "Jméno účtu:"
+
+#: modules/com_bankaccount/bankaccount.html.php:246
+#: modules/com_bankaccount/bankaccount.html.php:566
+#: modules/com_bankaccount/bankaccount.html.php:834
+#: modules/com_bankaccount/bankaccount.html.php:1144
+#: modules/com_bankaccount/bankaccount.html.php:1345
+msgid "Account number:"
+msgstr "Číslo účtu:"
+
+#: modules/com_bankaccount/bankaccount.html.php:250
+#: modules/com_bankaccount/bankaccount.html.php:570
+#: modules/com_bankaccount/bankaccount.html.php:838
+#: modules/com_bankaccount/bankaccount.html.php:1349
+msgid "IBAN:"
+msgstr "IBAN:"
+
+#: modules/com_bankaccount/bankaccount.html.php:254
+#: modules/com_bankaccount/bankaccount.html.php:574
+#: modules/com_bankaccount/bankaccount.html.php:842
+#: modules/com_bankaccount/bankaccount.html.php:1353
+#: modules/com_charge/charge.html.php:394
+#: modules/com_person/person.html.php:943
+#: modules/com_personaccount/personaccount.html.php:392
+#: modules/com_personaccount/personaccount.html.php:851
+#: modules/com_personaccount/personaccount.html.php:1012
+msgid "Currency:"
+msgstr "Měna:"
+
+#: modules/com_bankaccount/bankaccount.html.php:267
+msgid "Global state"
+msgstr "Celkový stav"
+
+#: modules/com_bankaccount/bankaccount.html.php:268
+msgid "Printout view state"
+msgstr "Za období výpisu"
+
+#: modules/com_bankaccount/bankaccount.html.php:273
+#: modules/com_personaccount/personaccount.html.php:396
+#: modules/com_personaccount/personaccount.html.php:855
+#: modules/com_personaccount/personaccount.html.php:1016
+msgid "Starting balance:"
+msgstr "Počáteční zůstatek:"
+
+#: modules/com_bankaccount/bankaccount.html.php:278
+msgid "Income:"
+msgstr "Příjmy:"
+
+#: modules/com_bankaccount/bankaccount.html.php:283
+msgid "Outcome:"
+msgstr "Výdaje:"
+
+#: modules/com_bankaccount/bankaccount.html.php:288
+msgid "Fees included:"
+msgstr "Z toho poplatky:"
+
+#: modules/com_bankaccount/bankaccount.html.php:293
+msgid "Final balance:"
+msgstr "Konečný zůstatek:"
+
+#: modules/com_bankaccount/bankaccount.html.php:311
+#: modules/com_message/message.html.php:152
+#: modules/com_myprofile/myprofile.html.php:451
+#: modules/com_myprofile/myprofile.html.php:563
+#: modules/com_personaccount/personaccount.html.php:440
+msgid "Date"
+msgstr "Datum"
+
+#: modules/com_bankaccount/bankaccount.html.php:312
+msgid "Note"
+msgstr "Poznámka"
+
+#: modules/com_bankaccount/bankaccount.html.php:313
+msgid "Write out"
+msgstr "Odepsáno"
+
+#: modules/com_bankaccount/bankaccount.html.php:314
+msgid "SS"
+msgstr "SS"
+
+#: modules/com_bankaccount/bankaccount.html.php:315
+msgid "Type of transaction"
+msgstr "Typ transakce"
+
+#: modules/com_bankaccount/bankaccount.html.php:316
+#: modules/com_myprofile/myprofile.html.php:453
+#: modules/com_personaccount/personaccount.html.php:442
+msgid "Amount"
+msgstr "Částka"
+
+#: modules/com_bankaccount/bankaccount.html.php:317
+msgid "Fee"
+msgstr "Poplatek"
+
+#: modules/com_bankaccount/bankaccount.html.php:322
+#: modules/com_log/log.html.php:153
+msgid "Time"
+msgstr "Čas"
+
+#: modules/com_bankaccount/bankaccount.html.php:323
+#: modules/com_myprofile/myprofile.html.php:455
+#: modules/com_personaccount/personaccount.html.php:444
+msgid "Account name"
+msgstr "Jméno účtu"
+
+#: modules/com_bankaccount/bankaccount.html.php:325
+msgid "VS"
+msgstr "VS"
+
+#: modules/com_bankaccount/bankaccount.html.php:326
+#: modules/com_bankaccount/bankaccount.html.php:865
+#: modules/com_invoice/invoice.html.php:180
+#: modules/com_message/message.html.php:157
+#: modules/com_myprofile/myprofile.html.php:259
+#: modules/com_myprofile/myprofile.html.php:337
+#: modules/com_myprofile/myprofile.html.php:566
+#: modules/com_person/person.html.php:164
+#: modules/com_person/person.html.php:631
+#: modules/com_personaccount/personaccount.html.php:537
+#: modules/com_personaccount/personaccount.html.php:615
+msgid "Status"
+msgstr "Status"
+
+#: modules/com_bankaccount/bankaccount.html.php:334
+#: modules/com_myprofile/myprofile.html.php:456
+#: modules/com_personaccount/personaccount.html.php:445
+msgid "Account number"
+msgstr "Číslo účtu"
+
+#: modules/com_bankaccount/bankaccount.html.php:336
+msgid "KS"
+msgstr "KS"
+
+#: modules/com_bankaccount/bankaccount.html.php:337
+#: modules/com_bankaccount/bankaccount.html.php:1101
+msgid "Identification"
+msgstr "Identifikace"
+
+#: modules/com_bankaccount/bankaccount.html.php:345
+#: modules/com_message/message.html.php:155
+#: modules/com_myprofile/myprofile.html.php:565
+#: modules/com_personaccount/personaccount.html.php:443
+msgid "Message"
+msgstr "Zpráva"
+
+#: modules/com_bankaccount/bankaccount.html.php:491
+#: modules/com_bankaccount/bankaccount.html.php:492
+#: modules/com_charge/charge.html.php:312
+#: modules/com_charge/charge.html.php:313 modules/com_group/group.html.php:219
+#: modules/com_group/group.html.php:220
+#: modules/com_handleevent/handleevent.html.php:237
+#: modules/com_handleevent/handleevent.html.php:238
+#: modules/com_internet/internet.html.php:263
+#: modules/com_internet/internet.html.php:264
+#: modules/com_network/network.html.php:450
+#: modules/com_network/network.html.php:451
+#: modules/com_network/network.html.php:658
+#: modules/com_network/network.html.php:659
+#: modules/com_networkdevice/networkdevice.html.php:387
+#: modules/com_networkdevice/networkdevice.html.php:388
+#: modules/com_networkdevice/networkdevice.html.php:880
+#: modules/com_networkdevice/networkdevice.html.php:881
+#: modules/com_networkdevice/networkdevice.html.php:1014
+#: modules/com_networkdevice/networkdevice.html.php:1015
+#: modules/com_networkdevice/networkdevice.html.php:1197
+#: modules/com_networkdevice/networkdevice.html.php:1198
+#: modules/com_networkdevice/networkdevice.html.php:1317
+#: modules/com_networkdevice/networkdevice.html.php:1318
+#: modules/com_person/person.html.php:391
+#: modules/com_person/person.html.php:392
+#: modules/com_person/person.html.php:869
+#: modules/com_person/person.html.php:870
+#: modules/com_personaccount/personaccount.html.php:797
+#: modules/com_personaccount/personaccount.html.php:798
+#: modules/com_role/role.html.php:216 modules/com_role/role.html.php:217
+msgid "Apply"
+msgstr "Aktualizuj"
+
+#: modules/com_bankaccount/bankaccount.html.php:498
+#: modules/com_bankaccount/bankaccount.html.php:499
+#: modules/com_bankaccount/bankaccount.html.php:1085
+#: modules/com_bankaccount/bankaccount.html.php:1086
+#: modules/com_charge/charge.html.php:319
+#: modules/com_charge/charge.html.php:320 modules/com_group/group.html.php:226
+#: modules/com_group/group.html.php:227
+#: modules/com_handleevent/handleevent.html.php:244
+#: modules/com_handleevent/handleevent.html.php:245
+#: modules/com_internet/internet.html.php:270
+#: modules/com_internet/internet.html.php:271
+#: modules/com_myprofile/myprofile.html.php:731
+#: modules/com_myprofile/myprofile.html.php:732
+#: modules/com_network/network.html.php:457
+#: modules/com_network/network.html.php:458
+#: modules/com_network/network.html.php:665
+#: modules/com_network/network.html.php:666
+#: modules/com_networkdevice/networkdevice.html.php:394
+#: modules/com_networkdevice/networkdevice.html.php:395
+#: modules/com_networkdevice/networkdevice.html.php:887
+#: modules/com_networkdevice/networkdevice.html.php:888
+#: modules/com_networkdevice/networkdevice.html.php:1021
+#: modules/com_networkdevice/networkdevice.html.php:1022
+#: modules/com_networkdevice/networkdevice.html.php:1204
+#: modules/com_networkdevice/networkdevice.html.php:1205
+#: modules/com_networkdevice/networkdevice.html.php:1324
+#: modules/com_networkdevice/networkdevice.html.php:1325
+#: modules/com_person/person.html.php:398
+#: modules/com_person/person.html.php:399
+#: modules/com_person/person.html.php:876
+#: modules/com_person/person.html.php:877
+#: modules/com_personaccount/personaccount.html.php:804
+#: modules/com_personaccount/personaccount.html.php:805
+#: modules/com_personaccount/personaccount.html.php:965
+#: modules/com_personaccount/personaccount.html.php:966
+#: modules/com_role/role.html.php:223 modules/com_role/role.html.php:224
+msgid "Save"
+msgstr "Ulož"
+
+#: modules/com_bankaccount/bankaccount.html.php:505
+#: modules/com_bankaccount/bankaccount.html.php:506
+#: modules/com_bankaccount/bankaccount.html.php:790
+#: modules/com_bankaccount/bankaccount.html.php:791
+#: modules/com_bankaccount/bankaccount.html.php:1092
+#: modules/com_bankaccount/bankaccount.html.php:1093
+#: modules/com_bankaccount/bankaccount.html.php:1300
+#: modules/com_bankaccount/bankaccount.html.php:1301
+#: modules/com_charge/charge.html.php:326
+#: modules/com_charge/charge.html.php:327 modules/com_group/group.html.php:233
+#: modules/com_group/group.html.php:234
+#: modules/com_handleevent/handleevent.html.php:251
+#: modules/com_handleevent/handleevent.html.php:252
+#: modules/com_internet/internet.html.php:277
+#: modules/com_internet/internet.html.php:278
+#: modules/com_myprofile/myprofile.html.php:738
+#: modules/com_myprofile/myprofile.html.php:739
+#: modules/com_network/network.html.php:464
+#: modules/com_network/network.html.php:465
+#: modules/com_network/network.html.php:672
+#: modules/com_network/network.html.php:673
+#: modules/com_networkdevice/networkdevice.html.php:401
+#: modules/com_networkdevice/networkdevice.html.php:402
+#: modules/com_networkdevice/networkdevice.html.php:894
+#: modules/com_networkdevice/networkdevice.html.php:895
+#: modules/com_networkdevice/networkdevice.html.php:1028
+#: modules/com_networkdevice/networkdevice.html.php:1029
+#: modules/com_networkdevice/networkdevice.html.php:1211
+#: modules/com_networkdevice/networkdevice.html.php:1212
+#: modules/com_networkdevice/networkdevice.html.php:1331
+#: modules/com_networkdevice/networkdevice.html.php:1332
+#: modules/com_person/person.html.php:405
+#: modules/com_person/person.html.php:406
+#: modules/com_person/person.html.php:883
+#: modules/com_person/person.html.php:884
+#: modules/com_personaccount/personaccount.html.php:352
+#: modules/com_personaccount/personaccount.html.php:353
+#: modules/com_personaccount/personaccount.html.php:811
+#: modules/com_personaccount/personaccount.html.php:812
+#: modules/com_personaccount/personaccount.html.php:972
+#: modules/com_personaccount/personaccount.html.php:973
+#: modules/com_role/role.html.php:230 modules/com_role/role.html.php:231
+msgid "Cancel"
+msgstr "Zpět"
+
+#: modules/com_bankaccount/bankaccount.html.php:514
+msgid "Bank account edit"
+msgstr "Editace bankovního účtu"
+
+#: modules/com_bankaccount/bankaccount.html.php:537
+msgid "Bank"
+msgstr "Banka"
+
+#: modules/com_bankaccount/bankaccount.html.php:546
+#: modules/com_bankaccount/bankaccount.html.php:1148
+msgid "Bank registration number:"
+msgstr "Registrační čislo banky:"
+
+#: modules/com_bankaccount/bankaccount.html.php:557
+msgid "Account"
+msgstr "Účet"
+
+#: modules/com_bankaccount/bankaccount.html.php:599
+msgid "Account state"
+msgstr "Stav účtu"
+
+#: modules/com_bankaccount/bankaccount.html.php:604
+#: modules/com_personaccount/personaccount.html.php:165
+msgid "Starting balance"
+msgstr "Počáteční zůstatek"
+
+#: modules/com_bankaccount/bankaccount.html.php:614
+msgid "Account printout access"
+msgstr "Přístup k výpisům účtu"
+
+#: modules/com_bankaccount/bankaccount.html.php:619
+msgid "Data retrieve method"
+msgstr "Metoda získávání dat"
+
+#: modules/com_bankaccount/bankaccount.html.php:633
+msgid "Data type"
+msgstr "Datový typ"
+
+#: modules/com_bankaccount/bankaccount.html.php:654
+msgid "Email account with printouts"
+msgstr "E-mailový účet s výpisy"
+
+#: modules/com_bankaccount/bankaccount.html.php:659
+msgid "Server:"
+msgstr "Server:"
+
+#: modules/com_bankaccount/bankaccount.html.php:663
+msgid "Username:"
+msgstr "Uživatelské jméno:"
+
+#: modules/com_bankaccount/bankaccount.html.php:667
+#: modules/com_myprofile/myprofile.html.php:216
+#: modules/com_myprofile/myprofile.html.php:855
+#: modules/com_networkdevice/networkdevice.html.php:483
+#: modules/com_person/person.html.php:556
+msgid "Password:"
+msgstr "Heslo:"
+
+#: modules/com_bankaccount/bankaccount.html.php:671
+msgid "Sender address:"
+msgstr "Adresa odesílatele:"
+
+#: modules/com_bankaccount/bankaccount.html.php:675
+msgid "Subject:"
+msgstr "Předmět:"
+
+#: modules/com_bankaccount/bankaccount.html.php:701
+msgid "Please enter bank name"
+msgstr "Prosím zadejte jméno banky"
+
+#: modules/com_bankaccount/bankaccount.html.php:702
+msgid "Please enter bank identification number"
+msgstr "Prosím zadejte identifikační číslo banky"
+
+#: modules/com_bankaccount/bankaccount.html.php:703
+msgid "Please select account name"
+msgstr "Prosím zadejte jmého účtu"
+
+#: modules/com_bankaccount/bankaccount.html.php:704
+msgid "Please select account number"
+msgstr "Prosím zadejte číslo účtu"
+
+#: modules/com_bankaccount/bankaccount.html.php:705
+msgid "Please select IBAN"
+msgstr "Prosím zadejte IBAN"
+
+#: modules/com_bankaccount/bankaccount.html.php:706
+msgid "Please select starting balance"
+msgstr "Prosím zadejte počáteční zůstatek"
+
+#: modules/com_bankaccount/bankaccount.html.php:756
+msgid "Upload new printout"
+msgstr "Nahrát nový výpis"
+
+#: modules/com_bankaccount/bankaccount.html.php:757
+msgid "Upload new printouts"
+msgstr "Nahrát nové výpisy"
+
+#: modules/com_bankaccount/bankaccount.html.php:765
+#: modules/com_bankaccount/bankaccount.html.php:766
+msgid "Download new printouts"
+msgstr "Stáhnout nové výpisy"
+
+#: modules/com_bankaccount/bankaccount.html.php:774
+#: modules/com_bankaccount/bankaccount.html.php:775
+msgid "Run import"
+msgstr "Spustit import"
+
+#: modules/com_bankaccount/bankaccount.html.php:781
+#: modules/com_bankaccount/bankaccount.html.php:782
+msgid "Entries workout"
+msgstr "Zpracovat položky"
+
+#: modules/com_bankaccount/bankaccount.html.php:799
+msgid "Printouts list"
+msgstr "List výpisů účtu"
+
+#: modules/com_bankaccount/bankaccount.html.php:859
+msgid "Year"
+msgstr "Rok"
+
+#: modules/com_bankaccount/bankaccount.html.php:860
+msgid "Printout number"
+msgstr "Číslo výpisu účtu"
+
+#: modules/com_bankaccount/bankaccount.html.php:861
+msgid "Data filename"
+msgstr "Název datového souboru"
+
+#: modules/com_bankaccount/bankaccount.html.php:862
+msgid "Number of entries"
+msgstr "Počet položek"
+
+#: modules/com_bankaccount/bankaccount.html.php:863
+msgid "since"
+msgstr "Od"
+
+#: modules/com_bankaccount/bankaccount.html.php:864
+#: modules/com_myprofile/myprofile.html.php:258
+#: modules/com_personaccount/personaccount.html.php:536
+msgid "Till"
+msgstr "Do"
+
+#: modules/com_bankaccount/bankaccount.html.php:941
+msgid "Identification wasn't performed"
+msgstr "Identifikace nebyla provedena"
+
+#: modules/com_bankaccount/bankaccount.html.php:953
+#: modules/com_personaccount/personaccount.html.php:938
+msgid "Please enter amount in valid number format"
+msgstr "Prosím zadejte částku ve správném číselném formátu"
+
+#: modules/com_bankaccount/bankaccount.html.php:962
+#, php-format
+msgid "Amount summary must be: %s"
+msgstr "Součet částek musí být %s"
+
+#: modules/com_bankaccount/bankaccount.html.php:965
+msgid "Please select user's account"
+msgstr "Prosím vyberte účet uživatele"
+
+#: modules/com_bankaccount/bankaccount.html.php:1123
+msgid "Bank entry"
+msgstr "Bankovní položka"
+
+#: modules/com_bankaccount/bankaccount.html.php:1128
+msgid "Arrival date:"
+msgstr "Datum přijetí:"
+
+#: modules/com_bankaccount/bankaccount.html.php:1132
+msgid "Write off date:"
+msgstr "Datum stržení:"
+
+#: modules/com_bankaccount/bankaccount.html.php:1136
+msgid "Note:"
+msgstr "Poznámka:"
+
+#: modules/com_bankaccount/bankaccount.html.php:1152
+#: modules/com_personaccount/personaccount.html.php:412
+#: modules/com_personaccount/personaccount.html.php:871
+#: modules/com_personaccount/personaccount.html.php:1032
+msgid "Variable symbol:"
+msgstr "Variabilní symbol:"
+
+#: modules/com_bankaccount/bankaccount.html.php:1156
+#: modules/com_personaccount/personaccount.html.php:416
+#: modules/com_personaccount/personaccount.html.php:876
+#: modules/com_personaccount/personaccount.html.php:1036
+msgid "Constant symbol:"
+msgstr "Konstantní symbol:"
+
+#: modules/com_bankaccount/bankaccount.html.php:1160
+#: modules/com_personaccount/personaccount.html.php:420
+#: modules/com_personaccount/personaccount.html.php:881
+#: modules/com_personaccount/personaccount.html.php:1040
+msgid "Specific symbol:"
+msgstr "Specifický symbol:"
+
+#: modules/com_bankaccount/bankaccount.html.php:1164
+#: modules/com_charge/charge.html.php:390
+#: modules/com_paymentreport/paymentreport.html.php:177
+#: modules/com_personaccount/personaccount.html.php:1067
+msgid "Amount:"
+msgstr "Částka:"
+
+#: modules/com_bankaccount/bankaccount.html.php:1168
+msgid "Fee:"
+msgstr "Poplatek:"
+
+#: modules/com_bankaccount/bankaccount.html.php:1172
+msgid "Message:"
+msgstr "Zpráva:"
+
+#: modules/com_bankaccount/bankaccount.html.php:1176
+msgid "Type of transaction:"
+msgstr "Typ transakce:"
+
+#: modules/com_bankaccount/bankaccount.html.php:1180
+#: modules/com_personaccount/personaccount.html.php:1078
+msgid "Comment:"
+msgstr "Komentář:"
+
+#: modules/com_bankaccount/bankaccount.html.php:1193
+msgid "Identification of payment"
+msgstr "Identifikace platby"
+
+#: modules/com_bankaccount/bankaccount.html.php:1198
+msgid "Identification:"
+msgstr "Identifikace:"
+
+#: modules/com_bankaccount/bankaccount.html.php:1220
+msgid "Benefit user account"
+msgstr "Připsat na uživatelský účet"
+
+#: modules/com_bankaccount/bankaccount.html.php:1225
+msgid "User account:"
+msgstr "Uživatelský účet:"
+
+#: modules/com_bankaccount/bankaccount.html.php:1231
+msgid "- Select user's account -"
+msgstr "- Vyber účet uživatele -"
+
+#: modules/com_bankaccount/bankaccount.html.php:1309
+msgid "Upload bank account entry printout"
+msgstr "Nahrát bankovní výpis"
+
+#: modules/com_bankaccount/bankaccount.index.php:318
+#, php-format
+msgid "Bank account '%s' '%s' updated"
+msgstr "Bankovní účet '%s' '%s' aktualizován"
+
+#: modules/com_bankaccount/bankaccount.index.php:324
+#, php-format
+msgid "Bank account '%s' '%s' saved"
+msgstr "Bankovní účet '%s' '%s' uložen"
+
+#: modules/com_bankaccount/bankaccount.index.php:363
+#: modules/com_bankaccount/bankaccount.index.php:378
+#: modules/com_bankaccount/bankaccount.index.php:457
+msgid "Insuficient rights"
+msgstr "Nemáte dostatečná práva"
+
+#: modules/com_bankaccount/bankaccount.index.php:542
+msgid "Amount must be in number format"
+msgstr "Částka musí být v číselném formátu"
+
+#: modules/com_bankaccount/bankaccount.index.php:547
+msgid "Amount must be positive value"
+msgstr "Částka musí mít kladnou hodnotu"
+
+#: modules/com_bankaccount/bankaccount.index.php:555
+msgid "Amount sum doesn't match"
+msgstr "Součet částek nesouhlasí"
+
+#: modules/com_bankaccount/bankaccount.index.php:586
+#, php-format
+msgid "Bank entry %s %s %s %s amount %s credited person account '%s' with %s"
+msgstr "Bankovní položka %s %s %s %s částka %s připsána k uživatelskému účtu '%s' částkou %s"
+
+#: modules/com_bankaccount/bankaccount.index.php:601
+#, php-format
+msgid "Bank entry %s %s %s %s amount %s proceed"
+msgstr "Bankovní položka %s %s %s %s částka %s zpracována"
+
+#: modules/com_changelog/changelog.html.php:43
+#: modules/com_common/html_mainmenu.php:61
+msgid "Changelog"
+msgstr "Changelog"
+
+#: modules/com_charge/charge.html.php:55 modules/com_group/group.html.php:54
+#: modules/com_handleevent/handleevent.html.php:54
+#: modules/com_internet/internet.html.php:54
+#: modules/com_message/message.html.php:38
+#: modules/com_network/network.html.php:83
+#: modules/com_networkdevice/networkdevice.html.php:51
+#: modules/com_person/person.html.php:58 modules/com_role/role.html.php:54
+msgid "Please select record to delete"
+msgstr "Prosím vyber položku k vymazání"
+
+#: modules/com_charge/charge.html.php:57 modules/com_group/group.html.php:56
+#: modules/com_handleevent/handleevent.html.php:56
+#: modules/com_internet/internet.html.php:56 modules/com_log/log.html.php:44
+#: modules/com_message/message.html.php:40
+#: modules/com_network/network.html.php:85
+#: modules/com_networkdevice/networkdevice.html.php:53
+#: modules/com_person/person.html.php:60 modules/com_role/role.html.php:56
+msgid "Do you really want to delete selected records ?"
+msgstr "Opravdu chcete smazat vybrané položky ?"
+
+#: modules/com_charge/charge.html.php:80 modules/com_charge/charge.html.php:81
+#: modules/com_group/group.html.php:79 modules/com_group/group.html.php:80
+#: modules/com_handleevent/handleevent.html.php:79
+#: modules/com_handleevent/handleevent.html.php:80
+#: modules/com_internet/internet.html.php:78
+#: modules/com_internet/internet.html.php:79
+#: modules/com_networkdevice/networkdevice.html.php:104
+#: modules/com_networkdevice/networkdevice.html.php:105
+#: modules/com_networkdevice/networkdevice.html.php:646
+#: modules/com_networkdevice/networkdevice.html.php:691
+#: modules/com_networkdevice/networkdevice.html.php:740
+#: modules/com_networkdevice/networkdevice.html.php:812
+#: modules/com_person/person.html.php:82 modules/com_person/person.html.php:83
+#: modules/com_role/role.html.php:79 modules/com_role/role.html.php:80
+msgid "New"
+msgstr "Nová"
+
+#: modules/com_charge/charge.html.php:87 modules/com_charge/charge.html.php:88
+#: modules/com_charge/charge.html.php:335 modules/com_group/group.html.php:86
+#: modules/com_group/group.html.php:87 modules/com_group/group.html.php:242
+#: modules/com_handleevent/handleevent.html.php:86
+#: modules/com_handleevent/handleevent.html.php:87
+#: modules/com_handleevent/handleevent.html.php:260
+#: modules/com_internet/internet.html.php:85
+#: modules/com_internet/internet.html.php:86
+#: modules/com_internet/internet.html.php:286
+#: modules/com_myprofile/myprofile.html.php:87
+#: modules/com_myprofile/myprofile.html.php:88
+#: modules/com_myprofile/myprofile.html.php:747
+#: modules/com_networkdevice/networkdevice.html.php:111
+#: modules/com_networkdevice/networkdevice.html.php:112
+#: modules/com_networkdevice/networkdevice.html.php:410
+#: modules/com_networkdevice/networkdevice.html.php:639
+#: modules/com_networkdevice/networkdevice.html.php:684
+#: modules/com_networkdevice/networkdevice.html.php:730
+#: modules/com_networkdevice/networkdevice.html.php:802
+#: modules/com_person/person.html.php:89 modules/com_person/person.html.php:90
+#: modules/com_person/person.html.php:414
+#: modules/com_person/person.html.php:704
+#: modules/com_personaccount/personaccount.html.php:106
+#: modules/com_personaccount/personaccount.html.php:107
+#: modules/com_personaccount/personaccount.html.php:345
+#: modules/com_personaccount/personaccount.html.php:346
+#: modules/com_role/role.html.php:86 modules/com_role/role.html.php:87
+#: modules/com_role/role.html.php:239
+msgid "Edit"
+msgstr "Editace"
+
+#: modules/com_charge/charge.html.php:94 modules/com_charge/charge.html.php:95
+#: modules/com_group/group.html.php:93 modules/com_group/group.html.php:94
+#: modules/com_handleevent/handleevent.html.php:93
+#: modules/com_handleevent/handleevent.html.php:94
+#: modules/com_internet/internet.html.php:92
+#: modules/com_internet/internet.html.php:93 modules/com_log/log.html.php:93
+#: modules/com_log/log.html.php:94 modules/com_message/message.html.php:102
+#: modules/com_message/message.html.php:103
+#: modules/com_networkdevice/networkdevice.html.php:118
+#: modules/com_networkdevice/networkdevice.html.php:119
+#: modules/com_networkdevice/networkdevice.html.php:639
+#: modules/com_networkdevice/networkdevice.html.php:684
+#: modules/com_networkdevice/networkdevice.html.php:730
+#: modules/com_networkdevice/networkdevice.html.php:802
+#: modules/com_person/person.html.php:96 modules/com_person/person.html.php:97
+#: modules/com_role/role.html.php:93 modules/com_role/role.html.php:94
+msgid "Delete"
+msgstr "Smazat"
+
+#: modules/com_charge/charge.html.php:103
+#: modules/com_charge/charge.html.php:335
+msgid "Payment templates management"
+msgstr "Správa Šablon plateb"
+
+#: modules/com_charge/charge.html.php:124
+#: modules/com_internet/internet.html.php:122
+msgid "Template name"
+msgstr "Název šablony"
+
+#: modules/com_charge/charge.html.php:125
+#: modules/com_myprofile/myprofile.html.php:256
+#: modules/com_personaccount/personaccount.html.php:534
+msgid "Write off"
+msgstr "Odepisovat"
+
+#: modules/com_charge/charge.html.php:126
+#: modules/com_invoice/invoice.html.php:177
+#: modules/com_myprofile/myprofile.html.php:252
+#: modules/com_myprofile/myprofile.html.php:338
+#: modules/com_person/person.html.php:624
+#: modules/com_personaccount/personaccount.html.php:530
+#: modules/com_personaccount/personaccount.html.php:616
+msgid "Amount without VAT"
+msgstr "Částka bez DPH"
+
+#: modules/com_charge/charge.html.php:127
+#: modules/com_myprofile/myprofile.html.php:253
+#: modules/com_myprofile/myprofile.html.php:339
+#: modules/com_person/person.html.php:625
+#: modules/com_personaccount/personaccount.html.php:531
+#: modules/com_personaccount/personaccount.html.php:617
+#, fuzzy
+msgid "VAT (%)"
+msgstr "DPH (%):"
+
+#: modules/com_charge/charge.html.php:128
+#: modules/com_invoice/invoice.html.php:178
+#: modules/com_myprofile/myprofile.html.php:254
+#: modules/com_myprofile/myprofile.html.php:340
+#: modules/com_person/person.html.php:626
+#: modules/com_personaccount/personaccount.html.php:532
+#: modules/com_personaccount/personaccount.html.php:618
+msgid "Amount with VAT"
+msgstr "Částka s DPH"
+
+#: modules/com_charge/charge.html.php:129
+#: modules/com_invoice/invoice.html.php:179
+#: modules/com_myprofile/myprofile.html.php:255
+#: modules/com_myprofile/myprofile.html.php:341
+#: modules/com_person/person.html.php:627
+#: modules/com_personaccount/personaccount.html.php:533
+#: modules/com_personaccount/personaccount.html.php:619
+msgid "Currency"
+msgstr "Měna"
+
+#: modules/com_charge/charge.html.php:130
+msgid "Tolerance"
+msgstr "Tolerance"
+
+#: modules/com_charge/charge.html.php:131
+#: modules/com_handleevent/handleevent.html.php:124
+#: modules/com_person/person.html.php:623
+msgid "Type"
+msgstr "Typ"
+
+#: modules/com_charge/charge.html.php:132
+#: modules/com_internet/internet.html.php:127
+msgid "Priority"
+msgstr "Priorita"
+
+#: modules/com_charge/charge.html.php:133
+#: modules/com_internet/internet.html.php:128 modules/com_log/log.html.php:156
+#: modules/com_myprofile/myprofile.html.php:539
+#: modules/com_network/network.html.php:283
+#: modules/com_network/network.html.php:792 modules/com_role/role.html.php:124
+msgid "Description"
+msgstr "Popis"
+
+#: modules/com_charge/charge.html.php:178
+#: modules/com_charge/charge.index.php:215
+#, php-format
+msgid "%s day"
+msgid_plural "%s days"
+msgstr[0] "%s Den"
+msgstr[1] "%s Dny"
+msgstr[2] "%s Dnů"
+
+#: modules/com_charge/charge.html.php:184
+#: modules/com_charge/charge.html.php:491
+#: modules/com_handleevent/handleevent.html.php:363
+#: modules/com_internet/internet.html.php:317
+#: modules/com_network/network.html.php:716
+#: modules/com_network/network.html.php:761
+#: modules/com_networkdevice/networkdevice.html.php:201
+#: modules/com_networkdevice/networkdevice.html.php:235
+#: modules/com_networkdevice/networkdevice.html.php:463
+#: modules/com_networkdevice/networkdevice.html.php:726
+#: modules/com_networkdevice/networkdevice.html.php:798
+#: modules/com_networkdevice/networkdevice.html.php:947
+#: modules/com_networkdevice/networkdevice.html.php:1129
+#: modules/com_paymentreport/paymentreport.html.php:173
+#: modules/com_role/role.html.php:270
+msgid "Description:"
+msgstr "Popis:"
+
+#: modules/com_charge/charge.html.php:184
+#: modules/com_charge/charge.html.php:487
+msgid "Internet service name:"
+msgstr "Název internetové služby:"
+
+#: modules/com_charge/charge.html.php:184
+#: modules/com_charge/charge.html.php:503
+msgid "Maximum download:"
+msgstr "Maximální download:"
+
+#: modules/com_charge/charge.html.php:184
+#: modules/com_charge/charge.html.php:507
+msgid "Maximum upload:"
+msgstr "Maximální upload:"
+
+#: modules/com_charge/charge.html.php:260
+#: modules/com_internet/internet.html.php:225
+msgid "Please enter template name"
+msgstr "Prosím zadejte jméno šablony"
+
+#: modules/com_charge/charge.html.php:262
+msgid "Please enter template desctiption"
+msgstr "Prosím zadejte popis šablony"
+
+#: modules/com_charge/charge.html.php:357
+msgid "Payment template"
+msgstr "Šablona platby"
+
+#: modules/com_charge/charge.html.php:362
+#: modules/com_internet/internet.html.php:313
+msgid "Template name:"
+msgstr "Název šablony:"
+
+#: modules/com_charge/charge.html.php:366
+msgid "Template description:"
+msgstr "Popis šablony:"
+
+#: modules/com_charge/charge.html.php:370
+#: modules/com_charge/charge.html.php:511
+#: modules/com_internet/internet.html.php:341
+msgid "Priority:"
+msgstr "Priorita:"
+
+#: modules/com_charge/charge.html.php:382
+#: modules/com_person/person.html.php:931
+msgid "Amount without VAT:"
+msgstr "Částka bez DPH:"
+
+#: modules/com_charge/charge.html.php:386
+#: modules/com_person/person.html.php:935
+msgid "VAT (%):"
+msgstr "DPH (%):"
+
+#: modules/com_charge/charge.html.php:406
+#: modules/com_person/person.html.php:927
+msgid "Write off:"
+msgstr "Odepisováno:"
+
+#: modules/com_charge/charge.html.php:420
+msgid "Write-off offset:"
+msgstr "Posunutí doby splatnosti:"
+
+#: modules/com_charge/charge.html.php:432
+msgid "Tolerance:"
+msgstr "Tolerance:"
+
+#: modules/com_charge/charge.html.php:444
+msgid "Payment type:"
+msgstr "Typ platby:"
+
+#: modules/com_charge/charge.html.php:458
+msgid "Internet:"
+msgstr "Internet:"
+
+#: modules/com_charge/charge.html.php:482
+msgid "Internet in payment:"
+msgstr "Internet v platbě:"
+
+#: modules/com_charge/charge.html.php:495
+msgid "Garanteed download:"
+msgstr "Grantovaný download:"
+
+#: modules/com_charge/charge.html.php:499
+msgid "Garanteed upload:"
+msgstr "Garantovaný upload:"
+
+#: modules/com_charge/charge.index.php:115
+msgid "Base amount is in incorrect format"
+msgstr "Nesprávný fomát částky bez DPH"
+
+#: modules/com_charge/charge.index.php:128
+msgid "VAT is in incorrect format"
+msgstr "Nesprávný fomát DPH"
+
+#: modules/com_charge/charge.index.php:141
+msgid "Amount with VAT is in incorrect format"
+msgstr "Nesprávný fomát částky s DPH"
+
+#: modules/com_charge/charge.index.php:161
+#, php-format
+msgid "Payment template '%s' updated"
+msgstr "Šablona platby '%s' aktualizována"
+
+#: modules/com_charge/charge.index.php:166
+#, php-format
+msgid "Payment template '%s' saved"
+msgstr "Šablona platby '%s' uložena"
+
+#: modules/com_charge/charge.index.php:179
+#: modules/com_group/group.index.php:135
+#: modules/com_handleevent/handleevent.index.php:150
+#: modules/com_internet/internet.index.php:143
+#: modules/com_log/log.index.php:97 modules/com_message/message.index.php:109
+#: modules/com_networkdevice/networkdevice.index.php:448
+#: modules/com_person/person.index.php:309 modules/com_role/role.index.php:129
+msgid "Please select record to erase"
+msgstr "Vyber položku ke smazání"
+
+#: modules/com_charge/charge.index.php:189
+#, php-format
+msgid "Cannot delete payment template '%s', because it has binded %s payment"
+msgid_plural "Cannot delete payment template '%s', because it has binded %s payments"
+msgstr[0] "Nelze smazat šablonu platby '%s', jelikož má asociovánu '%s' platbu"
+msgstr[1] "Nelze smazat šablonu platby '%s', jelikož má asociovány '%s' platby"
+msgstr[2] "Nelze smazat šablonu platby '%s', jelikož má asociováno '%s' plateb"
+
+#: modules/com_charge/charge.index.php:200
+#, php-format
+msgid "Payment template '%s' deleted"
+msgstr "Šablona platby '%s' smazána"
+
+#: modules/com_common/PageNav.php:78
+#, php-format
+msgid "Records %d to %d from %d"
+msgstr "Záznamů %d až %d ze %d"
+
+#: modules/com_common/PageNav.php:80
+msgid "No record found"
+msgstr "Nenalezen žádný záznam"
+
+#: modules/com_common/PageNav.php:101 modules/com_common/PageNav.php:104
+msgid "First"
+msgstr "Začátek"
+
+#: modules/com_common/PageNav.php:101
+msgid "First page"
+msgstr "První stránka"
+
+#: modules/com_common/PageNav.php:102 modules/com_common/PageNav.php:105
+msgid "Previous"
+msgstr "Předchozí"
+
+#: modules/com_common/PageNav.php:102
+msgid "Previous page"
+msgstr "Předchozí stránka"
+
+#: modules/com_common/PageNav.php:120 modules/com_common/PageNav.php:123
+msgid "Next"
+msgstr "Následující"
+
+#: modules/com_common/PageNav.php:120
+msgid "Next page"
+msgstr "Následující stránka"
+
+#: modules/com_common/PageNav.php:121 modules/com_common/PageNav.php:124
+msgid "Last"
+msgstr "Konec"
+
+#: modules/com_common/PageNav.php:121
+msgid "Last page"
+msgstr "Poslední stránka"
+
+#: modules/com_common/PageNav.php:133
+msgid "Show"
+msgstr "Zobrazit"
+
+#: modules/com_common/html_end.php:20 modules/com_common/login.php:104
+msgid "Javascript must be enabled to function system properly"
+msgstr "Javascript musí být povolen pro správnou funkci systému"
+
+#: modules/com_common/html_footer.php:27
+#, php-format
+msgid "Page generated in %s second"
+msgid_plural "Page generated in %s seconds"
+msgstr[0] "Stránka vygenerována za %s sekundu"
+msgstr[1] "Stránka vygenerována za %s sekundy"
+msgstr[2] "Stránka vygenerována za %s sekund"
+
+#: modules/com_common/html_header.php:22
+#, php-format
+msgid "version %s"
+msgstr "verze %s"
+
+#: modules/com_common/html_mainmenu.php:13
+#: modules/com_myprofile/myprofile.html.php:94
+#: modules/com_myprofile/myprofile.html.php:95
+msgid "Logout"
+msgstr "Odhlásit"
+
+#: modules/com_common/html_mainmenu.php:24
+msgid "Home"
+msgstr "Domů"
+
+#: modules/com_common/html_mainmenu.php:24
+msgid "Home page"
+msgstr "Domovká stránka"
+
+#: modules/com_common/html_mainmenu.php:26
+msgid "User agenda"
+msgstr "Uživatelská agenda"
+
+#: modules/com_common/html_mainmenu.php:28
+msgid "Manage users"
+msgstr "Spravovat uživatele"
+
+#: modules/com_common/html_mainmenu.php:29
+msgid "Manage user groups"
+msgstr "Spravovat uživatelské skupiny"
+
+#: modules/com_common/html_mainmenu.php:30
+msgid "Manage roles and responsibilities"
+msgstr "Spravovat zodpovědnosti a role"
+
+#: modules/com_common/html_mainmenu.php:32
+msgid "Manage my profile"
+msgstr "Spravovat můj profil"
+
+#: modules/com_common/html_mainmenu.php:32
+#: modules/com_myprofile/myprofile.html.php:103
+#: modules/com_myprofile/myprofile.html.php:747
+msgid "My profile"
+msgstr "Můj profil"
+
+#: modules/com_common/html_mainmenu.php:35
+msgid "Financial"
+msgstr "Finance"
+
+#: modules/com_common/html_mainmenu.php:35
+msgid "Financial Managenent"
+msgstr "Management financí"
+
+#: modules/com_common/html_mainmenu.php:36
+msgid "Manage bank accounts"
+msgstr "Spravovat bankovní účty"
+
+#: modules/com_common/html_mainmenu.php:37
+msgid "Manage user accounts"
+msgstr "Spravovat uživatelské účty"
+
+#: modules/com_common/html_mainmenu.php:38
+#: modules/com_invoice/invoice.html.php:95
+msgid "Invoices"
+msgstr "Faktury"
+
+#: modules/com_common/html_mainmenu.php:38
+msgid "Manage invoices"
+msgstr "Spravovat faktury"
+
+#: modules/com_common/html_mainmenu.php:39
+msgid "Manage payment templates"
+msgstr "Spravovat šablony plateb"
+
+#: modules/com_common/html_mainmenu.php:42
+msgid "Services"
+msgstr "Služby"
+
+#: modules/com_common/html_mainmenu.php:42
+msgid "Services Managenent"
+msgstr "Spravovat služby"
+
+#: modules/com_common/html_mainmenu.php:43
+msgid "Internet services"
+msgstr "Internetové služby"
+
+#: modules/com_common/html_mainmenu.php:43
+msgid "Manage Internet services"
+msgstr "Spravovat internetové služby"
+
+#: modules/com_common/html_mainmenu.php:45
+#: modules/com_network/network.html.php:495
+#: modules/com_networkdevice/networkdevice.html.php:1362
+msgid "Network"
+msgstr "Síť"
+
+#: modules/com_common/html_mainmenu.php:45
+msgid "Network Managenent"
+msgstr "Správa sítě"
+
+#: modules/com_common/html_mainmenu.php:46
+msgid "Manage IP networks"
+msgstr "Spravovat IP sítě"
+
+#: modules/com_common/html_mainmenu.php:47
+msgid "Manage network devices"
+msgstr "Spravovat síťová zařízení"
+
+#: modules/com_common/html_mainmenu.php:47
+msgid "Network devices"
+msgstr "Síťová zařízení"
+
+#: modules/com_common/html_mainmenu.php:49
+msgid "Administration"
+msgstr "Administrace"
+
+#: modules/com_common/html_mainmenu.php:50
+msgid "Run scripts"
+msgstr "Spustit skripty"
+
+#: modules/com_common/html_mainmenu.php:51
+msgid "Configuration"
+msgstr "Konfigurace"
+
+#: modules/com_common/html_mainmenu.php:51
+msgid "View configuration"
+msgstr "Prohlédnout konfiguraci"
+
+#: modules/com_common/html_mainmenu.php:52
+msgid "View log"
+msgstr "Prohlédnout log"
+
+#: modules/com_common/html_mainmenu.php:53
+#: modules/com_myprofile/myprofile.html.php:557
+msgid "Messages"
+msgstr "Zprávy"
+
+#: modules/com_common/html_mainmenu.php:53
+msgid "Send messages"
+msgstr "Zasílání zpráv"
+
+#: modules/com_common/html_mainmenu.php:54
+#: modules/com_handleevent/handleevent.html.php:102
+msgid "Event handlers"
+msgstr "Správci událostí"
+
+#: modules/com_common/html_mainmenu.php:56
+msgid "Reports"
+msgstr "Reporty"
+
+#: modules/com_common/html_mainmenu.php:56
+#: modules/com_common/html_mainmenu.php:60
+msgid "View reports"
+msgstr "Prohlédnout reporty"
+
+#: modules/com_common/html_mainmenu.php:57
+msgid "Create payment report"
+msgstr "Sestavit report plateb"
+
+#: modules/com_common/html_mainmenu.php:58
+msgid "Create IP data traffic report"
+msgstr "Sestavit report datových přenosů IP"
+
+#: modules/com_common/html_mainmenu.php:58
+#: modules/com_iptrafficreport/iptrafficreport.html.php:75
+msgid "IP data traffic report"
+msgstr "Report datových přenosů IP"
+
+#: modules/com_common/html_mainmenu.php:60
+msgid "Help"
+msgstr "Nápověda"
+
+#: modules/com_common/html_mainmenu.php:61
+msgid "View changelog"
+msgstr "Prohlédnout changelog"
+
+#: modules/com_common/html_mainmenu.php:62
+msgid "Documentation"
+msgstr "Dokumentace"
+
+#: modules/com_common/html_mainmenu.php:62
+msgid "View documentation"
+msgstr "Prohlédnout dokumentaci"
+
+#: modules/com_common/login.php:65
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+#: modules/com_common/login.php:67
+msgid "Password"
+msgstr "Heslo"
+
+#: modules/com_common/login.php:69
+msgid "Login"
+msgstr "Přihlásit"
+
+#: modules/com_common/login.php:87
+msgid "Wellcome to Net Provider"
+msgstr "Vítejte v Net Provider"
+
+#: modules/com_common/login.php:88
+msgid "Please use valid username and password to gain access into the system."
+msgstr "Použijte platné uživatelské jméno a heslo pro získání přístupu k systému."
+
+#: modules/com_configuration/configuration.html.php:26
+msgid "Configuration list"
+msgstr "Výpis konfigurace"
+
+#: modules/com_group/group.html.php:123
+msgid "Group name"
+msgstr "Název skupiny"
+
+#: modules/com_group/group.html.php:125
+msgid "User level"
+msgstr "Uživatelská úroveň"
+
+#: modules/com_group/group.html.php:242
+msgid "User groups management:"
+msgstr "Správa uživatelských skupin"
+
+#: modules/com_group/group.html.php:264
+msgid "User group"
+msgstr "Uživatelská skupina"
+
+#: modules/com_group/group.html.php:269
+msgid "Group name:"
+msgstr "Název skupiny"
+
+#: modules/com_group/group.html.php:277
+msgid "User level:"
+msgstr "Uživatelská úroveň:"
+
+#: modules/com_group/group.html.php:313
+msgid "Please enter group name"
+msgstr "Prosím zadejte jméno skupiny"
+
+#: modules/com_group/group.index.php:117
+#, php-format
+msgid "Group '%s' updated"
+msgstr "Skupina '%s' aktualizována"
+
+#: modules/com_group/group.index.php:122
+#, php-format
+msgid "Group '%s' saved"
+msgstr "Skupina '%s' uložena"
+
+#: modules/com_group/group.index.php:145
+#, php-format
+msgid "Cannot delete user group '%s', because it has binded %s user"
+msgid_plural "Cannot delete user group '%s', because it has binded %s users"
+msgstr[0] "Nelze smazat skupinu '%s', jelikož je asociováno '%s' uživatel"
+msgstr[1] "Nelze smazat skupinu '%s', jelikož má asociovány '%s' uživatele"
+msgstr[2] "Nelze smazat skupinu '%s', jelikož má asociováno '%s' uživatelů"
+
+#: modules/com_group/group.index.php:156
+#, php-format
+msgid "User group '%s' deleted"
+msgstr "Uživatelská skupina '%s' smazána"
+
+#: modules/com_handleevent/handleevent.html.php:125
+msgid "Event handler name"
+msgstr "Jméno správce událostí"
+
+#: modules/com_handleevent/handleevent.html.php:126
+msgid "Notify person"
+msgstr "Informovat uživatele"
+
+#: modules/com_handleevent/handleevent.html.php:127
+msgid "Notify days before turn off"
+msgstr "Informovat (dní) před vypnutím"
+
+#: modules/com_handleevent/handleevent.html.php:128
+msgid "Template file"
+msgstr "Soubor se šablonou"
+
+#: modules/com_handleevent/handleevent.html.php:150
+#: modules/com_handleevent/handleevent.html.php:321
+msgid "Event origin"
+msgstr "Původ události"
+
+#: modules/com_handleevent/handleevent.html.php:260
+msgid "Event handlers management"
+msgstr "Správa správců událostí"
+
+#: modules/com_handleevent/handleevent.html.php:282
+msgid "Event handler"
+msgstr "Správce události"
+
+#: modules/com_handleevent/handleevent.html.php:287
+msgid "Enabled:"
+msgstr "Povoleno:"
+
+#: modules/com_handleevent/handleevent.html.php:300
+#: modules/com_networkdevice/networkdevice.html.php:199
+#: modules/com_networkdevice/networkdevice.html.php:445
+#: modules/com_paymentreport/paymentreport.html.php:181
+#: modules/com_person/person.html.php:951
+msgid "Type:"
+msgstr "Typ:"
+
+#: modules/com_handleevent/handleevent.html.php:314
+#: modules/com_networkdevice/networkdevice.html.php:197
+#: modules/com_networkdevice/networkdevice.html.php:229
+#: modules/com_networkdevice/networkdevice.html.php:437
+#: modules/com_networkdevice/networkdevice.html.php:718
+#: modules/com_networkdevice/networkdevice.html.php:770
+#: modules/com_networkdevice/networkdevice.html.php:930
+#: modules/com_networkdevice/networkdevice.html.php:1064
+#: modules/com_networkdevice/networkdevice.html.php:1247
+#: modules/com_personaccount/personaccount.html.php:388
+#: modules/com_personaccount/personaccount.html.php:847
+#: modules/com_personaccount/personaccount.html.php:1008
+msgid "Name:"
+msgstr "Jméno:"
+
+#: modules/com_handleevent/handleevent.html.php:318
+msgid "Notify person:"
+msgstr "Informovat uživatele:"
+
+#: modules/com_handleevent/handleevent.html.php:333
+msgid "Notify days before turn off:"
+msgstr "Informovat (dní) před vypnutím:"
+
+#: modules/com_handleevent/handleevent.html.php:345
+msgid "Email subject:"
+msgstr "Předmět Emailu:"
+
+#: modules/com_handleevent/handleevent.html.php:349
+msgid "Template:"
+msgstr "Šablona:"
+
+#: modules/com_handleevent/handleevent.html.php:389
+msgid "Please enter event handler name"
+msgstr "Prosím zadejte jméno správce událostí"
+
+#: modules/com_handleevent/handleevent.index.php:132
+#, php-format
+msgid "Event handler '%s' updated"
+msgstr "Správce událostí '%s' aktualizován"
+
+#: modules/com_handleevent/handleevent.index.php:137
+#, php-format
+msgid "Event handler '%s' saved"
+msgstr "Správce událostí '%s' uložen"
+
+#: modules/com_handleevent/handleevent.index.php:158
+#, php-format
+msgid "Event handler '%s' deleted"
+msgstr "Správce událostí '%s' smazán"
+
+#: modules/com_internet/internet.html.php:101
+#: modules/com_internet/internet.html.php:286
+msgid "Internet templates management"
+msgstr "Správa šablon internetu"
+
+#: modules/com_internet/internet.html.php:123
+msgid "Guarant download"
+msgstr "Grantovaný download"
+
+#: modules/com_internet/internet.html.php:124
+msgid "Guarant upload"
+msgstr "Garantovaný upload"
+
+#: modules/com_internet/internet.html.php:125
+msgid "Maximum download"
+msgstr "Maximální download"
+
+#: modules/com_internet/internet.html.php:126
+msgid "Maximum upload"
+msgstr "Maximální upload"
+
+#: modules/com_internet/internet.html.php:227
+msgid "Please enter template description"
+msgstr "Prosím zadejte popis šablony"
+
+#: modules/com_internet/internet.html.php:229
+#: modules/com_internet/internet.index.php:107
+msgid "Guarant download is not in proper number format"
+msgstr "Garantovaný download není ve správném číselném formátu"
+
+#: modules/com_internet/internet.html.php:231
+#: modules/com_internet/internet.index.php:108
+msgid "Maximum download is not in proper number format"
+msgstr "Maximální download není ve správném číselném formátu"
+
+#: modules/com_internet/internet.html.php:233
+#: modules/com_internet/internet.index.php:109
+msgid "Guarant upload is not in proper number format"
+msgstr "Garantovaný upload není ve správném číselném formátu"
+
+#: modules/com_internet/internet.html.php:235
+#: modules/com_internet/internet.index.php:110
+msgid "Maximum upload is not in proper number format"
+msgstr "Maximální upload není ve správném číselném formátu"
+
+#: modules/com_internet/internet.html.php:308
+msgid "Internet template"
+msgstr "Šablona internetu"
+
+#: modules/com_internet/internet.html.php:321
+msgid "Guarant download (kbps):"
+msgstr "Grantovaný download (kbps):"
+
+#: modules/com_internet/internet.html.php:327
+msgid "Guarant upload (kbps):"
+msgstr "Garantovaný upload (kbps):"
+
+#: modules/com_internet/internet.html.php:333
+msgid "Maximum download (kbps):"
+msgstr "Maximální download (kbps):"
+
+#: modules/com_internet/internet.html.php:337
+msgid "Maximum upload (kbps):"
+msgstr "Maximální upload (kbps):"
+
+#: modules/com_internet/internet.index.php:125
+#, php-format
+msgid "Internet template '%s' updated"
+msgstr "Šablona internetu '%s' aktualizována"
+
+#: modules/com_internet/internet.index.php:130
+#, php-format
+msgid "Internet template '%s' saved"
+msgstr "Šablona internetu '%s' uložena"
+
+#: modules/com_internet/internet.index.php:152
+#, php-format
+msgid "Cannot delete internet template '%s', because it has binded %s payment service"
+msgid_plural "Cannot delete internet template '%s', because it has binded %s payment services"
+msgstr[0] "Nelze smazat šablonu internetu '%s', jelikož má asociovánu '%s' šablonu platby"
+msgstr[1] "Nelze smazat šablonu internetu '%s', jelikož má asociovány '%s' šablony platby"
+msgstr[2] "Nelze smazat šablonu internetu '%s', jelikož má asociováno '%s' šablon plateb"
+
+#: modules/com_internet/internet.index.php:163
+#, php-format
+msgid "Internet template '%s' deleted"
+msgstr "Šablona internetu '%s' smazána"
+
+#: modules/com_invoice/invoice.html.php:86
+msgid "Create invoice list"
+msgstr "Vytvořit soupis faktur"
+
+#: modules/com_invoice/invoice.html.php:87
+msgid "Create invoice set"
+msgstr "Vytvořit seznam faktur"
+
+#: modules/com_invoice/invoice.html.php:117
+#: modules/com_person/person.html.php:127
+msgid "- User group -"
+msgstr "- Uživatelská skupina -"
+
+#: modules/com_invoice/invoice.html.php:152
+#: modules/com_iptrafficreport/iptrafficreport.html.php:108
+msgid "Since:"
+msgstr "Od:"
+
+#: modules/com_invoice/invoice.html.php:157
+#: modules/com_iptrafficreport/iptrafficreport.html.php:113
+msgid "Till:"
+msgstr "Do:"
+
+#: modules/com_invoice/invoice.html.php:170
+msgid "Invoice number"
+msgstr "Číslo faktury"
+
+#: modules/com_invoice/invoice.html.php:171
+msgid "Invoice date"
+msgstr "Datum faktury"
+
+#: modules/com_invoice/invoice.html.php:172
+#: modules/com_personaccount/personaccount.html.php:613
+msgid "Date of write off"
+msgstr "Datum stržení"
+
+#: modules/com_invoice/invoice.html.php:173
+#: modules/com_personaccount/personaccount.html.php:614
+msgid "Delayed in days"
+msgstr "Zpoždění ve dnech"
+
+#: modules/com_invoice/invoice.html.php:174
+msgid "Person"
+msgstr "Osoba"
+
+#: modules/com_invoice/invoice.html.php:175
+#: modules/com_person/person.html.php:158
+msgid "Group"
+msgstr "Skupina"
+
+#: modules/com_invoice/invoice.html.php:176
+msgid "Email"
+msgstr "E-mail"
+
+#: modules/com_iptrafficreport/iptrafficreport.html.php:119
+msgid "Show average rate"
+msgstr "Zobrazit průměrnou rychlost"
+
+#: modules/com_iptrafficreport/iptrafficreport.html.php:130
+#: modules/com_paymentreport/paymentreport.html.php:196
+#: modules/com_person/person.html.php:156
+#: modules/com_personaccount/personaccount.html.php:164
+msgid "Surname"
+msgstr "Příjmení"
+
+#: modules/com_iptrafficreport/iptrafficreport.html.php:131
+#: modules/com_paymentreport/paymentreport.html.php:197
+#: modules/com_person/person.html.php:155
+#: modules/com_personaccount/personaccount.html.php:163
+msgid "Firstname"
+msgstr "Jméno"
+
+#: modules/com_iptrafficreport/iptrafficreport.html.php:132
+#: modules/com_person/person.html.php:157
+msgid "Nickname"
+msgstr "Přezdívka"
+
+#: modules/com_iptrafficreport/iptrafficreport.html.php:133
+#: modules/com_myprofile/myprofile.html.php:514
+#: modules/com_myprofile/myprofile.html.php:610
+#: modules/com_person/person.html.php:741
+msgid "IP address"
+msgstr "IP adresa"
+
+#: modules/com_iptrafficreport/iptrafficreport.index.php:75
+msgid "Hours"
+msgstr "Hodiny"
+
+#: modules/com_iptrafficreport/iptrafficreport.index.php:76
+msgid "Days"
+msgstr "Dny"
+
+#: modules/com_iptrafficreport/iptrafficreport.index.php:77
+msgid "Months"
+msgstr "Měsíce"
+
+#: modules/com_log/log.html.php:102
+msgid "Log list"
+msgstr "Výpis logu"
+
+#: modules/com_log/log.html.php:123
+msgid "- Log level -"
+msgstr "- Úroveň logu -"
+
+#: modules/com_log/log.html.php:137
+msgid "- User -"
+msgstr "- Uživatel -"
+
+#: modules/com_log/log.html.php:154
+msgid "Level"
+msgstr "Úroveň"
+
+#: modules/com_log/log.html.php:155
+msgid "Action taken by"
+msgstr "Provedl"
+
+#: modules/com_log/log.html.php:177
+msgid "System"
+msgstr "Systém"
+
+#: modules/com_message/message.html.php:95
+#: modules/com_message/message.html.php:96
+msgid "Send"
+msgstr "Odeslat"
+
+#: modules/com_message/message.html.php:111
+msgid "Message list"
+msgstr "Zprávy:"
+
+#: modules/com_message/message.html.php:153
+msgid "Recipient"
+msgstr "Příjemce"
+
+#: modules/com_message/message.html.php:154
+#: modules/com_myprofile/myprofile.html.php:564
+msgid "Subject"
+msgstr "Předmět"
+
+#: modules/com_message/message.html.php:156
+msgid "Attachment"
+msgstr "Příloha"
+
+#: modules/com_myprofile/myprofile.html.php:125
+#: modules/com_myprofile/myprofile.html.php:769
+#: modules/com_person/person.html.php:436
+msgid "Personal data"
+msgstr "Osobní údaje"
+
+#: modules/com_myprofile/myprofile.html.php:130
+#: modules/com_person/person.html.php:441
+#: modules/com_person/person.html.php:1164
+#: modules/com_personaccount/personaccount.html.php:1058
+msgid "Status:"
+msgstr "Status:"
+
+#: modules/com_myprofile/myprofile.html.php:134
+#: modules/com_person/person.html.php:564
+msgid "User group:"
+msgstr "Uživatelská skupina:"
+
+#: modules/com_myprofile/myprofile.html.php:138
+#: modules/com_myprofile/myprofile.html.php:774
+#: modules/com_person/person.html.php:471
+msgid "Firstname:"
+msgstr "Jméno:"
+
+#: modules/com_myprofile/myprofile.html.php:142
+#: modules/com_myprofile/myprofile.html.php:778
+#: modules/com_person/person.html.php:475
+msgid "Surname:"
+msgstr "Příjmení:"
+
+#: modules/com_myprofile/myprofile.html.php:146
+#: modules/com_myprofile/myprofile.html.php:782
+#: modules/com_person/person.html.php:479
+msgid "Nickname:"
+msgstr "Přezdívka:"
+
+#: modules/com_myprofile/myprofile.html.php:150
+#: modules/com_myprofile/myprofile.html.php:786
+#: modules/com_person/person.html.php:483
+msgid "Sex:"
+msgstr "Pohlaví:"
+
+#: modules/com_myprofile/myprofile.html.php:154
+#: modules/com_myprofile/myprofile.html.php:794
+#: modules/com_person/person.html.php:491
+msgid "Degree before name:"
+msgstr "Titul před jménem:"
+
+#: modules/com_myprofile/myprofile.html.php:158
+#: modules/com_myprofile/myprofile.html.php:798
+#: modules/com_person/person.html.php:495
+msgid "Degree after name:"
+msgstr "Titul za jménem:"
+
+#: modules/com_myprofile/myprofile.html.php:162
+#: modules/com_myprofile/myprofile.html.php:802
+#: modules/com_person/person.html.php:499
+msgid "Birthdate:"
+msgstr "Datum narození:"
+
+#: modules/com_myprofile/myprofile.html.php:166
+#: modules/com_myprofile/myprofile.html.php:809
+#: modules/com_person/person.html.php:162
+#: modules/com_person/person.html.php:506
+msgid "E-mail"
+msgstr "E-mail"
+
+#: modules/com_myprofile/myprofile.html.php:170
+#: modules/com_myprofile/myprofile.html.php:813
+#: modules/com_person/person.html.php:510
+msgid "ICQ:"
+msgstr "ICQ:"
+
+#: modules/com_myprofile/myprofile.html.php:174
+#: modules/com_myprofile/myprofile.html.php:817
+#: modules/com_person/person.html.php:514
+msgid "Phone:"
+msgstr "Telefon:"
+
+#: modules/com_myprofile/myprofile.html.php:178
+#: modules/com_myprofile/myprofile.html.php:821
+#: modules/com_person/person.html.php:518
+msgid "Address:"
+msgstr "Adresa:"
+
+#: modules/com_myprofile/myprofile.html.php:182
+#: modules/com_myprofile/myprofile.html.php:825
+#: modules/com_person/person.html.php:522
+msgid "City:"
+msgstr "Město:"
+
+#: modules/com_myprofile/myprofile.html.php:186
+#: modules/com_myprofile/myprofile.html.php:829
+#: modules/com_person/person.html.php:526
+msgid "ZIP:"
+msgstr "PSČ:"
+
+#: modules/com_myprofile/myprofile.html.php:190
+#: modules/com_person/person.html.php:530
+msgid "Date of registration:"
+msgstr "Datum registrace:"
+
+#: modules/com_myprofile/myprofile.html.php:202
+#: modules/com_myprofile/myprofile.html.php:841
+#: modules/com_person/person.html.php:542
+msgid "Login creditials"
+msgstr "Login"
+
+#: modules/com_myprofile/myprofile.html.php:207
+#: modules/com_myprofile/myprofile.html.php:846
+#: modules/com_person/person.html.php:547
+msgid "System login registration"
+msgstr "Přihlašovací údaje do systému"
+
+#: modules/com_myprofile/myprofile.html.php:212
+#: modules/com_myprofile/myprofile.html.php:851
+#: modules/com_person/person.html.php:552
+msgid "Login name:"
+msgstr "Přihlašovací jméno:"
+
+#: modules/com_myprofile/myprofile.html.php:222
+#: modules/com_person/person.html.php:578
+msgid "Role"
+msgstr "Role"
+
+#: modules/com_myprofile/myprofile.html.php:227
+#: modules/com_person/person.html.php:583 modules/com_role/role.html.php:261
+msgid "User role"
+msgstr "Uživatelská role"
+
+#: modules/com_myprofile/myprofile.html.php:245
+#: modules/com_person/person.html.php:617
+msgid "Payments"
+msgstr "Platby"
+
+#: modules/com_myprofile/myprofile.html.php:251
+#: modules/com_person/person.html.php:622
+#: modules/com_personaccount/personaccount.html.php:529
+msgid "Service name"
+msgstr "Jméno služby"
+
+#: modules/com_myprofile/myprofile.html.php:257
+#: modules/com_personaccount/personaccount.html.php:535
+msgid "Since"
+msgstr "Od"
+
+#: modules/com_myprofile/myprofile.html.php:260
+msgid "Actual status"
+msgstr "Aktuální status"
+
+#: modules/com_myprofile/myprofile.html.php:273
+#: modules/com_personaccount/personaccount.html.php:578
+msgid "Not limited"
+msgstr "Nelimitováno"
+
+#: modules/com_myprofile/myprofile.html.php:332
+#: modules/com_personaccount/personaccount.html.php:610
+msgid "Date/period"
+msgstr "Datum/perioda"
+
+#: modules/com_myprofile/myprofile.html.php:333
+#: modules/com_personaccount/personaccount.html.php:611
+msgid "Date of payment"
+msgstr "Datum splatnosti"
+
+#: modules/com_myprofile/myprofile.html.php:334
+#: modules/com_personaccount/personaccount.html.php:612
+msgid "Tolerance till"
+msgstr "Tolerance do"
+
+#: modules/com_myprofile/myprofile.html.php:335
+msgid "Write off date"
+msgstr "Datum stržení"
+
+#: modules/com_myprofile/myprofile.html.php:336
+msgid "Delay in days"
+msgstr "Zpoždění ve dnech"
+
+#: modules/com_myprofile/myprofile.html.php:342
+#: modules/com_person/person.html.php:632
+#: modules/com_personaccount/personaccount.html.php:447
+#: modules/com_personaccount/personaccount.html.php:620
+msgid "Action"
+msgstr "Akce"
+
+#: modules/com_myprofile/myprofile.html.php:418
+#: modules/com_personaccount/personaccount.html.php:713
+msgid "Invoice"
+msgstr "Faktura"
+
+#: modules/com_myprofile/myprofile.html.php:445
+#: modules/com_personaccount/personaccount.html.php:436
+msgid "Incoming payments"
+msgstr "Příchozí platby"
+
+#: modules/com_myprofile/myprofile.html.php:452
+#: modules/com_personaccount/personaccount.html.php:441
+msgid "Source"
+msgstr "Zdroj"
+
+#: modules/com_myprofile/myprofile.html.php:454
+msgid "Comment"
+msgstr "Komentář"
+
+#: modules/com_myprofile/myprofile.html.php:509
+#: modules/com_person/person.html.php:736
+msgid "IP addresses"
+msgstr "IP adresy"
+
+#: modules/com_myprofile/myprofile.html.php:515
+#: modules/com_person/person.html.php:742
+msgid "DNS name"
+msgstr "DNS jméno"
+
+#: modules/com_myprofile/myprofile.html.php:533
+#: modules/com_networkdevice/networkdevice.html.php:626
+msgid "Networks"
+msgstr "Sítě"
+
+#: modules/com_myprofile/myprofile.html.php:538
+#: modules/com_network/network.html.php:790
+msgid "Network address"
+msgstr "Adresa sítě"
+
+#: modules/com_myprofile/myprofile.html.php:600
+msgid "Data traffic"
+msgstr "Datový přenos"
+
+#: modules/com_myprofile/myprofile.html.php:605
+msgid "Month period:"
+msgstr "Měsiční období:"
+
+#: modules/com_myprofile/myprofile.html.php:611
+msgid "Data download"
+msgstr "Data download"
+
+#: modules/com_myprofile/myprofile.html.php:612
+msgid "Data upload"
+msgstr "Data upload"
+
+#: modules/com_myprofile/myprofile.html.php:613
+msgid "Packet download"
+msgstr "Paket download"
+
+#: modules/com_myprofile/myprofile.html.php:614
+msgid "Packet upload"
+msgstr "Paket upload"
+
+#: modules/com_myprofile/myprofile.html.php:651
+msgid "Summary"
+msgstr "Soupis"
+
+#: modules/com_myprofile/myprofile.html.php:859
+#: modules/com_networkdevice/networkdevice.html.php:487
+#: modules/com_person/person.html.php:560
+msgid "Password confirmation:"
+msgstr "Potvrzení hesla:"
+
+#: modules/com_myprofile/myprofile.html.php:884
+#: modules/com_person/person.html.php:787
+msgid "Please enter firstname"
+msgstr "Prosím zadejte jméno"
+
+#: modules/com_myprofile/myprofile.html.php:885
+#: modules/com_person/person.html.php:788
+msgid "Please enter surname"
+msgstr "Prosím zadejte příjmení"
+
+#: modules/com_myprofile/myprofile.html.php:886
+#: modules/com_person/person.html.php:789
+msgid "Birthdate is in incorrect format"
+msgstr "Nesprávný fomát u datumu narození"
+
+#: modules/com_myprofile/myprofile.html.php:887
+#: modules/com_person/person.html.php:792
+msgid "Please enter valid E-Mail"
+msgstr "Prosím zadejte validní E-Mail"
+
+#: modules/com_myprofile/myprofile.html.php:889
+#: modules/com_person/person.html.php:794
+msgid "Password is too short"
+msgstr "Heslo je příliž krátké"
+
+#: modules/com_myprofile/myprofile.html.php:895
+#: modules/com_person/person.html.php:800
+msgid "Passwords doesn't match"
+msgstr "Hesla nesouhlasí"
+
+#: modules/com_myprofile/myprofile.index.php:197
+#: modules/com_networkdevice/networkdevice.index.php:311
+#: modules/com_networkdevice/networkdevice.index.php:765
+#: modules/com_person/person.index.php:207
+msgid "User passwords are not same"
+msgstr "Hesla nejsou stejná"
+
+#: modules/com_myprofile/myprofile.index.php:219
+#, php-format
+msgid "User '%s' actualized his profile"
+msgstr "Uživatel '%s' aktualizoval svůj profil"
+
+#: modules/com_network/network.html.php:91
+msgid "Do you really want to delete actual selected network ?"
+msgstr "Opravdu chcete smazat aktuálně vybranou síť ?"
+
+#: modules/com_network/network.html.php:115
+#: modules/com_network/network.html.php:116
+#: modules/com_network/network.html.php:124
+#: modules/com_network/network.html.php:125
+msgid "New network"
+msgstr "Nová síť"
+
+#: modules/com_network/network.html.php:134
+#: modules/com_network/network.html.php:135
+#: modules/com_network/network.html.php:143
+#: modules/com_network/network.html.php:144
+#: modules/com_networkdevice/networkdevice.html.php:1340
+msgid "Edit network"
+msgstr "Edituj síť"
+
+#: modules/com_network/network.html.php:153
+#: modules/com_network/network.html.php:154
+#: modules/com_network/network.html.php:162
+#: modules/com_network/network.html.php:163
+msgid "Delete network"
+msgstr "Smaž siť"
+
+#: modules/com_network/network.html.php:172
+#: modules/com_network/network.html.php:173
+#: modules/com_network/network.html.php:181
+#: modules/com_network/network.html.php:182
+msgid "New IP address"
+msgstr "Nová IP adresa"
+
+#: modules/com_network/network.html.php:191
+#: modules/com_network/network.html.php:192
+#: modules/com_network/network.html.php:200
+#: modules/com_network/network.html.php:201
+msgid "Edit IP address"
+msgstr "Edituj IP adresu"
+
+#: modules/com_network/network.html.php:210
+#: modules/com_network/network.html.php:211
+#: modules/com_network/network.html.php:219
+#: modules/com_network/network.html.php:220
+msgid "Delete IP address"
+msgstr "Smaž IP adresu"
+
+#: modules/com_network/network.html.php:231
+#: modules/com_network/network.html.php:473
+#: modules/com_network/network.html.php:681
+msgid "IP network management"
+msgstr "Správa IP sítí"
+
+#: modules/com_network/network.html.php:249
+msgid "Show IP network headers"
+msgstr "Zobraz hravičky IP sítí"
+
+#: modules/com_network/network.html.php:280
+msgid "Selected network"
+msgstr "Vybraná síť"
+
+#: modules/com_network/network.html.php:281
+#: modules/com_network/network.html.php:791
+msgid "Netmask"
+msgstr "Maska"
+
+#: modules/com_network/network.html.php:282
+msgid "Broadcast"
+msgstr "Broadcast"
+
+#: modules/com_network/network.html.php:284
+#: modules/com_network/network.html.php:305
+#: modules/com_network/network.html.php:562
+#: modules/com_network/network.html.php:793
+msgid "Owner"
+msgstr "Vlastník"
+
+#: modules/com_network/network.html.php:285
+msgid "IP filter device"
+msgstr "Filtrovací zařízení"
+
+#: modules/com_network/network.html.php:303
+msgid "IP"
+msgstr "IP"
+
+#: modules/com_network/network.html.php:304
+msgid "DNS"
+msgstr "DNS"
+
+#: modules/com_network/network.html.php:421
+msgid "Please select IP address"
+msgstr "Prosím vyber IP adresu"
+
+#: modules/com_network/network.html.php:423
+#: modules/com_network/network.html.php:631
+msgid "Please select owner"
+msgstr "Prosím vyberte vlastníka"
+
+#: modules/com_network/network.html.php:473
+msgid "IP address edit"
+msgstr "Editace IP adresy"
+
+#: modules/com_network/network.html.php:500
+#: modules/com_network/network.html.php:708
+#: modules/com_network/network.html.php:736
+msgid "Network address:"
+msgstr "Adresa sítě:"
+
+#: modules/com_network/network.html.php:504
+#: modules/com_network/network.html.php:712
+msgid "Netmask:"
+msgstr "Maska:"
+
+#: modules/com_network/network.html.php:508
+#: modules/com_network/network.html.php:720
+msgid "Owner:"
+msgstr "Vlastník:"
+
+#: modules/com_network/network.html.php:519
+msgid "IPv4 address"
+msgstr "IPv4 adresa"
+
+#: modules/com_network/network.html.php:524
+msgid "IP Address:"
+msgstr "IP adresa:"
+
+#: modules/com_network/network.html.php:548
+msgid "DNS:"
+msgstr "DNS:"
+
+#: modules/com_network/network.html.php:567
+#: modules/com_network/network.html.php:765
+msgid "Owner name:"
+msgstr "Jméno vlastníka:"
+
+#: modules/com_network/network.html.php:570
+#: modules/com_network/network.html.php:768
+msgid "- Choose owner -"
+msgstr "- Vyber vlastníka -"
+
+#: modules/com_network/network.html.php:629
+#: modules/com_networkdevice/networkdevice.html.php:1295
+msgid "Please select network"
+msgstr "Prosím vyberte síť"
+
+#: modules/com_network/network.html.php:681
+msgid "Network edit"
+msgstr "Editace sítě"
+
+#: modules/com_network/network.html.php:703
+msgid "Parent network"
+msgstr "Nadřazená síť"
+
+#: modules/com_network/network.html.php:731
+msgid "Subnet"
+msgstr "Subnet"
+
+#: modules/com_network/network.html.php:787
+msgid "Subnets in parent network"
+msgstr "Podsítě v nadřazené síti"
+
+#: modules/com_network/network.index.php:408
+#: modules/com_network/network.index.php:413
+#, php-format
+msgid "IP: %s in network %s assigned to person '%s'"
+msgstr "IP %s v síti %s přiřazena uživateli '%s'"
+
+#: modules/com_network/network.index.php:437
+#: modules/com_network/network.index.php:445
+msgid "Network address has bad format"
+msgstr "Síťová adresa má špatný formát"
+
+#: modules/com_network/network.index.php:449
+msgid "Cannot create network identical with it's parent'"
+msgstr "Nelze vytvořit síť identickou se svou nadsítí"
+
+#: modules/com_network/network.index.php:469
+msgid "Entered network collide with existing networks"
+msgstr "Zadaná síť koliduje s existující sítí"
+
+#: modules/com_network/network.index.php:472
+msgid "Entered network is not subnetwork of it's parent"
+msgstr "Zadaná síť není podsíť"
+
+#: modules/com_network/network.index.php:500
+#: modules/com_network/network.index.php:505
+#, php-format
+msgid "Network %s assigned to user '%s'"
+msgstr "Síť %s byla přidána uživateli '%s'"
+
+#: modules/com_network/network.index.php:520
+msgid "Select IP address to delete"
+msgstr "Vyber IP adresu pro smazání"
+
+#: modules/com_network/network.index.php:533
+#, php-format
+msgid "IP %s from user %s was deleted"
+msgstr "IP %s uživatele %s byla ostraněna"
+
+#: modules/com_network/network.index.php:566
+#, php-format
+msgid "Network %s from user %s was deleted"
+msgstr "Síť %s uživatele '%s' byla smazána"
+
+#: modules/com_networkdevice/networkdevice.html.php:127
+#: modules/com_networkdevice/networkdevice.html.php:410
+#: modules/com_networkdevice/networkdevice.html.php:903
+#: modules/com_networkdevice/networkdevice.html.php:1037
+#: modules/com_networkdevice/networkdevice.html.php:1220
+#: modules/com_networkdevice/networkdevice.html.php:1340
+msgid "Network devices management"
+msgstr "Správa síťových zařízení"
+
+#: modules/com_networkdevice/networkdevice.html.php:148
+msgid "- Platform -"
+msgstr "- Platforma -"
+
+#: modules/com_networkdevice/networkdevice.html.php:166
+#: modules/com_networkdevice/networkdevice.html.php:432
+msgid "Network device"
+msgstr "Síťové zařízení"
+
+#: modules/com_networkdevice/networkdevice.html.php:167
+#: modules/com_networkdevice/networkdevice.html.php:703
+#: modules/com_networkdevice/networkdevice.html.php:925
+msgid "Network interface"
+msgstr "Síťový interface"
+
+#: modules/com_networkdevice/networkdevice.html.php:168
+msgid "Wireless links"
+msgstr "Bezdrátová spojení"
+
+#: modules/com_networkdevice/networkdevice.html.php:198
+#: modules/com_networkdevice/networkdevice.html.php:441
+msgid "Vendor:"
+msgstr "Výrobce:"
+
+#: modules/com_networkdevice/networkdevice.html.php:200
+#: modules/com_networkdevice/networkdevice.html.php:449
+msgid "Platform:"
+msgstr "Platforma:"
+
+#: modules/com_networkdevice/networkdevice.html.php:202
+#: modules/com_networkdevice/networkdevice.html.php:491
+msgid "Management interface:"
+msgstr "Management interface:"
+
+#: modules/com_networkdevice/networkdevice.html.php:230
+#: modules/com_networkdevice/networkdevice.html.php:774
+#: modules/com_networkdevice/networkdevice.html.php:1081
+msgid "Mode:"
+msgstr "Mód:"
+
+#: modules/com_networkdevice/networkdevice.html.php:231
+#: modules/com_networkdevice/networkdevice.html.php:778
+#: modules/com_networkdevice/networkdevice.html.php:1095
+msgid "SSID:"
+msgstr "SSID:"
+
+#: modules/com_networkdevice/networkdevice.html.php:232
+#: modules/com_networkdevice/networkdevice.html.php:782
+#: modules/com_networkdevice/networkdevice.html.php:1099
+msgid "Frequency domain:"
+msgstr "Frekvenční pásmo:"
+
+#: modules/com_networkdevice/networkdevice.html.php:233
+#: modules/com_networkdevice/networkdevice.html.php:786
+#: modules/com_networkdevice/networkdevice.html.php:1113
+msgid "Frequency (channel):"
+msgstr "Frekvence (kanál):"
+
+#: modules/com_networkdevice/networkdevice.html.php:234
+#: modules/com_networkdevice/networkdevice.html.php:790
+msgid "MAC:"
+msgstr "MAC:"
+
+#: modules/com_networkdevice/networkdevice.html.php:236
+#: modules/com_networkdevice/networkdevice.html.php:722
+#: modules/com_networkdevice/networkdevice.html.php:794
+#: modules/com_networkdevice/networkdevice.html.php:934
+msgid "IP:"
+msgstr "IP:"
+
+#: modules/com_networkdevice/networkdevice.html.php:292
+msgid "Please enter name"
+msgstr "Prosím zadejte název"
+
+#: modules/com_networkdevice/networkdevice.html.php:294
+msgid "Please enter vendor"
+msgstr "Prosím zadejte výrobce"
+
+#: modules/com_networkdevice/networkdevice.html.php:296
+msgid "Please enter type"
+msgstr "Prosím zadejte typ"
+
+#: modules/com_networkdevice/networkdevice.html.php:312
+#: modules/com_networkdevice/networkdevice.html.php:328
+msgid "Do you really want to delete this entry ?"
+msgstr "Opravdu chcete smazat tuto položku ?"
+
+#: modules/com_networkdevice/networkdevice.html.php:343
+msgid "Do you really want to delete this interface ?"
+msgstr "Opravdu chcete smazat tento interface ?"
+
+#: modules/com_networkdevice/networkdevice.html.php:358
+msgid "Do you really want to delete this wireless interface ?"
+msgstr "Opravdu chcete smazat tento bezdrátový interface ?"
+
+#: modules/com_networkdevice/networkdevice.html.php:380
+#: modules/com_networkdevice/networkdevice.html.php:381
+msgid "Test login"
+msgstr "Otestovat login"
+
+#: modules/com_networkdevice/networkdevice.html.php:474
+msgid "SSH2 login"
+msgstr "Přihlášení přes SSH2"
+
+#: modules/com_networkdevice/networkdevice.html.php:479
+msgid "Login:"
+msgstr "Přihlašovací jméno:"
+
+#: modules/com_networkdevice/networkdevice.html.php:494
+msgid "Execute locally"
+msgstr "Spouštět lokálně"
+
+#: modules/com_networkdevice/networkdevice.html.php:513
+msgid "Command enviroment"
+msgstr "Příkazové prostředí"
+
+#: modules/com_networkdevice/networkdevice.html.php:518
+msgid "Use sudo:"
+msgstr "Používat přikaz sudo:"
+
+#: modules/com_networkdevice/networkdevice.html.php:522
+msgid "sudo:"
+msgstr "sudo:"
+
+#: modules/com_networkdevice/networkdevice.html.php:526
+msgid "iptables:"
+msgstr "iptables:"
+
+#: modules/com_networkdevice/networkdevice.html.php:530
+msgid "ip:"
+msgstr "ip:"
+
+#: modules/com_networkdevice/networkdevice.html.php:534
+msgid "tc:"
+msgstr "tc:"
+
+#: modules/com_networkdevice/networkdevice.html.php:545
+msgid "Interfaces"
+msgstr "Rozhraní"
+
+#: modules/com_networkdevice/networkdevice.html.php:550
+msgid "LAN interface:"
+msgstr "LAN rozhraní:"
+
+#: modules/com_networkdevice/networkdevice.html.php:564
+msgid "WAN interface:"
+msgstr "WAN rozhraní:"
+
+#: modules/com_networkdevice/networkdevice.html.php:567
+msgid "None"
+msgstr "Žádný"
+
+#: modules/com_networkdevice/networkdevice.html.php:586
+msgid "QOS"
+msgstr "QOS"
+
+#: modules/com_networkdevice/networkdevice.html.php:591
+msgid "Enable QOS:"
+msgstr "Povolit QOS:"
+
+#: modules/com_networkdevice/networkdevice.html.php:595
+msgid "Internet download bandwidth (kbps):"
+msgstr "Garantovaný download na internet (kbps):"
+
+#: modules/com_networkdevice/networkdevice.html.php:599
+msgid "Internet upload bandwidth (kbps):"
+msgstr "Garantovaný upload na internet (kbps):"
+
+#: modules/com_networkdevice/networkdevice.html.php:610
+msgid "IP filter"
+msgstr "IP filtr"
+
+#: modules/com_networkdevice/networkdevice.html.php:615
+msgid "Enable IP filter:"
+msgstr "Povolit IP filtr:"
+
+#: modules/com_networkdevice/networkdevice.html.php:671
+msgid "Properties"
+msgstr "Vlastnosti"
+
+#: modules/com_networkdevice/networkdevice.html.php:752
+msgid "Wireless interface"
+msgstr "Bezdrátový interface"
+
+#: modules/com_networkdevice/networkdevice.html.php:858
+msgid "Please enter interface name"
+msgstr "Prosím zadejte jméno interface"
+
+#: modules/com_networkdevice/networkdevice.html.php:903
+msgid "Edit network interface"
+msgstr "Editace síťového interface"
+
+#: modules/com_networkdevice/networkdevice.html.php:992
+msgid "Please enter wireless interface name"
+msgstr "Prosím zadejte jméno bezdrátového interface"
+
+#: modules/com_networkdevice/networkdevice.html.php:1037
+msgid "Edit network wireless interface"
+msgstr "Editace síťového bezdrátového interface"
+
+#: modules/com_networkdevice/networkdevice.html.php:1059
+msgid "Network wireless interface"
+msgstr "Bezdrátový síťový interface"
+
+#: modules/com_networkdevice/networkdevice.html.php:1125
+msgid "Mac:"
+msgstr "Mac:"
+
+#: modules/com_networkdevice/networkdevice.html.php:1173
+msgid "Please enter property name"
+msgstr "Prosím zadejte název vlastnosti"
+
+#: modules/com_networkdevice/networkdevice.html.php:1175
+msgid "Please enter property value"
+msgstr "Prosím zadejte hodnotu vlastnosti"
+
+#: modules/com_networkdevice/networkdevice.html.php:1220
+msgid "Edit property"
+msgstr "Editace vlastnosti"
+
+#: modules/com_networkdevice/networkdevice.html.php:1242
+msgid "Property"
+msgstr "Vlastnost"
+
+#: modules/com_networkdevice/networkdevice.html.php:1251
+msgid "Value:"
+msgstr "Hodnota:"
+
+#: modules/com_networkdevice/networkdevice.html.php:1367
+msgid "Network:"
+msgstr "Síť:"
+
+#: modules/com_networkdevice/networkdevice.index.php:320
+msgid "Internet download bandwidth (kbps): is not numeric value"
+msgstr "Garantovaný download na internet (kbps): musí být numerická hodnota"
+
+#: modules/com_networkdevice/networkdevice.index.php:330
+msgid "Internet upload bandwidth (kbps): is not numeric value"
+msgstr "Garantovaný upload na internet (kbps): musí být numerická hodnota"
+
+#: modules/com_networkdevice/networkdevice.index.php:432
+#, php-format
+msgid "Network device '%s' updated"
+msgstr "Síťové zařízení '%s' aktualizováno"
+
+#: modules/com_networkdevice/networkdevice.index.php:437
+#, php-format
+msgid "Network device '%s' saved"
+msgstr "Síťové zařízení '%s' uloženo"
+
+#: modules/com_networkdevice/networkdevice.index.php:467
+#, php-format
+msgid "Network device '%s' deleted"
+msgstr "Síťové zařízení '%s' smazáno"
+
+#: modules/com_networkdevice/networkdevice.index.php:518
+#, php-format
+msgid "Network device network '%s' updated for network device %s"
+msgstr "Spravovaná síť '%s' síťového zařízení '%s' aktualizována"
+
+#: modules/com_networkdevice/networkdevice.index.php:523
+#, php-format
+msgid "Network device network '%s' saved for network device %s"
+msgstr "Spravovaná síť '%s' síťového zařízení '%s' uložena"
+
+#: modules/com_networkdevice/networkdevice.index.php:542
+#, php-format
+msgid "Network device managed network '%s' for network device '%s' deleted"
+msgstr "Spravovaná síť '%s' síťového zařízení '%s' smazána"
+
+#: modules/com_networkdevice/networkdevice.index.php:589
+#, php-format
+msgid "Network interface '%s' updated"
+msgstr "Síťový interface '%s' aktualizován"
+
+#: modules/com_networkdevice/networkdevice.index.php:594
+#, php-format
+msgid "Network interface '%s' saved"
+msgstr "Síťový interface '%s' uložen"
+
+#: modules/com_networkdevice/networkdevice.index.php:611
+#, php-format
+msgid "Network interface '%s' for network device '%s' deleted"
+msgstr "Síťový interface '%s' síťového zařízení '%s' smazán"
+
+#: modules/com_networkdevice/networkdevice.index.php:656
+#, php-format
+msgid "Network wireless interface '%s' updated"
+msgstr "Bezdrátový síťový interface '%s' aktualizován"
+
+#: modules/com_networkdevice/networkdevice.index.php:661
+#, php-format
+msgid "Network wireless interface '%s' saved"
+msgstr "Bezdrátový síťový interface '%s' uložen"
+
+#: modules/com_networkdevice/networkdevice.index.php:678
+#, php-format
+msgid "Network wireless interface '%s' for network device '%s' deleted"
+msgstr "Bezdrátový síťový interface '%s' síťového zařízení '%s' smazán"
+
+#: modules/com_networkdevice/networkdevice.index.php:716
+#, php-format
+msgid "Network device property '%s' updated"
+msgstr "Vlastnost síťového zařízení '%s' aktualizována"
+
+#: modules/com_networkdevice/networkdevice.index.php:721
+#, php-format
+msgid "Network device property '%s' saved"
+msgstr "Vlastnost síťového zařízení '%s' uložena"
+
+#: modules/com_networkdevice/networkdevice.index.php:738
+#, php-format
+msgid "Network device property '%s' for network device '%s' deleted"
+msgstr "Vlastnost '%s' síťového zařízení '%s' smazána"
+
+#: modules/com_networkdevice/networkdevice.index.php:785
+#, php-format
+msgid "Login successfull: ssh %s@%s"
+msgstr "Úspěšné přihlášení: ssh %s@%s"
+
+#: modules/com_networkdevice/networkdevice.index.php:822
+#, php-format
+msgid "iptables not found on specified path %s"
+msgstr "iptables nebyl nalezen na cestě %s"
+
+#: modules/com_networkdevice/networkdevice.index.php:847
+#, php-format
+msgid "Login failed: ssh %s@%s: %s"
+msgstr "Přihlášení selhalo: ssh %s@%s: %s"
+
+#: modules/com_paymentreport/paymentreport.html.php:117
+msgid "- No payment defined -"
+msgstr "- Žádná platba definována -"
+
+#: modules/com_paymentreport/paymentreport.html.php:128
+msgid "Only persons with payment assigned"
+msgstr "Jen uživatelé s platbou"
+
+#: modules/com_paymentreport/paymentreport.html.php:129
+msgid "All persons"
+msgstr "Všichni uživatelé"
+
+#: modules/com_paymentreport/paymentreport.html.php:164
+msgid "Payment"
+msgstr "Platba"
+
+#: modules/com_paymentreport/paymentreport.html.php:169
+msgid "Payment name:"
+msgstr "Jméno platby:"
+
+#: modules/com_paymentreport/paymentreport.html.php:198
+#: modules/com_personaccount/personaccount.html.php:168
+msgid "Balance"
+msgstr "Zůstatek"
+
+#: modules/com_paymentreport/paymentreport.html.php:263
+#: modules/com_paymentreport/paymentreport.html.php:346
+#: modules/com_person/person.html.php:628
+msgid "Payed"
+msgstr "Zaplaceno"
+
+#: modules/com_paymentreport/paymentreport.html.php:274
+#: modules/com_paymentreport/paymentreport.html.php:350
+msgid "Payed with delay"
+msgstr "Zaplaceno se zpožděním"
+
+#: modules/com_paymentreport/paymentreport.html.php:285
+msgid "Pending payments"
+msgstr "Čeká na zaplacení"
+
+#: modules/com_paymentreport/paymentreport.html.php:296
+msgid "Delayed payments"
+msgstr "Zpožděných plateb"
+
+#: modules/com_paymentreport/paymentreport.html.php:307
+msgid "Number of excused payments"
+msgstr "Počet prominutých plateb"
+
+#: modules/com_paymentreport/paymentreport.html.php:318
+#: modules/com_personaccount/personaccount.html.php:166
+msgid "Total income"
+msgstr "Celkový součet příchozích plateb"
+
+#: modules/com_paymentreport/paymentreport.html.php:340
+msgid "Legend"
+msgstr "Legenda"
+
+#: modules/com_paymentreport/paymentreport.html.php:354
+msgid "Pending payment"
+msgstr "Čeká na zaplacení"
+
+#: modules/com_paymentreport/paymentreport.html.php:358
+msgid "Waiting for pay, payment not yet created"
+msgstr "Čeká na zaplacení, platba neni vytvořena"
+
+#: modules/com_paymentreport/paymentreport.html.php:362
+msgid "Delayed payment in tolerance, number described NO of delayed days"
+msgstr "Zpožděná platba v toleranci, číslo znamená počet dnů od termínu platby"
+
+#: modules/com_paymentreport/paymentreport.html.php:366
+msgid "Delayes payment out of tolerance, number describer NO of delayed days"
+msgstr "Zpožděná platba po termínu splatnosti, čísli znamená počet dnů od termínu splatnosti"
+
+#: modules/com_paymentreport/paymentreport.html.php:370
+msgid "Free of charge"
+msgstr "Zkušební doba, zdarma"
+
+#: modules/com_paymentreport/paymentreport.html.php:374
+msgid "Has no charge"
+msgstr "Nemá platbu"
+
+#: modules/com_paymentreport/paymentreport.index.php:169
+#: modules/com_paymentreport/paymentreport.index.php:177
+#: modules/com_paymentreport/paymentreport.index.php:181
+#: modules/com_paymentreport/paymentreport.index.php:238
+#: modules/com_paymentreport/paymentreport.index.php:246
+#: modules/com_paymentreport/paymentreport.index.php:250
+#: modules/com_paymentreport/paymentreport.index.php:325
+#: modules/com_paymentreport/paymentreport.index.php:333
+#: modules/com_paymentreport/paymentreport.index.php:337
+#: modules/com_paymentreport/paymentreport.index.php:412
+#: modules/com_paymentreport/paymentreport.index.php:420
+#: modules/com_paymentreport/paymentreport.index.php:424
+#: modules/com_paymentreport/paymentreport.index.php:497
+#: modules/com_paymentreport/paymentreport.index.php:505
+#: modules/com_paymentreport/paymentreport.index.php:509
+#, php-format
+msgid "+%s day"
+msgid_plural "+%s days"
+msgstr[0] "%s Den"
+msgstr[1] "%s Dny"
+msgstr[2] "%s Dnů"
+
+#: modules/com_person/person.html.php:60
+msgid "Users should not be deleted, just mark as detached. Do you really want to delete selected records ?"
+msgstr "Uživatelé by se něměli mazat, jen označit za vyřazené. Opravdu chcete smazat vybrané položky ?"
+
+#: modules/com_person/person.html.php:105
+#: modules/com_person/person.html.php:414
+#: modules/com_person/person.html.php:892
+msgid "User management"
+msgstr "Správa uživatelů"
+
+#: modules/com_person/person.html.php:154
+msgid "Company short name"
+msgstr "Zkrácený název společnosti"
+
+#: modules/com_person/person.html.php:159
+msgid "Phone"
+msgstr "Telefon"
+
+#: modules/com_person/person.html.php:160
+msgid "ICQ"
+msgstr "ICQ"
+
+#: modules/com_person/person.html.php:161
+msgid "Address"
+msgstr "Adresa:"
+
+#: modules/com_person/person.html.php:163
+msgid "Registered"
+msgstr "Registrován"
+
+#: modules/com_person/person.html.php:197
+msgid "Removed"
+msgstr "Odstraněn"
+
+#: modules/com_person/person.html.php:310
+msgid "Please select role you want to assign"
+msgstr "Prosím vyberte roli, kterou si přejete přiřadit"
+
+#: modules/com_person/person.html.php:324
+msgid "Please select role you want to remove"
+msgstr "Prosím vyberte roli, kterou si přejete odstranit"
+
+#: modules/com_person/person.html.php:353
+msgid "Please select payment want to add"
+msgstr "Prosím vyberte platbu, kterou si přejete přidat"
+
+#: modules/com_person/person.html.php:455
+msgid "IČ:"
+msgstr "IČ:"
+
+#: modules/com_person/person.html.php:459
+msgid "DIČ:"
+msgstr "DIČ:"
+
+#: modules/com_person/person.html.php:463
+msgid "Company short name:"
+msgstr "Zkrácený název společnosti:"
+
+#: modules/com_person/person.html.php:467
+msgid "Company name:"
+msgstr "Název společnosti:"
+
+#: modules/com_person/person.html.php:588
+msgid "Role list:"
+msgstr "List rolí:"
+
+#: modules/com_person/person.html.php:599
+#: modules/com_person/person.html.php:705
+#: modules/com_personaccount/personaccount.html.php:708
+msgid "Remove"
+msgstr "Odstranit"
+
+#: modules/com_person/person.html.php:611
+#: modules/com_person/person.html.php:728
+msgid "Add"
+msgstr "Přidat"
+
+#: modules/com_person/person.html.php:629
+msgid "Active from"
+msgstr "Aktivní od"
+
+#: modules/com_person/person.html.php:630
+msgid "Active to"
+msgstr "Aktivní do"
+
+#: modules/com_person/person.html.php:716
+#: modules/com_personaccount/personaccount.html.php:338
+#: modules/com_personaccount/personaccount.html.php:339
+#: modules/com_personaccount/personaccount.html.php:981
+#: modules/com_personaccount/personaccount.html.php:1053
+msgid "New payment"
+msgstr "Nová platba"
+
+#: modules/com_person/person.html.php:790
+msgid "Username contains invalid characters"
+msgstr "Uživatelské jméno obsahuje nedovolené znaky"
+
+#: modules/com_person/person.html.php:791
+msgid "Username is too short"
+msgstr "Uživatelské jméno je příliž krátké"
+
+#: modules/com_person/person.html.php:892
+msgid "Edit payment service"
+msgstr "Editace placených služeb"
+
+#: modules/com_person/person.html.php:914
+msgid "Payment service"
+msgstr "Placená služba"
+
+#: modules/com_person/person.html.php:919
+msgid "Service name:"
+msgstr "Jméno služby:"
+
+#: modules/com_person/person.html.php:923
+msgid "Service description:"
+msgstr "Popis služby:"
+
+#: modules/com_person/person.html.php:939
+msgid "Amount with VAT:"
+msgstr "Částka s DPH:"
+
+#: modules/com_person/person.html.php:947
+msgid "Tolerance in days:"
+msgstr "Tolerance ve dnech:"
+
+#: modules/com_person/person.html.php:964
+msgid "Service configuration"
+msgstr "Nastavení služby"
+
+#: modules/com_person/person.html.php:969
+msgid "Start date:"
+msgstr "Datum zahájení:"
+
+#: modules/com_person/person.html.php:1080
+#: modules/com_person/person.html.php:1103
+#: modules/com_person/person.html.php:1123
+#: modules/com_person/person.html.php:1143
+msgid "End date:"
+msgstr "Datum ukončení:"
+
+#: modules/com_person/person.html.php:1203
+msgid "Please enter start date"
+msgstr "Prosím zadejte datum začátku"
+
+#: modules/com_person/person.html.php:1204
+msgid "Start date is in incorrect format"
+msgstr "Datum zahájení je v nesprávném fomátu"
+
+#: modules/com_person/person.html.php:1209
+#: modules/com_person/person.html.php:1213
+#: modules/com_person/person.html.php:1218
+#: modules/com_person/person.html.php:1223
+msgid "End date is in incorrect format"
+msgstr "Datum ukončení je v nesprávném fomátu"
+
+#: modules/com_person/person.index.php:195
+msgid "Username already exists"
+msgstr "Uživatelské jméno už existuje"
+
+#: modules/com_person/person.index.php:293
+#, php-format
+msgid "User '%s' updated"
+msgstr "Uživatel '%s' aktualizován"
+
+#: modules/com_person/person.index.php:298
+#, php-format
+msgid "User '%s' saved"
+msgstr "Uživatel '%s' uložen"
+
+#: modules/com_person/person.index.php:323
+#, php-format
+msgid "Cannot delete user '%s' beacause it has associated %s network"
+msgid_plural "Cannot delete user '%s' beacause it has associated %s networks"
+msgstr[0] "Nelze smazat uživatele '%s', jelikož má asociovánu '%s' síť"
+msgstr[1] "Nelze smazat uživatele '%s', jelikož má asociovány '%s' sítě"
+msgstr[2] "Nelze smazat uživatele '%s', jelikož má asociováno '%s' síťí"
+
+#: modules/com_person/person.index.php:337
+#, php-format
+msgid "Cannot delete user '%s' beacause it has associated %s account entry"
+msgid_plural "Cannot delete user '%s' beacause it has associated %s account entries"
+msgstr[0] "Nelze smazat uživatele '%s', jelikož má asociovánu '%s' účetní položku"
+msgstr[1] "Nelze smazat uživatele '%s', jelikož má asociovány '%s' účetní položky"
+msgstr[2] "Nelze smazat uživatele '%s', jelikož má asociováno '%s' účetních položek"
+
+#: modules/com_person/person.index.php:381
+#, php-format
+msgid "User '%s' deleted"
+msgstr "Uživatel '%s' smazán"
+
+#: modules/com_person/person.index.php:412
+#, php-format
+msgid "Role '%s' has been added to user '%s'"
+msgstr "Role '%s' byla přidána uživateli '%s'"
+
+#: modules/com_person/person.index.php:436
+#, php-format
+msgid "Role '%s' has been removed from user '%s'"
+msgstr "Role '%s' byla odebrána uživateli '%s'"
+
+#: modules/com_person/person.index.php:525
+#, php-format
+msgid "Charge '%s' has been removed from user '%s'"
+msgstr "Platba '%s' byla odebrána uživateli '%s'"
+
+#: modules/com_person/person.index.php:565
+#: modules/com_person/person.index.php:580
+#: modules/com_person/person.index.php:595
+#: modules/com_person/person.index.php:610
+#: modules/com_person/person.index.php:625
+#: modules/com_person/person.index.php:637
+#: modules/com_person/person.index.php:649
+#: modules/com_person/person.index.php:660
+#: modules/com_person/person.index.php:672
+#: modules/com_person/person.index.php:683
+#: modules/com_person/person.index.php:695
+#: modules/com_person/person.index.php:706
+#: modules/com_person/person.index.php:718
+#: modules/com_personaccount/personaccount.index.php:573
+msgid "Date is in incorrect format"
+msgstr "Nesprávný fomát datumu"
+
+#: modules/com_person/person.index.php:734
+#, php-format
+msgid "Payment '%s' has been actualized for user '%s'"
+msgstr "Platba '%s' byla aktualizována pro uživatele '%s'"
+
+#: modules/com_person/person.index.php:739
+#, php-format
+msgid "Payment '%s' has been saved for user '%s'"
+msgstr "Platba '%s' byla uložena pro uživatele '%s'"
+
+#: modules/com_personaccount/personaccount.html.php:64
+msgid "Conflicting variable symbols"
+msgstr "Kolidující variabilní symboly"
+
+#: modules/com_personaccount/personaccount.html.php:90
+#: modules/com_personaccount/personaccount.html.php:91
+msgid "Create blank charges"
+msgstr "Vytvořit čekající platby"
+
+#: modules/com_personaccount/personaccount.html.php:97
+#: modules/com_personaccount/personaccount.html.php:98
+msgid "Pay payables"
+msgstr "Zaplatit položky"
+
+#: modules/com_personaccount/personaccount.html.php:149
+msgid "- All accounts -"
+msgstr "- Všechny účty -"
+
+#: modules/com_personaccount/personaccount.html.php:150
+msgid "Accounts with negative bilance"
+msgstr "Účty se zápornou bilancí"
+
+#: modules/com_personaccount/personaccount.html.php:151
+msgid "Accounts with zero bilance"
+msgstr "Účty s nulovou bilancí"
+
+#: modules/com_personaccount/personaccount.html.php:152
+msgid "Account with positive bilance"
+msgstr "Účty s kladnou bilancí"
+
+#: modules/com_personaccount/personaccount.html.php:167
+msgid "Total outbound"
+msgstr "Celkem strženo"
+
+#: modules/com_personaccount/personaccount.html.php:169
+msgid "V.S."
+msgstr "V.S."
+
+#: modules/com_personaccount/personaccount.html.php:170
+msgid "K.S."
+msgstr "K.S."
+
+#: modules/com_personaccount/personaccount.html.php:171
+msgid "S.S."
+msgstr "S.S."
+
+#: modules/com_personaccount/personaccount.html.php:284
+msgid "Return payment for new process ?"
+msgstr "Vrátit platbu k novému zpracování ?"
+
+#: modules/com_personaccount/personaccount.html.php:299
+msgid "Excuse payment and let use service for free for this period ?"
+msgstr "Odpustit platbu a povolit využívat službu bezplatně v daném období ?"
+
+#: modules/com_personaccount/personaccount.html.php:301
+msgid "Ignore payment and disable service for this period ?"
+msgstr "Ignorovat toto období a vypnout službu ?"
+
+#: modules/com_personaccount/personaccount.html.php:303
+msgid "Remove this payment ? It it was already payed, amount is benefited to user's account"
+msgstr "Odstranit tuto položku ? Jestliže byla již zaplacena, peníze se vrátí na účet ?"
+
+#: modules/com_personaccount/personaccount.html.php:361
+msgid "User's account detail"
+msgstr "Detail uživatelského učtu"
+
+#: modules/com_personaccount/personaccount.html.php:383
+#: modules/com_personaccount/personaccount.html.php:842
+#: modules/com_personaccount/personaccount.html.php:981
+#: modules/com_personaccount/personaccount.html.php:1003
+msgid "User's account"
+msgstr "Uživatelský účet"
+
+#: modules/com_personaccount/personaccount.html.php:400
+#: modules/com_personaccount/personaccount.html.php:859
+#: modules/com_personaccount/personaccount.html.php:1020
+msgid "Total income:"
+msgstr "Celkový součet příchozích plateb:"
+
+#: modules/com_personaccount/personaccount.html.php:404
+#: modules/com_personaccount/personaccount.html.php:863
+#: modules/com_personaccount/personaccount.html.php:1024
+msgid "Total outbound:"
+msgstr "Celkem strženo:"
+
+#: modules/com_personaccount/personaccount.html.php:408
+#: modules/com_personaccount/personaccount.html.php:867
+#: modules/com_personaccount/personaccount.html.php:1028
+msgid "Account balance:"
+msgstr "Zůstatek účtu:"
+
+#: modules/com_personaccount/personaccount.html.php:446
+msgid "Variable symbol"
+msgstr "Variabilní symbol"
+
+#: modules/com_personaccount/personaccount.html.php:509
+msgid "Return"
+msgstr "Vrátit"
+
+#: modules/com_personaccount/personaccount.html.php:525
+msgid "Service payments"
+msgstr "Platby služeb"
+
+#: modules/com_personaccount/personaccount.html.php:538
+msgid "Actual state"
+msgstr "Aktuální status"
+
+#: modules/com_personaccount/personaccount.html.php:698
+msgid "Excuse"
+msgstr "Prominout"
+
+#: modules/com_personaccount/personaccount.html.php:820
+msgid "User's account edit"
+msgstr "Editace uživatelského učtu"
+
+#: modules/com_personaccount/personaccount.html.php:940
+msgid "Please enter date in valid format"
+msgstr "Prosím zadejte datum ve správném formátu"
+
+#: modules/com_personaccount/personaccount.html.php:1071
+msgid "Date:"
+msgstr "Datum:"
+
+#: modules/com_personaccount/personaccount.index.php:135
+#, php-format
+msgid "%s has no account"
+msgstr "%s nemá účet"
+
+#: modules/com_personaccount/personaccount.index.php:141
+#: modules/com_personaccount/personaccount.index.php:142
+#, php-format
+msgid "%s %s VS: %s"
+msgstr "%s %s VS: %s"
+
+#: modules/com_personaccount/personaccount.index.php:244
+#, php-format
+msgid "User account from user '%s' updated"
+msgstr "Uživatelský účet uživatele '%s' aktualizován"
+
+#: modules/com_personaccount/personaccount.index.php:250
+#, php-format
+msgid "User account from user '%s' saved"
+msgstr "Uživatelský účet uživatele '%s' uložen"
+
+#: modules/com_personaccount/personaccount.index.php:317
+#: modules/com_personaccount/personaccount.index.php:338
+#: modules/com_personaccount/personaccount.index.php:351
+#, php-format
+msgid "User's '%s' payment with amount %s and date %s has been removed"
+msgstr "Uživateli '%s' byla odebrána platba '%s' pro období %s"
+
+#: modules/com_personaccount/personaccount.index.php:324
+#, php-format
+msgid "Bank entry %s %s %s %s amount %s returned to process"
+msgstr "Bankovní položka %s %s %s %s částka %s vrácena ke zpracování"
+
+#: modules/com_personaccount/personaccount.index.php:408
+#, php-format
+msgid "User's '%s' payment '%s' for period %s was excused"
+msgstr "Uživateli '%s' byla prominuta uživatelská platba '%s' pro období %s"
+
+#: modules/com_personaccount/personaccount.index.php:459
+#, php-format
+msgid "User's '%s' payment '%s' for period %s is ignored"
+msgstr "Uživateli '%s' byla ignorována uživatelská platba '%s' pro období %s"
+
+#: modules/com_personaccount/personaccount.index.php:520
+#, php-format
+msgid "User's '%s' payment '%s' for period %s was removed"
+msgstr "Uživateli '%s' byla odstraněna uživatelská platba '%s' pro období %s"
+
+#: modules/com_personaccount/personaccount.index.php:554
+msgid "Money amount is in incorrect format"
+msgstr "Nesprávný fomát částky"
+
+#: modules/com_personaccount/personaccount.index.php:593
+#, php-format
+msgid "User's '%s' account was benefited with money amount '%s'"
+msgstr "Uživateli '%s' byla vložena na účet částka %s"
+
+#: modules/com_role/role.html.php:102 modules/com_role/role.html.php:239
+msgid "User roles management"
+msgstr "Správa uživatelských rolí"
+
+#: modules/com_role/role.html.php:123
+msgid "Role name"
+msgstr "Název role"
+
+#: modules/com_role/role.html.php:266
+msgid "Role name:"
+msgstr "Název role:"
+
+#: modules/com_role/role.html.php:296
+msgid "Please enter role name"
+msgstr "Prosím zadejte jméno role"
+
+#: modules/com_role/role.index.php:111
+#, php-format
+msgid "Role '%s' updated"
+msgstr "Role '%s' aktualizována"
+
+#: modules/com_role/role.index.php:116
+#, php-format
+msgid "Role '%s' saved"
+msgstr "Skupina '%s' uložena"
+
+#: modules/com_role/role.index.php:140
+#, php-format
+msgid "Cannot delete user role '%s', because it has binded %s user"
+msgid_plural "Cannot delete user role '%s', because it has binded %s users"
+msgstr[0] "Nelze smazat roli '%s', jelikož je asociován '%s' uživatele"
+msgstr[1] "Nelze smazat roli '%s', jelikož má asociovány '%s' uživatele"
+msgstr[2] "Nelze smazat roli '%s', jelikož má asociováno '%s' uživatelů"
+
+#: modules/com_role/role.index.php:151
+#, php-format
+msgid "User role '%s' deleted"
+msgstr "Uživatelská role '%s' smazána"
+
+#: modules/com_scripts/scripts.html.php:68
+#: modules/com_scripts/scripts.html.php:69
+#: modules/com_scripts/scripts.index.php:76
+msgid "IP filter on"
+msgstr "nahodit IP filtr"
+
+#: modules/com_scripts/scripts.html.php:75
+#: modules/com_scripts/scripts.html.php:76
+#: modules/com_scripts/scripts.index.php:104
+msgid "IP filter off"
+msgstr "shodit IP filtr"
+
+#: modules/com_scripts/scripts.html.php:82
+#: modules/com_scripts/scripts.html.php:83
+#: modules/com_scripts/scripts.index.php:130
+msgid "QOS on"
+msgstr "QOS nahodit"
+
+#: modules/com_scripts/scripts.html.php:89
+#: modules/com_scripts/scripts.html.php:90
+#: modules/com_scripts/scripts.index.php:156
+msgid "QOS off"
+msgstr "QOS shodit"
+
+#: modules/com_scripts/scripts.html.php:98
+msgid "Scripts:"
+msgstr "Skripty:"
+
+#: modules/com_scripts/scripts.html.php:98
+msgid "dry run"
+msgstr "spustit nanečisto"
+
+#: modules/com_scripts/scripts.html.php:116
+msgid "Run"
+msgstr "Spustit"
+
+#: site/index.php:46
+msgid "Password minimal length is 6 characters. Please try again."
+msgstr "Mimální délka hesla je 6 znaků. Prosím zkuste znovu."
+
+#: site/index.php:54
+#, php-format
+msgid "Unauthorized login, username: %s"
+msgstr "Neautorizovaný login, uživatelské jméno: %s"
+
+#: site/index.php:55 site/index.php:60
+msgid "Wrong username, password or access rights, please try again"
+msgstr "Spatné uživatelské jméno, heslo nebo přístupová práva, prosím zkuste znovu."
+
+#: site/index.php:59
+#, php-format
+msgid "Incorect password for username: %s"
+msgstr "Nesprávné heslo pro uživatele: %s"
+
+#: site/index2.php:146
+msgid "Internal system error"
+msgstr "Interní chyba systému"
+
+#: site/index2.php:147
+msgid "Supervisor has been informed"
+msgstr "Správce byl informován"
+
+#~ msgid "VAT"
+#~ msgstr "DPH"
+
+#~ msgid "VAT:"
+#~ msgstr "DPH:"
+
+#~ msgid "Email notification not sent, missing email"
+#~ msgstr "E-mailové upozornění neposláno, chybí E-mail"
+
+#~ msgid "ABO-eBanka E-Mail"
+#~ msgstr "ABO-eBanka, výpisy posílané na E-Mail"
+
+#~ msgid "Management interface is not defined"
+#~ msgstr "Management interface není definován"
+
+#~ msgid "View"
+#~ msgstr "Přehled"
+
+#~ msgid "View bank printouts"
+#~ msgstr "Prohlédnout bankovní výpisy"
+
+#~ msgid "Edit bank account entry"
+#~ msgstr "Editovat účetní položku"
+
+#~ msgid "IP Networks"
+#~ msgstr "IP sítě"
+
+#~ msgid "Edit user's account"
+#~ msgstr "Editovat uživatelský účet"
+
+#~ msgid "IP traffic report"
+#~ msgstr "Report IP datových přenosů"
+
+#~ msgid "User scripts"
+#~ msgstr "Uživatelské skripty"
+
+#~ msgid "Charge templates"
+#~ msgstr "Šablony plateb"
+
+#~ msgid "Internet templates"
+#~ msgstr "Šablony internetu"
+
+#~ msgid "Assigned IP addresses"
+#~ msgstr "Přidělené IP adresy"
+
+#~ msgid "User online"
+#~ msgid_plural "Users online"
+#~ msgstr[0] "Uživatel Online"
+#~ msgstr[1] "Uživatelé Online"
+#~ msgstr[2] "Uživatelů Online"
+
+#, fuzzy
+#~ msgid "+1 day"
+#~ msgid_plural "+%s days"
+#~ msgstr[0] "%s Den"
+#~ msgstr[1] "%s Dny"
+#~ msgstr[2] "%s Dnů"
+
+#~ msgid "Management"
+#~ msgstr "Správa"
+
+#~ msgid "IP filter device:"
+#~ msgstr "Filtrovací zařízení:"
+
+#~ msgid "Localhost"
+#~ msgstr "Localhost"
+
+#~ msgid "Linux server/router"
+#~ msgstr "Linux server/router"
+
+#~ msgid "HW AP/Client"
+#~ msgstr "HW AP/Client"
+
+#~ msgid "Assigned networks"
+#~ msgstr "Přidělené IP sítě"
+
+#, fuzzy
+#~ msgid "Management Interface:"
+#~ msgstr "Spravovat šablony plateb"

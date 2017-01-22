@@ -1,0 +1,608 @@
+<?php
+//
+// +----------------------------------------------------------------------+
+// | Stealth ISP QOS system                                               |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 2006-2007 Ing. Lukas Dziadkowiec                       |
+// +----------------------------------------------------------------------+
+// | This source file is part of Stealth ISP QOS system,                  |
+// | see LICENSE for licence details.                                     |
+// +----------------------------------------------------------------------+
+// | Authors: Lukas Dziadkowiec <stealth.home@seznam.cz>                  |
+// +----------------------------------------------------------------------+
+
+/**
+ * @author  Lukas Dziadkowiec <stealth.home@seznam.cz>
+ */
+
+/** ensure this file is being included by a parent file */
+defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
+
+global $core;
+require_once($core->getAppRoot() . "includes/tables/BankAccountEntry.php");
+require_once($core->getAppRoot() . "includes/tables/Group.php");
+require_once($core->getAppRoot() . "includes/dao/BankAccountDAO.php");
+require_once($core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php");
+require_once($core->getAppRoot() . "includes/dao/EmailListDAO.php");
+require_once($core->getAppRoot() . "includes/EmailBankAccountList.php");
+require_once($core->getAppRoot() . "includes/billing/AccountEntryUtil.php");
+require_once('bankaccount.html.php');
+
+$task = Utils::getParam($_REQUEST, 'task', null);
+$bid = Utils::getParam($_REQUEST, 'BA_bankaccountid', null);
+$eid = Utils::getParam($_REQUEST, 'BE_bankaccountentryid', null);
+$lid = Utils::getParam($_REQUEST, 'EL_emaillistid', null);
+$cid = Utils::getParam($_REQUEST, 'cid', array(0));
+if (!is_array($cid)) {
+	$cid = array (0);
+}
+
+switch ($task) {
+//	case 'newBA':
+//		editBankAccount(null);
+//		break;
+
+	case 'editBA':
+		editBankAccount($bid);
+		break;
+
+	case 'saveBA':
+	case 'applyBA':
+ 		saveBankAccount($task);
+		break;
+	
+	case 'cancelUploadBankList':
+	case 'showBankList':
+		showBankList($bid);
+		break;
+		
+	case 'uploadBankLists':
+		uploadBankLists($bid);
+		break;
+	
+	case 'downloadBankLists':
+		downloadBankLists($bid);
+		break;
+	
+	case 'processBankLists':
+		processBankLists($bid);
+		break;
+	
+	case 'processEntries':
+		proceedAccountEntries($bid);
+		break;
+
+	case 'doUploadBankLists':
+		doUploadBankLists($bid);
+		break;
+	
+//	case 'removeB':
+//		removeGroup($cid);
+//		break;
+	
+	case 'editBAE':
+		editBankAccountEntry($eid);
+		break;
+			
+	case 'editBAEA':
+		editBankAccountEntry(intval($cid[0]));
+		break;
+		
+	case 'saveBAE':
+ 		saveBankAccountEntry($task);
+		break;
+		
+	case 'cancel':
+		showBankAccount($bid);
+		break;
+		
+	default:
+		showBankAccount($bid);
+		break;
+}
+
+function showBankAccount($bid = null) {
+	global $database, $mainframe, $acl, $core;
+	require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
+	
+	$filter = array();
+	// get filters
+	//
+	if ($bid) {
+		$_SESSION['UI_SETTINGS']['com_bankaccount']['filter']['BA_bankaccountid'] = $bid;
+	} else {
+		$bid = Utils::getParam($_SESSION['UI_SETTINGS']['com_bankaccount']['filter'], 'BA_bankaccountid', 0);
+	}
+	
+	$filter['entryTypeOfTransaction'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_bankaccount']['filter'], 'entryTypeOfTransaction', -1);
+	$filter['entryStatusOfTransaction'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_bankaccount']['filter'], 'entryStatusOfTransaction', -1);
+	$filter['entryIdentifyCodeOfTransaction'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_bankaccount']['filter'], 'entryIdentifyCodeOfTransaction', -1);
+	$filter['date_from'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_bankaccount']['filter'], 'date_from', null);
+	$filter['date_to'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_bankaccount']['filter'], 'date_to', null);
+	// get limits
+	//
+	$limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_bankaccount'], 'limit', 10);
+	$limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_bankaccount'], 'limitstart', 0);
+	// total count of bankAccounts
+	//
+	$bankAccounts = BankAccountDAO::getBankAccountArray();
+	
+	// get accountentries for this account
+	//
+	if ($bid == 0) {
+		foreach ($bankAccounts as $k => $bankAccount) {
+			$bid = $k;
+			break;
+		}
+	}
+	// compute bank account report
+	//
+	$report = array();
+	$report['GLOBAL']['START'] = $bankAccounts[$bid]->BA_startbalance;
+	$report['LIST']['START'] = "-";
+	
+	$report['GLOBAL']['INCOME'] = 0;
+	$report['LIST']['INCOME'] = 0;
+	
+	$report['GLOBAL']['EXPENSE'] = 0;
+	$report['LIST']['EXPENSE'] = 0;
+	
+	$report['GLOBAL']['CHARGE'] = 0;
+	$report['LIST']['CHARGE'] = 0;
+	
+	$report['GLOBAL']['BALANCE'] = $bankAccounts[$bid]->BA_startbalance;
+	$report['LIST']['BALANCE'] = "-";
+	
+	if (isset($bankAccounts[$bid])) {
+		$allBankAccountEntries = BankAccountEntryDAO::getBankAccountEntryArrayByBankAccountID($bankAccounts[$bid]->BA_bankaccountid);
+	}
+	$dateFrom = new DateUtil();
+	$dateTo = new DateUtil();
+	try {
+		$dateFrom->parseDate($filter['date_from'], DateUtil::FORMAT_DATE);
+	} catch (Exception $e) {}
+	try {
+		$dateTo->parseDate($filter['date_to'], DateUtil::FORMAT_DATE);
+		$dateTo->add(DateUtil::DAY, 1);
+	} catch (Exception $e) {}
+	
+	try {
+		if ($dateFrom->after($dateTo)) {
+			$dateTemp = $dateTo;
+			$dateTo = $dateFrom;
+			$dateFrom = $dateTemp;
+		}
+	} catch (Exception $e) {}
+	
+	$filter['date_from'] = $dateFrom->getFormattedDate(DateUtil::FORMAT_DATE);
+	$filter['date_to'] = $dateTo->getFormattedDate(DateUtil::FORMAT_DATE);
+	
+	$bankAccountEntries = array();
+	foreach ($allBankAccountEntries as $k => $allBankAccountEntry) {
+		if ($allBankAccountEntry->BE_amount > 0) $report['GLOBAL']['INCOME'] += $allBankAccountEntry->BE_amount;
+		if ($allBankAccountEntry->BE_amount < 0) $report['GLOBAL']['EXPENSE'] += $allBankAccountEntry->BE_amount;
+		$report['GLOBAL']['BALANCE'] += $allBankAccountEntry->BE_amount + $allBankAccountEntry->BE_charge;
+		$report['GLOBAL']['CHARGE'] += $allBankAccountEntry->BE_charge;
+		
+		if ($filter['entryTypeOfTransaction'] != -1) {
+			if ($allBankAccountEntry->BE_typeoftransaction != $filter['entryTypeOfTransaction']) continue;
+		}
+		if ($filter['entryStatusOfTransaction'] != -1) {
+			if ($allBankAccountEntry->BE_status != $filter['entryStatusOfTransaction']) continue;
+		}
+		if ($filter['entryIdentifyCodeOfTransaction'] != -1) {
+			if ($allBankAccountEntry->BE_identifycode != $filter['entryIdentifyCodeOfTransaction']) continue;
+		}
+		$dateTime = new DateUtil($allBankAccountEntry->BE_datetime);
+		try {
+			if ($dateFrom->getTime() != null && $dateTime->before($dateFrom)) continue;
+			if ($dateTo->getTime() != null && $dateTime->after($dateTo)) continue;
+		} catch (Exception $e) {}
+		
+		if ($allBankAccountEntry->BE_amount > 0) $report['LIST']['INCOME'] += $allBankAccountEntry->BE_amount;
+		if ($allBankAccountEntry->BE_amount < 0) $report['LIST']['EXPENSE'] += $allBankAccountEntry->BE_amount;
+		$report['LIST']['CHARGE'] += $allBankAccountEntry->BE_charge;
+		$bankAccountEntries[$k] = $allBankAccountEntry;
+	}
+	
+	$pageNav = new PageNav(count($bankAccountEntries), $limitstart, $limit);
+	$bankAccountEntries = array_slice($bankAccountEntries, $limitstart, $limit);
+	
+	foreach ($bankAccountEntries as $k => &$bankAccountEntry) {
+		if ($bankAccountEntry->BE_identifycode == BankAccountEntry::IDENTIFY_PERSONACCOUNT) {
+			$identifyPersons = PersonAccountEntryDAO::getPersonNameArrayByBankAccountEntryID($bankAccountEntry->BE_bankaccountentryid);
+			
+			$bankAccountEntry->userAccountName = "";
+			foreach ($identifyPersons as &$identifyPerson) {
+				$bankAccountEntry->userAccountName .= $identifyPerson->PE_firstname . " " . $identifyPerson->PE_surname;
+			}
+		} else {
+			$bankAccountEntry->userAccountName = "";
+		}
+	}
+	
+	HTML_BankAccount::showEntries($bankAccounts, $bid, $bankAccountEntries, $report, $filter, $pageNav);
+}
+
+function editBankAccount($bid=null) {
+	global $database, $my, $acl;
+	// flags to disable certain fields
+	//
+	$flags = array();
+	if ($bid != null) {
+		// edit, some fields will be disabled
+		//
+		$bankAccount = BankAccountDAO::getBankAccountByID($bid);
+		$flags['BA_bankname'] = false;
+		$flags['BA_banknumber'] = false;
+		$flags['BA_accountname'] = false;
+		$flags['BA_accountnumber'] = false;
+		$flags['BA_iban'] = false;
+		$flags['BA_currency'] = false;
+		$flags['BA_startballance'] = false;
+	} else {
+		// new account
+		//
+		$bankAccount = new BankAccount();
+		$bankAccount->BA_currency = "CZK";
+		$bankAccount->BA_startballance = "0,00";
+		$flags['BA_bankname'] = true;
+		$flags['BA_banknumber'] = true;
+		$flags['BA_accountname'] = true;
+		$flags['BA_accountnumber'] = true;
+		$flags['BA_iban'] = true;
+		$flags['BA_currency'] = true;
+		$flags['BA_startballance'] = true;
+	}
+	HTML_BankAccount::editBankAccount($bankAccount, $flags);
+}
+/**
+ * 
+ */
+function saveBankAccount($task) {
+	global $database, $mainframe, $my, $acl, $appContext;
+
+	$bankAccount = new BankAccount();
+	database::bind($_POST, $bankAccount);
+	
+	$isNew = !$bankAccount->BA_bankaccountid;
+	
+	if ($isNew) {
+		try {
+			$bankAccount->BA_startbalance = NumberFormat::parseMoney($bankAccount->BA_startbalance);
+		} catch (Exception $e) {
+			Core::alert('Nesprávný fomát počátečního zůstatku');
+			$flags = array();
+			if ($isNew) {
+				$flags['BA_bankname'] = true;
+				$flags['BA_banknumber'] = true;
+				$flags['BA_accountname'] = true;
+				$flags['BA_accountnumber'] = true;
+				$flags['BA_iban'] = true;
+				$flags['BA_currency'] = true;
+				$flags['BA_startbalance'] = true;
+			} else {
+				$flags['BA_bankname'] = false;
+				$flags['BA_banknumber'] = false;
+				$flags['BA_accountname'] = false;
+				$flags['BA_accountnumber'] = false;
+				$flags['BA_iban'] = false;
+				$flags['BA_currency'] = false;
+				$flags['BA_startbalance'] = false;
+			}
+			HTML_BankAccount::editBankAccount($bankAccount, $flags);
+			return;
+		}
+		$database->insertObject("bankaccount", $bankAccount, "BA_bankaccountid", false);
+		
+		$accountName = $storedBankAccount->BA_bankname.": ".$storedBankAccount->BA_accountname;
+		$accountName = $bankAccount->BA_accountnumber."/".$bankAccount->BA_banknumber;
+	} else {
+		$bankAccount->BA_bankname = null;
+		$bankAccount->BA_banknumber = null;
+		$bankAccount->BA_accountname = null;
+		$bankAccount->BA_accountnumber = null;
+		$bankAccount->BA_iban = null;
+		$bankAccount->BA_currency = null;
+		$bankAccount->BA_startbalance = null;
+		$database->updateObject("bankaccount", $bankAccount, "BA_bankaccountid", false, false);
+		
+		$storedBankAccount = BankAccountDAO::getBankAccountByID($bankAccount->BA_bankaccountid);
+		
+		$accountName = $storedBankAccount->BA_bankname.": ".$storedBankAccount->BA_accountname;
+		$accountNumber = $storedBankAccount->BA_accountnumber."/".$storedBankAccount->BA_banknumber;
+	}
+	
+	switch ($task) {
+		case 'applyBA':
+			$msg = sprintf(_("Bank account '%s' '%s' updated"), $accountName, $accountNumber);
+			$appContext->insertMessage($msg);
+			$database->log($msg, LOG::LEVEL_INFO);
+			Core::redirect("index2.php?option=com_bankaccount&task=editBA&BA_bankaccountid=$bankAccount->BA_bankaccountid&hidemainmenu=1");
+			break;
+		case 'saveBA':
+			$msg = sprintf(_("Bank account '%s' '%s' saved"), $accountName, $accountNumber);
+			$appContext->insertMessage($msg);
+			$database->log($msg, LOG::LEVEL_INFO);
+		default:
+			Core::redirect("index2.php?option=com_bankaccount&task=show&BA_bankaccountid=$bankAccount->BA_bankaccountid");
+			break;
+	}
+}
+/**
+ * 
+ */
+function showBankList($bid) {
+	global $database, $my, $acl, $core;
+	require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
+	
+	// get limits
+	//
+	$limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_bankaccount'], 'limit', 10);
+	$limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_bankaccount'], 'limitstart', 0);
+	
+	$bankAccount = BankAccountDAO::getBankAccountByID($bid);
+	$emailLists = EmailListDAO::getEmailListArrayByBankAccountID($bid);
+	
+	if (count($emailLists) < $limitstart) {
+		$limitstart = 0;
+		$_SESSION['UI_SETTINGS']['com_bankaccount']['limitstart'] = $limitstart;
+	}
+	
+	$pageNav = new PageNav(count($emailLists), $limitstart, $limit);
+	
+	HTML_BankAccount::showBankList($bankAccount, array_slice($emailLists, $limitstart, $limit), $pageNav);
+}
+/**
+ * 
+ */
+function uploadBankLists($bid) {
+	global $database, $my, $acl, $appContext;
+	
+	if ($my->GR_level != Group::SUPER_ADMININSTRATOR) {
+		$appContext->insertMessage(_("Insuficient rights"));
+		Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
+	}
+	
+	$bankAccount = BankAccountDAO::getBankAccountByID($bid);
+	
+	HTML_BankAccount::uploadBankLists($bankAccount);
+}
+/**
+ * 
+ */
+function downloadBankLists($bid) {
+	global $database, $my, $acl, $appContext;
+	
+	if ($my->GR_level != Group::SUPER_ADMININSTRATOR) {
+		$appContext->insertMessage(_("Insuficient rights"));
+		Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
+	}
+	
+	$bankAccount = BankAccountDAO::getBankAccountByID($bid);
+	// Download new BankAccountLists
+	//
+	$emailBankAccountList = new EmailBankAccountList($bankAccount);
+	
+	try { 
+		$emailBankAccountList->downloadNewAccountLists();
+		$appContext->insertMessages($emailBankAccountList->getMessages());
+	} catch (Exception $e) {
+		$msg = "Error proceeding bank account lists: " . $e->getMessage();
+		$appContext->insertMessage($msg);
+		$database->log($msg, LOG::LEVEL_ERROR);
+	}
+	Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
+}
+/**
+ * 
+ */
+function processBankLists($bid) {
+	global $database, $my, $acl, $appContext;
+	
+	if ($my->GR_level != Group::SUPER_ADMININSTRATOR) {
+		$appContext->insertMessage("Insuficient rights");
+		Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
+	}
+	
+	$bankAccount = BankAccountDAO::getBankAccountByID($bid);
+
+	// Import data from email listing
+	//
+	$emailBankAccountList = new EmailBankAccountList($bankAccount);
+	
+	try {
+		$emailBankAccountList->importBankAccountEntries();
+		$appContext->insertMessages($emailBankAccountList->getMessages());
+	} catch (Exception $e) {
+		$msg = "Error importing bank account entries: " . $e->getMessage();
+		$appContext->insertMessage($msg);
+		$database->log($msg, LOG::LEVEL_ERROR);
+	}
+	
+	Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
+}
+/**
+ * 
+ */
+function proceedAccountEntries($bid) {
+	global $database, $my, $acl, $appContext;
+	
+	if ($my->GR_level != Group::SUPER_ADMININSTRATOR) {
+		Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
+	}
+	
+	$bankAccount = BankAccountDAO::getBankAccountByID($bid);
+
+	$accountEntryUtil = new AccountEntryUtil($bankAccount);
+	
+	try {
+		$accountEntryUtil->proceedAccountEntries();
+		$appContext->insertMessages($accountEntryUtil->getMessages());
+	} catch (Exception $e) {
+		$msg = "Error proceeding bank account entries: " . $e->getMessage();
+		$appContext->insertMessage($msg);
+		$database->log($msg, LOG::LEVEL_ERROR);
+	}
+	
+	Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
+}
+/**
+ * 
+ */
+function doUploadBankLists($bid) {
+	global $database, $my, $acl, $appContext;
+	
+	if ($my->GR_level != Group::SUPER_ADMININSTRATOR) {
+		$appContext->insertMessage(_("Insuficient rights"));
+		Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
+	}
+	
+	$bankAccount = BankAccountDAO::getBankAccountByID($bid);
+	// upload new BankAccountLists
+	//
+	$emailBankAccountList = new EmailBankAccountList($bankAccount);
+	
+	if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_ABO) {
+		$fileType = "text/plain";
+	} else if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_CSOB_XML) {
+		$fileType = "text/xml";
+	} else if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_KB_ABO) {
+		$fileType = "text/plain";
+	} else {
+		Core::redirect("index2.php?option=com_bankaccount&task=uploadBankLists&BA_bankaccountid=$bid&hidemainmenu=1");
+	}
+	
+	if ($_FILES['banklistFile']['type'] != $fileType) {
+		$msg = "Bank list file must be in text/plain format, found: ".$_FILES['banklistFile']['type'];
+		$appContext->insertMessage($msg);
+		$database->log($msg, LOG::LEVEL_ERROR);
+		Core::redirect("index2.php?option=com_bankaccount&task=uploadBankLists&BA_bankaccountid=$bid&hidemainmenu=1");
+	}
+	
+	try {
+		$fileContent = implode("\r\n", file($_FILES['banklistFile']['tmp_name']));
+		
+		$fileContentUTF8 = iconv("windows-1250", "UTF-8", str_replace("windows-1250", "UTF-8", $fileContent));
+		
+		$emailBankAccountList->uploadBankList($_FILES['banklistFile']['name'], $fileContentUTF8);
+		$appContext->insertMessages($emailBankAccountList->getMessages());
+	} catch (Exception $e) {
+		$msg = "Error proceeding bank account lists: " . $e->getMessage();
+		$appContext->insertMessage($msg);
+		$database->log($msg, LOG::LEVEL_ERROR);
+	}
+	
+	Core::redirect("index2.php?option=com_bankaccount&task=uploadBankLists&BA_bankaccountid=$bid&hidemainmenu=1");
+}
+/**
+ * 
+ */
+function editBankAccountEntry($eid=null) {
+	global $database, $my, $acl;
+	
+	$bankAccountEntry = BankAccountEntryDAO::getBankAccountEntryByID($eid);
+	// Do not allow edit proceeded entries
+	//
+	if ($bankAccountEntry->BE_status == BankAccountEntry::STATUS_PROCESSED) {
+		Core::redirect("index2.php?option=com_bankaccount");
+	}
+	$persons = PersonDAO::getPersonWithAccountArray();
+	
+	HTML_BankAccount::editBankAccountEntry($bankAccountEntry, $persons);
+}
+/**
+ * 
+ */
+function saveBankAccountEntry($task) {
+	global $database, $mainframe, $my, $acl, $appContext;
+	
+	$bankAccountEntry = new BankAccountEntry();
+	database::bind($_POST, $bankAccountEntry);
+	
+	$storedBankAccountEntry = BankAccountEntryDAO::getBankAccountEntryByID($bankAccountEntry->BE_bankaccountentryid);
+	
+	if ($bankAccountEntry->BE_status == BankAccountEntry::STATUS_PROCESSED) {
+		Core::redirect("index2.php?option=com_bankaccount&task=show&BA_bankaccountid=$storedBankAccountEntry->BE_bankaccountid");
+	}
+	
+	$bankAccountEntry->BE_status = BankAccountEntry::STATUS_PROCESSED;
+	
+	$dateTime = new DateUtil($storedBankAccountEntry->BE_datetime);
+	
+	if ($bankAccountEntry->BE_identifycode == BankAccountEntry::IDENTIFY_PERSONACCOUNT) {
+		
+		$personaccountids = Utils::getParam($_POST, 'PN_personaccountid', null);
+		
+		$sum = 0;
+		foreach ($personaccountids as $k => $amount) {
+			try {
+				NumberFormat::parseMoney($amount);
+			} catch (Exception $e) {
+				$appContext->insertMessage(_("Amount must be in number format"));
+				Core::redirect("index2.php?option=com_bankaccount&task=editBAE&BA_bankaccountid=$storedBankAccountEntry->BE_bankaccountid&BE_bankaccountentryid=$bankAccountEntry->BE_bankaccountentryid&hidemainmenu=1");
+			}
+			
+			if ($amount < 0) {
+				$appContext->insertMessage(_("Amount must be positive value"));
+				Core::redirect("index2.php?option=com_bankaccount&task=editBAE&BA_bankaccountid=$storedBankAccountEntry->BE_bankaccountid&BE_bankaccountentryid=$bankAccountEntry->BE_bankaccountentryid&hidemainmenu=1");
+			}
+			
+			$sum += $amount;
+		}
+		
+		if ($storedBankAccountEntry->BE_amount != $sum) {
+			$appContext->insertMessage(_("Amount sum doesn't match"));
+			Core::redirect("index2.php?option=com_bankaccount&task=editBAE&BA_bankaccountid=$storedBankAccountEntry->BE_bankaccountid&BE_bankaccountentryid=$bankAccountEntry->BE_bankaccountentryid&hidemainmenu=1");
+		}
+		
+		try {
+			$database->startTransaction();
+			foreach ($personaccountids as $personaccountid => $amount) {
+				$personAccountEntry = new PersonAccountEntry();
+				$personAccountEntry->PN_bankaccountentryid = $storedBankAccountEntry->BE_bankaccountentryid;
+				$personAccountEntry->PN_personaccountid = $personaccountid;
+				$personAccountEntry->PN_date = $storedBankAccountEntry->BE_datetime;
+				$personAccountEntry->PN_amount = $amount;
+				$personAccountEntry->PN_source = PersonAccountEntry::SOURCE_BANKACCOUNT;
+				$personAccountEntry->PN_comment = $storedBankAccountEntry->BE_message;
+				// Get PersonAccount from database and update balance
+				//
+				$personAccount = PersonAccountDAO::getPersonAccountByID($personaccountid);
+				$personAccount->PA_balance += $personAccountEntry->PN_amount;
+				$personAccount->PA_income += $personAccountEntry->PN_amount;
+				
+				$database->startTransaction();
+				$database->updateObject("personaccount", $personAccount, "PA_personaccountid", false, false);
+				// Insert PersonAccountEntry into database
+				//
+				$database->insertObject("personaccountentry", $personAccountEntry, "PN_personaccountentryid", false);
+				// Update BankAccountEntry
+				//
+				$bankAccountEntry->BE_personaccountentryid = $personAccountEntry->PN_personaccountentryid;
+				$database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", false, false);
+				
+				$person = PersonDAO::getPersonByPersonAccountID($personAccount->PA_personaccountid);
+				$msg = sprintf(_("Bank entry %s %s %s %s amount %s credited person account '%s' with %s"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $storedBankAccountEntry->BE_accountnumber."/".$storedBankAccountEntry->BE_banknumber, $storedBankAccountEntry->BE_accountname, $storedBankAccountEntry->BE_message, $storedBankAccountEntry->BE_amount, $person->PE_firstname." ".$person->PE_surname, $personAccountEntry->PN_amount);
+				$appContext->insertMessage($msg);
+				$database->log($msg, LOG::LEVEL_INFO);
+			}
+			$database->commit();
+		} catch (Exception $e) {
+			$database->rollback();
+			throw $e;
+		}
+	} else {
+		$database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", false, false);
+	}
+	
+	switch ($task) {
+		default:
+			$msg = sprintf(_("Bank entry %s %s %s %s amount %s proceed"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $storedBankAccountEntry->BE_accountnumber."/".$storedBankAccountEntry->BE_banknumber, $storedBankAccountEntry->BE_accountname, $storedBankAccountEntry->BE_message, $storedBankAccountEntry->BE_amount);
+			$appContext->insertMessage($msg);
+			$database->log($msg, LOG::LEVEL_INFO);
+			Core::redirect("index2.php?option=com_bankaccount&task=show&BA_bankaccountid=$storedBankAccountEntry->BE_bankaccountid");
+			break;
+	}
+}
+?>
