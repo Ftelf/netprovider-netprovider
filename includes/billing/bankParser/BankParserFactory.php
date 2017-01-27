@@ -30,7 +30,7 @@ class BankParserFactory {
 	 * Constructor BankParserFactory
 	 * @param String $content plain text with list
 	 */
-	public function BankParserFactory($type, $content) {
+	public function __construct($type, $content) {
 		switch ($type) {
 			case BankAccount::DATASOURCE_TYPE_ABO:
 				$this->parser = new ABOParser($content);

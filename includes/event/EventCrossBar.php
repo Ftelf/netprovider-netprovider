@@ -26,8 +26,8 @@ Class EventCrossBar {
 	var $handleEventArray = null;
 	var $templateArray = null;
 	var $emailUtil = null;
-	
-	function EventCrossBar() {
+
+	public function __construct() {
 		global $core, $database;
 		
 		$this->emailUtil = new EmailUtil();

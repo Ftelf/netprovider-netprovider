@@ -28,8 +28,10 @@ class HTML_charge {
 	 * @param $charges
 	 * @param $pageNav
 	 */
-	function showCharges(&$charges, &$internets, &$pageNav) {
+	static function showCharges(&$charges, &$internets, &$pageNav) {
 		global $core;
+		$enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
+		$chargesTableColspan = ($enableVatPayerSpecifics) ? 12 : 10;
 ?>
 <script language="JavaScript" type="text/javascript">
 	function edit(id) {
@@ -121,21 +123,25 @@ class HTML_charge {
     <tr>
       <th width="2%" class="title">#</th>
       <th width="2%" class="title"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo $pageNav->limit; ?>);" /></th>
-      <th width="16%" class="title"><?php echo _("Template name"); ?></th>
+      <th width="20%" class="title"><?php echo _("Template name"); ?></th>
       <th width="7%" class="title"><?php echo _("Write off"); ?></th>
+      <?php if ($enableVatPayerSpecifics) { ?>
       <th width="7%" class="title"><?php echo _("Amount without VAT"); ?></th>
       <th width="7%" class="title"><?php echo _("VAT (%)"); ?></th>
       <th width="7%" class="title"><?php echo _("Amount with VAT"); ?></th>
+      <?php } else { ?>
+      <th width="7%" class="title"><?php echo _("Amount"); ?></th>
+      <?php } ?>
       <th width="5%" class="title"><?php echo _("Currency"); ?></th>
       <th width="7%" class="title"><?php echo _("Tolerance"); ?></th>
       <th width="15%" class="title"><?php echo _("Type"); ?></th>
       <th width="5%" class="title"><?php echo _("Priority"); ?></th>
-      <th width="20%" class="title"><?php echo _("Description"); ?></th>
+      <th class="title"><?php echo _("Description"); ?></th>
     </tr>
     </thead>
     <tfoot>
     <tr>
-      <td colspan="11">
+      <td colspan="<?php echo $chargesTableColspan; ?>">
 <?php
 	echo $pageNav->getListFooter();
 ?>
@@ -162,12 +168,14 @@ class HTML_charge {
       <td>
         <?php echo Charge::getLocalizedPeriod($charge->CH_period); ?>
       </td>
+      <?php if ($enableVatPayerSpecifics) { ?>
       <td>
         <?php echo $charge->CH_baseamount; ?>
       </td>
       <td>
         <?php echo $charge->CH_vat; ?>
       </td>
+      <?php } ?>
       <td>
         <?php echo $charge->CH_amount; ?>
       </td>
@@ -223,8 +231,9 @@ class HTML_charge {
 	 * @param $tolerance
 	 * @param $internets
 	 */
-	function editCharge(&$charge, &$toleranceArray, &$internets) {
+	static function editCharge(&$charge, &$toleranceArray, &$internets) {
 		global $core;
+		$enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
 ?>
 <script language="javascript" type="text/javascript">
 	var IN_name = new Array();
@@ -378,6 +387,7 @@ class HTML_charge {
             </select>
           </td>
         </tr>
+        <?php if ($enableVatPayerSpecifics) { ?>
         <tr>
           <td><?php echo _("Amount without VAT:"); ?></td>
           <td><input type="text" name="CH_baseamount" class="width-form" size="40" value="<?php echo NumberFormat::formatMoney($charge->CH_baseamount);?>" /></td>
@@ -387,9 +397,15 @@ class HTML_charge {
           <td><input type="text" name="CH_vat" class="width-form" size="40" value="<?php echo NumberFormat::formatMoney($charge->CH_vat);?>" /></td>
         </tr>
         <tr>
+          <td><?php echo _("Amount with VAT:"); ?></td>
+          <td><input type="text" name="CH_amount" class="width-form" size="40" value="<?php echo NumberFormat::formatMoney($charge->CH_amount);?>" /></td>
+        </tr>
+        <?php } else { ?>
+        <tr>
           <td><?php echo _("Amount:"); ?></td>
           <td><input type="text" name="CH_amount" class="width-form" size="40" value="<?php echo NumberFormat::formatMoney($charge->CH_amount);?>" /></td>
         </tr>
+        <?php } ?>
         <tr>
           <td><?php echo _("Currency:"); ?></td>
           <td>

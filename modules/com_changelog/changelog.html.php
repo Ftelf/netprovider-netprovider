@@ -25,7 +25,7 @@ class HTML_changelog {
 	/**
 	 * showChangelog
 	 */
-	function showChangelog($changelogText) {
+	static function showChangelog($changelogText) {
 		global $core;
 ?>
 

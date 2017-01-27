@@ -291,6 +291,7 @@ function editNetworkDevice($nid=null) {
 
 function saveNetworkDevice($task) {
 	global $core, $database, $mainframe, $my, $acl, $appContext;
+	$ipv4 = new Net_IPv4();
 
 	$networkDevice = new NetworkDevice();
 	database::bind($_POST, $networkDevice);
@@ -366,8 +367,8 @@ function saveNetworkDevice($task) {
 				try {
 					$ip = IpDAO::getIpByID($networkDeviceInterface->NI_ipid);
 					$network = NetworkDAO::getNetworkByID($ip->IP_networkid);
-					$pNetwork = Net_IPv4::parseAddress($network->NE_net);
-					$pIP = Net_IPv4::parseAddress($ip->IP_address . '/' . $pNetwork->bitmask);
+					$pNetwork = $ipv4->parseAddress($network->NE_net);
+					$pIP = $ipv4->parseAddress($ip->IP_address . '/' . $pNetwork->bitmask);
 				
 					$networkDeviceInterface->ip = $pIP->ip . '/' . $pIP->bitmask;;
 					$networkDeviceInterface->dns = $ip->IP_dns;
@@ -381,8 +382,8 @@ function saveNetworkDevice($task) {
 				try {
 					$ip = IpDAO::getIpByID($networkDeviceWirelessInterface->NW_ipid);
 					$network = NetworkDAO::getNetworkByID($ip->IP_networkid);
-					$pNetwork = Net_IPv4::parseAddress($network->NE_net);
-					$pIP = Net_IPv4::parseAddress($ip->IP_address . '/' . $pNetwork->bitmask);
+					$pNetwork = $ipv4->parseAddress($network->NE_net);
+					$pIP = $ipv4->parseAddress($ip->IP_address . '/' . $pNetwork->bitmask);
 					
 					$networkDeviceWirelessInterface->ip = $pIP->ip . '/' . $pIP->bitmask;
 					$networkDeviceWirelessInterface->dns = $ip->IP_dns;
@@ -768,12 +769,12 @@ function testLogin() {
 		
 		editNetworkDevice($networkDevice->ND_networkdeviceid);
 	}
-	
+
 	try {
 		if ($networkDevice->ND_managementInterfaceId) {
 			$managementInterface = NetworkDeviceInterfaceDAO::getNetworkDeviceInterfaceByID($networkDevice->ND_managementInterfaceId);
 			$managementIp = IpDAO::getIpByID($managementInterface->NI_ipid);
-			
+
 			if ($networkDevice->ND_platform == NetworkDevice::PLATFORM_GNU_LINUX_DEBIAN) {
 				$settings = array();
 				$settings[Executor::REMOTE_HOST] = $managementIp->IP_address;
@@ -790,7 +791,7 @@ function testLogin() {
 				$settings[Executor::REMOTE_HOST] = $managementIp->IP_address;
 				$settings[Executor::LOGIN] = $networkDevice->ND_login;
 				$settings[Executor::PASSWORD] = $networkDevice->ND_password;
-				
+
 				$executor = new Executor(Executor::REMOTE_MIKROTIK_API, $settings, true);
 				
 				$appContext->insertMessage(sprintf(_("Login successfull: mikrotik API %s@%s"), $networkDevice->ND_login, $managementIp->IP_address));
@@ -810,7 +811,7 @@ function testLogin() {
 				
 				$executor = new Executor(Executor::REMOTE_MIKROTIK_API, $settings, true);
 				
-				$appContext->insertMessage(sprintf(_("Login successfull: mikrotik API %s@%s"), $networkDevice->ND_login, $managementIp->IP_address));
+				$appContext->insertMessage(sprintf(_("Login successfull: mikrotik API %s@%s"), $networkDevice->ND_login, '127.0.0.1'));
 			}
 		}
 		
@@ -846,7 +847,7 @@ function testLogin() {
 			}
 		}
 	} catch (Exception $e) {
-		$msg = sprintf(_("Login failed: ssh %s@%s: %s"), $networkDevice->ND_login, $managementIp->IP_address, $e->getMessage());
+		$msg = sprintf(_("Login failed: %s@%s: %s"), $networkDevice->ND_login, $managementIp->IP_address, $e->getMessage());
 		$appContext->insertMessage($msg);
 	}
 	

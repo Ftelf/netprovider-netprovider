@@ -27,7 +27,7 @@ class HTML_internet {
 	 * @param $internet
 	 * @param $pageNav
 	 */
-	function showInternet(&$internets, &$pageNav) {
+	static function showInternet(&$internets, &$pageNav) {
 		global $core;
 ?>
 <script language="JavaScript" type="text/javascript">
@@ -200,7 +200,7 @@ class HTML_internet {
 	 * editInternet
 	 * @param $internet
 	 */
-	function editInternet($internet) {
+	static function editInternet($internet) {
 		global $core;
 ?>
     <script language="javascript" type="text/javascript">

@@ -56,8 +56,8 @@ class LinuxCommander {
 	private $redirectUnknownIP;
 	private $redirectToIP;
 	private $allowedHosts;
-	
-	public function LinuxCommander($networkDevice) {
+
+	public function __construct($networkDevice) {
 		global $core;
 		
 		$this->networkDevice = $networkDevice;

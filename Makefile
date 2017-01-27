@@ -1,5 +1,5 @@
 APPLICATION_SOURCE_PATH = .
-APPLICATION_LOCALES = us_EN.UTF-8 cs_CZ.UTF-8
+APPLICATION_LOCALES = en_US.UTF-8 cs_CZ.UTF-8
 
 
 # ==============================================================================

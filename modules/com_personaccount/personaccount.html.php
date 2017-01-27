@@ -258,6 +258,9 @@ class HTML_PersonAccount {
 	 */
 	static function showPersonAccountDetail(&$person, &$personAccount, &$bankAccountEntries, &$personAccountEntries, &$chargeEntries, &$hasCharges, &$charges) {
 		global $core;
+		$enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
+		$entriesColspan = ($enableVatPayerSpecifics) ? 11 : 9;
+		$enableInvoiceModule = $core->getProperty(Core::ENABLE_INVOICE_MODULE);
 ?>
 <script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
@@ -526,16 +529,20 @@ class HTML_PersonAccount {
     </tr>
     <tr>
       <th width="2%" class="title">#</th>
-      <th width="12%" class="title"><?php echo _("Service name"); ?></th>
+      <th width="14%" class="title"><?php echo _("Service name"); ?></th>
+      <?php if ($enableVatPayerSpecifics) { ?>
       <th width="9%" class="title"><?php echo _("Amount without VAT"); ?></th>
       <th width="9%" class="title"><?php echo _("VAT (%)"); ?></th>
       <th width="9%" class="title"><?php echo _("Amount with VAT"); ?></th>
+      <?php } else { ?>
+      <th width="9%" class="title"><?php echo _("Amount"); ?></th>
+      <?php } ?>
       <th width="9%" class="title"><?php echo _("Currency"); ?></th>
       <th width="9%" class="title"><?php echo _("Write off"); ?></th>
       <th width="9%" class="title"><?php echo _("Since"); ?></th>
       <th width="9%" class="title"><?php echo _("Till"); ?></th>
-      <th width="12%" class="title"><?php echo _("Status"); ?></th>
-      <th width="11%" class="title" colspan="2"><?php echo _("Actual state"); ?></th>
+      <th width="9%" class="title"><?php echo _("Status"); ?></th>
+      <th width="9%" class="title" colspan="2"><?php echo _("Actual state"); ?></th>
     </tr>
     </thead>
     <tbody>
@@ -552,12 +559,14 @@ class HTML_PersonAccount {
       <td>
         <?php echo $charges[$hasCharge->HC_chargeid]->CH_name; ?>
       </td>
+      <?php if ($enableVatPayerSpecifics) { ?>
       <td>
         <?php echo NumberFormat::formatMoney($charges[$hasCharge->HC_chargeid]->CH_baseamount); ?>
       </td>
       <td>
         <?php echo NumberFormat::formatMoney($charges[$hasCharge->HC_chargeid]->CH_vat); ?>
       </td>
+      <?php } ?>
       <td>
         <?php echo NumberFormat::formatMoney($charges[$hasCharge->HC_chargeid]->CH_amount); ?>
       </td>
@@ -602,7 +611,7 @@ class HTML_PersonAccount {
     <tr>
       <td>
       </td>
-      <td colspan="11">
+      <td colspan="<?php echo $entriesColspan; ?>">
     <table class="adminlist">
     <thead>
     <tr>
@@ -613,9 +622,13 @@ class HTML_PersonAccount {
       <th width="7%" class="title"><?php echo _("Date of write off"); ?></th>
       <th width="7%" class="title"><?php echo _("Delayed in days"); ?></th>
       <th width="10%" class="title"><?php echo _("Status"); ?></th>
+      <?php if ($enableVatPayerSpecifics) { ?>
       <th width="10%" class="title"><?php echo _("Amount without VAT"); ?></th>
       <th width="10%" class="title"><?php echo _("VAT (%)"); ?></th>
       <th width="10%" class="title"><?php echo _("Amount with VAT"); ?></th>
+      <?php } else { ?>
+      <th width="10%" class="title"><?php echo _("Amount"); ?></th>
+      <?php } ?>
       <th width="10%" class="title"><?php echo _("Currency"); ?></th>
       <th width="10%" class="title"><?php echo _("Action"); ?></th>
     </tr>
@@ -676,12 +689,14 @@ class HTML_PersonAccount {
       <td>
         <?php echo ChargeEntry::getLocalizedStatus($chargeEntry->CE_status); ?>
       </td>
+      <?php if ($enableVatPayerSpecifics) { ?>
       <td>
         <?php echo NumberFormat::formatMoney($chargeEntry->CE_baseamount); ?>
       </td>
       <td>
         <?php echo NumberFormat::formatMoney($chargeEntry->CE_vat); ?>
       </td>
+      <?php } ?>
       <td>
         <?php echo NumberFormat::formatMoney($chargeEntry->CE_amount); ?>
       </td>
@@ -708,7 +723,7 @@ class HTML_PersonAccount {
           <option value="removeCharge"><?php echo _("Remove"); ?></option>
 <?php
 	}
-	if ($core->getProperty(Core::ENABLE_INVOICE_MODULE) && $chargeEntry->_invoice) {
+	if ($enableInvoiceModule && $chargeEntry->_invoice) {
 ?>
           <option value="generateInvoice"><?php echo _("Invoice"); ?></option>
 <?php
@@ -857,15 +872,15 @@ class HTML_PersonAccount {
     </tr>
     <tr>
       <td><?php echo _("Total income:"); ?></td>
-      <td colspan="2"><?php echo NumberFormat::formatMoney($personAccount->PA_income); ?></td>
+      <td colspan="2"><?php echo NumberFormat::formatMoney($personAccount->PA_income) . " " . $personAccount->PA_currency;; ?></td>
     </tr>
     <tr>
       <td><?php echo _("Total outbound:"); ?></td>
-      <td colspan="2"><?php echo NumberFormat::formatMoney($personAccount->PA_outcome); ?></td>
+      <td colspan="2"><?php echo NumberFormat::formatMoney($personAccount->PA_outcome) . " " . $personAccount->PA_currency;; ?></td>
     </tr>
     <tr>
       <td><?php echo _("Account balance:"); ?></td>
-      <td colspan="2"><?php echo NumberFormat::formatMoney($personAccount->PA_balance); ?></td>
+      <td colspan="2"><?php echo NumberFormat::formatMoney($personAccount->PA_balance) . " " . $personAccount->PA_currency;; ?></td>
     </tr>
     <tr>
       <td><?php echo _("Variable symbol:"); ?></td>

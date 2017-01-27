@@ -162,7 +162,7 @@ function showNetwork() {
 		//
 		$directSubNetworksSorted = array();
 		foreach ($directSubNetworks as $directSubNetwork) {
-			$directSubNetworkParsed = Net_IPv4::parseAddress($directSubNetwork->NE_net);
+			$directSubNetworkParsed = $ipv4->parseAddress($directSubNetwork->NE_net);
 			$directSubNetworksSorted[ip2long($directSubNetworkParsed->network)] = $directSubNetwork;
 		}
 		ksort($directSubNetworksSorted);
@@ -244,6 +244,8 @@ function showNetwork() {
  */
 function editIP($ipid=null, $nid) {
 	global $database, $my, $acl, $appContext;
+	$ipv4 = new Net_IPv4();
+
 	// query for IP if edit or leave blank ip Class
 	//
 	if ($ipid != null) {
@@ -272,7 +274,7 @@ function editIP($ipid=null, $nid) {
 	unset($usedIpList[$ipid]);
 	// If bitmask is 24 or higher, we will create ip list of possible IPs
 	//
-	$networkParsed = Net_IPv4::parseAddress($network->NE_net);
+	$networkParsed = $ipv4->parseAddress($network->NE_net);
 	if ($networkParsed->bitmask >= 24) {
 		// This ipList will contain available options to select
 		//
@@ -315,7 +317,7 @@ function editNetwork($task, $nid=null) {
 		$network = new Network();
 		$parentNetwork = NetworkDAO::getNetworkByID($nid);
 	} else {
-		$msg = "ERROR: mod_network, nedefinovaná akce '$task' s ID '$id'";
+		$msg = "ERROR: mod_network, nedefinovaná akce '$task' s ID '$nid'";
 		$appContext->insertMessage($msg);
 		$database->log($msg, LOG::LEVEL_ERROR);
 		Core::redirect("index2.php?option=com_network&NE_networkid=$nid");
@@ -344,12 +346,12 @@ function editNetwork($task, $nid=null) {
 	// Get list of all possible subnetwork combinations if we create new network
 	//
 	if ($task == 'newN') {
-		$parentNetworkParsed = Net_IPv4::parseAddress($parentNetwork->NE_net);
+		$parentNetworkParsed = $ipv4->parseAddress($parentNetwork->NE_net);
 		if ($parentNetworkParsed->bitmask >= 24) {
 			$possibleNetworkArray = getFreeSubNetworks($parentNetwork->NE_net, $plainSubNetworks);
 			if (sizeof($possibleNetworkArray) == 0) {
 				$database->log("ERROR: mod_network, pokus vložit novou podsíť do sítě, kde již není místo ID '$parentNetwork->NE_networkid' síť '$parentNetwork->NE_net'", LOG::LEVEL_ERROR);
-				Core::redirect("index2.php?option=com_network&NE_networkid=$id");
+				Core::redirect("index2.php?option=com_network&NE_networkid=$nid");
 			}
 			$flags['NE_net'] = "LIST";
 		} else {
@@ -360,7 +362,7 @@ function editNetwork($task, $nid=null) {
 				$msg = "ERROR: mod_network, pokus vložit novou podsíť do sítě, kde již není místo ID '$parentNetwork->NE_networkid' síť '$parentNetwork->NE_net'";
 				$appContext->insertMessage($msg);
 				$database->log($msg, LOG::LEVEL_ERROR);
-				Core::redirect("index2.php?option=com_network&NE_networkid=$id");
+				Core::redirect("index2.php?option=com_network&NE_networkid=$nid");
 			}
 		}
 	} else {
@@ -427,6 +429,7 @@ function saveIP($task, $iid, $nid) {
 function saveNetwork($task) {
 	global $database, $mainframe, $my, $acl, $appContext;
 
+	$ipv4 = new Net_IPv4();
 	$network = new Network();
 	$parentNetwork = new Network();
 	$person = new Person();
@@ -435,22 +438,22 @@ function saveNetwork($task) {
 	
 	// Validate network format
 	//
-	if (!Net_IPv4::parseAddress($network->NE_net)) {
+	if (!$ipv4->parseAddress($network->NE_net)) {
 		Core::backWithAlert(_("Network address has bad format"));//'Zadaná síť má špatný formát'
 	}
 	// get parent network
 	//
 	$parentNetwork = NetworkDAO::getNetworkByID($network->NE_parent_networkid);
 	
-	$parentNetworkParsed = Net_IPv4::parseAddress($parentNetwork->NE_net);
-	if (($networkParsed = Net_IPv4::parseAddress($network->NE_net)) instanceof PEAR_Error) {
+	$parentNetworkParsed = $ipv4->parseAddress($parentNetwork->NE_net);
+	if (($networkParsed = $ipv4->parseAddress($network->NE_net)) instanceof PEAR_Error) {
 		Core::backWithAlert(_("Network address has bad format"));//'Zadaná síť má špatný formát'
 	}
 	if ($isNew) {
 		if ($parentNetworkParsed->network == $networkParsed->network && $parentNetworkParsed->bitmask == $networkParsed->bitmask) {
 			Core::backWithAlert(_("Cannot create network identical with it's parent'"));//"Nelze vytvořit identickou síť se svou nadsítí"
 		} else {
-			if (($parentNetworkParsed->long <= $networkParsed->long) && (Net_IPv4::ip2double($networkParsed->broadcast) <= Net_IPv4::ip2double($parentNetworkParsed->broadcast))) {
+			if (($parentNetworkParsed->long <= $networkParsed->long) && ($ipv4->ip2double($networkParsed->broadcast) <= $ipv4->ip2double($parentNetworkParsed->broadcast))) {
 				// Load all direct subNetworks
 				//
 				if (($directSubNetworks = NetworkDAO::getNetworkArrayByParentNetworkID($parentNetwork->NE_networkid)) == null) $subNetworks = array();
@@ -458,7 +461,7 @@ function saveNetwork($task) {
 				//
 				$directSubNetworksSorted = array();
 				foreach ($directSubNetworks as $directSubNetwork) {
-					$subNetworkParsed = Net_IPv4::parseAddress($directSubNetwork->NE_net);
+					$subNetworkParsed = $ipv4->parseAddress($directSubNetwork->NE_net);
 					$directSubNetworksSorted[ip2long($subNetworkParsed->network)] = $directSubNetwork;
 				}
 				ksort($directSubNetworksSorted);
@@ -484,7 +487,7 @@ function saveNetwork($task) {
 			$msg = "ERROR: pokus o post pozměněné sítě ID '$networkFromDatabase->NE_networkid' v síti '$network->NE_net' přidána uživateli '$person->PE_firstname $person->PE_surname'";
 			$appContext->insertMessage($msg);
 			$database->log($msg, LOG::LEVEL_ERROR);
-			Core::redirect("index2.php?option=com_network&task=editI&IP_ipid=$ip->IP_ipid&NE_networkid=$nid&hidemainmenu=1");
+			Core::redirect("index2.php?option=com_network&task=editN&NE_networkid=$network->NE_networkid&hidemainmenu=1");
 		}
 	}
 
@@ -629,7 +632,10 @@ function findLeafSubnets(&$nid, &$networkTree, &$foundSubnets, $found) {
  * @return array of possible network permutations of free subnetworks
  */
 function getFreeSubNetworks(&$n1, &$n2Array) {
-	$np1 = Net_IPv4::parseAddress($n1);
+	global $database;
+	$ipv4 = new Net_IPv4();
+
+	$np1 = $ipv4->parseAddress($n1);
 	if (sizeof($n2Array) == 0) {
 		return subNetworkPermutation($np1, false);	
 	}
@@ -638,8 +644,8 @@ function getFreeSubNetworks(&$n1, &$n2Array) {
 	$innerNets = array();
 	$countBefore = sizeof($n2Array);
 	foreach ($n2Array as $n2) {
-		$np2 = Net_IPv4::parseAddress($n2);
-		if ( ($np1->long <= $np2->long) && (Net_IPv4::ip2double($np2->broadcast) <= Net_IPv4::ip2double($np1->broadcast)) ) {
+		$np2 = $ipv4->parseAddress($n2);
+		if ( ($np1->long <= $np2->long) && ($ipv4->ip2double($np2->broadcast) <= $ipv4->ip2double($np1->broadcast)) ) {
 			$innerNets[] = $np2;
 		}
 	}
@@ -659,7 +665,7 @@ function getFreeSubNetworks(&$n1, &$n2Array) {
 		if ($n2long > $lastAnchor) {
 			$freeNets = array_merge($freeNets, subNetworkPermutationByRange(long2ip($lastAnchor), $np2->network, true));
 		}
-		$lastAnchor = Net_IPv4::ip2double($np2->broadcast) + 1;
+		$lastAnchor = $ipv4->ip2double($np2->broadcast) + 1;
 	}
 	// Finally add last one
 	//
@@ -695,12 +701,14 @@ function subNetworkPermutation($networkParsed, $self) {
  * @return array of available permutations
  */
 function subNetworkPermutationByRange($n1, $n2, $self) {
+	$ipv4 = new Net_IPv4();
+
 	$nl1 = ip2long($n1);
 	$nl2 = ip2long($n2);
 	$bm = 32 - ceil(log($nl2 - $nl1) / log(2));
 
 	$networkPermutations = array();
-	$n1Parsed = Net_IPv4::parseAddress($n1 . "/" . $bm);
+	$n1Parsed = $ipv4->parseAddress($n1 . "/" . $bm);
 	
 	$netStart = ip2long($n1Parsed->network);
 	$netEnd = ip2long($n2);
@@ -724,7 +732,11 @@ function subNetworkPermutationByRange($n1, $n2, $self) {
  * @return true if there is any place for new network 
  */
 function isAnyFreeSubNetworks(&$n1, &$n2Array) {
-	$np1 = Net_IPv4::parseAddress($n1);
+	global $database;
+
+	$ipv4 = new Net_IPv4();
+
+	$np1 = $ipv4->parseAddress($n1);
 	if (sizeof($n2Array) == 0) {
 		return ($np1->bitmask < 30);
 	}
@@ -733,8 +745,8 @@ function isAnyFreeSubNetworks(&$n1, &$n2Array) {
 	$innerNets = array();
 	$countBefore = sizeof($n2Array);
 	foreach ($n2Array as $n2) {
-		$np2 = Net_IPv4::parseAddress($n2);
-		if ( ($np1->long <= $np2->long) && (Net_IPv4::ip2double($np2->broadcast) <= Net_IPv4::ip2double($np1->broadcast)) ) {
+		$np2 = $ipv4->parseAddress($n2);
+		if ( ($np1->long <= $np2->long) && ($ipv4->ip2double($np2->broadcast) <= $ipv4->ip2double($np1->broadcast)) ) {
 			$innerNets[] = $np2;
 		}
 	}
@@ -754,11 +766,11 @@ function isAnyFreeSubNetworks(&$n1, &$n2Array) {
 		if ($n2long > $lastAnchor) {
 			return true;
 		}
-		$lastAnchor = Net_IPv4::ip2double($np2->broadcast) + 1;
+		$lastAnchor = $ipv4->ip2double($np2->broadcast) + 1;
 	}
 	// Finally try last one
 	//
-	if (Net_IPv4::ip2double($np2->broadcast) < Net_IPv4::ip2double($np1->broadcast)) {
+	if ($ipv4->ip2double($np2->broadcast) < $ipv4->ip2double($np1->broadcast)) {
 		return true;
 	}
 	return false;
@@ -773,10 +785,14 @@ function isAnyFreeSubNetworks(&$n1, &$n2Array) {
  * @return true if there is any place for new network 
  */
 function isSpaceForSubNetwork(&$n1, &$n2Array, &$nn) {
-	$np1 = Net_IPv4::parseAddress($n1);
-	$nnp = Net_IPv4::parseAddress($nn);
+	global $database;
+
+	$ipv4 = new Net_IPv4();
+
+	$np1 = $ipv4->parseAddress($n1);
+	$nnp = $ipv4->parseAddress($nn);
 	if (sizeof($n2Array) == 0) {
-		if ( ($np1->long <= $nnp->long) && (Net_IPv4::ip2double($nnp->broadcast) <= Net_IPv4::ip2double($np1->broadcast)) ) {
+		if ( ($np1->long <= $nnp->long) && ($ipv4->ip2double($nnp->broadcast) <= $ipv4->ip2double($np1->broadcast)) ) {
 			return true;
 		}
 	}
@@ -785,8 +801,8 @@ function isSpaceForSubNetwork(&$n1, &$n2Array, &$nn) {
 	$innerNets = array();
 	$countBefore = sizeof($n2Array);
 	foreach ($n2Array as $n2) {
-		$np2 = Net_IPv4::parseAddress($n2);
-		if ( ($np1->long <= $np2->long) && (Net_IPv4::ip2double($np2->broadcast) <= Net_IPv4::ip2double($np1->broadcast)) ) {
+		$np2 = $ipv4->parseAddress($n2);
+		if ( ($np1->long <= $np2->long) && ($ipv4->ip2double($np2->broadcast) <= $ipv4->ip2double($np1->broadcast)) ) {
 			$innerNets[] = $np2;
 		}
 	}
@@ -803,16 +819,16 @@ function isSpaceForSubNetwork(&$n1, &$n2Array, &$nn) {
 	foreach ($innerNets as $np2) {
 		$n2long = $np2->long;
 		if ($n2long > $lastAnchor) {
-			if ( ($lastAnchor <= $nnp->long) && ((Net_IPv4::ip2double($nnp->broadcast) + 1) <= Net_IPv4::ip2double($np2->network)) ) {
+			if ( ($lastAnchor <= $nnp->long) && (($ipv4->ip2double($nnp->broadcast) + 1) <= $ipv4->ip2double($np2->network)) ) {
 				return true;
 			}
 		}
-		$lastAnchor = Net_IPv4::ip2double($np2->broadcast) + 1;
+		$lastAnchor = $ipv4->ip2double($np2->broadcast) + 1;
 	}
 	// Finally try last one
 	//
-	if (Net_IPv4::ip2double($np2->broadcast) < Net_IPv4::ip2double($np1->broadcast)) {
-		if ( ($lastAnchor <= $nnp->long) && (Net_IPv4::ip2double($nnp->broadcast) <= Net_IPv4::ip2double($np1->broadcast)) ) {
+	if ($ipv4->ip2double($np2->broadcast) < $ipv4->ip2double($np1->broadcast)) {
+		if ( ($lastAnchor <= $nnp->long) && ($ipv4->ip2double($nnp->broadcast) <= $ipv4->ip2double($np1->broadcast)) ) {
 			return true;
 		}
 	}

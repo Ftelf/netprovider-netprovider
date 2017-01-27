@@ -26,7 +26,6 @@ require_once("invoice.html.php");
 require_once($core->getAppRoot() . "includes/dao/InvoiceDAO.php");
 
 $task = Utils::getParam($_REQUEST, 'task', null);
-//$iid = Utils::getParam($_REQUEST, 'IN_invoiceid', null);
 $cid = Utils::getParam($_REQUEST, 'cid', array(0));
 if (!is_array($cid)) {
 	$cid = array (0);

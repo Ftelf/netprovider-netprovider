@@ -24,7 +24,7 @@ class HTML_log {
 	 * @param $log
 	 * @param $pageNav
 	 */
-	function showLog(&$logs, &$persons, &$pageNav, &$filter) {
+	static function showLog(&$logs, &$persons, &$pageNav, &$filter) {
 		global $core;
 ?>
 <script type="text/javascript" language="javascript" src="js/CalendarPopup.js"></script>

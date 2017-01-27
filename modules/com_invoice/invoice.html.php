@@ -29,7 +29,7 @@ class HTML_invoice {
 	 * @param $persons
 	 * @param $pageNav
 	 */
-	function showInvoices(&$invoices, &$groups, &$pageNav, &$filter) {
+	static function showInvoices(&$invoices, &$groups, &$pageNav, &$filter) {
 		global $core;
 ?>
 <script type="text/javascript" language="javascript" src="js/CalendarPopup.js"></script>

@@ -84,7 +84,7 @@
 
           <div class="login-text">
             <div class="ctr"><img src="images/64x64/mimetypes/encrypted.png" width="64" height="64" alt="security" /></div>
-            <p><?php echo _("Wellcome to Net Provider"); ?></p>
+            <p><?php echo _("Welcome to Net Provider"); ?></p>
             <p><?php echo _("Please use valid username and password to gain access into the system."); ?></p>
           </div>
 

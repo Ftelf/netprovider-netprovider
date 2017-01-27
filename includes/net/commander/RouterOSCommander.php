@@ -56,8 +56,8 @@ class RouterOSCommander {
 	private $redirectUnknownIP;
 	private $redirectToIP;
 	private $allowedHosts;
-	
-	public function RouterOSCommander($networkDevice) {
+
+	public function __construct($networkDevice) {
 		global $core;
 		
 		$this->networkDevice = $networkDevice;
@@ -88,7 +88,6 @@ class RouterOSCommander {
 		
 		$filterOutIpCmd = array("/ip/firewall/filter/print", "?=chain=FILTER-OUT", "?=action=accept", "=stats=");
 		$filterOutIpResult = $executor->execute($filterOutIpCmd);
-		
 		foreach ($filterOutIpResult[1] as $filterOutIp) {
 			if (isset($ipArray[$filterOutIp['src-address']])) {
 				$ipArray[$filterOutIp['src-address']]['bytes-out'] = $filterOutIp['bytes'];
@@ -164,81 +163,27 @@ class RouterOSCommander {
 		$filterArray = $executor->execute($cmd);
 		$cmds[] = $filterArray;
 		
-		$idList = '';
-		foreach ($filterArray[1] as $response) {
-			$idList .= $response['.id'] . ',';
-		}
-
 		if (count($filterArray[1])) {
-			$cmd = array("/ip/firewall/filter/remove", sprintf("=numbers=%s", rtrim($idList, ',')));
+			$idArray = array_column($filterArray[1], '.id');
+			$ids = implode(',', $idArray);
+
+			$cmd = array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids));
 			$cmds[] = $executor->execute($cmd);
 		}
-		
+
+
 		$cmd = array("/ip/firewall/filter/print", "?chain=FILTER-OUT", "=.proplist=.id");
 		$filterArray = $executor->execute($cmd);
 		$cmds[] = $filterArray;
-		
-		$idList = '';
-		foreach ($filterArray[1] as $response) {
-			$idList .= $response['.id'] . ',';
-		}
-		
+
 		if (count($filterArray[1])) {
-			$cmd = array("/ip/firewall/filter/remove", sprintf("=numbers=%s", rtrim($idList, ',')));
+			$idArray = array_column($filterArray[1], '.id');
+			$ids = implode(',', $idArray);
+
+			$cmd = array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids));
 			$cmds[] = $executor->execute($cmd);
 		}
-		
-		
-// 		foreach ($filterINJumpArray[1] as $filterINJump) {
-// 			if ($filterINJump['chain'] == 'forward' && $filterINJump['action'] == 'jump' && $filterINJump['jump-target'] == 'FILTER-IN' && $filterINJump['in-interface'] == $wanInterface) {
-// 				$cmd = array("/ip/firewall/filter/remove", sprintf("=.id=%s", $filterINJump['.id']));
-// 				$cmds[] = $executor->execute($cmd);
-// 			}
-// 		}
-		
-// 		$cmd = array("/ip/firewall/filter/print");
-// 		$filterOUTJumpArray = $executor->execute($cmd);
-		
-// 		$cmds[] = $filterOUTJumpArray;
-		
-// 		foreach ($filterOUTJumpArray[1] as $filterOUTJump) {
-// 			if ($filterOUTJump['chain'] == 'forward' && $filterOUTJump['action'] == 'jump' && $filterOUTJump['jump-target'] == 'FILTER-OUT' && $filterOUTJump['out-interface'] == $wanInterface) {
-// 				$cmd = array("/ip/firewall/filter/remove", sprintf("=.id=%s", $filterOUTJump['.id']));
-// 				$cmds[] = $executor->execute($cmd);
-// 			}
-// 		}
 
-// 		$cmd = array("/ip/firewall/filter/print", "=where=","=chain=FILTER-IN");
-// 		$filterINArray = $executor->execute($cmd);
-		
-// 		$cmds[] = $filterINArray;
-		
-// 		foreach ($filterINArray[1] as $filterIN) {
-// 			$cmd = array("/ip/firewall/filter/remove", sprintf("=.id=%s", $filterIN['.id']));
-// 			$cmds[] = $executor->execute($cmd);
-// 		}
-		
-// 		$cmd = array("/ip/firewall/filter/print", "=where=","=chain=FILTER-OUT");
-// 		$filterOUTArray = $executor->execute($cmd);
-		
-// 		$cmds[] = $filterOUTArray;
-		
-// 		foreach ($filterOUTArray[1] as $filterIN) {
-// 			$cmd = array("/ip/firewall/filter/remove", sprintf("=.id=%s", $filterIN['.id']));
-// 			$cmds[] = $executor->execute($cmd);
-// 		}
-		
-//		exit();		
-		
-//		$cmds[] = sprintf("%s -F FILTER-IN 2>/dev/null", $iptablesCommand);
-//		$cmds[] = sprintf("%s -F FILTER-OUT 2>/dev/null", $iptablesCommand);
-//		
-//		$cmds[] = sprintf("%s -X FILTER-IN 2>/dev/null", $iptablesCommand);
-//		$cmds[] = sprintf("%s -X FILTER-OUT 2>/dev/null", $iptablesCommand);
-//		
-//		$cmds[] = sprintf("%s -t nat -F WEB-REDIRECT 2>/dev/null", $iptablesCommand);
-//		$cmds[] = sprintf("%s -t nat -X WEB-REDIRECT 2>/dev/null", $iptablesCommand);
-		
 		return self::parseArrayReadable($cmds);
 	}
 	

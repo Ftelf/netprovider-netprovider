@@ -27,7 +27,7 @@ class HTML_handleevent {
 	 * @param $groups
 	 * @param $pageNav
 	 */
-	function showHandleEvents(&$handleevents, &$persons, &$pageNav) {
+	static function showHandleEvents(&$handleevents, &$persons, &$pageNav) {
 		global $core;
 ?>
 <script language="JavaScript" type="text/javascript">
@@ -203,7 +203,7 @@ class HTML_handleevent {
 	 * editGroup
 	 * @param $group
 	 */
-	function editHandleEvent($handleEvent, $persons, $templates) {
+	static function editHandleEvent($handleEvent, $persons, $templates) {
 		global $core;
 ?>
 <script language="javascript" type="text/javascript">

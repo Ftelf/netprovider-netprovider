@@ -295,8 +295,8 @@ function saveBankAccount($task) {
 		}
 		$database->insertObject("bankaccount", $bankAccount, "BA_bankaccountid", false);
 		
-		$accountName = $storedBankAccount->BA_bankname.": ".$storedBankAccount->BA_accountname;
-		$accountName = $bankAccount->BA_accountnumber."/".$bankAccount->BA_banknumber;
+		$accountName = $bankAccount->BA_bankname.": ".$bankAccount->BA_accountname;
+		$accountNumber = $bankAccount->BA_accountnumber."/".$bankAccount->BA_banknumber;
 	} else {
 		$bankAccount->BA_bankname = null;
 		$bankAccount->BA_banknumber = null;

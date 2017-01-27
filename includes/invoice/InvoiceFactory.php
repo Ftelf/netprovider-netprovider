@@ -9,8 +9,8 @@ require_once($core->getAppRoot() . "includes/invoice/style1Invoice/Style1Invoice
  */
 Class InvoiceFactory {
 	private $invoice = null;
-	
-	function InvoiceFactory($iid) {
+
+	public function __construct($iid) {
 		$this->invoice = new DefaultInvoice($iid);
 		$this->invoice->generate();
 	}

@@ -8,7 +8,7 @@ class HTML_Configuration {
 	 * showConfiguration
 	 * @param $conf
 	 */
-	function showConfiguration(&$conf) {
+	static function showConfiguration(&$conf) {
 		global $core;
 ?>
 

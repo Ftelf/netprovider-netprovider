@@ -2,19 +2,16 @@
 //============================================================+
 // File name   : example_011.php
 // Begin       : 2008-03-04
-// Last Update : 2009-01-02
-// 
+// Last Update : 2013-05-14
+//
 // Description : Example 011 for TCPDF class
-//               Colored Table
-// 
+//               Colored Table (very simple table)
+//
 // Author: Nicola Asuni
-// 
+//
 // (c) Copyright:
 //               Nicola Asuni
-//               Tecnick.com s.r.l.
-//               Via Della Pace, 11
-//               09044 Quartucciu (CA)
-//               ITALY
+//               Tecnick.com LTD
 //               www.tecnick.com
 //               info@tecnick.com
 //============================================================+
@@ -24,18 +21,15 @@
  * @package com.tecnick.tcpdf
  * @abstract TCPDF - Example: Colored Table
  * @author Nicola Asuni
- * @copyright 2004-2009 Nicola Asuni - Tecnick.com S.r.l (www.tecnick.com) Via Della Pace, 11 - 09044 - Quartucciu (CA) - ITALY - www.tecnick.com - info@tecnick.com
- * @link http://tcpdf.org
- * @license http://www.gnu.org/copyleft/lesser.html LGPL
  * @since 2008-03-04
  */
 
-require_once('../config/lang/eng.php');
-require_once('../tcpdf.php');
+// Include the main TCPDF library (search for installation path).
+require_once('tcpdf_include.php');
 
 // extend TCPF with custom functions
 class MYPDF extends TCPDF {
-	
+
 	// Load table data from file
 	public function LoadData($file) {
 		// Read file lines
@@ -46,7 +40,7 @@ class MYPDF extends TCPDF {
 		}
 		return $data;
 	}
-	
+
 	// Colored table
 	public function ColoredTable($header,$data) {
 		// Colors, line width and bold font
@@ -57,8 +51,10 @@ class MYPDF extends TCPDF {
 		$this->SetFont('', 'B');
 		// Header
 		$w = array(40, 35, 40, 45);
-		for($i = 0; $i < count($header); $i++)
-		$this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', 1);
+		$num_headers = count($header);
+		for($i = 0; $i < $num_headers; ++$i) {
+			$this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', 1);
+		}
 		$this->Ln();
 		// Color and font restoration
 		$this->SetFillColor(224, 235, 255);
@@ -89,25 +85,31 @@ $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 // set default header data
-$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 011', PDF_HEADER_STRING);
 
 // set header and footer fonts
 $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
-//set margins
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
 $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
-//set auto page breaks
+// set auto page breaks
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
-//set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
-//set some language-dependent strings
-$pdf->setLanguageArray($l); 
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+	require_once(dirname(__FILE__).'/lang/eng.php');
+	$pdf->setLanguageArray($l);
+}
 
 // ---------------------------------------------------------
 
@@ -117,21 +119,20 @@ $pdf->SetFont('helvetica', '', 12);
 // add a page
 $pdf->AddPage();
 
-//Column titles
+// column titles
 $header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
 
-//Data loading
-$data = $pdf->LoadData('../cache/table_data_demo.txt');
+// data loading
+$data = $pdf->LoadData('data/table_data_demo.txt');
 
 // print colored table
 $pdf->ColoredTable($header, $data);
 
 // ---------------------------------------------------------
 
-//Close and output PDF document
+// close and output PDF document
 $pdf->Output('example_011.pdf', 'I');
 
 //============================================================+
-// END OF FILE                                                 
+// END OF FILE
 //============================================================+
-?>

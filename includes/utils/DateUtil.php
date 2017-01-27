@@ -48,7 +48,7 @@ class DateUtil {
 	/**
 	 * @param $date sets timestamp or parse database date format to timestamp
 	 */
-	public function DateUtil($date=null) {
+	public function __construct($date=null) {
 		if ($date == null) {
 			$this->_timestamp = time();
 		} else if ($date == self::DB_NULL_DATE) {
@@ -70,33 +70,22 @@ class DateUtil {
 		switch ($field) {
 			case self::YEAR :
 				return intval(date("Y", $this->_timestamp));
-			break;
-			default;
-			
+				break;
 			case self::MONTH :
 				return intval(date("m", $this->_timestamp));
-			break;
-			default;
-			
+				break;
 			case self::DAY :
 				return intval(date("d", $this->_timestamp));
-			break;
-			default;
-			
+				break;
 			case self::HOUR :
 				return intval(date("H", $this->_timestamp));
-			break;
-			default;
-			
+				break;
 			case self::MINUTES :
 				return intval(date("i", $this->_timestamp));
-			break;
-			default;
-			
+				break;
 			case self::SECONDS :
 				return intval(date("s", $this->_timestamp));
-			break;
-			default;
+				break;
 		}
 	}
 	/**
@@ -115,9 +104,7 @@ class DateUtil {
 							date("d", $this->_timestamp),
 							$value
 							);
-			break;
-			default;
-			
+				break;
 			case self::MONTH :
 				$this->_timestamp = mktime(
 							date("H", $this->_timestamp),
@@ -127,9 +114,7 @@ class DateUtil {
 							date("d", $this->_timestamp),
 							date("Y", $this->_timestamp)
 							);
-			break;
-			default;
-			
+				break;
 			case self::DAY :
 				$this->_timestamp = mktime(
 							date("H", $this->_timestamp),
@@ -139,9 +124,7 @@ class DateUtil {
 							$value,
 							date("Y", $this->_timestamp)
 							);
-			break;
-			default;
-			
+				break;
 			case self::HOUR :
 				$this->_timestamp = mktime(
 							$value,
@@ -151,9 +134,7 @@ class DateUtil {
 							date("d", $this->_timestamp),
 							date("Y", $this->_timestamp)
 							);
-			break;
-			default;
-			
+					break;
 			case self::MINUTES :
 				$this->_timestamp = mktime(
 							date("H", $this->_timestamp),
@@ -163,9 +144,7 @@ class DateUtil {
 							date("d", $this->_timestamp),
 							date("Y", $this->_timestamp)
 							);
-			break;
-			default;
-			
+				break;
 			case self::SECONDS :
 				$this->_timestamp = mktime(
 							date("H", $this->_timestamp),
@@ -175,8 +154,7 @@ class DateUtil {
 							date("d", $this->_timestamp),
 							date("Y", $this->_timestamp)
 							);
-			break;
-			default;
+				break;
 		}
 	}
 	/**
@@ -196,8 +174,7 @@ class DateUtil {
 							date("d", $this->_timestamp),
 							date("Y", $this->_timestamp) + $value
 							);
-			break;
-			
+				break;
 			case self::MONTH :
 				$this->_timestamp = mktime(
 							date("H", $this->_timestamp),
@@ -207,8 +184,7 @@ class DateUtil {
 							date("d", $this->_timestamp),
 							date("Y", $this->_timestamp)
 							);
-			break;
-			
+				break;
 			case self::DAY :
 				$this->_timestamp = mktime(
 							date("H", $this->_timestamp),
@@ -218,8 +194,7 @@ class DateUtil {
 							date("d", $this->_timestamp) + $value,
 							date("Y", $this->_timestamp)
 							);
-			break;
-			
+				break;
 			case self::HOUR :
 				$this->_timestamp = mktime(
 							date("H", $this->_timestamp) + $value,
@@ -229,8 +204,7 @@ class DateUtil {
 							date("d", $this->_timestamp),
 							date("Y", $this->_timestamp)
 							);
-			break;
-			
+				break;
 			case self::MINUTES :
 				$this->_timestamp = mktime(
 							date("H", $this->_timestamp),
@@ -240,8 +214,7 @@ class DateUtil {
 							date("d", $this->_timestamp),
 							date("Y", $this->_timestamp)
 							);
-			break;
-			
+				break;
 			case self::SECONDS :
 				$this->_timestamp = mktime(
 							date("H", $this->_timestamp),
@@ -251,8 +224,7 @@ class DateUtil {
 							date("d", $this->_timestamp),
 							date("Y", $this->_timestamp)
 							);
-			break;
-			default;
+				break;
 		}
 	}
 	/**

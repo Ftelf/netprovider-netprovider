@@ -10,8 +10,8 @@ require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
 Class Style1Invoice {
 	private $pdf = null;
 	private $chargeEntry = null;
-	
-	function Style1Invoice($cid) {
+
+	public function __construct($cid) {
 		
 		$this->chargeEntry = ChargeEntryDAO::getChargeEntryByID($cid);
 		$this->hasCharge = HasChargeDAO::getHasChargeByID($this->chargeEntry->CE_haschargeid);

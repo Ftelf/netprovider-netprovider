@@ -42,7 +42,7 @@ class MainFrame {
 	* @param string The url option
 	* @param string The path of the mos directory
 	*/
-	function MainFrame(&$db, $option, $basePath, $action) {
+	public function __construct(&$db, $option, $basePath, $action) {
 		
 		$this->_db = &$db;
 		$this->_option = $option;

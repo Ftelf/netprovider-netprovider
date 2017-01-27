@@ -23,8 +23,8 @@ Class ChargePaymentDeadlineEvent extends Event {
 	private $periodDate = null; //Period date of payment: CE_period_date
 	private $writeOffDate = null; //Date of payment writeOff: CE_period_date + CE_writeoffoffset
 	private $toleranceDate = null; //Date till payment delay will be tolerated CE_period_date + CH_tolerance
-	
-	function ChargePaymentDeadlineEvent($date, $person, $message, $charge, $periodDate, $writeOffDate, $toleranceDate) {
+
+	public function __construct($date, $person, $message, $charge, $periodDate, $writeOffDate, $toleranceDate) {
 		$this->setDate($date);
 		$this->setPerson($person);
 		$this->setMessage($message);

@@ -35,7 +35,6 @@
 			$core->getProperty(Core::DATABASE_NAME)
 		);
 	} catch (Exception $e) {
-		define_syslog_variables();
 		openlog("NetProvider", LOG_PERROR, LOG_DAEMON);
 		syslog(LOG_INFO, "Service: Cannot connect do database");
 		closelog();
@@ -71,8 +70,8 @@ class Service {
 	private $_ini = null;
 	private $_argv = null;
 	private $_dryRun = false;
-	
-	public function Service($argv) {
+
+	public function __construct($argv) {
 		
 		$this->_dryRun = (in_array('--dry-run', $argv));
 		
@@ -94,7 +93,6 @@ class Service {
 	public function exec() {
 		global $core, $database;
 		
-		//define_syslog_variables();
 		openlog("NetProvider", LOG_PERROR, LOG_DAEMON);
 		
 		try {

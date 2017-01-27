@@ -27,7 +27,7 @@ class HTML_PaymentReport {
 	 * @param $filter
 	 * @param $pageNav
 	 */
-	function showPayments(&$charges, &$paymentReport, &$report, &$filter, &$pageNav) {
+	static function showPayments(&$charges, &$paymentReport, &$report, &$filter, &$pageNav) {
 		global $core;
 ?>
 <script type="text/javascript" language="javascript" src="js/CalendarPopup.js"></script>

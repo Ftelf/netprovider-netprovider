@@ -34,7 +34,7 @@ class EmailBankAccountList {
 	/**
 	 * Constructor
 	 */
-    function EmailBankAccountList($bankAccount) {
+	public function __construct($bankAccount) {
         $this->_bankAccount = $bankAccount;
     }
     function getMessages() {
@@ -47,7 +47,7 @@ class EmailBankAccountList {
     function downloadNewAccountLists() {
     	global $database;
     	
-    	$_pop3 =& new Net_POP3();
+    	$_pop3 = new Net_POP3();
     	$matches = null;
 
 		// Connect to localhost on usual port
@@ -241,6 +241,7 @@ class EmailBankAccountList {
     	$emailList = new EmailList();
     	
 		if ($this->_bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_ABO) {
+			$matches = null;
 			if (mb_ereg('^([[:digit:]]{5})_([[:digit:]]{6,20})_([[:alpha:]]*)\.TXT$', $filename, $matches)) {
 				$idNo = $matches[1];
 				$accountNumber = $matches[2];
@@ -262,6 +263,7 @@ class EmailBankAccountList {
 				return;
 			}
 		} else if ($this->_bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_CSOB_XML) {
+			$matches = null;
 			if (mb_ereg('^([[:digit:]]{6,20})_([[:digit:]]{8})-([[:digit:]]{1,4})_DCZB\.xml$', $filename, $matches)) {
 				$accountNumber = $matches[1];
 				$dateString = $matches[2];
@@ -276,8 +278,6 @@ class EmailBankAccountList {
 					
 				$emailList->EL_year = mb_substr($dateString, 0, 4);
 				$emailList->EL_no = $idNo;
-				
-				$emailList->EL_list = iconv("windows-1250", "UTF-8", str_replace("windows-1250", "UTF-8", $part->body));
 			} else {
 				$msg = sprintf("List: neplatný název přílohy: ", $filename);
 				$this->_messages[] = $msg;
@@ -286,6 +286,7 @@ class EmailBankAccountList {
 			}
 		} else if ($this->_bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_KB_ABO) {
 			//434885660257_20090803_20090809.txt
+			$matches = null;
 			if (mb_ereg('^([[:digit:]]{6,20})_([[:digit:]]{8})_([[:digit:]]{8})\.txt$', $filename, $matches)) {
 				$accountNumber = $matches[1];
 				$dateFromString = $matches[2];
@@ -299,9 +300,7 @@ class EmailBankAccountList {
 				}
 					
 				$emailList->EL_year = mb_substr($dateFromString, 0, 4);
-				$emailList->EL_no = $idNo;
-				
-				$emailList->EL_list = iconv("windows-1250", "UTF-8", str_replace("windows-1250", "UTF-8", $part->body));
+//				$emailList->EL_no = $idNo;
 			} else {
 				$msg = sprintf("List: neplatný název přílohy: ", $filename);
 				$this->_messages[] = $msg;

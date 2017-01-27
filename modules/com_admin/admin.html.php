@@ -75,7 +75,7 @@ class HTML_admin {
 		<div style="float: left;">
 			<div class="icon">
 				<a href="index2.php?option=com_group">
-					<img alt="Přidat nový článek" src="images/48x48/apps/access.png"/>
+					<img alt="<?php echo _("Groups"); ?>" src="images/48x48/apps/access.png"/>
 					<span><?php echo _("User groups"); ?></span>
 				</a>
 			</div>

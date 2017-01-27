@@ -28,7 +28,11 @@ Class Core {
 	const DATABASE_PASSWORD = "password";
 	
 	const SMTP_SERVER = "Server";
+	const SMTP_PORT = "Port";
+	const SMTP_AUTH = "Auth";
 	const SMTP_FROM = "From";
+	const SMTP_USERNAME = "SMTP_username";
+	const SMTP_PASSWORD = "SMTP_password";
 	
 	const UI_TITLE = "Title";
 	const UI_VENDOR = "Vendor";
@@ -38,6 +42,8 @@ Class Core {
 	
 	const BLANK_CHARGES_ADVANCE_COUNT = "Blank charges advance count";
 	const ENABLE_INVOICE_MODULE = "Enable invoice module";
+	const ENABLE_VAT_PAYER_SPECIFICS = "Enable VAT Payer specifics";
+	const ALLOW_FIRM_REGISTRATION = "Allow firm registration";
 	
 	const GLOBAL_QOS_ENABLED = "global qos enabled";
 	const GLOBAL_IP_FILTER_ENABLED = "global IP filter enabled";
@@ -49,8 +55,8 @@ Class Core {
 	
 	const SEND_EMAIL_ON_CRITICAL_ERROR = "Send EMail on critical error";
 	const SUPERVISOR_EMAIL = "Supervisor EMail";
-	
-	function Core() {
+
+	public function __construct() {
 		$this->_appRoot = realpath(dirname(__FILE__) . '/../') . '/';
 		
 		mb_regex_encoding("UTF-8");
@@ -61,7 +67,7 @@ Class Core {
 		// I18N support information here()
 		$locale = $this->getProperty(self::UI_LOCALE);
 		
-		putenv("LANG=$locale"); 
+		putenv("LANG=$locale");
 		setlocale(LC_ALL, $locale);
 		
 		// Set the text domain as 'messages'
@@ -106,10 +112,18 @@ Class Core {
 	function getConfig() {
 		return $this->ini;
 	}
-	
+
 	function getProperty($property) {
 		if (isset($this->ini[$property])) {
 			return $this->ini[$property];
+		} else {
+			throw new PropertyException("Misconfigured property: $property");
+		}
+	}
+
+	function getBooleanProperty($property) {
+		if (isset($this->ini[$property])) {
+			return ($this->ini[$property]) ? true : false;
 		} else {
 			throw new PropertyException("Misconfigured property: $property");
 		}

@@ -239,7 +239,7 @@ class HTML_group {
         </div>
 
         <div class="header icon-48-group">
-          <?php echo _("User groups management:"); ?>: <small><?php echo _("Edit"); ?></small>
+          <?php echo _("User groups management"); ?>: <small><?php echo _("Edit"); ?></small>
         </div>
 
         <div class="clr"></div>

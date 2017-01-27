@@ -27,8 +27,8 @@ require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
 class AccountEntryUtil {
 	private $_bankAccount;
 	private $_messages;
-	
-	public function AccountEntryUtil($bankAccount) {
+
+	public function __construct($bankAccount) {
 		$this->bankAccount = $bankAccount;
 		$this->_messages = array();
 	}

@@ -123,7 +123,7 @@ class Mail_mimeDecode extends PEAR{
      * @param string CRLF type to use (CRLF/LF/CR)
      * @access public
      */
-    function Mail_mimeDecode($input, $crlf = "\r\n")
+	public function __construct($input, $crlf = "\r\n")
     {
 
         $this->_crlf = $crlf;

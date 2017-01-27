@@ -30,7 +30,7 @@ class NumberFormat {
 	* @param string The url option
 	* @param string The path of the mos directory
 	*/
-	function NumberFormat($value, $unit) {
+	public function __construct($value, $unit) {
 		$this->_value = $value;
 		$this->_unit = $unit;
 	}

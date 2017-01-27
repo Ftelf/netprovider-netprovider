@@ -107,7 +107,7 @@ class KBABOParser {
 	 * Constructor KBABOParser
 	 * @param String $content plain text with list
 	 */
-	public function KBABOParser($content) {
+	public function __construct($content) {
 		$tok = strtok($content, "\r\n");
 		while ($tok) {
 			$this->fcontents[] = $tok;
@@ -192,7 +192,8 @@ class KBABOParser {
 				
 				if (!$found) {
 					$datetime = mb_substr($line, 1, 10);
-					if (ereg(self::DATE_PATTERN, $datetime, $matches)) {
+					$matches = null;
+					if (mb_ereg(self::DATE_PATTERN, $datetime, $matches)) {
 						$found = true;
 					}
 				}
@@ -212,7 +213,7 @@ class KBABOParser {
 				//
 				// validate datetime
 				$datetime = mb_substr($lineArray[0], 1, 10);
-				if (ereg(self::DATE_PATTERN, $datetime, $matches)) {
+				if (mb_ereg(self::DATE_PATTERN, $datetime, $matches)) {
 					$date = $matches[3] . "-" . $matches[2] . "-" . $matches[1];
 					$bae->BE_datetime = $date . " 00:00:00";
 				} else {
@@ -225,7 +226,7 @@ class KBABOParser {
 				if ($write_off == "") {
 					$write_off = $date;
 				} else {
-					if (ereg(self::DATE_PATTERN, $write_off, $matches)) {
+					if (mb_ereg(self::DATE_PATTERN, $write_off, $matches)) {
 						$bae->BE_writeoff_date = $matches[3] . "-" . $matches[2] . "-" . $matches[1];
 					} else {
 						throw new Exception("řádek: $this->p, nelze provést match DATE $write_off");
@@ -251,7 +252,7 @@ class KBABOParser {
 					//
 					//try to match account number
 					$account_number = trim(mb_substr($line, 13, 31));
-					if (ereg(self::ACCOUNT_NAME, $account_number, $matches)) {
+					if (mb_ereg(self::ACCOUNT_NAME, $account_number, $matches)) {
 						$bae->BE_accountnumber = $matches[1];
 						$bae->BE_banknumber = $matches[2];
 						

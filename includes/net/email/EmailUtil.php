@@ -29,12 +29,20 @@ class EmailUtil {
 	private $_database;
 	private $_messages = array();
 	private $_smtp_server;
+	private $_smtp_port;
+	private $_smtp_auth;
+	private $_smtp_username;
+	private $_smtp_password;
 	private $_email_from;
-	
-	public function EmailUtil() {
+
+	public function __construct() {
 		global $database, $core;
 		$this->_database = $database;
 		$this->_smtp_server = $core->getProperty(Core::SMTP_SERVER);
+		$this->_smtp_port = $core->getProperty(Core::SMTP_PORT);
+		$this->_smtp_auth = $core->getBooleanProperty(Core::SMTP_AUTH);
+		$this->_smtp_username = $core->getProperty(Core::SMTP_USERNAME);
+		$this->_smtp_password = $core->getProperty(Core::SMTP_PASSWORD);
 		$this->_email_from = $core->getProperty(Core::SMTP_FROM);
 	}
 	
@@ -132,8 +140,7 @@ class EmailUtil {
 		
 		$mime = new Mail_mime();
 		$mime->setTXTBody($body);
-		$mime->setHTMLBody($body);
-		
+
 		if ($messageAttachments != null) {
 			foreach($messageAttachments as $messageAttachment) {
 				$filename = $messageAttachment->MA_name;
@@ -151,9 +158,13 @@ class EmailUtil {
 			'smtp',
 			array (
 				'host' => $this->_smtp_server,
+				'port' => $this->_smtp_port,
+				'auth' => $this->_smtp_auth,
+				'username' => $this->_smtp_username,
+				'password' => $this->_smtp_password
 			)
 		);
-		
+
 		$mail = $smtp->send($recipient, $headers2, $body2);
 		
 		if (PEAR::isError($mail)) {

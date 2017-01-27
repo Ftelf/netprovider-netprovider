@@ -35,6 +35,10 @@ class HTML_myprofile {
 	 */
 	static function showMyProfile($person, $personAccount, $bankAccountEntries, $personAccountEntries, $charges, $internets, $hasCharges, $group, $roles, $ips, $networks, $messages, $traffic) {
 		global $core;
+		$allowFirmRegistration = $core->getProperty(Core::ALLOW_FIRM_REGISTRATION);
+		$enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
+		$chargesTableColspan = ($enableVatPayerSpecifics) ? 11 : 9;
+		$enableInvoiceModule = $core->getProperty(Core::ENABLE_INVOICE_MODULE);
 		$birthDate = new DateUtil($person->PE_birthdate);
 		$registerDate = new DateUtil($person->PE_registerdate);
 ?>
@@ -134,6 +138,24 @@ class HTML_myprofile {
           <td><?php echo _("User group:"); ?></td>
           <td><?php echo $group->GR_name; ?></td>
         </tr>
+		<?php if ($allowFirmRegistration) { ?>
+        <tr>
+            <td><?php echo _("IČ:"); ?></td>
+            <td><?php echo $person->PE_ic; ?></td>
+        </tr>
+        <tr>
+            <td><?php echo _("DIČ:"); ?></td>
+            <td><?php echo $person->PE_dic; ?></td>
+        </tr>
+        <tr>
+            <td><?php echo _("Company short name:"); ?></td>
+            <td><?php echo $person->PE_shortcompanyname; ?></td>
+        </tr>
+        <tr>
+            <td><?php echo _("Company name:"); ?></td>
+            <td><?php echo $person->PE_companyname; ?></td>
+        </tr>
+		<?php } ?>
         <tr>
           <td><?php echo _("Firstname:"); ?></td>
           <td><?php echo $person->PE_firstname; ?></td>
@@ -248,16 +270,20 @@ class HTML_myprofile {
       <thead>
       <tr>
         <th width="2%" class="title">#</th>
-        <th width="14%" class="title"><?php echo _("Service name"); ?></th>
-        <th width="14%" class="title"><?php echo _("Amount without VAT"); ?></th>
-        <th width="14%" class="title"><?php echo _("VAT (%)"); ?></th>
-        <th width="14%" class="title"><?php echo _("Amount with VAT"); ?></th>
-        <th width="14%" class="title"><?php echo _("Currency"); ?></th>
-        <th width="14%" class="title"><?php echo _("Write off"); ?></th>
-        <th width="14%" class="title"><?php echo _("Since"); ?></th>
-        <th width="14%" class="title"><?php echo _("Till"); ?></th>
-        <th width="14%" class="title"><?php echo _("Status"); ?></th>
-        <th width="14%" class="title" colspan="2"><?php echo _("Actual status"); ?></th>
+        <th width="17%" class="title"><?php echo _("Service name"); ?></th>
+        <?php if ($enableVatPayerSpecifics) { ?>
+        <th width="9%" class="title"><?php echo _("Amount without VAT"); ?></th>
+        <th width="9%" class="title"><?php echo _("VAT (%)"); ?></th>
+        <th width="9%" class="title"><?php echo _("Amount with VAT"); ?></th>
+		<?php } else { ?>
+        <th width="9%" class="title"><?php echo _("Amount"); ?></th>
+        <?php } ?>
+        <th width="9%" class="title"><?php echo _("Currency"); ?></th>
+        <th width="9%" class="title"><?php echo _("Write off"); ?></th>
+        <th width="9%" class="title"><?php echo _("Since"); ?></th>
+        <th width="9%" class="title"><?php echo _("Till"); ?></th>
+        <th width="9%" class="title"><?php echo _("Status"); ?></th>
+        <th width="9%" class="title" colspan="2"><?php echo _("Actual status"); ?></th>
       </tr>
       </thead>
       <tbody>
@@ -290,17 +316,19 @@ class HTML_myprofile {
         <td align="left">
           <?php echo $charges[$hasCharge->HC_chargeid]->CH_name; ?>
         </td>
+        <?php if ($enableVatPayerSpecifics) { ?>
         <td align="left">
           <?php echo NumberFormat::formatMoney($charges[$hasCharge->HC_chargeid]->CH_baseamount); ?>
         </td>
         <td align="left">
           <?php echo NumberFormat::formatMoney($charges[$hasCharge->HC_chargeid]->CH_vat); ?>
         </td>
+        <?php } ?>
         <td align="left">
           <?php echo NumberFormat::formatMoney($charges[$hasCharge->HC_chargeid]->CH_amount); ?>
         </td>
         <td align="left">
-          <?php echo $charges[$hasCharge->HC_chargeid]->CH_amount->currency; ?>
+          <?php echo $charges[$hasCharge->HC_chargeid]->CH_currency; ?>
         </td>
         <td align="left">
           <?php echo Charge::getLocalizedPeriod($charges[$hasCharge->HC_chargeid]->CH_period); ?>
@@ -324,7 +352,7 @@ class HTML_myprofile {
       <tr>
         <td>
         </td>
-        <td colspan="11">
+        <td colspan="<?php echo $chargesTableColspan; ?>">
           <table class="adminlist">
           <thead>
           <tr>
@@ -335,9 +363,13 @@ class HTML_myprofile {
             <th width="7%" class="title"><?php echo _("Write off date"); ?></th>
             <th width="7%" class="title"><?php echo _("Delay in days"); ?></th>
             <th width="10%" class="title"><?php echo _("Status"); ?></th>
+            <?php if ($enableVatPayerSpecifics) { ?>
             <th width="10%" class="title"><?php echo _("Amount without VAT"); ?></th>
             <th width="10%" class="title"><?php echo _("VAT (%)"); ?></th>
             <th width="10%" class="title"><?php echo _("Amount with VAT"); ?></th>
+            <?php } else { ?>
+            <th width="10%" class="title"><?php echo _("Amount"); ?></th>
+            <?php } ?>
             <th width="10%" class="title"><?php echo _("Currency"); ?></th>
             <th width="10%" class="title"><?php echo _("Action"); ?></th>
           </tr>
@@ -398,12 +430,14 @@ class HTML_myprofile {
             <td align="left">
               <?php echo ChargeEntry::getLocalizedStatus($chargeEntry->CE_status); ?>
             </td>
+            <?php if ($enableVatPayerSpecifics) { ?>
             <td align="left">
-              <?php echo NumberFormat::formatMoney($chargeEntry->CE_baseamount); ?>
+                <?php echo NumberFormat::formatMoney($chargeEntry->CE_baseamount); ?>
             </td>
             <td align="left">
-              <?php echo NumberFormat::formatMoney($chargeEntry->CE_vat); ?>
+                <?php echo NumberFormat::formatMoney($chargeEntry->CE_vat); ?>
             </td>
+            <?php } ?>
             <td align="left">
               <?php echo NumberFormat::formatMoney($chargeEntry->CE_amount); ?>
             </td>
@@ -412,7 +446,7 @@ class HTML_myprofile {
             </td>
             <td align="left">
 <?php
-	if ($core->getProperty(Core::ENABLE_INVOICE_MODULE) && $chargeEntry->_invoice) {
+	if ($enableInvoiceModule && $chargeEntry->_invoice) {
 		
 ?>
               <a href="javascript:generateInvoice(<?php echo $chargeEntry->_invoice->IN_invoiceid; ?>)"><?php echo _("Invoice"); ?></a>
@@ -448,10 +482,11 @@ class HTML_myprofile {
     <thead>
     <tr>
       <th width="2%" class="title">#</th>
-      <th width="15%" class="title"><?php echo _("Date"); ?></th>
-      <th width="10%" class="title"><?php echo _("Source"); ?></th>
+      <th width="10%" class="title"><?php echo _("Date"); ?></th>
+      <th width="20%" class="title"><?php echo _("Source"); ?></th>
       <th width="10%" class="title"><?php echo _("Amount"); ?></th>
-      <th width="15%" class="title"><?php echo _("Comment"); ?></th>
+      <th width="10%" class="title"><?php echo _("Currency"); ?></th>
+      <th width="28%" class="title"><?php echo _("Comment"); ?></th>
       <th width="10%" class="title"><?php echo _("Account name"); ?></th>
       <th width="10%" class="title"><?php echo _("Account number"); ?></th>
     </tr>
@@ -475,6 +510,9 @@ class HTML_myprofile {
       </td>
       <td align="left">
         <?php echo NumberFormat::formatMoney($personAccountEntry->PN_amount); ?>
+      </td>
+      <td align="left">
+        <?php echo NumberFormat::formatMoney($personAccountEntry->PN_currency); ?>
       </td>
       <td align="left">
         <?php echo $personAccountEntry->PN_comment; ?>
@@ -609,9 +647,7 @@ class HTML_myprofile {
        </th>
        <th width="10%" class="title"><?php echo _("IP address"); ?></th>
        <th width="15%" class="title"><?php echo _("Data download"); ?></th>
-       <th width="15%" class="title"><?php echo _("Data upload"); ?></th>
-       <th width="15%" class="title"><?php echo _("Packet download"); ?></th>
-       <th width="15%" class="title"><?php echo _("Packet upload"); ?></th>
+       <th class="title"><?php echo _("Data upload"); ?></th>
      </tr>
      </thead>
      <tbody>
@@ -632,19 +668,12 @@ class HTML_myprofile {
        <td align="left">
          <?php echo NumberFormat::formatMB($ip['DATA_OUT']); ?>
        </td>
-       <td align="left">
-         <?php echo $ip['PACKET_IN']; ?>
-       </td>
-       <td align="left">
-         <?php echo $ip['PACKET_OUT']; ?>
-       </td>
      </tr>
 <?php
 		$k = 1 - $k;
 		$i++;
-		
-		$ip = $traffic['SUMMARY'];
 	}
+    $ip = $traffic['SUMMARY'];
 ?>
      <tr class="<?php echo "row$k"; ?>">
        <td align="left" colspan="2">
@@ -655,12 +684,6 @@ class HTML_myprofile {
        </td>
        <td align="left">
          <?php echo NumberFormat::formatMB($ip['DATA_OUT']); ?>
-       </td>
-       <td align="left">
-         <?php echo $ip['PACKET_IN']; ?>
-       </td>
-       <td align="left">
-         <?php echo $ip['PACKET_OUT']; ?>
        </td>
      </tr>
      </tbody>
@@ -685,6 +708,7 @@ class HTML_myprofile {
 	}
 	static function editMyProfile($person) {
 		global $core;
+		$allowFirmRegistration = $core->getProperty(Core::ALLOW_FIRM_REGISTRATION);
 		$birthDate = new DateUtil($person->PE_birthdate);
 		$registerDate = new DateUtil($person->PE_registerdate);
 ?>
@@ -770,6 +794,24 @@ class HTML_myprofile {
         </tr>
         </thead>
         <tbody>
+		<?php if ($allowFirmRegistration) { ?>
+        <tr>
+            <td><?php echo _("IČ:"); ?></td>
+            <td><input type="text" name="PE_ic" class="width-form" size="40" value="<?php echo $person->PE_ic; ?>" maxlength="255" /></td>
+        </tr>
+        <tr>
+            <td><?php echo _("DIČ:"); ?></td>
+            <td><input type="text" name="PE_dic" class="width-form" size="40" value="<?php echo $person->PE_dic; ?>" maxlength="255" /></td>
+        </tr>
+        <tr>
+            <td><?php echo _("Company short name:"); ?></td>
+            <td><input type="text" name="PE_shortcompanyname" class="width-form" size="40" value="<?php echo $person->PE_shortcompanyname; ?>" maxlength="255" /></td>
+        </tr>
+        <tr>
+            <td><?php echo _("Company name:"); ?></td>
+            <td><input type="text" name="PE_companyname" class="width-form" size="40" value="<?php echo $person->PE_companyname; ?>" maxlength="255" /></td>
+        </tr>
+		<?php } ?>
         <tr>
           <td width="150"><?php echo _("Firstname:"); ?></td>
           <td width="205"><input type="text" name="PE_firstname" class="width-form" size="40" value="<?php echo $person->PE_firstname; ?>" maxlength="255" /></td>

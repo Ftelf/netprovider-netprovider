@@ -408,7 +408,9 @@ class HTML_Network {
 	 */
 	static function editIP($ip, $network, $addresses, $persons) {
 		global $core;
-		$net= Net_IPv4::parseAddress($network->NE_net);
+		$ipv4 = new Net_IPv4();
+
+		$net = $ipv4->parseAddress($network->NE_net);
 ?>
 <script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {

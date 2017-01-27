@@ -24,7 +24,7 @@ class HTML_message {
 	 * @param $log
 	 * @param $pageNav
 	 */
-	function showMessage(&$messages, &$persons, &$pageNav, &$filter) {
+	static function showMessage(&$messages, &$persons, &$pageNav, &$filter) {
 		global $core;
 ?>
 <script type="text/javascript" language="javascript" src="js/CalendarPopup.js"></script>

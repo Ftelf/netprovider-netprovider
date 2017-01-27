@@ -135,9 +135,9 @@ function removeRole($cid) {
 				Core::redirect("index2.php?option=com_role");
 			}
 			if (($rolemembers = RolememberDAO::getRolememberAndPersonsArrayByRoleID($id)) == null) $rolemembers = array();
-						
+
 			if (count($rolemembers)) {
-				$msg = sprintf(ngettext("Cannot delete user role '%s', because it has binded %s user", "Cannot delete user role '%s', because it has binded %s users", count($rolemembers)), $group->GR_name, count($rolemembers));
+				$msg = sprintf(ngettext("Cannot delete user role '%s', because it has binded %s user", "Cannot delete user role '%s', because it has binded %s users", count($rolemembers)), $role->RO_name, count($rolemembers));
 				$database->log($msg, Log::LEVEL_WARNING);
 				$limit = 10;
 				foreach ($rolemembers as $rolemember) {

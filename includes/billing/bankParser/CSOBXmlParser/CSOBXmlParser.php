@@ -53,7 +53,7 @@ class CSOBXmlParser {
 	 * Constructor CSOBXmlParser
 	 * @param String $content plain text with list
 	 */
-	public function CSOBXmlParser($xml) {
+	public function __construct($xml) {
 		$this->xml = $xml;
 		
 		$this->document = array();
@@ -77,6 +77,7 @@ class CSOBXmlParser {
 				}
 				
 				if (isset($FINSTA03->S25_CISLO_UCTU)) {	//212842322/0300
+					$matches = null;
 					if (mb_ereg('^([[:digit:]]{1,30})/([[:digit:]]{4})$', $FINSTA03->S25_CISLO_UCTU, $matches)) {
 						$this->document['ACCOUNT_NUMBER'] = $matches[1];
 						$this->document['IBAN'] = $this->document['ACCOUNT_NUMBER'];

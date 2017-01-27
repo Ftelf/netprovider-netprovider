@@ -24,7 +24,7 @@ class HTML_IpTrafficReport {
 	 * @param $groups
 	 * @param $pageNav
 	 */
-	function showTraffic(&$ips, &$report, &$filter, &$pageNav) {
+	static function showTraffic(&$ips, &$report, &$filter, &$pageNav) {
 		global $core;
 ?>
 <script type="text/javascript" language="javascript" src="js/CalendarPopup.js"></script>

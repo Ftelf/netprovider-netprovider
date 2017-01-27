@@ -32,6 +32,8 @@ class HTML_person {
 	 */
 	static function showPersons(&$persons, &$groups, &$pageNav, &$filter) {
 		global $core;
+		$allowFirmRegistration = $core->getProperty(Core::ALLOW_FIRM_REGISTRATION);
+		$tableColspan = ($allowFirmRegistration) ? 13 : 12;
 ?>
 
 <script language="JavaScript" type="text/javascript">
@@ -151,14 +153,16 @@ class HTML_person {
     <tr>
       <th width="2%" class="title">#</th>
       <th width="2%" class="title"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo $pageNav->limit; ?>);" /></th>
-      <th width="16%" class="title"><?php echo _("Company short name"); ?></th>
+      <?php if ($allowFirmRegistration) { ?>
+      <th width="12%" class="title"><?php echo _("Company short name"); ?></th>
+      <?php } ?>
       <th width="10%" class="title"><?php echo _("Firstname"); ?></th>
       <th width="10%" class="title"><?php echo _("Surname"); ?></th>
       <th width="5%" class="title"><?php echo _("Nickname"); ?></th>
       <th width="10%" class="title"><?php echo _("Group"); ?></th>
       <th width="5%" class="title"><?php echo _("Phone"); ?></th>
       <th width="5%" class="title"><?php echo _("ICQ"); ?></th>
-      <th width="10%" class="title"><?php echo _("Address"); ?></th>
+      <th class="title"><?php echo _("Address"); ?></th>
       <th width="10%" class="title"><?php echo _("E-mail"); ?></th>
       <th width="10%" class="title"><?php echo _("Registered"); ?></th>
       <th width="5%" class="title"><?php echo _("Status"); ?></th>
@@ -166,7 +170,7 @@ class HTML_person {
     </thead>
     <tfoot>
     <tr>
-      <td colspan="13">
+      <td colspan="<?php echo $tableColspan; ?>">
 <?php
 	echo $pageNav->getListFooter();
 ?>
@@ -205,9 +209,11 @@ class HTML_person {
       <td>
         <input type="checkbox" id="<?php echo "cb$i"; ?>" name="cid[]" value="<?php echo $person->PE_personid; ?>" onclick="isChecked(this.checked);" />
       </td>
+      <?php if ($allowFirmRegistration) { ?>
       <td>
         <a href="<?php echo $link; ?>"><?php echo $person->PE_shortcompanyname; ?></a>
       </td>
+      <?php } ?>
       <td>
         <a href="<?php echo $link; ?>"><?php echo $person->PE_firstname; ?></a>
       </td>
@@ -275,6 +281,8 @@ class HTML_person {
 	 */
 	static function editPerson(&$person, &$groups, &$hasRoles, &$hasIps, &$roles, &$charges, &$hasCharges) {
 		global $core;
+		$allowFirmRegistration = $core->getProperty(Core::ALLOW_FIRM_REGISTRATION);
+		$enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
 		$birthDate = new DateUtil($person->PE_birthdate);
 		$registerDate = new DateUtil($person->PE_registerdate);
 ?>
@@ -343,8 +351,8 @@ class HTML_person {
 	function showHasCharge() {
 		var el = document.getElementById('newHasChargeBlock');
 		el.style.display = 'block';
-		var el = document.getElementById('newHasChargeClick');
-		el.style.display = 'none';
+		var e2 = document.getElementById('newHasChargeClick');
+		e2.style.display = 'none';
 	}
 	function newHasCharge() {
 		hideMainMenu();
@@ -451,6 +459,7 @@ class HTML_person {
             </select>
           </td>
         </tr>
+		<?php if ($allowFirmRegistration) { ?>
         <tr>
           <td><?php echo _("IČ:"); ?></td>
           <td><input type="text" name="PE_ic" class="width-form" size="40" value="<?php echo $person->PE_ic; ?>" maxlength="255" /></td>
@@ -467,6 +476,7 @@ class HTML_person {
           <td><?php echo _("Company name:"); ?></td>
           <td><input type="text" name="PE_companyname" class="width-form" size="40" value="<?php echo $person->PE_companyname; ?>" maxlength="255" /></td>
         </tr>
+		<?php } ?>
         <tr>
           <td><?php echo _("Firstname:"); ?></td>
           <td><input type="text" name="PE_firstname" class="width-form" size="40" value="<?php echo $person->PE_firstname; ?>" maxlength="255" /></td>
@@ -621,9 +631,13 @@ class HTML_person {
         <tr>
           <th width="10%" class="title"><?php echo _("Service name"); ?></th>
           <th width="9%" class="title"><?php echo _("Type"); ?></th>
+          <?php if ($enableVatPayerSpecifics) { ?>
           <th width="9%" class="title"><?php echo _("Amount without VAT"); ?></th>
           <th width="9%" class="title"><?php echo _("VAT (%)"); ?></th>
           <th width="9%" class="title"><?php echo _("Amount with VAT"); ?></th>
+          <?php } else { ?>
+          <th width="9%" class="title"><?php echo _("Amount"); ?></th>
+          <?php }?>
           <th width="9%" class="title"><?php echo _("Currency"); ?></th>
           <th width="9%" class="title"><?php echo _("Payed"); ?></th>
           <th width="9%" class="title"><?php echo _("Active from"); ?></th>
@@ -674,12 +688,14 @@ class HTML_person {
           <td>
             <?php echo Charge::getLocalizedType($hasCharge->CH_type); ?>
           </td>
+          <?php if ($enableVatPayerSpecifics) { ?>
           <td>
             <?php echo $hasCharge->CH_baseamount; ?>
           </td>
           <td>
             <?php echo $hasCharge->CH_vat; ?>
           </td>
+          <?php } ?>
           <td>
             <?php echo $hasCharge->CH_amount; ?>
           </td>
@@ -813,6 +829,7 @@ class HTML_person {
 	 */
 	static function editHasCharge(&$person, &$hascharge, &$charge, &$status) {
 		global $core;
+		$enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
 		switch ($charge->CH_period) {
 			case Charge::PERIOD_ONCE:
 				$jsFormat = 'dd.MM.yyyy';
@@ -927,6 +944,7 @@ class HTML_person {
           <td><?php echo _("Write off:"); ?></td>
           <td><input type="text" name="_CH_name" class="width-form" size="40" value="<?php echo Charge::getLocalizedPeriod($charge->CH_period); ?>" disabled="disabled"/></td>
         </tr>
+        <?php if ($enableVatPayerSpecifics) { ?>
         <tr>
           <td><?php echo _("Amount without VAT:"); ?></td>
           <td><input type="text" name="_CH_name" class="width-form" size="40" value="<?php echo $charge->CH_baseamount; ?>" disabled="disabled"/></td>
@@ -939,6 +957,12 @@ class HTML_person {
           <td><?php echo _("Amount with VAT:"); ?></td>
           <td><input type="text" name="_CH_name" class="width-form" size="40" value="<?php echo $charge->CH_amount; ?>" disabled="disabled"/></td>
         </tr>
+        <?php } else { ?>
+        <tr>
+          <td><?php echo _("Amount:"); ?></td>
+          <td><input type="text" name="_CH_name" class="width-form" size="40" value="<?php echo $charge->CH_amount; ?>" disabled="disabled"/></td>
+        </tr>
+        <?php } ?>
         <tr>
           <td><?php echo _("Currency:"); ?></td>
           <td><input type="text" name="_CH_name" class="width-form" size="40" value="<?php echo $charge->CH_currency; ?>" disabled="disabled"/></td>

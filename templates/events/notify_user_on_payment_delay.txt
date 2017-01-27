@@ -9,4 +9,4 @@ Datum datum deaktivace: |CHARGE_SWITCH_OFF|
 toto je automaticky generovaná zpráva, pokud se domníváte že je chybná, kontaktujte neprodleně správce OVJih.NET.
 
 S pozdravem,
-správce OVJih.NET
+spolek OVJih.NET

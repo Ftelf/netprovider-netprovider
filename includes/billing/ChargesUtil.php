@@ -38,8 +38,8 @@ require_once($core->getAppRoot() . "includes/invoice/InvoiceFactory.php");
 class ChargesUtil {
 	private $_messages = array();
 	private $_advancePayments = 1;
-	
-	public function ChargesUtil() {
+
+	public function __construct() {
 		global $core;
 		
 		$this->_advancePayments = $core->getProperty(Core::BLANK_CHARGES_ADVANCE_COUNT);

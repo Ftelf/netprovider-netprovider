@@ -30,7 +30,7 @@ class PageNav {
 	var $total = null;
 	var $suffix = null;
 
-	function PageNav( $total, $limitstart, $limit, $suffix="" ) {
+	public function __construct( $total, $limitstart, $limit, $suffix="" ) {
 		$this->total = intval( $total );
 		$this->limitstart = max( $limitstart, 0 );
 		$this->limit = max( $limit, 1 );

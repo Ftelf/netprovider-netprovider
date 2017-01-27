@@ -18,8 +18,8 @@ Class DefaultInvoice {
 	private $person = null;
 	private $personAccount = null;
 	private $pdf = null;
-	
-	function DefaultInvoice($iid) {
+
+	public function __construct($iid) {
 		$this->invoice = InvoiceDAO::getInvoiceByID($iid);
 		$this->chargeEntry = ChargeEntryDAO::getChargeEntryByID($this->invoice->IN_chargeentryid);
 		$this->hasCharge = HasChargeDAO::getHasChargeByID($this->chargeEntry->CE_haschargeid);
@@ -59,7 +59,7 @@ Class DefaultInvoice {
 		$pdf->setLanguageArray("eng");
 		
 		// set font
-		$pdf->SetFont('arial');	//dejavusans  freesans
+		$pdf->SetFont('courier');	//dejavusans  freesans
 
 		$this->pdf = $pdf;
 	}

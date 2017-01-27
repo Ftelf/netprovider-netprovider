@@ -34,7 +34,6 @@
 			$core->getProperty(Core::DATABASE_NAME)
 		);
 	} catch (Exception $e) {
-		define_syslog_variables();
 		openlog("NetProvider", LOG_PERROR, LOG_DAEMON);
 		syslog(LOG_INFO, "Service: Cannot connect do database");
 		closelog();

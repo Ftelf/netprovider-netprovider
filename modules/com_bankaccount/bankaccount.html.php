@@ -272,7 +272,7 @@ class HTML_BankAccount {
     <tr>
       <td><?php echo _("Starting balance:"); ?></td>
       <td class="right"><?php echo NumberFormat::formatMoney($report['GLOBAL']['START']); ?></td>
-      <td class="right"><?php echo NumberFormat::formatMoney($report['LIST']['START']); ?></td>
+      <td class="right"><?php /*echo NumberFormat::formatMoney($report['LIST']['START']);*/ ?></td>
     </tr>
     <tr>
       <td><?php echo _("Income:"); ?></td>
@@ -292,7 +292,7 @@ class HTML_BankAccount {
     <tr>
       <td><?php echo _("Final balance:"); ?></td>
       <td class="right"><?php echo NumberFormat::formatMoney($report['GLOBAL']['BALANCE']); ?></td>
-      <td class="right"><?php echo NumberFormat::formatMoney($report['LIST']['BALANCE']); ?></td>
+      <td class="right"><?php /*echo NumberFormat::formatMoney($report['LIST']['BALANCE']);*/ ?></td>
     </tr>
     </tbody>
     </table>

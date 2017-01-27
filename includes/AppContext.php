@@ -23,7 +23,7 @@ class AppContext {
 	private $params;
 	private $messages;
 
-	public function AppContext() {
+	public function __construct() {
 		$this->option = 'com_admin';
 		$this->params = array();
 		$this->messages = array();

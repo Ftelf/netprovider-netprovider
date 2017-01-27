@@ -21,8 +21,8 @@
 Class PaymentReceivedEvent extends Event {
 	var $paymentDate = null;
 	var $switchOffDate = null;
-	
-	function ChargePaymentDeadlineEvent($date, $person, $message, $paymentDate, $switchOffDate) {
+
+	public function __construct($date, $person, $message, $paymentDate, $switchOffDate) {
 		$this->setDate($date);
 		$this->setPerson($person);
 		$this->setMessage($message);

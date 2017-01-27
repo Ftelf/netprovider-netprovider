@@ -20,8 +20,8 @@
  */
 Class InvoiceCreated extends Event {
 	private $invoiceid = null; //Charge that is delayed
-	
-	function InvoiceCreated($date, $person, $message, $invoiceid) {
+
+	public function __construct($date, $person, $message, $invoiceid) {
 		$this->setDate($date);
 		$this->setPerson($person);
 		$this->setMessage($message);

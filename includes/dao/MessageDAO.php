@@ -76,7 +76,7 @@ class MessageDAO {
 		$query = "SELECT * FROM `message` WHERE `ME_messageid`='$id' LIMIT 1";
 		$database->setQuery($query);
 		$database->loadObject($message);
-		return $log;
+		return $message;
 	}
 	static function removeMessageByID($id) {
 		if (!$id) throw new Exception("no ID specified");

@@ -78,8 +78,8 @@ function showPaymentReport() {
 		
 		if (!count($hasCharges) && !$filter['showall']) {
 			continue;
-		}		
-		
+		}
+
 		$person->_hasCharge = null;
 		
 		if (count($hasCharges)) {
@@ -274,7 +274,7 @@ function showPaymentReport() {
 				}
 				$personReport->_dates[$date['DateUtil']->getTime()] = $info;
 			}
-			if (!$foundAnyEntry && !$filter['showAll']) {
+			if (!$foundAnyEntry && !$filter['showall']) {
 			    $personReport = null;
 			}
 		}

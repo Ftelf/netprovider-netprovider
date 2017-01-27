@@ -41,8 +41,8 @@ class CommanderCrossbar {
 	
 	private $globalQOSEnabled;
 	private $globalIPFilterEnabled;
-	
-	public function CommanderCrossbar() {
+
+	public function __construct() {
 		global $core;
 		
 		$this->globalQOSEnabled = $core->getProperty(Core::GLOBAL_QOS_ENABLED);

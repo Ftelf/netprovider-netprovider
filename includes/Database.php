@@ -36,7 +36,7 @@ class Database {
 	* @param string Database name
 	* @param string Common prefix for all tables
 	*/
-	function Database($host, $username, $password, $database) {
+	public function __construct($host, $username, $password, $database) {
 		$this->_mysqli = new mysqli($host, $username, $password, $database);
 		
 		if (mysqli_connect_errno()) {
@@ -228,7 +228,7 @@ class Database {
 				return;
 			}
 		}
-		throw new Exception("Object cannot be loaded :" + $this->_sql);
+		throw new Exception("Object cannot be loaded :" . $this->_sql);
 	}
 	
 	/**

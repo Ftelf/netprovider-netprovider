@@ -80,7 +80,7 @@ class ABOParser {
 	 * Constructor ABOParser
 	 * @param String $content plain text with list
 	 */
-	public function ABOParser($content) {
+	public function __construct($content) {
 		$tok = strtok($content, "\r\n");
 		while ($tok) {
 			$this->fcontents[] = $tok;
@@ -132,12 +132,12 @@ class ABOParser {
 				} else {
 					throw new Exception("nelze provést match $this->getCurrent()");
 				}
-				if (ereg(self::IBAN, $this->getNext(), $matches)) {
+				if (mb_ereg(self::IBAN, $this->getNext(), $matches)) {
 					$this->document['IBAN'] = $matches[1];
 				} else {
 					throw new Exception("nelze provést match $this->getCurrent()");
 				}
-				if (ereg(self::MENA, $this->getNext(), $matches)) {
+				if (mb_ereg(self::MENA, $this->getNext(), $matches)) {
 					$this->document['CURRENCY'] = $matches[1];
 				} else {
 					throw new Exception("nelze provést match $this->getCurrent()");
@@ -164,8 +164,9 @@ class ABOParser {
 			if (!mb_strlen(trim($line_1))) {
 				return $this->document;
 			}
-			
-			if (ereg(self::PREHLED_UVERU_K_UCTU_C, $line_1, $matches)) {
+
+			$matches = null;
+			if (mb_ereg(self::PREHLED_UVERU_K_UCTU_C, $line_1, $matches)) {
 				return;
 			}
 			
@@ -190,14 +191,14 @@ class ABOParser {
 			$bae = new BankAccountEntry();
 			// validate date
 			$date = mb_substr($line_1, 5, 6);
-			if (ereg(self::DATE_PATTERN, $date, $matches)) {
+			if (mb_ereg(self::DATE_PATTERN, $date, $matches)) {
 				$dateP = $this->document['YEAR'] . "-" . $matches[2] . "-" . $matches[1];
 			} else {
-				throw new Exception("řádek: '$this->p', nelze provést match pattern: '$DATE_PATTERN', text: '$date', line: '$line'");
+				throw new Exception("řádek: '$this->p', nelze provést match pattern: '" . self::DATE_PATTERN . "', text: '$date', line: '$line'");
 			}
 			$bae->BE_note = trim((mb_substr($line_1, 11, 22)));
 			$write_off = mb_substr($line_1, 33, 6);
-			if (ereg(self::DATE_PATTERN, $write_off, $matches)) {
+			if (mb_ereg(self::DATE_PATTERN, $write_off, $matches)) {
 				$bae->BE_writeoff_date = $this->document['YEAR'] . "-" . $matches[2] . "-" . $matches[1];
 			} else {
 				throw new Exception("řádek: $this->p, nelze provést match WRITE_OFF $write_off");
@@ -236,7 +237,7 @@ class ABOParser {
 			// line #2
 			// validate time
 			$time = mb_substr($line_2, 5, 5);
-			if (ereg(self::TIME_PATTERN, $time, $matches)) {
+			if (mb_ereg(self::TIME_PATTERN, $time, $matches)) {
 				$timeP = $matches[1] . ":" . $matches[2] . ":00";
 			} else {
 				throw new Exception("řádek: $this->p, nelze provést match TIME $time");
@@ -255,7 +256,7 @@ class ABOParser {
 			if (!mb_strlen($account_number)) {
 				$bae->BE_accountnumber = "";
 				$bae->BE_banknumber = 0;
-			} else if (ereg(self::ACCOUNT_NAME, $account_number, $matches)) {
+			} else if (mb_ereg(self::ACCOUNT_NAME, $account_number, $matches)) {
 				$bae->BE_accountnumber = $matches[1];
 				$bae->BE_banknumber = $matches[2];
 			} else {

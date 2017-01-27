@@ -26,8 +26,8 @@ Class Event {
 	var $date = null;
 	var $message = null;
 	var $person = null;
-	
-	function Event($date, $person, $message) {
+
+	public function __construct($date, $person, $message) {
 		$this->setDate($date);
 		$this->setPerson($person);
 		$this->setMessage($message);

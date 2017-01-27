@@ -43,8 +43,8 @@ class Executor {
 	
 	private $_ssh2 = null;
 	private $_sudo = null;
-	
-	public function Executor($type, $settings, $execute) {
+
+	public function __construct($type, $settings, $execute) {
 		$this->_execute = $execute;
 		
 		switch ($type) {
@@ -103,7 +103,7 @@ class Executor {
 				$this->_type = $type;
 				
 				if (!isset($settings) || !is_array($settings)) {
-					throw new Exception("Configuration settings for SSH2 must be specified");
+					throw new Exception("Configuration settings for API must be specified");
 				}
 				
 				if (!isset($settings[self::REMOTE_HOST])) {
@@ -112,12 +112,12 @@ class Executor {
 				$this->_remoteHost = $settings[self::REMOTE_HOST];
 				
 				if (!isset($settings[self::LOGIN])) {
-					throw new Exception("Configuration settings for SSH2 must be specified");
+					throw new Exception("Configuration settings for API must be specified");
 				}
 				$this->_login = $settings[self::LOGIN];
 				
 				if (!isset($settings[self::PASSWORD])) {
-					throw new Exception("Configuration settings for SSH2 must be specified");
+					throw new Exception("Configuration settings for API must be specified");
 				}
 				$this->_password = $settings[self::PASSWORD];
 				
@@ -127,7 +127,7 @@ class Executor {
 
 					if ($this->routerosApi->connect($this->_remoteHost, $this->_login, $this->_password)) {
 					} else {
-						throw new Exception(sprintf(_("SSH2 login failed at %s@%s"), $this->_login, $this->_remoteHost));
+						throw new Exception(sprintf(_("API login failed at %s@%s"), $this->_login, $this->_remoteHost));
 					}
 				}
 				break;
@@ -210,7 +210,7 @@ class Executor {
 				
 			case self::REMOTE_SSH2:
 				if ($this->_execute) {
-					return $this->_ssh2->exec(sprintf("%s %s", $this->_sudo, $command));
+					return $this->_ssh2->exec(sprintf("%s %s", $this->_sudo, 'exit'));
 				} else {
 				}
 				
