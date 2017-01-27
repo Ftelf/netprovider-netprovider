@@ -32,6 +32,33 @@ require_once($core->getAppRoot() . "includes/utils/Utils.php");
 require_once($core->getAppRoot() . "includes/utils/DiacriticsUtil.php");
 require_once 'Net/IPv4.php';
 
+if (! function_exists('array_column')) {
+	function array_column(array $input, $columnKey, $indexKey = null) {
+		$array = array();
+		foreach ($input as $value) {
+			if ( !array_key_exists($columnKey, $value)) {
+				trigger_error("Key \"$columnKey\" does not exist in array");
+				return false;
+			}
+			if (is_null($indexKey)) {
+				$array[] = $value[$columnKey];
+			}
+			else {
+				if ( !array_key_exists($indexKey, $value)) {
+					trigger_error("Key \"$indexKey\" does not exist in array");
+					return false;
+				}
+				if ( ! is_scalar($value[$indexKey])) {
+					trigger_error("Key \"$indexKey\" does not contain scalar value");
+					return false;
+				}
+				$array[$value[$indexKey]] = $value[$columnKey];
+			}
+		}
+		return $array;
+	}
+}
+
 /**
  * RouterOSCommander
  */
@@ -159,7 +186,7 @@ class RouterOSCommander {
 //		$cmds[] = sprintf("%s -t nat -D PREROUTING -j WEB-REDIRECT 2>/dev/null", $iptablesCommand);
 //		
 
- 		$cmd = array("/ip/firewall/filter/print", "?chain=FILTER-IN", "=.proplist=.id");
+		$cmd = array("/ip/firewall/filter/print", "?chain=FILTER-IN", "=.proplist=.id");
 		$filterArray = $executor->execute($cmd);
 		$cmds[] = $filterArray;
 		
@@ -285,7 +312,7 @@ class RouterOSCommander {
 		$resultArray[0] = implode('', $array[0]);
 		
 		$return1 = array();
-		if (isset($array[1])) {
+		if (is_array($array[1])) {
 			foreach ($array[1] as $returnPart) {
 				$string = '';
 				foreach ($returnPart as $key=>$value) {
