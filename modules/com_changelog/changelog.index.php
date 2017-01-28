@@ -30,7 +30,7 @@ show();
 function show() {
 	global $database, $mainframe, $acl, $core;
 	
-	$changelogFile = $core->getAppRoot() . "CHANGELOG.MD";
+	$changelogFile = $core->getAppRoot() . "CHANGELOG.md";
 	$changelogHandle = fopen($changelogFile, "r");
 	
 	$changelogText = fread($changelogHandle, filesize($changelogFile));
