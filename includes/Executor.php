@@ -17,7 +17,7 @@
 
 global $core;
 require_once($core->getAppRoot() . "includes/net/SSH2.php");
-require_once($core->getAppRoot() . "includes/net/RouterosApi.php");
+require_once($core->getAppRoot() . "includes/net/routeros_api.class.php");
 
 /**
  * Executor

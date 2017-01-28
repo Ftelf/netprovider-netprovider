@@ -28,7 +28,7 @@ require_once($core->getAppRoot() . "includes/dao/NetworkDeviceInterfaceDAO.php")
 require_once($core->getAppRoot() . "includes/dao/NetworkDeviceWirelessInterfaceDAO.php");
 require_once($core->getAppRoot() . "includes/dao/NetworkDevicePropertyDAO.php");
 require_once($core->getAppRoot() . "includes/Executor.php");
-require_once($core->getAppRoot() . "includes/net/RouterosApi.php");
+require_once($core->getAppRoot() . "includes/net/routeros_api.class.php");
 require_once 'Net/IPv4.php';
 
 $task = Utils::getParam($_REQUEST, 'task', null);
