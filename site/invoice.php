@@ -27,15 +27,15 @@ require_once($core->getAppRoot() . "includes/dao/EmailListDAO.php");
 require_once($core->getAppRoot() . "includes/dao/SessionDAO.php");
 
 try {
-	$database = new Database(
-		$core->getProperty(Core::DATABASE_HOST),
-		$core->getProperty(Core::DATABASE_USERNAME),
-		$core->getProperty(Core::DATABASE_PASSWORD),
-		$core->getProperty(Core::DATABASE_NAME)
-	);
+    $database = new Database(
+        $core->getProperty(Core::DATABASE_HOST),
+        $core->getProperty(Core::DATABASE_USERNAME),
+        $core->getProperty(Core::DATABASE_PASSWORD),
+        $core->getProperty(Core::DATABASE_NAME)
+    );
 } catch (Exception $e) {
-	$core->alert('_("Cannot connect to database")');
-	exit();
+    $core->alert('_("Cannot connect to database")');
+    exit();
 }
 
 $option = strtolower(Utils::getParam($_REQUEST, 'option', 'com_admin'));
@@ -61,25 +61,25 @@ $sessions = SessionDAO::removeTimeoutedSession(1800);
 
 // check against db record of session
 if ($session->SE_sessionid != md5("$session->SE_username$session->SE_acl$session->SE_time") || !SessionDAO::checkSession($session)) {
-	Core::redirect("index.php");
+    Core::redirect("index.php");
 }
 
 // update session timestamp
 SessionDAO::updateSessionTimeout($session->SE_sessionid);
 
 if ($option == 'com_bankaccount') {
-	if ($task == 'download') {
-		$lid = Utils::getParam($_REQUEST, 'EL_emaillistid', null);
-		
-		try {
-			$emailList = EmailListDAO::getEmailListByID($lid);
-		} catch (Exception $e) {
-			exit();
-		}
-		header("Content-Description: File Transfer");
-		header("Content-Type: application/force-download");
-		header("Content-Disposition: attachment; filename=\"$emailList->EL_name\"");
-		echo $emailList->EL_list;
-	}
+    if ($task == 'download') {
+        $lid = Utils::getParam($_REQUEST, 'EL_emaillistid', null);
+
+        try {
+            $emailList = EmailListDAO::getEmailListByID($lid);
+        } catch (Exception $e) {
+            exit();
+        }
+        header("Content-Description: File Transfer");
+        header("Content-Type: application/force-download");
+        header("Content-Disposition: attachment; filename=\"$emailList->EL_name\"");
+        echo $emailList->EL_list;
+    }
 }
 ?>

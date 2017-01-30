@@ -8,23 +8,23 @@ require_once($core->getAppRoot() . "includes/invoice/style1Invoice/Style1Invoice
  * InvoiceFactory
  */
 Class InvoiceFactory {
-	private $invoice = null;
+    private $invoice = null;
 
-	public function __construct($iid) {
-		$this->invoice = new DefaultInvoice($iid);
-		$this->invoice->generate();
-	}
-	
-	function getFilename() {
-		return $this->invoice->getFilename();
-	}
-	
-	function output() {
-		$this->invoice->output();
-	}
-	
-	function getBlob() {
-		return $this->invoice->getBlob();
-	}
+    public function __construct($iid) {
+        $this->invoice = new DefaultInvoice($iid);
+        $this->invoice->generate();
+    }
+
+    function getFilename() {
+        return $this->invoice->getFilename();
+    }
+
+    function output() {
+        $this->invoice->output();
+    }
+
+    function getBlob() {
+        return $this->invoice->getBlob();
+    }
 } // End of InvoiceFactory class
 ?>

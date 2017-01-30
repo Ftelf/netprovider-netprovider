@@ -123,7 +123,7 @@ class Mail_mimeDecode extends PEAR{
      * @param string CRLF type to use (CRLF/LF/CR)
      * @access public
      */
-	public function __construct($input, $crlf = "\r\n")
+    public function __construct($input, $crlf = "\r\n")
     {
 
         $this->_crlf = $crlf;
@@ -213,7 +213,7 @@ class Mail_mimeDecode extends PEAR{
                 $return->headers[strtolower($value['name'])] = trim($value['value']);
             }
         }
-		
+
         reset($headers);
         while (list($key, $value) = each($headers)) {
             $headers[$key]['name'] = strtolower($headers[$key]['name']);
@@ -227,7 +227,7 @@ class Mail_mimeDecode extends PEAR{
                         $return->ctype_primary   = $regs[1];
                         $return->ctype_secondary = $regs[2];
                     }
-    				
+
                     if (isset($content_type['other'])) {
                         while (list($p_name, $p_value) = each($content_type['other'])) {
                             $return->ctype_parameters[$p_name] = $p_value;
@@ -250,12 +250,12 @@ class Mail_mimeDecode extends PEAR{
                     break;
             }
         }
-		if (!isset($return->ctype_parameters['charset'])) {
-		 		$return->ctype_parameters['charset'] = 'us-ascii';
-		}
-		if (!isset($content_transfer_encoding['value'])) {
-		 		$content_transfer_encoding['value'] = '7bit';
-		}
+        if (!isset($return->ctype_parameters['charset'])) {
+                $return->ctype_parameters['charset'] = 'us-ascii';
+        }
+        if (!isset($content_transfer_encoding['value'])) {
+                $content_transfer_encoding['value'] = '7bit';
+        }
         if (isset($content_type)) {
             switch (strtolower($content_type['value'])) {
                 case 'text/plain':

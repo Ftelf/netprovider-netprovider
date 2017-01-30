@@ -9,8 +9,8 @@ require_once("configuration.html.php");
 showConfiguration();
 
 function showConfiguration() {
-	global $database, $mainframe, $acl, $core;
-	
-	HTML_Configuration::showConfiguration(parse_ini_file($core->getAppRoot() . 'config/netprovider.ini', true));
+    global $database, $mainframe, $acl, $core;
+
+    HTML_Configuration::showConfiguration(parse_ini_file($core->getAppRoot() . 'config/netprovider.ini', true));
 }
 ?>

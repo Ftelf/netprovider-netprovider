@@ -19,13 +19,13 @@
  * MessageAttachment
  */
 class MessageAttachment {
-	/** @var int charge id PK */
-	var $MA_messageattachmentid = null;
-	/** @var int person id FK */
-	var $MA_messageid = null;
-	/** @var datetime datetime */
-	var $MA_name = null;
-	/** @var datetime datetime */
-	var $MA_attachment = null;
+    /** @var int charge id PK */
+    var $MA_messageattachmentid = null;
+    /** @var int person id FK */
+    var $MA_messageid = null;
+    /** @var datetime datetime */
+    var $MA_name = null;
+    /** @var datetime datetime */
+    var $MA_attachment = null;
 } // End of MessageAttachment class
 ?>

@@ -28,13 +28,13 @@ show();
  * @return void void
  */
 function show() {
-	global $database, $mainframe, $acl, $core;
-	
-	$changelogFile = $core->getAppRoot() . "CHANGELOG.md";
-	$changelogHandle = fopen($changelogFile, "r");
-	
-	$changelogText = fread($changelogHandle, filesize($changelogFile));
-	
-	HTML_changelog::showChangelog($changelogText);
+    global $database, $mainframe, $acl, $core;
+
+    $changelogFile = $core->getAppRoot() . "CHANGELOG.md";
+    $changelogHandle = fopen($changelogFile, "r");
+
+    $changelogText = fread($changelogHandle, filesize($changelogFile));
+
+    HTML_changelog::showChangelog($changelogText);
 }
 ?>

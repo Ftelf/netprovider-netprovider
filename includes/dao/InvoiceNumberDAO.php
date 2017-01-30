@@ -22,30 +22,30 @@ require_once($core->getAppRoot() . "/includes/tables/InvoiceNumber.php");
  *  InvoiceNumberDAO
  */
 class InvoiceNumberDAO {
-	static function getInvoiceNumberByID($id) {
-		if (!$id) throw new Exception("no ID specified");
-		global $database;
-		$invoiceNumber = new InvoiceNumber();
-		$query = "SELECT * FROM `invoicenumber` WHERE `IV_invoicenumberid`='$id' LIMIT 1";
-		$database->setQuery($query);
-		$database->loadObject($invoiceNumber);
-		return $invoiceNumber;
-	}
-	static function getInvoiceByYear($year) {
-		if (!$year) throw new Exception("no ID specified");
-		global $database;
-		$invoiceNumber = new InvoiceNumber();
-		$query = "SELECT * FROM `invoicenumber` WHERE `IV_year`='$year' LIMIT 1";
-		$database->setQuery($query);
-		$database->loadObject($invoiceNumber);
-		return $invoiceNumber;
-	}
-	static function removeInvoiceNumberByID($id) {
-		if (!$id) throw new Exception("no ID specified");
-		global $database;
-		$query = "DELETE FROM `invoicenumber` WHERE `IV_invoicenumberid`='$id' LIMIT 1";
-		$database->setQuery($query);
-		$database->query();
-	}
+    static function getInvoiceNumberByID($id) {
+        if (!$id) throw new Exception("no ID specified");
+        global $database;
+        $invoiceNumber = new InvoiceNumber();
+        $query = "SELECT * FROM `invoicenumber` WHERE `IV_invoicenumberid`='$id' LIMIT 1";
+        $database->setQuery($query);
+        $database->loadObject($invoiceNumber);
+        return $invoiceNumber;
+    }
+    static function getInvoiceByYear($year) {
+        if (!$year) throw new Exception("no ID specified");
+        global $database;
+        $invoiceNumber = new InvoiceNumber();
+        $query = "SELECT * FROM `invoicenumber` WHERE `IV_year`='$year' LIMIT 1";
+        $database->setQuery($query);
+        $database->loadObject($invoiceNumber);
+        return $invoiceNumber;
+    }
+    static function removeInvoiceNumberByID($id) {
+        if (!$id) throw new Exception("no ID specified");
+        global $database;
+        $query = "DELETE FROM `invoicenumber` WHERE `IV_invoicenumberid`='$id' LIMIT 1";
+        $database->setQuery($query);
+        $database->query();
+    }
 } // End of InvoiceDAO class
 ?>

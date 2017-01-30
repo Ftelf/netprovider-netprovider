@@ -19,15 +19,15 @@
  * Ip
  */
 class Ip {
-	/** @var int ip id PK */
-	var $IP_ipid = null;
-	/** @var int networkid id PK */
-	var $IP_networkid = null;
-	/** @var int personid FK */
-	var $IP_personid = null;
-	/** @var varchar ip address */
-	var $IP_address = null;
-	/** @var varchar dns record */
-	var $IP_dns = null;
+    /** @var int ip id PK */
+    var $IP_ipid = null;
+    /** @var int networkid id PK */
+    var $IP_networkid = null;
+    /** @var int personid FK */
+    var $IP_personid = null;
+    /** @var varchar ip address */
+    var $IP_address = null;
+    /** @var varchar dns record */
+    var $IP_dns = null;
 } // End of Ip class
 ?>

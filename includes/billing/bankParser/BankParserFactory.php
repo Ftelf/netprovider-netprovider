@@ -24,45 +24,45 @@ require_once($core->getAppRoot() . "includes/billing/bankParser/KBABOParser/KBAB
  * BankParserFactory
  */
 class BankParserFactory {
-	private $parser = null;
-	
-	/**
-	 * Constructor BankParserFactory
-	 * @param String $content plain text with list
-	 */
-	public function __construct($type, $content) {
-		switch ($type) {
-			case BankAccount::DATASOURCE_TYPE_ABO:
-				$this->parser = new ABOParser($content);
-				break;
-			
-			case BankAccount::DATASOURCE_TYPE_CSOB_XML:
-				$this->parser = new CSOBXmlParser($content);
-				break;
-			
-			case BankAccount::DATASOURCE_TYPE_KB_ABO:
-				$this->parser = new KBABOParser($content);
-				break;
-				
-			default:
-				throw Exception(sprintf("Invalid datasource type", $type));
-		}
-	}
-	
-	/**
-	 * facade method, calls factory parse method
-	 */
-	function parse() {
-		$this->parser->parse();
-		
-	}
-	
-	/**
-	 * facade method, calls factory getDocument method
-	 * @return array parsed document
-	 */
-	function getDocument() {
-		return $this->parser->getDocument();
-	}
+    private $parser = null;
+
+    /**
+     * Constructor BankParserFactory
+     * @param String $content plain text with list
+     */
+    public function __construct($type, $content) {
+        switch ($type) {
+            case BankAccount::DATASOURCE_TYPE_ABO:
+                $this->parser = new ABOParser($content);
+                break;
+
+            case BankAccount::DATASOURCE_TYPE_CSOB_XML:
+                $this->parser = new CSOBXmlParser($content);
+                break;
+
+            case BankAccount::DATASOURCE_TYPE_KB_ABO:
+                $this->parser = new KBABOParser($content);
+                break;
+
+            default:
+                throw Exception(sprintf("Invalid datasource type", $type));
+        }
+    }
+
+    /**
+     * facade method, calls factory parse method
+     */
+    function parse() {
+        $this->parser->parse();
+
+    }
+
+    /**
+     * facade method, calls factory getDocument method
+     * @return array parsed document
+     */
+    function getDocument() {
+        return $this->parser->getDocument();
+    }
 } // End of BankParserFactory class
 ?>

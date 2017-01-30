@@ -19,7 +19,7 @@
  * Person
  */
 class Person {
-	/** @var int user id PK */
+    /** @var int user id PK */
     var $PE_personid = null;
     /** @var string user login name */
     var $PE_username = null;
@@ -28,7 +28,7 @@ class Person {
     /** @var string user group FK */
     var $PE_groupid = null;
     /** @var int personaccount id FK */
-	var $PE_personaccountid = null;
+    var $PE_personaccountid = null;
     /** @var string firstname */
     var $PE_firstname = null;
     /** @var string surname */
@@ -73,25 +73,25 @@ class Person {
     
     const STATUS_PASSIVE = 0;
     const STATUS_ACTIVE = 1;
-	const STATUS_DISCARTED = 9;
-	
-	public static $STATUS_ARRAY = array(
-		0, //Passive
-		1, //Active
-		9  //Discarted
-	);
-	
-	public static function getLocalizedStatus($source) {
-		switch ($source) {
-			case self::STATUS_PASSIVE:
-				return _("Passive");
-			
-			case self::STATUS_ACTIVE:
-				return _("Active");
-			
-			case self::STATUS_DISCARTED:
-				return _("Discarted");
-		}
-	}
+    const STATUS_DISCARTED = 9;
+
+    public static $STATUS_ARRAY = array(
+        0, //Passive
+        1, //Active
+        9  //Discarted
+    );
+
+    public static function getLocalizedStatus($source) {
+        switch ($source) {
+            case self::STATUS_PASSIVE:
+                return _("Passive");
+
+            case self::STATUS_ACTIVE:
+                return _("Active");
+
+            case self::STATUS_DISCARTED:
+                return _("Discarted");
+        }
+    }
 } // End of Person class
 ?>

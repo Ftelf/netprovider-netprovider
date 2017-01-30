@@ -19,11 +19,11 @@
  * InvoiceNumber
  */
 class InvoiceNumber {
-	/** @var int charge id PK */
-	var $IV_invoicenumberid = null;
-	/** @var int charge id PK */
-	var $IV_year = null;
-	/** @var varchar(255) name of the charge */
-	var $IV_number = null;
+    /** @var int charge id PK */
+    var $IV_invoicenumberid = null;
+    /** @var int charge id PK */
+    var $IV_year = null;
+    /** @var varchar(255) name of the charge */
+    var $IV_number = null;
 } // End of InvoiceNumber class
 ?>

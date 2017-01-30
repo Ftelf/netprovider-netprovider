@@ -19,43 +19,43 @@
  * InvoiceCreated
  */
 Class InvoiceCreated extends Event {
-	private $invoiceid = null; //Charge that is delayed
+    private $invoiceid = null; //Charge that is delayed
 
-	public function __construct($date, $person, $message, $invoiceid) {
-		$this->setDate($date);
-		$this->setPerson($person);
-		$this->setMessage($message);
-		$this->setInvoiceId($invoiceid);
-	}
-	
-	public function setInvoiceId($invoiceid) {
-		$this->invoiceid = $invoiceid;
-	}
-	
-	public function getInvoiceId() {
-		return $this->invoiceid;
-	}
-	
-	public function setToleranceDate($toleranceDate) {
-		$this->toleranceDate = $toleranceDate;
-	}
-	
-	public function getToleranceDate() {
-		return $this->toleranceDate;
-	}
-	
-	function __toString() {
+    public function __construct($date, $person, $message, $invoiceid) {
+        $this->setDate($date);
+        $this->setPerson($person);
+        $this->setMessage($message);
+        $this->setInvoiceId($invoiceid);
+    }
+
+    public function setInvoiceId($invoiceid) {
+        $this->invoiceid = $invoiceid;
+    }
+
+    public function getInvoiceId() {
+        return $this->invoiceid;
+    }
+
+    public function setToleranceDate($toleranceDate) {
+        $this->toleranceDate = $toleranceDate;
+    }
+
+    public function getToleranceDate() {
+        return $this->toleranceDate;
+    }
+
+    function __toString() {
         return	"\n---------------------------------\n".
-        		"ChargePaymentDeadlineEvent\n".
-				"date: ".$this->date."\n".
-        		"person: ".$this->person->PE_personid." ".$this->person->PE_firstname." ".$this->person->PE_surname."\n".
-        		"message: ".$this->message."\n".
-        		"chargeName: ".$this->charge->CH_name."\n".
-        		"chargePeriod: ".$this->chargePeriod."\n".
-        		"periodDate: ".$this->periodDate."\n".
-        		"writeOffDate: ".$this->writeOffDate."\n".
-        		"toleranceDate: ".$this->toleranceDate."\n".
-        		"\n---------------------------------\n";
+                "ChargePaymentDeadlineEvent\n".
+                "date: ".$this->date."\n".
+                "person: ".$this->person->PE_personid." ".$this->person->PE_firstname." ".$this->person->PE_surname."\n".
+                "message: ".$this->message."\n".
+                "chargeName: ".$this->charge->CH_name."\n".
+                "chargePeriod: ".$this->chargePeriod."\n".
+                "periodDate: ".$this->periodDate."\n".
+                "writeOffDate: ".$this->writeOffDate."\n".
+                "toleranceDate: ".$this->toleranceDate."\n".
+                "\n---------------------------------\n";
     }
 } // End of InvoiceCreated class
 ?>

@@ -19,11 +19,11 @@
  *  Rolemember
  */
 class Rolemember {
-	/** @var int rolemember id PK */
-	var $RM_rolememberid = null;
-	/** @var string name of the group */
-	var $RM_personid = null;
-	/** @var int description */
-	var $RM_roleid = null;
+    /** @var int rolemember id PK */
+    var $RM_rolememberid = null;
+    /** @var string name of the group */
+    var $RM_personid = null;
+    /** @var int description */
+    var $RM_roleid = null;
 } // End of Rolemember class
 ?>

@@ -8,73 +8,73 @@ require_once($core->getAppRoot() . "includes/dao/ChargeDAO.php");
 require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
 
 Class Style1Invoice {
-	private $pdf = null;
-	private $chargeEntry = null;
+    private $pdf = null;
+    private $chargeEntry = null;
 
-	public function __construct($cid) {
-		
-		$this->chargeEntry = ChargeEntryDAO::getChargeEntryByID($cid);
-		$this->hasCharge = HasChargeDAO::getHasChargeByID($this->chargeEntry->CE_haschargeid);
-		$this->charge = ChargeDAO::getChargeByID($this->hasCharge->HC_chargeid);
-		$this->person = PersonDAO::getPersonByID($this->hasCharge->HC_personid);
-		
-		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-		
-		// set document information
-		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('Net Provider');
-		$pdf->SetTitle('Faktura za internetové služby');
-		$pdf->SetSubject($this->person->PE_firstname.' '.$this->person->PE_surname);
-		$pdf->SetKeywords('Net provider, qos, fakturace, ISP');
-		
-		// set default header data
-		$pdf->SetHeaderData(null, null, "Net provider", "Faktura");
+    public function __construct($cid) {
+
+        $this->chargeEntry = ChargeEntryDAO::getChargeEntryByID($cid);
+        $this->hasCharge = HasChargeDAO::getHasChargeByID($this->chargeEntry->CE_haschargeid);
+        $this->charge = ChargeDAO::getChargeByID($this->hasCharge->HC_chargeid);
+        $this->person = PersonDAO::getPersonByID($this->hasCharge->HC_personid);
+
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // set document information
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('Net Provider');
+        $pdf->SetTitle('Faktura za internetové služby');
+        $pdf->SetSubject($this->person->PE_firstname.' '.$this->person->PE_surname);
+        $pdf->SetKeywords('Net provider, qos, fakturace, ISP');
+
+        // set default header data
+        $pdf->SetHeaderData(null, null, "Net provider", "Faktura");
 //		$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
 
-		// set header and footer fonts
-		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-		
-		//set margins
-		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-		
-		//set auto page breaks
-		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-		
-		//set image scale factor
-		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
-		
-		//set some language-dependent strings
-		$pdf->setLanguageArray("eng");
-		
-		// set font
-		$pdf->SetFont('freesans');	//dejavusans
+        // set header and footer fonts
+        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
-		$this->pdf = $pdf;
-	}
-	
-	function generate() {
-		$l = Array();
-		
-		// PAGE META DESCRIPTORS --------------------------------------
-		
-		$l['a_meta_charset'] = 'UTF-8';
-		$l['a_meta_dir'] = 'ltr';
-		$l['a_meta_language'] = 'cz';
-		
-		// TRANSLATIONS --------------------------------------
-		$l['w_page'] = 'stránka';
-		
-		// set document information
-		$pdf = $this->pdf;
-		// add a page
-		$pdf->AddPage();
-		
-		$pdf->SetFillColor(255, 0, 0); 
-		
-		$table  = '
+        //set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        //set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+        //set image scale factor
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+        //set some language-dependent strings
+        $pdf->setLanguageArray("eng");
+
+        // set font
+        $pdf->SetFont('freesans');	//dejavusans
+
+        $this->pdf = $pdf;
+    }
+
+    function generate() {
+        $l = Array();
+
+        // PAGE META DESCRIPTORS --------------------------------------
+
+        $l['a_meta_charset'] = 'UTF-8';
+        $l['a_meta_dir'] = 'ltr';
+        $l['a_meta_language'] = 'cz';
+
+        // TRANSLATIONS --------------------------------------
+        $l['w_page'] = 'stránka';
+
+        // set document information
+        $pdf = $this->pdf;
+        // add a page
+        $pdf->AddPage();
+
+        $pdf->SetFillColor(255, 0, 0);
+
+        $table  = '
 <div class="pos" id="n0:0" style="top: 0px;"><a name="page00001"></a></div>
 <div class="pos" id="a30:30Z0p1" style="top: 30px; left: 30px;"><span id="a14Z1p1" style="font-size: 14px;"><b><font color="#000000" face="arial,bold,Arial, Helvetica, sans-serif"><span style="">Faktura</span></font></b></span></div>
 <div class="pos" id="a37:80Z2p1" style="top: 80px; left: 37px;"><span id="a7Z3p1" style="font-size: 10px;"><font face="arial,Arial, Helvetica, sans-serif"><span style="">Dodavatel:</span></font></span></div>
@@ -158,14 +158,14 @@ Class Style1Invoice {
 <div class="frame4" style="left: 496px; top: 623px; width: 234px; height: 26px;"></div>
 <div class="frame5" style="left: 440px; top: 850px; width: 294px; height: 0px;"></div>
 ';
-		$pdf->writeHTML($table, true, 0, true, 0, '');
-	}
-	
-	function output() {
-		$pdf = $this->pdf;
-		//Close and output PDF document
+        $pdf->writeHTML($table, true, 0, true, 0, '');
+    }
+
+    function output() {
+        $pdf = $this->pdf;
+        //Close and output PDF document
 //		$pdf->Output('example_001.pdf', 'I');	//D - download
-		$pdf->Output('C:/example_001.pdf', 'F');
-	}
+        $pdf->Output('C:/example_001.pdf', 'F');
+    }
 } // End of Style1Invoice class
 ?>

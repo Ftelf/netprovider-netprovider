@@ -19,11 +19,11 @@
  *  Role
  */
 class Role {
-	/** @var int role id PK */
-	var $RO_roleid = null;
-	/** @var string name of the group */
-	var $RO_name = null;
-	/** @var int description */
-	var $RO_description = null;
+    /** @var int role id PK */
+    var $RO_roleid = null;
+    /** @var string name of the group */
+    var $RO_name = null;
+    /** @var int description */
+    var $RO_description = null;
 } // End of Role class
 ?>

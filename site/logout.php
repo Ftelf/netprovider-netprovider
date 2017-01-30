@@ -27,7 +27,7 @@ require_once($core->getAppRoot() . "includes/dao/RoleDAO.php");
 // remove this session from session table
 //
 if (isset($_SESSION['SE_sessionid']) && $_SESSION['SE_sessionid']!="") {
-	(SessionDAO::removeSessionByID($_SESSION['SE_sessionid']));
+    (SessionDAO::removeSessionByID($_SESSION['SE_sessionid']));
 }
 
 unset($_SESSION["SE_sessionid"]);
@@ -38,22 +38,22 @@ unset($_SESSION["SE_logintime"]);
 unset($_SESSION["SE_ip"]);
 
 if (isset($_SESSION["SE_sessionid"])) {
-	session_destroy();
+    session_destroy();
 }
 if (isset($_SESSION["SE_personid"])) {
-	session_destroy();
+    session_destroy();
 }
 if (isset($_SESSION["SE_username"])) {
-	session_destroy();
+    session_destroy();
 }
 if (isset($_SESSION["SE_acl"])) {
-	session_destroy();
+    session_destroy();
 }
 if (isset($_SESSION["SE_logintime"])) {
-	session_destroy();
+    session_destroy();
 }
 if (isset($_SESSION["SE_ip"])) {
-	session_destroy();
+    session_destroy();
 }
 echo "<script>document.location.href='index.php';</script>\n";	
 ?>

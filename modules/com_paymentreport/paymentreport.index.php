@@ -30,515 +30,515 @@ require_once('paymentreport.html.php');
 $task = Utils::getParam($_REQUEST, 'task', null);
 
 switch ($task) {
-	default:
-		showPaymentReport();
-		break;
+    default:
+        showPaymentReport();
+        break;
 }
 
 function showPaymentReport() {
-	global $database, $mainframe, $acl, $core;
-	require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
-	
-	$filter = array();
-	// get filters
-	//
-	$filter['search'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport']['filter'], 'search', "");
-	$filter['CH_chargeid'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport']['filter'], 'CH_chargeid', 0);
-	$filter['PE_status'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport']['filter'], 'PE_status', -1);
-	$filter['showall'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport']['filter'], 'showall', 0);
-	$filter['date_from'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport']['filter'], 'date_from', null);
-	$filter['date_to'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport']['filter'], 'date_to', null);
-	// get limits
-	//
-	$limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport'], 'limit', 10);
-	$limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport'], 'limitstart', 0);
-	
-	$persons = PersonDAO::getPersonWithAccountArray();
-	$charges = ChargeDAO::getChargeArray();
-	
-	if (!$filter['CH_chargeid']) {
-		foreach ($charges as $monthlyCharge) {
-			$filter['CH_chargeid'] = $monthlyCharge->CH_chargeid;
-			break;
-		}
-	}
-	$charge = $charges[$filter['CH_chargeid']];
-	$paymentReport = array();
-	
-	foreach ($persons as &$person) {
-		if ($filter['PE_status'] != -1 && $person->PE_status != $filter['PE_status']) {
-			continue;
-		}
-		
-		if ($filter['search'] != "" && stripos($person->PE_firstname, $filter['search']) !== 0 && stripos($person->PE_surname, $filter['search']) !== 0) {
-			continue;
-		}
-		
-		$hasCharges = HasChargeDAO::getHasChargeReportArray($person->PE_personid, $charge->CH_chargeid);
-		
-		if (!count($hasCharges) && !$filter['showall']) {
-			continue;
-		}
+    global $database, $mainframe, $acl, $core;
+    require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
 
-		$person->_hasCharge = null;
-		
-		if (count($hasCharges)) {
-			foreach ($hasCharges as &$hasCharge) {
-				$hasCharge->_chargeEntries = ChargeEntryDAO::getChargeEntryArrayByHasChargeID($hasCharge->HC_haschargeid);
-				
-				$person->_hasCharge = $hasCharge;
-				$paymentReport[] = $person;
-			}
-		} else {
-			$paymentReport[] = $person;
-		}
-	}
-	
-	$pageNav = new PageNav(count($paymentReport), $limitstart, $limit);
-	$paymentReport = array_slice($paymentReport, $limitstart, $limit);
-	
-	$report = array();
-	
-	$report['dates'] = array();
-	
-	$dateFrom = new DateUtil();
-	$dateTo = new DateUtil();
-	
-	try {
-		$dateFrom->parseDate($filter['date_from'], DateUtil::FORMAT_MONTHLY);
-	} catch (Exception $e) {
-		$dateFrom = new DateUtil();
-		$dateFrom->set(DateUtil::HOUR, 0);
-		$dateFrom->set(DateUtil::MINUTES, 0);
-		$dateFrom->set(DateUtil::SECONDS, 0);
-		$dateFrom->set(DateUtil::DAY, 1);
-		$dateFrom->add(DateUtil::MONTH, -3);
-	}
-	
-	try {
-		$dateTo->parseDate($filter['date_to'], DateUtil::FORMAT_MONTHLY);
-	} catch (Exception $e) {
-		$dateTo = new DateUtil();
-		$dateTo->set(DateUtil::HOUR, 0);
-		$dateTo->set(DateUtil::MINUTES, 0);
-		$dateTo->set(DateUtil::SECONDS, 0);
-		$dateTo->set(DateUtil::DAY, 1);
-		$dateTo->add(DateUtil::MONTH, 2);
-	}
-	
-	if ($dateFrom->after($dateTo)) {
-		$tmpDate = $dateTo;
-		$dateTo = $dateFrom;
-		$dateFrom = $tmpDate;
-	}
-	
-	$filter['date_to'] = $dateTo->getFormattedDate(DateUtil::FORMAT_MONTHLY);
-	$filter['date_from'] = $dateFrom->getFormattedDate(DateUtil::FORMAT_MONTHLY);
-	
-	
-	if ($charge->CH_period == Charge::PERIOD_ONCE) {
-		$report['dates'][0] = array();
-		$report['dates'][0]['DATE_STRING'] = '';
-		
-		$report['dates'][0]['summary'] = array();
-		$report['dates'][0]['summary']['payed'] = 0;
-		$report['dates'][0]['summary']['payedWithDelay'] = 0;
-		$report['dates'][0]['summary']['delayed'] = 0;
-		$report['dates'][0]['summary']['pending'] = 0;
-		$report['dates'][0]['summary']['free'] = 0;
-		
-		foreach ($paymentReport as &$personReport) {
-			$info = array();
-			if ($personReport->_hasCharge == null) {
-				$info['text'] = '';
-				$info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
-			} else {
-				$chargeEntry = (array_slice($personReport->_hasCharge->_chargeEntries, 0,1));
-				$chargeEntry = $chargeEntry[0];
-				$periodDate = new DateUtil($chargeEntry->CE_period_date);
-				$info['text'] = $periodDate->getFormattedDate(DateUtil::FORMAT_DATE).'<hr style="border: 1px solid black;"/>';
-				if ($chargeEntry->CE_status == ChargeEntry::STATUS_ERROR) {
-					
-				} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue == 0) {
-					$info['text'] .= '';
-					$info['style'] = PaymentReportStyles::STATUS_FINISHED_IN_TIME;
-					$report['dates'][0]['summary']['payed'] += $chargeEntry->CE_amount;
-				} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue > 0) {
-					$info['text'] .= sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-					$info['style'] = PaymentReportStyles::STATUS_FINISHED_OVERDUE;
-					$report['dates'][0]['summary']['payedWithDelay'] += $chargeEntry->CE_amount;
-				} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING) {
-					$info['text'] .= '';
-					$info['style'] = PaymentReportStyles::STATUS_PENDING;
-					$report['dates'][0]['summary']['pending'] += $chargeEntry->CE_amount;
-				} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue <= $charge->CH_tolerance) {
-					$info['text'] .= sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-					$info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS;
-					$report['dates'][0]['summary']['delayed'] += $chargeEntry->CE_amount;
-				} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue > 0) {
-					$info['text'] .= sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-					$info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS_OVERDUE;
-					$report['dates'][0]['summary']['delayed'] += $chargeEntry->CE_amount;
-				} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE) {
-					$info['text'] .= '';
-					$info['style'] = PaymentReportStyles::STATUS_FREE_OF_CHARGE;
-					$report['dates'][0]['summary']['free'] ++;
-				} else {
-					$info['text'] .= '';
-					$info['style'] = PaymentReportStyles::STATUS_OTHER;
-				}
-			}
-			$personReport->_dates[0] = $info;
-		}
-	} else if ($charge->CH_period == Charge::PERIOD_MONTHLY) {
-		$iDate = $dateFrom;
-		while (!$iDate->after($dateTo)) {
-			$report['dates'][$iDate->getTime()] = array();
-			$report['dates'][$iDate->getTime()]['DateUtil'] = clone $iDate;
-			$report['dates'][$iDate->getTime()]['DATE_STRING'] = $iDate->getFormattedDate(DateUtil::FORMAT_MONTHLY);
-			
-			$report['dates'][$iDate->getTime()]['summary'] = array();
-			$report['dates'][$iDate->getTime()]['summary']['payed'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['payedWithDelay'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['delayed'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['pending'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['free'] = 0;
-	
-			$iDate->add(DateUtil::MONTH, 1);
-		}
-		
-		foreach ($paymentReport as &$personReport) {
-			$personReport->_dates = array();
-			$foundAnyEntry = false;
-			foreach ($report['dates'] as &$date) {
-				$dbDate = $date['DateUtil']->getFormattedDate(DateUtil::DB_DATE);
-				
-				$info = array();
-				$info['date'] = $dbDate;
-				if ($personReport->_hasCharge == null) {
-					$info['text'] = '';
-					$info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
-				} else {
-					// test if HasCharge belongs to current dateEntry
-					//
-					$dateStart = new DateUtil($personReport->_hasCharge->HC_datestart);
-					$dateEnd = new DateUtil($personReport->_hasCharge->HC_dateend);
-					if (!$dateStart->after($date['DateUtil']) && ($dateEnd->getTime() == null || !$date['DateUtil']->after($dateEnd))) {
-						$found = false;
-						foreach ($personReport->_hasCharge->_chargeEntries as $chargeEntry) {
-							if ($chargeEntry->CE_period_date == $dbDate) {
-								if ($chargeEntry->CE_status == ChargeEntry::STATUS_ERROR) {
-									
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue == 0) {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_FINISHED_IN_TIME;
-									$date['summary']['payed'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue > 0) {
-									$info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-									$info['style'] = PaymentReportStyles::STATUS_FINISHED_OVERDUE;
-									$date['summary']['payedWithDelay'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING) {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_PENDING;
-									$date['summary']['pending'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue <= $charge->CH_tolerance) {
-									$info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-									$info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS;
-									$date['summary']['delayed'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue > 0) {
-									$info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-									$info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS_OVERDUE;
-									$date['summary']['delayed'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE) {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_FREE_OF_CHARGE;
-									$date['summary']['free'] ++;
-								} else {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_OTHER;
-								}
-								$found = true;
-								$foundAnyEntry = true;
-								break;
-							}
-						}
-						if (!$found) {
-							$info['text'] = '';
-							$info['style'] = PaymentReportStyles::STATUS_PENDING_PAYMENT_NOT_CREATED;
-							$date['summary']['pending'] += $charges[$personReport->_hasCharge->HC_chargeid]->CH_amount;
-						}
-					} else {
-						$info['text'] = '';
-						$info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
-					}
-				}
-				$personReport->_dates[$date['DateUtil']->getTime()] = $info;
-			}
-			if (!$foundAnyEntry && !$filter['showall']) {
-			    $personReport = null;
-			}
-		}
-	} else if ($charge->CH_period == Charge::PERIOD_QUARTERLY) {
-		$iDate = $dateFrom;
-		
-		$quarterMonth = (floor(($iDate->get(DateUtil::MONTH) - 1) / 3) * 3 + 1);
-		
-		$iDate->set(DateUtil::MONTH, $quarterMonth);
-		while (!$iDate->after($dateTo)) {
-			$report['dates'][$iDate->getTime()] = array();
-			$report['dates'][$iDate->getTime()]['DateUtil'] = clone $iDate;
-			$report['dates'][$iDate->getTime()]['DATE_STRING'] = $iDate->getFormattedDate(DateUtil::FORMAT_QUARTERLY);
-			
-			$report['dates'][$iDate->getTime()]['summary'] = array();
-			$report['dates'][$iDate->getTime()]['summary']['payed'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['payedWithDelay'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['delayed'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['pending'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['free'] = 0;
-	
-			$iDate->add(DateUtil::MONTH, 3);
-		}
-		
-		foreach ($paymentReport as &$personReport) {
-			$personReport->_dates = array();
-			foreach ($report['dates'] as &$date) {
-				$dbDate = $date['DateUtil']->getFormattedDate(DateUtil::DB_DATE);
-				
-				$info = array();
-				$info['date'] = $dbDate;
-				if ($personReport->_hasCharge == null) {
-					$info['text'] = '';
-					$info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
-				} else {
-					// test if HasCharge belongs to current dateEntry
-					//
-					$dateStart = new DateUtil($personReport->_hasCharge->HC_datestart);
-					$dateEnd = new DateUtil($personReport->_hasCharge->HC_dateend);
-					if (!$dateStart->after($date['DateUtil']) && ($dateEnd->getTime() == null || !$date['DateUtil']->after($dateEnd))) {
-						$found = false;
-						foreach ($personReport->_hasCharge->_chargeEntries as $chargeEntry) {
-							if ($chargeEntry->CE_period_date == $dbDate) {
-								if ($chargeEntry->CE_status == ChargeEntry::STATUS_ERROR) {
-									
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue == 0) {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_FINISHED_IN_TIME;
-									$date['summary']['payed'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue > 0) {
-									$info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-									$info['style'] = PaymentReportStyles::STATUS_FINISHED_OVERDUE;
-									$date['summary']['payedWithDelay'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING) {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_PENDING;
-									$date['summary']['pending'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue <= $charge->CH_tolerance) {
-									$info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-									$info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS;
-									$date['summary']['delayed'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue > 0) {
-									$info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-									$info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS_OVERDUE;
-									$date['summary']['delayed'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE) {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_FREE_OF_CHARGE;
-									$date['summary']['free'] ++;
-								} else {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_OTHER;
-								}
-								$found = true;
-								break;
-							}
-						}
-						if (!$found) {
-							$info['text'] = '';
-							$info['style'] = PaymentReportStyles::STATUS_PENDING_PAYMENT_NOT_CREATED;
-							$date['summary']['pending'] += $charges[$personReport->_hasCharge->HC_chargeid]->CH_amount;
-						}
-					} else {
-						$info['text'] = '';
-						$info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
-					}
-				}
-				$personReport->_dates[$date['DateUtil']->getTime()] = $info;
-			}
-		}
-	} else if ($charge->CH_period == Charge::PERIOD_HALFYEARLY) {
-		$iDate = $dateFrom;
-		
-		$halfMonth = (floor(($iDate->get(DateUtil::MONTH) - 1) / 6) * 6 + 1);
-		
-		$iDate->set(DateUtil::MONTH, $halfMonth);
-		while (!$iDate->after($dateTo)) {
-			$report['dates'][$iDate->getTime()] = array();
-			$report['dates'][$iDate->getTime()]['DateUtil'] = clone $iDate;
-			$report['dates'][$iDate->getTime()]['DATE_STRING'] = $iDate->getFormattedDate(DateUtil::FORMAT_MONTHLY);
-			
-			$report['dates'][$iDate->getTime()]['summary'] = array();
-			$report['dates'][$iDate->getTime()]['summary']['payed'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['payedWithDelay'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['delayed'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['pending'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['free'] = 0;
-	
-			$iDate->add(DateUtil::MONTH, 6);
-		}
-		
-		foreach ($paymentReport as &$personReport) {
-			$personReport->_dates = array();
-			foreach ($report['dates'] as &$date) {
-				$dbDate = $date['DateUtil']->getFormattedDate(DateUtil::DB_DATE);
-				
-				$info = array();
-				$info['date'] = $dbDate;
-				if ($personReport->_hasCharge == null) {
-					$info['text'] = '';
-					$info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
-				} else {
-					// test if HasCharge belongs to current dateEntry
-					//
-					$dateStart = new DateUtil($personReport->_hasCharge->HC_datestart);
-					$dateEnd = new DateUtil($personReport->_hasCharge->HC_dateend);
-					if (!$dateStart->after($date['DateUtil']) && ($dateEnd->getTime() == null || !$date['DateUtil']->after($dateEnd))) {
-						$found = false;
-						foreach ($personReport->_hasCharge->_chargeEntries as $chargeEntry) {
-							if ($chargeEntry->CE_period_date == $dbDate) {
-								if ($chargeEntry->CE_status == ChargeEntry::STATUS_ERROR) {
-									
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue == 0) {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_FINISHED_IN_TIME;
-									$date['summary']['payed'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue > 0) {
-									$info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-									$info['style'] = PaymentReportStyles::STATUS_FINISHED_OVERDUE;
-									$date['summary']['payedWithDelay'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING) {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_PENDING;
-									$date['summary']['pending'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue <= $charge->CH_tolerance) {
-									$info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-									$info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS;
-									$date['summary']['delayed'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue > 0) {
-									$info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-									$info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS_OVERDUE;
-									$date['summary']['delayed'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE) {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_FREE_OF_CHARGE;
-									$date['summary']['free'] ++;
-								} else {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_OTHER;
-								}
-								$found = true;
-								break;
-							}
-						}
-						if (!$found) {
-							$info['text'] = '';
-							$info['style'] = PaymentReportStyles::STATUS_PENDING_PAYMENT_NOT_CREATED;
-							$date['summary']['pending'] += $charges[$personReport->_hasCharge->HC_chargeid]->CH_amount;
-						}
-					} else {
-						$info['text'] = '';
-						$info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
-					}
-				}
-				$personReport->_dates[$date['DateUtil']->getTime()] = $info;
-			}
-		}
-	} else if ($charge->CH_period == Charge::PERIOD_YEARLY) {
-		$iDate = $dateFrom;
-		
-		$iDate->set(DateUtil::MONTH, 1);
-		while (!$iDate->after($dateTo)) {
-			$report['dates'][$iDate->getTime()] = array();
-			$report['dates'][$iDate->getTime()]['DateUtil'] = clone $iDate;
-			$report['dates'][$iDate->getTime()]['DATE_STRING'] = $iDate->getFormattedDate(DateUtil::FORMAT_MONTHLY);
-			
-			$report['dates'][$iDate->getTime()]['summary'] = array();
-			$report['dates'][$iDate->getTime()]['summary']['payed'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['payedWithDelay'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['delayed'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['pending'] = 0;
-			$report['dates'][$iDate->getTime()]['summary']['free'] = 0;
-	
-			$iDate->add(DateUtil::YEAR, 1);
-		}
-		
-		foreach ($paymentReport as &$personReport) {
-			$personReport->_dates = array();
-			foreach ($report['dates'] as &$date) {
-				$dbDate = $date['DateUtil']->getFormattedDate(DateUtil::DB_DATE);
-				
-				$info = array();
-				$info['date'] = $dbDate;
-				if ($personReport->_hasCharge == null) {
-					$info['text'] = '';
-					$info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
-				} else {
-					// test if HasCharge belongs to current dateEntry
-					//
-					$dateStart = new DateUtil($personReport->_hasCharge->HC_datestart);
-					$dateEnd = new DateUtil($personReport->_hasCharge->HC_dateend);
-					if (!$dateStart->after($date['DateUtil']) && ($dateEnd->getTime() == null || !$date['DateUtil']->after($dateEnd))) {
-						$found = false;
-						foreach ($personReport->_hasCharge->_chargeEntries as $chargeEntry) {
-							if ($chargeEntry->CE_period_date == $dbDate) {
-								if ($chargeEntry->CE_status == ChargeEntry::STATUS_ERROR) {
-									
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue == 0) {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_FINISHED_IN_TIME;
-									$date['summary']['payed'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue > 0) {
-									$info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-									$info['style'] = PaymentReportStyles::STATUS_FINISHED_OVERDUE;
-									$date['summary']['payedWithDelay'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING) {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_PENDING;
-									$date['summary']['pending'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue <= $charge->CH_tolerance) {
-									$info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-									$info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS;
-									$date['summary']['delayed'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue > 0) {
-									$info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-									$info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS_OVERDUE;
-									$date['summary']['delayed'] += $chargeEntry->CE_amount;
-								} else if ($chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE) {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_FREE_OF_CHARGE;
-									$date['summary']['free'] ++;
-								} else {
-									$info['text'] = '';
-									$info['style'] = PaymentReportStyles::STATUS_OTHER;
-								}
-								$found = true;
-								break;
-							}
-						}
-						if (!$found) {
-							$info['text'] = '';
-							$info['style'] = PaymentReportStyles::STATUS_PENDING_PAYMENT_NOT_CREATED;
-							$date['summary']['pending'] += $charges[$personReport->_hasCharge->HC_chargeid]->CH_amount;
-						}
-					} else {
-						$info['text'] = '';
-						$info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
-					}
-				}
-				$personReport->_dates[$date['DateUtil']->getTime()] = $info;
-			}
-		}
-	}
-	
-	HTML_PaymentReport::showPayments($charges, $paymentReport, $report, $filter, $pageNav);
+    $filter = array();
+    // get filters
+    //
+    $filter['search'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport']['filter'], 'search', "");
+    $filter['CH_chargeid'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport']['filter'], 'CH_chargeid', 0);
+    $filter['PE_status'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport']['filter'], 'PE_status', -1);
+    $filter['showall'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport']['filter'], 'showall', 0);
+    $filter['date_from'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport']['filter'], 'date_from', null);
+    $filter['date_to'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport']['filter'], 'date_to', null);
+    // get limits
+    //
+    $limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport'], 'limit', 10);
+    $limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport'], 'limitstart', 0);
+
+    $persons = PersonDAO::getPersonWithAccountArray();
+    $charges = ChargeDAO::getChargeArray();
+
+    if (!$filter['CH_chargeid']) {
+        foreach ($charges as $monthlyCharge) {
+            $filter['CH_chargeid'] = $monthlyCharge->CH_chargeid;
+            break;
+        }
+    }
+    $charge = $charges[$filter['CH_chargeid']];
+    $paymentReport = array();
+
+    foreach ($persons as &$person) {
+        if ($filter['PE_status'] != -1 && $person->PE_status != $filter['PE_status']) {
+            continue;
+        }
+
+        if ($filter['search'] != "" && stripos($person->PE_firstname, $filter['search']) !== 0 && stripos($person->PE_surname, $filter['search']) !== 0) {
+            continue;
+        }
+
+        $hasCharges = HasChargeDAO::getHasChargeReportArray($person->PE_personid, $charge->CH_chargeid);
+
+        if (!count($hasCharges) && !$filter['showall']) {
+            continue;
+        }
+
+        $person->_hasCharge = null;
+
+        if (count($hasCharges)) {
+            foreach ($hasCharges as &$hasCharge) {
+                $hasCharge->_chargeEntries = ChargeEntryDAO::getChargeEntryArrayByHasChargeID($hasCharge->HC_haschargeid);
+
+                $person->_hasCharge = $hasCharge;
+                $paymentReport[] = $person;
+            }
+        } else {
+            $paymentReport[] = $person;
+        }
+    }
+
+    $pageNav = new PageNav(count($paymentReport), $limitstart, $limit);
+    $paymentReport = array_slice($paymentReport, $limitstart, $limit);
+
+    $report = array();
+
+    $report['dates'] = array();
+
+    $dateFrom = new DateUtil();
+    $dateTo = new DateUtil();
+
+    try {
+        $dateFrom->parseDate($filter['date_from'], DateUtil::FORMAT_MONTHLY);
+    } catch (Exception $e) {
+        $dateFrom = new DateUtil();
+        $dateFrom->set(DateUtil::HOUR, 0);
+        $dateFrom->set(DateUtil::MINUTES, 0);
+        $dateFrom->set(DateUtil::SECONDS, 0);
+        $dateFrom->set(DateUtil::DAY, 1);
+        $dateFrom->add(DateUtil::MONTH, -3);
+    }
+
+    try {
+        $dateTo->parseDate($filter['date_to'], DateUtil::FORMAT_MONTHLY);
+    } catch (Exception $e) {
+        $dateTo = new DateUtil();
+        $dateTo->set(DateUtil::HOUR, 0);
+        $dateTo->set(DateUtil::MINUTES, 0);
+        $dateTo->set(DateUtil::SECONDS, 0);
+        $dateTo->set(DateUtil::DAY, 1);
+        $dateTo->add(DateUtil::MONTH, 2);
+    }
+
+    if ($dateFrom->after($dateTo)) {
+        $tmpDate = $dateTo;
+        $dateTo = $dateFrom;
+        $dateFrom = $tmpDate;
+    }
+
+    $filter['date_to'] = $dateTo->getFormattedDate(DateUtil::FORMAT_MONTHLY);
+    $filter['date_from'] = $dateFrom->getFormattedDate(DateUtil::FORMAT_MONTHLY);
+
+
+    if ($charge->CH_period == Charge::PERIOD_ONCE) {
+        $report['dates'][0] = array();
+        $report['dates'][0]['DATE_STRING'] = '';
+
+        $report['dates'][0]['summary'] = array();
+        $report['dates'][0]['summary']['payed'] = 0;
+        $report['dates'][0]['summary']['payedWithDelay'] = 0;
+        $report['dates'][0]['summary']['delayed'] = 0;
+        $report['dates'][0]['summary']['pending'] = 0;
+        $report['dates'][0]['summary']['free'] = 0;
+
+        foreach ($paymentReport as &$personReport) {
+            $info = array();
+            if ($personReport->_hasCharge == null) {
+                $info['text'] = '';
+                $info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
+            } else {
+                $chargeEntry = (array_slice($personReport->_hasCharge->_chargeEntries, 0,1));
+                $chargeEntry = $chargeEntry[0];
+                $periodDate = new DateUtil($chargeEntry->CE_period_date);
+                $info['text'] = $periodDate->getFormattedDate(DateUtil::FORMAT_DATE).'<hr style="border: 1px solid black;"/>';
+                if ($chargeEntry->CE_status == ChargeEntry::STATUS_ERROR) {
+
+                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue == 0) {
+                    $info['text'] .= '';
+                    $info['style'] = PaymentReportStyles::STATUS_FINISHED_IN_TIME;
+                    $report['dates'][0]['summary']['payed'] += $chargeEntry->CE_amount;
+                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue > 0) {
+                    $info['text'] .= sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                    $info['style'] = PaymentReportStyles::STATUS_FINISHED_OVERDUE;
+                    $report['dates'][0]['summary']['payedWithDelay'] += $chargeEntry->CE_amount;
+                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING) {
+                    $info['text'] .= '';
+                    $info['style'] = PaymentReportStyles::STATUS_PENDING;
+                    $report['dates'][0]['summary']['pending'] += $chargeEntry->CE_amount;
+                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue <= $charge->CH_tolerance) {
+                    $info['text'] .= sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                    $info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS;
+                    $report['dates'][0]['summary']['delayed'] += $chargeEntry->CE_amount;
+                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue > 0) {
+                    $info['text'] .= sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                    $info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS_OVERDUE;
+                    $report['dates'][0]['summary']['delayed'] += $chargeEntry->CE_amount;
+                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE) {
+                    $info['text'] .= '';
+                    $info['style'] = PaymentReportStyles::STATUS_FREE_OF_CHARGE;
+                    $report['dates'][0]['summary']['free'] ++;
+                } else {
+                    $info['text'] .= '';
+                    $info['style'] = PaymentReportStyles::STATUS_OTHER;
+                }
+            }
+            $personReport->_dates[0] = $info;
+        }
+    } else if ($charge->CH_period == Charge::PERIOD_MONTHLY) {
+        $iDate = $dateFrom;
+        while (!$iDate->after($dateTo)) {
+            $report['dates'][$iDate->getTime()] = array();
+            $report['dates'][$iDate->getTime()]['DateUtil'] = clone $iDate;
+            $report['dates'][$iDate->getTime()]['DATE_STRING'] = $iDate->getFormattedDate(DateUtil::FORMAT_MONTHLY);
+
+            $report['dates'][$iDate->getTime()]['summary'] = array();
+            $report['dates'][$iDate->getTime()]['summary']['payed'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['payedWithDelay'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['delayed'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['pending'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['free'] = 0;
+
+            $iDate->add(DateUtil::MONTH, 1);
+        }
+
+        foreach ($paymentReport as &$personReport) {
+            $personReport->_dates = array();
+            $foundAnyEntry = false;
+            foreach ($report['dates'] as &$date) {
+                $dbDate = $date['DateUtil']->getFormattedDate(DateUtil::DB_DATE);
+
+                $info = array();
+                $info['date'] = $dbDate;
+                if ($personReport->_hasCharge == null) {
+                    $info['text'] = '';
+                    $info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
+                } else {
+                    // test if HasCharge belongs to current dateEntry
+                    //
+                    $dateStart = new DateUtil($personReport->_hasCharge->HC_datestart);
+                    $dateEnd = new DateUtil($personReport->_hasCharge->HC_dateend);
+                    if (!$dateStart->after($date['DateUtil']) && ($dateEnd->getTime() == null || !$date['DateUtil']->after($dateEnd))) {
+                        $found = false;
+                        foreach ($personReport->_hasCharge->_chargeEntries as $chargeEntry) {
+                            if ($chargeEntry->CE_period_date == $dbDate) {
+                                if ($chargeEntry->CE_status == ChargeEntry::STATUS_ERROR) {
+
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue == 0) {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_FINISHED_IN_TIME;
+                                    $date['summary']['payed'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue > 0) {
+                                    $info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                                    $info['style'] = PaymentReportStyles::STATUS_FINISHED_OVERDUE;
+                                    $date['summary']['payedWithDelay'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING) {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_PENDING;
+                                    $date['summary']['pending'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue <= $charge->CH_tolerance) {
+                                    $info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                                    $info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS;
+                                    $date['summary']['delayed'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue > 0) {
+                                    $info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                                    $info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS_OVERDUE;
+                                    $date['summary']['delayed'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE) {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_FREE_OF_CHARGE;
+                                    $date['summary']['free'] ++;
+                                } else {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_OTHER;
+                                }
+                                $found = true;
+                                $foundAnyEntry = true;
+                                break;
+                            }
+                        }
+                        if (!$found) {
+                            $info['text'] = '';
+                            $info['style'] = PaymentReportStyles::STATUS_PENDING_PAYMENT_NOT_CREATED;
+                            $date['summary']['pending'] += $charges[$personReport->_hasCharge->HC_chargeid]->CH_amount;
+                        }
+                    } else {
+                        $info['text'] = '';
+                        $info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
+                    }
+                }
+                $personReport->_dates[$date['DateUtil']->getTime()] = $info;
+            }
+            if (!$foundAnyEntry && !$filter['showall']) {
+                $personReport = null;
+            }
+        }
+    } else if ($charge->CH_period == Charge::PERIOD_QUARTERLY) {
+        $iDate = $dateFrom;
+
+        $quarterMonth = (floor(($iDate->get(DateUtil::MONTH) - 1) / 3) * 3 + 1);
+
+        $iDate->set(DateUtil::MONTH, $quarterMonth);
+        while (!$iDate->after($dateTo)) {
+            $report['dates'][$iDate->getTime()] = array();
+            $report['dates'][$iDate->getTime()]['DateUtil'] = clone $iDate;
+            $report['dates'][$iDate->getTime()]['DATE_STRING'] = $iDate->getFormattedDate(DateUtil::FORMAT_QUARTERLY);
+
+            $report['dates'][$iDate->getTime()]['summary'] = array();
+            $report['dates'][$iDate->getTime()]['summary']['payed'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['payedWithDelay'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['delayed'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['pending'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['free'] = 0;
+
+            $iDate->add(DateUtil::MONTH, 3);
+        }
+
+        foreach ($paymentReport as &$personReport) {
+            $personReport->_dates = array();
+            foreach ($report['dates'] as &$date) {
+                $dbDate = $date['DateUtil']->getFormattedDate(DateUtil::DB_DATE);
+
+                $info = array();
+                $info['date'] = $dbDate;
+                if ($personReport->_hasCharge == null) {
+                    $info['text'] = '';
+                    $info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
+                } else {
+                    // test if HasCharge belongs to current dateEntry
+                    //
+                    $dateStart = new DateUtil($personReport->_hasCharge->HC_datestart);
+                    $dateEnd = new DateUtil($personReport->_hasCharge->HC_dateend);
+                    if (!$dateStart->after($date['DateUtil']) && ($dateEnd->getTime() == null || !$date['DateUtil']->after($dateEnd))) {
+                        $found = false;
+                        foreach ($personReport->_hasCharge->_chargeEntries as $chargeEntry) {
+                            if ($chargeEntry->CE_period_date == $dbDate) {
+                                if ($chargeEntry->CE_status == ChargeEntry::STATUS_ERROR) {
+
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue == 0) {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_FINISHED_IN_TIME;
+                                    $date['summary']['payed'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue > 0) {
+                                    $info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                                    $info['style'] = PaymentReportStyles::STATUS_FINISHED_OVERDUE;
+                                    $date['summary']['payedWithDelay'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING) {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_PENDING;
+                                    $date['summary']['pending'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue <= $charge->CH_tolerance) {
+                                    $info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                                    $info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS;
+                                    $date['summary']['delayed'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue > 0) {
+                                    $info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                                    $info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS_OVERDUE;
+                                    $date['summary']['delayed'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE) {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_FREE_OF_CHARGE;
+                                    $date['summary']['free'] ++;
+                                } else {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_OTHER;
+                                }
+                                $found = true;
+                                break;
+                            }
+                        }
+                        if (!$found) {
+                            $info['text'] = '';
+                            $info['style'] = PaymentReportStyles::STATUS_PENDING_PAYMENT_NOT_CREATED;
+                            $date['summary']['pending'] += $charges[$personReport->_hasCharge->HC_chargeid]->CH_amount;
+                        }
+                    } else {
+                        $info['text'] = '';
+                        $info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
+                    }
+                }
+                $personReport->_dates[$date['DateUtil']->getTime()] = $info;
+            }
+        }
+    } else if ($charge->CH_period == Charge::PERIOD_HALFYEARLY) {
+        $iDate = $dateFrom;
+
+        $halfMonth = (floor(($iDate->get(DateUtil::MONTH) - 1) / 6) * 6 + 1);
+
+        $iDate->set(DateUtil::MONTH, $halfMonth);
+        while (!$iDate->after($dateTo)) {
+            $report['dates'][$iDate->getTime()] = array();
+            $report['dates'][$iDate->getTime()]['DateUtil'] = clone $iDate;
+            $report['dates'][$iDate->getTime()]['DATE_STRING'] = $iDate->getFormattedDate(DateUtil::FORMAT_MONTHLY);
+
+            $report['dates'][$iDate->getTime()]['summary'] = array();
+            $report['dates'][$iDate->getTime()]['summary']['payed'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['payedWithDelay'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['delayed'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['pending'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['free'] = 0;
+
+            $iDate->add(DateUtil::MONTH, 6);
+        }
+
+        foreach ($paymentReport as &$personReport) {
+            $personReport->_dates = array();
+            foreach ($report['dates'] as &$date) {
+                $dbDate = $date['DateUtil']->getFormattedDate(DateUtil::DB_DATE);
+
+                $info = array();
+                $info['date'] = $dbDate;
+                if ($personReport->_hasCharge == null) {
+                    $info['text'] = '';
+                    $info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
+                } else {
+                    // test if HasCharge belongs to current dateEntry
+                    //
+                    $dateStart = new DateUtil($personReport->_hasCharge->HC_datestart);
+                    $dateEnd = new DateUtil($personReport->_hasCharge->HC_dateend);
+                    if (!$dateStart->after($date['DateUtil']) && ($dateEnd->getTime() == null || !$date['DateUtil']->after($dateEnd))) {
+                        $found = false;
+                        foreach ($personReport->_hasCharge->_chargeEntries as $chargeEntry) {
+                            if ($chargeEntry->CE_period_date == $dbDate) {
+                                if ($chargeEntry->CE_status == ChargeEntry::STATUS_ERROR) {
+
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue == 0) {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_FINISHED_IN_TIME;
+                                    $date['summary']['payed'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue > 0) {
+                                    $info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                                    $info['style'] = PaymentReportStyles::STATUS_FINISHED_OVERDUE;
+                                    $date['summary']['payedWithDelay'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING) {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_PENDING;
+                                    $date['summary']['pending'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue <= $charge->CH_tolerance) {
+                                    $info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                                    $info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS;
+                                    $date['summary']['delayed'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue > 0) {
+                                    $info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                                    $info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS_OVERDUE;
+                                    $date['summary']['delayed'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE) {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_FREE_OF_CHARGE;
+                                    $date['summary']['free'] ++;
+                                } else {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_OTHER;
+                                }
+                                $found = true;
+                                break;
+                            }
+                        }
+                        if (!$found) {
+                            $info['text'] = '';
+                            $info['style'] = PaymentReportStyles::STATUS_PENDING_PAYMENT_NOT_CREATED;
+                            $date['summary']['pending'] += $charges[$personReport->_hasCharge->HC_chargeid]->CH_amount;
+                        }
+                    } else {
+                        $info['text'] = '';
+                        $info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
+                    }
+                }
+                $personReport->_dates[$date['DateUtil']->getTime()] = $info;
+            }
+        }
+    } else if ($charge->CH_period == Charge::PERIOD_YEARLY) {
+        $iDate = $dateFrom;
+
+        $iDate->set(DateUtil::MONTH, 1);
+        while (!$iDate->after($dateTo)) {
+            $report['dates'][$iDate->getTime()] = array();
+            $report['dates'][$iDate->getTime()]['DateUtil'] = clone $iDate;
+            $report['dates'][$iDate->getTime()]['DATE_STRING'] = $iDate->getFormattedDate(DateUtil::FORMAT_MONTHLY);
+
+            $report['dates'][$iDate->getTime()]['summary'] = array();
+            $report['dates'][$iDate->getTime()]['summary']['payed'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['payedWithDelay'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['delayed'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['pending'] = 0;
+            $report['dates'][$iDate->getTime()]['summary']['free'] = 0;
+
+            $iDate->add(DateUtil::YEAR, 1);
+        }
+
+        foreach ($paymentReport as &$personReport) {
+            $personReport->_dates = array();
+            foreach ($report['dates'] as &$date) {
+                $dbDate = $date['DateUtil']->getFormattedDate(DateUtil::DB_DATE);
+
+                $info = array();
+                $info['date'] = $dbDate;
+                if ($personReport->_hasCharge == null) {
+                    $info['text'] = '';
+                    $info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
+                } else {
+                    // test if HasCharge belongs to current dateEntry
+                    //
+                    $dateStart = new DateUtil($personReport->_hasCharge->HC_datestart);
+                    $dateEnd = new DateUtil($personReport->_hasCharge->HC_dateend);
+                    if (!$dateStart->after($date['DateUtil']) && ($dateEnd->getTime() == null || !$date['DateUtil']->after($dateEnd))) {
+                        $found = false;
+                        foreach ($personReport->_hasCharge->_chargeEntries as $chargeEntry) {
+                            if ($chargeEntry->CE_period_date == $dbDate) {
+                                if ($chargeEntry->CE_status == ChargeEntry::STATUS_ERROR) {
+
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue == 0) {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_FINISHED_IN_TIME;
+                                    $date['summary']['payed'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue > 0) {
+                                    $info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                                    $info['style'] = PaymentReportStyles::STATUS_FINISHED_OVERDUE;
+                                    $date['summary']['payedWithDelay'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING) {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_PENDING;
+                                    $date['summary']['pending'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue <= $charge->CH_tolerance) {
+                                    $info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                                    $info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS;
+                                    $date['summary']['delayed'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue > 0) {
+                                    $info['text'] = sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
+                                    $info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS_OVERDUE;
+                                    $date['summary']['delayed'] += $chargeEntry->CE_amount;
+                                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE) {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_FREE_OF_CHARGE;
+                                    $date['summary']['free'] ++;
+                                } else {
+                                    $info['text'] = '';
+                                    $info['style'] = PaymentReportStyles::STATUS_OTHER;
+                                }
+                                $found = true;
+                                break;
+                            }
+                        }
+                        if (!$found) {
+                            $info['text'] = '';
+                            $info['style'] = PaymentReportStyles::STATUS_PENDING_PAYMENT_NOT_CREATED;
+                            $date['summary']['pending'] += $charges[$personReport->_hasCharge->HC_chargeid]->CH_amount;
+                        }
+                    } else {
+                        $info['text'] = '';
+                        $info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
+                    }
+                }
+                $personReport->_dates[$date['DateUtil']->getTime()] = $info;
+            }
+        }
+    }
+
+    HTML_PaymentReport::showPayments($charges, $paymentReport, $report, $filter, $pageNav);
 }
 ?>

@@ -19,11 +19,11 @@
  *  Rolemember
  */
 class HasManagedNetwork {
-	/** @var int has managed network id PK */
-	var $MN_hasmanagednetworkid = null;
-	/** @var int FK network device ID */
-	var $MN_networkdeviceid = null;
-	/** @var int FK network ID */
-	var $MN_networkid = null;
+    /** @var int has managed network id PK */
+    var $MN_hasmanagednetworkid = null;
+    /** @var int FK network device ID */
+    var $MN_networkdeviceid = null;
+    /** @var int FK network ID */
+    var $MN_networkid = null;
 } // End of HasManagedNetwork class
 ?>
