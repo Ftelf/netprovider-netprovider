@@ -927,7 +927,7 @@ class HTML_myprofile {
 	formValidator.addValidation("PE_surname","required","<?php echo _("Please enter surname"); ?>");
 	formValidator.addValidation("PE_birthdate","date=dd.MM.yyyy","<?php echo _("Birthdate is in incorrect format"); ?>");
 	formValidator.addValidation("PE_email","email","<?php echo _("Please enter valid E-Mail"); ?>");
-	formValidator.setAddnlValidationFunction("passwordMatchValidator");
+	formValidator.setAddnlValidationFunction(passwordMatchValidator);
 	formValidator.addValidation("PE_password1","minlength=6","<?php echo _("Password is too short"); ?>");
 	
 	function passwordMatchValidator() {

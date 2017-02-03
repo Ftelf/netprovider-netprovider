@@ -283,6 +283,7 @@ class HTML_person {
 		global $core;
 		$allowFirmRegistration = $core->getProperty(Core::ALLOW_FIRM_REGISTRATION);
 		$enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
+		$chargesColspan = ($enableVatPayerSpecifics) ? 11 : 9;
 		$birthDate = new DateUtil($person->PE_birthdate);
 		$registerDate = new DateUtil($person->PE_registerdate);
 ?>
@@ -727,7 +728,7 @@ class HTML_person {
 	}
 ?>
         <tr class="<?php echo "irow$k"; ?>">
-          <td align="right" colspan="8">
+          <td align="right" colspan="<?php echo $chargesColspan; ?>">
             <a id="newHasChargeClick" class="text-button" href="javascript:showHasCharge();">
               <?php echo _("New payment"); ?>
             </a>
@@ -806,7 +807,7 @@ class HTML_person {
 	formValidator.addValidation("PE_username","alphanumeric","<?php echo _("Username contains invalid characters"); ?>");
 	formValidator.addValidation("PE_username","minlength=3","<?php echo _("Username is too short"); ?>");
 	formValidator.addValidation("PE_email","email","<?php echo _("Please enter valid E-Mail"); ?>");
-	formValidator.setAddnlValidationFunction("passwordMatchValidator");
+	formValidator.setAddnlValidationFunction(passwordMatchValidator);
 	formValidator.addValidation("PE_password1","minlength=6","<?php echo _("Password is too short"); ?>");
 	
 	function passwordMatchValidator() {

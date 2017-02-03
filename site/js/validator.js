@@ -890,7 +890,7 @@ function TestMaxLen(objValue, strMaxLen, strError)
 function TestMinLen(objValue, strMinLen, strError)
 {
     var ret = true;
-    if (eval(objValue.value.length) < eval(strMinLen))
+    if (eval(objValue.value.length) > 0 && eval(objValue.value.length) < eval(strMinLen))
     {
         if (!strError || strError.length == 0)
         {
