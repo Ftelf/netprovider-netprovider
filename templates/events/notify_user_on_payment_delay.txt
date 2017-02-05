@@ -4,9 +4,9 @@ vaše platba za službu |CHARGE_NAME| placená |CHARGE_PERIOD| je v prodlení. P
 
 Platba za období: |CHARGE_PERIOD_DATE|
 Datum splatnosti: |CHARGE_WRITE_OFF|
-Datum datum deaktivace: |CHARGE_SWITCH_OFF|
+Datum deaktivace: |CHARGE_SWITCH_OFF|
 
-toto je automaticky generovaná zpráva, pokud se domníváte že je chybná, kontaktujte neprodleně správce OVJih.NET.
+toto je automaticky generovaná zpráva, pokud se domníváte že je chybná, kontaktujte neprodleně správce OVJih.NET (http://ovjih.net/kontakt).
 
 S pozdravem,
 spolek OVJih.NET
