@@ -19,7 +19,7 @@
 
     <div id="header-top">
       <div>
-        <span class="version"><?php echo sprintf(_("version %s"), "1.3.0"); ?></span>
+        <span class="version"><?php echo sprintf(_("version %s"), "1.4.0"); ?></span>
         <span class="title"><?php echo $core->getProperty(Core::UI_VENDOR); ?></span>
       </div>
     </div>

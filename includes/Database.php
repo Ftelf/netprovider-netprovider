@@ -85,7 +85,7 @@ class Database {
 
     function query_batch($sqlArray) {
         try {
-            !$this->query('START TRANSACTION;');
+            $this->query('START TRANSACTION;');
             foreach ($sqlArray as $sql) {
                 $this->query($sql);
             }

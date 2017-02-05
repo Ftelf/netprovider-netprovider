@@ -132,24 +132,18 @@ class HTML_IpTrafficReport {
      <th class="title"><a href="#" onclick="sortChange('<?php echo IpDAO::PE_nick; ?>', 'ASC')"><?php echo _("Nickname"); ?></a></th>
      <th class="title"><a href="#" onclick="sortChange('<?php echo IpDAO::IP_address; ?>', 'ASC')"><?php echo _("IP address"); ?></a></th>
 <?php
-	foreach ($report['dates'] as &$date) {
-		if ($filter['period'] == "HOURS") {
-			$dateString = intval($date['DateUtil']->get(DateUtil::HOUR)) . "-" . ($date['DateUtil']->get(DateUtil::HOUR) + 1);
-		} else if ($filter['period'] == "DAYS") {
-			$dateString = $date['DateUtil']->getFormattedDate(DateUtil::FORMAT_DATE);
-		} else if ($filter['period'] == "MONTHS") {
-			$dateString = $date['DateUtil']->getFormattedDate(DateUtil::FORMAT_MONTHLY);
-		}
+	foreach ($report['intervals'] as &$column) {
 ?>
-     <th width="50" class="title-right"><?php echo $dateString; ?></th>
+     <th width="50" class="title-right"><?php echo $column; ?></th>
 <?php
 	}
+    unset($column);
 ?>
    </tr>
    </thead>
     <tfoot>
     <tr>
-      <td colspan="<?php echo sizeof($report['dates']) + 5; ?>">
+      <td colspan="<?php echo sizeof($report['intervals']) + 5; ?>">
 <?php
 	echo $pageNav->getListFooter();
 ?>
@@ -171,18 +165,25 @@ class HTML_IpTrafficReport {
      <td width="100"><?php echo $ip->PE_nick; ?></td>
      <td><?php echo $ip->IP_address; ?></td>
 <?php
-	foreach ($ip->dates as &$ipDateReport) {
+    foreach ($report['intervals'] as $column) {
+        if (!isset($ip->data[$column])) {
 ?>
-     <td class="right noWrap">
+    <td class="right noWrap">N/A<br/>N/A</td>
 <?php
-		if ($filter['show_rate'] == 'checked') {
-			echo NumberFormat::formatMBps($ipDateReport['IA_bytes_in']) . "<br/>" . NumberFormat::formatMBps($ipDateReport['IA_bytes_out']);
-		} else {
-			echo NumberFormat::formatMB($ipDateReport['IA_bytes_in']) . "<br/>" . NumberFormat::formatMB($ipDateReport['IA_bytes_out']);
-		}
+        } else {
+            $ipDateReport = $ip->data[$column];
 ?>
-     </td>
+<td class="right noWrap">
+    <?php
+    if ($filter['show_rate'] == 'checked') {
+        echo NumberFormat::formatMbitps($ipDateReport->IA_bytes_in) . "<br/>" . NumberFormat::formatMbitps($ipDateReport->IA_bytes_out);
+    } else {
+        echo NumberFormat::formatMB($ipDateReport->IA_bytes_in) . "<br/>" . NumberFormat::formatMB($ipDateReport->IA_bytes_out);
+    }
+    ?>
+</td>
 <?php
+        }
 	}
 ?>
    </tr>

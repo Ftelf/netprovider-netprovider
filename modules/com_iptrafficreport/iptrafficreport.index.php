@@ -70,7 +70,7 @@ function showTrafficReport() {
     }
 
     $report = array();
-    $report['dates'] = array();
+    $report['intervals'] = array();
     $report['options'] = array();
     $report['options']['HOURS'] = _("Hours");
     $report['options']['DAYS'] = _("Days");
@@ -112,79 +112,52 @@ function showTrafficReport() {
     $filter['period'] = $period;
 
     if ($period == "HOURS") {
-        $iDate = $dateFrom;
-        $dateTo = clone $dateFrom;
+        $iDate = new DateUtil($dateFrom);
+        $dateTo = new DateUtil($dateFrom);
         $dateTo->add(DateUtil::DAY, 1);
         while ($iDate < $dateTo) {
-            $report['dates'][$iDate->getTime()] = array();
-            $report['dates'][$iDate->getTime()]['DateUtil'] = clone $iDate;
+            $report['intervals'][] = intval($iDate->get(DateUtil::HOUR)) . "-" . ($iDate->get(DateUtil::HOUR) + 1);
             $iDate->add(DateUtil::HOUR, 1);
         }
+
+        foreach ($ips as &$ip) {
+            $ip->data = IpAccountDAO::getIpAccountHourSumByIpID($ip->IP_ipid, $dateFrom, $dateTo, ($showRate) ? 3600 : null);
+        }
     } else if ($period == "DAYS") {
-        $iDate = $dateFrom;
+        $iDate = new DateUtil($dateFrom);
+        $dateTo = new DateUtil(date("Y-m-d 23:59:59", $dateTo->getTime()));
         while ($iDate <= $dateTo) {
-            $report['dates'][$iDate->getTime()] = array();
-            $report['dates'][$iDate->getTime()]['DateUtil'] = clone $iDate;
+            $report['intervals'][] = $iDate->getFormattedDate(DateUtil::FORMAT_DATE);
             $iDate->add(DateUtil::DAY, 1);
+        }
+
+        foreach ($ips as &$ip) {
+            $ip->data = IpAccountDAO::getIpAccountDateSumByIpID($ip->IP_ipid, $dateFrom, $dateTo, ($showRate) ? 86400 : null);
         }
     } else if ($period == "MONTHS") {
         $dateFrom->set(DateUtil::DAY, 1);
-        $dateTo->set(DateUtil::DAY, 1);
-        $iDate = $dateFrom;
+        $iDate = new DateUtil($dateFrom);
+        $dateTo = new DateUtil(date("Y-m-t 23:59:59", $dateTo->getTime()));
         while ($iDate <= $dateTo) {
-            $report['dates'][$iDate->getTime()] = array();
-            $report['dates'][$iDate->getTime()]['DateUtil'] = clone $iDate;
+            $report['intervals'][] = $iDate->getFormattedDate(DateUtil::FORMAT_MONTHLY);
             $iDate->add(DateUtil::MONTH, 1);
         }
-    }
 
-    foreach ($ips as &$ip) {
-        $ip->dates = array();
-
-        foreach ($report['dates'] as $k => &$date) {
-            $ipDateReport = array();
-
-            if ($period == "HOURS") {
-                $sum = IpAccountDAO::getIpAccountHourSumByIpID($ip->IP_ipid, $date['DateUtil']->get(DateUtil::YEAR), $date['DateUtil']->get(DateUtil::MONTH), $date['DateUtil']->get(DateUtil::DAY), $date['DateUtil']->get(DateUtil::HOUR));
-
-                $divider = 3600;
-            } else if ($period == "DAYS") {
-                $sum = IpAccountDAO::getIpAccountDateSumByIpID($ip->IP_ipid, $date['DateUtil']->get(DateUtil::YEAR), $date['DateUtil']->get(DateUtil::MONTH), $date['DateUtil']->get(DateUtil::DAY));
-
-                $divider = 86400;
-            } else if ($period == "MONTHS") {
-                $sum = IpAccountDAO::getIpAccountMonthSumByIpID($ip->IP_ipid, $date['DateUtil']->get(DateUtil::YEAR), $date['DateUtil']->get(DateUtil::MONTH));
-
-                $divider = 2592000;
-            }
-
-            if ($showRate) {
-                $ipDateReport['IA_bytes_in'] = $sum->IA_bytes_in / $divider;
-                $ipDateReport['IA_bytes_out'] = $sum->IA_bytes_out / $divider;
-                $ipDateReport['IA_packets_in'] = $sum->IA_packets_in / $divider;
-                $ipDateReport['IA_packets_out'] = $sum->IA_packets_out / $divider;
-            } else {
-                $ipDateReport['IA_bytes_in'] = $sum->IA_bytes_in;
-                $ipDateReport['IA_bytes_out'] = $sum->IA_bytes_out;
-                $ipDateReport['IA_packets_in'] = $sum->IA_packets_in;
-                $ipDateReport['IA_packets_out'] = $sum->IA_packets_out;
-            }
-
-            $ip->dates[] = $ipDateReport;
+        foreach ($ips as &$ip) {
+            $ip->data = IpAccountDAO::getIpAccountMonthSumByIpID($ip->IP_ipid, $dateFrom, $dateTo, ($showRate) ? 2592000 : null);
         }
     }
 
     if ($filter['sort_key'] == IpDAO::data) {
-
         function cmp($a, $b) {
             $va = 0;
-            foreach ($a->dates as &$ipDateReport) {
-                $va += $ipDateReport['IA_bytes_in'] + $ipDateReport['IA_bytes_out'];
+            foreach ($a->data as &$ipDateReport) {
+                $va += $ipDateReport->bytes_sum;
             }
 
             $vb = 0;
-            foreach ($b->dates as &$ipDateReport) {
-                $vb += $ipDateReport['IA_bytes_in'] + $ipDateReport['IA_bytes_out'];
+            foreach ($b->data as &$ipDateReport) {
+                $vb += $ipDateReport->bytes_sum;
             }
 
             if ($va == $vb) return 0;

@@ -58,6 +58,10 @@ class NumberFormat {
         return number_format($value / 1024, 2, ',', ' ') . " KBps";
     }
 
+    public static function formatMbitps($value) {
+        return number_format($value / 131072, 2, ',', ' ') . " Mbps";
+    }
+
     public static function parseSI($value, $unit) {
         $matches = null;
         if (mb_ereg("^([[:digit:]]{1,})(\.[[:digit:]]{1,})?[[:space:]]{0,1}(T|G|M|K|k)?$unit$", $value, $matches)) {

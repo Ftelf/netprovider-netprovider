@@ -64,32 +64,44 @@ class IpAccountDAO {
         $database->loadObject($ipAccount);
         return $ipAccount;
     }
-    static function getIpAccountHourSumByIpID($id, $year, $month, $day, $hour) {
+    static function getIpAccountHourSumByIpID($id, $dateFrom, $dateTo, $divider) {
         if (!$id) throw new Exception("no ID specified");
         global $database;
-        $ipAccount = new IpAccount();
-        $query = "SELECT SUM(`IA_bytes_in`) as IA_bytes_in,SUM(`IA_bytes_out`) as IA_bytes_out,SUM(`IA_packets_in`) as IA_packets_in,SUM(`IA_packets_out`) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND YEAR(`IA_datetime`) = '$year' AND MONTH(`IA_datetime`) = '$month' AND DAY(`IA_datetime`) = '$day' AND HOUR(`IA_datetime`) = '$hour'";
+        $sqlDateFrom = $dateFrom->getFormattedDate(DateUtil::DB_DATETIME);
+        $sqlDateTo = $dateTo->getFormattedDate(DateUtil::DB_DATETIME);
+        if ($divider) {
+            $query = "SELECT CONCAT(DATE_FORMAT(IA_datetime,'%H')+0,'-',DATE_FORMAT(IA_datetime,'%H')+1) as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`/$divider) as IA_bytes_in, SUM(`IA_bytes_out`/$divider) as IA_bytes_out, SUM(`IA_packets_in`/$divider) as IA_packets_in, SUM(`IA_packets_out`/$divider) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m-%d-%H') ASC";
+        } else {
+            $query = "SELECT CONCAT(DATE_FORMAT(IA_datetime,'%H')+0,'-',DATE_FORMAT(IA_datetime,'%H')+1) as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`) as IA_bytes_in, SUM(`IA_bytes_out`) as IA_bytes_out, SUM(`IA_packets_in`) as IA_packets_in, SUM(`IA_packets_out`) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m-%d-%H') ASC";
+        }
         $database->setQuery($query);
-        $database->loadObject($ipAccount);
-        return $ipAccount;
+        return $database->loadObjectList('date');
     }
-    static function getIpAccountDateSumByIpID($id, $year, $month, $day) {
+    static function getIpAccountDateSumByIpID($id, $dateFrom, $dateTo, $divider) {
         if (!$id) throw new Exception("no ID specified");
         global $database;
-        $ipAccount = new IpAccount();
-        $query = "SELECT SUM(`IA_bytes_in`) as IA_bytes_in,SUM(`IA_bytes_out`) as IA_bytes_out,SUM(`IA_packets_in`) as IA_packets_in,SUM(`IA_packets_out`) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND YEAR(`IA_datetime`) = '$year' AND MONTH(`IA_datetime`) = '$month' AND DAY(`IA_datetime`) = '$day'";
+        $sqlDateFrom = $dateFrom->getFormattedDate(DateUtil::DB_DATETIME);
+        $sqlDateTo = $dateTo->getFormattedDate(DateUtil::DB_DATETIME);
+        if ($divider) {
+            $query = "SELECT DATE_FORMAT(IA_datetime,'%d.%m.%Y') as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`/$divider) as IA_bytes_in, SUM(`IA_bytes_out`/$divider) as IA_bytes_out, SUM(`IA_packets_in`/$divider) as IA_packets_in, SUM(`IA_packets_out`/$divider) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m-%d') ASC";
+        } else {
+            $query = "SELECT DATE_FORMAT(IA_datetime,'%d.%m.%Y') as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`) as IA_bytes_in, SUM(`IA_bytes_out`) as IA_bytes_out, SUM(`IA_packets_in`) as IA_packets_in, SUM(`IA_packets_out`) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m-%d') ASC";
+        }
         $database->setQuery($query);
-        $database->loadObject($ipAccount);
-        return $ipAccount;
+        return $database->loadObjectList('date');
     }
-    static function getIpAccountMonthSumByIpID($id, $year, $month) {
+    static function getIpAccountMonthSumByIpID($id, $dateFrom, $dateTo, $divider) {
         if (!$id) throw new Exception("no ID specified");
         global $database;
-        $ipAccount = new IpAccount();
-        $query = "SELECT SUM(`IA_bytes_in`) as IA_bytes_in,SUM(`IA_bytes_out`) as IA_bytes_out,SUM(`IA_packets_in`) as IA_packets_in,SUM(`IA_packets_out`) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND YEAR(`IA_datetime`) = '$year' AND MONTH(`IA_datetime`) = '$month'";
+        $sqlDateFrom = $dateFrom->getFormattedDate(DateUtil::DB_DATE);
+        $sqlDateTo = $dateTo->getFormattedDate(DateUtil::DB_DATE);
+        if ($divider) {
+            $query = "SELECT DATE_FORMAT(IA_datetime,'%m/%Y') as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`)/$divider as IA_bytes_in, SUM(`IA_bytes_out`)/$divider as IA_bytes_out, SUM(`IA_packets_in`)/$divider as IA_packets_in, SUM(`IA_packets_out`)/$divider as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m') ASC";
+        }else {
+            $query = "SELECT DATE_FORMAT(IA_datetime,'%m/%Y') as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`) as IA_bytes_in, SUM(`IA_bytes_out`) as IA_bytes_out, SUM(`IA_packets_in`) as IA_packets_in, SUM(`IA_packets_out`) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m') ASC";
+        }
         $database->setQuery($query);
-        $database->loadObject($ipAccount);
-        return $ipAccount;
+        return $database->loadObjectList('date');
     }
     static function getLastIpAccountByIpID($id) {
         if (!$id) throw new Exception("no ID specified");
