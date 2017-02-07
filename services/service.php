@@ -17,6 +17,7 @@
  */
  
     require_once(dirname(__FILE__) . "/../includes/Core.php");
+    putenv("LANGUAGE=");
     $core = new Core();
     require_once($core->getAppRoot() . "includes/EmailBankAccountList.php");
     require_once($core->getAppRoot() . "includes/billing/AccountEntryUtil.php");
