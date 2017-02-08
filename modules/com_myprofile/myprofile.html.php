@@ -879,7 +879,7 @@ class HTML_myprofile {
       </td>
       <td valign="top">
     <div class="tab-page" id="modules-cpanel-editmyprofile">
-	  <script language="JavaScript" type="text/javascript">var tabPanePerson1 = new WebFXTabPane(document.getElementById("modules-cpanel-editmyprofile"), 1);</script>
+      <script language="JavaScript" type="text/javascript">var tabPanePerson1 = new WebFXTabPane(document.getElementById("modules-cpanel-editmyprofile"), 1);</script>
       <div class="tab-page" id="module01"><h2 class="tab"><?php echo _("Login creditials"); ?></h2>
         <script language="JavaScript" type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module01"));</script>
         <table class="adminform">

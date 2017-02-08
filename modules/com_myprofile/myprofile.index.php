@@ -125,20 +125,26 @@ function showPerson() {
 
     foreach ($ips as &$ip) {
         $sum = IpAccountDAO::getIpAccountMonthSumByIpID($ip->IP_ipid, $dateFrom, $dateTo);
-        $data = $sum[$dateFrom->getFormattedDate(DateUtil::FORMAT_MONTHLY)];
 
-        $traffic['TRAFFIC_MONTH'][] = array(
-            'IP' => $ip->IP_address,
-            'DATA_IN' => $data->IA_bytes_in,
-            'DATA_OUT' => $data->IA_bytes_out,
-            'PACKET_IN' => $data->IA_packets_in,
-            'PACKET_OUT' => $data->IA_packets_out
-        );
+        $key = $dateFrom->getFormattedDate(DateUtil::FORMAT_MONTHLY);
+        if (isset($sum[$key])) {
+            $data = $sum[$key];
 
-        $IA_bytes_inSum += $data->IA_bytes_in;
-        $IA_bytes_outSum += $data->IA_bytes_out;
-        $IA_packets_inSum += $data->IA_packets_in;
-        $IA_packets_outSum += $data->IA_packets_out;
+            $traffic['TRAFFIC_MONTH'][] = array(
+                'IP' => $ip->IP_address,
+                'DATA_IN' => $data->IA_bytes_in,
+                'DATA_OUT' => $data->IA_bytes_out,
+                'PACKET_IN' => $data->IA_packets_in,
+                'PACKET_OUT' => $data->IA_packets_out
+            );
+
+            $IA_bytes_inSum += $data->IA_bytes_in;
+            $IA_bytes_outSum += $data->IA_bytes_out;
+            $IA_packets_inSum += $data->IA_packets_in;
+            $IA_packets_outSum += $data->IA_packets_out;
+        } else {
+
+        }
     }
 
     $traffic['SUMMARY'] = array(
