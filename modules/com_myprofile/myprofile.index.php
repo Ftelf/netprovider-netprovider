@@ -101,30 +101,22 @@ function showPerson() {
     $dateMonthTemp = Utils::getParam($_SESSION['UI_SETTINGS']['com_myprofile']['filter'], 'date_month', null);
     $dateDayTemp = Utils::getParam($_SESSION['UI_SETTINGS']['com_myprofile']['filter'], 'date_day', null);
 
-    $dateMonth = new DateUtil();
+    $dateFrom = new DateUtil();
     $traffic['TRAFFIC_MONTH'] = array();
 
     try {
-        $dateMonth->parseDate($dateMonthTemp, DateUtil::FORMAT_MONTHLY);
+        $dateFrom->parseDate($dateMonthTemp, DateUtil::FORMAT_MONTHLY);
     } catch (Exception $e) {
-        $dateMonth = new DateUtil();
-        $dateMonth->set(DateUtil::SECONDS, 0);
-        $dateMonth->set(DateUtil::MINUTES, 0);
-        $dateMonth->set(DateUtil::HOUR, 0);
-        $dateMonth->set(DateUtil::DAY, 1);
+        $dateFrom = new DateUtil();
+        $dateFrom->set(DateUtil::SECONDS, 0);
+        $dateFrom->set(DateUtil::MINUTES, 0);
+        $dateFrom->set(DateUtil::HOUR, 0);
+        $dateFrom->set(DateUtil::DAY, 1);
     }
 
-    $traffic['DATE_MONTH'] = $dateMonth;
+    $dateTo = new DateUtil(date("Y-m-t 23:59:59", $dateFrom->getTime()));
 
-    $dateDay = new DateUtil();
-    try {
-        $dateDay->parseDate($dateDayTemp, DateUtil::FORMAT_DATE);
-    } catch (Exception $e) {
-        $dateDay = new DateUtil();
-        $dateDay->set(DateUtil::SECONDS, 0);
-        $dateDay->set(DateUtil::MINUTES, 0);
-        $dateDay->set(DateUtil::HOUR, 0);
-    }
+    $traffic['DATE_MONTH'] = $dateFrom;
 
     $IA_bytes_inSum = 0;
     $IA_bytes_outSum = 0;
@@ -132,20 +124,21 @@ function showPerson() {
     $IA_packets_outSum = 0;
 
     foreach ($ips as &$ip) {
-        $sum = IpAccountDAO::getIpAccountMonthSumByIpID($ip->IP_ipid, $dateMonth->get(DateUtil::YEAR), $dateMonth->get(DateUtil::MONTH));
+        $sum = IpAccountDAO::getIpAccountMonthSumByIpID($ip->IP_ipid, $dateFrom, $dateTo);
+        $data = $sum[$dateFrom->getFormattedDate(DateUtil::FORMAT_MONTHLY)];
 
         $traffic['TRAFFIC_MONTH'][] = array(
             'IP' => $ip->IP_address,
-            'DATA_IN' => $sum->IA_bytes_in,
-            'DATA_OUT' => $sum->IA_bytes_out,
-            'PACKET_IN' => $sum->IA_packets_in,
-            'PACKET_OUT' => $sum->IA_packets_out
+            'DATA_IN' => $data->IA_bytes_in,
+            'DATA_OUT' => $data->IA_bytes_out,
+            'PACKET_IN' => $data->IA_packets_in,
+            'PACKET_OUT' => $data->IA_packets_out
         );
 
-        $IA_bytes_inSum += $sum->IA_bytes_in;
-        $IA_bytes_outSum += $sum->IA_bytes_out;
-        $IA_packets_inSum += $sum->IA_packets_in;
-        $IA_packets_outSum += $sum->IA_packets_out;
+        $IA_bytes_inSum += $data->IA_bytes_in;
+        $IA_bytes_outSum += $data->IA_bytes_out;
+        $IA_packets_inSum += $data->IA_packets_in;
+        $IA_packets_outSum += $data->IA_packets_out;
     }
 
     $traffic['SUMMARY'] = array(

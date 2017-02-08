@@ -90,7 +90,7 @@ class IpAccountDAO {
         $database->setQuery($query);
         return $database->loadObjectList('date');
     }
-    static function getIpAccountMonthSumByIpID($id, $dateFrom, $dateTo, $divider) {
+    static function getIpAccountMonthSumByIpID($id, $dateFrom, $dateTo, $divider = null) {
         if (!$id) throw new Exception("no ID specified");
         global $database;
         $sqlDateFrom = $dateFrom->getFormattedDate(DateUtil::DB_DATE);
