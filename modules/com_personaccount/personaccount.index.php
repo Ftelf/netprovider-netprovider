@@ -378,7 +378,7 @@ function freeCharge($ceid) {
     $chargeEntry->CE_baseamount = 0;
     $chargeEntry->CE_vat = 0;
     $chargeEntry->CE_amount = 0;
-    $chargeEntry->CE_currency = "";
+    $chargeEntry->CE_currency = $charge->CH_currency;
     $chargeEntry->CE_overdue = 0;
     $chargeEntry->CE_status = ChargeEntry::STATUS_TESTINGFREEOFCHARGE;
 
@@ -429,7 +429,7 @@ function ignoreCharge($ceid) {
     $chargeEntry->CE_baseamount = 0;
     $chargeEntry->CE_vat = 0;
     $chargeEntry->CE_amount = 0;
-    $chargeEntry->CE_currency = "";
+    $chargeEntry->CE_currency = $charge->CH_currency;
     $chargeEntry->CE_overdue = 0;
     $chargeEntry->CE_status = ChargeEntry::STATUS_DISABLED;
 

@@ -907,7 +907,7 @@ class HTML_BankAccount {
     <input type="hidden" name="EL_emaillistid" value="" />
     <input type="hidden" name="task" value="showBankList" />
     <input type="hidden" name="boxchecked" value="0" />
-    <input type="hidden" name="hidemainmenu" value="0" />
+    <input type="hidden" name="hidemainmenu" value="1" />
     </form>
     </div>
     

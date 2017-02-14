@@ -38,9 +38,9 @@ if (!is_array($cid)) {
 }
 
 switch ($task) {
-//	case 'newBA':
-//		editBankAccount(null);
-//		break;
+//    case 'newBA':
+//        editBankAccount(null);
+//        break;
 
     case 'editBA':
         editBankAccount($bid);
@@ -76,9 +76,9 @@ switch ($task) {
         doUploadBankLists($bid);
         break;
 
-//	case 'removeB':
-//		removeGroup($cid);
-//		break;
+//    case 'removeB':
+//        removeGroup($cid);
+//        break;
 
     case 'editBAE':
         editBankAccountEntry($eid);
@@ -338,20 +338,22 @@ function showBankList($bid) {
 
     // get limits
     //
-    $limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_bankaccount'], 'limit', 10);
-    $limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_bankaccount'], 'limitstart', 0);
+    $limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_bankaccount'], 'limit2', 10);
+    $limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_bankaccount'], 'limitstart2', 0);
 
     $bankAccount = BankAccountDAO::getBankAccountByID($bid);
     $emailLists = EmailListDAO::getEmailListArrayByBankAccountID($bid);
 
     if (count($emailLists) < $limitstart) {
         $limitstart = 0;
-        $_SESSION['UI_SETTINGS']['com_bankaccount']['limitstart'] = $limitstart;
+        $_SESSION['UI_SETTINGS']['com_bankaccount']['limitstart2'] = $limitstart;
     }
 
-    $pageNav = new PageNav(count($emailLists), $limitstart, $limit);
+    $pageNav = new PageNav(count($emailLists), $limitstart, $limit, '2');
 
-    HTML_BankAccount::showBankList($bankAccount, array_slice($emailLists, $limitstart, $limit), $pageNav);
+    $slicedEmailLists = array_slice($emailLists, $limitstart, $limit);
+
+    HTML_BankAccount::showBankList($bankAccount, $slicedEmailLists, $pageNav);
 }
 /**
  * 

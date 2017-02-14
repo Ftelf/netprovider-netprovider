@@ -401,6 +401,7 @@ class EmailBankAccountList {
                         $bankAccountEntry->BE_bankaccountid = $this->_bankAccount->BA_bankaccountid;
                         $database->insertObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", false);
                     }
+                    unset($bankAccountEntry);
                     $emailList->EL_status = EmailList::STATUS_COMPLETED;
                     $emailList->EL_entrycount = count($parsedList['LIST']);
                     $database->updateObject("emaillist", $emailList, "EL_emaillistid", false, false);
@@ -420,6 +421,7 @@ class EmailBankAccountList {
                 }
             }
         }
+        unset($emailList);
     }
 } // End of EmailBankAccountList class
 ?>

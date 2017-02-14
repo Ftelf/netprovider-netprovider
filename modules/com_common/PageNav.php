@@ -46,7 +46,7 @@ class PageNav {
     * @return string The html for the limit # input box
     */
     function getLimitBox () {
-        $limits = array(5,10,15,20,25,30,50,100,200,500);
+        $limits = array(5, 10, 15, 20, 25, 30, 50, 100, 200, 500);
         $ohtml = "";
         for ($i=0, $n = count($limits); $i < $n; $i++) {
             if ($limits[$i] == $this->limit) {
