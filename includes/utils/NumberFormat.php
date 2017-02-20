@@ -50,6 +50,14 @@ class NumberFormat {
         }
     }
 
+    public static function parseInteger($value) {
+        if (is_numeric($value)) {
+            return (int)$value;
+        } else {
+            throw new Exception("Integer in incorrect format");
+        }
+    }
+
     public static function formatMB($value) {
         return number_format($value / 1048576, 2, ',', ' ') . " MB";
     }

@@ -103,16 +103,16 @@ class EmailBankAccountList {
                                 if ($this->_bankAccount->BA_accountnumber != $accountNumber) {
                                     $msg = sprintf("List: Číslo bankovního konta nesouhlasí %s != %s", $this->_bankAccount->BA_accountnumber, $accountNumber);
                                     $this->_messages[] = $msg;
-                                    $database->log($msg, LOG::LEVEL_WARNING);
+                                    $database->log($msg, LOG::LEVEL_ERROR);
                                     continue;
                                 }
 
-                                $emailList->EL_year = mb_substr($idNo, 0, 2) + 2000;
+                                $emailList->EL_year = NumberFormat::parseInteger(mb_substr($idNo, 0, 2)) + 2000;
                                 $emailList->EL_no = mb_substr($idNo, 2, 3);
                             } else {
                                 $msg = sprintf("List: neplatný název přílohy: ", $filename);
                                 $this->_messages[] = $msg;
-                                $database->log($msg, LOG::LEVEL_WARNING);
+                                $database->log($msg, LOG::LEVEL_ERROR);
                                 continue;
                             }
 

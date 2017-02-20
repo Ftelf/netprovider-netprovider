@@ -724,12 +724,16 @@ class HTML_BankAccount {
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
 		} else if (pressbutton == 'uploadBankLists') {
+            hideMainMenu();
 			submitform(pressbutton);
 		} else if (pressbutton == 'downloadBankLists') {
+            hideMainMenu();
 			submitform(pressbutton);
 		} else if (pressbutton == 'processBankLists') {
+            hideMainMenu();
 			submitform(pressbutton);
 		} else if (pressbutton == 'processEntries') {
+            hideMainMenu();
 			submitform(pressbutton);
 		}
 	}
@@ -907,7 +911,7 @@ class HTML_BankAccount {
     <input type="hidden" name="EL_emaillistid" value="" />
     <input type="hidden" name="task" value="showBankList" />
     <input type="hidden" name="boxchecked" value="0" />
-    <input type="hidden" name="hidemainmenu" value="1" />
+    <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
     
