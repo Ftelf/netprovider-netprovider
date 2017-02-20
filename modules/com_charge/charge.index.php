@@ -103,37 +103,11 @@ function editCharge($chid=null) {
  * @param String $task task
  */
 function saveCharge($task) {
-    global $database, $mainframe, $my, $acl, $appContext;
+    global $core, $database, $mainframe, $my, $acl, $appContext;
 
     $charge = new Charge();
     database::bind($_POST, $charge);
-    $isNew 	= !$charge->CH_chargeid;
-
-    try {
-        $charge->CH_baseamount = NumberFormat::parseMoney($charge->CH_baseamount);
-    } catch (Exception $e) {
-        Core::alert(_("Base amount is in incorrect format"));
-        $charge->CH_baseamount = null;
-
-        $toleranceArray = getToleranceArray();
-        $internets = InternetDAO::getInternetArray();
-
-        HTML_charge::editCharge($charge, $toleranceArray, $internets);
-        return;
-    }
-
-    try {
-        $charge->CH_vat = NumberFormat::parseMoney($charge->CH_vat);
-    } catch (Exception $e) {
-        Core::alert(_("VAT is in incorrect format"));
-        $charge->CH_vat = null;
-
-        $toleranceArray = getToleranceArray();
-        $internets = InternetDAO::getInternetArray();
-
-        HTML_charge::editCharge($charge, $toleranceArray, $internets);
-        return;
-    }
+    $isNew = !$charge->CH_chargeid;
 
     try {
         $charge->CH_amount = NumberFormat::parseMoney($charge->CH_amount);
@@ -146,6 +120,37 @@ function saveCharge($task) {
 
         HTML_charge::editCharge($charge, $toleranceArray, $internets);
         return;
+    }
+
+    if ($enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS)) {
+        try {
+            $charge->CH_baseamount = NumberFormat::parseMoney($charge->CH_baseamount);
+        } catch (Exception $e) {
+            Core::alert(_("Base amount is in incorrect format"));
+            $charge->CH_baseamount = null;
+
+            $toleranceArray = getToleranceArray();
+            $internets = InternetDAO::getInternetArray();
+
+            HTML_charge::editCharge($charge, $toleranceArray, $internets);
+            return;
+        }
+
+        try {
+            $charge->CH_vat = NumberFormat::parseMoney($charge->CH_vat);
+        } catch (Exception $e) {
+            Core::alert(_("VAT is in incorrect format"));
+            $charge->CH_vat = null;
+
+            $toleranceArray = getToleranceArray();
+            $internets = InternetDAO::getInternetArray();
+
+            HTML_charge::editCharge($charge, $toleranceArray, $internets);
+            return;
+        }
+    } else {
+        $charge->CH_baseamount = $charge->CH_amount;
+        $charge->CH_vat = 0;
     }
 
     if ($charge->CH_type != Charge::TYPE_INTERNET_PAYMENT) $charge->CH_internetid = null;

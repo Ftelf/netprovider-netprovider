@@ -682,7 +682,7 @@ class ChargesUtil {
                             $charge = $charges[$hasCharge->HC_chargeid];
 
                             // if Status is DISABLED and actual status differs then disable
-                            // disabled HasCharges are discarted from billing
+                            // disabled HasCharges are discarded from billing
                             if ($hasCharge->HC_status == HasCharge::STATUS_DISABLED) {
                                 if ($hasCharge->HC_actualstate != HasCharge::ACTUALSTATE_DISABLED) {
                                     $hasCharge->HC_actualstate = HasCharge::ACTUALSTATE_DISABLED;
@@ -780,6 +780,7 @@ class ChargesUtil {
                                                     $database->updateObject("chargeentry", $chargeEntry, "CE_chargeentryid", false, false);
                                                     $database->commit();
                                                 } catch (Exception $e) {
+                                                    //TODO fix DATETIME 0000-00-00
                                                     $database->rollback();
                                                     $msg = "Error processing ChargeEntry: " . $e->getMessage();
                                                     $this->_messages[] = $msg;
@@ -817,7 +818,7 @@ class ChargesUtil {
                                                 $periodIsInPresent = $now->before($endPeriodDate);
                                             }
                                             if ($periodIsInPresent) {
-                                                // We shoult take in place only ChargeEntries that are actuall now
+                                                // We should take in place only ChargeEntries which are actual now
                                                 if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED ||
                                                     $chargeEntry->CE_status == ChargeEntry::STATUS_PENDING ||
                                                     $chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE) {
