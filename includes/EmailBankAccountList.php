@@ -17,6 +17,7 @@
 
 global $core;
 require_once('Net/POP3.php');
+require_once($core->getAppRoot() . "includes/utils/NumberFormat.php");
 require_once($core->getAppRoot() . "includes/dao/BankAccountDAO.php");
 require_once($core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php");
 require_once($core->getAppRoot() . "includes/dao/EmailListDAO.php");
