@@ -1,0 +1,16 @@
+Vážený uživateli |PERSON_NAME| sítě OVJih.NET,
+vaše platba za službu |CHARGE_NAME| placená |CHARGE_PERIOD| je v prodlení. Pokud neuhradíte částku |CHARGE_AMOUNT|Kč do |CHARGE_SWITCH_OFF|, služba se automaticky deaktivuje.
+
+
+Platba za období: |CHARGE_PERIOD_DATE|
+Datum splatnosti: |CHARGE_WRITE_OFF|
+Datum deaktivace: |CHARGE_SWITCH_OFF|
+
+toto je automaticky generovaná zpráva, pokud se domníváte že je chybná, kontaktujte neprodleně správce OVJih.NET (http://ovjih.net/kontakt).
+
+Z důvodu prevence případných nedorozumění, si dovolím připojit vysvětlující zprávu. Toto zasílání zpráv je novinka implementována v našem intranet systému od února 2017. Do této doby systém pouze hlídal datum pro finální odpojení, ale na případné zpožděné platby nijak nereagoval. Je možné, že pokud jste pravitelně platili "se zpožděním", tak jste mohli nabýt dojmu, že je to v pořádku. Postup jak se platí členský příspěvek je popsán srozumitelně na našem webu: https://ovjih.net/jak-platit
+
+Tato služba především pro Vás, abychom předešli automatickému odpojení služby bez jakéhokoliv upozornění a toto je její jediný účel, chránit Vás jako členy spolku. Našim cílem je poskytovat pro člený spolku tu nejkvalitnější možnou službu a proto je nutné abychom se osobně nemuseli starat o každou zpožděnou platbu. Děkujeme za pochopení.
+
+S pozdravem,
+spolek OVJih.NET

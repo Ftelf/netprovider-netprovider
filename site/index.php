@@ -64,6 +64,7 @@ if (isset($_POST['submit'])) {
     session_start();
 
     $logintime = time();
+    $now = new DateUtil();
 
     $session = new Session();
     $session->SE_sessionid = md5("$username$my->GR_acl$logintime");
@@ -73,7 +74,12 @@ if (isset($_POST['submit'])) {
     $session->SE_username = $username;
     $session->SE_ip = $_SERVER['REMOTE_ADDR'];
 
+    $person = PersonDAO::getPersonByID($my->PE_personid);
+
+    $person->PE_lastloggedin = $now->getFormattedDate(DateUtil::DB_DATETIME);
+
     try {
+        $database->updateObject("person", $person, "PE_personid", false, false);
         $database->insertObject("session", $session, null, false);
     } catch (Exception $e) {
         $database->log($e, Log::LEVEL_ERROR);

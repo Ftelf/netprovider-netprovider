@@ -30,7 +30,7 @@ class PersonDAO {
         $query = "SELECT count(*) FROM `person` WHERE 1";
 
         if ($search != "") {
-            $query .= " AND (`PE_firstname` LIKE '$search%' OR `PE_surname` LIKE '$search%' OR `PE_nick` LIKE '$search%' OR `PE_username` LIKE '$search%' OR `PE_email` LIKE '$search%' OR `PE_tel` LIKE '$search%' OR `PE_icq` LIKE '$search%' OR `PE_jabber` LIKE '$search%' OR `PE_address` LIKE '$search%' OR `PE_city` LIKE '$search%' OR `PE_zip` LIKE '$search%' OR `PE_ic` LIKE '$search%' OR `PE_dic` LIKE '$search%' OR `PE_shortcompanyname` LIKE '$search%' OR `PE_companyname` LIKE '$search%')";
+            $query .= " AND (`PE_firstname` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_surname` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_nick` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_username` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_email` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_tel` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_icq` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_jabber` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_address` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_city` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_zip` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_ic` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_dic` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_shortcompanyname` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_companyname` COLLATE utf8_general_ci LIKE '%$search%')";
         }
         if ($group != 0) {
             $query .= " AND `PE_groupid`='$group'";
@@ -48,7 +48,7 @@ class PersonDAO {
         $query = "SELECT * FROM `person` WHERE 1";
 
         if ($search != "") {
-            $query .= " AND (`PE_firstname` LIKE '$search%' OR `PE_surname` LIKE '$search%' OR `PE_nick` LIKE '$search%' OR `PE_username` LIKE '$search%' OR `PE_email` LIKE '$search%' OR `PE_tel` LIKE '$search%' OR `PE_icq` LIKE '$search%' OR `PE_jabber` LIKE '$search%' OR `PE_address` LIKE '$search%' OR `PE_city` LIKE '$search%' OR `PE_zip` LIKE '$search%' OR `PE_ic` LIKE '$search%' OR `PE_dic` LIKE '$search%' OR `PE_shortcompanyname` LIKE '$search%' OR `PE_companyname` LIKE '$search%')";
+            $query .= " AND (`PE_firstname` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_surname` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_nick` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_username` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_email` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_tel` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_icq` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_jabber` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_address` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_city` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_zip` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_ic` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_dic` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_shortcompanyname` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_companyname` COLLATE utf8_general_ci LIKE '%$search%')";
         }
         if ($group != 0) {
             $query .= " AND `PE_groupid`='$group'";

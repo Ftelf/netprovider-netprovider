@@ -125,7 +125,7 @@ function showPersonAccount() {
     $limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_personaccount'], 'limit', 10);
     $limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_personaccount'], 'limitstart', 0);
 
-    $persons = PersonDAO::getPersonArray();
+    $persons = PersonDAO::getPersonArray($filter['search'], 0, $filter['status']);
     $personAccounts = PersonAccountDAO::getPersonAccountArray();
     $vss = array();
     $msgs = array();
@@ -154,14 +154,6 @@ function showPersonAccount() {
                 unset($persons[$k]);
                 continue;
             }
-        }
-        if ($filter['status'] != -1 && $person->PE_status != $filter['status']) {
-            unset($persons[$k]);
-            continue;
-        }
-        if ($filter['search'] != "" && mb_strpos(mb_convert_case($person->PE_firstname, MB_CASE_LOWER), mb_convert_case($filter['search'], MB_CASE_LOWER)) !== 0 && stripos(mb_convert_case($person->PE_surname, MB_CASE_LOWER), mb_convert_case($filter['search'], MB_CASE_LOWER)) !== 0) {
-            unset($persons[$k]);
-            continue;
         }
     }
     $pageNav = new PageNav(count($persons), $limitstart, $limit);

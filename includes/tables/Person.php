@@ -70,6 +70,9 @@ class Person {
     
     /** @var datetime register date */
     var $PE_registerdate = null;
+
+    /** @var datetime lastlogged in date */
+    var $PE_lastloggedin = null;
     
     const STATUS_PASSIVE = 0;
     const STATUS_ACTIVE = 1;

@@ -161,10 +161,10 @@ class HTML_person {
       <th width="5%" class="title"><?php echo _("Nickname"); ?></th>
       <th width="10%" class="title"><?php echo _("Group"); ?></th>
       <th width="5%" class="title"><?php echo _("Phone"); ?></th>
-      <th width="5%" class="title"><?php echo _("ICQ"); ?></th>
       <th class="title"><?php echo _("Address"); ?></th>
       <th width="10%" class="title"><?php echo _("E-mail"); ?></th>
       <th width="10%" class="title"><?php echo _("Registered"); ?></th>
+      <th width="10%" class="title"><?php echo _("LastLoggedIn"); ?></th>
       <th width="5%" class="title"><?php echo _("Status"); ?></th>
     </tr>
     </thead>
@@ -183,7 +183,11 @@ class HTML_person {
 	$i = 0;
 	foreach ($persons as $person) {
 		$link = "javascript:edit('$person->PE_personid');";
-		$registerDate = new DateUtil($person->PE_registerdate);
+        $registerDateFormatted = (new DateUtil($person->PE_registerdate))->getFormattedDate(DateUtil::FORMAT_FULL);
+        $lastLoggedInDateFormatted = 'n/a';
+        if ($person->PE_lastloggedin != null) {
+            $lastLoggedInDateFormatted = (new DateUtil($person->PE_lastloggedin))->getFormattedDate(DateUtil::FORMAT_FULL);
+        }
 		
 		switch ($person->PE_status) {
 			case Person::STATUS_PASSIVE:
@@ -230,16 +234,16 @@ class HTML_person {
         <?php echo $person->PE_tel; ?>
       </td>
       <td>
-        <?php echo $person->PE_icq; ?>
-      </td>
-      <td>
         <?php echo $person->PE_address; ?>
       </td>
       <td>
         <?php echo $person->PE_email; ?>
       </td>
       <td nowrap="nowrap">
-        <?php echo $registerDate->getFormattedDate(DateUtil::FORMAT_FULL); ?>
+        <?php echo $registerDateFormatted; ?>
+      </td>
+      <td nowrap="nowrap">
+        <?php echo $lastLoggedInDateFormatted; ?>
       </td>
       <td nowrap="nowrap">
         <img src="<?php echo $imageSrc; ?>" alt="<?php echo $imageAlt; ?>" align="middle" border="0" />

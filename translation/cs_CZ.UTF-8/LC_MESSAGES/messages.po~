@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-27 09:27+0100\n"
+"POT-Creation-Date: 2017-01-27 10:38+0100\n"
 "PO-Revision-Date: 2017-01-27 09:30+0100\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
@@ -671,7 +671,7 @@ msgstr "IBAN:"
 #: modules/com_bankaccount/bankaccount.html.php:574
 #: modules/com_bankaccount/bankaccount.html.php:842
 #: modules/com_bankaccount/bankaccount.html.php:1353
-#: modules/com_charge/charge.html.php:402
+#: modules/com_charge/charge.html.php:410
 #: modules/com_person/person.html.php:967
 #: modules/com_personaccount/personaccount.html.php:395
 #: modules/com_personaccount/personaccount.html.php:866
@@ -803,8 +803,8 @@ msgstr "Zpráva"
 
 #: modules/com_bankaccount/bankaccount.html.php:491
 #: modules/com_bankaccount/bankaccount.html.php:492
-#: modules/com_charge/charge.html.php:320
-#: modules/com_charge/charge.html.php:321 modules/com_group/group.html.php:219
+#: modules/com_charge/charge.html.php:321
+#: modules/com_charge/charge.html.php:322 modules/com_group/group.html.php:219
 #: modules/com_group/group.html.php:220
 #: modules/com_handleevent/handleevent.html.php:237
 #: modules/com_handleevent/handleevent.html.php:238
@@ -838,8 +838,8 @@ msgstr "Aktualizuj"
 #: modules/com_bankaccount/bankaccount.html.php:499
 #: modules/com_bankaccount/bankaccount.html.php:1085
 #: modules/com_bankaccount/bankaccount.html.php:1086
-#: modules/com_charge/charge.html.php:327
-#: modules/com_charge/charge.html.php:328 modules/com_group/group.html.php:226
+#: modules/com_charge/charge.html.php:328
+#: modules/com_charge/charge.html.php:329 modules/com_group/group.html.php:226
 #: modules/com_group/group.html.php:227
 #: modules/com_handleevent/handleevent.html.php:244
 #: modules/com_handleevent/handleevent.html.php:245
@@ -881,8 +881,8 @@ msgstr "Ulož"
 #: modules/com_bankaccount/bankaccount.html.php:1093
 #: modules/com_bankaccount/bankaccount.html.php:1300
 #: modules/com_bankaccount/bankaccount.html.php:1301
-#: modules/com_charge/charge.html.php:334
-#: modules/com_charge/charge.html.php:335 modules/com_group/group.html.php:233
+#: modules/com_charge/charge.html.php:335
+#: modules/com_charge/charge.html.php:336 modules/com_group/group.html.php:233
 #: modules/com_group/group.html.php:234
 #: modules/com_handleevent/handleevent.html.php:251
 #: modules/com_handleevent/handleevent.html.php:252
@@ -1117,7 +1117,7 @@ msgid "Specific symbol:"
 msgstr "Specifický symbol:"
 
 #: modules/com_bankaccount/bankaccount.html.php:1164
-#: modules/com_charge/charge.html.php:398
+#: modules/com_charge/charge.html.php:405
 #: modules/com_paymentreport/paymentreport.html.php:177
 #: modules/com_person/person.html.php:962
 #: modules/com_personaccount/personaccount.html.php:1088
@@ -1246,7 +1246,7 @@ msgid "New"
 msgstr "Nová"
 
 #: modules/com_charge/charge.html.php:89 modules/com_charge/charge.html.php:90
-#: modules/com_charge/charge.html.php:343 modules/com_group/group.html.php:86
+#: modules/com_charge/charge.html.php:344 modules/com_group/group.html.php:86
 #: modules/com_group/group.html.php:87 modules/com_group/group.html.php:242
 #: modules/com_handleevent/handleevent.html.php:86
 #: modules/com_handleevent/handleevent.html.php:87
@@ -1296,7 +1296,7 @@ msgid "Delete"
 msgstr "Smazat"
 
 #: modules/com_charge/charge.html.php:105
-#: modules/com_charge/charge.html.php:343
+#: modules/com_charge/charge.html.php:344
 msgid "Payment templates management"
 msgstr "Správa Šablon plateb"
 
@@ -1384,7 +1384,7 @@ msgstr[1] "%s Dny"
 msgstr[2] "%s Dnů"
 
 #: modules/com_charge/charge.html.php:192
-#: modules/com_charge/charge.html.php:499
+#: modules/com_charge/charge.html.php:507
 #: modules/com_handleevent/handleevent.html.php:363
 #: modules/com_internet/internet.html.php:317
 #: modules/com_network/network.html.php:721
@@ -1402,88 +1402,93 @@ msgid "Description:"
 msgstr "Popis:"
 
 #: modules/com_charge/charge.html.php:192
-#: modules/com_charge/charge.html.php:495
+#: modules/com_charge/charge.html.php:503
 msgid "Internet service name:"
 msgstr "Název internetové služby:"
 
 #: modules/com_charge/charge.html.php:192
-#: modules/com_charge/charge.html.php:511
+#: modules/com_charge/charge.html.php:519
 msgid "Maximum download:"
 msgstr "Maximální download:"
 
 #: modules/com_charge/charge.html.php:192
-#: modules/com_charge/charge.html.php:515
+#: modules/com_charge/charge.html.php:523
 msgid "Maximum upload:"
 msgstr "Maximální upload:"
 
-#: modules/com_charge/charge.html.php:268
+#: modules/com_charge/charge.html.php:269
 #: modules/com_internet/internet.html.php:225
 msgid "Please enter template name"
 msgstr "Prosím zadejte jméno šablony"
 
-#: modules/com_charge/charge.html.php:270
+#: modules/com_charge/charge.html.php:271
 msgid "Please enter template desctiption"
 msgstr "Prosím zadejte popis šablony"
 
-#: modules/com_charge/charge.html.php:365
+#: modules/com_charge/charge.html.php:366
 msgid "Payment template"
 msgstr "Šablona platby"
 
-#: modules/com_charge/charge.html.php:370
+#: modules/com_charge/charge.html.php:371
 #: modules/com_internet/internet.html.php:313
 msgid "Template name:"
 msgstr "Název šablony:"
 
-#: modules/com_charge/charge.html.php:374
+#: modules/com_charge/charge.html.php:375
 msgid "Template description:"
 msgstr "Popis šablony:"
 
-#: modules/com_charge/charge.html.php:378
-#: modules/com_charge/charge.html.php:519
+#: modules/com_charge/charge.html.php:379
+#: modules/com_charge/charge.html.php:527
 #: modules/com_internet/internet.html.php:341
 msgid "Priority:"
 msgstr "Priorita:"
 
-#: modules/com_charge/charge.html.php:390
+#: modules/com_charge/charge.html.php:392
 #: modules/com_person/person.html.php:949
 msgid "Amount without VAT:"
 msgstr "Částka bez DPH:"
 
-#: modules/com_charge/charge.html.php:394
+#: modules/com_charge/charge.html.php:396
 #: modules/com_person/person.html.php:953
 msgid "VAT (%):"
 msgstr "DPH (%):"
 
-#: modules/com_charge/charge.html.php:414
+#: modules/com_charge/charge.html.php:400
+#: modules/com_person/person.html.php:957
+msgid "Amount with VAT:"
+msgstr "Částka s DPH:"
+
+#: modules/com_charge/charge.html.php:422
 #: modules/com_person/person.html.php:944
 msgid "Write off:"
 msgstr "Odepisováno:"
 
-#: modules/com_charge/charge.html.php:428
+#: modules/com_charge/charge.html.php:436
 msgid "Write-off offset:"
 msgstr "Posunutí doby splatnosti:"
 
-#: modules/com_charge/charge.html.php:440
+#: modules/com_charge/charge.html.php:448
 msgid "Tolerance:"
 msgstr "Tolerance:"
 
-#: modules/com_charge/charge.html.php:452
+#: modules/com_charge/charge.html.php:460
 msgid "Payment type:"
 msgstr "Typ platby:"
 
-#: modules/com_charge/charge.html.php:466
+#: modules/com_charge/charge.html.php:474
 msgid "Internet:"
 msgstr "Internet:"
 
-#: modules/com_charge/charge.html.php:490
+#: modules/com_charge/charge.html.php:498
 msgid "Internet in payment:"
 msgstr "Internet v platbě:"
 
-#: modules/com_charge/charge.html.php:503
+#: modules/com_charge/charge.html.php:511
 msgid "Garanteed download:"
 msgstr "Grantovaný download:"
 
-#: modules/com_charge/charge.html.php:507
+#: modules/com_charge/charge.html.php:515
 msgid "Garanteed upload:"
 msgstr "Garantovaný upload:"
 
@@ -3236,10 +3241,6 @@ msgstr "Jméno služby:"
 #: modules/com_person/person.html.php:940
 msgid "Service description:"
 msgstr "Popis služby:"
-
-#: modules/com_person/person.html.php:957
-msgid "Amount with VAT:"
-msgstr "Částka s DPH:"
 
 #: modules/com_person/person.html.php:971
 msgid "Tolerance in days:"
