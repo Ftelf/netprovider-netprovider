@@ -209,7 +209,7 @@ class HTML_PaymentReport {
    </thead>
     <tfoot>
     <tr>
-      <td colspan="<?php echo sizeof($report['dates']) + 5; ?>">
+      <td colspan="<?php echo sizeof($report['dates']) + 6; ?>">
 <?php
 	echo $pageNav->getListFooter();
 ?>
@@ -238,7 +238,7 @@ class HTML_PaymentReport {
 <?php
 	}
 ?>
-     <td>
+     <td style="text-align: center;">
 <?php
 	if ($person->_hasCharge == null) {
 ?>
