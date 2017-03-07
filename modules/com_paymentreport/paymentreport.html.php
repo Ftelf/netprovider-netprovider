@@ -221,9 +221,6 @@ class HTML_PaymentReport {
 	$k = 0;
 	$i = 0;
 	foreach ($paymentReport as $person) {
-		if (!$person) {
-		    continue;
-		}
 //		$link = "javascript:edit('$bankAccountEntry->BE_bankaccountentryid');";
 ?>
    <tr class="<?php echo "row$k"; ?>" >
@@ -245,15 +242,15 @@ class HTML_PaymentReport {
 <?php
 	if ($person->_hasCharge == null) {
 ?>
-       <img src="images/16x16/actions/agt_stop.png" alt="passive" align="middle" border="0"/>
+       <img src="images/16x16/actions/exit.png" alt="passive" align="middle" border="0"/>
 <?php
 	} else if ($person->_hasCharge->HC_actualstate == HasCharge::ACTUALSTATE_ENABLED) {
 ?>
-       <img src="images/16x16/actions/agt_action_success.png" alt="active" align="middle" border="0"/>
+       <img src="images/16x16/actions/agt_runit.png" alt="active" align="middle" border="0"/>
 <?php
 	} else if ($person->_hasCharge->HC_actualstate == HasCharge::ACTUALSTATE_DISABLED) {
 ?>
-        <img src="images/16x16/actions/agt_stop.png" alt="removed" align="middle" border="0"/>
+        <img src="images/16x16/actions/exit.png" alt="removed" align="middle" border="0"/>
 <?php
 	}
 ?>

@@ -107,9 +107,25 @@ class PersonDAO {
         $database->setQuery($query);
         $database->query();
     }
-    static function getPersonWithAccountArray() {
+    static function getPersonWithAccountArray($search="", $group=0, $status=-1, $limitstart=null, $limit=null) {
         global $database;
-        $query = "SELECT * FROM `person` as pe, `personaccount` as pa WHERE pe.PE_personaccountid=pa.PA_personaccountid ORDER BY pe.PE_surname, pe.PE_firstname";
+
+        $query = "SELECT * FROM `person` as pe, `personaccount` as pa WHERE pe.PE_personaccountid=pa.PA_personaccountid";
+
+        if ($search != "") {
+            $query .= " AND (`PE_firstname` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_surname` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_nick` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_username` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_email` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_tel` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_icq` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_jabber` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_address` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_city` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_zip` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_ic` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_dic` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_shortcompanyname` COLLATE utf8_general_ci LIKE '%$search%' OR `PE_companyname` COLLATE utf8_general_ci LIKE '%$search%')";
+        }
+
+        if ($group != 0) {
+            $query .= " AND `PE_groupid`='$group'";
+        }
+
+        if ($status != -1) {
+            $query .= " AND `PE_status`='$status'";
+        }
+
+        $query .= " ORDER BY pe.PE_surname, pe.PE_firstname, PE_nick";
+
         $database->setQuery($query);
         return $database->loadObjectList('PE_personid');
     }

@@ -53,27 +53,18 @@ function showPaymentReport() {
     $limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport'], 'limit', 10);
     $limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_paymentreport'], 'limitstart', 0);
 
-    $persons = PersonDAO::getPersonWithAccountArray();
+    $persons = PersonDAO::getPersonWithAccountArray($filter['search'], 0, $filter['PE_status'], null, null);
     $charges = ChargeDAO::getChargeArray();
 
     if (!$filter['CH_chargeid']) {
-        foreach ($charges as $monthlyCharge) {
-            $filter['CH_chargeid'] = $monthlyCharge->CH_chargeid;
-            break;
-        }
+        reset($charges);
+        $filter['CH_chargeid'] = key($charges);
     }
+
     $charge = $charges[$filter['CH_chargeid']];
     $paymentReport = array();
 
     foreach ($persons as &$person) {
-        if ($filter['PE_status'] != -1 && $person->PE_status != $filter['PE_status']) {
-            continue;
-        }
-
-        if ($filter['search'] != "" && stripos($person->PE_firstname, $filter['search']) !== 0 && stripos($person->PE_surname, $filter['search']) !== 0) {
-            continue;
-        }
-
         $hasCharges = HasChargeDAO::getHasChargeReportArray($person->PE_personid, $charge->CH_chargeid);
 
         if (!count($hasCharges) && !$filter['showall']) {
@@ -93,9 +84,6 @@ function showPaymentReport() {
             $paymentReport[] = $person;
         }
     }
-
-    $pageNav = new PageNav(count($paymentReport), $limitstart, $limit);
-    $paymentReport = array_slice($paymentReport, $limitstart, $limit);
 
     $report = array();
 
@@ -207,7 +195,7 @@ function showPaymentReport() {
             $iDate->add(DateUtil::MONTH, 1);
         }
 
-        foreach ($paymentReport as &$personReport) {
+        foreach ($paymentReport as $key => &$personReport) {
             $personReport->_dates = array();
             $foundAnyEntry = false;
             foreach ($report['dates'] as &$date) {
@@ -275,7 +263,7 @@ function showPaymentReport() {
                 $personReport->_dates[$date['DateUtil']->getTime()] = $info;
             }
             if (!$foundAnyEntry && !$filter['showall']) {
-                $personReport = null;
+                unset($paymentReport[$key]);
             }
         }
     } else if ($charge->CH_period == Charge::PERIOD_QUARTERLY) {
@@ -538,6 +526,9 @@ function showPaymentReport() {
             }
         }
     }
+
+    $pageNav = new PageNav(count($paymentReport), $limitstart, $limit);
+    $paymentReport = array_slice($paymentReport, $limitstart, $limit);
 
     HTML_PaymentReport::showPayments($charges, $paymentReport, $report, $filter, $pageNav);
 }
