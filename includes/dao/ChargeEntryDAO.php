@@ -38,12 +38,27 @@ class ChargeEntryDAO {
         $database->setQuery($query);
         return $database->loadObjectList("CE_chargeentryid");
     }
-    static function getChargeEntryArrayByHasChargeID($id) {
+    static function getChargeEntryArrayByHasChargeID($id, $dateFrom = null, $dateTo = null, $key = "CE_chargeentryid") {
         if (!$id) throw new Exception("no ID specified");
         global $database;
-        $query = "SELECT * FROM `chargeentry` WHERE `CE_haschargeid`='$id' ORDER BY `CE_period_date` ASC";
+        $query = "SELECT * FROM `chargeentry` WHERE `CE_haschargeid`='$id'";
+
+        if ($dateFrom != null) {
+            $dateFromFormatted = $dateFrom->getFormattedDate(DateUtil::DB_DATE);
+
+            $query .= " AND date '$dateFromFormatted' <= CE_period_date";
+        }
+
+        if ($dateTo != null) {
+            $dateTo = $dateTo->getFormattedDate(DateUtil::DB_DATE);
+
+            $query .= " AND CE_period_date <= date '$dateTo'";
+        }
+
+        $query .= " ORDER BY `CE_period_date` ASC";
+
         $database->setQuery($query);
-        return $database->loadObjectList("CE_chargeentryid");
+        return $database->loadObjectList($key);
     }
     static function getChargeEntryByID($id) {
         if (!$id) throw new Exception("no ID specified");

@@ -66,6 +66,11 @@ class HasCharge {
     const ACTUALSTATE_DISABLED = 0;
     const ACTUALSTATE_ENABLED = 1;
 
+    public static $ACTUALSTATE_ARRAY = array(
+        0, //Deactivated
+        1  //Activated
+    );
+
     public static function getLocalizedActualState($actualState) {
         switch ($actualState) {
             case self::ACTUALSTATE_DISABLED:

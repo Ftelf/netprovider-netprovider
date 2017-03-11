@@ -24,6 +24,8 @@ class DateUtil {
 
     const DB_NULL_DATE = '0000-00-00';
     const DB_NULL_DATETIME = '0000-00-00 00:00:00';
+    const DB_MIN_DATE = '1000-01-01';
+    const DB_MAX_DATE = '9999-12-31';
 
     const FORMAT_YEARLY = 'Y';
     const FORMAT_MONTHLY = 'm/Y';

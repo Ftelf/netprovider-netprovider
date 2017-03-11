@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-27 10:38+0100\n"
+"POT-Creation-Date: 2017-03-11 18:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,7 +64,7 @@ msgid "KB ABO"
 msgstr ""
 
 #: includes/tables/BankAccountEntry.php:112
-#: modules/com_paymentreport/paymentreport.html.php:383
+#: modules/com_paymentreport/paymentreport.html.php:488
 msgid "Other"
 msgstr ""
 
@@ -257,12 +257,15 @@ msgstr ""
 
 #: includes/tables/HandleEvent.php:52
 #: modules/com_myprofile/myprofile.html.php:309
+#: modules/com_paymentreport/paymentreport.html.php:312
+#: modules/com_paymentreport/paymentreport.html.php:318
 msgid "Disabled"
 msgstr ""
 
 #: includes/tables/HandleEvent.php:55
 #: modules/com_handleevent/handleevent.html.php:123
 #: modules/com_myprofile/myprofile.html.php:306
+#: modules/com_paymentreport/paymentreport.html.php:315
 msgid "Enabled"
 msgstr ""
 
@@ -379,15 +382,19 @@ msgstr ""
 msgid "WDS bridge"
 msgstr ""
 
-#: includes/tables/Person.php:87 modules/com_person/person.html.php:191
+#: includes/tables/Person.php:90
+#: modules/com_paymentreport/paymentreport.html.php:294
+#: modules/com_person/person.html.php:195
 msgid "Passive"
 msgstr ""
 
-#: includes/tables/Person.php:90 modules/com_person/person.html.php:196
+#: includes/tables/Person.php:93
+#: modules/com_paymentreport/paymentreport.html.php:299
+#: modules/com_person/person.html.php:200
 msgid "Active"
 msgstr ""
 
-#: includes/tables/Person.php:93
+#: includes/tables/Person.php:96
 msgid "Discarted"
 msgstr ""
 
@@ -491,7 +498,7 @@ msgstr ""
 
 #: modules/com_admin/admin.html.php:132 modules/com_admin/admin.html.php:133
 #: modules/com_common/html_mainmenu.php:57
-#: modules/com_paymentreport/paymentreport.html.php:76
+#: modules/com_paymentreport/paymentreport.html.php:118
 msgid "Payment report"
 msgstr ""
 
@@ -566,8 +573,8 @@ msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:125
 #: modules/com_bankaccount/bankaccount.html.php:514
-#: modules/com_bankaccount/bankaccount.html.php:799
-#: modules/com_bankaccount/bankaccount.html.php:1101
+#: modules/com_bankaccount/bankaccount.html.php:803
+#: modules/com_bankaccount/bankaccount.html.php:1105
 msgid "Bank account entry printout"
 msgstr ""
 
@@ -576,7 +583,7 @@ msgstr ""
 #: modules/com_iptrafficreport/iptrafficreport.html.php:93
 #: modules/com_log/log.html.php:120
 #: modules/com_networkdevice/networkdevice.html.php:145
-#: modules/com_paymentreport/paymentreport.html.php:94
+#: modules/com_paymentreport/paymentreport.html.php:143
 #: modules/com_person/person.html.php:125
 #: modules/com_personaccount/personaccount.html.php:133
 msgid "Filter:"
@@ -597,18 +604,18 @@ msgstr ""
 #: modules/com_message/message.html.php:133
 #: modules/com_myprofile/myprofile.html.php:646
 #: modules/com_myprofile/myprofile.html.php:847
-#: modules/com_paymentreport/paymentreport.html.php:140
-#: modules/com_paymentreport/paymentreport.html.php:145
-#: modules/com_person/person.html.php:512
-#: modules/com_person/person.html.php:1012
-#: modules/com_person/person.html.php:1029
-#: modules/com_person/person.html.php:1043
-#: modules/com_person/person.html.php:1057
-#: modules/com_person/person.html.php:1074
-#: modules/com_person/person.html.php:1121
-#: modules/com_person/person.html.php:1141
-#: modules/com_person/person.html.php:1161
-#: modules/com_person/person.html.php:1182
+#: modules/com_paymentreport/paymentreport.html.php:183
+#: modules/com_paymentreport/paymentreport.html.php:188
+#: modules/com_person/person.html.php:517
+#: modules/com_person/person.html.php:1017
+#: modules/com_person/person.html.php:1034
+#: modules/com_person/person.html.php:1048
+#: modules/com_person/person.html.php:1062
+#: modules/com_person/person.html.php:1079
+#: modules/com_person/person.html.php:1126
+#: modules/com_person/person.html.php:1146
+#: modules/com_person/person.html.php:1166
+#: modules/com_person/person.html.php:1187
 #: modules/com_personaccount/personaccount.html.php:1095
 msgid "Calendar"
 msgstr ""
@@ -620,7 +627,7 @@ msgstr ""
 #: modules/com_bankaccount/bankaccount.html.php:196
 #: modules/com_invoice/invoice.html.php:127
 #: modules/com_invoice/invoice.html.php:139
-#: modules/com_paymentreport/paymentreport.html.php:101
+#: modules/com_paymentreport/paymentreport.html.php:168
 #: modules/com_person/person.html.php:139
 #: modules/com_personaccount/personaccount.html.php:137
 msgid "- Status -"
@@ -631,47 +638,47 @@ msgid "- Identification -"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:233
-#: modules/com_bankaccount/bankaccount.html.php:821
-#: modules/com_bankaccount/bankaccount.html.php:1332
+#: modules/com_bankaccount/bankaccount.html.php:825
+#: modules/com_bankaccount/bankaccount.html.php:1336
 msgid "Bank account"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:238
 #: modules/com_bankaccount/bankaccount.html.php:542
-#: modules/com_bankaccount/bankaccount.html.php:826
-#: modules/com_bankaccount/bankaccount.html.php:1337
+#: modules/com_bankaccount/bankaccount.html.php:830
+#: modules/com_bankaccount/bankaccount.html.php:1341
 msgid "Bank name:"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:242
 #: modules/com_bankaccount/bankaccount.html.php:562
-#: modules/com_bankaccount/bankaccount.html.php:830
-#: modules/com_bankaccount/bankaccount.html.php:1140
-#: modules/com_bankaccount/bankaccount.html.php:1341
+#: modules/com_bankaccount/bankaccount.html.php:834
+#: modules/com_bankaccount/bankaccount.html.php:1144
+#: modules/com_bankaccount/bankaccount.html.php:1345
 msgid "Account name:"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:246
 #: modules/com_bankaccount/bankaccount.html.php:566
-#: modules/com_bankaccount/bankaccount.html.php:834
-#: modules/com_bankaccount/bankaccount.html.php:1144
-#: modules/com_bankaccount/bankaccount.html.php:1345
+#: modules/com_bankaccount/bankaccount.html.php:838
+#: modules/com_bankaccount/bankaccount.html.php:1148
+#: modules/com_bankaccount/bankaccount.html.php:1349
 msgid "Account number:"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:250
 #: modules/com_bankaccount/bankaccount.html.php:570
-#: modules/com_bankaccount/bankaccount.html.php:838
-#: modules/com_bankaccount/bankaccount.html.php:1349
+#: modules/com_bankaccount/bankaccount.html.php:842
+#: modules/com_bankaccount/bankaccount.html.php:1353
 msgid "IBAN:"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:254
 #: modules/com_bankaccount/bankaccount.html.php:574
-#: modules/com_bankaccount/bankaccount.html.php:842
-#: modules/com_bankaccount/bankaccount.html.php:1353
+#: modules/com_bankaccount/bankaccount.html.php:846
+#: modules/com_bankaccount/bankaccount.html.php:1357
 #: modules/com_charge/charge.html.php:410
-#: modules/com_person/person.html.php:967
+#: modules/com_person/person.html.php:972
 #: modules/com_personaccount/personaccount.html.php:395
 #: modules/com_personaccount/personaccount.html.php:866
 #: modules/com_personaccount/personaccount.html.php:1027
@@ -738,7 +745,8 @@ msgstr ""
 #: modules/com_myprofile/myprofile.html.php:279
 #: modules/com_myprofile/myprofile.html.php:371
 #: modules/com_myprofile/myprofile.html.php:487
-#: modules/com_person/person.html.php:639
+#: modules/com_paymentreport/paymentreport.html.php:262
+#: modules/com_person/person.html.php:644
 #: modules/com_personaccount/personaccount.html.php:445
 #: modules/com_personaccount/personaccount.html.php:538
 #: modules/com_personaccount/personaccount.html.php:630
@@ -765,14 +773,16 @@ msgid "VS"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:326
-#: modules/com_bankaccount/bankaccount.html.php:865
+#: modules/com_bankaccount/bankaccount.html.php:869
 #: modules/com_invoice/invoice.html.php:180
 #: modules/com_message/message.html.php:157
 #: modules/com_myprofile/myprofile.html.php:285
 #: modules/com_myprofile/myprofile.html.php:365
 #: modules/com_myprofile/myprofile.html.php:604
+#: modules/com_paymentreport/paymentreport.html.php:271
+#: modules/com_paymentreport/paymentreport.html.php:272
 #: modules/com_person/person.html.php:168
-#: modules/com_person/person.html.php:645
+#: modules/com_person/person.html.php:650
 #: modules/com_personaccount/personaccount.html.php:544
 #: modules/com_personaccount/personaccount.html.php:624
 msgid "Status"
@@ -789,7 +799,7 @@ msgid "KS"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:337
-#: modules/com_bankaccount/bankaccount.html.php:1101
+#: modules/com_bankaccount/bankaccount.html.php:1105
 msgid "Identification"
 msgstr ""
 
@@ -823,10 +833,10 @@ msgstr ""
 #: modules/com_networkdevice/networkdevice.html.php:1198
 #: modules/com_networkdevice/networkdevice.html.php:1317
 #: modules/com_networkdevice/networkdevice.html.php:1318
-#: modules/com_person/person.html.php:399
-#: modules/com_person/person.html.php:400
-#: modules/com_person/person.html.php:886
-#: modules/com_person/person.html.php:887
+#: modules/com_person/person.html.php:404
+#: modules/com_person/person.html.php:405
+#: modules/com_person/person.html.php:891
+#: modules/com_person/person.html.php:892
 #: modules/com_personaccount/personaccount.html.php:812
 #: modules/com_personaccount/personaccount.html.php:813
 #: modules/com_role/role.html.php:216 modules/com_role/role.html.php:217
@@ -835,8 +845,8 @@ msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:498
 #: modules/com_bankaccount/bankaccount.html.php:499
-#: modules/com_bankaccount/bankaccount.html.php:1085
-#: modules/com_bankaccount/bankaccount.html.php:1086
+#: modules/com_bankaccount/bankaccount.html.php:1089
+#: modules/com_bankaccount/bankaccount.html.php:1090
 #: modules/com_charge/charge.html.php:328
 #: modules/com_charge/charge.html.php:329 modules/com_group/group.html.php:226
 #: modules/com_group/group.html.php:227
@@ -860,10 +870,10 @@ msgstr ""
 #: modules/com_networkdevice/networkdevice.html.php:1205
 #: modules/com_networkdevice/networkdevice.html.php:1324
 #: modules/com_networkdevice/networkdevice.html.php:1325
-#: modules/com_person/person.html.php:406
-#: modules/com_person/person.html.php:407
-#: modules/com_person/person.html.php:893
-#: modules/com_person/person.html.php:894
+#: modules/com_person/person.html.php:411
+#: modules/com_person/person.html.php:412
+#: modules/com_person/person.html.php:898
+#: modules/com_person/person.html.php:899
 #: modules/com_personaccount/personaccount.html.php:819
 #: modules/com_personaccount/personaccount.html.php:820
 #: modules/com_personaccount/personaccount.html.php:980
@@ -874,12 +884,12 @@ msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:505
 #: modules/com_bankaccount/bankaccount.html.php:506
-#: modules/com_bankaccount/bankaccount.html.php:790
-#: modules/com_bankaccount/bankaccount.html.php:791
-#: modules/com_bankaccount/bankaccount.html.php:1092
-#: modules/com_bankaccount/bankaccount.html.php:1093
-#: modules/com_bankaccount/bankaccount.html.php:1300
-#: modules/com_bankaccount/bankaccount.html.php:1301
+#: modules/com_bankaccount/bankaccount.html.php:794
+#: modules/com_bankaccount/bankaccount.html.php:795
+#: modules/com_bankaccount/bankaccount.html.php:1096
+#: modules/com_bankaccount/bankaccount.html.php:1097
+#: modules/com_bankaccount/bankaccount.html.php:1304
+#: modules/com_bankaccount/bankaccount.html.php:1305
 #: modules/com_charge/charge.html.php:335
 #: modules/com_charge/charge.html.php:336 modules/com_group/group.html.php:233
 #: modules/com_group/group.html.php:234
@@ -903,10 +913,10 @@ msgstr ""
 #: modules/com_networkdevice/networkdevice.html.php:1212
 #: modules/com_networkdevice/networkdevice.html.php:1331
 #: modules/com_networkdevice/networkdevice.html.php:1332
-#: modules/com_person/person.html.php:413
-#: modules/com_person/person.html.php:414
-#: modules/com_person/person.html.php:900
-#: modules/com_person/person.html.php:901
+#: modules/com_person/person.html.php:418
+#: modules/com_person/person.html.php:419
+#: modules/com_person/person.html.php:905
+#: modules/com_person/person.html.php:906
 #: modules/com_personaccount/personaccount.html.php:355
 #: modules/com_personaccount/personaccount.html.php:356
 #: modules/com_personaccount/personaccount.html.php:826
@@ -926,7 +936,7 @@ msgid "Bank"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:546
-#: modules/com_bankaccount/bankaccount.html.php:1148
+#: modules/com_bankaccount/bankaccount.html.php:1152
 msgid "Bank registration number:"
 msgstr ""
 
@@ -971,7 +981,7 @@ msgstr ""
 #: modules/com_myprofile/myprofile.html.php:238
 #: modules/com_myprofile/myprofile.html.php:897
 #: modules/com_networkdevice/networkdevice.html.php:483
-#: modules/com_person/person.html.php:566
+#: modules/com_person/person.html.php:571
 msgid "Password:"
 msgstr ""
 
@@ -1007,160 +1017,159 @@ msgstr ""
 msgid "Please select starting balance"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:756
+#: modules/com_bankaccount/bankaccount.html.php:760
 msgid "Upload new printout"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:757
+#: modules/com_bankaccount/bankaccount.html.php:761
 msgid "Upload new printouts"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:765
-#: modules/com_bankaccount/bankaccount.html.php:766
+#: modules/com_bankaccount/bankaccount.html.php:769
+#: modules/com_bankaccount/bankaccount.html.php:770
 msgid "Download new printouts"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:774
-#: modules/com_bankaccount/bankaccount.html.php:775
+#: modules/com_bankaccount/bankaccount.html.php:778
+#: modules/com_bankaccount/bankaccount.html.php:779
 msgid "Run import"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:781
-#: modules/com_bankaccount/bankaccount.html.php:782
+#: modules/com_bankaccount/bankaccount.html.php:785
+#: modules/com_bankaccount/bankaccount.html.php:786
 msgid "Entries workout"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:799
+#: modules/com_bankaccount/bankaccount.html.php:803
 msgid "Printouts list"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:859
+#: modules/com_bankaccount/bankaccount.html.php:863
 msgid "Year"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:860
+#: modules/com_bankaccount/bankaccount.html.php:864
 msgid "Printout number"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:861
+#: modules/com_bankaccount/bankaccount.html.php:865
 msgid "Data filename"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:862
+#: modules/com_bankaccount/bankaccount.html.php:866
 msgid "Number of entries"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:863
+#: modules/com_bankaccount/bankaccount.html.php:867
 msgid "since"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:864
+#: modules/com_bankaccount/bankaccount.html.php:868
 #: modules/com_myprofile/myprofile.html.php:284
 #: modules/com_personaccount/personaccount.html.php:543
 msgid "Till"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:941
+#: modules/com_bankaccount/bankaccount.html.php:945
 msgid "Identification wasn't performed"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:953
+#: modules/com_bankaccount/bankaccount.html.php:957
 #: modules/com_personaccount/personaccount.html.php:953
 msgid "Please enter amount in valid number format"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:962
+#: modules/com_bankaccount/bankaccount.html.php:966
 #, php-format
 msgid "Amount summary must be: %s"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:965
+#: modules/com_bankaccount/bankaccount.html.php:969
 msgid "Please select user's account"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1123
+#: modules/com_bankaccount/bankaccount.html.php:1127
 msgid "Bank entry"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1128
+#: modules/com_bankaccount/bankaccount.html.php:1132
 msgid "Arrival date:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1132
+#: modules/com_bankaccount/bankaccount.html.php:1136
 msgid "Write off date:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1136
+#: modules/com_bankaccount/bankaccount.html.php:1140
 msgid "Note:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1152
+#: modules/com_bankaccount/bankaccount.html.php:1156
 #: modules/com_personaccount/personaccount.html.php:415
 #: modules/com_personaccount/personaccount.html.php:886
 #: modules/com_personaccount/personaccount.html.php:1047
 msgid "Variable symbol:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1156
+#: modules/com_bankaccount/bankaccount.html.php:1160
 #: modules/com_personaccount/personaccount.html.php:419
 #: modules/com_personaccount/personaccount.html.php:891
 #: modules/com_personaccount/personaccount.html.php:1051
 msgid "Constant symbol:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1160
+#: modules/com_bankaccount/bankaccount.html.php:1164
 #: modules/com_personaccount/personaccount.html.php:423
 #: modules/com_personaccount/personaccount.html.php:896
 #: modules/com_personaccount/personaccount.html.php:1055
 msgid "Specific symbol:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1164
+#: modules/com_bankaccount/bankaccount.html.php:1168
 #: modules/com_charge/charge.html.php:405
-#: modules/com_paymentreport/paymentreport.html.php:177
-#: modules/com_person/person.html.php:962
+#: modules/com_person/person.html.php:967
 #: modules/com_personaccount/personaccount.html.php:1088
 msgid "Amount:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1168
+#: modules/com_bankaccount/bankaccount.html.php:1172
 msgid "Fee:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1172
+#: modules/com_bankaccount/bankaccount.html.php:1176
 msgid "Message:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1176
+#: modules/com_bankaccount/bankaccount.html.php:1180
 msgid "Type of transaction:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1180
+#: modules/com_bankaccount/bankaccount.html.php:1184
 #: modules/com_personaccount/personaccount.html.php:1099
 msgid "Comment:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1193
+#: modules/com_bankaccount/bankaccount.html.php:1197
 msgid "Identification of payment"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1198
+#: modules/com_bankaccount/bankaccount.html.php:1202
 msgid "Identification:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1220
+#: modules/com_bankaccount/bankaccount.html.php:1224
 msgid "Benefit user account"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1225
+#: modules/com_bankaccount/bankaccount.html.php:1229
 msgid "User account:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1231
+#: modules/com_bankaccount/bankaccount.html.php:1235
 msgid "- Select user's account -"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1309
+#: modules/com_bankaccount/bankaccount.html.php:1313
 msgid "Upload bank account entry printout"
 msgstr ""
 
@@ -1174,30 +1183,30 @@ msgstr ""
 msgid "Bank account '%s' '%s' saved"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.index.php:363
-#: modules/com_bankaccount/bankaccount.index.php:378
-#: modules/com_bankaccount/bankaccount.index.php:457
+#: modules/com_bankaccount/bankaccount.index.php:365
+#: modules/com_bankaccount/bankaccount.index.php:380
+#: modules/com_bankaccount/bankaccount.index.php:459
 msgid "Insuficient rights"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.index.php:542
+#: modules/com_bankaccount/bankaccount.index.php:544
 msgid "Amount must be in number format"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.index.php:547
+#: modules/com_bankaccount/bankaccount.index.php:549
 msgid "Amount must be positive value"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.index.php:555
+#: modules/com_bankaccount/bankaccount.index.php:557
 msgid "Amount sum doesn't match"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.index.php:586
+#: modules/com_bankaccount/bankaccount.index.php:588
 #, php-format
 msgid "Bank entry %s %s %s %s amount %s credited person account '%s' with %s"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.index.php:601
+#: modules/com_bankaccount/bankaccount.index.php:603
 #, php-format
 msgid "Bank entry %s %s %s %s amount %s proceed"
 msgstr ""
@@ -1264,8 +1273,8 @@ msgstr ""
 #: modules/com_networkdevice/networkdevice.html.php:730
 #: modules/com_networkdevice/networkdevice.html.php:802
 #: modules/com_person/person.html.php:91 modules/com_person/person.html.php:92
-#: modules/com_person/person.html.php:422
-#: modules/com_person/person.html.php:720
+#: modules/com_person/person.html.php:427
+#: modules/com_person/person.html.php:725
 #: modules/com_personaccount/personaccount.html.php:106
 #: modules/com_personaccount/personaccount.html.php:107
 #: modules/com_personaccount/personaccount.html.php:348
@@ -1314,7 +1323,7 @@ msgstr ""
 #: modules/com_invoice/invoice.html.php:177
 #: modules/com_myprofile/myprofile.html.php:275
 #: modules/com_myprofile/myprofile.html.php:367
-#: modules/com_person/person.html.php:635
+#: modules/com_person/person.html.php:640
 #: modules/com_personaccount/personaccount.html.php:534
 #: modules/com_personaccount/personaccount.html.php:626
 msgid "Amount without VAT"
@@ -1323,7 +1332,7 @@ msgstr ""
 #: modules/com_charge/charge.html.php:130
 #: modules/com_myprofile/myprofile.html.php:276
 #: modules/com_myprofile/myprofile.html.php:368
-#: modules/com_person/person.html.php:636
+#: modules/com_person/person.html.php:641
 #: modules/com_personaccount/personaccount.html.php:535
 #: modules/com_personaccount/personaccount.html.php:627
 msgid "VAT (%)"
@@ -1333,7 +1342,8 @@ msgstr ""
 #: modules/com_invoice/invoice.html.php:178
 #: modules/com_myprofile/myprofile.html.php:277
 #: modules/com_myprofile/myprofile.html.php:369
-#: modules/com_person/person.html.php:637
+#: modules/com_paymentreport/paymentreport.html.php:260
+#: modules/com_person/person.html.php:642
 #: modules/com_personaccount/personaccount.html.php:536
 #: modules/com_personaccount/personaccount.html.php:628
 msgid "Amount with VAT"
@@ -1344,7 +1354,7 @@ msgstr ""
 #: modules/com_myprofile/myprofile.html.php:281
 #: modules/com_myprofile/myprofile.html.php:373
 #: modules/com_myprofile/myprofile.html.php:488
-#: modules/com_person/person.html.php:641
+#: modules/com_person/person.html.php:646
 #: modules/com_personaccount/personaccount.html.php:540
 #: modules/com_personaccount/personaccount.html.php:632
 msgid "Currency"
@@ -1356,7 +1366,7 @@ msgstr ""
 
 #: modules/com_charge/charge.html.php:137
 #: modules/com_handleevent/handleevent.html.php:124
-#: modules/com_person/person.html.php:633
+#: modules/com_person/person.html.php:638
 msgid "Type"
 msgstr ""
 
@@ -1374,7 +1384,7 @@ msgid "Description"
 msgstr ""
 
 #: modules/com_charge/charge.html.php:186
-#: modules/com_charge/charge.index.php:215
+#: modules/com_charge/charge.index.php:220
 #, php-format
 msgid "%s day"
 msgid_plural "%s days"
@@ -1394,7 +1404,6 @@ msgstr[1] ""
 #: modules/com_networkdevice/networkdevice.html.php:798
 #: modules/com_networkdevice/networkdevice.html.php:947
 #: modules/com_networkdevice/networkdevice.html.php:1129
-#: modules/com_paymentreport/paymentreport.html.php:173
 #: modules/com_role/role.html.php:270
 msgid "Description:"
 msgstr ""
@@ -1443,22 +1452,22 @@ msgid "Priority:"
 msgstr ""
 
 #: modules/com_charge/charge.html.php:392
-#: modules/com_person/person.html.php:949
+#: modules/com_person/person.html.php:954
 msgid "Amount without VAT:"
 msgstr ""
 
 #: modules/com_charge/charge.html.php:396
-#: modules/com_person/person.html.php:953
+#: modules/com_person/person.html.php:958
 msgid "VAT (%):"
 msgstr ""
 
 #: modules/com_charge/charge.html.php:400
-#: modules/com_person/person.html.php:957
+#: modules/com_person/person.html.php:962
 msgid "Amount with VAT:"
 msgstr ""
 
 #: modules/com_charge/charge.html.php:422
-#: modules/com_person/person.html.php:944
+#: modules/com_person/person.html.php:949
 msgid "Write off:"
 msgstr ""
 
@@ -1491,28 +1500,28 @@ msgid "Garanteed upload:"
 msgstr ""
 
 #: modules/com_charge/charge.index.php:115
-msgid "Base amount is in incorrect format"
-msgstr ""
-
-#: modules/com_charge/charge.index.php:128
-msgid "VAT is in incorrect format"
-msgstr ""
-
-#: modules/com_charge/charge.index.php:141
 msgid "Amount with VAT is in incorrect format"
 msgstr ""
 
-#: modules/com_charge/charge.index.php:161
-#, php-format
-msgid "Payment template '%s' updated"
+#: modules/com_charge/charge.index.php:129
+msgid "Base amount is in incorrect format"
+msgstr ""
+
+#: modules/com_charge/charge.index.php:142
+msgid "VAT is in incorrect format"
 msgstr ""
 
 #: modules/com_charge/charge.index.php:166
 #, php-format
+msgid "Payment template '%s' updated"
+msgstr ""
+
+#: modules/com_charge/charge.index.php:171
+#, php-format
 msgid "Payment template '%s' saved"
 msgstr ""
 
-#: modules/com_charge/charge.index.php:179
+#: modules/com_charge/charge.index.php:184
 #: modules/com_group/group.index.php:135
 #: modules/com_handleevent/handleevent.index.php:150
 #: modules/com_internet/internet.index.php:143 modules/com_log/log.index.php:97
@@ -1522,14 +1531,14 @@ msgstr ""
 msgid "Please select record to erase"
 msgstr ""
 
-#: modules/com_charge/charge.index.php:189
+#: modules/com_charge/charge.index.php:194
 #, php-format
 msgid "Cannot delete payment template '%s', because it has binded %s payment"
 msgid_plural "Cannot delete payment template '%s', because it has binded %s payments"
 msgstr[0] ""
 msgstr[1] ""
 
-#: modules/com_charge/charge.index.php:200
+#: modules/com_charge/charge.index.php:205
 #, php-format
 msgid "Payment template '%s' deleted"
 msgstr ""
@@ -1884,8 +1893,7 @@ msgstr ""
 #: modules/com_handleevent/handleevent.html.php:300
 #: modules/com_networkdevice/networkdevice.html.php:199
 #: modules/com_networkdevice/networkdevice.html.php:445
-#: modules/com_paymentreport/paymentreport.html.php:181
-#: modules/com_person/person.html.php:975
+#: modules/com_person/person.html.php:980
 msgid "Type:"
 msgstr ""
 
@@ -2085,14 +2093,14 @@ msgid "Show average rate"
 msgstr ""
 
 #: modules/com_iptrafficreport/iptrafficreport.html.php:130
-#: modules/com_paymentreport/paymentreport.html.php:196
+#: modules/com_paymentreport/paymentreport.html.php:253
 #: modules/com_person/person.html.php:160
 #: modules/com_personaccount/personaccount.html.php:164
 msgid "Surname"
 msgstr ""
 
 #: modules/com_iptrafficreport/iptrafficreport.html.php:131
-#: modules/com_paymentreport/paymentreport.html.php:197
+#: modules/com_paymentreport/paymentreport.html.php:254
 #: modules/com_person/person.html.php:159
 #: modules/com_personaccount/personaccount.html.php:163
 msgid "Firstname"
@@ -2106,7 +2114,7 @@ msgstr ""
 #: modules/com_iptrafficreport/iptrafficreport.html.php:133
 #: modules/com_myprofile/myprofile.html.php:552
 #: modules/com_myprofile/myprofile.html.php:648
-#: modules/com_person/person.html.php:757
+#: modules/com_person/person.html.php:762
 msgid "IP address"
 msgstr ""
 
@@ -2170,165 +2178,166 @@ msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:129
 #: modules/com_myprofile/myprofile.html.php:793
-#: modules/com_person/person.html.php:444
+#: modules/com_person/person.html.php:449
 msgid "Personal data"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:134
-#: modules/com_person/person.html.php:449
-#: modules/com_person/person.html.php:1188
+#: modules/com_person/person.html.php:454
+#: modules/com_person/person.html.php:1193
 #: modules/com_personaccount/personaccount.html.php:1073
 msgid "Status:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:138
-#: modules/com_person/person.html.php:574
+#: modules/com_person/person.html.php:579
 msgid "User group:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:143
 #: modules/com_myprofile/myprofile.html.php:799
-#: modules/com_person/person.html.php:464
+#: modules/com_person/person.html.php:469
 msgid "IČ:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:147
 #: modules/com_myprofile/myprofile.html.php:803
-#: modules/com_person/person.html.php:468
+#: modules/com_person/person.html.php:473
 msgid "DIČ:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:151
 #: modules/com_myprofile/myprofile.html.php:807
-#: modules/com_person/person.html.php:472
+#: modules/com_person/person.html.php:477
 msgid "Company short name:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:155
 #: modules/com_myprofile/myprofile.html.php:811
-#: modules/com_person/person.html.php:476
+#: modules/com_person/person.html.php:481
 msgid "Company name:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:160
 #: modules/com_myprofile/myprofile.html.php:816
-#: modules/com_person/person.html.php:481
+#: modules/com_person/person.html.php:486
 msgid "Firstname:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:164
 #: modules/com_myprofile/myprofile.html.php:820
-#: modules/com_person/person.html.php:485
+#: modules/com_person/person.html.php:490
 msgid "Surname:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:168
 #: modules/com_myprofile/myprofile.html.php:824
-#: modules/com_person/person.html.php:489
+#: modules/com_person/person.html.php:494
 msgid "Nickname:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:172
 #: modules/com_myprofile/myprofile.html.php:828
-#: modules/com_person/person.html.php:493
+#: modules/com_person/person.html.php:498
 msgid "Sex:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:176
 #: modules/com_myprofile/myprofile.html.php:836
-#: modules/com_person/person.html.php:501
+#: modules/com_person/person.html.php:506
 msgid "Degree before name:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:180
 #: modules/com_myprofile/myprofile.html.php:840
-#: modules/com_person/person.html.php:505
+#: modules/com_person/person.html.php:510
 msgid "Degree after name:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:184
 #: modules/com_myprofile/myprofile.html.php:844
-#: modules/com_person/person.html.php:509
+#: modules/com_person/person.html.php:514
 msgid "Birthdate:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:188
 #: modules/com_myprofile/myprofile.html.php:851
-#: modules/com_person/person.html.php:166
-#: modules/com_person/person.html.php:516
+#: modules/com_person/person.html.php:165
+#: modules/com_person/person.html.php:521
 msgid "E-mail"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:192
 #: modules/com_myprofile/myprofile.html.php:855
-#: modules/com_person/person.html.php:520
+#: modules/com_person/person.html.php:525
 msgid "ICQ:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:196
 #: modules/com_myprofile/myprofile.html.php:859
-#: modules/com_person/person.html.php:524
+#: modules/com_person/person.html.php:529
 msgid "Phone:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:200
 #: modules/com_myprofile/myprofile.html.php:863
-#: modules/com_person/person.html.php:528
+#: modules/com_person/person.html.php:533
 msgid "Address:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:204
 #: modules/com_myprofile/myprofile.html.php:867
-#: modules/com_person/person.html.php:532
+#: modules/com_person/person.html.php:537
 msgid "City:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:208
 #: modules/com_myprofile/myprofile.html.php:871
-#: modules/com_person/person.html.php:536
+#: modules/com_person/person.html.php:541
 msgid "ZIP:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:212
-#: modules/com_person/person.html.php:540
+#: modules/com_person/person.html.php:545
 msgid "Date of registration:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:224
 #: modules/com_myprofile/myprofile.html.php:883
-#: modules/com_person/person.html.php:552
+#: modules/com_person/person.html.php:557
 msgid "Login creditials"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:229
 #: modules/com_myprofile/myprofile.html.php:888
-#: modules/com_person/person.html.php:557
+#: modules/com_person/person.html.php:562
 msgid "System login registration"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:234
 #: modules/com_myprofile/myprofile.html.php:893
-#: modules/com_person/person.html.php:562
+#: modules/com_person/person.html.php:567
 msgid "Login name:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:244
-#: modules/com_person/person.html.php:588
+#: modules/com_person/person.html.php:593
 msgid "Role"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:249
-#: modules/com_person/person.html.php:593 modules/com_role/role.html.php:261
+#: modules/com_person/person.html.php:598 modules/com_role/role.html.php:261
 msgid "User role"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:267
-#: modules/com_person/person.html.php:627
+#: modules/com_person/person.html.php:632
 msgid "Payments"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:273
-#: modules/com_person/person.html.php:632
+#: modules/com_paymentreport/paymentreport.html.php:257
+#: modules/com_person/person.html.php:637
 #: modules/com_personaccount/personaccount.html.php:532
 msgid "Service name"
 msgstr ""
@@ -2371,7 +2380,7 @@ msgid "Delay in days"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:374
-#: modules/com_person/person.html.php:646
+#: modules/com_person/person.html.php:651
 #: modules/com_personaccount/personaccount.html.php:450
 #: modules/com_personaccount/personaccount.html.php:633
 msgid "Action"
@@ -2397,12 +2406,12 @@ msgid "Comment"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:547
-#: modules/com_person/person.html.php:752
+#: modules/com_person/person.html.php:757
 msgid "IP addresses"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:553
-#: modules/com_person/person.html.php:758
+#: modules/com_person/person.html.php:763
 msgid "DNS name"
 msgstr ""
 
@@ -2438,48 +2447,48 @@ msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:901
 #: modules/com_networkdevice/networkdevice.html.php:487
-#: modules/com_person/person.html.php:570
+#: modules/com_person/person.html.php:575
 msgid "Password confirmation:"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:926
-#: modules/com_person/person.html.php:803
+#: modules/com_person/person.html.php:808
 msgid "Please enter firstname"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:927
-#: modules/com_person/person.html.php:804
+#: modules/com_person/person.html.php:809
 msgid "Please enter surname"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:928
-#: modules/com_person/person.html.php:805
+#: modules/com_person/person.html.php:810
 msgid "Birthdate is in incorrect format"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:929
-#: modules/com_person/person.html.php:808
+#: modules/com_person/person.html.php:813
 msgid "Please enter valid E-Mail"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:931
-#: modules/com_person/person.html.php:810
+#: modules/com_person/person.html.php:815
 msgid "Password is too short"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:937
-#: modules/com_person/person.html.php:816
+#: modules/com_person/person.html.php:821
 msgid "Passwords doesn't match"
 msgstr ""
 
-#: modules/com_myprofile/myprofile.index.php:197
+#: modules/com_myprofile/myprofile.index.php:196
 #: modules/com_networkdevice/networkdevice.index.php:314
 #: modules/com_networkdevice/networkdevice.index.php:768
 #: modules/com_person/person.index.php:207
 msgid "User passwords are not same"
 msgstr ""
 
-#: modules/com_myprofile/myprofile.index.php:219
+#: modules/com_myprofile/myprofile.index.php:218
 #, php-format
 msgid "User '%s' actualized his profile"
 msgstr ""
@@ -3027,107 +3036,94 @@ msgstr ""
 msgid "Login failed: %s@%s: %s"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:117
+#: modules/com_paymentreport/paymentreport.html.php:151
 msgid "- No payment defined -"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:128
-msgid "Only persons with payment assigned"
-msgstr ""
-
-#: modules/com_paymentreport/paymentreport.html.php:129
-msgid "All persons"
-msgstr ""
-
-#: modules/com_paymentreport/paymentreport.html.php:164
-msgid "Payment"
-msgstr ""
-
-#: modules/com_paymentreport/paymentreport.html.php:169
-msgid "Payment name:"
-msgstr ""
-
-#: modules/com_paymentreport/paymentreport.html.php:198
+#: modules/com_paymentreport/paymentreport.html.php:255
 #: modules/com_personaccount/personaccount.html.php:168
 msgid "Balance"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:199
+#: modules/com_paymentreport/paymentreport.html.php:256
 #: modules/com_personaccount/personaccount.html.php:449
 msgid "Variable symbol"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:268
-#: modules/com_paymentreport/paymentreport.html.php:351
-#: modules/com_person/person.html.php:642
+#: modules/com_paymentreport/paymentreport.html.php:258
+#: modules/com_paymentreport/paymentreport.html.php:373
+#: modules/com_paymentreport/paymentreport.html.php:456
+#: modules/com_person/person.html.php:647
 msgid "Payed"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:279
-#: modules/com_paymentreport/paymentreport.html.php:355
+#: modules/com_paymentreport/paymentreport.html.php:273
+#: modules/com_personaccount/personaccount.html.php:545
+msgid "Actual state"
+msgstr ""
+
+#: modules/com_paymentreport/paymentreport.html.php:304
+#: modules/com_person/person.html.php:205
+msgid "Removed"
+msgstr ""
+
+#: modules/com_paymentreport/paymentreport.html.php:384
+#: modules/com_paymentreport/paymentreport.html.php:460
 msgid "Payed with delay"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:290
+#: modules/com_paymentreport/paymentreport.html.php:395
 msgid "Pending payments"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:301
+#: modules/com_paymentreport/paymentreport.html.php:406
 msgid "Delayed payments"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:312
+#: modules/com_paymentreport/paymentreport.html.php:417
 msgid "Number of excused payments"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:323
+#: modules/com_paymentreport/paymentreport.html.php:428
 #: modules/com_personaccount/personaccount.html.php:166
 msgid "Total income"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:345
+#: modules/com_paymentreport/paymentreport.html.php:450
 msgid "Legend"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:359
+#: modules/com_paymentreport/paymentreport.html.php:464
 msgid "Pending payment"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:363
+#: modules/com_paymentreport/paymentreport.html.php:468
 msgid "Waiting for pay, payment not yet created"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:367
+#: modules/com_paymentreport/paymentreport.html.php:472
 msgid "Delayed payment in tolerance, number described NO of delayed days"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:371
+#: modules/com_paymentreport/paymentreport.html.php:476
 msgid "Delayes payment out of tolerance, number describer NO of delayed days"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:375
+#: modules/com_paymentreport/paymentreport.html.php:480
 msgid "Free of charge"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:379
+#: modules/com_paymentreport/paymentreport.html.php:484
 msgid "Has no charge"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.index.php:167
-#: modules/com_paymentreport/paymentreport.index.php:175
-#: modules/com_paymentreport/paymentreport.index.php:179
-#: modules/com_paymentreport/paymentreport.index.php:237
-#: modules/com_paymentreport/paymentreport.index.php:245
-#: modules/com_paymentreport/paymentreport.index.php:249
-#: modules/com_paymentreport/paymentreport.index.php:328
-#: modules/com_paymentreport/paymentreport.index.php:336
-#: modules/com_paymentreport/paymentreport.index.php:340
-#: modules/com_paymentreport/paymentreport.index.php:415
-#: modules/com_paymentreport/paymentreport.index.php:423
-#: modules/com_paymentreport/paymentreport.index.php:427
-#: modules/com_paymentreport/paymentreport.index.php:500
-#: modules/com_paymentreport/paymentreport.index.php:508
-#: modules/com_paymentreport/paymentreport.index.php:512
+#: modules/com_paymentreport/paymentreport.index.php:240
+msgid "Has unterminated payment"
+msgstr ""
+
+#: modules/com_paymentreport/paymentreport.index.php:441
+#: modules/com_paymentreport/paymentreport.index.php:449
+#: modules/com_paymentreport/paymentreport.index.php:453
 #, php-format
 msgid "+%s day"
 msgid_plural "+%s days"
@@ -3139,8 +3135,8 @@ msgid "Users should not be deleted, just mark as detached. Do you really want to
 msgstr ""
 
 #: modules/com_person/person.html.php:107
-#: modules/com_person/person.html.php:422
-#: modules/com_person/person.html.php:909
+#: modules/com_person/person.html.php:427
+#: modules/com_person/person.html.php:914
 msgid "User management"
 msgstr ""
 
@@ -3153,57 +3149,53 @@ msgid "Phone"
 msgstr ""
 
 #: modules/com_person/person.html.php:164
-msgid "ICQ"
-msgstr ""
-
-#: modules/com_person/person.html.php:165
 msgid "Address"
 msgstr ""
 
-#: modules/com_person/person.html.php:167
+#: modules/com_person/person.html.php:166
 msgid "Registered"
 msgstr ""
 
-#: modules/com_person/person.html.php:201
-msgid "Removed"
+#: modules/com_person/person.html.php:167
+msgid "LastLoggedIn"
 msgstr ""
 
-#: modules/com_person/person.html.php:318
+#: modules/com_person/person.html.php:323
 msgid "Please select role you want to assign"
 msgstr ""
 
-#: modules/com_person/person.html.php:332
+#: modules/com_person/person.html.php:337
 msgid "Please select role you want to remove"
 msgstr ""
 
-#: modules/com_person/person.html.php:361
+#: modules/com_person/person.html.php:366
 msgid "Please select payment want to add"
 msgstr ""
 
-#: modules/com_person/person.html.php:598
+#: modules/com_person/person.html.php:603
 msgid "Role list:"
 msgstr ""
 
-#: modules/com_person/person.html.php:609
-#: modules/com_person/person.html.php:721
+#: modules/com_person/person.html.php:614
+#: modules/com_person/person.html.php:726
 #: modules/com_personaccount/personaccount.html.php:723
 msgid "Remove"
 msgstr ""
 
-#: modules/com_person/person.html.php:621
-#: modules/com_person/person.html.php:744
+#: modules/com_person/person.html.php:626
+#: modules/com_person/person.html.php:749
 msgid "Add"
 msgstr ""
 
-#: modules/com_person/person.html.php:643
+#: modules/com_person/person.html.php:648
 msgid "Active from"
 msgstr ""
 
-#: modules/com_person/person.html.php:644
+#: modules/com_person/person.html.php:649
 msgid "Active to"
 msgstr ""
 
-#: modules/com_person/person.html.php:732
+#: modules/com_person/person.html.php:737
 #: modules/com_personaccount/personaccount.html.php:341
 #: modules/com_personaccount/personaccount.html.php:342
 #: modules/com_personaccount/personaccount.html.php:996
@@ -3211,61 +3203,61 @@ msgstr ""
 msgid "New payment"
 msgstr ""
 
-#: modules/com_person/person.html.php:806
+#: modules/com_person/person.html.php:811
 msgid "Username contains invalid characters"
 msgstr ""
 
-#: modules/com_person/person.html.php:807
+#: modules/com_person/person.html.php:812
 msgid "Username is too short"
 msgstr ""
 
-#: modules/com_person/person.html.php:909
+#: modules/com_person/person.html.php:914
 msgid "Edit payment service"
 msgstr ""
 
-#: modules/com_person/person.html.php:931
+#: modules/com_person/person.html.php:936
 msgid "Payment service"
 msgstr ""
 
-#: modules/com_person/person.html.php:936
+#: modules/com_person/person.html.php:941
 msgid "Service name:"
 msgstr ""
 
-#: modules/com_person/person.html.php:940
+#: modules/com_person/person.html.php:945
 msgid "Service description:"
 msgstr ""
 
-#: modules/com_person/person.html.php:971
+#: modules/com_person/person.html.php:976
 msgid "Tolerance in days:"
 msgstr ""
 
-#: modules/com_person/person.html.php:988
+#: modules/com_person/person.html.php:993
 msgid "Service configuration"
 msgstr ""
 
-#: modules/com_person/person.html.php:993
+#: modules/com_person/person.html.php:998
 msgid "Start date:"
 msgstr ""
 
-#: modules/com_person/person.html.php:1104
-#: modules/com_person/person.html.php:1127
-#: modules/com_person/person.html.php:1147
-#: modules/com_person/person.html.php:1167
+#: modules/com_person/person.html.php:1109
+#: modules/com_person/person.html.php:1132
+#: modules/com_person/person.html.php:1152
+#: modules/com_person/person.html.php:1172
 msgid "End date:"
 msgstr ""
 
-#: modules/com_person/person.html.php:1227
+#: modules/com_person/person.html.php:1232
 msgid "Please enter start date"
 msgstr ""
 
-#: modules/com_person/person.html.php:1228
+#: modules/com_person/person.html.php:1233
 msgid "Start date is in incorrect format"
 msgstr ""
 
-#: modules/com_person/person.html.php:1233
-#: modules/com_person/person.html.php:1237
+#: modules/com_person/person.html.php:1238
 #: modules/com_person/person.html.php:1242
 #: modules/com_person/person.html.php:1247
+#: modules/com_person/person.html.php:1252
 msgid "End date is in incorrect format"
 msgstr ""
 
@@ -3330,7 +3322,7 @@ msgstr ""
 #: modules/com_person/person.index.php:695
 #: modules/com_person/person.index.php:706
 #: modules/com_person/person.index.php:718
-#: modules/com_personaccount/personaccount.index.php:573
+#: modules/com_personaccount/personaccount.index.php:565
 msgid "Date is in incorrect format"
 msgstr ""
 
@@ -3443,10 +3435,6 @@ msgstr ""
 msgid "Service payments"
 msgstr ""
 
-#: modules/com_personaccount/personaccount.html.php:545
-msgid "Actual state"
-msgstr ""
-
 #: modules/com_personaccount/personaccount.html.php:713
 msgid "Excuse"
 msgstr ""
@@ -3474,48 +3462,48 @@ msgstr ""
 msgid "%s %s VS: %s"
 msgstr ""
 
-#: modules/com_personaccount/personaccount.index.php:244
+#: modules/com_personaccount/personaccount.index.php:236
 #, php-format
 msgid "User account from user '%s' updated"
 msgstr ""
 
-#: modules/com_personaccount/personaccount.index.php:250
+#: modules/com_personaccount/personaccount.index.php:242
 #, php-format
 msgid "User account from user '%s' saved"
 msgstr ""
 
-#: modules/com_personaccount/personaccount.index.php:317
-#: modules/com_personaccount/personaccount.index.php:338
-#: modules/com_personaccount/personaccount.index.php:351
+#: modules/com_personaccount/personaccount.index.php:309
+#: modules/com_personaccount/personaccount.index.php:330
+#: modules/com_personaccount/personaccount.index.php:343
 #, php-format
 msgid "User's '%s' payment with amount %s and date %s has been removed"
 msgstr ""
 
-#: modules/com_personaccount/personaccount.index.php:324
+#: modules/com_personaccount/personaccount.index.php:316
 #, php-format
 msgid "Bank entry %s %s %s %s amount %s returned to process"
 msgstr ""
 
-#: modules/com_personaccount/personaccount.index.php:408
+#: modules/com_personaccount/personaccount.index.php:400
 #, php-format
 msgid "User's '%s' payment '%s' for period %s was excused"
 msgstr ""
 
-#: modules/com_personaccount/personaccount.index.php:459
+#: modules/com_personaccount/personaccount.index.php:451
 #, php-format
 msgid "User's '%s' payment '%s' for period %s is ignored"
 msgstr ""
 
-#: modules/com_personaccount/personaccount.index.php:520
+#: modules/com_personaccount/personaccount.index.php:512
 #, php-format
 msgid "User's '%s' payment '%s' for period %s was removed"
 msgstr ""
 
-#: modules/com_personaccount/personaccount.index.php:554
+#: modules/com_personaccount/personaccount.index.php:546
 msgid "Money amount is in incorrect format"
 msgstr ""
 
-#: modules/com_personaccount/personaccount.index.php:593
+#: modules/com_personaccount/personaccount.index.php:585
 #, php-format
 msgid "User's '%s' account was benefited with money amount '%s'"
 msgstr ""

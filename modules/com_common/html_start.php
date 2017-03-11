@@ -31,11 +31,14 @@
     <script language="JavaScript" type="text/javascript" src="js/overlib.js"></script>
     <script language="javascript" type="text/javascript" src="js/CalendarPopup.js"></script>
     <script language="javascript" type="text/javascript" src="js/validator.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/chosen.jquery.min.js"></script>
     <link rel="stylesheet" href="css/template.css" type="text/css" />
     <link rel="stylesheet" href="css/icon.css" type="text/css" />
     <link rel="stylesheet" href="css/report.css" type="text/css" />
     <link rel="stylesheet" href="css/dtree.css" type="text/css" />
     <link rel="stylesheet" href="css/calendar-popup.css" type="text/css" />
+    <link rel="stylesheet" href="css/chosen.css">
     <link rel="stylesheet" href="js/ThemeOffice/theme.css" type="text/css" />
     <link rel="stylesheet" href="js/tabs/tabpane.css" type="text/css" />
     <link rel="shortcut icon" href="favicon.ico" />

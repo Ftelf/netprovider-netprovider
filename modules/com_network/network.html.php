@@ -58,10 +58,10 @@ class HTML_Network {
 	}
 	function editP(id) {
     	var form = document.adminForm;
-    	form.option.value = 'com_person';
-    	form.PE_personid.value = id;
-    	hideMainMenu();
-   		submitform('edit');
+        form.option.value = 'com_person';
+        form.PE_personid.value = id;
+        hideMainMenu();
+        submitform('edit');
 	}
 	function newI() {
 		hideMainMenu();

@@ -112,6 +112,7 @@ table.adminlist { background-color: #f9f9f9; border: 1px solid #d5d5d5; border-c
 table.adminlist thead th { padding: 4px; background: #F0F0F0 none repeat scroll 0%; border-bottom: 1px solid #999999; font-size: 11px; color: #444; }
 table.adminlist thead th.title { text-align: left; }
 table.adminlist thead th.title-center { text-align: center; }
+table.adminlist thead th.title-side-shrink { padding-left: 1px; padding-right: 1px; }
 table.adminlist thead th.title-right { text-align: right; }
 table.adminlist thead th.title-multiple-row { text-align: left; padding: 4px; background: #F0F0F0 none repeat scroll 0%; border-bottom: 1px solid #E5E5E5; font-size: 11px; color: #444; }
 
@@ -123,10 +124,15 @@ table.adminlist tbody tr.row0 { background-color: #FFF; }
 table.adminlist tbody tr.row0:hover { background-color: #f1f1f1; }
 table.adminlist tbody tr.row1 { background-color: #F9F9F9; }
 table.adminlist tbody tr.row1:hover { background-color: #f1f1f1; }
+
+table.adminlist tbody td.hover2 div { background-color: lightgreen; font-weight: normal; }
+
 table.adminlist tbody tr.irow0 { background-color: #FFF; }
 table.adminlist tbody tr.irow1 { background-color: #F9F9F9; }
 table.adminlist tbody tr td { text-align: left; font-size: 11px; border-bottom: 1px solid #e5e5e5; padding: 4px; }
 table.adminlist tbody tr td.right { text-align: right; font-size: 11px; border-bottom: 1px solid #e5e5e5; padding: 4px; }
+table.adminlist tbody tr td.center { text-align: center; font-size: 11px; border-bottom: 1px solid #e5e5e5; padding: 4px; }
+table.adminlist tbody tr td.side-shrink { padding-left: 1px; padding-right: 1px; }
 
 table.adminlist tfoot td { padding: 4px; background: #F0F0F0 none repeat scroll 0%; border-top: 1px solid #999999; font-size: 11px; color: #444; }
 
@@ -154,7 +160,43 @@ table.adminform tbody tr.row0:hover { background-color: #f1f1f1; }
 table.adminform tbody tr.row1:hover { background-color: #f1f1f1; }
 table.adminform tbody td { padding: 3px; text-align: left; font-size: 11px; }
 table.adminform tbody td.right { text-align: right; }
+table.adminform tbody td.center { text-align: center; }
 
+
+td.rotate {
+    /* Something you can count on */
+    height: 68px;
+    white-space: nowrap;
+    vertical-align: top;
+}
+
+td.rotate > div {
+    transform: translate(-47px, 47px) rotate(315deg);
+    /*transform: translate(25px, 51px) rotate(315deg);*/
+    /* Magic Numbers */ /*45 is really 360 - 45 */
+
+    width: 39px;
+}
+
+td.rotate > div > div {
+    width: 110px;
+    border-bottom: 1px solid #ccc;
+    /*padding: 5px 10px;*/
+    /*padding-right: 20px;*/
+
+    /*font-size: 12px;*/
+    /*font-weight: bold;*/
+    text-align: right;
+}
+
+td.rotate > div > div > span {
+    /*border-bottom: 1px solid #ccc;*/
+    /*padding: 5px 10px;*/
+    padding-right: 15px;
+
+    font-size: 12px;
+    font-weight: bold;
+}
 
 
 form { margin: 0; padding: 0; }
@@ -169,8 +211,9 @@ a.text-button:hover { border-left: 1px solid #eee; border-top: 1px solid #eee; b
 #footer .copyright { margin-top: 10px; margin-bottom: 0px; font-size: 9.6px; text-align: center; }
 #footer .statistics { margin: 0; font-size: 8.5px; text-align: center; }
 
-#debug { margin: 5; border: 1px solid black; }
+#debug { margin: 5px; border: 1px solid black; }
 
 .clr { clear: both; overflow: hidden; height: 0; }
 .noWrap { white-space: nowrap; }
+.overflow { white-space: nowrap; overflow: visible; max-width: 10px;}
 .center { text-align: center; }

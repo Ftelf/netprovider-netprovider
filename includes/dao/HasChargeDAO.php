@@ -62,10 +62,28 @@ class HasChargeDAO {
         $database->setQuery($query);
         return $database->loadObjectList("HC_haschargeid");
     }
-    static function getHasChargeReportArray($pid, $chid) {
-        if (!$pid || !$chid) throw new Exception("not specified both IDs");
+    static function getHasChargeReportArray($pid, $chargesids, $dateFrom = null, $dateTo = null) {
+        if (!$pid || !is_array($chargesids)) throw new Exception("not specified both IDs");
         global $database;
-        $query = "SELECT * FROM `person` as p, `hascharge` as hc, `charge` as ch WHERE p.PE_personid='$pid' AND p.PE_personid=hc.HC_personid AND hc.HC_chargeid=ch.CH_chargeid AND ch.CH_chargeid='$chid' ORDER BY `PE_surname`, `PE_firstname`";
+        $query =
+            "SELECT * FROM `person` as p, `hascharge` as hc, `charge` as ch ".
+            "WHERE p.PE_personid='$pid' AND p.PE_personid=hc.HC_personid AND hc.HC_chargeid=ch.CH_chargeid";
+
+        if (count($chargesids)) {
+            $query .= " AND ch.CH_chargeid IN (" . (implode(',', $chargesids)) . ")";
+        } else {
+            $query .= " AND false";
+        }
+
+        if ($dateFrom != null) {
+            $dateFromFormatted = $dateFrom->getFormattedDate(DateUtil::DB_DATE);
+            $dateToFormatted = ($dateTo == null) ? DateUtil::DB_MAX_DATE : $dateTo->getFormattedDate(DateUtil::DB_DATE);
+
+            $query .= " AND ( ( hc.HC_datestart <= date '$dateToFormatted' ) AND ( IF(hc.HC_dateend = '0000-00-00', date '9999-12-31', hc.HC_dateend) >= date '$dateFromFormatted' ) )";
+        }
+
+        $query .= " ORDER BY p.PE_surname, p.PE_firstname, p.PE_nick";
+
         $database->setQuery($query);
         return $database->loadObjectList("HC_haschargeid");
     }
