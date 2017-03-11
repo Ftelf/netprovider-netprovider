@@ -369,7 +369,7 @@ class HTML_PaymentReport {
 <?php
 	foreach ($report['dates'] as &$date) {
 ?>
-      <td class="noWrap side-shrink rotateX"><div><div><span><?php echo NumberFormat::formatMoney($date['summary']['payed']); ?> CZK</span></div></div></td>
+      <td class="noWrap side-shrink rotate"><div><div><span><?php echo NumberFormat::formatMoney($date['summary']['payed']); ?> CZK</span></div></div></td>
 <?php
 	}
 ?>
@@ -380,7 +380,7 @@ class HTML_PaymentReport {
 <?php
 	foreach ($report['dates'] as &$date) {
 ?>
-      <td class="noWrap side-shrink rotateX"><div><div><span><?php echo NumberFormat::formatMoney($date['summary']['payedWithDelay']); ?> CZK</span></div></div></td>
+      <td class="noWrap side-shrink rotate"><div><div><span><?php echo NumberFormat::formatMoney($date['summary']['payedWithDelay']); ?> CZK</span></div></div></td>
 <?php
 	}
 ?>
@@ -391,7 +391,7 @@ class HTML_PaymentReport {
 <?php
 	foreach ($report['dates'] as &$date) {
 ?>
-      <td class="noWrap side-shrink rotateX"><div><div><span><?php echo NumberFormat::formatMoney($date['summary']['pending']); ?> CZK</span></div></div></td>
+      <td class="noWrap side-shrink rotate"><div><div><span><?php echo NumberFormat::formatMoney($date['summary']['pending']); ?> CZK</span></div></div></td>
 <?php
 	}
 ?>
@@ -402,7 +402,7 @@ class HTML_PaymentReport {
 <?php
 	foreach ($report['dates'] as &$date) {
 ?>
-      <td class="noWrap side-shrink rotateX"><div><div><span><?php echo NumberFormat::formatMoney($date['summary']['delayed']); ?> CZK</span></div></div></td>
+      <td class="noWrap side-shrink rotate"><div><div><span><?php echo NumberFormat::formatMoney($date['summary']['delayed']); ?> CZK</span></div></div></td>
 <?php
 	}
 ?>
@@ -413,7 +413,7 @@ class HTML_PaymentReport {
 <?php
 	foreach ($report['dates'] as &$date) {
 ?>
-      <td class="noWrap side-shrink center rotateX"><div><div><span><?php echo $date['summary']['free']; ?></span></div></div></td>
+      <td class="noWrap side-shrink center rotate"><div><div><span><?php echo $date['summary']['free']; ?></span></div></div></td>
 <?php
 	}
 ?>
@@ -424,10 +424,10 @@ class HTML_PaymentReport {
 <?php
 	foreach ($report['dates'] as &$date) {
 ?>
-        <td class="noWrap side-shrink rotateX"><div><div><span><?php echo NumberFormat::formatMoney($date['summary']['payed'] + $date['summary']['payedWithDelay'] + $date['summary']['pending'] + $date['summary']['delayed']); ?> CZK</span></div></div></td>
+        <td class="noWrap side-shrink rotate"><div><div><span><?php echo NumberFormat::formatMoney($date['summary']['payed'] + $date['summary']['payedWithDelay'] + $date['summary']['pending'] + $date['summary']['delayed']); ?> CZK</span></div></div></td>
 <?php
 	}
-?>
+?>git pu
       <td colspan="3"></td>
     </tr>
     </tbody>
