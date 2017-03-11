@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-11 19:26+0100\n"
-"PO-Revision-Date: 2017-03-11 19:28+0100\n"
+"POT-Creation-Date: 2017-03-11 20:08+0100\n"
+"PO-Revision-Date: 2017-03-11 20:09+0100\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
 "Language: cs\n"
@@ -779,8 +779,6 @@ msgstr "VS"
 #: modules/com_myprofile/myprofile.html.php:285
 #: modules/com_myprofile/myprofile.html.php:365
 #: modules/com_myprofile/myprofile.html.php:604
-#: modules/com_paymentreport/paymentreport.html.php:266
-#: modules/com_paymentreport/paymentreport.html.php:267
 #: modules/com_person/person.html.php:168
 #: modules/com_person/person.html.php:650
 #: modules/com_personaccount/personaccount.html.php:544
@@ -3077,6 +3075,14 @@ msgstr "Variabilní symbol"
 #: modules/com_person/person.html.php:647
 msgid "Payed"
 msgstr "Zaplaceno"
+
+#: modules/com_paymentreport/paymentreport.html.php:266
+msgid "Person Status"
+msgstr "St.Uživatele"
+
+#: modules/com_paymentreport/paymentreport.html.php:267
+msgid "Payment Status"
+msgstr "St.Služby"
 
 #: modules/com_paymentreport/paymentreport.html.php:268
 #: modules/com_personaccount/personaccount.html.php:545

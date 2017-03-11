@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-11 19:26+0100\n"
+"POT-Creation-Date: 2017-03-11 20:08+0100\n"
 "PO-Revision-Date: 2008-01-24 12:18+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -777,8 +777,6 @@ msgstr ""
 #: modules/com_myprofile/myprofile.html.php:285
 #: modules/com_myprofile/myprofile.html.php:365
 #: modules/com_myprofile/myprofile.html.php:604
-#: modules/com_paymentreport/paymentreport.html.php:266
-#: modules/com_paymentreport/paymentreport.html.php:267
 #: modules/com_person/person.html.php:168
 #: modules/com_person/person.html.php:650
 #: modules/com_personaccount/personaccount.html.php:544
@@ -3069,6 +3067,14 @@ msgstr ""
 #: modules/com_paymentreport/paymentreport.html.php:451
 #: modules/com_person/person.html.php:647
 msgid "Payed"
+msgstr ""
+
+#: modules/com_paymentreport/paymentreport.html.php:266
+msgid "Person Status"
+msgstr ""
+
+#: modules/com_paymentreport/paymentreport.html.php:267
+msgid "Payment Status"
 msgstr ""
 
 #: modules/com_paymentreport/paymentreport.html.php:268

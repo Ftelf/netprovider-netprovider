@@ -263,8 +263,8 @@ class HTML_PaymentReport {
 <?php
 	}
 ?>
-     <th width="20" class="title"><?php echo _("Status"); ?></th>
-     <th width="20" class="title"><?php echo _("Status"); ?></th>
+     <th width="20" class="title"><?php echo _("Person Status"); ?></th>
+     <th width="20" class="title"><?php echo _("Payment Status"); ?></th>
      <th width="20" class="title noWrap"><?php echo _("Actual state"); ?></th>
    </tr>
    </thead>

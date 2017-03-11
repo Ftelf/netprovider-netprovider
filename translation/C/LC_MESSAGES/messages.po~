@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-11 18:13+0100\n"
+"POT-Creation-Date: 2017-03-11 19:26+0100\n"
 "PO-Revision-Date: 2008-01-24 12:18+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -63,7 +63,7 @@ msgid "KB ABO"
 msgstr ""
 
 #: includes/tables/BankAccountEntry.php:112
-#: modules/com_paymentreport/paymentreport.html.php:488
+#: modules/com_paymentreport/paymentreport.html.php:483
 msgid "Other"
 msgstr ""
 
@@ -256,15 +256,15 @@ msgstr ""
 
 #: includes/tables/HandleEvent.php:52
 #: modules/com_myprofile/myprofile.html.php:309
-#: modules/com_paymentreport/paymentreport.html.php:312
-#: modules/com_paymentreport/paymentreport.html.php:318
+#: modules/com_paymentreport/paymentreport.html.php:307
+#: modules/com_paymentreport/paymentreport.html.php:313
 msgid "Disabled"
 msgstr ""
 
 #: includes/tables/HandleEvent.php:55
 #: modules/com_handleevent/handleevent.html.php:123
 #: modules/com_myprofile/myprofile.html.php:306
-#: modules/com_paymentreport/paymentreport.html.php:315
+#: modules/com_paymentreport/paymentreport.html.php:310
 msgid "Enabled"
 msgstr ""
 
@@ -276,11 +276,11 @@ msgstr ""
 msgid "Invoice created"
 msgstr ""
 
-#: includes/tables/HasCharge.php:53 includes/tables/HasCharge.php:72
+#: includes/tables/HasCharge.php:53 includes/tables/HasCharge.php:77
 msgid "Deactivated"
 msgstr ""
 
-#: includes/tables/HasCharge.php:56 includes/tables/HasCharge.php:75
+#: includes/tables/HasCharge.php:56 includes/tables/HasCharge.php:80
 msgid "Activated"
 msgstr ""
 
@@ -382,13 +382,13 @@ msgid "WDS bridge"
 msgstr ""
 
 #: includes/tables/Person.php:90
-#: modules/com_paymentreport/paymentreport.html.php:294
+#: modules/com_paymentreport/paymentreport.html.php:289
 #: modules/com_person/person.html.php:195
 msgid "Passive"
 msgstr ""
 
 #: includes/tables/Person.php:93
-#: modules/com_paymentreport/paymentreport.html.php:299
+#: modules/com_paymentreport/paymentreport.html.php:294
 #: modules/com_person/person.html.php:200
 msgid "Active"
 msgstr ""
@@ -497,7 +497,7 @@ msgstr ""
 
 #: modules/com_admin/admin.html.php:132 modules/com_admin/admin.html.php:133
 #: modules/com_common/html_mainmenu.php:57
-#: modules/com_paymentreport/paymentreport.html.php:118
+#: modules/com_paymentreport/paymentreport.html.php:97
 msgid "Payment report"
 msgstr ""
 
@@ -582,7 +582,7 @@ msgstr ""
 #: modules/com_iptrafficreport/iptrafficreport.html.php:93
 #: modules/com_log/log.html.php:120
 #: modules/com_networkdevice/networkdevice.html.php:145
-#: modules/com_paymentreport/paymentreport.html.php:143
+#: modules/com_paymentreport/paymentreport.html.php:122
 #: modules/com_person/person.html.php:125
 #: modules/com_personaccount/personaccount.html.php:133
 msgid "Filter:"
@@ -603,8 +603,8 @@ msgstr ""
 #: modules/com_message/message.html.php:133
 #: modules/com_myprofile/myprofile.html.php:646
 #: modules/com_myprofile/myprofile.html.php:847
-#: modules/com_paymentreport/paymentreport.html.php:183
-#: modules/com_paymentreport/paymentreport.html.php:188
+#: modules/com_paymentreport/paymentreport.html.php:162
+#: modules/com_paymentreport/paymentreport.html.php:167
 #: modules/com_person/person.html.php:517
 #: modules/com_person/person.html.php:1017
 #: modules/com_person/person.html.php:1034
@@ -626,7 +626,6 @@ msgstr ""
 #: modules/com_bankaccount/bankaccount.html.php:196
 #: modules/com_invoice/invoice.html.php:127
 #: modules/com_invoice/invoice.html.php:139
-#: modules/com_paymentreport/paymentreport.html.php:168
 #: modules/com_person/person.html.php:139
 #: modules/com_personaccount/personaccount.html.php:137
 msgid "- Status -"
@@ -744,7 +743,7 @@ msgstr ""
 #: modules/com_myprofile/myprofile.html.php:279
 #: modules/com_myprofile/myprofile.html.php:371
 #: modules/com_myprofile/myprofile.html.php:487
-#: modules/com_paymentreport/paymentreport.html.php:262
+#: modules/com_paymentreport/paymentreport.html.php:257
 #: modules/com_person/person.html.php:644
 #: modules/com_personaccount/personaccount.html.php:445
 #: modules/com_personaccount/personaccount.html.php:538
@@ -778,8 +777,8 @@ msgstr ""
 #: modules/com_myprofile/myprofile.html.php:285
 #: modules/com_myprofile/myprofile.html.php:365
 #: modules/com_myprofile/myprofile.html.php:604
-#: modules/com_paymentreport/paymentreport.html.php:271
-#: modules/com_paymentreport/paymentreport.html.php:272
+#: modules/com_paymentreport/paymentreport.html.php:266
+#: modules/com_paymentreport/paymentreport.html.php:267
 #: modules/com_person/person.html.php:168
 #: modules/com_person/person.html.php:650
 #: modules/com_personaccount/personaccount.html.php:544
@@ -1341,7 +1340,7 @@ msgstr ""
 #: modules/com_invoice/invoice.html.php:178
 #: modules/com_myprofile/myprofile.html.php:277
 #: modules/com_myprofile/myprofile.html.php:369
-#: modules/com_paymentreport/paymentreport.html.php:260
+#: modules/com_paymentreport/paymentreport.html.php:255
 #: modules/com_person/person.html.php:642
 #: modules/com_personaccount/personaccount.html.php:536
 #: modules/com_personaccount/personaccount.html.php:628
@@ -2092,14 +2091,14 @@ msgid "Show average rate"
 msgstr ""
 
 #: modules/com_iptrafficreport/iptrafficreport.html.php:130
-#: modules/com_paymentreport/paymentreport.html.php:253
+#: modules/com_paymentreport/paymentreport.html.php:248
 #: modules/com_person/person.html.php:160
 #: modules/com_personaccount/personaccount.html.php:164
 msgid "Surname"
 msgstr ""
 
 #: modules/com_iptrafficreport/iptrafficreport.html.php:131
-#: modules/com_paymentreport/paymentreport.html.php:254
+#: modules/com_paymentreport/paymentreport.html.php:249
 #: modules/com_person/person.html.php:159
 #: modules/com_personaccount/personaccount.html.php:163
 msgid "Firstname"
@@ -2335,7 +2334,7 @@ msgid "Payments"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:273
-#: modules/com_paymentreport/paymentreport.html.php:257
+#: modules/com_paymentreport/paymentreport.html.php:252
 #: modules/com_person/person.html.php:637
 #: modules/com_personaccount/personaccount.html.php:532
 msgid "Service name"
@@ -3035,94 +3034,110 @@ msgstr ""
 msgid "Login failed: %s@%s: %s"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:151
+#: modules/com_paymentreport/paymentreport.html.php:127
+msgid "- Choose Payments... -"
+msgstr ""
+
+#: modules/com_paymentreport/paymentreport.html.php:130
 msgid "- No payment defined -"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:255
+#: modules/com_paymentreport/paymentreport.html.php:147
+msgid "- Status of Person -"
+msgstr ""
+
+#: modules/com_paymentreport/paymentreport.html.php:175
+msgid "- Status of Payment -"
+msgstr ""
+
+#: modules/com_paymentreport/paymentreport.html.php:187
+msgid "- Actual state of Payment -"
+msgstr ""
+
+#: modules/com_paymentreport/paymentreport.html.php:250
 #: modules/com_personaccount/personaccount.html.php:168
 msgid "Balance"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:256
+#: modules/com_paymentreport/paymentreport.html.php:251
 #: modules/com_personaccount/personaccount.html.php:449
 msgid "Variable symbol"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:258
-#: modules/com_paymentreport/paymentreport.html.php:373
-#: modules/com_paymentreport/paymentreport.html.php:456
+#: modules/com_paymentreport/paymentreport.html.php:253
+#: modules/com_paymentreport/paymentreport.html.php:368
+#: modules/com_paymentreport/paymentreport.html.php:451
 #: modules/com_person/person.html.php:647
 msgid "Payed"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:273
+#: modules/com_paymentreport/paymentreport.html.php:268
 #: modules/com_personaccount/personaccount.html.php:545
 msgid "Actual state"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:304
+#: modules/com_paymentreport/paymentreport.html.php:299
 #: modules/com_person/person.html.php:205
 msgid "Removed"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:384
-#: modules/com_paymentreport/paymentreport.html.php:460
+#: modules/com_paymentreport/paymentreport.html.php:379
+#: modules/com_paymentreport/paymentreport.html.php:455
 msgid "Payed with delay"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:395
+#: modules/com_paymentreport/paymentreport.html.php:390
 msgid "Pending payments"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:406
+#: modules/com_paymentreport/paymentreport.html.php:401
 msgid "Delayed payments"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:417
+#: modules/com_paymentreport/paymentreport.html.php:412
 msgid "Number of excused payments"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:428
+#: modules/com_paymentreport/paymentreport.html.php:423
 #: modules/com_personaccount/personaccount.html.php:166
 msgid "Total income"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:450
+#: modules/com_paymentreport/paymentreport.html.php:445
 msgid "Legend"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:464
+#: modules/com_paymentreport/paymentreport.html.php:459
 msgid "Pending payment"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:468
+#: modules/com_paymentreport/paymentreport.html.php:463
 msgid "Waiting for pay, payment not yet created"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:472
+#: modules/com_paymentreport/paymentreport.html.php:467
 msgid "Delayed payment in tolerance, number described NO of delayed days"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:476
+#: modules/com_paymentreport/paymentreport.html.php:471
 msgid "Delayes payment out of tolerance, number describer NO of delayed days"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:480
+#: modules/com_paymentreport/paymentreport.html.php:475
 msgid "Free of charge"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:484
+#: modules/com_paymentreport/paymentreport.html.php:479
 msgid "Has no charge"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.index.php:240
+#: modules/com_paymentreport/paymentreport.index.php:251
 msgid "Has unterminated payment"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.index.php:441
 #: modules/com_paymentreport/paymentreport.index.php:449
-#: modules/com_paymentreport/paymentreport.index.php:453
+#: modules/com_paymentreport/paymentreport.index.php:457
+#: modules/com_paymentreport/paymentreport.index.php:461
 #, php-format
 msgid "+%s day"
 msgid_plural "+%s days"

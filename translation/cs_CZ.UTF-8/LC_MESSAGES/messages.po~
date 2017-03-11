@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-11 18:13+0100\n"
-"PO-Revision-Date: 2017-03-11 18:14+0100\n"
+"POT-Creation-Date: 2017-03-11 19:26+0100\n"
+"PO-Revision-Date: 2017-03-11 19:28+0100\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
 "Language: cs\n"
@@ -64,7 +64,7 @@ msgid "KB ABO"
 msgstr "KB ABO"
 
 #: includes/tables/BankAccountEntry.php:112
-#: modules/com_paymentreport/paymentreport.html.php:488
+#: modules/com_paymentreport/paymentreport.html.php:483
 msgid "Other"
 msgstr "Jíný"
 
@@ -257,15 +257,15 @@ msgstr "Super administátor"
 
 #: includes/tables/HandleEvent.php:52
 #: modules/com_myprofile/myprofile.html.php:309
-#: modules/com_paymentreport/paymentreport.html.php:312
-#: modules/com_paymentreport/paymentreport.html.php:318
+#: modules/com_paymentreport/paymentreport.html.php:307
+#: modules/com_paymentreport/paymentreport.html.php:313
 msgid "Disabled"
 msgstr "Zakázáno"
 
 #: includes/tables/HandleEvent.php:55
 #: modules/com_handleevent/handleevent.html.php:123
 #: modules/com_myprofile/myprofile.html.php:306
-#: modules/com_paymentreport/paymentreport.html.php:315
+#: modules/com_paymentreport/paymentreport.html.php:310
 msgid "Enabled"
 msgstr "Povoleno"
 
@@ -277,11 +277,11 @@ msgstr "Termín pro zaplacení platby"
 msgid "Invoice created"
 msgstr "Faktura vytvořena"
 
-#: includes/tables/HasCharge.php:53 includes/tables/HasCharge.php:72
+#: includes/tables/HasCharge.php:53 includes/tables/HasCharge.php:77
 msgid "Deactivated"
 msgstr "Neaktivní"
 
-#: includes/tables/HasCharge.php:56 includes/tables/HasCharge.php:75
+#: includes/tables/HasCharge.php:56 includes/tables/HasCharge.php:80
 msgid "Activated"
 msgstr "Aktivní"
 
@@ -383,13 +383,13 @@ msgid "WDS bridge"
 msgstr "WDS bridge"
 
 #: includes/tables/Person.php:90
-#: modules/com_paymentreport/paymentreport.html.php:294
+#: modules/com_paymentreport/paymentreport.html.php:289
 #: modules/com_person/person.html.php:195
 msgid "Passive"
 msgstr "Pasivní"
 
 #: includes/tables/Person.php:93
-#: modules/com_paymentreport/paymentreport.html.php:299
+#: modules/com_paymentreport/paymentreport.html.php:294
 #: modules/com_person/person.html.php:200
 msgid "Active"
 msgstr "Aktivní"
@@ -498,7 +498,7 @@ msgstr "IP sítě"
 
 #: modules/com_admin/admin.html.php:132 modules/com_admin/admin.html.php:133
 #: modules/com_common/html_mainmenu.php:57
-#: modules/com_paymentreport/paymentreport.html.php:118
+#: modules/com_paymentreport/paymentreport.html.php:97
 msgid "Payment report"
 msgstr "Report plateb"
 
@@ -584,7 +584,7 @@ msgstr "List bankovních položek"
 #: modules/com_iptrafficreport/iptrafficreport.html.php:93
 #: modules/com_log/log.html.php:120
 #: modules/com_networkdevice/networkdevice.html.php:145
-#: modules/com_paymentreport/paymentreport.html.php:143
+#: modules/com_paymentreport/paymentreport.html.php:122
 #: modules/com_person/person.html.php:125
 #: modules/com_personaccount/personaccount.html.php:133
 msgid "Filter:"
@@ -605,8 +605,8 @@ msgstr "- Žádný bankovní účet definován -"
 #: modules/com_message/message.html.php:133
 #: modules/com_myprofile/myprofile.html.php:646
 #: modules/com_myprofile/myprofile.html.php:847
-#: modules/com_paymentreport/paymentreport.html.php:183
-#: modules/com_paymentreport/paymentreport.html.php:188
+#: modules/com_paymentreport/paymentreport.html.php:162
+#: modules/com_paymentreport/paymentreport.html.php:167
 #: modules/com_person/person.html.php:517
 #: modules/com_person/person.html.php:1017
 #: modules/com_person/person.html.php:1034
@@ -628,7 +628,6 @@ msgstr "- Typ transakce -"
 #: modules/com_bankaccount/bankaccount.html.php:196
 #: modules/com_invoice/invoice.html.php:127
 #: modules/com_invoice/invoice.html.php:139
-#: modules/com_paymentreport/paymentreport.html.php:168
 #: modules/com_person/person.html.php:139
 #: modules/com_personaccount/personaccount.html.php:137
 msgid "- Status -"
@@ -746,7 +745,7 @@ msgstr "Typ transakce"
 #: modules/com_myprofile/myprofile.html.php:279
 #: modules/com_myprofile/myprofile.html.php:371
 #: modules/com_myprofile/myprofile.html.php:487
-#: modules/com_paymentreport/paymentreport.html.php:262
+#: modules/com_paymentreport/paymentreport.html.php:257
 #: modules/com_person/person.html.php:644
 #: modules/com_personaccount/personaccount.html.php:445
 #: modules/com_personaccount/personaccount.html.php:538
@@ -780,8 +779,8 @@ msgstr "VS"
 #: modules/com_myprofile/myprofile.html.php:285
 #: modules/com_myprofile/myprofile.html.php:365
 #: modules/com_myprofile/myprofile.html.php:604
-#: modules/com_paymentreport/paymentreport.html.php:271
-#: modules/com_paymentreport/paymentreport.html.php:272
+#: modules/com_paymentreport/paymentreport.html.php:266
+#: modules/com_paymentreport/paymentreport.html.php:267
 #: modules/com_person/person.html.php:168
 #: modules/com_person/person.html.php:650
 #: modules/com_personaccount/personaccount.html.php:544
@@ -1343,7 +1342,7 @@ msgstr "DPH (%)"
 #: modules/com_invoice/invoice.html.php:178
 #: modules/com_myprofile/myprofile.html.php:277
 #: modules/com_myprofile/myprofile.html.php:369
-#: modules/com_paymentreport/paymentreport.html.php:260
+#: modules/com_paymentreport/paymentreport.html.php:255
 #: modules/com_person/person.html.php:642
 #: modules/com_personaccount/personaccount.html.php:536
 #: modules/com_personaccount/personaccount.html.php:628
@@ -2099,14 +2098,14 @@ msgid "Show average rate"
 msgstr "Zobrazit průměrnou rychlost"
 
 #: modules/com_iptrafficreport/iptrafficreport.html.php:130
-#: modules/com_paymentreport/paymentreport.html.php:253
+#: modules/com_paymentreport/paymentreport.html.php:248
 #: modules/com_person/person.html.php:160
 #: modules/com_personaccount/personaccount.html.php:164
 msgid "Surname"
 msgstr "Příjmení"
 
 #: modules/com_iptrafficreport/iptrafficreport.html.php:131
-#: modules/com_paymentreport/paymentreport.html.php:254
+#: modules/com_paymentreport/paymentreport.html.php:249
 #: modules/com_person/person.html.php:159
 #: modules/com_personaccount/personaccount.html.php:163
 msgid "Firstname"
@@ -2342,7 +2341,7 @@ msgid "Payments"
 msgstr "Platby"
 
 #: modules/com_myprofile/myprofile.html.php:273
-#: modules/com_paymentreport/paymentreport.html.php:257
+#: modules/com_paymentreport/paymentreport.html.php:252
 #: modules/com_person/person.html.php:637
 #: modules/com_personaccount/personaccount.html.php:532
 msgid "Service name"
@@ -3042,94 +3041,110 @@ msgstr "iptables nebyl nalezen na cestě %s"
 msgid "Login failed: %s@%s: %s"
 msgstr "Přihlášení selhalo: %s@%s: %s"
 
-#: modules/com_paymentreport/paymentreport.html.php:151
+#: modules/com_paymentreport/paymentreport.html.php:127
+msgid "- Choose Payments... -"
+msgstr "- Vyber služby... -"
+
+#: modules/com_paymentreport/paymentreport.html.php:130
 msgid "- No payment defined -"
 msgstr "- Žádná platba definována -"
 
-#: modules/com_paymentreport/paymentreport.html.php:255
+#: modules/com_paymentreport/paymentreport.html.php:147
+msgid "- Status of Person -"
+msgstr "- Status uživatele -"
+
+#: modules/com_paymentreport/paymentreport.html.php:175
+msgid "- Status of Payment -"
+msgstr "- Status  služby -"
+
+#: modules/com_paymentreport/paymentreport.html.php:187
+msgid "- Actual state of Payment -"
+msgstr "- Aktuální stav služby -"
+
+#: modules/com_paymentreport/paymentreport.html.php:250
 #: modules/com_personaccount/personaccount.html.php:168
 msgid "Balance"
 msgstr "Zůstatek"
 
-#: modules/com_paymentreport/paymentreport.html.php:256
+#: modules/com_paymentreport/paymentreport.html.php:251
 #: modules/com_personaccount/personaccount.html.php:449
 msgid "Variable symbol"
 msgstr "Variabilní symbol"
 
-#: modules/com_paymentreport/paymentreport.html.php:258
-#: modules/com_paymentreport/paymentreport.html.php:373
-#: modules/com_paymentreport/paymentreport.html.php:456
+#: modules/com_paymentreport/paymentreport.html.php:253
+#: modules/com_paymentreport/paymentreport.html.php:368
+#: modules/com_paymentreport/paymentreport.html.php:451
 #: modules/com_person/person.html.php:647
 msgid "Payed"
 msgstr "Zaplaceno"
 
-#: modules/com_paymentreport/paymentreport.html.php:273
+#: modules/com_paymentreport/paymentreport.html.php:268
 #: modules/com_personaccount/personaccount.html.php:545
 msgid "Actual state"
 msgstr "Aktuální status"
 
-#: modules/com_paymentreport/paymentreport.html.php:304
+#: modules/com_paymentreport/paymentreport.html.php:299
 #: modules/com_person/person.html.php:205
 msgid "Removed"
 msgstr "Odstraněn"
 
-#: modules/com_paymentreport/paymentreport.html.php:384
-#: modules/com_paymentreport/paymentreport.html.php:460
+#: modules/com_paymentreport/paymentreport.html.php:379
+#: modules/com_paymentreport/paymentreport.html.php:455
 msgid "Payed with delay"
 msgstr "Zaplaceno se zpožděním"
 
-#: modules/com_paymentreport/paymentreport.html.php:395
+#: modules/com_paymentreport/paymentreport.html.php:390
 msgid "Pending payments"
 msgstr "Čeká na zaplacení"
 
-#: modules/com_paymentreport/paymentreport.html.php:406
+#: modules/com_paymentreport/paymentreport.html.php:401
 msgid "Delayed payments"
 msgstr "Zpožděných plateb"
 
-#: modules/com_paymentreport/paymentreport.html.php:417
+#: modules/com_paymentreport/paymentreport.html.php:412
 msgid "Number of excused payments"
 msgstr "Počet prominutých plateb"
 
-#: modules/com_paymentreport/paymentreport.html.php:428
+#: modules/com_paymentreport/paymentreport.html.php:423
 #: modules/com_personaccount/personaccount.html.php:166
 msgid "Total income"
 msgstr "Celkový součet příchozích plateb"
 
-#: modules/com_paymentreport/paymentreport.html.php:450
+#: modules/com_paymentreport/paymentreport.html.php:445
 msgid "Legend"
 msgstr "Legenda"
 
-#: modules/com_paymentreport/paymentreport.html.php:464
+#: modules/com_paymentreport/paymentreport.html.php:459
 msgid "Pending payment"
 msgstr "Čeká na zaplacení"
 
-#: modules/com_paymentreport/paymentreport.html.php:468
+#: modules/com_paymentreport/paymentreport.html.php:463
 msgid "Waiting for pay, payment not yet created"
 msgstr "Čeká na zaplacení, platba neni vytvořena"
 
-#: modules/com_paymentreport/paymentreport.html.php:472
+#: modules/com_paymentreport/paymentreport.html.php:467
 msgid "Delayed payment in tolerance, number described NO of delayed days"
 msgstr "Zpožděná platba v toleranci, číslo znamená počet dnů od termínu platby"
 
-#: modules/com_paymentreport/paymentreport.html.php:476
+#: modules/com_paymentreport/paymentreport.html.php:471
 msgid "Delayes payment out of tolerance, number describer NO of delayed days"
 msgstr "Zpožděná platba po termínu splatnosti, čísli znamená počet dnů od termínu splatnosti"
 
-#: modules/com_paymentreport/paymentreport.html.php:480
+#: modules/com_paymentreport/paymentreport.html.php:475
 msgid "Free of charge"
 msgstr "Zkušební doba, zdarma"
 
-#: modules/com_paymentreport/paymentreport.html.php:484
+#: modules/com_paymentreport/paymentreport.html.php:479
 msgid "Has no charge"
 msgstr "Nemá platbu"
 
-#: modules/com_paymentreport/paymentreport.index.php:240
+#: modules/com_paymentreport/paymentreport.index.php:251
 msgid "Has unterminated payment"
 msgstr "Má neukončené platby"
 
-#: modules/com_paymentreport/paymentreport.index.php:441
 #: modules/com_paymentreport/paymentreport.index.php:449
-#: modules/com_paymentreport/paymentreport.index.php:453
+#: modules/com_paymentreport/paymentreport.index.php:457
+#: modules/com_paymentreport/paymentreport.index.php:461
 #, php-format
 msgid "+%s day"
 msgid_plural "+%s days"
