@@ -427,7 +427,7 @@ class HTML_PaymentReport {
         <td class="noWrap side-shrink rotate"><div><div><span><?php echo NumberFormat::formatMoney($date['summary']['payed'] + $date['summary']['payedWithDelay'] + $date['summary']['pending'] + $date['summary']['delayed']); ?> CZK</span></div></div></td>
 <?php
 	}
-?>git pu
+?>
       <td colspan="3"></td>
     </tr>
     </tbody>

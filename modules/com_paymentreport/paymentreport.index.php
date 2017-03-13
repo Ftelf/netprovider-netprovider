@@ -224,6 +224,7 @@ function showPaymentReport() {
 
                     $info = array();
                     $info['date'] = $dbDate;
+                    $info['colspan'] = 1;
 
                     // test if HasCharge belongs to current dateEntry
                     $dateStart = new DateUtil($hasCharge->HC_datestart);
@@ -231,8 +232,6 @@ function showPaymentReport() {
                     if (!$dateStart->after($date['DateUtil']) && ($dateEnd->getTime() == null || !$date['DateUtil']->after($dateEnd))) {
                         if (isset($hasCharge->_chargeEntries[$dbDate])) {
                             $chargeEntry = $hasCharge->_chargeEntries[$dbDate];
-
-                            $info['colspan'] = 1;
 
                             chargeEntryToStyle($hasCharge, $chargeEntry, $info, $date);
 
