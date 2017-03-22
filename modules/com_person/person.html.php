@@ -164,7 +164,7 @@ class HTML_person {
       <th class="title"><?php echo _("Address"); ?></th>
       <th width="10%" class="title"><?php echo _("E-mail"); ?></th>
       <th width="10%" class="title"><?php echo _("Registered"); ?></th>
-      <th width="10%" class="title"><?php echo _("LastLoggedIn"); ?></th>
+      <th width="10%" class="title"><?php echo _("Last Logged In"); ?></th>
       <th width="5%" class="title"><?php echo _("Status"); ?></th>
     </tr>
     </thead>
@@ -184,11 +184,8 @@ class HTML_person {
 	foreach ($persons as $person) {
 		$link = "javascript:edit('$person->PE_personid');";
         $registerDateFormatted = (new DateUtil($person->PE_registerdate))->getFormattedDate(DateUtil::FORMAT_FULL);
-        $lastLoggedInDateFormatted = 'n/a';
-        if ($person->PE_lastloggedin != null) {
-            $lastLoggedInDateFormatted = (new DateUtil($person->PE_lastloggedin))->getFormattedDate(DateUtil::FORMAT_FULL);
-        }
-		
+        $lastLoggedInDateFormatted = ($person->PE_lastloggedin) ? (new DateUtil($person->PE_lastloggedin))->getFormattedDate(DateUtil::FORMAT_FULL) : 'n/a';
+
 		switch ($person->PE_status) {
 			case Person::STATUS_PASSIVE:
 				$imageSrc = "images/16x16/actions/agt_action_fail.png";
@@ -289,7 +286,8 @@ class HTML_person {
 		$enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
 		$chargesColspan = ($enableVatPayerSpecifics) ? 11 : 9;
 		$birthDate = new DateUtil($person->PE_birthdate);
-		$registerDate = new DateUtil($person->PE_registerdate);
+        $lastloggedinFormatted = ($person->PE_lastloggedin) ? (new DateUtil($person->PE_lastloggedin))->getFormattedDate(DateUtil::FORMAT_FULL) : 'n/a';
+        $registerDateFormatted = ($person->PE_registerdate) ? (new DateUtil($person->PE_registerdate))->getFormattedDate(DateUtil::FORMAT_FULL) : 'n/a';
 ?>
 <script type="text/javascript" language="JavaScript">
     	document.write(getCalendarStyles());
@@ -542,8 +540,12 @@ class HTML_person {
           <td><input type="text" name="PE_zip" class="width-form" size="40" value="<?php echo $person->PE_zip; ?>" maxlength="255" /></td>
         </tr>
         <tr>
+            <td><?php echo _("Last Logged In:"); ?></td>
+            <td><?php echo $lastloggedinFormatted; ?></td>
+        </tr>
+        <tr>
           <td><?php echo _("Date of registration:"); ?></td>
-          <td><?php echo $registerDate->getFormattedDate(DateUtil::FORMAT_FULL); ?></td>
+          <td><?php echo $registerDateFormatted; ?></td>
         </tr>
         </tbody>
         </table>

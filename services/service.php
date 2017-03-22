@@ -189,7 +189,7 @@ class Service {
 
             $chargesUtil = new ChargesUtil();
             $chargesUtil->createBlankChargeEntries();
-            $chargesUtil->proceedCharges();
+            $chargesUtil->proceedCharges(true);
         } catch (Exception $e) {
             throw $e;
         }

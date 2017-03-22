@@ -251,11 +251,13 @@ function savePersonAccount($pid, $task) {
  * 
  */
 function createBlankCharges() {
-    global $database, $my, $acl;
+    global $database, $appContext, $my, $acl;
 
     if ($my->GR_level == Group::SUPER_ADMININSTRATOR) {
         $chargesUtil = new ChargesUtil();
         $chargesUtil->createBlankChargeEntries();
+
+        $appContext->insertMessage(_('Blank charge creation finished.'));
     }
 
     Core::redirect("index2.php?option=com_personaccount");
@@ -264,11 +266,13 @@ function createBlankCharges() {
  * 
  */
 function proceedCharges() {
-    global $database, $my, $acl;
+    global $database, $appContext, $my, $acl;
 
     if ($my->GR_level == Group::SUPER_ADMININSTRATOR) {
         $chargesUtil = new ChargesUtil();
-        $chargesUtil->proceedCharges();
+        $chargesUtil->proceedCharges(false);
+
+        $appContext->insertMessage(_('Charges process finished. Messaging clients has been suppressed.'));
     }
 
     Core::redirect("index2.php?option=com_personaccount");

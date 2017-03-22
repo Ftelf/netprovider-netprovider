@@ -658,7 +658,7 @@ class ChargesUtil {
         }
     }
 
-    public function proceedCharges() {
+    public function proceedCharges($fireDeadlineEvents = true) {
         global $database, $eventCrossBar;
 
         $now = new DateUtil();
@@ -758,12 +758,13 @@ class ChargesUtil {
                                                     $chargeEntry->CE_status = ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS;
                                                     $chargeEntry->CE_overdue = $overdue;
 
-                                                    //FireEvent that payment has not been payed
-
-                                                    $event = new ChargePaymentDeadlineEvent($now, clone $person, "delayed payment", clone $charge, clone $periodDate, clone $writeOffDate, clone $toleranceDate);
-                                                    $event->hasCharge = clone $hasCharge;
-                                                    $event->chargeEntry = clone $chargeEntry;
-                                                    $eventCrossBar->dispatchEvent($event);
+                                                    if ($fireDeadlineEvents) {
+                                                        //FireEvent that payment has not been payed
+                                                        $event = new ChargePaymentDeadlineEvent($now, clone $person, "delayed payment", clone $charge, clone $periodDate, clone $writeOffDate, clone $toleranceDate);
+                                                        $event->hasCharge = clone $hasCharge;
+                                                        $event->chargeEntry = clone $chargeEntry;
+                                                        $eventCrossBar->dispatchEvent($event);
+                                                    }
                                                 } else {
                                                     $personAccount->PA_balance -= $chargeEntry->CE_amount;
                                                     $personAccount->PA_outcome += $chargeEntry->CE_amount;

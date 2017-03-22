@@ -389,6 +389,8 @@ function downloadBankLists($bid) {
     try {
         $emailBankAccountList->downloadNewAccountLists();
         $appContext->insertMessages($emailBankAccountList->getMessages());
+
+        $appContext->insertMessage(_('Downloading new printouts finished without errors'));
     } catch (Exception $e) {
         $msg = "Error proceeding bank account lists: " . $e->getMessage();
         $appContext->insertMessage($msg);
@@ -416,6 +418,8 @@ function processBankLists($bid) {
     try {
         $emailBankAccountList->importBankAccountEntries();
         $appContext->insertMessages($emailBankAccountList->getMessages());
+
+        $appContext->insertMessage(_('Import finished without errors'));
     } catch (Exception $e) {
         $msg = "Error importing bank account entries: " . $e->getMessage();
         $appContext->insertMessage($msg);
@@ -441,6 +445,8 @@ function proceedAccountEntries($bid) {
     try {
         $accountEntryUtil->proceedAccountEntries();
         $appContext->insertMessages($accountEntryUtil->getMessages());
+
+        $appContext->insertMessage(_('Entries processed without errors'));
     } catch (Exception $e) {
         $msg = "Error proceeding bank account entries: " . $e->getMessage();
         $appContext->insertMessage($msg);

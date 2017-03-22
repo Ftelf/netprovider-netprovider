@@ -46,7 +46,7 @@ Class InvoiceCreated extends Event {
 
     function __toString() {
         return	"\n---------------------------------\n".
-                "ChargePaymentDeadlineEvent\n".
+                "InvoiceCreatedEvent\n".
                 "date: ".$this->date."\n".
                 "person: ".$this->person->PE_personid." ".$this->person->PE_firstname." ".$this->person->PE_surname."\n".
                 "message: ".$this->message."\n".
