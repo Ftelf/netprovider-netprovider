@@ -16,9 +16,10 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "includes/billing/bankParser/ABOParser/ABOParser.php");
+require_once($core->getAppRoot() . "includes/billing/bankParser/RBTXTParser/RBTXTParser.php");
 require_once($core->getAppRoot() . "includes/billing/bankParser/CSOBXmlParser/CSOBXmlParser.php");
 require_once($core->getAppRoot() . "includes/billing/bankParser/KBABOParser/KBABOParser.php");
+require_once($core->getAppRoot() . "includes/billing/bankParser/RBPDFParser/RBPDFParser.php");
 
 /**
  * BankParserFactory
@@ -32,8 +33,8 @@ class BankParserFactory {
      */
     public function __construct($type, $content) {
         switch ($type) {
-            case BankAccount::DATASOURCE_TYPE_ABO:
-                $this->parser = new ABOParser($content);
+            case BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_TXT:
+                $this->parser = new RBPDFParser($content);
                 break;
 
             case BankAccount::DATASOURCE_TYPE_CSOB_XML:
@@ -42,6 +43,10 @@ class BankParserFactory {
 
             case BankAccount::DATASOURCE_TYPE_KB_ABO:
                 $this->parser = new KBABOParser($content);
+                break;
+
+            case BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_PDF:
+                $this->parser = new RBPDFParser($content);
                 break;
 
             default:

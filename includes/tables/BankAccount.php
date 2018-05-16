@@ -78,26 +78,31 @@ class BankAccount {
         }
     }
 
-    const DATASOURCE_TYPE_ABO = 1;
+    const DATASOURCE_TYPE_RB_ATTACHMENT_TXT = 1;
     const DATASOURCE_TYPE_CSOB_XML = 2;
     const DATASOURCE_TYPE_KB_ABO = 3;
+    const DATASOURCE_TYPE_RB_ATTACHMENT_PDF = 4;
 
     public static $datasourceTypesArray = array(
-        1, //ABO
+        1, //RB attachment TXT
         2, //CSOB xml
-        3  //KB ABO
+        3, //KB ABO
+        4, //RB attachment PDF
     );
 
     public static function getLocalizedDatasourceType($datasourceType) {
         switch ($datasourceType) {
-            case self::DATASOURCE_TYPE_ABO:
-                return _("ABO");
+            case self::DATASOURCE_TYPE_RB_ATTACHMENT_TXT:
+                return _("RB TXT attachment");
 
             case self::DATASOURCE_TYPE_CSOB_XML:
                 return _("CSOB xml");
 
             case self::DATASOURCE_TYPE_KB_ABO:
                 return _("KB ABO");
+
+            case self::DATASOURCE_TYPE_RB_ATTACHMENT_PDF:
+                return _("RB PDF attachment");
         }
     }
 

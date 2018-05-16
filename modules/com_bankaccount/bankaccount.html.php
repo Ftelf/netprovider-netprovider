@@ -863,6 +863,7 @@ class HTML_BankAccount {
      <th width="5%" class="title"><?php echo _("Year"); ?></th>
      <th width="10%" class="title"><?php echo _("Printout number"); ?></th>
      <th width="25%" class="title"><?php echo _("Data filename"); ?></th>
+     <th width="25%" class="title"><?php echo _("Data filename type"); ?></th>
      <th width="10%" class="title"><?php echo _("Number of entries"); ?></th>
      <th width="15%" class="title"><?php echo _("since"); ?></th>
      <th width="15%" class="title"><?php echo _("Till"); ?></th>
@@ -894,6 +895,7 @@ class HTML_BankAccount {
       <td><?php echo $emailList->EL_year; ?></td>
       <td><?php echo $emailList->EL_no; ?></td>
       <td><a href="<?php echo $link; ?>" target="_blank"><?php echo $emailList->EL_name; ?></a></td>
+      <td><?php echo EmailList::getLocalizedListtype($emailList->EL_listtype); ?></td>
       <td><?php echo $emailList->EL_entrycount; ?></td>
       <td><?php echo $dateFrom->getFormattedDate(DateUtil::FORMAT_DATE); ?></td>
       <td><?php echo $dateTo->getFormattedDate(DateUtil::FORMAT_DATE); ?></td>

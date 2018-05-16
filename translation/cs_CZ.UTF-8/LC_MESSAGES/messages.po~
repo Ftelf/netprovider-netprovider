@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-22 21:16+0100\n"
-"PO-Revision-Date: 2017-03-22 21:18+0100\n"
+"POT-Creation-Date: 2017-03-22 21:20+0100\n"
+"PO-Revision-Date: 2017-03-22 21:20+0100\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
 "Language: cs\n"
@@ -1186,6 +1186,10 @@ msgstr "Bankovní účet '%s' '%s' uložen"
 #: modules/com_bankaccount/bankaccount.index.php:465
 msgid "Insuficient rights"
 msgstr "Nemáte dostatečná práva"
+
+#: modules/com_bankaccount/bankaccount.index.php:393
+msgid "Downloading new printouts finished without errors"
+msgstr "Stahování nových výpisů dokončeno bez chyb."
 
 #: modules/com_bankaccount/bankaccount.index.php:422
 msgid "Import finished without errors"

@@ -471,11 +471,13 @@ function doUploadBankLists($bid) {
     //
     $emailBankAccountList = new EmailBankAccountList($bankAccount);
 
-    if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_ABO) {
+    if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_TXT) {
         $fileType = "text/plain";
     } else if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_CSOB_XML) {
         $fileType = "text/xml";
     } else if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_KB_ABO) {
+        $fileType = "text/plain";
+    } else if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_PDF) {
         $fileType = "text/plain";
     } else {
         Core::redirect("index2.php?option=com_bankaccount&task=uploadBankLists&BA_bankaccountid=$bid&hidemainmenu=1");

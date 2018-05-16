@@ -80,6 +80,11 @@ class BankAccountEntry {
     const TYPE_DISSAVING_INVESTMENT = 19;
     const TYPE_TRANSACTION_FEE = 20;
     const TYPE_CASH_WITHDRAW = 21;
+    const TYPE_FOREIGN_SEPA = 22;
+    const TYPE_OUTCOME = 23;
+    const TYPE_INTEREST_TAX = 24;
+    const TYPE_PERMANENT = 25;
+    const TYPE_ONETIME = 26;
 
     public static $TYPE_ARRAY = array(
         0,	//Other
@@ -103,7 +108,12 @@ class BankAccountEntry {
         18,	//Bank certificate,
         19, //Dissaving investment
         20, //Transaction fee,
-        21  //Cash withdraw
+        21, //Cash withdraw
+        22, //TYPE_FOREIGN_SEPA
+        23, //OUTCOME
+        24, //INTEREST_TAX
+        25, //PERMANENT
+        26  //ONETIME
     );
 
     public static function getLocalizedType($type) {
@@ -173,6 +183,21 @@ class BankAccountEntry {
 
             case self::TYPE_CASH_WITHDRAW:
                 return _("Cash withdraw");
+
+            case self::TYPE_FOREIGN_SEPA:
+                return _("Foreign SEPA");
+
+            case self::TYPE_OUTCOME:
+                return _("Outcome");
+
+            case self::TYPE_INTEREST_TAX:
+                return _("Interest tax");
+
+            case self::PERMANENT:
+                return _("Permanent payment");
+
+            case self::ONETIME:
+                return _("One time payment");
         }
     }
 

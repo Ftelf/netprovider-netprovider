@@ -19,9 +19,9 @@ global $core;
 require_once($core->getAppRoot() . "includes/tables/BankAccountEntry.php");
 
 /**
- * ABOParser class
+ * RBTXTParser class
  */
-class ABOParser {
+class RBTXTParser {
     private $fcontents = array();
     private $p;
     private $count;
@@ -80,7 +80,7 @@ class ABOParser {
     );
 
     /**
-     * Constructor ABOParser
+     * Constructor RBTXTParser
      * @param String $content plain text with list
      */
     public function __construct($content) {
@@ -336,5 +336,5 @@ class ABOParser {
     function getDocument() {
         return $this->document;
     }
-} // End of ABOParser class
+} // End of RBTXTParser class
 ?>

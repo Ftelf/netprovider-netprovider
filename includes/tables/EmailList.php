@@ -39,6 +39,8 @@ class EmailList {
     var $EL_dateto = null;
     /** @var text list */
     var $EL_list = null;
+    /** @var int type of maillist */
+    var $EL_listtype = null;
     /** @var text list entry count */
     var $EL_entrycount = null;
     /** @var int status of maillist */
@@ -47,6 +49,11 @@ class EmailList {
     const STATUS_PENDING = 1;
     const STATUS_ERROR = 2;
     const STATUS_COMPLETED = 3;
+
+    const LISTTYPE_NONE = 1;
+    const LISTTYPE_TXT = 2;
+    const LISTTYPE_PDF = 3;
+    const LISTTYPE_XML = 5;
 
     public static function getLocalizedStatus($status) {
         switch ($status) {
@@ -60,5 +67,21 @@ class EmailList {
                 return _("Completed");
         }
     }
+
+    public static function getLocalizedListtype($listtype) {
+            switch ($listtype) {
+                case self::LISTTYPE_NONE:
+                    return _("No attachment");
+
+                case self::LISTTYPE_TXT:
+                    return _("TXT file");
+
+                case self::LISTTYPE_PDF:
+                    return _("PDF file");
+
+                case self::LISTTYPE_XML:
+                    return _("XML file");
+            }
+        }
 } // End of EmailList class
 ?>

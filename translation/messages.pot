@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-22 21:20+0100\n"
+"POT-Creation-Date: 2018-05-16 22:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,129 +51,153 @@ msgstr ""
 msgid "EMail content"
 msgstr ""
 
-#: includes/tables/BankAccount.php:94
-msgid "ABO"
+#: includes/tables/BankAccount.php:96
+msgid "RB TXT attachment"
 msgstr ""
 
-#: includes/tables/BankAccount.php:97
+#: includes/tables/BankAccount.php:99
 msgid "CSOB xml"
 msgstr ""
 
-#: includes/tables/BankAccount.php:100
+#: includes/tables/BankAccount.php:102
 msgid "KB ABO"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:112
+#: includes/tables/BankAccount.php:105
+msgid "RB PDF attachment"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:122
 #: modules/com_paymentreport/paymentreport.html.php:483
 msgid "Other"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:115
+#: includes/tables/BankAccountEntry.php:125
 msgid "Transfer"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:118
+#: includes/tables/BankAccountEntry.php:128
 msgid "Incoming payment"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:121
+#: includes/tables/BankAccountEntry.php:131
 msgid "Cash deposit"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:124
+#: includes/tables/BankAccountEntry.php:134
 msgid "Continuing transfer"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:127
+#: includes/tables/BankAccountEntry.php:137
 msgid "Other transaction fee"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:130
+#: includes/tables/BankAccountEntry.php:140
 msgid "Positive increase"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:133
+#: includes/tables/BankAccountEntry.php:143
 msgid "Cash dispencer draft"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:136
+#: includes/tables/BankAccountEntry.php:146
 msgid "Credit card payment"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:139
+#: includes/tables/BankAccountEntry.php:149
 msgid "Account list generation"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:142
+#: includes/tables/BankAccountEntry.php:152
 msgid "Credit card administration fee"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:145
+#: includes/tables/BankAccountEntry.php:155
 msgid "Distribution of bank list"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:148
+#: includes/tables/BankAccountEntry.php:158
 msgid "Pool transfer"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:151
+#: includes/tables/BankAccountEntry.php:161
 msgid "Using and managing of Internet"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:154
+#: includes/tables/BankAccountEntry.php:164
 msgid "Loan increase"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:157
+#: includes/tables/BankAccountEntry.php:167
 msgid "Loan payment"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:160
+#: includes/tables/BankAccountEntry.php:170
 msgid "Using and managing of Account"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:163
+#: includes/tables/BankAccountEntry.php:173
 msgid "External fee"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:166
+#: includes/tables/BankAccountEntry.php:176
 msgid "Bank certificate"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:169
+#: includes/tables/BankAccountEntry.php:179
 msgid "Dissaving investment"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:172
+#: includes/tables/BankAccountEntry.php:182
 msgid "Transaction fee"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:175
+#: includes/tables/BankAccountEntry.php:185
 msgid "Cash withdraw"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:190 includes/tables/ChargeEntry.php:67
+#: includes/tables/BankAccountEntry.php:188
+msgid "Foreign SEPA"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:191
+msgid "Outcome"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:194
+msgid "Interest tax"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:197
+msgid "Permanent payment"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:200
+msgid "One time payment"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:215 includes/tables/ChargeEntry.php:67
 #: includes/tables/Message.php:48
 msgid "Pending"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:193
+#: includes/tables/BankAccountEntry.php:218
 msgid "Processed"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:212
+#: includes/tables/BankAccountEntry.php:237
 msgid "Waiting for identification"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:215
+#: includes/tables/BankAccountEntry.php:240
 msgid "Person account"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:218
+#: includes/tables/BankAccountEntry.php:243
 msgid "Internal transaction"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:221
+#: includes/tables/BankAccountEntry.php:246
 #: modules/com_personaccount/personaccount.html.php:714
 msgid "Ignore"
 msgstr ""
@@ -230,17 +254,33 @@ msgstr ""
 msgid "Disabled for this period"
 msgstr ""
 
-#: includes/tables/ChargeEntry.php:79 includes/tables/EmailList.php:57
+#: includes/tables/ChargeEntry.php:79 includes/tables/EmailList.php:64
 #: includes/tables/Log.php:70
 msgid "Error"
 msgstr ""
 
-#: includes/tables/EmailList.php:54
+#: includes/tables/EmailList.php:61
 msgid "Waiting for process"
 msgstr ""
 
-#: includes/tables/EmailList.php:60
+#: includes/tables/EmailList.php:67
 msgid "Completed"
+msgstr ""
+
+#: includes/tables/EmailList.php:74
+msgid "No attachment"
+msgstr ""
+
+#: includes/tables/EmailList.php:77
+msgid "TXT file"
+msgstr ""
+
+#: includes/tables/EmailList.php:80
+msgid "PDF file"
+msgstr ""
+
+#: includes/tables/EmailList.php:83
+msgid "XML file"
 msgstr ""
 
 #: includes/tables/Group.php:44
@@ -574,7 +614,7 @@ msgstr ""
 #: modules/com_bankaccount/bankaccount.html.php:125
 #: modules/com_bankaccount/bankaccount.html.php:514
 #: modules/com_bankaccount/bankaccount.html.php:803
-#: modules/com_bankaccount/bankaccount.html.php:1105
+#: modules/com_bankaccount/bankaccount.html.php:1107
 msgid "Bank account entry printout"
 msgstr ""
 
@@ -638,44 +678,44 @@ msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:233
 #: modules/com_bankaccount/bankaccount.html.php:825
-#: modules/com_bankaccount/bankaccount.html.php:1336
+#: modules/com_bankaccount/bankaccount.html.php:1338
 msgid "Bank account"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:238
 #: modules/com_bankaccount/bankaccount.html.php:542
 #: modules/com_bankaccount/bankaccount.html.php:830
-#: modules/com_bankaccount/bankaccount.html.php:1341
+#: modules/com_bankaccount/bankaccount.html.php:1343
 msgid "Bank name:"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:242
 #: modules/com_bankaccount/bankaccount.html.php:562
 #: modules/com_bankaccount/bankaccount.html.php:834
-#: modules/com_bankaccount/bankaccount.html.php:1144
-#: modules/com_bankaccount/bankaccount.html.php:1345
+#: modules/com_bankaccount/bankaccount.html.php:1146
+#: modules/com_bankaccount/bankaccount.html.php:1347
 msgid "Account name:"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:246
 #: modules/com_bankaccount/bankaccount.html.php:566
 #: modules/com_bankaccount/bankaccount.html.php:838
-#: modules/com_bankaccount/bankaccount.html.php:1148
-#: modules/com_bankaccount/bankaccount.html.php:1349
+#: modules/com_bankaccount/bankaccount.html.php:1150
+#: modules/com_bankaccount/bankaccount.html.php:1351
 msgid "Account number:"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:250
 #: modules/com_bankaccount/bankaccount.html.php:570
 #: modules/com_bankaccount/bankaccount.html.php:842
-#: modules/com_bankaccount/bankaccount.html.php:1353
+#: modules/com_bankaccount/bankaccount.html.php:1355
 msgid "IBAN:"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:254
 #: modules/com_bankaccount/bankaccount.html.php:574
 #: modules/com_bankaccount/bankaccount.html.php:846
-#: modules/com_bankaccount/bankaccount.html.php:1357
+#: modules/com_bankaccount/bankaccount.html.php:1359
 #: modules/com_charge/charge.html.php:410
 #: modules/com_person/person.html.php:974
 #: modules/com_personaccount/personaccount.html.php:395
@@ -772,7 +812,7 @@ msgid "VS"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:326
-#: modules/com_bankaccount/bankaccount.html.php:869
+#: modules/com_bankaccount/bankaccount.html.php:870
 #: modules/com_invoice/invoice.html.php:180
 #: modules/com_message/message.html.php:157
 #: modules/com_myprofile/myprofile.html.php:285
@@ -796,7 +836,7 @@ msgid "KS"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:337
-#: modules/com_bankaccount/bankaccount.html.php:1105
+#: modules/com_bankaccount/bankaccount.html.php:1107
 msgid "Identification"
 msgstr ""
 
@@ -842,8 +882,8 @@ msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:498
 #: modules/com_bankaccount/bankaccount.html.php:499
-#: modules/com_bankaccount/bankaccount.html.php:1089
-#: modules/com_bankaccount/bankaccount.html.php:1090
+#: modules/com_bankaccount/bankaccount.html.php:1091
+#: modules/com_bankaccount/bankaccount.html.php:1092
 #: modules/com_charge/charge.html.php:328
 #: modules/com_charge/charge.html.php:329 modules/com_group/group.html.php:226
 #: modules/com_group/group.html.php:227
@@ -883,10 +923,10 @@ msgstr ""
 #: modules/com_bankaccount/bankaccount.html.php:506
 #: modules/com_bankaccount/bankaccount.html.php:794
 #: modules/com_bankaccount/bankaccount.html.php:795
-#: modules/com_bankaccount/bankaccount.html.php:1096
-#: modules/com_bankaccount/bankaccount.html.php:1097
-#: modules/com_bankaccount/bankaccount.html.php:1304
-#: modules/com_bankaccount/bankaccount.html.php:1305
+#: modules/com_bankaccount/bankaccount.html.php:1098
+#: modules/com_bankaccount/bankaccount.html.php:1099
+#: modules/com_bankaccount/bankaccount.html.php:1306
+#: modules/com_bankaccount/bankaccount.html.php:1307
 #: modules/com_charge/charge.html.php:335
 #: modules/com_charge/charge.html.php:336 modules/com_group/group.html.php:233
 #: modules/com_group/group.html.php:234
@@ -933,7 +973,7 @@ msgid "Bank"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:546
-#: modules/com_bankaccount/bankaccount.html.php:1152
+#: modules/com_bankaccount/bankaccount.html.php:1154
 msgid "Bank registration number:"
 msgstr ""
 
@@ -1054,119 +1094,123 @@ msgid "Data filename"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:866
-msgid "Number of entries"
+msgid "Data filename type"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:867
-msgid "since"
+msgid "Number of entries"
 msgstr ""
 
 #: modules/com_bankaccount/bankaccount.html.php:868
+msgid "since"
+msgstr ""
+
+#: modules/com_bankaccount/bankaccount.html.php:869
 #: modules/com_myprofile/myprofile.html.php:284
 #: modules/com_personaccount/personaccount.html.php:543
 msgid "Till"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:945
+#: modules/com_bankaccount/bankaccount.html.php:947
 msgid "Identification wasn't performed"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:957
+#: modules/com_bankaccount/bankaccount.html.php:959
 #: modules/com_personaccount/personaccount.html.php:953
 msgid "Please enter amount in valid number format"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:966
+#: modules/com_bankaccount/bankaccount.html.php:968
 #, php-format
 msgid "Amount summary must be: %s"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:969
+#: modules/com_bankaccount/bankaccount.html.php:971
 msgid "Please select user's account"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1127
+#: modules/com_bankaccount/bankaccount.html.php:1129
 msgid "Bank entry"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1132
+#: modules/com_bankaccount/bankaccount.html.php:1134
 msgid "Arrival date:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1136
+#: modules/com_bankaccount/bankaccount.html.php:1138
 msgid "Write off date:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1140
+#: modules/com_bankaccount/bankaccount.html.php:1142
 msgid "Note:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1156
+#: modules/com_bankaccount/bankaccount.html.php:1158
 #: modules/com_personaccount/personaccount.html.php:415
 #: modules/com_personaccount/personaccount.html.php:886
 #: modules/com_personaccount/personaccount.html.php:1047
 msgid "Variable symbol:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1160
+#: modules/com_bankaccount/bankaccount.html.php:1162
 #: modules/com_personaccount/personaccount.html.php:419
 #: modules/com_personaccount/personaccount.html.php:891
 #: modules/com_personaccount/personaccount.html.php:1051
 msgid "Constant symbol:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1164
+#: modules/com_bankaccount/bankaccount.html.php:1166
 #: modules/com_personaccount/personaccount.html.php:423
 #: modules/com_personaccount/personaccount.html.php:896
 #: modules/com_personaccount/personaccount.html.php:1055
 msgid "Specific symbol:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1168
+#: modules/com_bankaccount/bankaccount.html.php:1170
 #: modules/com_charge/charge.html.php:405
 #: modules/com_person/person.html.php:969
 #: modules/com_personaccount/personaccount.html.php:1088
 msgid "Amount:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1172
+#: modules/com_bankaccount/bankaccount.html.php:1174
 msgid "Fee:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1176
+#: modules/com_bankaccount/bankaccount.html.php:1178
 msgid "Message:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1180
+#: modules/com_bankaccount/bankaccount.html.php:1182
 msgid "Type of transaction:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1184
+#: modules/com_bankaccount/bankaccount.html.php:1186
 #: modules/com_personaccount/personaccount.html.php:1099
 msgid "Comment:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1197
+#: modules/com_bankaccount/bankaccount.html.php:1199
 msgid "Identification of payment"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1202
+#: modules/com_bankaccount/bankaccount.html.php:1204
 msgid "Identification:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1224
+#: modules/com_bankaccount/bankaccount.html.php:1226
 msgid "Benefit user account"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1229
+#: modules/com_bankaccount/bankaccount.html.php:1231
 msgid "User account:"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1235
+#: modules/com_bankaccount/bankaccount.html.php:1237
 msgid "- Select user's account -"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.html.php:1313
+#: modules/com_bankaccount/bankaccount.html.php:1315
 msgid "Upload bank account entry printout"
 msgstr ""
 
@@ -1198,24 +1242,24 @@ msgstr ""
 msgid "Entries processed without errors"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.index.php:550
+#: modules/com_bankaccount/bankaccount.index.php:552
 msgid "Amount must be in number format"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.index.php:555
+#: modules/com_bankaccount/bankaccount.index.php:557
 msgid "Amount must be positive value"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.index.php:563
+#: modules/com_bankaccount/bankaccount.index.php:565
 msgid "Amount sum doesn't match"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.index.php:594
+#: modules/com_bankaccount/bankaccount.index.php:596
 #, php-format
 msgid "Bank entry %s %s %s %s amount %s credited person account '%s' with %s"
 msgstr ""
 
-#: modules/com_bankaccount/bankaccount.index.php:609
+#: modules/com_bankaccount/bankaccount.index.php:611
 #, php-format
 msgid "Bank entry %s %s %s %s amount %s proceed"
 msgstr ""
