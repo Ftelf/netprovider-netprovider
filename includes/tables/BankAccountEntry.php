@@ -193,10 +193,10 @@ class BankAccountEntry {
             case self::TYPE_INTEREST_TAX:
                 return _("Interest tax");
 
-            case self::PERMANENT:
+            case self::TYPE_PERMANENT:
                 return _("Permanent payment");
 
-            case self::ONETIME:
+            case self::TYPE_ONETIME:
                 return _("One time payment");
         }
     }
