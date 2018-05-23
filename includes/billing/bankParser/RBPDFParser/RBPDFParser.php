@@ -56,8 +56,8 @@ class RBPDFParser {
 
     const TRAILING_TEXT_1 = '^Zpráva pro klienta$';
 
-    const FOOTER_1 = '^Raiffeisenbank a.s., Hvězdova 1716/2b, 140 78 Praha 4, zapsaná v OR vedeném Městským soudem v Praze, oddíl B, vložka 2051, IČO 49240901$';
-    const FOOTER_2 = '^e-mail: info@rb.cz, www.rb.cz, infolinka 800 900 900 Strana   [[:digit:]]{1,3} / [[:digit:]]{1,3}$';
+    const FOOTER_1 = '^Raiffeisenbank a.s., Hvězdova 1716/2b, 140 78 Praha 4, zapsaná v OR vedeném Městským soudem v Praze, oddíl B, vložka 2051, IČO 49240901|Raiffeisenbank a.s. , Hvězdova 1716/2b • PO box 64 • 140 78 Praha 4 • tel.: 800 900 900 • e-mail: info@rb.cz • web: www.rb.cz • IČ: 49240901$';
+    const FOOTER_2 = '^e-mail: info@rb.cz, www.rb.cz, infolinka 800 900 900 Strana   [[:digit:]]{1,3} / [[:digit:]]{1,3}|zapsaná v obchodním rejstříku vedeném Městským soudem v Praze, sp. zn. B, 2051 Strana   [[:digit:]]{1,3} / [[:digit:]]{1,3}$';
 
     static $KNOWN_TRANSACTION_CATEGORY_ARRAY = array(
         0  => 'Platba',
@@ -318,7 +318,7 @@ class RBPDFParser {
             return $matches;
         }
 
-        throw new Exception('nelze provést match: "'.$nextLine.'", pattern: "'.$pattern.'"');
+        throw new Exception('nelze provést match na řádku: '.$this->p.', text: "'.$nextLine.'", pattern: "'.$pattern.'"');
     }
 
     /**
