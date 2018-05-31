@@ -265,10 +265,31 @@ class RBPDFParser {
             } elseif ($this->tryMatch(self::TRAILING_TEXT_1, $linePage2)) {
                 $this->moveBack();
             }
-
-
         } elseif ($matches3_2 = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_3_2, $line3_2)) {
             $bae->BE_note = trim($matches3_1[3]).$matches3_2[1];
+
+            $linePossiblePageBreak = $this->getNext();
+            if ($this->tryMatch(self::ACCOUNT_ENTRY_LINE_1, $linePossiblePageBreak)) {
+                $this->moveBack();
+            } else if ($this->tryMatch(self::TRAILING_TEXT_1, $linePossiblePageBreak)) {
+                $this->moveBack();
+            } elseif ($this->tryMatch(self::FOOTER_1, $linePossiblePageBreak)) {
+                // Multipage detected
+                $this->matchNextLine(self::FOOTER_2);
+                $this->matchNextLine(self::HEADER);
+                $this->matchNextLine(self::BANKOVNI_VYPIS);
+                $this->matchNextLine('^Účet: +([[:digit:]]+)/([[:digit:]]{4}) +v měně +[[:alpha:]]{3}$');
+
+                $linePage2 = $this->getNext();
+                if ($this->tryMatch(self::ACCOUNT_HEADER1, $linePage2)) {
+                    $this->matchNextLine(self::ACCOUNT_HEADER2);
+                    $this->matchNextLine(self::ACCOUNT_HEADER3);
+                } elseif ($this->tryMatch(self::TRAILING_TEXT_1, $linePage2)) {
+                    $this->moveBack();
+                }
+            } else {
+                throw new Exception("Nelze matchnout possiblePageBreak za volitelným 3_2: ".$linePossiblePageBreak);
+            }
         } else {
             throw new Exception("Nelze matchnout volitelný řádek 3_2: ".$line3_2);
         }
