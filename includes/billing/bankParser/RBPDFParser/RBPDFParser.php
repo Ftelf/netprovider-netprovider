@@ -49,7 +49,7 @@ class RBPDFParser {
     const ACCOUNT_ENTRY_LINE_1 = '^([[:digit:]]{1,2})\.([[:digit:]]{1,2})\.([[:digit:]]{4})([^[:digit:]]*)([[:digit:]]{1,10})? (-?[[:digit:]]{1,3}?\s?[[:digit:]]{1,3}\.[[:digit:]]{2}) ([[:alpha:]]{3})$';
     const ACCOUNT_ENTRY_LINE_2_1 = '^([[:digit:]]{1,2})\.([[:digit:]]{1,2})\.([[:digit:]]{4})( ([[:digit:]]{1,6}-)?([[:digit:]]+)\/([[:digit:]]{2,4}))? ?([[:digit:]]{1,10})?$';
     const ACCOUNT_ENTRY_LINE_2_2 = '^([[:digit:]]{1,4}) ?([[:digit:]]{1,10})?$';
-    const ACCOUNT_ENTRY_LINE_3_1 = '^([[:digit:]]+) ([\S]+[,\s]+[\S]+) ?(.*)';
+    const ACCOUNT_ENTRY_LINE_3_1 = '^([[:digit:]]+)( [\S]+[,\s]+[\S]+)?( \S.*)?';
     const ACCOUNT_ENTRY_LINE_3_2 = '^(.*)$';
 
 
@@ -106,6 +106,8 @@ class RBPDFParser {
 
         $text = $pdf->getText();
 
+//        echo "<pre>".$text."</pre>";
+
         $tok = strtok($text, "\r\n");
         while ($tok) {
             $this->fcontents[] = $tok;
@@ -125,6 +127,10 @@ class RBPDFParser {
         $this->searchHeader();
 
         $this->searchAccounts();
+
+//        echo '<pre>';
+//        print_r($this->document);
+//        echo '</pre>';
     }
 
     function searchHeader() {
@@ -338,6 +344,8 @@ class RBPDFParser {
         if ($matches = $this->tryMatch($pattern, $nextLine)) {
             return $matches;
         }
+
+//        echo "<pre>".'nelze provést match na řádku: '.$this->p.', text: "'.$nextLine.'", pattern: "'.$pattern.'"'."</pre>";
 
         throw new Exception('nelze provést match na řádku: '.$this->p.', text: "'.$nextLine.'", pattern: "'.$pattern.'"');
     }
