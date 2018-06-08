@@ -50,6 +50,7 @@ class RBTXTParser {
     const LIST_DATE_FROM_PATTERN = 'LIST_DATE_FROM';
 
     const PREHLED_UVERU_K_UCTU_C = '^Přehled úvěru k účtu č.';
+    const DETAILY_ZPS = 'Detaily ZPS transakcí uvedených v pohybech na běžném účtu';
 
     static $KNOWN_TRANSACTION_ARRAY = array(
         0  => 'Jiný',
@@ -173,6 +174,10 @@ class RBTXTParser {
                 return;
             }
 
+            if (mb_ereg(self::DETAILY_ZPS, $line_1, $matches)) {
+                return;
+            }
+
             if ($this->hasNext()) {
                 $line_2 = $this->getNext();
             }
@@ -197,7 +202,7 @@ class RBTXTParser {
             if (mb_ereg(self::DATE_PATTERN, $date, $matches)) {
                 $dateP = $this->document['YEAR'] . "-" . $matches[2] . "-" . $matches[1];
             } else {
-                throw new Exception("řádek: '$this->p', nelze provést match pattern: '" . self::DATE_PATTERN . "', text: '$date', line: '$line'");
+                throw new Exception("řádek: '$this->p', nelze provést match pattern: '" . self::DATE_PATTERN . "', text: '$date', line: '$line_1'");
             }
             $bae->BE_note = trim((mb_substr($line_1, 11, 22)));
             $write_off = mb_substr($line_1, 33, 6);

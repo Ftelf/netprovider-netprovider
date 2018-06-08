@@ -42,6 +42,8 @@ class RBPDFParser {
     const IBAN = '^IBAN: ([[:alnum:]]{4} [[:alnum:]]{4} [[:alnum:]]{4} [[:alnum:]]{4} [[:alnum:]]{4} [[:alnum:]]{4})$';
     const BIC = '^BIC: ([[:alnum:]]+)$';
 
+    const NAZEV_UCTU_ALTERNATE = '^Účet: +([[:digit:]]+)/([[:digit:]]{4}) +v měně +[[:alpha:]]{3}$';
+
     const ACCOUNT_HEADER1 = '^Datum Kategorie transakce Typ transakce VS Poplatek Částka$';
     const ACCOUNT_HEADER2 = '^Valuta Číslo protiúčtu Zpráva KS Původní částka$';
     const ACCOUNT_HEADER3 = '^Kód transakce Název protiúčtu Poznámka SS Kurz$';
@@ -50,7 +52,7 @@ class RBPDFParser {
     const ACCOUNT_ENTRY_LINE_2_1 = '^([[:digit:]]{1,2})\.([[:digit:]]{1,2})\.([[:digit:]]{4})( ([[:digit:]]{1,6}-)?([[:digit:]]+)\/([[:digit:]]{2,4}))? ?([[:digit:]]{1,10})?$';
     const ACCOUNT_ENTRY_LINE_2_2 = '^([[:digit:]]{1,4}) ?([[:digit:]]{1,10})?$';
     const ACCOUNT_ENTRY_LINE_3_1 = '^([[:digit:]]+)( [\S]+[,\s]+[\S]+)?( \S.*)?';
-    const ACCOUNT_ENTRY_LINE_3_2 = '^(.*)$';
+    const ACCOUNT_ENTRY_LINE_3_X = '^(.*)$';
 
 
 
@@ -248,57 +250,8 @@ class RBPDFParser {
 
         $matches3_1 = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_3_1);
 
-        $line3_2 = $this->getNext();
-        if ($this->tryMatch(self::ACCOUNT_ENTRY_LINE_1, $line3_2)) {
-            $this->moveBack();
-
-            $bae->BE_note = trim($matches3_1[3]);
-        } else if ($this->tryMatch(self::TRAILING_TEXT_1, $line3_2)) {
-            $this->moveBack();
-
-            $bae->BE_note = trim($matches3_1[3]);
-        } elseif ($this->tryMatch(self::FOOTER_1, $line3_2)) {
-            // Multipage detected
-            $this->matchNextLine(self::FOOTER_2);
-            $this->matchNextLine(self::HEADER);
-            $this->matchNextLine(self::BANKOVNI_VYPIS);
-            $this->matchNextLine('^Účet: +([[:digit:]]+)/([[:digit:]]{4}) +v měně +[[:alpha:]]{3}$');
-
-            $linePage2 = $this->getNext();
-            if ($this->tryMatch(self::ACCOUNT_HEADER1, $linePage2)) {
-                $this->matchNextLine(self::ACCOUNT_HEADER2);
-                $this->matchNextLine(self::ACCOUNT_HEADER3);
-            } elseif ($this->tryMatch(self::TRAILING_TEXT_1, $linePage2)) {
-                $this->moveBack();
-            }
-        } elseif ($matches3_2 = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_3_2, $line3_2)) {
-            $bae->BE_note = trim($matches3_1[3]).$matches3_2[1];
-
-            $linePossiblePageBreak = $this->getNext();
-            if ($this->tryMatch(self::ACCOUNT_ENTRY_LINE_1, $linePossiblePageBreak)) {
-                $this->moveBack();
-            } else if ($this->tryMatch(self::TRAILING_TEXT_1, $linePossiblePageBreak)) {
-                $this->moveBack();
-            } elseif ($this->tryMatch(self::FOOTER_1, $linePossiblePageBreak)) {
-                // Multipage detected
-                $this->matchNextLine(self::FOOTER_2);
-                $this->matchNextLine(self::HEADER);
-                $this->matchNextLine(self::BANKOVNI_VYPIS);
-                $this->matchNextLine('^Účet: +([[:digit:]]+)/([[:digit:]]{4}) +v měně +[[:alpha:]]{3}$');
-
-                $linePage2 = $this->getNext();
-                if ($this->tryMatch(self::ACCOUNT_HEADER1, $linePage2)) {
-                    $this->matchNextLine(self::ACCOUNT_HEADER2);
-                    $this->matchNextLine(self::ACCOUNT_HEADER3);
-                } elseif ($this->tryMatch(self::TRAILING_TEXT_1, $linePage2)) {
-                    $this->moveBack();
-                }
-            } else {
-                throw new Exception("Nelze matchnout possiblePageBreak za volitelným 3_2: ".$linePossiblePageBreak);
-            }
-        } else {
-            throw new Exception("Nelze matchnout volitelný řádek 3_2: ".$line3_2);
-        }
+        $followingNote = $this->parseVariableNoteLines();
+        $bae->BE_note = trim($matches3_1[3]).$followingNote;
 
         $bae->BE_datetime = $matches1[3] . "-" . str_pad($matches1[2], 2, "0", STR_PAD_LEFT) . "-" . str_pad($matches1[1], 2, "0", STR_PAD_LEFT) . " 00:00:00";
         $bae->BE_writeoff_date = $matches2_1[3] . "-" . str_pad($matches2_1[2], 2, "0", STR_PAD_LEFT) . "-" . str_pad($matches2_1[1], 2, "0", STR_PAD_LEFT);
@@ -324,6 +277,48 @@ class RBPDFParser {
         }
 
         return $bae;
+    }
+
+    function parseVariableNoteLines() {
+        $maxlines = 3;
+
+        $note = "";
+        while ($maxlines-- > 0) {
+            $line3_x = $this->getNext();
+            if ($this->tryMatch(self::ACCOUNT_ENTRY_LINE_1, $line3_x)) {
+                $this->moveBack();
+
+                return $note;
+            } else if ($this->tryMatch(self::TRAILING_TEXT_1, $line3_x)) {
+                $this->moveBack();
+
+                return $note;
+            } elseif ($this->tryMatch(self::FOOTER_1, $line3_x)) {
+                // Multipage detected
+                $this->matchNextLine(self::FOOTER_2);
+                $this->matchNextLine(self::HEADER);
+                $this->matchNextLine(self::BANKOVNI_VYPIS);
+                $this->matchNextLine(self::NAZEV_UCTU_ALTERNATE);
+
+                $linePage2 = $this->getNext();
+                if ($this->tryMatch(self::ACCOUNT_HEADER1, $linePage2)) {
+                    $this->matchNextLine(self::ACCOUNT_HEADER2);
+                    $this->matchNextLine(self::ACCOUNT_HEADER3);
+                } elseif ($this->tryMatch(self::TRAILING_TEXT_1, $linePage2)) {
+                    $this->moveBack();
+                } else {
+                    throw new Exception("Nelze matchnout volitelný řádek 'Multipage detected' 3_$maxlines: $line3_x");
+                }
+
+                return $note;
+            } elseif ($matches3_x = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_3_X, $line3_x)) {
+                $note .= $matches3_x[1];
+            } else {
+                throw new Exception("Nelze matchnout volitelný řádek 3_$maxlines: $line3_x");
+            }
+        }
+
+        return $note;
     }
 
     function tryMatch($pattern, $string) {

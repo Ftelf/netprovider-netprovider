@@ -46,7 +46,7 @@ class EmailBankAccountList {
      * will download EmailList from email server and insert them into database
      */
     function downloadNewAccountLists() {
-        global $database;
+        global $database, $core;
 
         $_pop3 = new Net_POP3();
         $matches = null;
@@ -229,6 +229,12 @@ class EmailBankAccountList {
                             $msg = "Výpis: $emailList->EL_name nemohl být zpracován, obsahuje chyby. ERROR: " . $e->getMessage();
                             $this->_messages[] = $msg;
                             $database->log($msg, LOG::LEVEL_ERROR);
+
+                            if ($core->getProperty(Core::SEND_EMAIL_ON_CRITICAL_ERROR)) {
+                                $emailUtil = new EmailUtil();
+                                $emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), "Net provider error", $msg);
+                            }
+
                             continue;
                         }
                         if (!in_array($emailList->EL_name, $dbNames)) {
@@ -237,6 +243,8 @@ class EmailBankAccountList {
                                 $msg = "Výpis $emailList->EL_name uložen do databáze";
                                 $this->_messages[] = $msg;
                                 $database->log($msg, LOG::LEVEL_INFO);
+
+                                $dbNames[] = $emailList->EL_name;
                             } catch (Exception $e) {
                                 $msg = "Výpis $emailList->EL_name nebyl uložen do databáze. ERROR: " . $e->getMessage();
                                 $this->_messages[] = $msg;
@@ -245,6 +253,38 @@ class EmailBankAccountList {
                         }
                     }
                 }
+            }
+        }
+
+        // Validate email lists for continuity
+        $listYears = EmailListDAO::getEmailListYears();
+
+        $listYears2 = array_column($listYears, 'EL_year');
+        foreach ($listYears2 as $year) {
+            $listNames = EmailListDAO::getEmailListNamesByYear($year);
+
+            $previousListName = null;
+            foreach ($listNames as $key => $listName) {
+                if (!$previousListName) {
+                    $previousListName = $listName;
+                    continue;
+                }
+
+                if ($listName->EL_no - $previousListName->EL_no === 1) {
+                    $previousListName = $listName;
+                    continue;
+                }
+
+                $msg = "V databázi chybí výpis mezi: $previousListName->EL_name a $listName->EL_name";
+                $this->_messages[] = $msg;
+                $database->log($msg, LOG::LEVEL_ERROR);
+
+                if ($core->getProperty(Core::SEND_EMAIL_ON_CRITICAL_ERROR)) {
+                    $emailUtil = new EmailUtil();
+                    $emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), "Net provider error", $msg);
+                }
+
+                $previousListName = $listName;
             }
         }
     }

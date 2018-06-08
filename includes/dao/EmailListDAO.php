@@ -37,6 +37,18 @@ class EmailListDAO {
         $database->setQuery($query);
         return $database->loadObjectList("EL_emaillistid");
     }
+    static function getEmailListYears() {
+        global $database;
+        $query = "SELECT DISTINCT EL_year FROM `emaillist` ORDER BY `EL_year` ASC";
+        $database->setQuery($query);
+        return $database->loadObjectList();
+    }
+    static function getEmailListNamesByYear($year) {
+        global $database;
+        $query = "SELECT EL_emaillistid, EL_name, EL_no, EL_datefrom, EL_dateto FROM `emaillist` WHERE `EL_year`='$year' ORDER BY `EL_no` ASC";
+        $database->setQuery($query);
+        return $database->loadObjectList("EL_emaillistid");
+    }
     static function getEmailListArrayByBankAccountID($id) {
         if (!$id) throw new Exception("no ID specified");
         global $database;

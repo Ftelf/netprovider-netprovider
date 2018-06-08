@@ -34,7 +34,7 @@ class BankParserFactory {
     public function __construct($type, $content) {
         switch ($type) {
             case BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_TXT:
-                $this->parser = new RBPDFParser($content);
+                $this->parser = new RBTXTParser($content);
                 break;
 
             case BankAccount::DATASOURCE_TYPE_CSOB_XML:
