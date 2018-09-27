@@ -271,6 +271,10 @@ class RBPDFParser {
                 $bae->BE_variablesymbol = null;
             }
 
+            if (!$bae->BE_accountname) {
+                $bae->BE_accountname = "0";
+            }
+
             if (!$bae->BE_accountnumber) {
                 $bae->BE_accountnumber = "0";
             }
