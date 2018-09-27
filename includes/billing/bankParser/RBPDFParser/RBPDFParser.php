@@ -51,6 +51,7 @@ class RBPDFParser {
     const ACCOUNT_ENTRY_LINE_1 = '^([[:digit:]]{1,2})\.([[:digit:]]{1,2})\.([[:digit:]]{4})([^[:digit:]]*)([[:digit:]]{1,10})? (-?[[:digit:]]{1,3}?\s?[[:digit:]]{1,3}\.[[:digit:]]{2}) ([[:alpha:]]{3})$';
     const ACCOUNT_ENTRY_LINE_2_1 = '^([[:digit:]]{1,2})\.([[:digit:]]{1,2})\.([[:digit:]]{4})( ([[:digit:]]{1,6}-)?([[:digit:]]+)\/([[:digit:]]{2,4}))? ?([[:digit:]]{1,10})?$';
     const ACCOUNT_ENTRY_LINE_2_2 = '^([[:digit:]]{1,4}) ?([[:digit:]]{1,10})?$';
+    const ACCOUNT_ENTRY_LINE_2_2_PK = '^([[:digit:]]{8,16}) ?(PK: [X[:digit:]]{16})$';
     const ACCOUNT_ENTRY_LINE_3_1 = '^([[:digit:]]+)( [\S]+[,\s]+[\S]+)?( \S.*)?';
     const ACCOUNT_ENTRY_LINE_3_X = '^(.*)$';
 
@@ -64,7 +65,8 @@ class RBPDFParser {
     static $KNOWN_TRANSACTION_CATEGORY_ARRAY = array(
         0  => 'Platba',
         1  => 'Poplatek',
-        2  => 'Trvalá platba'
+        2  => 'Trvalá platba',
+        3  => 'Platba kartou'
     );
 
     static $KNOWN_TRANSACTION_ARRAY = array(
@@ -108,8 +110,6 @@ class RBPDFParser {
 
         $text = $pdf->getText();
 
-//        echo "<pre>".$text."</pre>";
-
         $tok = strtok($text, "\r\n");
         while ($tok) {
             $this->fcontents[] = $tok;
@@ -129,10 +129,6 @@ class RBPDFParser {
         $this->searchHeader();
 
         $this->searchAccounts();
-
-//        echo '<pre>';
-//        print_r($this->document);
-//        echo '</pre>';
     }
 
     function searchHeader() {
@@ -200,15 +196,19 @@ class RBPDFParser {
 
         $bae->BE_note = "";
 
+        $categoryMatchLenghtArray = array();
         foreach (self::$KNOWN_TRANSACTION_CATEGORY_ARRAY as $k => $transactionCategory) {
             if (mb_strpos($descriptionString, $transactionCategory) === 0) {
-                $remainingString = trim(mb_substr($descriptionString, mb_strlen($transactionCategory)));
-                break;
+                $categoryMatchLenghtArray[$k] = mb_strlen($transactionCategory);
             }
         }
-        if ($remainingString === null) {
-            throw new Exception("Neznámá Kategorie transakce v textu: ".$descriptionString);
+        if (!count($categoryMatchLenghtArray)) {
+            throw new Exception("Neznámá Kategorie transakce v textu: \"$descriptionString\"");
         }
+
+        $value = max($categoryMatchLenghtArray);
+        $k = array_search($value, $categoryMatchLenghtArray);
+        $remainingString = trim(mb_substr($descriptionString, mb_strlen(self::$KNOWN_TRANSACTION_CATEGORY_ARRAY[$k])));
 
         foreach (self::$KNOWN_TRANSACTION_ARRAY as $k => $transactionType) {
             if ($remainingString == $transactionType) {
@@ -218,7 +218,7 @@ class RBPDFParser {
             }
         }
         if (!$foundTransactionType) {
-            throw new Exception("Neznámý Typ transakce v textu: ".$remainingString);
+            throw new Exception("Neznámý Typ transakce v textu: \"$remainingString\"");
         }
 
         $matches2_1 = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_2_1);
@@ -231,13 +231,20 @@ class RBPDFParser {
                 $bae->BE_constantsymbol = $matches2_1[8];
             }
         } elseif (mb_strlen($matches2_1[7]) < 4) {
-            $matches2_2 = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_2_2);
+            if ($bae->BE_typeoftransaction == 8) {
+                $matches2_2_PK = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_2_2_PK);
+                if ($matches2_2_PK[2]) {
+                    $bae->BE_message = $matches2_2_PK[2];
+                }
+            } else {
+                $matches2_2 = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_2_2);
 
-            $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
-            $bae->BE_banknumber = $matches2_1[7].$matches2_2[1];
+                $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
+                $bae->BE_banknumber = $matches2_1[7].$matches2_2[1];
 
-            if ($matches2_2[2]) {
-                $bae->BE_constantsymbol = $matches2_2[2];
+                if ($matches2_2[2]) {
+                    $bae->BE_constantsymbol = $matches2_2[2];
+                }
             }
         } else {
             $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
@@ -246,6 +253,33 @@ class RBPDFParser {
             if ($matches2_1[8]) {
                 $bae->BE_constantsymbol = $matches2_1[8];
             }
+        }
+
+        if ($bae->BE_typeoftransaction == 8) {
+            $bae->BE_note = $this->parseVariableNoteLines();
+
+            $bae->BE_datetime = $matches1[3] . "-" . str_pad($matches1[2], 2, "0", STR_PAD_LEFT) . "-" . str_pad($matches1[1], 2, "0", STR_PAD_LEFT) . " 00:00:00";
+            $bae->BE_writeoff_date = $matches2_1[3] . "-" . str_pad($matches2_1[2], 2, "0", STR_PAD_LEFT) . "-" . str_pad($matches2_1[1], 2, "0", STR_PAD_LEFT);
+
+            $bae->BE_variablesymbol = $matches1[5];
+            $bae->BE_amount = preg_replace("/\s|&nbsp;/",'', htmlentities($matches1[6]));
+
+            $bae->BE_charge = 0;
+            $bae->BE_message = "";
+
+            if (!$bae->BE_variablesymbol) {
+                $bae->BE_variablesymbol = null;
+            }
+
+            if (!$bae->BE_accountnumber) {
+                $bae->BE_accountnumber = "0";
+            }
+
+            if (!$bae->BE_banknumber) {
+                $bae->BE_banknumber = "0";
+            }
+
+            return $bae;
         }
 
         $matches3_1 = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_3_1);
