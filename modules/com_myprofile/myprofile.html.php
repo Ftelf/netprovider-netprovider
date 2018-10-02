@@ -209,6 +209,18 @@ class HTML_myprofile {
           <td><?php echo $person->PE_zip; ?></td>
         </tr>
         <tr>
+          <td><?php echo _("Variable symbol:"); ?></td>
+          <td><?php echo (!$personAccount->PA_variablesymbol) ? "N/A" : $personAccount->PA_variablesymbol; ?></td>
+        </tr>
+        <tr>
+          <td><?php echo _("Constant symbol:"); ?></td>
+          <td><?php echo (!$personAccount->PA_constantsymbol) ? "N/A" : $personAccount->PA_constantsymbol; ?></td>
+        </tr>
+        <tr>
+          <td><?php echo _("Specific symbol:"); ?></td>
+          <td><?php echo (!$personAccount->PA_specificsymbol) ? "N/A" : $personAccount->PA_specificsymbol; ?></td>
+        </tr>
+        <tr>
           <td><?php echo _("Date of registration:"); ?></td>
           <td><?php echo $registerDate->getFormattedDate(DateUtil::FORMAT_FULL); ?></td>
         </tr>
