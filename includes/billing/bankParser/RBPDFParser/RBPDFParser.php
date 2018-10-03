@@ -96,7 +96,9 @@ class RBPDFParser {
         23 => 'Odchozí platba',
         24 => 'Srážka daně z úroků',
         25 => 'Trvalá platba',
-        26 => 'Jednorázová platba'
+        26 => 'Jednorázová platba',
+        27 => 'Příchozí úhrada',
+        28 => 'Jednorázová úhrada',
     );
 
     /**
