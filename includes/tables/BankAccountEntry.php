@@ -87,6 +87,7 @@ class BankAccountEntry {
     const TYPE_ONETIME = 26;
     const TYPE_INCOMEPAYMENT2 = 27;
     const TYPE_ONETIME2 = 28;
+    const TYPE_PERMANENT_ORDER = 29;
 
     public static $TYPE_ARRAY = array(
         0,	//Other
@@ -117,7 +118,8 @@ class BankAccountEntry {
         25, //PERMANENT
         26, //ONETIME
         27, //Incoming payment #2
-        28  //ONETIME #2
+        28, //ONETIME #2
+        29  //PERMANENT_ORDER
     );
 
     public static function getLocalizedType($type) {
@@ -208,6 +210,9 @@ class BankAccountEntry {
 
             case self::TYPE_ONETIME2:
                 return _("One time payment #2");
+
+            case self::TYPE_PERMANENT_ORDER:
+                return _("Permanent Order");
         }
     }
 

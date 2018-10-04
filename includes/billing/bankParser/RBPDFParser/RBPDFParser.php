@@ -66,7 +66,8 @@ class RBPDFParser {
         0  => 'Platba',
         1  => 'Poplatek',
         2  => 'Trvalá platba',
-        3  => 'Platba kartou'
+        3  => 'Platba kartou',
+        4  => 'Trvalý příkaz'
     );
 
     static $KNOWN_TRANSACTION_ARRAY = array(
@@ -99,6 +100,7 @@ class RBPDFParser {
         26 => 'Jednorázová platba',
         27 => 'Příchozí úhrada',
         28 => 'Jednorázová úhrada',
+        29 => 'Trvalý příkaz'
     );
 
     /**
