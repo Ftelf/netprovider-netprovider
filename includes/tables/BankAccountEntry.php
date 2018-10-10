@@ -88,6 +88,7 @@ class BankAccountEntry {
     const TYPE_INCOMEPAYMENT2 = 27;
     const TYPE_ONETIME2 = 28;
     const TYPE_PERMANENT_ORDER = 29;
+    const TYPE_OUTGOING_CHARGE = 30;
 
     public static $TYPE_ARRAY = array(
         0,	//Other
@@ -113,13 +114,14 @@ class BankAccountEntry {
         20, //Transaction fee,
         21, //Cash withdraw
         22, //TYPE_FOREIGN_SEPA
-        23, //OUTCOME
+        23, //OUTGOING PAYMENT
         24, //INTEREST_TAX
         25, //PERMANENT
         26, //ONETIME
         27, //Incoming payment #2
         28, //ONETIME #2
-        29  //PERMANENT_ORDER
+        29, //PERMANENT_ORDER
+        30  //OUTGOING CHARGE
     );
 
     public static function getLocalizedType($type) {
@@ -194,7 +196,7 @@ class BankAccountEntry {
                 return _("Foreign SEPA");
 
             case self::TYPE_OUTCOME:
-                return _("Outcome");
+                return _("Outgoing Payment");
 
             case self::TYPE_INTEREST_TAX:
                 return _("Interest tax");
@@ -213,6 +215,9 @@ class BankAccountEntry {
 
             case self::TYPE_PERMANENT_ORDER:
                 return _("Permanent Order");
+
+            case self::TYPE_OUTGOING_CHARGE:
+                return _("Outgoing Charge");
         }
     }
 

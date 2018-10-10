@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-16 22:44+0200\n"
-"PO-Revision-Date: 2018-05-16 22:47+0200\n"
+"POT-Creation-Date: 2018-10-03 15:46+0200\n"
+"PO-Revision-Date: 2018-10-03 15:47+0200\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
 "Language: cs\n"
@@ -67,137 +67,145 @@ msgstr "KB ABO"
 msgid "RB PDF attachment"
 msgstr "Příloha RB PDF"
 
-#: includes/tables/BankAccountEntry.php:122
+#: includes/tables/BankAccountEntry.php:126
 #: modules/com_paymentreport/paymentreport.html.php:483
 msgid "Other"
 msgstr "Jíný"
 
-#: includes/tables/BankAccountEntry.php:125
+#: includes/tables/BankAccountEntry.php:129
 msgid "Transfer"
 msgstr "Převod"
 
-#: includes/tables/BankAccountEntry.php:128
+#: includes/tables/BankAccountEntry.php:132
 msgid "Incoming payment"
 msgstr "Příchozí platba"
 
-#: includes/tables/BankAccountEntry.php:131
+#: includes/tables/BankAccountEntry.php:135
 msgid "Cash deposit"
 msgstr "Vklad hotovosti"
 
-#: includes/tables/BankAccountEntry.php:134
+#: includes/tables/BankAccountEntry.php:138
 msgid "Continuing transfer"
 msgstr "Trvalý převod"
 
-#: includes/tables/BankAccountEntry.php:137
+#: includes/tables/BankAccountEntry.php:141
 msgid "Other transaction fee"
 msgstr "Jiný trans. poplatek"
 
-#: includes/tables/BankAccountEntry.php:140
+#: includes/tables/BankAccountEntry.php:144
 msgid "Positive increase"
 msgstr "Kladný úrok"
 
-#: includes/tables/BankAccountEntry.php:143
+#: includes/tables/BankAccountEntry.php:147
 msgid "Cash dispencer draft"
 msgstr "Výběr z bankomatu"
 
-#: includes/tables/BankAccountEntry.php:146
+#: includes/tables/BankAccountEntry.php:150
 msgid "Credit card payment"
 msgstr "Platba kreditní kartou"
 
-#: includes/tables/BankAccountEntry.php:149
+#: includes/tables/BankAccountEntry.php:153
 msgid "Account list generation"
 msgstr "Generování výpisu účtu"
 
-#: includes/tables/BankAccountEntry.php:152
+#: includes/tables/BankAccountEntry.php:156
 msgid "Credit card administration fee"
 msgstr "Poplatek za vedení karty"
 
-#: includes/tables/BankAccountEntry.php:155
+#: includes/tables/BankAccountEntry.php:159
 msgid "Distribution of bank list"
 msgstr "Distribuce bankovního výpisu"
 
-#: includes/tables/BankAccountEntry.php:158
+#: includes/tables/BankAccountEntry.php:162
 msgid "Pool transfer"
 msgstr "Poolovací převod"
 
-#: includes/tables/BankAccountEntry.php:161
+#: includes/tables/BankAccountEntry.php:165
 msgid "Using and managing of Internet"
 msgstr "Využívání a správa Internetového bankovnictví"
 
-#: includes/tables/BankAccountEntry.php:164
+#: includes/tables/BankAccountEntry.php:168
 msgid "Loan increase"
 msgstr "Úročení úvěru"
 
-#: includes/tables/BankAccountEntry.php:167
+#: includes/tables/BankAccountEntry.php:171
 msgid "Loan payment"
 msgstr "Splácení úvěru"
 
-#: includes/tables/BankAccountEntry.php:170
+#: includes/tables/BankAccountEntry.php:174
 msgid "Using and managing of Account"
 msgstr "Využívání a správa Konta"
 
-#: includes/tables/BankAccountEntry.php:173
+#: includes/tables/BankAccountEntry.php:177
 msgid "External fee"
 msgstr "Poplatek za externí zpracování"
 
-#: includes/tables/BankAccountEntry.php:176
+#: includes/tables/BankAccountEntry.php:180
 msgid "Bank certificate"
 msgstr "Vydání dávkového certifikátu"
 
-#: includes/tables/BankAccountEntry.php:179
+#: includes/tables/BankAccountEntry.php:183
 msgid "Dissaving investment"
 msgstr "Čerpání Investičního"
 
-#: includes/tables/BankAccountEntry.php:182
+#: includes/tables/BankAccountEntry.php:186
 msgid "Transaction fee"
 msgstr "Transakční poplatek"
 
-#: includes/tables/BankAccountEntry.php:185
+#: includes/tables/BankAccountEntry.php:189
 msgid "Cash withdraw"
 msgstr "Výběr hotovosti"
 
-#: includes/tables/BankAccountEntry.php:188
+#: includes/tables/BankAccountEntry.php:192
 msgid "Foreign SEPA"
 msgstr "Odchozí ZPS SEPA plat"
 
-#: includes/tables/BankAccountEntry.php:191
+#: includes/tables/BankAccountEntry.php:195
 msgid "Outcome"
 msgstr "Odchozí platba"
 
-#: includes/tables/BankAccountEntry.php:194
+#: includes/tables/BankAccountEntry.php:198
 msgid "Interest tax"
 msgstr "Srážka daně z úroků"
 
-#: includes/tables/BankAccountEntry.php:197
+#: includes/tables/BankAccountEntry.php:201
 msgid "Permanent payment"
 msgstr "Trvalá platba"
 
-#: includes/tables/BankAccountEntry.php:200
+#: includes/tables/BankAccountEntry.php:204
 msgid "One time payment"
 msgstr "Jednorázová platba"
 
-#: includes/tables/BankAccountEntry.php:215 includes/tables/ChargeEntry.php:67
+#: includes/tables/BankAccountEntry.php:207
+msgid "Incoming payment #2"
+msgstr "Příchozí platba #2"
+
+#: includes/tables/BankAccountEntry.php:210
+msgid "One time payment #2"
+msgstr "Jednorázová platba #2"
+
+#: includes/tables/BankAccountEntry.php:225 includes/tables/ChargeEntry.php:67
 #: includes/tables/Message.php:48
 msgid "Pending"
 msgstr "Čeká na zpracování"
 
-#: includes/tables/BankAccountEntry.php:218
+#: includes/tables/BankAccountEntry.php:228
 msgid "Processed"
 msgstr "Zpracováno"
 
-#: includes/tables/BankAccountEntry.php:237
+#: includes/tables/BankAccountEntry.php:247
 msgid "Waiting for identification"
 msgstr "Čeká na identifikaci"
 
-#: includes/tables/BankAccountEntry.php:240
+#: includes/tables/BankAccountEntry.php:250
 msgid "Person account"
 msgstr "Uživatelský účet"
 
-#: includes/tables/BankAccountEntry.php:243
+#: includes/tables/BankAccountEntry.php:253
 msgid "Internal transaction"
 msgstr "Interní transakce"
 
-#: includes/tables/BankAccountEntry.php:246
+#: includes/tables/BankAccountEntry.php:256
 #: modules/com_personaccount/personaccount.html.php:714
 msgid "Ignore"
 msgstr "Ignorovat"
@@ -296,7 +304,7 @@ msgid "Super administrator"
 msgstr "Super administátor"
 
 #: includes/tables/HandleEvent.php:52
-#: modules/com_myprofile/myprofile.html.php:309
+#: modules/com_myprofile/myprofile.html.php:321
 #: modules/com_paymentreport/paymentreport.html.php:307
 #: modules/com_paymentreport/paymentreport.html.php:313
 msgid "Disabled"
@@ -304,7 +312,7 @@ msgstr "Zakázáno"
 
 #: includes/tables/HandleEvent.php:55
 #: modules/com_handleevent/handleevent.html.php:123
-#: modules/com_myprofile/myprofile.html.php:306
+#: modules/com_myprofile/myprofile.html.php:318
 #: modules/com_paymentreport/paymentreport.html.php:310
 msgid "Enabled"
 msgstr "Povoleno"
@@ -643,8 +651,8 @@ msgstr "- Žádný bankovní účet definován -"
 #: modules/com_log/log.html.php:132 modules/com_log/log.html.php:134
 #: modules/com_message/message.html.php:131
 #: modules/com_message/message.html.php:133
-#: modules/com_myprofile/myprofile.html.php:646
-#: modules/com_myprofile/myprofile.html.php:847
+#: modules/com_myprofile/myprofile.html.php:658
+#: modules/com_myprofile/myprofile.html.php:859
 #: modules/com_paymentreport/paymentreport.html.php:162
 #: modules/com_paymentreport/paymentreport.html.php:167
 #: modules/com_person/person.html.php:515
@@ -758,8 +766,8 @@ msgstr "Konečný zůstatek:"
 
 #: modules/com_bankaccount/bankaccount.html.php:311
 #: modules/com_message/message.html.php:152
-#: modules/com_myprofile/myprofile.html.php:485
-#: modules/com_myprofile/myprofile.html.php:601
+#: modules/com_myprofile/myprofile.html.php:497
+#: modules/com_myprofile/myprofile.html.php:613
 #: modules/com_personaccount/personaccount.html.php:443
 msgid "Date"
 msgstr "Datum"
@@ -782,9 +790,9 @@ msgstr "Typ transakce"
 
 #: modules/com_bankaccount/bankaccount.html.php:316
 #: modules/com_charge/charge.html.php:133
-#: modules/com_myprofile/myprofile.html.php:279
-#: modules/com_myprofile/myprofile.html.php:371
-#: modules/com_myprofile/myprofile.html.php:487
+#: modules/com_myprofile/myprofile.html.php:291
+#: modules/com_myprofile/myprofile.html.php:383
+#: modules/com_myprofile/myprofile.html.php:499
 #: modules/com_paymentreport/paymentreport.html.php:257
 #: modules/com_person/person.html.php:646
 #: modules/com_personaccount/personaccount.html.php:445
@@ -803,7 +811,7 @@ msgid "Time"
 msgstr "Čas"
 
 #: modules/com_bankaccount/bankaccount.html.php:323
-#: modules/com_myprofile/myprofile.html.php:490
+#: modules/com_myprofile/myprofile.html.php:502
 #: modules/com_personaccount/personaccount.html.php:447
 msgid "Account name"
 msgstr "Jméno účtu"
@@ -816,9 +824,9 @@ msgstr "VS"
 #: modules/com_bankaccount/bankaccount.html.php:870
 #: modules/com_invoice/invoice.html.php:180
 #: modules/com_message/message.html.php:157
-#: modules/com_myprofile/myprofile.html.php:285
-#: modules/com_myprofile/myprofile.html.php:365
-#: modules/com_myprofile/myprofile.html.php:604
+#: modules/com_myprofile/myprofile.html.php:297
+#: modules/com_myprofile/myprofile.html.php:377
+#: modules/com_myprofile/myprofile.html.php:616
 #: modules/com_person/person.html.php:168
 #: modules/com_person/person.html.php:652
 #: modules/com_personaccount/personaccount.html.php:544
@@ -827,7 +835,7 @@ msgid "Status"
 msgstr "Status"
 
 #: modules/com_bankaccount/bankaccount.html.php:334
-#: modules/com_myprofile/myprofile.html.php:491
+#: modules/com_myprofile/myprofile.html.php:503
 #: modules/com_personaccount/personaccount.html.php:448
 msgid "Account number"
 msgstr "Číslo účtu"
@@ -843,7 +851,7 @@ msgstr "Identifikace"
 
 #: modules/com_bankaccount/bankaccount.html.php:345
 #: modules/com_message/message.html.php:155
-#: modules/com_myprofile/myprofile.html.php:603
+#: modules/com_myprofile/myprofile.html.php:615
 #: modules/com_personaccount/personaccount.html.php:446
 msgid "Message"
 msgstr "Zpráva"
@@ -892,8 +900,8 @@ msgstr "Aktualizuj"
 #: modules/com_handleevent/handleevent.html.php:245
 #: modules/com_internet/internet.html.php:270
 #: modules/com_internet/internet.html.php:271
-#: modules/com_myprofile/myprofile.html.php:755
-#: modules/com_myprofile/myprofile.html.php:756
+#: modules/com_myprofile/myprofile.html.php:767
+#: modules/com_myprofile/myprofile.html.php:768
 #: modules/com_network/network.html.php:461
 #: modules/com_network/network.html.php:462
 #: modules/com_network/network.html.php:670
@@ -935,8 +943,8 @@ msgstr "Ulož"
 #: modules/com_handleevent/handleevent.html.php:252
 #: modules/com_internet/internet.html.php:277
 #: modules/com_internet/internet.html.php:278
-#: modules/com_myprofile/myprofile.html.php:762
-#: modules/com_myprofile/myprofile.html.php:763
+#: modules/com_myprofile/myprofile.html.php:774
+#: modules/com_myprofile/myprofile.html.php:775
 #: modules/com_network/network.html.php:468
 #: modules/com_network/network.html.php:469
 #: modules/com_network/network.html.php:677
@@ -1016,8 +1024,8 @@ msgid "Username:"
 msgstr "Uživatelské jméno:"
 
 #: modules/com_bankaccount/bankaccount.html.php:667
-#: modules/com_myprofile/myprofile.html.php:238
-#: modules/com_myprofile/myprofile.html.php:897
+#: modules/com_myprofile/myprofile.html.php:250
+#: modules/com_myprofile/myprofile.html.php:909
 #: modules/com_networkdevice/networkdevice.html.php:483
 #: modules/com_person/person.html.php:573
 msgid "Password:"
@@ -1107,7 +1115,7 @@ msgid "since"
 msgstr "Od"
 
 #: modules/com_bankaccount/bankaccount.html.php:869
-#: modules/com_myprofile/myprofile.html.php:284
+#: modules/com_myprofile/myprofile.html.php:296
 #: modules/com_personaccount/personaccount.html.php:543
 msgid "Till"
 msgstr "Do"
@@ -1147,6 +1155,7 @@ msgid "Note:"
 msgstr "Poznámka:"
 
 #: modules/com_bankaccount/bankaccount.html.php:1158
+#: modules/com_myprofile/myprofile.html.php:212
 #: modules/com_personaccount/personaccount.html.php:415
 #: modules/com_personaccount/personaccount.html.php:886
 #: modules/com_personaccount/personaccount.html.php:1047
@@ -1154,6 +1163,7 @@ msgid "Variable symbol:"
 msgstr "Variabilní symbol:"
 
 #: modules/com_bankaccount/bankaccount.html.php:1162
+#: modules/com_myprofile/myprofile.html.php:216
 #: modules/com_personaccount/personaccount.html.php:419
 #: modules/com_personaccount/personaccount.html.php:891
 #: modules/com_personaccount/personaccount.html.php:1051
@@ -1161,6 +1171,7 @@ msgid "Constant symbol:"
 msgstr "Konstantní symbol:"
 
 #: modules/com_bankaccount/bankaccount.html.php:1166
+#: modules/com_myprofile/myprofile.html.php:220
 #: modules/com_personaccount/personaccount.html.php:423
 #: modules/com_personaccount/personaccount.html.php:896
 #: modules/com_personaccount/personaccount.html.php:1055
@@ -1318,7 +1329,7 @@ msgstr "Nová"
 #: modules/com_internet/internet.html.php:286
 #: modules/com_myprofile/myprofile.html.php:91
 #: modules/com_myprofile/myprofile.html.php:92
-#: modules/com_myprofile/myprofile.html.php:771
+#: modules/com_myprofile/myprofile.html.php:783
 #: modules/com_networkdevice/networkdevice.html.php:111
 #: modules/com_networkdevice/networkdevice.html.php:112
 #: modules/com_networkdevice/networkdevice.html.php:410
@@ -1368,15 +1379,15 @@ msgid "Template name"
 msgstr "Název šablony"
 
 #: modules/com_charge/charge.html.php:127
-#: modules/com_myprofile/myprofile.html.php:282
+#: modules/com_myprofile/myprofile.html.php:294
 #: modules/com_personaccount/personaccount.html.php:541
 msgid "Write off"
 msgstr "Odepisovat"
 
 #: modules/com_charge/charge.html.php:129
 #: modules/com_invoice/invoice.html.php:177
-#: modules/com_myprofile/myprofile.html.php:275
-#: modules/com_myprofile/myprofile.html.php:367
+#: modules/com_myprofile/myprofile.html.php:287
+#: modules/com_myprofile/myprofile.html.php:379
 #: modules/com_person/person.html.php:642
 #: modules/com_personaccount/personaccount.html.php:534
 #: modules/com_personaccount/personaccount.html.php:626
@@ -1384,8 +1395,8 @@ msgid "Amount without VAT"
 msgstr "Částka bez DPH"
 
 #: modules/com_charge/charge.html.php:130
-#: modules/com_myprofile/myprofile.html.php:276
-#: modules/com_myprofile/myprofile.html.php:368
+#: modules/com_myprofile/myprofile.html.php:288
+#: modules/com_myprofile/myprofile.html.php:380
 #: modules/com_person/person.html.php:643
 #: modules/com_personaccount/personaccount.html.php:535
 #: modules/com_personaccount/personaccount.html.php:627
@@ -1394,8 +1405,8 @@ msgstr "DPH (%)"
 
 #: modules/com_charge/charge.html.php:131
 #: modules/com_invoice/invoice.html.php:178
-#: modules/com_myprofile/myprofile.html.php:277
-#: modules/com_myprofile/myprofile.html.php:369
+#: modules/com_myprofile/myprofile.html.php:289
+#: modules/com_myprofile/myprofile.html.php:381
 #: modules/com_paymentreport/paymentreport.html.php:255
 #: modules/com_person/person.html.php:644
 #: modules/com_personaccount/personaccount.html.php:536
@@ -1405,9 +1416,9 @@ msgstr "Částka s DPH"
 
 #: modules/com_charge/charge.html.php:135
 #: modules/com_invoice/invoice.html.php:179
-#: modules/com_myprofile/myprofile.html.php:281
-#: modules/com_myprofile/myprofile.html.php:373
-#: modules/com_myprofile/myprofile.html.php:488
+#: modules/com_myprofile/myprofile.html.php:293
+#: modules/com_myprofile/myprofile.html.php:385
+#: modules/com_myprofile/myprofile.html.php:500
 #: modules/com_person/person.html.php:648
 #: modules/com_personaccount/personaccount.html.php:540
 #: modules/com_personaccount/personaccount.html.php:632
@@ -1431,7 +1442,7 @@ msgstr "Priorita"
 
 #: modules/com_charge/charge.html.php:139
 #: modules/com_internet/internet.html.php:128 modules/com_log/log.html.php:156
-#: modules/com_myprofile/myprofile.html.php:577
+#: modules/com_myprofile/myprofile.html.php:589
 #: modules/com_network/network.html.php:284
 #: modules/com_network/network.html.php:797 modules/com_role/role.html.php:124
 msgid "Description"
@@ -1697,7 +1708,7 @@ msgstr "Spravovat můj profil"
 
 #: modules/com_common/html_mainmenu.php:32
 #: modules/com_myprofile/myprofile.html.php:107
-#: modules/com_myprofile/myprofile.html.php:771
+#: modules/com_myprofile/myprofile.html.php:783
 msgid "My profile"
 msgstr "Můj profil"
 
@@ -1789,7 +1800,7 @@ msgid "View log"
 msgstr "Prohlédnout log"
 
 #: modules/com_common/html_mainmenu.php:53
-#: modules/com_myprofile/myprofile.html.php:595
+#: modules/com_myprofile/myprofile.html.php:607
 msgid "Messages"
 msgstr "Zprávy"
 
@@ -2171,8 +2182,8 @@ msgid "Nickname"
 msgstr "Přezdívka"
 
 #: modules/com_iptrafficreport/iptrafficreport.html.php:133
-#: modules/com_myprofile/myprofile.html.php:552
-#: modules/com_myprofile/myprofile.html.php:648
+#: modules/com_myprofile/myprofile.html.php:564
+#: modules/com_myprofile/myprofile.html.php:660
 #: modules/com_person/person.html.php:764
 msgid "IP address"
 msgstr "IP adresa"
@@ -2227,7 +2238,7 @@ msgid "Recipient"
 msgstr "Příjemce"
 
 #: modules/com_message/message.html.php:154
-#: modules/com_myprofile/myprofile.html.php:602
+#: modules/com_myprofile/myprofile.html.php:614
 msgid "Subject"
 msgstr "Předmět"
 
@@ -2236,7 +2247,7 @@ msgid "Attachment"
 msgstr "Příloha"
 
 #: modules/com_myprofile/myprofile.html.php:129
-#: modules/com_myprofile/myprofile.html.php:793
+#: modules/com_myprofile/myprofile.html.php:805
 #: modules/com_person/person.html.php:447
 msgid "Personal data"
 msgstr "Osobní údaje"
@@ -2254,288 +2265,288 @@ msgid "User group:"
 msgstr "Uživatelská skupina:"
 
 #: modules/com_myprofile/myprofile.html.php:143
-#: modules/com_myprofile/myprofile.html.php:799
+#: modules/com_myprofile/myprofile.html.php:811
 #: modules/com_person/person.html.php:467
 msgid "IČ:"
 msgstr "IČ:"
 
 #: modules/com_myprofile/myprofile.html.php:147
-#: modules/com_myprofile/myprofile.html.php:803
+#: modules/com_myprofile/myprofile.html.php:815
 #: modules/com_person/person.html.php:471
 msgid "DIČ:"
 msgstr "DIČ:"
 
 #: modules/com_myprofile/myprofile.html.php:151
-#: modules/com_myprofile/myprofile.html.php:807
+#: modules/com_myprofile/myprofile.html.php:819
 #: modules/com_person/person.html.php:475
 msgid "Company short name:"
 msgstr "Zkrácený název společnosti:"
 
 #: modules/com_myprofile/myprofile.html.php:155
-#: modules/com_myprofile/myprofile.html.php:811
+#: modules/com_myprofile/myprofile.html.php:823
 #: modules/com_person/person.html.php:479
 msgid "Company name:"
 msgstr "Název společnosti:"
 
 #: modules/com_myprofile/myprofile.html.php:160
-#: modules/com_myprofile/myprofile.html.php:816
+#: modules/com_myprofile/myprofile.html.php:828
 #: modules/com_person/person.html.php:484
 msgid "Firstname:"
 msgstr "Jméno:"
 
 #: modules/com_myprofile/myprofile.html.php:164
-#: modules/com_myprofile/myprofile.html.php:820
+#: modules/com_myprofile/myprofile.html.php:832
 #: modules/com_person/person.html.php:488
 msgid "Surname:"
 msgstr "Příjmení:"
 
 #: modules/com_myprofile/myprofile.html.php:168
-#: modules/com_myprofile/myprofile.html.php:824
+#: modules/com_myprofile/myprofile.html.php:836
 #: modules/com_person/person.html.php:492
 msgid "Nickname:"
 msgstr "Přezdívka:"
 
 #: modules/com_myprofile/myprofile.html.php:172
-#: modules/com_myprofile/myprofile.html.php:828
+#: modules/com_myprofile/myprofile.html.php:840
 #: modules/com_person/person.html.php:496
 msgid "Sex:"
 msgstr "Pohlaví:"
 
 #: modules/com_myprofile/myprofile.html.php:176
-#: modules/com_myprofile/myprofile.html.php:836
+#: modules/com_myprofile/myprofile.html.php:848
 #: modules/com_person/person.html.php:504
 msgid "Degree before name:"
 msgstr "Titul před jménem:"
 
 #: modules/com_myprofile/myprofile.html.php:180
-#: modules/com_myprofile/myprofile.html.php:840
+#: modules/com_myprofile/myprofile.html.php:852
 #: modules/com_person/person.html.php:508
 msgid "Degree after name:"
 msgstr "Titul za jménem:"
 
 #: modules/com_myprofile/myprofile.html.php:184
-#: modules/com_myprofile/myprofile.html.php:844
+#: modules/com_myprofile/myprofile.html.php:856
 #: modules/com_person/person.html.php:512
 msgid "Birthdate:"
 msgstr "Datum narození:"
 
 #: modules/com_myprofile/myprofile.html.php:188
-#: modules/com_myprofile/myprofile.html.php:851
+#: modules/com_myprofile/myprofile.html.php:863
 #: modules/com_person/person.html.php:165
 #: modules/com_person/person.html.php:519
 msgid "E-mail"
 msgstr "E-mail"
 
 #: modules/com_myprofile/myprofile.html.php:192
-#: modules/com_myprofile/myprofile.html.php:855
+#: modules/com_myprofile/myprofile.html.php:867
 #: modules/com_person/person.html.php:523
 msgid "ICQ:"
 msgstr "ICQ:"
 
 #: modules/com_myprofile/myprofile.html.php:196
-#: modules/com_myprofile/myprofile.html.php:859
+#: modules/com_myprofile/myprofile.html.php:871
 #: modules/com_person/person.html.php:527
 msgid "Phone:"
 msgstr "Telefon:"
 
 #: modules/com_myprofile/myprofile.html.php:200
-#: modules/com_myprofile/myprofile.html.php:863
+#: modules/com_myprofile/myprofile.html.php:875
 #: modules/com_person/person.html.php:531
 msgid "Address:"
 msgstr "Adresa:"
 
 #: modules/com_myprofile/myprofile.html.php:204
-#: modules/com_myprofile/myprofile.html.php:867
+#: modules/com_myprofile/myprofile.html.php:879
 #: modules/com_person/person.html.php:535
 msgid "City:"
 msgstr "Město:"
 
 #: modules/com_myprofile/myprofile.html.php:208
-#: modules/com_myprofile/myprofile.html.php:871
+#: modules/com_myprofile/myprofile.html.php:883
 #: modules/com_person/person.html.php:539
 msgid "ZIP:"
 msgstr "PSČ:"
 
-#: modules/com_myprofile/myprofile.html.php:212
+#: modules/com_myprofile/myprofile.html.php:224
 #: modules/com_person/person.html.php:547
 msgid "Date of registration:"
 msgstr "Datum registrace:"
 
-#: modules/com_myprofile/myprofile.html.php:224
-#: modules/com_myprofile/myprofile.html.php:883
+#: modules/com_myprofile/myprofile.html.php:236
+#: modules/com_myprofile/myprofile.html.php:895
 #: modules/com_person/person.html.php:559
 msgid "Login creditials"
 msgstr "Login"
 
-#: modules/com_myprofile/myprofile.html.php:229
-#: modules/com_myprofile/myprofile.html.php:888
+#: modules/com_myprofile/myprofile.html.php:241
+#: modules/com_myprofile/myprofile.html.php:900
 #: modules/com_person/person.html.php:564
 msgid "System login registration"
 msgstr "Přihlašovací údaje do systému"
 
-#: modules/com_myprofile/myprofile.html.php:234
-#: modules/com_myprofile/myprofile.html.php:893
+#: modules/com_myprofile/myprofile.html.php:246
+#: modules/com_myprofile/myprofile.html.php:905
 #: modules/com_person/person.html.php:569
 msgid "Login name:"
 msgstr "Přihlašovací jméno:"
 
-#: modules/com_myprofile/myprofile.html.php:244
+#: modules/com_myprofile/myprofile.html.php:256
 #: modules/com_person/person.html.php:595
 msgid "Role"
 msgstr "Role"
 
-#: modules/com_myprofile/myprofile.html.php:249
+#: modules/com_myprofile/myprofile.html.php:261
 #: modules/com_person/person.html.php:600 modules/com_role/role.html.php:261
 msgid "User role"
 msgstr "Uživatelská role"
 
-#: modules/com_myprofile/myprofile.html.php:267
+#: modules/com_myprofile/myprofile.html.php:279
 #: modules/com_person/person.html.php:634
 msgid "Payments"
 msgstr "Platby"
 
-#: modules/com_myprofile/myprofile.html.php:273
+#: modules/com_myprofile/myprofile.html.php:285
 #: modules/com_paymentreport/paymentreport.html.php:252
 #: modules/com_person/person.html.php:639
 #: modules/com_personaccount/personaccount.html.php:532
 msgid "Service name"
 msgstr "Jméno služby"
 
-#: modules/com_myprofile/myprofile.html.php:283
+#: modules/com_myprofile/myprofile.html.php:295
 #: modules/com_personaccount/personaccount.html.php:542
 msgid "Since"
 msgstr "Od"
 
-#: modules/com_myprofile/myprofile.html.php:286
+#: modules/com_myprofile/myprofile.html.php:298
 msgid "Actual status"
 msgstr "Aktuální status"
 
-#: modules/com_myprofile/myprofile.html.php:299
+#: modules/com_myprofile/myprofile.html.php:311
 #: modules/com_personaccount/personaccount.html.php:587
 msgid "Not limited"
 msgstr "Nelimitováno"
 
-#: modules/com_myprofile/myprofile.html.php:360
+#: modules/com_myprofile/myprofile.html.php:372
 #: modules/com_personaccount/personaccount.html.php:619
 msgid "Date/period"
 msgstr "Datum/perioda"
 
-#: modules/com_myprofile/myprofile.html.php:361
+#: modules/com_myprofile/myprofile.html.php:373
 #: modules/com_personaccount/personaccount.html.php:620
 msgid "Date of payment"
 msgstr "Datum splatnosti"
 
-#: modules/com_myprofile/myprofile.html.php:362
+#: modules/com_myprofile/myprofile.html.php:374
 #: modules/com_personaccount/personaccount.html.php:621
 msgid "Tolerance till"
 msgstr "Tolerance do"
 
-#: modules/com_myprofile/myprofile.html.php:363
+#: modules/com_myprofile/myprofile.html.php:375
 msgid "Write off date"
 msgstr "Datum stržení"
 
-#: modules/com_myprofile/myprofile.html.php:364
+#: modules/com_myprofile/myprofile.html.php:376
 msgid "Delay in days"
 msgstr "Zpoždění ve dnech"
 
-#: modules/com_myprofile/myprofile.html.php:374
+#: modules/com_myprofile/myprofile.html.php:386
 #: modules/com_person/person.html.php:653
 #: modules/com_personaccount/personaccount.html.php:450
 #: modules/com_personaccount/personaccount.html.php:633
 msgid "Action"
 msgstr "Akce"
 
-#: modules/com_myprofile/myprofile.html.php:452
+#: modules/com_myprofile/myprofile.html.php:464
 #: modules/com_personaccount/personaccount.html.php:728
 msgid "Invoice"
 msgstr "Faktura"
 
-#: modules/com_myprofile/myprofile.html.php:479
+#: modules/com_myprofile/myprofile.html.php:491
 #: modules/com_personaccount/personaccount.html.php:439
 msgid "Incoming payments"
 msgstr "Příchozí platby"
 
-#: modules/com_myprofile/myprofile.html.php:486
+#: modules/com_myprofile/myprofile.html.php:498
 #: modules/com_personaccount/personaccount.html.php:444
 msgid "Source"
 msgstr "Zdroj"
 
-#: modules/com_myprofile/myprofile.html.php:489
+#: modules/com_myprofile/myprofile.html.php:501
 msgid "Comment"
 msgstr "Komentář"
 
-#: modules/com_myprofile/myprofile.html.php:547
+#: modules/com_myprofile/myprofile.html.php:559
 #: modules/com_person/person.html.php:759
 msgid "IP addresses"
 msgstr "IP adresy"
 
-#: modules/com_myprofile/myprofile.html.php:553
+#: modules/com_myprofile/myprofile.html.php:565
 #: modules/com_person/person.html.php:765
 msgid "DNS name"
 msgstr "DNS jméno"
 
-#: modules/com_myprofile/myprofile.html.php:571
+#: modules/com_myprofile/myprofile.html.php:583
 #: modules/com_networkdevice/networkdevice.html.php:626
 msgid "Networks"
 msgstr "Sítě"
 
-#: modules/com_myprofile/myprofile.html.php:576
+#: modules/com_myprofile/myprofile.html.php:588
 #: modules/com_network/network.html.php:795
 msgid "Network address"
 msgstr "Adresa sítě"
 
-#: modules/com_myprofile/myprofile.html.php:638
+#: modules/com_myprofile/myprofile.html.php:650
 msgid "Data traffic"
 msgstr "Datový přenos"
 
-#: modules/com_myprofile/myprofile.html.php:643
+#: modules/com_myprofile/myprofile.html.php:655
 msgid "Month period:"
 msgstr "Měsiční období:"
 
-#: modules/com_myprofile/myprofile.html.php:649
+#: modules/com_myprofile/myprofile.html.php:661
 msgid "Data download"
 msgstr "Data download"
 
-#: modules/com_myprofile/myprofile.html.php:650
+#: modules/com_myprofile/myprofile.html.php:662
 msgid "Data upload"
 msgstr "Data upload"
 
-#: modules/com_myprofile/myprofile.html.php:680
+#: modules/com_myprofile/myprofile.html.php:692
 msgid "Summary"
 msgstr "Soupis"
 
-#: modules/com_myprofile/myprofile.html.php:901
+#: modules/com_myprofile/myprofile.html.php:913
 #: modules/com_networkdevice/networkdevice.html.php:487
 #: modules/com_person/person.html.php:577
 msgid "Password confirmation:"
 msgstr "Potvrzení hesla:"
 
-#: modules/com_myprofile/myprofile.html.php:926
+#: modules/com_myprofile/myprofile.html.php:938
 #: modules/com_person/person.html.php:810
 msgid "Please enter firstname"
 msgstr "Prosím zadejte jméno"
 
-#: modules/com_myprofile/myprofile.html.php:927
+#: modules/com_myprofile/myprofile.html.php:939
 #: modules/com_person/person.html.php:811
 msgid "Please enter surname"
 msgstr "Prosím zadejte příjmení"
 
-#: modules/com_myprofile/myprofile.html.php:928
+#: modules/com_myprofile/myprofile.html.php:940
 #: modules/com_person/person.html.php:812
 msgid "Birthdate is in incorrect format"
 msgstr "Nesprávný fomát u datumu narození"
 
-#: modules/com_myprofile/myprofile.html.php:929
+#: modules/com_myprofile/myprofile.html.php:941
 #: modules/com_person/person.html.php:815
 msgid "Please enter valid E-Mail"
 msgstr "Prosím zadejte validní E-Mail"
 
-#: modules/com_myprofile/myprofile.html.php:931
+#: modules/com_myprofile/myprofile.html.php:943
 #: modules/com_person/person.html.php:817
 msgid "Password is too short"
 msgstr "Heslo je příliž krátké"
 
-#: modules/com_myprofile/myprofile.html.php:937
+#: modules/com_myprofile/myprofile.html.php:949
 #: modules/com_person/person.html.php:823
 msgid "Passwords doesn't match"
 msgstr "Hesla nesouhlasí"

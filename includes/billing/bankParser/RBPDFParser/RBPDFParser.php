@@ -100,7 +100,8 @@ class RBPDFParser {
         26 => 'Jednorázová platba',
         27 => 'Příchozí úhrada',
         28 => 'Jednorázová úhrada',
-        29 => 'Trvalý příkaz'
+        29 => 'Trvalý příkaz',
+        30 => 'Odchozí úhrada'
     );
 
     /**
