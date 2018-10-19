@@ -85,11 +85,15 @@ switch ($task) {
         break;
 
     case 'editBAEA':
-        editBankAccountEntry(intval($cid[0]));
+        editBankAccountEntries($cid);
         break;
 
     case 'saveBAE':
         saveBankAccountEntry($task);
+        break;
+
+    case 'saveBAEA':
+        saveBankAccountEntries($cid, $task);
         break;
 
     case 'cancel':
@@ -506,7 +510,7 @@ function doUploadBankLists($bid) {
     Core::redirect("index2.php?option=com_bankaccount&task=uploadBankLists&BA_bankaccountid=$bid&hidemainmenu=1");
 }
 /**
- * 
+ *
  */
 function editBankAccountEntry($eid=null) {
     global $database, $my, $acl;
@@ -522,7 +526,36 @@ function editBankAccountEntry($eid=null) {
     HTML_BankAccount::editBankAccountEntry($bankAccountEntry, $persons);
 }
 /**
- * 
+ *
+ */
+function editBankAccountEntries($cid=null) {
+    global $database, $my, $acl;
+
+    if (count($cid) === 1) {
+        editBankAccountEntry(intval($cid[0]));
+        return;
+    }
+
+    $bankAccountEntries = array();
+    foreach ($cid as $id) {
+        $eid = intval($id);
+        $bankAccountEntry = BankAccountEntryDAO::getBankAccountEntryByID($eid);
+        // Do not allow edit proceeded entries
+        //
+        if ($bankAccountEntry->BE_status == BankAccountEntry::STATUS_PROCESSED) {
+            continue;
+        }
+        $bankAccountEntries[$eid] =  $bankAccountEntry;
+    }
+
+    if (!count($bankAccountEntries)) {
+        Core::redirect("index2.php?option=com_bankaccount");
+    }
+
+    HTML_BankAccount::editBankAccountEntries($bankAccountEntries);
+}
+/**
+ *
  */
 function saveBankAccountEntry($task) {
     global $database, $mainframe, $my, $acl, $appContext;
@@ -612,6 +645,42 @@ function saveBankAccountEntry($task) {
             $appContext->insertMessage($msg);
             $database->log($msg, LOG::LEVEL_INFO);
             Core::redirect("index2.php?option=com_bankaccount&task=show&BA_bankaccountid=$storedBankAccountEntry->BE_bankaccountid");
+            break;
+    }
+}
+/**
+ *
+ */
+function saveBankAccountEntries($cid, $task) {
+    global $database, $mainframe, $my, $acl, $appContext;
+
+    $ic = Utils::getParam($_POST, 'BE_identifycode', null);
+
+
+    foreach ($cid as $id) {
+        $eid = intval($id);
+        $bankAccountEntry = BankAccountEntryDAO::getBankAccountEntryByID($eid);
+        // Do not allow edit proceeded entries
+        //
+        if ($bankAccountEntry->BE_status == BankAccountEntry::STATUS_PROCESSED) {
+            continue;
+        }
+        $bankAccountEntry->BE_status = BankAccountEntry::STATUS_PROCESSED;
+        $bankAccountEntry->BE_identifycode = $ic;
+
+        $database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", false, false);
+
+        $dateTime = new DateUtil($bankAccountEntry->BE_datetime);
+        $msg = sprintf(_("Bank entry %s %s %s %s amount %s proceed"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $bankAccountEntry->BE_accountnumber."/".$bankAccountEntry->BE_banknumber, $bankAccountEntry->BE_accountname, $bankAccountEntry->BE_message, $bankAccountEntry->BE_amount);
+        $appContext->insertMessage($msg);
+        $database->log($msg, LOG::LEVEL_INFO);
+
+        $BA_bankaccountid = $bankAccountEntry->BE_bankaccountid;
+    }
+
+    switch ($task) {
+        default:
+            Core::redirect("index2.php?option=com_bankaccount&task=show&BA_bankaccountid=$BA_bankaccountid");
             break;
     }
 }
