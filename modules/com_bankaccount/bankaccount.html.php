@@ -936,7 +936,7 @@ class HTML_BankAccount {
 ?>
 <script language="javascript" type="text/javascript">
 	var amount = <?php echo $bankAccountEntry->BE_amount; ?>;
-	
+
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
@@ -944,7 +944,7 @@ class HTML_BankAccount {
 			return;
 		}
 		if (form.BE_identifycode.options[form.BE_identifycode.selectedIndex].value == <?php echo BankAccountEntry::IDENTIFY_UNIDENTIFIED; ?>) {
-			alert('<?php echo _("Identification wasn't performed"); ?>');
+			alert("<?php echo _("Identification wasn't performed"); ?>");
 		} else if (form.BE_identifycode.options[form.BE_identifycode.selectedIndex].value == <?php echo BankAccountEntry::IDENTIFY_PERSONACCOUNT; ?> && pressbutton == 'save') {
 			var rows = document.getElementById('userTable').getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 			
@@ -968,7 +968,7 @@ class HTML_BankAccount {
 					alert('<?php printf(_("Amount summary must be: %s"), $bankAccountEntry->BE_amount); ?>');
 				}
 			} else {
-				alert('<?php echo _("Please select user's account"); ?>');
+				alert("<?php echo _("Please select user's account"); ?>");
 			}
 		} else if (pressbutton == 'save') {
 			submitform('saveBAE');
@@ -1270,6 +1270,202 @@ class HTML_BankAccount {
 </div>
 <?php
 	}
+    /**
+     * editBankAccountEntries
+     * @param $bankAccountEntries
+     */
+    static function editBankAccountEntries(&$bankAccountEntries) {
+        global $core;
+        ?>
+        <script language="javascript" type="text/javascript">
+            function submitbutton(pressbutton) {
+                var form = document.adminForm;
+                if (pressbutton == 'cancel') {
+                    submitform(pressbutton);
+                    return;
+                }
+                if (form.BE_identifycode.options[form.BE_identifycode.selectedIndex].value == <?php echo BankAccountEntry::IDENTIFY_UNIDENTIFIED; ?>) {
+                    alert("<?php echo _("Identification wasn't performed"); ?>");
+                } else if (pressbutton == 'save') {
+                    submitform('saveBAEA');
+                }
+            }
+        </script>
+
+        <div id="content-box">
+            <div class="padding">
+                <div id="toolbar-box">
+                    <div class="t">
+                        <div class="t">
+                            <div class="t"></div>
+                        </div>
+                    </div>
+
+                    <div class="m">
+                        <div id="toolbar" class="toolbar">
+                            <table class="toolbar">
+                                <tr>
+                                    <td id="toolbar-save">
+                                        <a href="javascript:submitbutton('save');">
+                                            <span title="<?php echo _("Save"); ?>" class="icon-32-save"></span>
+                                            <?php echo _("Save"); ?>
+                                        </a>
+                                    </td>
+
+                                    <td id="toolbar-cancel">
+                                        <a href="javascript:submitbutton('cancel');">
+                                            <span title="<?php echo _("Cancel"); ?>" class="icon-32-cancel"></span>
+                                            <?php echo _("Cancel"); ?>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="header icon-48-bank-account">
+                            <?php echo _("Bank account entry printout"); ?>: <small><?php echo _("Identification"); ?></small>
+                        </div>
+
+                        <div class="clr"></div>
+                    </div>
+                    <div class="b">
+                        <div class="b">
+                            <div class="b"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clr"></div>
+
+                <div id="element-box">
+                    <form action="index2.php" method="post" name="adminForm">
+                        <table width="100%">
+                            <tr>
+                                <td width="360" valign="top">
+                                    <?php
+                                    foreach($bankAccountEntries as $bankAccountEntry) {
+                                        $datetime = new DateUtil($bankAccountEntry->BE_datetime);
+                                        $writeoffDate = new DateUtil($bankAccountEntry->BE_writeoff_date);
+                                    ?>
+                                    <input type="hidden" name="cid[]" value="<?php echo $bankAccountEntry->BE_bankaccountentryid; ?>" />
+                                    <table class="adminform">
+                                        <thead>
+                                        <tr>
+                                            <th colspan="2"><?php echo _("Bank entry"); ?></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td width="150"><?php echo _("Arrival date:"); ?></td>
+                                            <td width="205"><input type="text" name="BE_datetime" class="width-form" size="40" value="<?php echo $datetime->getFormattedDate(DateUtil::FORMAT_FULL); ?>" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo _("Write off date:"); ?></td>
+                                            <td><input type="text" name="BE_writeoff_date" class="width-form" size="40" value="<?php echo $writeoffDate->getFormattedDate(DateUtil::FORMAT_DATE); ?>" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo _("Note:"); ?></td>
+                                            <td><input type="text" name="BE_note" class="width-form" size="40" value="<?php echo $bankAccountEntry->BE_note; ?>" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo _("Account name:"); ?></td>
+                                            <td><input type="text" name="BE_accountname" class="width-form" size="40" value="<?php echo $bankAccountEntry->BE_accountname; ?>" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo _("Account number:"); ?></td>
+                                            <td><input type="text" name="BE_accountnumber" class="width-form" size="40" value="<?php echo $bankAccountEntry->BE_accountnumber; ?>" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo _("Bank registration number:"); ?></td>
+                                            <td><input type="text" name="BE_banknumber" class="width-form" size="40" value="<?php echo $bankAccountEntry->BE_banknumber; ?>" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo _("Variable symbol:"); ?></td>
+                                            <td><input type="text" name="BE_variablesymbol" class="width-form" size="40" value="<?php echo $bankAccountEntry->BE_variablesymbol; ?>" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo _("Constant symbol:"); ?></td>
+                                            <td><input type="text" name="BE_constantsymbol" class="width-form" size="40" value="<?php echo $bankAccountEntry->BE_constantsymbol; ?>" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo _("Specific symbol:"); ?></td>
+                                            <td><input type="text" name="BE_specificsymbol" class="width-form" size="40" value="<?php echo $bankAccountEntry->BE_specificsymbol; ?>" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo _("Amount:"); ?></td>
+                                            <td><input type="text" name="BE_amount" class="width-form" size="40" value="<?php echo NumberFormat::formatMoney($bankAccountEntry->BE_amount); ?>" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo _("Fee:"); ?></td>
+                                            <td><input type="text" name="BE_charge" class="width-form" size="40" value="<?php echo NumberFormat::formatMoney($bankAccountEntry->BE_charge); ?>" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo _("Message:"); ?></td>
+                                            <td><input type="text" name="BE_message" class="width-form" size="40" value="<?php echo $bankAccountEntry->BE_message; ?>" disabled="disabled" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo _("Type of transaction:"); ?></td>
+                                            <td><input type="text" name="BE_typeoftransaction" class="width-form" size="40" value="<?php echo BankAccountEntry::getLocalizedType($bankAccountEntry->BE_typeoftransaction); ?>" disabled="disabled" /></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <?php
+                                    }
+                                    ?>
+                                </td>
+                                <td width="10">
+                                    &nbsp;
+                                </td>
+                                <td width="360" valign="top">
+                                    <table class="adminform">
+                                        <thead>
+                                        <tr>
+                                            <th colspan="2"><?php echo _("Identification of payment"); ?></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td width="150"><?php echo _("Identification:"); ?></td>
+                                            <td>
+                                                <select name="BE_identifycode" class="width-form">
+                                                    <?php
+                                                    foreach(array(
+                                                                BankAccountEntry::IDENTIFY_UNIDENTIFIED,
+                                                                BankAccountEntry::IDENTIFY_INTERNALTRANSACTION,
+                                                                BankAccountEntry::IDENTIFY_IGNORE
+                                                            ) as $ik) {
+                                                        ?>
+                                                        <option value="<?php echo $ik; ?>"><?php echo BankAccountEntry::getLocalizedIdentification($ik); ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <br/>
+
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="hidden" name="option" value="com_bankaccount" />
+                        <input type="hidden" name="task" value="" />
+                        <input type="hidden" name="hidemainmenu" value="0" />
+                    </form>
+                </div>
+
+                <div class="clr"></div>
+            </div>
+
+            <div class="clr"></div>
+        </div>
+        <?php
+    }
 	/**
 	 * uploadBankList for selected BankAccount
 	 * @param $bankAccount
