@@ -50,8 +50,10 @@ class RBPDFParser {
 
     const ACCOUNT_ENTRY_LINE_1 = '^([[:digit:]]{1,2})\.([[:digit:]]{1,2})\.([[:digit:]]{4})([^[:digit:]]*)([[:digit:]]{1,10})? (-?[[:digit:]]{1,3}?\s?[[:digit:]]{1,3}\.[[:digit:]]{2}) ([[:alpha:]]{3})$';
     const ACCOUNT_ENTRY_LINE_2_1 = '^([[:digit:]]{1,2})\.([[:digit:]]{1,2})\.([[:digit:]]{4})( ([[:digit:]]{1,6}-)?([[:digit:]]+)\/([[:digit:]]{2,4}))? ?([[:digit:]]{1,10})?$';
+    const ACCOUNT_ENTRY_LINE_2_1_MESSAGE = '^([[:digit:]]{1,2})\.([[:digit:]]{1,2})\.([[:digit:]]{4})( ([[:digit:]]{1,6}-)?([[:digit:]]+)\/([[:digit:]]{2,4}))?\s*(.*)$';
     const ACCOUNT_ENTRY_LINE_2_2 = '^([[:digit:]]{1,4}) ?([[:digit:]]{1,10})?$';
     const ACCOUNT_ENTRY_LINE_2_2_PK = '^([[:digit:]]{8,16}) ?(PK: [X[:digit:]]{16})$';
+    const ACCOUNT_ENTRY_LINE_2_2_MESSAGE = '^([[:digit:]]{1,4})\s*(.*)$';
     const ACCOUNT_ENTRY_LINE_3_1 = '^([[:digit:]]+)( [\S]+[,\s]+[\S]+)?( \S.*)?';
     const ACCOUNT_ENTRY_LINE_3_X = '^(.*)$';
 
@@ -121,6 +123,10 @@ class RBPDFParser {
             $tok = strtok("\r\n");
         }
         $this->count = count($this->fcontents);
+
+//        echo "<pre>";
+//        print_r($this->fcontents);
+//        echo "</pre>";
     }
 
     /**
@@ -134,6 +140,10 @@ class RBPDFParser {
         $this->searchHeader();
 
         $this->searchAccounts();
+
+//        echo "<pre>";
+//        print_r($this->document);
+//        echo "</pre>";
     }
 
     function searchHeader() {
@@ -192,6 +202,7 @@ class RBPDFParser {
         $this->moveBack();
 
         $bae = new BankAccountEntry();
+        $bae->BE_message = "";
 
         $matches1 = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_1);
 
@@ -226,38 +237,98 @@ class RBPDFParser {
             throw new Exception("Neznámý Typ transakce v textu: \"$remainingString\"");
         }
 
-        $matches2_1 = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_2_1);
-        if ($bae->BE_typeoftransaction === 20) {
-            if ($matches2_1[4]) {
-                throw new Exception('U položky "'.self::$KNOWN_TRANSACTION_ARRAY[20].'" by nemělo být uvedeno bankovní konto');
-            }
+        $line2_1 = $this->getNext();
+        if ($matches2_1 = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_2_1, $line2_1)) {
+            if ($bae->BE_typeoftransaction === 20) {
+                if ($matches2_1[4]) {
+                    throw new Exception('U položky "'.self::$KNOWN_TRANSACTION_ARRAY[20].'" by nemělo být uvedeno bankovní konto');
+                }
 
-            if ($matches2_1[8]) {
-                $bae->BE_constantsymbol = $matches2_1[8];
-            }
-        } elseif (mb_strlen($matches2_1[7]) < 4) {
-            if ($bae->BE_typeoftransaction == 8) {
-                $matches2_2_PK = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_2_2_PK);
-                if ($matches2_2_PK[2]) {
-                    $bae->BE_message = $matches2_2_PK[2];
+                if ($matches2_1[8]) {
+                    $bae->BE_constantsymbol = $matches2_1[8];
+                }
+            } elseif (mb_strlen($matches2_1[7]) < 4) {
+                if ($bae->BE_typeoftransaction == 8) {
+                    $matches2_2_PK = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_2_2_PK);
+                    if ($matches2_2_PK[2]) {
+                        $bae->BE_message = $matches2_2_PK[2];
+                    }
+                } else {
+                    $line2_2 = $this->getNext();
+                    if ($matches2_2 = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_2_2, $line2_2)) {
+                        $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
+                        $bae->BE_banknumber = $matches2_1[7].$matches2_2[1];
+
+                        if ($matches2_2[2]) {
+                            $bae->BE_constantsymbol = $matches2_2[2];
+                        }
+                    } else if ($matches2_2_MESSAGE = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_2_2_MESSAGE, $line2_2)) {
+                        $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
+                        $bae->BE_banknumber = $matches2_1[7].$matches2_2_MESSAGE[1];
+
+                        if ($matches2_2_MESSAGE[2]) {
+                            $bae->BE_message = $matches2_2_MESSAGE[2];
+                        }
+                    }
                 }
             } else {
-                $matches2_2 = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_2_2);
-
                 $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
-                $bae->BE_banknumber = $matches2_1[7].$matches2_2[1];
+                $bae->BE_banknumber = $matches2_1[7];
 
-                if ($matches2_2[2]) {
-                    $bae->BE_constantsymbol = $matches2_2[2];
+                if ($matches2_1[8]) {
+                    $bae->BE_constantsymbol = $matches2_1[8];
+                }
+            }
+        } else if ($matches2_1 = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_2_1_MESSAGE, $line2_1)) {
+//            echo "<pre>XYX</pre>";
+//            echo "<pre>$line2_1</pre>";
+//            echo "<pre>";
+//            print_r($matches2_1);
+//            echo "</pre>";
+
+            if ($bae->BE_typeoftransaction === 20) {
+                if ($matches2_1[4]) {
+                    throw new Exception('U položky "'.self::$KNOWN_TRANSACTION_ARRAY[20].'" by nemělo být uvedeno bankovní konto');
+                }
+
+                if ($matches2_1[8]) {
+                    $bae->BE_message = $matches2_1[8];
+                }
+            } elseif (mb_strlen($matches2_1[7]) < 4) {
+                throw new Exception("Nelze matchnout řádek 2_11, Číslo banky je přes více řádků: $line2_1");
+//                if ($bae->BE_typeoftransaction == 8) {
+//                    $matches2_2_PK = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_2_2_PK);
+//                    if ($matches2_2_PK[2]) {
+//                        $bae->BE_message = $matches2_2_PK[2];
+//                    }
+//                } else {
+//                    $line2_2 = $this->getNext();
+//                    if ($matches2_2 = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_2_2, $line2_2)) {
+//                        $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
+//                        $bae->BE_banknumber = $matches2_1[7].$matches2_2[1];
+//
+//                        if ($matches2_2[2]) {
+//                            $bae->BE_constantsymbol = $matches2_2[2];
+//                        }
+//                    } else if ($matches2_2_MESSAGE = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_2_2_MESSAGE, $line2_2)) {
+//                        $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
+//                        $bae->BE_banknumber = $matches2_1[7].$matches2_2_MESSAGE[1];
+//
+//                        if ($matches2_2_MESSAGE[2]) {
+//                            $bae->BE_message = $matches2_2_MESSAGE[2];
+//                        }
+//                    }
+//                }
+            } else {
+                $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
+                $bae->BE_banknumber = $matches2_1[7];
+
+                if ($matches2_1[8]) {
+                    $bae->BE_message = $matches2_1[8];
                 }
             }
         } else {
-            $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
-            $bae->BE_banknumber = $matches2_1[7];
-
-            if ($matches2_1[8]) {
-                $bae->BE_constantsymbol = $matches2_1[8];
-            }
+            throw new Exception("Nelze matchnout řádek 2_11: $line2_1");
         }
 
         if ($bae->BE_typeoftransaction == 8) {
@@ -270,7 +341,6 @@ class RBPDFParser {
             $bae->BE_amount = preg_replace("/\s|&nbsp;/",'', htmlentities($matches1[6]));
 
             $bae->BE_charge = 0;
-            $bae->BE_message = "";
 
             if (!$bae->BE_variablesymbol) {
                 $bae->BE_variablesymbol = null;
@@ -305,7 +375,6 @@ class RBPDFParser {
         $bae->BE_accountname = $matches3_1[2];
 
         $bae->BE_charge = 0;
-        $bae->BE_message = "";
 
         if (!$bae->BE_variablesymbol) {
             $bae->BE_variablesymbol = null;
