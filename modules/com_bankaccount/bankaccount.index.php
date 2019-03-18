@@ -416,10 +416,8 @@ function processBankLists($bid) {
     $bankAccount = BankAccountDAO::getBankAccountByID($bid);
 
     // Import data from email listing
-    //
-    $emailBankAccountList = new EmailBankAccountList($bankAccount);
-
     try {
+        $emailBankAccountList = new EmailBankAccountList($bankAccount);
         $emailBankAccountList->importBankAccountEntries();
         $appContext->insertMessages($emailBankAccountList->getMessages());
 
@@ -472,37 +470,31 @@ function doUploadBankLists($bid) {
 
     $bankAccount = BankAccountDAO::getBankAccountByID($bid);
     // upload new BankAccountLists
-    //
-    $emailBankAccountList = new EmailBankAccountList($bankAccount);
-
     if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_TXT) {
         $fileType = "text/plain";
-    } else if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_CSOB_XML) {
-        $fileType = "text/xml";
-    } else if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_KB_ABO) {
-        $fileType = "text/plain";
     } else if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_PDF) {
-        $fileType = "text/plain";
+        $fileType = "application/pdf";
+    } else if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_ISO_SEPA_XML) {
+        $fileType = "text/xml";
     } else {
         Core::redirect("index2.php?option=com_bankaccount&task=uploadBankLists&BA_bankaccountid=$bid&hidemainmenu=1");
     }
 
     if ($_FILES['banklistFile']['type'] != $fileType) {
-        $msg = "Bank list file must be in text/plain format, found: ".$_FILES['banklistFile']['type'];
+        $msg = "Bank list file must be in '{$fileType}' format, found: '{$_FILES['banklistFile']['type']}'";
         $appContext->insertMessage($msg);
         $database->log($msg, LOG::LEVEL_ERROR);
         Core::redirect("index2.php?option=com_bankaccount&task=uploadBankLists&BA_bankaccountid=$bid&hidemainmenu=1");
     }
 
     try {
-        $fileContent = implode("\r\n", file($_FILES['banklistFile']['tmp_name']));
+        $fileContent = file_get_contents($_FILES['banklistFile']['tmp_name']);
 
-        $fileContentUTF8 = iconv("windows-1250", "UTF-8", str_replace("windows-1250", "UTF-8", $fileContent));
-
-        $emailBankAccountList->uploadBankList($_FILES['banklistFile']['name'], $fileContentUTF8);
+        $emailBankAccountList = new EmailBankAccountList($bankAccount);
+        $emailBankAccountList->uploadBankList($_FILES['banklistFile']['name'], $fileContent);
         $appContext->insertMessages($emailBankAccountList->getMessages());
     } catch (Exception $e) {
-        $msg = "Error proceeding bank account lists: " . $e->getMessage();
+        $msg = "Error proceeding bank account lists: {$e->getMessage()}";
         $appContext->insertMessage($msg);
         $database->log($msg, LOG::LEVEL_ERROR);
     }

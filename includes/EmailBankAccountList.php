@@ -31,12 +31,36 @@ require_once($core->getAppRoot() . "includes/billing/bankParser/BankParserFactor
 class EmailBankAccountList {
     private $_bankAccount;
     private $_messages = array();
+    private $_dbEmailListNamesMap;
 
     /**
      * Constructor
      */
     public function __construct($bankAccount) {
+        global $database;
         $this->_bankAccount = $bankAccount;
+
+        // Fill array of list already in database
+        $dbEmailLists = EmailListDAO::getEmailListArrayByBankAccountID($this->_bankAccount->BA_bankaccountid);
+        $dbEmailListNames = array_column($dbEmailLists, 'EL_name');
+
+        $countedEmailListNames = array_count_values(array_map('strtolower', $dbEmailListNames));
+        $onlyDuplicates = array_filter($countedEmailListNames, function($v, $k) {
+            return $v > 1;
+        }, ARRAY_FILTER_USE_BOTH);
+
+        $msg = '';
+        foreach ($onlyDuplicates as $duplicateFilename => $count) {
+            $shouldFail = true;
+            $msg .= "V databazi jsou duplikovane zaznamy bankovniho vypisu: '{$duplicateFilename}' v počtu: '{$count}'\n";
+        }
+        if ($msg) {
+            throw new Exception($msg);
+        }
+
+        $this->_dbEmailListNamesMap = array_combine(array_map('strtolower', $dbEmailListNames), $dbEmailListNames);
+
+
     }
     function getMessages() {
         return $this->_messages;
@@ -60,12 +84,7 @@ class EmailBankAccountList {
             throw new Exception("Cannot login to server " . $this->_bankAccount->BA_emailserver);
         }
 
-        $dbEmailLists = EmailListDAO::getEmailListArrayByBankAccountID($this->_bankAccount->BA_bankaccountid);
-        // Fill array of list already in database
-        //
-        $dbNames = array_column($dbEmailLists, 'EL_name');
         // get email list on server
-        //
         $msgs = $_pop3->getListing();
         foreach ($msgs as $msgi) {
             $email = $_pop3->getMsg($msgi['msg_id']);
@@ -91,166 +110,23 @@ class EmailBankAccountList {
                         $filename = $part->ctype_parameters['name'];
 
                         $emailList = new EmailList();
-
                         if ($this->_bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_TXT) {
-                            if (mb_ereg('^([[:digit:]]{5})_([[:digit:]]{6,20})_([[:alpha:]]+)\.TXT$', $filename, $matches)) {
-                                $idNo = $matches[1];
-                                $accountNumber = $matches[2];
-                                $currency = $matches[3];
-
-                                if ($this->_bankAccount->BA_accountnumber != $accountNumber) {
-                                    $msg = sprintf("List: Číslo bankovního konta nesouhlasí %s != %s", $this->_bankAccount->BA_accountnumber, $accountNumber);
-                                    $this->_messages[] = $msg;
-                                    $database->log($msg, LOG::LEVEL_ERROR);
-                                    continue;
-                                }
-
-                                $emailList->EL_year = NumberFormat::parseInteger(mb_substr($idNo, 0, 2)) + 2000;
-                                $emailList->EL_no = mb_substr($idNo, 2, 3);
-                            } else {
-                                $msg = sprintf("List: neplatný název přílohy: ", $filename);
-                                $this->_messages[] = $msg;
-                                $database->log($msg, LOG::LEVEL_ERROR);
+                            if ($this->processRbTxt($filename, $part->body, $emailList) === false) {
                                 continue;
                             }
-
-                            $emailList->EL_listtype = EmailList::LISTTYPE_TXT;
-                            $emailList->EL_list = $part->body;
-                        } else if ($this->_bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_CSOB_XML) {
-                            if (mb_ereg('^([[:digit:]]{6,20})_([[:digit:]]{8})-([[:digit:]]{1,4})_DCZB\.xml$', $filename, $matches)) {
-                                $accountNumber = $matches[1];
-                                $dateString = $matches[2];
-                                $idNo = $matches[3];
-
-                                if ($this->_bankAccount->BA_accountnumber != $accountNumber) {
-                                    $msg = sprintf("List: Číslo bankovního konta nesouhlasí %s != %s", $this->_bankAccount->BA_accountnumber, $accountNumber);
-                                    $this->_messages[] = $msg;
-                                    $database->log($msg, LOG::LEVEL_WARNING);
-                                    continue;
-                                }
-
-                                $emailList->EL_year = mb_substr($dateString, 0, 4);
-                                $emailList->EL_no = $idNo;
-                            } else {
-                                $msg = sprintf("List: neplatný název přílohy: ", $filename);
-                                $this->_messages[] = $msg;
-                                $database->log($msg, LOG::LEVEL_WARNING);
-                                continue;
-                            }
-
-                            $emailList->EL_listtype = EmailList::LISTTYPE_XML;
-                            $emailList->EL_list = iconv("windows-1250", "UTF-8", str_replace("windows-1250", "UTF-8", $part->body));
-                        } else if ($this->_bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_KB_ABO) {
-                            if (mb_ereg('^([[:digit:]]{6,20})_([[:digit:]]{8})-([[:digit:]]{1,4})_DCZB\.xml$', $filename, $matches)) {
-                                $accountNumber = $matches[1];
-                                $dateString = $matches[2];
-                                $idNo = $matches[3];
-
-                                if ($this->_bankAccount->BA_accountnumber != $accountNumber) {
-                                    $msg = sprintf("List: Číslo bankovního konta nesouhlasí %s != %s", $this->_bankAccount->BA_accountnumber, $accountNumber);
-                                    $this->_messages[] = $msg;
-                                    $database->log($msg, LOG::LEVEL_WARNING);
-                                    continue;
-                                }
-
-                                $emailList->EL_year = mb_substr($dateString, 0, 4);
-                                $emailList->EL_no = $idNo;
-                            } else {
-                                $msg = sprintf("List: neplatný název přílohy: ", $filename);
-                                $this->_messages[] = $msg;
-                                $database->log($msg, LOG::LEVEL_WARNING);
-                                continue;
-                            }
-
-                            $emailList->EL_listtype = EmailList::LISTTYPE_TXT;
-                            $emailList->EL_list = iconv("windows-1250", "UTF-8", str_replace("windows-1250", "UTF-8", $part->body));
                         } else if ($this->_bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_PDF) {
-                            if (mb_ereg('^Vypis_([[:digit:]]{6,20})_([[:alpha:]]+)_([[:digit:]]{4})_([[:digit:]]{1,3})\.PDF', $filename, $matches)) {
-                                $accountNumber = $matches[1];
-                                $currency = $matches[2];
-                                $year = $matches[3];
-                                $no = $matches[4];
-
-                                if ($this->_bankAccount->BA_accountnumber != $accountNumber) {
-                                    $msg = sprintf("List: Číslo bankovního konta nesouhlasí %s != %s", $this->_bankAccount->BA_accountnumber, $accountNumber);
-                                    $this->_messages[] = $msg;
-                                    $database->log($msg, LOG::LEVEL_ERROR);
-                                    continue;
-                                }
-
-                                $emailList->EL_year = NumberFormat::parseInteger($year);
-                                $emailList->EL_no = $no;
-                            } else {
-                                $msg = sprintf("List: neplatný název přílohy: ", $filename);
-                                $this->_messages[] = $msg;
-                                $database->log($msg, LOG::LEVEL_ERROR);
+                            if ($this->processRbPdf($filename, $part->body, $emailList) === false) {
                                 continue;
                             }
-
-                            $emailList->EL_listtype = EmailList::LISTTYPE_PDF;
-                            $emailList->EL_list = $part->body;
+                        } else if ($this->_bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_ISO_SEPA_XML) {
+                            if ($this->processIsoSepaXml($filename, $part->body, $emailList) === false) {
+                                continue;
+                            }
                         } else {
                             continue;
                         }
 
-                        $emailList->EL_bankaccountid = $this->_bankAccount->BA_bankaccountid;
-                        $emailList->EL_name = $filename;
-
-                        $bankParserFactory = new BankParserFactory($this->_bankAccount->BA_datasourcetype, $part->body);
-                        try {
-                            $bankParserFactory->parse();
-
-                            $parsedList = $bankParserFactory->getDocument();
-                            if ($this->_bankAccount->BA_accountnumber != $parsedList['ACCOUNT_NUMBER']) {
-                                throw new Exception("Čísla bankovního konta nesouhlasí");
-                            }
-                            if ($this->_bankAccount->BA_banknumber != $parsedList['BANK_NUMBER']) {
-                                throw new Exception("Čísla bank nesouhlasí");
-                            }
-                            if ($this->_bankAccount->BA_currency != $parsedList['CURRENCY']) {
-                                throw new Exception("Měna nesouhlasí $this->_bankAccount->BA_currency != $parsedList[CURRENCY]");
-                            }
-                            if ($emailList->EL_no != $parsedList['LIST_NO']) {
-                                throw new Exception("Číslo výpisu nesouhlasí $emailList->EL_no != $parsedList[LIST_NO]");
-                            }
-                            $emailList->EL_currency = $parsedList['CURRENCY'];
-                            $emailList->EL_datefrom = $parsedList['LIST_DATE_FROM'];
-                            $emailList->EL_dateto = $parsedList['LIST_DATE_TO'];
-                            $emailList->EL_entrycount = count($parsedList['LIST']);
-                            $emailList->EL_status = EmailList::STATUS_PENDING;
-                        } catch (Exception $e) {
-                            $emailList->EL_currency = "N/A";
-                            $emailList->EL_datefrom = DateUtil::DB_NULL_DATETIME;
-                            $emailList->EL_dateto = DateUtil::DB_NULL_DATETIME;
-                            $emailList->EL_no = "N/A";
-                            $emailList->EL_entrycount = "N/A";
-                            $emailList->EL_status = EmailList::STATUS_ERROR;
-
-                            $msg = "Výpis: $emailList->EL_name nemohl být zpracován, obsahuje chyby. ERROR: " . $e->getMessage();
-                            $this->_messages[] = $msg;
-                            $database->log($msg, LOG::LEVEL_ERROR);
-
-                            if ($core->getProperty(Core::SEND_EMAIL_ON_CRITICAL_ERROR)) {
-                                $emailUtil = new EmailUtil();
-                                $emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), "Net provider error", $msg);
-                            }
-
-                            continue;
-                        }
-                        if (!in_array($emailList->EL_name, $dbNames)) {
-                            try {
-                                $database->insertObject("emaillist", $emailList, "EL_emaillistid", false);
-                                $msg = "Výpis $emailList->EL_name uložen do databáze";
-                                $this->_messages[] = $msg;
-                                $database->log($msg, LOG::LEVEL_INFO);
-
-                                $dbNames[] = $emailList->EL_name;
-                            } catch (Exception $e) {
-                                $msg = "Výpis $emailList->EL_name nebyl uložen do databáze. ERROR: " . $e->getMessage();
-                                $this->_messages[] = $msg;
-                                $database->log($msg, LOG::LEVEL_ERROR);
-                            }
-                        }
+                        $this->checkAndStoreEmailList($filename, $emailList,$isAlreadyPersisted);
                     }
                 }
             }
@@ -275,13 +151,13 @@ class EmailBankAccountList {
                     continue;
                 }
 
-                $msg = "V databázi chybí výpis mezi: $previousListName->EL_name a $listName->EL_name";
+                $msg = "V databázi chybí výpis mezi: {$previousListName->EL_name} a {$listName->EL_name}";
                 $this->_messages[] = $msg;
                 $database->log($msg, LOG::LEVEL_ERROR);
 
                 if ($core->getProperty(Core::SEND_EMAIL_ON_CRITICAL_ERROR)) {
                     $emailUtil = new EmailUtil();
-                    $emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), "Net provider error", $msg);
+                    $emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), 'Net provider error', $msg);
                 }
 
                 $previousListName = $listName;
@@ -296,164 +172,31 @@ class EmailBankAccountList {
     function uploadBankList($filename, $fileContent) {
         global $database;
 
-        $dbEmailLists = EmailListDAO::getEmailListArrayByBankAccountID($this->_bankAccount->BA_bankaccountid);
-        // Fill array of list already in database
-        //
-        $dbNames = array_column($dbEmailLists, 'EL_name');
-
         $emailList = new EmailList();
-
         if ($this->_bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_TXT) {
-            $matches = null;
-            if (mb_ereg('^([[:digit:]]{5})_([[:digit:]]{6,20})_([[:alpha:]]*)\.TXT$', $filename, $matches)) {
-                $idNo = $matches[1];
-                $accountNumber = $matches[2];
-                $currency = $matches[3];
-
-                if ($this->_bankAccount->BA_accountnumber != $accountNumber) {
-                    $msg = sprintf("List: Číslo bankovního konta nesouhlasí %s != %s", $this->_bankAccount->BA_accountnumber, $accountNumber);
-                    $this->_messages[] = $msg;
-                    $database->log($msg, LOG::LEVEL_WARNING);
-                    return;
-                }
-
-                $emailList->EL_year = mb_substr($idNo, 0, 2) + 2000;
-                $emailList->EL_no = mb_substr($idNo, 2, 3);
-            } else {
-                $msg = sprintf("List: neplatný název přílohy: ", $filename);
-                $this->_messages[] = $msg;
-                $database->log($msg, LOG::LEVEL_WARNING);
+            if ($this->processRbTxt($filename, $fileContent, $emailList) === false) {
                 return;
             }
-            $emailList->EL_listtype = EmailList::LISTTYPE_TXT;
-        } else if ($this->_bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_CSOB_XML) {
-            $matches = null;
-            if (mb_ereg('^([[:digit:]]{6,20})_([[:digit:]]{8})-([[:digit:]]{1,4})_DCZB\.xml$', $filename, $matches)) {
-                $accountNumber = $matches[1];
-                $dateString = $matches[2];
-                $idNo = $matches[3];
-
-                if ($this->_bankAccount->BA_accountnumber != $accountNumber) {
-                    $msg = sprintf("List: Číslo bankovního konta nesouhlasí %s != %s", $this->_bankAccount->BA_accountnumber, $accountNumber);
-                    $this->_messages[] = $msg;
-                    $database->log($msg, LOG::LEVEL_WARNING);
-                    return;
-                }
-
-                $emailList->EL_year = mb_substr($dateString, 0, 4);
-                $emailList->EL_no = $idNo;
-            } else {
-                $msg = sprintf("List: neplatný název přílohy: ", $filename);
-                $this->_messages[] = $msg;
-                $database->log($msg, LOG::LEVEL_WARNING);
-                return;
-            }
-            $emailList->EL_listtype = EmailList::LISTTYPE_XML;
-        } else if ($this->_bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_KB_ABO) {
-            //434885660257_20090803_20090809.txt
-            $matches = null;
-            if (mb_ereg('^([[:digit:]]{6,20})_([[:digit:]]{8})_([[:digit:]]{8})\.txt$', $filename, $matches)) {
-                $accountNumber = $matches[1];
-                $dateFromString = $matches[2];
-                $dateToString = $matches[3];
-
-                if ($this->_bankAccount->BA_accountnumber != $accountNumber) {
-                    $msg = sprintf("List: Číslo bankovního konta nesouhlasí %s != %s", $this->_bankAccount->BA_accountnumber, $accountNumber);
-                    $this->_messages[] = $msg;
-                    $database->log($msg, LOG::LEVEL_WARNING);
-                    return;
-                }
-
-                $emailList->EL_year = mb_substr($dateFromString, 0, 4);
-            } else {
-                $msg = sprintf("List: neplatný název přílohy: ", $filename);
-                $this->_messages[] = $msg;
-                $database->log($msg, LOG::LEVEL_WARNING);
-                return;
-            }
-            $emailList->EL_listtype = EmailList::LISTTYPE_TXT;
         } else if ($this->_bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_PDF) {
-            if (mb_ereg('^Vypis_([[:digit:]]{6,20})_([[:alpha:]]+)_([[:digit:]]{4})_([[:digit:]]{1,3})\.PDF', $filename, $matches)) {
-                $accountNumber = $matches[1];
-                $currency = $matches[2];
-                $year = $matches[3];
-                $no = $matches[4];
-
-                if ($this->_bankAccount->BA_accountnumber != $accountNumber) {
-                    $msg = sprintf("List: Číslo bankovního konta nesouhlasí %s != %s", $this->_bankAccount->BA_accountnumber, $accountNumber);
-                    $this->_messages[] = $msg;
-                    $database->log($msg, LOG::LEVEL_ERROR);
-                    return;
-                }
-
-                $emailList->EL_year = NumberFormat::parseInteger($year);
-                $emailList->EL_no = $no;
-            } else {
-                $msg = sprintf("List: neplatný název přílohy: ", $filename);
-                $this->_messages[] = $msg;
-                $database->log($msg, LOG::LEVEL_ERROR);
+            if ($this->processRbPdf($filename, $fileContent, $emailList) === false) {
                 return;
             }
-
-            $emailList->EL_listtype = EmailList::LISTTYPE_PDF;
+        } else if ($this->_bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_ISO_SEPA_XML) {
+            if ($this->processIsoSepaXml($filename, $fileContent, $emailList) === false) {
+                return;
+            }
         } else {
-            return;
-        }
-
-        $emailList->EL_bankaccountid = $this->_bankAccount->BA_bankaccountid;
-        $emailList->EL_name = $filename;
-
-        $emailList->EL_list = $fileContent;
-
-        $bankParserFactory = new BankParserFactory($this->_bankAccount->BA_datasourcetype, $emailList->EL_list);
-        try {
-            $bankParserFactory->parse();
-
-            $parsedList = $bankParserFactory->getDocument();
-            if ($this->_bankAccount->BA_accountnumber != $parsedList['ACCOUNT_NUMBER']) {
-                throw new Exception(sprintf("Čísla bankovního konta nesouhlasí: %s != %s", $this->_bankAccount->BA_accountnumber, $parsedList['ACCOUNT_NUMBER']));
-            }
-            if ($this->_bankAccount->BA_banknumber != $parsedList['BANK_NUMBER']) {
-                throw new Exception("Čísla bank nesouhlasí");
-            }
-            if ($this->_bankAccount->BA_currency != $parsedList['CURRENCY']) {
-                throw new Exception("Měna nesouhlasí $this->_bankAccount->BA_currency != $parsedList[CURRENCY]");
-            }
-            $emailList->EL_no = $parsedList['LIST_NO'];
-            $emailList->EL_currency = $parsedList['CURRENCY'];
-            $emailList->EL_datefrom = $parsedList['LIST_DATE_FROM'];
-            $emailList->EL_dateto = $parsedList['LIST_DATE_TO'];
-            $emailList->EL_entrycount = count($parsedList['LIST']);
-            $emailList->EL_status = EmailList::STATUS_PENDING;
-        } catch (Exception $e) {
-            $emailList->EL_currency = "N/A";
-            $emailList->EL_datefrom = DateUtil::DB_NULL_DATETIME;
-            $emailList->EL_dateto = DateUtil::DB_NULL_DATETIME;
-            $emailList->EL_no = "N/A";
-            $emailList->EL_entrycount = "N/A";
-            $emailList->EL_status = EmailList::STATUS_ERROR;
-
-            $msg = "Výpis: $emailList->EL_name nemohl být zpracován, obsahuje chyby. ERROR: " . $e->getMessage();
+            $msg = "List: neplatný název přílohy: '{$filename}'";
             $this->_messages[] = $msg;
             $database->log($msg, LOG::LEVEL_ERROR);
-            return;
         }
 
-        if (in_array($emailList->EL_name, $dbNames)) {
-            $msg = "Výpis $emailList->EL_name je již uložen v databázi";
+        $this->checkAndStoreEmailList($filename, $emailList, $isAlreadyPersisted);
+
+        if ($isAlreadyPersisted) {
+            $msg = "Výpis: '{$emailList->EL_name}' je již uložen v databázi";
             $this->_messages[] = $msg;
             $database->log($msg, LOG::LEVEL_INFO);
-        } else {
-            try {
-                $database->insertObject("emaillist", $emailList, "EL_emaillistid", false);
-                $msg = "Výpis $emailList->EL_name uložen do databáze";
-                $this->_messages[] = $msg;
-                $database->log($msg, LOG::LEVEL_INFO);
-            } catch (Exception $e) {
-                $msg = "Výpis $emailList->EL_name nebyl uložen do databáze. ERROR: " . $e->getMessage();
-                $this->_messages[] = $msg;
-                $database->log($msg, LOG::LEVEL_ERROR);
-            }
         }
     }
     /**
@@ -511,5 +254,224 @@ class EmailBankAccountList {
         }
         unset($emailList);
     }
+
+    function processRbTxt($filename, $fileContent, $emailList) {
+        global $database;
+        $matches = null;
+        if (mb_eregi('^([[:digit:]]{5})_([[:digit:]]{6,20})_([[:alpha:]]+)\.TXT$', $filename, $matches)) {
+            $idNo = $matches[1];
+            $accountNumber = $matches[2];
+            $currency = $matches[3];
+
+            $emailList->EL_year = NumberFormat::parseInteger(mb_substr($idNo, 0, 2)) + 2000;
+            $emailList->EL_no = mb_substr($idNo, 2, 3);
+        } else {
+            $msg = "List: neplatný název přílohy: '{$filename}'";
+            $this->_messages[] = $msg;
+            $database->log($msg, LOG::LEVEL_WARNING);
+            return false;
+        }
+
+        $emailList->EL_list = $fileContent;
+        $emailList->EL_listtype = EmailList::LISTTYPE_TXT;
+        $emailList->EL_name = $filename;
+
+        return $this->validateListValues($database, $emailList, $filename, $accountNumber, $currency);
+    }
+
+    function processRbPdf($filename, $fileContent, $emailList) {
+        global $database;
+        $matches = null;
+        if (mb_eregi('^Vypis_([[:digit:]]{6,20})_([[:alpha:]]+)_([[:digit:]]{4})_([[:digit:]]{1,3})\.PDF$', $filename, $matches)) {
+            $accountNumber = $matches[1];
+            $currency = $matches[2];
+            $year = $matches[3];
+            $no = $matches[4];
+
+            $emailList->EL_year = NumberFormat::parseInteger($year);
+            $emailList->EL_no = $no;
+
+        } else {
+            $msg = "List: neplatný název přílohy: '{$filename}'";
+            $this->_messages[] = $msg;
+            $database->log($msg, LOG::LEVEL_ERROR);
+            return false;
+        }
+
+        $emailList->EL_list = $fileContent;
+        $emailList->EL_listtype = EmailList::LISTTYPE_PDF;
+        $emailList->EL_name = $filename;
+
+        return $this->validateListValues($database, $emailList, $filename, $accountNumber, $currency);
+    }
+
+    function processIsoSepaXml($filename, $fileContent, $emailList) {
+        global $database;
+        $matches = null;
+        if (mb_eregi('^Vypis_([[:digit:]]{6,20})_([[:alpha:]]+)_([[:digit:]]{4})_([[:digit:]]{1,3})\.XML.ZIP$', $filename, $matches)) {
+            if (!$this->unzipFile($fileContent, $filename, $emailList->EL_list, $emailList->EL_name)) {
+                $msg = "List: Cannot unzip file: '{$filename}'";
+                $this->_messages[] = $msg;
+                $database->log($msg, LOG::LEVEL_ERROR);
+                return false;
+            }
+            $accountNumber = $matches[1];
+            $currency = $matches[2];
+            $emailList->EL_year = NumberFormat::parseInteger($matches[3]);
+            $emailList->EL_no = $matches[4];
+        } else if (mb_eregi('^Vypis_([[:digit:]]{6,20})_([[:alpha:]]+)_([[:digit:]]{4})_([[:digit:]]{1,3})\.XML$', $filename, $matches)) {
+            $emailList->EL_name = $filename;
+            $emailList->EL_list = $fileContent;
+            $accountNumber = $matches[1];
+            $currency = $matches[2];
+            $emailList->EL_year = NumberFormat::parseInteger($matches[3]);
+            $emailList->EL_no = $matches[4];
+        } else {
+            $msg = "List: neplatný název přílohy: '{$filename}'";
+            $this->_messages[] = $msg;
+            $database->log($msg, LOG::LEVEL_ERROR);
+            return false;
+        }
+
+        $emailList->EL_listtype = EmailList::LISTTYPE_SEPA_XML;
+
+        return $this->validateListValues($emailList, $filename, $accountNumber, $currency);
+    }
+
+    function validateListValues($emailList, $filename, $accountNumber, $currency) {
+        global $database;
+        if ($emailList->EL_list === null) {
+            $msg = "List: bankovní výpis je prázdný: '{$filename}'";
+            $this->_messages[] = $msg;
+            $database->log($msg, LOG::LEVEL_ERROR);
+            return false;
+        }
+
+        if ($this->_bankAccount->BA_accountnumber != $accountNumber) {
+            $msg = "List: Číslo bankovního konta výpisu: '${filename}' nesouhlasí, '{$this->_bankAccount->BA_accountnumber}' != '{$accountNumber}'";
+            $this->_messages[] = $msg;
+            $database->log($msg, LOG::LEVEL_ERROR);
+            return false;
+        }
+
+        if ($this->_bankAccount->BA_currency != $currency) {
+            $msg = "List: Měna výpisu: '${filename}' nesouhlasí,  '{$this->_bankAccount->BA_currency}' != '{$currency}'";
+            $this->_messages[] = $msg;
+            $database->log($msg, LOG::LEVEL_ERROR);
+            return false;
+        }
+
+        return true;
+    }
+
+    function checkAndStoreEmailList($filename, $emailList, &$isAlreadyPersisted) {
+        global $database, $core;
+        $emailList->EL_bankaccountid = $this->_bankAccount->BA_bankaccountid;
+
+        $bankParserFactory = new BankParserFactory($this->_bankAccount->BA_datasourcetype, $emailList->EL_list);
+        try {
+            $bankParserFactory->parse();
+
+            $parsedList = $bankParserFactory->getDocument();
+            if ($this->_bankAccount->BA_accountnumber != $parsedList['ACCOUNT_NUMBER']) {
+                throw new Exception("Čísla bankovního konta nesouhlasí: {$this->_bankAccount->BA_accountnumber} != {$parsedList['ACCOUNT_NUMBER']}");
+            }
+            if ($this->_bankAccount->BA_banknumber != $parsedList['BANK_NUMBER']) {
+                throw new Exception("Čísla bank nesouhlasí: {$this->_bankAccount->BA_banknumber} != {$parsedList['BANK_NUMBER']}");
+            }
+            if ($this->_bankAccount->BA_currency != $parsedList['CURRENCY']) {
+                throw new Exception("Měna nesouhlasí {$this->_bankAccount->BA_currency} != {$parsedList[CURRENCY]}");
+            }
+            if ($emailList->EL_no != $parsedList['LIST_NO']) {
+                throw new Exception("Číslo výpisu nesouhlasí {$emailList->EL_no} != {$parsedList[LIST_NO]}");
+            }
+            $emailList->EL_currency = $parsedList['CURRENCY'];
+            $emailList->EL_datefrom = $parsedList['LIST_DATE_FROM'];
+            $emailList->EL_dateto = $parsedList['LIST_DATE_TO'];
+            $emailList->EL_entrycount = count($parsedList['LIST']);
+            $emailList->EL_status = EmailList::STATUS_PENDING;
+        } catch (Exception $e) {
+            $msg = "Výpis: {$emailList->EL_name} nemohl být zpracován, obsahuje chyby. ERROR: {$e->getMessage()}";
+            $this->_messages[] = $msg;
+            $database->log($msg, LOG::LEVEL_ERROR);
+
+            if ($core->getProperty(Core::SEND_EMAIL_ON_CRITICAL_ERROR)) {
+                $emailUtil = new EmailUtil();
+                $emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), "Net provider error", $msg);
+            }
+        }
+
+        if (isset($this->_dbEmailListNamesMap[strtolower($emailList->EL_name)])) {
+            $isAlreadyPersisted = true;
+        } else {
+            try {
+                $database->insertObject("emaillist", $emailList, "EL_emaillistid", false);
+                $msg = "Výpis: {$emailList->EL_name} uložen do databáze";
+                $this->_messages[] = $msg;
+                $database->log($msg, LOG::LEVEL_INFO);
+
+                $dbNames[] = $emailList->EL_name;
+            } catch (Exception $e) {
+                $msg = "Výpis: {$emailList->EL_name} nebyl uložen do databáze. ERROR: {$e->getMessage()}";
+                $this->_messages[] = $msg;
+                $database->log($msg, LOG::LEVEL_ERROR);
+            }
+        }
+    }
+
+    /**
+     * unzipFileIfNeeded
+     */
+    function unzipFile($content, $filename, &$unzippedContent, &$unzippedFilename){
+        global $database;
+        if (endsWithCaseInsensitive($filename, '.zip') === false) {
+            $msg = "Soubor nemá příponu .zip: '%{$filename}'";
+            $this->_messages[] = $msg;
+            $database->log($msg, LOG::LEVEL_ERROR);
+            return false;
+        }
+
+        // Create a temporary file which creates file with unique file name
+        $tmp = tempnam(sys_get_temp_dir(), md5(uniqid(microtime(true))));
+
+        // Write the zipped content inside
+        file_put_contents($tmp, $content);
+
+        // Uncompress and read the ZIP archive
+        $zip = new ZipArchive;
+        if (true === $zip->open($tmp)) {
+            $unzippedFilename = mb_substr($filename, 0, -4);
+            if (($index = $zip->locateName($unzippedFilename)) !== false) {
+                $unzippedContent = $zip->getFromIndex($index);
+                $zip->close();
+                unlink($tmp);
+
+                return true;
+            } else {
+                $zip->close();
+                unlink($tmp);
+
+                $msg = "V ZIP souboru přílohy: '{$filename}' není xml výpis: '{$unzippedFilename}'";
+                $this->_messages[] = $msg;
+                $database->log($msg, LOG::LEVEL_ERROR);
+                return false;
+            }
+        } else {
+            unlink($tmp);
+
+            $msg = "Nelze otevřít ZIP soubor přílohy:'{$filename}'";
+            $this->_messages[] = $msg;
+            $database->log($msg, LOG::LEVEL_ERROR);
+            return false;
+        }
+    }
 } // End of EmailBankAccountList class
+function endsWithCaseInsensitive($FullStr, $EndStr) {
+    // Get the length of the end string
+    $StrLen = strlen($EndStr);
+    // Look at the end of FullStr for the substring the size of EndStr
+    $FullStrEnd = substr($FullStr, strlen($FullStr) - $StrLen);
+    // If it matches, it does end with EndStr
+    return strcasecmp($FullStrEnd, $EndStr) === 0;
+}
 ?>

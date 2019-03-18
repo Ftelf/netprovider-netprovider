@@ -53,7 +53,7 @@ class EmailList {
     const LISTTYPE_NONE = 1;
     const LISTTYPE_TXT = 2;
     const LISTTYPE_PDF = 3;
-    const LISTTYPE_XML = 5;
+    const LISTTYPE_SEPA_XML = 5;
 
     public static function getLocalizedStatus($status) {
         switch ($status) {
@@ -68,7 +68,7 @@ class EmailList {
         }
     }
 
-    public static function getLocalizedListtype($listtype) {
+    public static function getLocalizedListType($listtype) {
             switch ($listtype) {
                 case self::LISTTYPE_NONE:
                     return _("No attachment");
@@ -79,8 +79,8 @@ class EmailList {
                 case self::LISTTYPE_PDF:
                     return _("PDF file");
 
-                case self::LISTTYPE_XML:
-                    return _("XML file");
+                case self::LISTTYPE_SEPA_XML:
+                    return _("ISO SEPA XML file");
             }
         }
 } // End of EmailList class

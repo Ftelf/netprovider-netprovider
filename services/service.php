@@ -164,7 +164,7 @@ class Service {
 
             if ($core->getProperty(Core::SEND_EMAIL_ON_CRITICAL_ERROR)) {
                 $emailUtil = new EmailUtil();
-                $emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), "Net provider error", $e);
+                $emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), "Net provider error", $msg);
             }
         }
 
@@ -178,7 +178,6 @@ class Service {
 
         try {
             foreach ($bankAccounts as $bankAccount) {
-
                 $emailBankAccountList = new EmailBankAccountList($bankAccount);
                 $emailBankAccountList->downloadNewAccountLists();
                 $emailBankAccountList->importBankAccountEntries();

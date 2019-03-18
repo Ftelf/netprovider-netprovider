@@ -17,9 +17,8 @@
 
 global $core;
 require_once($core->getAppRoot() . "includes/billing/bankParser/RBTXTParser/RBTXTParser.php");
-require_once($core->getAppRoot() . "includes/billing/bankParser/CSOBXmlParser/CSOBXmlParser.php");
-require_once($core->getAppRoot() . "includes/billing/bankParser/KBABOParser/KBABOParser.php");
 require_once($core->getAppRoot() . "includes/billing/bankParser/RBPDFParser/RBPDFParser.php");
+require_once($core->getAppRoot() . "includes/billing/bankParser/IsoSepaXmlParser/IsoSepaXmlParser.php");
 
 /**
  * BankParserFactory
@@ -37,20 +36,16 @@ class BankParserFactory {
                 $this->parser = new RBTXTParser($content);
                 break;
 
-            case BankAccount::DATASOURCE_TYPE_CSOB_XML:
-                $this->parser = new CSOBXmlParser($content);
-                break;
-
-            case BankAccount::DATASOURCE_TYPE_KB_ABO:
-                $this->parser = new KBABOParser($content);
-                break;
-
             case BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_PDF:
                 $this->parser = new RBPDFParser($content);
                 break;
 
+            case BankAccount::DATASOURCE_TYPE_ISO_SEPA_XML:
+                $this->parser = new IsoSepaXmlParser($content);
+                break;
+
             default:
-                throw Exception(sprintf("Invalid datasource type", $type));
+                throw Exception("Invalid datasource type: '{$type}'");
         }
     }
 

@@ -67,7 +67,10 @@ Class Core {
         // I18N support information here()
         $locale = $this->getProperty(self::UI_LOCALE);
 
+        putenv("LC_ALL=$locale");
         putenv("LANG=$locale");
+        putenv("LANGUAGE=$locale");
+
         setlocale(LC_ALL, $locale);
 
         // Set the text domain as 'messages'

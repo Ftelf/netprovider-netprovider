@@ -79,15 +79,13 @@ class BankAccount {
     }
 
     const DATASOURCE_TYPE_RB_ATTACHMENT_TXT = 1;
-    const DATASOURCE_TYPE_CSOB_XML = 2;
-    const DATASOURCE_TYPE_KB_ABO = 3;
     const DATASOURCE_TYPE_RB_ATTACHMENT_PDF = 4;
+    const DATASOURCE_TYPE_ISO_SEPA_XML = 5;
 
     public static $datasourceTypesArray = array(
         1, //RB attachment TXT
-        2, //CSOB xml
-        3, //KB ABO
         4, //RB attachment PDF
+        5, //ISO SEPA XML
     );
 
     public static function getLocalizedDatasourceType($datasourceType) {
@@ -95,14 +93,11 @@ class BankAccount {
             case self::DATASOURCE_TYPE_RB_ATTACHMENT_TXT:
                 return _("RB TXT attachment");
 
-            case self::DATASOURCE_TYPE_CSOB_XML:
-                return _("CSOB xml");
-
-            case self::DATASOURCE_TYPE_KB_ABO:
-                return _("KB ABO");
-
             case self::DATASOURCE_TYPE_RB_ATTACHMENT_PDF:
                 return _("RB PDF attachment");
+
+            case self::DATASOURCE_TYPE_ISO_SEPA_XML:
+                return _("ISO SEPA XML");
         }
     }
 
