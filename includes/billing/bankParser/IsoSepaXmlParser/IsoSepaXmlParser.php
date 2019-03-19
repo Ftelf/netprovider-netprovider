@@ -39,9 +39,9 @@ class IsoSepaXmlParser {
      * implementation of parse method
      */
     function parse() {
-        $xml = new SimpleXMLElement($this->xml);
+        $document = new SimpleXMLElement($this->xml);
 
-        $nss = $xml->getDocNamespaces();
+        $nss = $document->getDocNamespaces();
         if (count($nss) != 1) {
             throw new Exception("Incorrect document namespace: '{$nss}'");
         }
@@ -50,7 +50,7 @@ class IsoSepaXmlParser {
             throw new Exception("Incorrect document namespace: '{$ns}'");
         }
 
-        $this->parseBkToCstmrStmtElement($this->getChild($xml, 'BkToCstmrStmt'));
+        $this->parseBkToCstmrStmtElement($this->getChild($document, 'BkToCstmrStmt'));
     }
 
     function parseBkToCstmrStmtElement($bkToCstmrStmtElement) {
@@ -59,6 +59,10 @@ class IsoSepaXmlParser {
     }
 
     function parseGrpHdrElement($grpHdr) {
+        $listPeriod = $this->getTextValue($grpHdr, 'AddtlInf');
+        if (strcmp($listPeriod, 'Denní') !== 0) {
+            throw new Exception("This is not a daily list");
+        }
     }
 
     function parseStmtElement($stmtElement) {
@@ -102,7 +106,7 @@ class IsoSepaXmlParser {
             throw new Exception("Unknown CdtDbtInd");
         }
 
-        $currency = $this->getAttributeTextValue($ntryElement, 'Amt', 'Ccy');
+//        $currency = $this->getAttributeTextValue($ntryElement, 'Amt', 'Ccy');
 
         $bankAccountEntry->BE_writeoff_date = $this->getDateTimeValue($ntryElement, ['BookgDt', 'DtTm']);
         $bankAccountEntry->BE_datetime = $this->getDateTimeValue($ntryElement, ['ValDt', 'DtTm']);
@@ -197,9 +201,7 @@ class IsoSepaXmlParser {
             throw new Exception("Element <$child> is not instanceof SimpleXMLElement, {$message}");
         }
 
-        $value = $child->__toString();
-
-        return $value;
+        return $child->__toString();
     }
 
     function getNumberValue($parentElement, $element, $optional = false, $message = '') {
@@ -227,9 +229,8 @@ class IsoSepaXmlParser {
         if ($dateTime === false) {
             throw new Exception("Cannot parse as DateTime: '$textValue', {$message}");
         }
-        $dateString = $dateTime->format('Y-m-d H:i:s');
 
-        return $dateString;
+        return $dateTime->format('Y-m-d H:i:s');
     }
 
     function getAttributeTextValue($parentElement, $elements, $attributeName, $optional = false, $message = '') {
@@ -251,9 +252,7 @@ class IsoSepaXmlParser {
             throw new Exception("Missing attribute: '{$attributeName}' in element '{$child->getName()}', {$message}");
         }
 
-        $attribute = $child[$attributeName]->__toString();
-
-        return $attribute;
+        return $child[$attributeName]->__toString();
     }
 
     /**

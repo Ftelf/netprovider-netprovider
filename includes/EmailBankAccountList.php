@@ -45,13 +45,12 @@ class EmailBankAccountList {
         $dbEmailListNames = array_column($dbEmailLists, 'EL_name');
 
         $countedEmailListNames = array_count_values(array_map('strtolower', $dbEmailListNames));
-        $onlyDuplicates = array_filter($countedEmailListNames, function($v, $k) {
-            return $v > 1;
+        $onlyDuplicates = array_filter($countedEmailListNames, function($count) {
+            return $count > 1;
         }, ARRAY_FILTER_USE_BOTH);
 
         $msg = '';
         foreach ($onlyDuplicates as $duplicateFilename => $count) {
-            $shouldFail = true;
             $msg .= "V databazi jsou duplikovane zaznamy bankovniho vypisu: '{$duplicateFilename}' v počtu: '{$count}'\n";
         }
         if ($msg) {
@@ -73,15 +72,13 @@ class EmailBankAccountList {
         global $database, $core;
 
         $_pop3 = new Net_POP3();
-        $matches = null;
 
         // Connect to localhost on usual port
-        //
         if (!$_pop3->connect($this->_bankAccount->BA_emailserver, 110)) {
             throw new Exception("Cannot connect to pop3 server " . $this->_bankAccount->BA_emailserver);
         }
         if (($err = $_pop3->login($this->_bankAccount->BA_emailusername, $this->_bankAccount->BA_emailpassword)) !== true) {
-            throw new Exception("Cannot login to server " . $this->_bankAccount->BA_emailserver);
+            throw new Exception("Cannot login to server: '{$this->_bankAccount->BA_emailserver}', error: {$err}");
         }
 
         // get email list on server
@@ -140,7 +137,7 @@ class EmailBankAccountList {
             $listNames = EmailListDAO::getEmailListNamesByYear($year);
 
             $previousListName = null;
-            foreach ($listNames as $key => $listName) {
+            foreach ($listNames as $listName) {
                 if (!$previousListName) {
                     $previousListName = $listName;
                     continue;
@@ -340,22 +337,18 @@ class EmailBankAccountList {
 
     function validateListValues($emailList, $filename, $accountNumber, $currency) {
         global $database;
+        $msg = '';
         if ($emailList->EL_list === null) {
-            $msg = "List: bankovní výpis je prázdný: '{$filename}'";
-            $this->_messages[] = $msg;
-            $database->log($msg, LOG::LEVEL_ERROR);
-            return false;
+            $msg .= "List: bankovní výpis je prázdný: '{$filename}'\n";
         }
-
         if ($this->_bankAccount->BA_accountnumber != $accountNumber) {
-            $msg = "List: Číslo bankovního konta výpisu: '${filename}' nesouhlasí, '{$this->_bankAccount->BA_accountnumber}' != '{$accountNumber}'";
-            $this->_messages[] = $msg;
-            $database->log($msg, LOG::LEVEL_ERROR);
-            return false;
+            $msg .= "List: Číslo bankovního konta výpisu: '${filename}' nesouhlasí, '{$this->_bankAccount->BA_accountnumber}' != '{$accountNumber}'\n";
+        }
+        if ($this->_bankAccount->BA_currency != $currency) {
+            $msg .= "List: Měna výpisu: '${filename}' nesouhlasí,  '{$this->_bankAccount->BA_currency}' != '{$currency}'";
         }
 
-        if ($this->_bankAccount->BA_currency != $currency) {
-            $msg = "List: Měna výpisu: '${filename}' nesouhlasí,  '{$this->_bankAccount->BA_currency}' != '{$currency}'";
+        if ($msg) {
             $this->_messages[] = $msg;
             $database->log($msg, LOG::LEVEL_ERROR);
             return false;
@@ -374,16 +367,16 @@ class EmailBankAccountList {
 
             $parsedList = $bankParserFactory->getDocument();
             if ($this->_bankAccount->BA_accountnumber != $parsedList['ACCOUNT_NUMBER']) {
-                throw new Exception("Čísla bankovního konta nesouhlasí: {$this->_bankAccount->BA_accountnumber} != {$parsedList['ACCOUNT_NUMBER']}");
+                throw new Exception("Čísla bankovního konta nesouhlasí: {$this->_bankAccount->BA_accountnumber} != {$parsedList['ACCOUNT_NUMBER']}, výpis: '{$filename}'");
             }
             if ($this->_bankAccount->BA_banknumber != $parsedList['BANK_NUMBER']) {
-                throw new Exception("Čísla bank nesouhlasí: {$this->_bankAccount->BA_banknumber} != {$parsedList['BANK_NUMBER']}");
+                throw new Exception("Čísla bank nesouhlasí: {$this->_bankAccount->BA_banknumber} != {$parsedList['BANK_NUMBER']}, výpis: '{$filename}'");
             }
             if ($this->_bankAccount->BA_currency != $parsedList['CURRENCY']) {
-                throw new Exception("Měna nesouhlasí {$this->_bankAccount->BA_currency} != {$parsedList[CURRENCY]}");
+                throw new Exception("Měna nesouhlasí {$this->_bankAccount->BA_currency} != {$parsedList[CURRENCY]}, výpis: '{$filename}'");
             }
             if ($emailList->EL_no != $parsedList['LIST_NO']) {
-                throw new Exception("Číslo výpisu nesouhlasí {$emailList->EL_no} != {$parsedList[LIST_NO]}");
+                throw new Exception("Číslo výpisu nesouhlasí {$emailList->EL_no} != {$parsedList[LIST_NO]}, výpis: '{$filename}'");
             }
             $emailList->EL_currency = $parsedList['CURRENCY'];
             $emailList->EL_datefrom = $parsedList['LIST_DATE_FROM'];
