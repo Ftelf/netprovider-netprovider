@@ -31,7 +31,7 @@
     <script language="JavaScript" type="text/javascript" src="js/overlib.js"></script>
     <script language="javascript" type="text/javascript" src="js/CalendarPopup.js"></script>
     <script language="javascript" type="text/javascript" src="js/validator.js"></script>
-    <script language="javascript" type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <script language="javascript" type="text/javascript" src="js/chosen.jquery.min.js"></script>
     <link rel="stylesheet" href="css/template.css" type="text/css" />
     <link rel="stylesheet" href="css/icon.css" type="text/css" />

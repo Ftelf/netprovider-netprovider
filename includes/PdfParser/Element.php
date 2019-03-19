@@ -30,16 +30,6 @@
 
 namespace Smalot\PdfParser;
 
-require_once(__DIR__.'/Element/ElementArray.php');
-require_once(__DIR__.'/Element/ElementBoolean.php');
-require_once(__DIR__.'/Element/ElementDate.php');
-require_once(__DIR__.'/Element/ElementHexa.php');
-require_once(__DIR__.'/Element/ElementName.php');
-require_once(__DIR__.'/Element/ElementNull.php');
-require_once(__DIR__.'/Element/ElementNumeric.php');
-require_once(__DIR__.'/Element/ElementString.php');
-require_once(__DIR__.'/Element/ElementXRef.php');
-
 use Smalot\PdfParser\Element\ElementArray;
 use Smalot\PdfParser\Element\ElementBoolean;
 use Smalot\PdfParser\Element\ElementDate;

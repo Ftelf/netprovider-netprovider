@@ -30,13 +30,6 @@
 
 namespace Smalot\PdfParser;
 
-require_once(__DIR__.'/Element/ElementArray.php');
-require_once(__DIR__.'/Element/ElementMissing.php');
-require_once(__DIR__.'/Element/ElementXRef.php');
-require_once(__DIR__.'/Element/ElementNull.php');
-require_once(__DIR__.'/PDFObject.php');
-require_once(__DIR__.'/Header.php');
-
 use Smalot\PdfParser\Element\ElementArray;
 use Smalot\PdfParser\Element\ElementMissing;
 use Smalot\PdfParser\Element\ElementXRef;

@@ -30,23 +30,6 @@
 
 namespace Smalot\PdfParser;
 
-global $core;
-require_once($core->getAppRoot() . "includes/tcpdf/tcpdf_parser.php");
-
-require_once(__DIR__.'/Document.php');
-require_once(__DIR__.'/Header.php');
-require_once(__DIR__.'/PDFObject.php');
-
-require_once(__DIR__.'/Element/ElementArray.php');
-require_once(__DIR__.'/Element/ElementBoolean.php');
-require_once(__DIR__.'/Element/ElementDate.php');
-require_once(__DIR__.'/Element/ElementHexa.php');
-require_once(__DIR__.'/Element/ElementName.php');
-require_once(__DIR__.'/Element/ElementNull.php');
-require_once(__DIR__.'/Element/ElementNumeric.php');
-require_once(__DIR__.'/Element/ElementString.php');
-require_once(__DIR__.'/Element/ElementXRef.php');
-
 use Smalot\PdfParser\Element\ElementArray;
 use Smalot\PdfParser\Element\ElementBoolean;
 use Smalot\PdfParser\Element\ElementDate;
@@ -78,25 +61,30 @@ class Parser
     }
 
     /**
-     * Parse PDF file
-     *
-     * @param string $filename
-     *
+     * @param $filename
      * @return Document
+     * @throws \Exception
      */
     public function parseFile($filename)
     {
         $content = file_get_contents($filename);
-
-        return @$this->parseContent($content);
+        /*
+         * 2018/06/20 @doganoo as multiple times a
+         * users have complained that the parseFile()
+         * method dies silently, it is an better option
+         * to remove the error control operator (@) and
+         * let the users know that the method throws an exception
+         * by adding @throws tag to PHPDoc.
+         *
+         * See here for an example: https://github.com/smalot/pdfparser/issues/204
+         */
+        return $this->parseContent($content);
     }
 
     /**
-     * Parse PDF content
-     *
-     * @param string $content
-     *
+     * @param $content
      * @return Document
+     * @throws \Exception
      */
     public function parseContent($content)
     {

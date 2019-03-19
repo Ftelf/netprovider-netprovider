@@ -30,8 +30,6 @@
 
 namespace Smalot\PdfParser;
 
-require_once(__DIR__.'/PDFObject.php');
-
 /**
  * Class Pages
  *

@@ -30,9 +30,6 @@
 
 namespace Smalot\PdfParser\Element;
 
-require_once(__DIR__.'/../Document.php');
-require_once(__DIR__.'/ElementString.php');
-
 use Smalot\PdfParser\Document;
 
 /**

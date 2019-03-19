@@ -30,13 +30,6 @@
 
 namespace Smalot\PdfParser;
 
-require_once(__DIR__.'/Encoding.php');
-require_once(__DIR__.'/Font.php');
-require_once(__DIR__.'/Page.php');
-require_once(__DIR__.'/Pages.php');
-require_once(__DIR__.'/XObject/Form.php');
-require_once(__DIR__.'/XObject/Image.php');
-
 use Smalot\PdfParser\XObject\Form;
 use Smalot\PdfParser\XObject\Image;
 
@@ -333,7 +326,7 @@ class PDFObject
                             // Fallback
                             // TODO : Improve
                             $text .= $command[self::COMMAND][0][self::COMMAND];
-                            continue;
+                            break;
                         }
 
                         $sub_text = $current_font->decodeText($command[self::COMMAND]);
@@ -490,7 +483,7 @@ class PDFObject
 							// Fallback
 							// TODO : Improve
 							$text[] = $command[self::COMMAND][0][self::COMMAND];
-							continue;
+							break;
 						}
 
 						$sub_text = $current_font->decodeText($command[self::COMMAND]);

@@ -309,9 +309,9 @@ class HTML_BankAccount {
      <th width="4%" class="title-multiple-row">#</th>
      <th width="2%" class="title-multiple-row"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo $pageNav->limit; ?>, 'cb');" /></th>
      <th width="5%" class="title-multiple-row"><?php echo _("Date"); ?></th>
-     <th width="29%" class="title-multiple-row"><?php echo _("Note"); ?></th>
+     <th width="29%" class="title-multiple-row"><?php echo _("Account name"); ?></th>
      <th width="10%" class="title-multiple-row"><?php echo _("Write out"); ?></th>
-     <th width="10%" class="title-multiple-row"><?php echo _("SS"); ?></th>
+     <th width="10%" class="title-multiple-row"><?php echo _("VS"); ?></th>
      <th width="20%" class="title-multiple-row"><?php echo _("Type of transaction"); ?></th>
      <th width="10%" class="title-multiple-row"><?php echo _("Amount"); ?></th>
      <th width="10%" class="title-multiple-row"><?php echo _("Fee"); ?></th>
@@ -320,21 +320,10 @@ class HTML_BankAccount {
      <th class="title-multiple-row">&nbsp;</th>
      <th class="title-multiple-row">&nbsp;</th>
      <th class="title-multiple-row"><?php echo _("Time"); ?></th>
-     <th class="title-multiple-row"><?php echo _("Account name"); ?></th>
-     <th class="title-multiple-row">&nbsp;</th>
-     <th class="title-multiple-row"><?php echo _("VS"); ?></th>
-     <th class="title-multiple-row"><?php echo _("Status"); ?></th>
-     <th class="title-multiple-row">&nbsp;</th>
-     <th class="title-multiple-row">&nbsp;</th>
-   </tr>
-   <tr>
-     <th class="title-multiple-row">&nbsp;</th>
-     <th class="title-multiple-row">&nbsp;</th>
-     <th class="title-multiple-row">&nbsp;</th>
      <th class="title-multiple-row"><?php echo _("Account number"); ?></th>
      <th class="title-multiple-row">&nbsp;</th>
      <th class="title-multiple-row"><?php echo _("KS"); ?></th>
-     <th class="title-multiple-row"><?php echo _("Identification"); ?></th>
+     <th class="title-multiple-row"><?php echo _("Status"); ?></th>
      <th class="title-multiple-row">&nbsp;</th>
      <th class="title-multiple-row">&nbsp;</th>
    </tr>
@@ -344,8 +333,19 @@ class HTML_BankAccount {
      <th class="title-multiple-row">&nbsp;</th>
      <th class="title-multiple-row"><?php echo _("Message"); ?></th>
      <th class="title-multiple-row">&nbsp;</th>
+     <th class="title-multiple-row"><?php echo _("SS"); ?></th>
+     <th class="title-multiple-row"><?php echo _("Identification"); ?></th>
+     <th class="title-multiple-row"></th>
+     <th class="title-multiple-row">&nbsp;</th>
+   </tr>
+   <tr>
      <th class="title-multiple-row">&nbsp;</th>
      <th class="title-multiple-row">&nbsp;</th>
+     <th class="title-multiple-row">&nbsp;</th>
+     <th class="title-multiple-row"><?php echo _("Note"); ?></th>
+     <th class="title-multiple-row">&nbsp;</th>
+     <th class="title-multiple-row">&nbsp;</th>
+     <th class="title-multiple-row"><?php echo _("User account name"); ?></th>
      <th class="title-multiple-row">&nbsp;</th>
      <th class="title-multiple-row">&nbsp;</th>
    </tr>
@@ -385,9 +385,9 @@ class HTML_BankAccount {
 ?>
      </td>
      <td width="5%"><?php echo $datetime->getFormattedDate(DateUtil::FORMAT_SHORTDATE); ?></td>
-     <td width="29%"><?php echo $bankAccountEntry->BE_note; ?></td>
+     <td width="29%"><?php echo $bankAccountEntry->BE_accountname; ?></td>
      <td width="10%"><?php echo $writeoffDate->getFormattedDate(DateUtil::FORMAT_DATE); ?></td>
-     <td width="10%"><?php echo $bankAccountEntry->BE_specificsymbol; ?></td>
+     <td width="10%"><?php echo $bankAccountEntry->BE_variablesymbol; ?></td>
      <td width="20%"><?php echo BankAccountEntry::getLocalizedType($bankAccountEntry->BE_typeoftransaction); ?></td>
      <td width="10%"><?php echo NumberFormat::formatMoney($bankAccountEntry->BE_amount); ?></td>
      <td width="10%"><?php echo NumberFormat::formatMoney($bankAccountEntry->BE_charge); ?></td>
@@ -396,9 +396,9 @@ class HTML_BankAccount {
      <td>&nbsp;</td>
      <td>&nbsp;</td>
      <td><?php echo $datetime->getFormattedDate(DateUtil::FORMAT_SHORTTIME);; ?></td>
-     <td><?php echo $bankAccountEntry->BE_accountname; ?></td>
+     <td><?php echo $bankAccountEntry->BE_accountnumber . "/" . $bankAccountEntry->BE_banknumber; ?></td>
      <td>&nbsp;</td>
-     <td><?php echo $bankAccountEntry->BE_variablesymbol; ?></td>
+     <td><?php echo $bankAccountEntry->BE_constantsymbol; ?></td>
      <td><?php echo BankAccountEntry::getLocalizedStatus($bankAccountEntry->BE_status); ?></td>
      <td>&nbsp;</td>
      <td>&nbsp;</td>
@@ -407,9 +407,9 @@ class HTML_BankAccount {
      <td>&nbsp;</td>
      <td>&nbsp;</td>
      <td>&nbsp;</td>
-     <td><?php echo $bankAccountEntry->BE_accountnumber . "/" . $bankAccountEntry->BE_banknumber; ?></td>
+     <td><?php echo $bankAccountEntry->BE_message; ?></td>
      <td>&nbsp;</td>
-     <td><?php echo $bankAccountEntry->BE_constantsymbol; ?></td>
+     <td><?php echo $bankAccountEntry->BE_specificsymbol; ?></td>
      <td><?php echo BankAccountEntry::getLocalizedIdentification($bankAccountEntry->BE_identifycode); ?></td>
      <td>&nbsp;</td>
      <td>&nbsp;</td>
@@ -418,7 +418,7 @@ class HTML_BankAccount {
      <td class="last">&nbsp;</td>
      <td class="last">&nbsp;</td>
      <td class="last">&nbsp;</td>
-     <td class="last" colspan="3"><?php echo $bankAccountEntry->BE_message; ?></td>
+     <td class="last" colspan="3"><?php echo $bankAccountEntry->BE_note; ?></td>
      <td class="last" colspan="3"><?php echo $bankAccountEntry->userAccountName; ?></td>
      <td class="last">&nbsp;</td>
    </tr>
@@ -872,7 +872,7 @@ class HTML_BankAccount {
     </thead>
     <tfoot>
     <tr>
-      <td colspan="8">
+      <td colspan="9">
 <?php
 	echo $pageNav->getListFooter();
 ?>

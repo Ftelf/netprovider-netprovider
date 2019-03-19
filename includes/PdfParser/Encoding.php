@@ -30,9 +30,6 @@
 
 namespace Smalot\PdfParser;
 
-require_once(__DIR__.'/Element/ElementNumeric.php');
-require_once(__DIR__.'/PDFObject.php');
-
 use Smalot\PdfParser\Element\ElementNumeric;
 
 /**

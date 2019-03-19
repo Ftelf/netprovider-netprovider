@@ -30,8 +30,6 @@
 
 namespace Smalot\PdfParser;
 
-require_once(__DIR__.'/PDFObject.php');
-
 /**
  * Class Font
  *
@@ -251,11 +249,16 @@ class Font extends PDFObject
      */
     public static function decodeHexadecimal($hexa, $add_braces = false)
     {
+        // Special shortcut for XML content.
+        if (stripos($hexa, '<?xml') !== false) {
+            return $hexa;
+        }
+
         $text  = '';
-        $parts = preg_split('/(<[a-z0-9]+>)/si', $hexa, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $parts = preg_split('/(<[a-f0-9]+>)/si', $hexa, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 
         foreach ($parts as $part) {
-            if (preg_match('/^<.*>$/', $part) && strpos($part, '<?xml') === false) {
+            if (preg_match('/^<.*>$/', $part) && stripos($part, '<?xml') === false) {
                 $part = trim($part, '<>');
                 if ($add_braces) {
                     $text .= '(';
@@ -437,7 +440,7 @@ class Font extends PDFObject
                         foreach ($fonts as $font) {
                             if ($font instanceof Font) {
                                 if (($decoded = $font->translateChar($char, false)) !== false) {
-                                    $decoded = @iconv('Windows-1252', 'UTF-8//TRANSLIT//IGNORE', $decoded);
+                                    $decoded = mb_convert_encoding($decoded, 'UTF-8', 'Windows-1252');
                                     break;
                                 }
                             }
@@ -446,7 +449,7 @@ class Font extends PDFObject
                         if ($decoded !== false) {
                             $char = $decoded;
                         } else {
-                            $char = @iconv('Windows-1252', 'UTF-8//TRANSLIT//IGNORE', $char);
+                            $char = mb_convert_encoding($char, 'UTF-8', 'Windows-1252');
                         }
                     } else {
                         $char = self::MISSING;
@@ -494,7 +497,7 @@ class Font extends PDFObject
                     $text = $result;
 
                     if ($encoding->get('BaseEncoding')->equals('MacRomanEncoding')) {
-                        $text = @iconv('Mac', 'UTF-8//TRANSLIT//IGNORE', $text);
+                        $text = mb_convert_encoding($text, 'UTF-8', 'Mac');
 
                         return $text;
                     }
@@ -508,9 +511,9 @@ class Font extends PDFObject
             if ($this->get('Encoding') instanceof Element &&
                 $this->get('Encoding')->equals('MacRomanEncoding')
             ) {
-                $text = @iconv('Mac', 'UTF-8//TRANSLIT//IGNORE', $text);
+                $text = mb_convert_encoding($text, 'UTF-8', 'Mac');
             } else {
-                $text = @iconv('Windows-1252', 'UTF-8//TRANSLIT//IGNORE', $text);
+                $text = mb_convert_encoding($text, 'UTF-8', 'Windows-1252');
             }
         }
 

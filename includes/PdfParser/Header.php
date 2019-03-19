@@ -30,11 +30,6 @@
 
 namespace Smalot\PdfParser;
 
-require_once(__DIR__.'/Element/ElementArray.php');
-require_once(__DIR__.'/Element/ElementMissing.php');
-require_once(__DIR__.'/Element/ElementStruct.php');
-require_once(__DIR__.'/Element/ElementXRef.php');
-
 use Smalot\PdfParser\Element\ElementArray;
 use Smalot\PdfParser\Element\ElementMissing;
 use Smalot\PdfParser\Element\ElementStruct;
@@ -169,7 +164,7 @@ class Header
             $object = $this->document->getObjectById($obj->getId());
 
             if (is_null($object)) {
-                return null;
+                return new ElementMissing(null, null);
             }
 
             // Update elements list for future calls.

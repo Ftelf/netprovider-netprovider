@@ -30,10 +30,6 @@
 
 namespace Smalot\PdfParser\XObject;
 
-require_once(__DIR__.'/../Header.php');
-require_once(__DIR__.'/../PDFObject.php');
-require_once(__DIR__.'/../Page.php');
-
 use Smalot\PdfParser\Header;
 use Smalot\PdfParser\PDFObject;
 use Smalot\PdfParser\Page;
