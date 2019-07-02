@@ -1,7 +1,7 @@
 <?php
 /*****************************
  *
- * RouterOS PHP API class v1.6
+ * RouterOS PHP API class v1.6.1
  * Author: Denis Basta
  * Contributors:
  *    Nick Barnes
@@ -102,22 +102,13 @@ class RouterosAPI
             $this->socket = @stream_socket_client($PROTOCOL . $ip.':'. $this->port, $this->error_no, $this->error_str, $this->timeout, STREAM_CLIENT_CONNECT,$context);
             if ($this->socket) {
                 socket_set_timeout($this->socket, $this->timeout);
-                $this->write('/login');
+                $this->write('/login', false);
+                $this->write('=name=' . $login, false);
+                $this->write('=password=' . $password);
                 $RESPONSE = $this->read(false);
                 if (isset($RESPONSE[0]) && $RESPONSE[0] == '!done') {
-                    $MATCHES = array();
-                    if (preg_match_all('/[^=]+/i', $RESPONSE[1], $MATCHES)) {
-                        if ($MATCHES[0][0] == 'ret' && strlen($MATCHES[0][1]) == 32) {
-                            $this->write('/login', false);
-                            $this->write('=name=' . $login, false);
-                            $this->write('=response=00' . md5(chr(0) . $password . pack('H*', $MATCHES[0][1])));
-                            $RESPONSE = $this->read(false);
-                            if (isset($RESPONSE[0]) && $RESPONSE[0] == '!done') {
-                                $this->connected = true;
-                                break;
-                            }
-                        }
-                    }
+                    $this->connected = true;
+                    break;
                 }
                 fclose($this->socket);
             }
