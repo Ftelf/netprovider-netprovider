@@ -123,6 +123,8 @@ class Executor {
 
                 if ($this->_execute) {
                     $this->routerosApi = new RouterosApi();
+                    $this->routerosApi->port = 8729;
+                    $this->routerosApi->ssl = true;
 //					$this->routerosApi->debug = true;
 
                     if ($this->routerosApi->connect($this->_remoteHost, $this->_login, $this->_password)) {
