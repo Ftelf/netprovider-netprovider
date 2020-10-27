@@ -184,7 +184,7 @@ class RouterOSCommander {
 //		$cmds[] = sprintf("%s -D FORWARD -i %s -j FILTER-IN 2>/dev/null", $iptablesCommand, $wanInterface);
 //		$cmds[] = sprintf("%s -D FORWARD -o %s -j FILTER-OUT 2>/dev/null", $iptablesCommand, $wanInterface);
 //		$cmds[] = sprintf("%s -t nat -D PREROUTING -j WEB-REDIRECT 2>/dev/null", $iptablesCommand);
-//		
+//
 
         $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-IN", "=.proplist=.id");
         $filterArray = $executor->execute($cmd);
@@ -228,10 +228,15 @@ class RouterOSCommander {
 //			$cmds[] = sprintf("%s -t nat -N WEB-REDIRECT", $iptablesCommand);
 //		}
 
+        $usedIpAddresses = array();
         foreach ($this->networkDevice->NETWORKS as &$network) {
             foreach ($network['INTERNETS'] as &$internet) {
                 foreach ($internet['IPS'] as &$ip) {
                     $ipAddress = $ip['IP_address'];
+                    if (array_search($ipAddress, $usedIpAddresses)) {
+                        continue;
+                    }
+                    $usedIpAddresses[] = $ipAddress;
                     //accept all known clients
                     $comment = $diacriticsUtil->removeDiacritic($internet['PE_firstname'] . " " . $internet['PE_surname'] . ", " . $ip['IP_dns']);
                     $cmds[] = array("/ip/firewall/filter/add", "=chain=FILTER-IN",  sprintf("=dst-address=%s", $ipAddress), sprintf("=comment=%s", $comment), "=action=accept");
@@ -278,7 +283,7 @@ class RouterOSCommander {
 //		if ($redirectIPEnabled) {
 //			foreach ($this->allowedHosts as &$host) {
 //				$parts = explode(":", $host);
-//				
+//
 //				$cmds[] = sprintf("/ip firewall nat add chain=WEB-REDIRECT drc-address=%s action=return",  $parts[0]);
 //			}
 //			$cmds[] = sprintf("/ip firewall nat add chain=WEB-REDIRECT protocol=tcp dst-port=80 jump-target=dstnat to-addresses=%s to-ports=80", $redirectToIP);
