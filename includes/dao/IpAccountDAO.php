@@ -70,9 +70,9 @@ class IpAccountDAO {
         $sqlDateFrom = $dateFrom->getFormattedDate(DateUtil::DB_DATETIME);
         $sqlDateTo = $dateTo->getFormattedDate(DateUtil::DB_DATETIME);
         if ($divider) {
-            $query = "SELECT CONCAT(DATE_FORMAT(IA_datetime,'%H')+0,'-',DATE_FORMAT(IA_datetime,'%H')+1) as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`/$divider) as IA_bytes_in, SUM(`IA_bytes_out`/$divider) as IA_bytes_out, SUM(`IA_packets_in`/$divider) as IA_packets_in, SUM(`IA_packets_out`/$divider) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m-%d-%H') ASC";
+            $query = "SELECT CONCAT(DATE_FORMAT(IA_datetime,'%H')+0,'-',DATE_FORMAT(IA_datetime,'%H')+1) as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`/$divider) as IA_bytes_in, SUM(`IA_bytes_out`/$divider) as IA_bytes_out, SUM(`IA_packets_in`/$divider) as IA_packets_in, SUM(`IA_packets_out`/$divider) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m-%d-%H') ORDER BY date ASC";
         } else {
-            $query = "SELECT CONCAT(DATE_FORMAT(IA_datetime,'%H')+0,'-',DATE_FORMAT(IA_datetime,'%H')+1) as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`) as IA_bytes_in, SUM(`IA_bytes_out`) as IA_bytes_out, SUM(`IA_packets_in`) as IA_packets_in, SUM(`IA_packets_out`) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m-%d-%H') ASC";
+            $query = "SELECT CONCAT(DATE_FORMAT(IA_datetime,'%H')+0,'-',DATE_FORMAT(IA_datetime,'%H')+1) as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`) as IA_bytes_in, SUM(`IA_bytes_out`) as IA_bytes_out, SUM(`IA_packets_in`) as IA_packets_in, SUM(`IA_packets_out`) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m-%d-%H') ORDER BY date ASC";
         }
         $database->setQuery($query);
         return $database->loadObjectList('date');
@@ -83,9 +83,9 @@ class IpAccountDAO {
         $sqlDateFrom = $dateFrom->getFormattedDate(DateUtil::DB_DATETIME);
         $sqlDateTo = $dateTo->getFormattedDate(DateUtil::DB_DATETIME);
         if ($divider) {
-            $query = "SELECT DATE_FORMAT(IA_datetime,'%d.%m.%Y') as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`/$divider) as IA_bytes_in, SUM(`IA_bytes_out`/$divider) as IA_bytes_out, SUM(`IA_packets_in`/$divider) as IA_packets_in, SUM(`IA_packets_out`/$divider) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m-%d') ASC";
+            $query = "SELECT DATE_FORMAT(IA_datetime,'%d.%m.%Y') as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`/$divider) as IA_bytes_in, SUM(`IA_bytes_out`/$divider) as IA_bytes_out, SUM(`IA_packets_in`/$divider) as IA_packets_in, SUM(`IA_packets_out`/$divider) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m-%d') ORDER BY date ASC";
         } else {
-            $query = "SELECT DATE_FORMAT(IA_datetime,'%d.%m.%Y') as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`) as IA_bytes_in, SUM(`IA_bytes_out`) as IA_bytes_out, SUM(`IA_packets_in`) as IA_packets_in, SUM(`IA_packets_out`) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m-%d') ASC";
+            $query = "SELECT DATE_FORMAT(IA_datetime,'%d.%m.%Y') as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`) as IA_bytes_in, SUM(`IA_bytes_out`) as IA_bytes_out, SUM(`IA_packets_in`) as IA_packets_in, SUM(`IA_packets_out`) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m-%d') ORDER BY date ASC";
         }
         $database->setQuery($query);
         return $database->loadObjectList('date');
@@ -96,9 +96,9 @@ class IpAccountDAO {
         $sqlDateFrom = $dateFrom->getFormattedDate(DateUtil::DB_DATE);
         $sqlDateTo = $dateTo->getFormattedDate(DateUtil::DB_DATE);
         if ($divider) {
-            $query = "SELECT DATE_FORMAT(IA_datetime,'%m/%Y') as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`)/$divider as IA_bytes_in, SUM(`IA_bytes_out`)/$divider as IA_bytes_out, SUM(`IA_packets_in`)/$divider as IA_packets_in, SUM(`IA_packets_out`)/$divider as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m') ASC";
+            $query = "SELECT DATE_FORMAT(IA_datetime,'%m/%Y') as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`)/$divider as IA_bytes_in, SUM(`IA_bytes_out`)/$divider as IA_bytes_out, SUM(`IA_packets_in`)/$divider as IA_packets_in, SUM(`IA_packets_out`)/$divider as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m') ORDER BY date ASC";
         }else {
-            $query = "SELECT DATE_FORMAT(IA_datetime,'%m/%Y') as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`) as IA_bytes_in, SUM(`IA_bytes_out`) as IA_bytes_out, SUM(`IA_packets_in`) as IA_packets_in, SUM(`IA_packets_out`) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m') ASC";
+            $query = "SELECT DATE_FORMAT(IA_datetime,'%m/%Y') as date, SUM(`IA_bytes_in` + `IA_bytes_out`) as bytes_sum, SUM(`IA_bytes_in`) as IA_bytes_in, SUM(`IA_bytes_out`) as IA_bytes_out, SUM(`IA_packets_in`) as IA_packets_in, SUM(`IA_packets_out`) as IA_packets_out FROM `ipaccount` WHERE `IA_ipid` = '$id' AND `IA_datetime` >= '$sqlDateFrom' AND `IA_datetime` <= '$sqlDateTo' GROUP BY DATE_FORMAT(IA_datetime,'%Y-%m') ORDER BY date ASC";
         }
         $database->setQuery($query);
         return $database->loadObjectList('date');
