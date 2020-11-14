@@ -94,7 +94,7 @@ function showPerson() {
     $roles = RolememberDAO::getRolememberAndRoleArrayByPersonID($pid);
     $ips = IpDAO::getIpArrayByPersonID($person->PE_personid);
     $networks = NetworkDAO::getNetworkArrayByPersonID($pid);
-    $messages = MessageDAO::getMessageArray($pid, null);
+    $messages = MessageDAO::getMessageArray($pid);
 
     $traffic = array();
 
