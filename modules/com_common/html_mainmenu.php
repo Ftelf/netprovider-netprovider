@@ -35,7 +35,7 @@
     	[null, '<?php echo addslashes(_("Financial")); ?>', null, null, '<?php echo addslashes(_("Financial Managenent")); ?>',
     	  ['<img src="images/22x22/apps/business.png" />', '<?php echo addslashes(_("Bank accounts")); ?>', 'index2.php?option=com_bankaccount', null, '<?php echo addslashes(_("Manage bank accounts")); ?>'],
     	  ['<img src="images/22x22/apps/kspread.png" />', '<?php echo addslashes(_("User's accounts")); ?>', 'index2.php?option=com_personaccount', null, '<?php echo addslashes(_("Manage user accounts")); ?>'],
-    	   <?php if ($core->getProperty(Core::ENABLE_INVOICE_MODULE)) echo "['<img src=\"images/22x22/devices/printer1.png\" />', '" . (addslashes(_("Invoices"))) . "', 'index2.php?option=com_invoice', null, '" . (addslashes(_("Manage invoices"))) . "']," ?> 
+    	   <?php if ($core->getProperty(Core::ENABLE_INVOICE_MODULE)) echo "['<img src=\"images/22x22/devices/printer1.png\" />', '" . (addslashes(_("Invoices"))) . "', 'index2.php?option=com_invoice', null, '" . (addslashes(_("Manage invoices"))) . "']," ?>
     	  ['<img src="images/22x22/apps/kword.png" />', '<?php echo addslashes(_("Payment templates")); ?>', 'index2.php?option=com_charge', null, '<?php echo addslashes(_("Manage payment templates")); ?>']
         ],
         _cmSplit,
@@ -51,7 +51,8 @@
           ['<img src="images/22x22/actions/configure.png" />', '<?php echo addslashes(_("Configuration")); ?>', 'index2.php?option=com_configuration', null, '<?php echo addslashes(_("View configuration")); ?>'],
           ['<img src="images/22x22/apps/database.png" />', '<?php echo addslashes(_("Log")); ?>', 'index2.php?option=com_log', null, '<?php echo addslashes(_("View log")); ?>'],
           ['<img src="images/22x22/apps/xfmail.png" />', '<?php echo addslashes(_("Messages")); ?>', 'index2.php?option=com_message', null, '<?php echo addslashes(_("Send messages")); ?>'],
-          ['<img src="images/22x22/apps/alert.png" />', '<?php echo addslashes(_("Event handlers")); ?>', 'index2.php?option=com_handleevent', null, '<?php echo addslashes(_("Event handlers")); ?>']
+          ['<img src="images/22x22/apps/alert.png" />', '<?php echo addslashes(_("Event handlers")); ?>', 'index2.php?option=com_handleevent', null, '<?php echo addslashes(_("Event handlers")); ?>'],
+          ['<img src="images/22x22/apps/sms.png" />', '<?php echo addslashes(_("Mass messages")); ?>', 'index2.php?option=com_massmessages', null, '<?php echo addslashes(_("Send mass messages")); ?>'],
         ],
         [null, '<?php echo addslashes(_("Reports")); ?>', null, null, '<?php echo addslashes(_("View reports")); ?>',
           ['<img src="images/22x22/apps/icons.png" />', '<?php echo addslashes(_("Payment report")); ?>', 'index2.php?option=com_paymentreport', null, '<?php echo addslashes(_("Create payment report")); ?>'],

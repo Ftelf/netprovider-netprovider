@@ -38,6 +38,9 @@ Class Core {
     const UI_VENDOR = "Vendor";
     const UI_LOCALE = "Locale";
 
+    const SMS_USERNAME = "SMS username";
+    const SMS_PASSWORD = "SMS password";
+
     const SYSTEM_DEBUG = "Debug";
 
     const BLANK_CHARGES_ADVANCE_COUNT = "Blank charges advance count";

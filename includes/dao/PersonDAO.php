@@ -95,7 +95,16 @@ class PersonDAO {
         if ($ip == null) throw new Exception("no IP specified");
         global $database;
         $person = new Person();
-        $query = "SELECT * FROM `person`, `ip` WHERE `PE_personid`=`IP_personid` AND `IP_ip`='$ip' LIMIT 1";
+        $query = "SELECT * FROM `person`, `ip` WHERE `PE_personid`=`IP_personid` AND `IP_address`='$ip' LIMIT 1";
+        $database->setQuery($query);
+        $database->loadObject($person);
+        return $person;
+    }
+    static function getPersonByIPId($ip) {
+        if ($ip == null) throw new Exception("no IP specified");
+        global $database;
+        $person = new Person();
+        $query = "SELECT * FROM `person`, `ip` WHERE `PE_personid`=`IP_personid` AND `IP_ipid`='$ip' LIMIT 1";
         $database->setQuery($query);
         $database->loadObject($person);
         return $person;

@@ -40,6 +40,8 @@
 
 .icon-48-traffic-report		{ background-image: url("../images/48x48/filesystems/network_local.png"); }
 
+.icon-48-mass-messages		{ background-image: url("../images/48x48/apps/sms.png"); }
+
 
 
 .icon-32-logout				{ background-image: url("../images/32x32/actions/logout.png"); }
@@ -124,4 +126,8 @@
 
 .icon-24-edit				{ background-image: url("../images/24x24/actions/edit.png"); }
 
-.icon-24-delete				{ background-image: url("../images/24x24/actions/editdelete"); }
+.icon-24-delete				{ background-image: url("../images/24x24/actions/editdelete.png"); }
+
+
+
+.icon-32-send			{ background-image: url("../images/32x32/actions/mail_send.png"); }

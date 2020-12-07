@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
     }
 
     $pass = md5($pass);
-    
+
     try {
         $my = PersonDAO::getPersonWithGroupByUsername($username);
     } catch (Exception $e) {
