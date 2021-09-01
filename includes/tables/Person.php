@@ -47,6 +47,8 @@ class Person {
     var $PE_email = null;
     /** @var string telephone number */
     var $PE_tel = null;
+    /** @var string secondary phone number */
+    var $PE_secondary_phone_number = null;
     /** @var string icq number */
     var $PE_icq = null;
     /** @var string jabber */
@@ -67,13 +69,13 @@ class Person {
     var $PE_companyname = null;
     /** @var int status */
     var $PE_status = null;
-    
+
     /** @var datetime register date */
     var $PE_registerdate = null;
 
     /** @var datetime lastlogged in date */
     var $PE_lastloggedin = null;
-    
+
     const STATUS_PASSIVE = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_DISCARTED = 9;

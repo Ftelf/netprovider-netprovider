@@ -102,7 +102,7 @@ class HTML_person {
           </tr>
           </table>
         </div>
-        
+
         <div class="header icon-48-person">
           <?php echo _("User management"); ?>
         </div>
@@ -156,11 +156,12 @@ class HTML_person {
       <?php if ($allowFirmRegistration) { ?>
       <th width="12%" class="title"><?php echo _("Company short name"); ?></th>
       <?php } ?>
-      <th width="10%" class="title"><?php echo _("Firstname"); ?></th>
-      <th width="10%" class="title"><?php echo _("Surname"); ?></th>
+      <th width="8%" class="title"><?php echo _("Firstname"); ?></th>
+      <th width="8%" class="title"><?php echo _("Surname"); ?></th>
       <th width="5%" class="title"><?php echo _("Nickname"); ?></th>
-      <th width="10%" class="title"><?php echo _("Group"); ?></th>
+      <th width="5%" class="title"><?php echo _("Group"); ?></th>
       <th width="5%" class="title"><?php echo _("Phone"); ?></th>
+      <th width="5%" class="title"><?php echo _("Secondary Phone"); ?></th>
       <th class="title"><?php echo _("Address"); ?></th>
       <th width="10%" class="title"><?php echo _("E-mail"); ?></th>
       <th width="10%" class="title"><?php echo _("Registered"); ?></th>
@@ -191,12 +192,12 @@ class HTML_person {
 				$imageSrc = "images/16x16/actions/agt_action_fail.png";
 				$imageAlt = _("Passive");
 				break;
-			
+
 			case Person::STATUS_ACTIVE:
 				$imageSrc = "images/16x16/actions/agt_action_success.png";
 				$imageAlt = _("Active");
 				break;
-				
+
 			case Person::STATUS_DISCARTED:
 				$imageSrc = "images/16x16/actions/agt_stop.png";
 				$imageAlt = _("Removed");
@@ -231,6 +232,9 @@ class HTML_person {
         <?php echo $person->PE_tel; ?>
       </td>
       <td>
+        <?php echo $person->PE_secondary_phone_number; ?>
+      </td>
+      <td>
         <?php echo $person->PE_address; ?>
       </td>
       <td>
@@ -260,9 +264,9 @@ class HTML_person {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
-  
+
   </div>
 
   <div class="clr"></div>
@@ -291,7 +295,7 @@ class HTML_person {
 ?>
 <script type="text/javascript" language="JavaScript">
     	document.write(getCalendarStyles());
-    	
+
 		var cal1x = new CalendarPopup("caldiv");
 		cal1x.setMonthNames("Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec");
 		cal1x.showYearNavigation(true);
@@ -300,7 +304,7 @@ class HTML_person {
 		cal1x.setTodayText("Dnes");
 		cal1x.offsetX = 0;
 		cal1x.offsetY = 16;
-		
+
 		function submitbutton(pressbutton) {
 			if (pressbutton == 'cancel') {
 				submitform(pressbutton);
@@ -311,14 +315,14 @@ class HTML_person {
 				submitform(pressbutton);
 			}
 		}
-		
+
 		function addRole() {
 			var form = document.adminForm;
-			
+
 			var selected = form.roles.selectedIndex;
-			
+
 			if (selected == -1) {
-				alert("<?php echo _("Please select role you want to assign"); ?>");				
+				alert("<?php echo _("Please select role you want to assign"); ?>");
 		} else {
 			form.RO_roleid.value = form.roles.options[selected].value;
 			var name = form.roles.options[selected].text;
@@ -328,11 +332,11 @@ class HTML_person {
 	}
 	function removeRole() {
 		var form = document.adminForm;
-		
+
 		var selected = form.hasRoles.selectedIndex;
-		
+
 		if (selected == -1) {
-			alert("<?php echo _("Please select role you want to remove"); ?>");				
+			alert("<?php echo _("Please select role you want to remove"); ?>");
 		} else {
 			form.RM_rolememberid.value = form.hasRoles.options[selected].value;
 			submitform('removeRole');
@@ -369,7 +373,7 @@ class HTML_person {
 	function hasChargeAction(el, id) {
 		var form = document.adminForm;
 		var action = el.value;
-		
+
 		if (action == 'editHasCharge') {
 			form.HC_haschargeid.value = id;
 			hideMainMenu();
@@ -435,7 +439,7 @@ class HTML_person {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table class="splitform">
@@ -528,6 +532,10 @@ class HTML_person {
           <td><input type="text" name="PE_tel" class="width-form" size="40" value="<?php echo $person->PE_tel; ?>" maxlength="50" /></td>
         </tr>
         <tr>
+          <td><?php echo _("Secondary Phone:"); ?></td>
+          <td><input type="text" name="PE_secondary_phone_number" class="width-form" size="40" value="<?php echo $person->PE_secondary_phone_number; ?>" maxlength="50" /></td>
+        </tr>
+        <tr>
           <td><?php echo _("Address:"); ?></td>
           <td><input type="text" name="PE_address" class="width-form" size="40" value="<?php echo $person->PE_address; ?>" maxlength="255" /></td>
         </tr>
@@ -567,15 +575,15 @@ class HTML_person {
         <tbody>
         <tr>
           <td width="150"><?php echo _("Login name:"); ?></td>
-          <td><input type="text" name="PE_username" class="width-form" size="20" value="<?php echo $person->PE_username; ?>" maxlength="255" autocomplete="off" /></td>
+          <td><input type="text" name="PE_username" class="width-form" size="20" value="<?php echo $person->PE_username; ?>" maxlength="255" autocomplete="new-password" /></td>
         </tr>
         <tr>
           <td><?php echo _("Password:"); ?></td>
-          <td><input type="password" name="PE_password1" class="width-form" size="20" value="<?php echo $person->PE_password; ?>" maxlength="255" autocomplete="off" /></td>
+          <td><input type="password" name="PE_password1" class="width-form" size="20" value="<?php echo $person->PE_password; ?>" maxlength="255" autocomplete="new-password" /></td>
         </tr>
         <tr>
           <td><?php echo _("Password confirmation:"); ?></td>
-          <td><input type="password" name="PE_password2" class="width-form" size="20" value="<?php echo $person->PE_password; ?>" maxlength="255" autocomplete="off" /></td>
+          <td><input type="password" name="PE_password2" class="width-form" size="20" value="<?php echo $person->PE_password; ?>" maxlength="255" autocomplete="new-password" /></td>
         </tr>
         <tr>
           <td valign="top"><?php echo _("User group:"); ?></td>
@@ -659,12 +667,12 @@ class HTML_person {
 	foreach($hasCharges as $hasCharge) {
 		$linkEditHasCharge = "javascript:editHasCharge($hasCharge->HC_haschargeid);";
 		$linkEditHasChargeOption = "hasChargeAction(this, $hasCharge->HC_haschargeid);";
-		
+
 		$dateStartObj = new DateUtil($hasCharge->HC_datestart);
 		$dateEndObj = new DateUtil($hasCharge->HC_dateend);
 		$dateStart = "";
 		$dateEnd = "";
-		
+
 		switch ($hasCharge->CH_period) {
 			case Charge::PERIOD_ONCE:
 				$format = DateUtil::FORMAT_DATE;
@@ -684,7 +692,7 @@ class HTML_person {
 			default:
 				$format = DateUtil::FORMAT_FULL;
 		}
-		
+
 		$dateStart = $dateStartObj->getFormattedDate($format);
 		$dateEnd = $dateEndObj->getFormattedDate($format);
 ?>
@@ -738,7 +746,7 @@ class HTML_person {
             <a id="newHasChargeClick" class="text-button" href="javascript:showHasCharge();">
               <?php echo _("New payment"); ?>
             </a>
-            
+
             <div id="newHasChargeBlock" style="display: none;">
               <select name="CH_chargeid" style="width:400px; float: left;">
 <?php
@@ -798,7 +806,7 @@ class HTML_person {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -815,10 +823,10 @@ class HTML_person {
 	formValidator.addValidation("PE_email","email","<?php echo _("Please enter valid E-Mail"); ?>");
 	formValidator.setAddnlValidationFunction(passwordMatchValidator);
 	formValidator.addValidation("PE_password1","minlength=6","<?php echo _("Password is too short"); ?>");
-	
+
 	function passwordMatchValidator() {
 		var form = document.adminForm;
-		
+
 		if (form.PE_password1.value && form.PE_password1.value != form.PE_password2.value) {
 			alert("<?php echo _("Passwords doesn't match"); ?>");
 			return false;
@@ -857,7 +865,7 @@ class HTML_person {
 ?>
 <script type="text/javascript" language="JavaScript">
 	document.write(getCalendarStyles());
-	
+
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
@@ -869,7 +877,7 @@ class HTML_person {
 		} else if (pressbutton == 'save') {
 			hideMainMenu();
 			submitform('saveHasCharge');
-		}	
+		}
 	}
 </script>
 
@@ -926,7 +934,7 @@ class HTML_person {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table width="100%">
@@ -1222,7 +1230,7 @@ class HTML_person {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 

@@ -1,7 +1,7 @@
 -- phpMyAdmin SQL Dump
 -- version 2.10.3
 -- http://www.phpmyadmin.net
--- 
+--
 -- Počítač: localhost
 -- Vygenerováno: Sobota 01. března 2008, 15:58
 -- Verze MySQL: 5.0.45
@@ -9,17 +9,17 @@
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
--- 
+--
 -- Databáze: `netprovider2`
--- 
+--
 CREATE DATABASE `netprovider2` DEFAULT CHARACTER SET utf8 COLLATE utf8_czech_ci;
 USE `netprovider2`;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `bankaccount`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `bankaccount` (
   `BA_bankaccountid` int(11) NOT NULL auto_increment,
@@ -46,9 +46,9 @@ CREATE TABLE IF NOT EXISTS `bankaccount` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `bankaccountentry`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `bankaccountentry` (
   `BE_bankaccountentryid` int(11) NOT NULL auto_increment,
@@ -75,9 +75,9 @@ CREATE TABLE IF NOT EXISTS `bankaccountentry` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `charge`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `charge` (
   `CH_chargeid` int(11) NOT NULL auto_increment,
@@ -94,9 +94,9 @@ CREATE TABLE IF NOT EXISTS `charge` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `chargeentry`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `chargeentry` (
   `CE_chargeentryid` int(11) NOT NULL auto_increment,
@@ -111,9 +111,9 @@ CREATE TABLE IF NOT EXISTS `chargeentry` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `configuration`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `configuration` (
   `CO_configurationid` int(11) NOT NULL auto_increment,
@@ -125,9 +125,9 @@ CREATE TABLE IF NOT EXISTS `configuration` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `emaillist`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `emaillist` (
   `EL_emaillistid` int(11) NOT NULL auto_increment,
@@ -146,9 +146,9 @@ CREATE TABLE IF NOT EXISTS `emaillist` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `group`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `group` (
   `GR_groupid` int(11) NOT NULL auto_increment,
@@ -160,9 +160,9 @@ CREATE TABLE IF NOT EXISTS `group` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `hascharge`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `hascharge` (
   `HC_haschargeid` int(11) NOT NULL auto_increment,
@@ -177,9 +177,9 @@ CREATE TABLE IF NOT EXISTS `hascharge` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `hasmanagednetwork`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `hasmanagednetwork` (
   `MN_hasmanagednetworkid` int(11) NOT NULL auto_increment,
@@ -190,9 +190,9 @@ CREATE TABLE IF NOT EXISTS `hasmanagednetwork` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `internet`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `internet` (
   `IN_internetid` int(11) NOT NULL auto_increment,
@@ -208,9 +208,9 @@ CREATE TABLE IF NOT EXISTS `internet` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `ip`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `ip` (
   `IP_ipid` int(11) NOT NULL auto_increment,
@@ -223,9 +223,9 @@ CREATE TABLE IF NOT EXISTS `ip` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `ipaccount`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `ipaccount` (
   `IA_ipaccountid` int(11) NOT NULL auto_increment,
@@ -242,9 +242,9 @@ CREATE TABLE IF NOT EXISTS `ipaccount` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `ipaccountabs`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `ipaccountabs` (
   `IB_ipaccountabsid` int(11) NOT NULL auto_increment,
@@ -259,9 +259,9 @@ CREATE TABLE IF NOT EXISTS `ipaccountabs` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `log`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `log` (
   `LO_logid` int(10) NOT NULL auto_increment,
@@ -273,9 +273,9 @@ CREATE TABLE IF NOT EXISTS `log` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `message`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `message` (
   `ME_messageid` int(11) NOT NULL auto_increment,
@@ -289,9 +289,9 @@ CREATE TABLE IF NOT EXISTS `message` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `network`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `network` (
   `NE_networkid` int(11) NOT NULL auto_increment,
@@ -306,9 +306,9 @@ CREATE TABLE IF NOT EXISTS `network` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `networkdevice`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `networkdevice` (
   `ND_networkdeviceid` int(11) NOT NULL auto_increment,
@@ -336,9 +336,9 @@ CREATE TABLE IF NOT EXISTS `networkdevice` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `networkdeviceinterface`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `networkdeviceinterface` (
   `NI_networkdeviceinterfaceid` int(11) NOT NULL auto_increment,
@@ -351,9 +351,9 @@ CREATE TABLE IF NOT EXISTS `networkdeviceinterface` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `networkdeviceproperty`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `networkdeviceproperty` (
   `NP_networkdevicepropertyid` int(11) NOT NULL auto_increment,
@@ -365,9 +365,9 @@ CREATE TABLE IF NOT EXISTS `networkdeviceproperty` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `networkdevicewirelessinterface`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `networkdevicewirelessinterface` (
   `NW_networkdevicewirelessinterfaceid` int(11) NOT NULL auto_increment,
@@ -385,9 +385,9 @@ CREATE TABLE IF NOT EXISTS `networkdevicewirelessinterface` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `person`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `person` (
   `PE_personid` int(11) NOT NULL auto_increment,
@@ -402,6 +402,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `PE_nick` varchar(255) collate utf8_czech_ci default NULL,
   `PE_email` varchar(255) collate utf8_czech_ci default NULL,
   `PE_tel` varchar(50) collate utf8_czech_ci default NULL,
+  `PE_secondary_phone_number` varchar(50) collate utf8_czech_ci default NULL,
   `PE_icq` varchar(50) collate utf8_czech_ci default NULL,
   `PE_jabber` varchar(255) collate utf8_czech_ci default NULL,
   `PE_address` varchar(255) collate utf8_czech_ci default NULL,
@@ -418,9 +419,9 @@ CREATE TABLE IF NOT EXISTS `person` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `personaccount`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `personaccount` (
   `PA_personaccountid` int(11) NOT NULL auto_increment,
@@ -437,9 +438,9 @@ CREATE TABLE IF NOT EXISTS `personaccount` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `personaccountentry`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `personaccountentry` (
   `PN_personaccountentryid` int(11) NOT NULL auto_increment,
@@ -454,9 +455,9 @@ CREATE TABLE IF NOT EXISTS `personaccountentry` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `role`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `role` (
   `RO_roleid` int(11) NOT NULL auto_increment,
@@ -467,9 +468,9 @@ CREATE TABLE IF NOT EXISTS `role` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `rolemember`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `rolemember` (
   `RM_rolememberid` int(11) NOT NULL auto_increment,
@@ -480,9 +481,9 @@ CREATE TABLE IF NOT EXISTS `rolemember` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Struktura tabulky `session`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `session` (
   `SE_time` int(11) NOT NULL default '0',

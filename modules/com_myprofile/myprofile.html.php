@@ -44,7 +44,7 @@ class HTML_myprofile {
 ?>
 <script type="text/javascript" language="javascript">
 	document.write(getCalendarStyles());
-	
+
 	function edit() {
     	hideMainMenu();
    		submitform('edit');
@@ -92,7 +92,7 @@ class HTML_myprofile {
                 <?php echo _("Edit"); ?>
               </a>
             </td>
-            
+
             <td id="toolbar-logout">
               <a href="index2.php?option=logout">
                 <span title="<?php echo _("Logout"); ?>" class="icon-32-logout"></span>
@@ -102,7 +102,7 @@ class HTML_myprofile {
           </tr>
           </table>
         </div>
-        
+
         <div class="header icon-48-my-profile">
           <?php echo _("My profile"); ?>
         </div>
@@ -195,6 +195,10 @@ class HTML_myprofile {
         <tr>
           <td><?php echo _("Phone:"); ?></td>
           <td><?php echo $person->PE_tel; ?></td>
+        </tr>
+        <tr>
+          <td><?php echo _("Secondary Phone:"); ?></td>
+          <td><?php echo $person->PE_secondary_phone_number; ?></td>
         </tr>
         <tr>
           <td><?php echo _("Address:"); ?></td>
@@ -304,7 +308,7 @@ class HTML_myprofile {
 	foreach ($hasCharges as $hasCharge) {
 		$dateStart = new DateUtil($hasCharge->HC_datestart);
 		$dateEnd = new DateUtil($hasCharge->HC_dateend);
-		
+
 		if ($charges[$hasCharge->HC_chargeid]->CH_period == Charge::PERIOD_ONCE) {
 			$till = "-";
 		} else if ($dateEnd->getTime() == null) {
@@ -312,7 +316,7 @@ class HTML_myprofile {
 		} else {
 			$till = $dateEnd->getFormattedDate(DateUtil::FORMAT_DATE);
 		}
-		
+
 		if ($hasCharge->HC_actualstate == HasCharge::ACTUALSTATE_ENABLED) {
 			$imageActualState = "images/16x16/actions/agt_action_success.png";
 			$altActualState = _("Enabled");
@@ -422,7 +426,7 @@ class HTML_myprofile {
 			$format = DateUtil::FORMAT_FULL;
 	}
 	echo $periodDate->getFormattedDate($format);
-	
+
 	$writeOffDate = clone $periodDate;
 	$writeOffDate->add(DateUtil::DAY, $chargeEntry->CE_writeoffoffset);
 ?>
@@ -459,12 +463,12 @@ class HTML_myprofile {
             <td align="left">
 <?php
 	if ($enableInvoiceModule && $chargeEntry->_invoice) {
-		
+
 ?>
               <a href="javascript:generateInvoice(<?php echo $chargeEntry->_invoice->IN_invoiceid; ?>)"><?php echo _("Invoice"); ?></a>
 <?php
 	} else {
-		
+
 ?>
               N/A
 <?php
@@ -710,7 +714,7 @@ class HTML_myprofile {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -726,7 +730,7 @@ class HTML_myprofile {
 ?>
 <script type="text/javascript" language="JavaScript">
 	document.write(getCalendarStyles());
-	
+
 	var cal1x = new CalendarPopup("caldiv");
 	cal1x.setMonthNames("Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec");
 	cal1x.showYearNavigation(true);
@@ -735,7 +739,7 @@ class HTML_myprofile {
 	cal1x.setTodayText("Dnes");
 	cal1x.offsetX = 0;
 	cal1x.offsetY = 16;
-	
+
 	function submitbutton(pressbutton) {
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
@@ -793,7 +797,7 @@ class HTML_myprofile {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table class="splitform">
@@ -842,7 +846,8 @@ class HTML_myprofile {
             <select name="PE_gender" class="width-form">
               <option value="muž" <?php if ($person->PE_gender == "muž") echo 'selected="selected"'?>>muž</option>
               <option value="žena" <?php if ($person->PE_gender == "žena") echo 'selected="selected"'?>>žena</option>
-            </select></td>
+            </select>
+          </td>
         </tr>
         <tr>
           <td><?php echo _("Degree before name:"); ?></td>
@@ -870,6 +875,10 @@ class HTML_myprofile {
         <tr>
           <td><?php echo _("Phone:"); ?></td>
           <td><input type="text" name="PE_tel" class="width-form" size="40" value="<?php echo $person->PE_tel; ?>" maxlength="50" /></td>
+        </tr>
+        <tr>
+          <td><?php echo _("Secondary Phone:"); ?></td>
+          <td><input type="text" name="PE_secondary_phone_number" class="width-form" size="40" value="<?php echo $person->PE_secondary_phone_number; ?>" maxlength="50" /></td>
         </tr>
         <tr>
           <td><?php echo _("Address:"); ?></td>
@@ -926,7 +935,7 @@ class HTML_myprofile {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -941,10 +950,10 @@ class HTML_myprofile {
 	formValidator.addValidation("PE_email","email","<?php echo _("Please enter valid E-Mail"); ?>");
 	formValidator.setAddnlValidationFunction(passwordMatchValidator);
 	formValidator.addValidation("PE_password1","minlength=6","<?php echo _("Password is too short"); ?>");
-	
+
 	function passwordMatchValidator() {
 		var form = document.adminForm;
-		
+
 		if (form.PE_password1.value && form.PE_password1.value != form.PE_password2.value) {
 			alert("<?php echo _("Passwords doesn't match"); ?>");
 			return false;
