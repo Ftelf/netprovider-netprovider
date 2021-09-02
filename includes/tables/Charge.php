@@ -46,20 +46,14 @@ class Charge {
     /** @var int charge priority ID FK */
     var $CH_internetid = null;
 
-    const PERIOD_ONCE = 1;
-    //reserve weekly = 2
     const PERIOD_MONTHLY = 3;
 
     public static $PERIOD_ARRAY = array(
-        1, //Once
         3 //Monthly
     );
 
     public static function getLocalizedPeriod($period) {
         switch ($period) {
-            case self::PERIOD_ONCE:
-                return _("Once");
-
             case self::PERIOD_MONTHLY:
                 return _("Monthly");
         }

@@ -309,9 +309,7 @@ class HTML_myprofile {
 		$dateStart = new DateUtil($hasCharge->HC_datestart);
 		$dateEnd = new DateUtil($hasCharge->HC_dateend);
 
-		if ($charges[$hasCharge->HC_chargeid]->CH_period == Charge::PERIOD_ONCE) {
-			$till = "-";
-		} else if ($dateEnd->getTime() == null) {
+		if ($dateEnd->getTime() == null) {
 			$till = _("Not limited");
 		} else {
 			$till = $dateEnd->getFormattedDate(DateUtil::FORMAT_DATE);
@@ -407,9 +405,6 @@ class HTML_myprofile {
             <td align="left">
 <?php
 	switch ($charges[$hasCharge->HC_chargeid]->CH_period) {
-		case Charge::PERIOD_ONCE:
-			$format = DateUtil::FORMAT_DATE;
-			break;
 		case Charge::PERIOD_MONTHLY:
 			$format = DateUtil::FORMAT_MONTHLY;
 			break;

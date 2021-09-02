@@ -581,9 +581,7 @@ class HTML_PersonAccount {
       </td>
       <td>
 <?php
-	if ($charges[$hasCharge->HC_chargeid]->CH_period == Charge::PERIOD_ONCE) {
-		echo "N/A";
-	} else if ($dateEnd->getTime() == null) {
+	if ($dateEnd->getTime() == null) {
 		echo _("Not limited");
 	} else {
 		echo $dateEnd->getFormattedDate(DateUtil::FORMAT_DATE);;
@@ -650,9 +648,6 @@ class HTML_PersonAccount {
       <td>
 <?php
 		switch ($charges[$hasCharge->HC_chargeid]->CH_period) {
-			case Charge::PERIOD_ONCE:
-				$format = DateUtil::FORMAT_DATE;
-				break;
 			case Charge::PERIOD_MONTHLY:
 				$format = DateUtil::FORMAT_MONTHLY;
 				break;

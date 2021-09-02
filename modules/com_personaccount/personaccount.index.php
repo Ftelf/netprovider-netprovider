@@ -382,9 +382,6 @@ function freeCharge($ceid) {
     $database->updateObject("chargeentry", $chargeEntry, "CE_chargeentryid", false, false);
 
     switch ($charge->CH_period) {
-        case Charge::PERIOD_ONCE:
-            $format = DateUtil::FORMAT_DATE;
-            break;
         case Charge::PERIOD_MONTHLY:
             $format = DateUtil::FORMAT_MONTHLY;
             break;
@@ -424,9 +421,6 @@ function ignoreCharge($ceid) {
     $database->updateObject("chargeentry", $chargeEntry, "CE_chargeentryid", false, false);
 
     switch ($charge->CH_period) {
-        case Charge::PERIOD_ONCE:
-            $format = DateUtil::FORMAT_DATE;
-            break;
         case Charge::PERIOD_MONTHLY:
             $format = DateUtil::FORMAT_MONTHLY;
             break;
@@ -476,9 +470,6 @@ function removeCharge($ceid) {
     }
 
     switch ($charge->CH_period) {
-        case Charge::PERIOD_ONCE:
-            $format = DateUtil::FORMAT_DATE;
-            break;
         case Charge::PERIOD_MONTHLY:
             $format = DateUtil::FORMAT_MONTHLY;
             break;

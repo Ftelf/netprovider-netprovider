@@ -550,10 +550,7 @@ function saveHasCharge($task) {
     if (!$isNew) {
         $storedHasCharge = HasChargeDAO::getHasChargeByID($hasCharge->HC_haschargeid);
 
-        if ($storedCharge->CH_period == Charge::PERIOD_ONCE) {
-            $hasCharge->HC_datestart = null;
-            $hasCharge->HC_dateend = null;
-        } else if ($storedCharge->CH_period == Charge::PERIOD_MONTHLY) {
+        if ($storedCharge->CH_period == Charge::PERIOD_MONTHLY) {
             $dateEnd = new DateUtil();
             try {
                 if ($hasCharge->HC_dateend != '') {
@@ -568,22 +565,20 @@ function saveHasCharge($task) {
             }
             $hasCharge->HC_datestart = null;
             $hasCharge->HC_dateend = $dateEnd->getFormattedDate(DateUtil::DB_DATE);
+
+            // check for missing charge entries
+            $chargeEntries = ChargeEntryDAO::getChargeEntryArrayByHasChargeID($hasCharge->HC_haschargeid, $nextPaymentDayAfterEnd);
+
+            $nextPaymentDayAfterEnd = new DateUtil($dateEnd);
+            $nextPaymentDayAfterEnd->add(DateUtil::MONTH, 1);
+
+            // get orphaned changeEntries
+            $chargeEntries = ChargeEntryDAO::getChargeEntryArrayByHasChargeID($hasCharge->HC_haschargeid, $nextPaymentDayAfterEnd);
         }
     } else {
         $status['HC_datestart'] = true;
         $status['HC_dateend'] = true;
-        if ($storedCharge->CH_period == Charge::PERIOD_ONCE) {
-            $dateStart = new DateUtil();
-            try {
-                $dateStart->parseDate($hasCharge->HC_datestart, DateUtil::FORMAT_DATE);
-            } catch (Exception $e) {
-                $appContext->insertMessage(_("Date is in incorrect format"));
-                HTML_Person::editHasCharge($person, $hasCharge, $storedCharge, $status);
-                return;
-            }
-            $hasCharge->HC_datestart = $dateStart->getFormattedDate(DateUtil::DB_DATE);
-            $hasCharge->HC_dateend = DateUtil::DB_NULL_DATE;
-        } else if ($storedCharge->CH_period == Charge::PERIOD_MONTHLY) {
+        if ($storedCharge->CH_period == Charge::PERIOD_MONTHLY) {
             $dateStart = new DateUtil();
             $dateEnd = new DateUtil();
             try {

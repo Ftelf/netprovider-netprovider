@@ -126,61 +126,7 @@ function showPaymentReport() {
 
     $messages = array();
 
-//    if ($charge->CH_period == Charge::PERIOD_ONCE) {
-//        $report['dates'][0] = array();
-//        $report['dates'][0]['DATE_STRING'] = '';
-//
-//        $report['dates'][0]['summary'] = array();
-//        $report['dates'][0]['summary']['payed'] = 0;
-//        $report['dates'][0]['summary']['payedWithDelay'] = 0;
-//        $report['dates'][0]['summary']['delayed'] = 0;
-//        $report['dates'][0]['summary']['pending'] = 0;
-//        $report['dates'][0]['summary']['free'] = 0;
-//
-//        foreach ($paymentReport as &$personReport) {
-//            $info = array();
-//            if ($personReport->_hasCharge == null) {
-//                $info['text'] = '';
-//                $info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
-//            } else {
-//                $chargeEntry = (array_slice($personReport->_hasCharge->_chargeEntries, 0,1));
-//                $chargeEntry = $chargeEntry[0];
-//                $periodDate = new DateUtil($chargeEntry->CE_period_date);
-//                $info['text'] = $periodDate->getFormattedDate(DateUtil::FORMAT_DATE).'<hr style="border: 1px solid black;"/>';
-//                if ($chargeEntry->CE_status == ChargeEntry::STATUS_ERROR) {
-//
-//                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue == 0) {
-//                    $info['text'] .= '';
-//                    $info['style'] = PaymentReportStyles::STATUS_FINISHED_IN_TIME;
-//                    $report['dates'][0]['summary']['payed'] += $chargeEntry->CE_amount;
-//                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue > 0) {
-//                    $info['text'] .= sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-//                    $info['style'] = PaymentReportStyles::STATUS_FINISHED_OVERDUE;
-//                    $report['dates'][0]['summary']['payedWithDelay'] += $chargeEntry->CE_amount;
-//                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING) {
-//                    $info['text'] .= '';
-//                    $info['style'] = PaymentReportStyles::STATUS_PENDING;
-//                    $report['dates'][0]['summary']['pending'] += $chargeEntry->CE_amount;
-//                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue <= $charge->CH_tolerance) {
-//                    $info['text'] .= sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-//                    $info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS;
-//                    $report['dates'][0]['summary']['delayed'] += $chargeEntry->CE_amount;
-//                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS && $chargeEntry->CE_overdue > 0) {
-//                    $info['text'] .= sprintf(ngettext("+%s day", "+%s days", $chargeEntry->CE_overdue), $chargeEntry->CE_overdue);
-//                    $info['style'] = PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS_OVERDUE;
-//                    $report['dates'][0]['summary']['delayed'] += $chargeEntry->CE_amount;
-//                } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE) {
-//                    $info['text'] .= '';
-//                    $info['style'] = PaymentReportStyles::STATUS_FREE_OF_CHARGE;
-//                    $report['dates'][0]['summary']['free'] ++;
-//                } else {
-//                    $info['text'] .= '';
-//                    $info['style'] = PaymentReportStyles::STATUS_OTHER;
-//                }
-//            }
-//            $personReport->_dates[0] = $info;
-//        }
-//    } else if ($charge->CH_period == Charge::PERIOD_MONTHLY) {
+//    if ($charge->CH_period == Charge::PERIOD_MONTHLY) {
         $iDate = $dateFrom;
         while (!$iDate->after($dateTo)) {
             $report['dates'][$iDate->getTime()] = array();
