@@ -571,9 +571,6 @@ function saveHasCharge($task) {
 
             $nextPaymentDayAfterEnd = new DateUtil($dateEnd);
             $nextPaymentDayAfterEnd->add(DateUtil::MONTH, 1);
-
-            // get orphaned changeEntries
-            $chargeEntries = ChargeEntryDAO::getChargeEntryArrayByHasChargeID($hasCharge->HC_haschargeid, $nextPaymentDayAfterEnd);
         }
     } else {
         $status['HC_datestart'] = true;
