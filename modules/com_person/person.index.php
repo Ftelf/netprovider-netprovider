@@ -568,51 +568,6 @@ function saveHasCharge($task) {
             }
             $hasCharge->HC_datestart = null;
             $hasCharge->HC_dateend = $dateEnd->getFormattedDate(DateUtil::DB_DATE);
-        } else if ($storedCharge->CH_period == Charge::PERIOD_QUARTERLY) {
-            $dateEnd = new DateUtil();
-            try {
-                if ($hasCharge->HC_dateend != '') {
-                    $dateEnd->parseDate($hasCharge->HC_dateend, DateUtil::FORMAT_QUARTERLY);
-                } else {
-                    $dateEnd->setTime(null);
-                }
-            } catch (Exception $e) {
-                $appContext->insertMessage(_("Date is in incorrect format"));
-                HTML_Person::editHasCharge($person, $hasCharge, $storedCharge, $status);
-                return;
-            }
-            $hasCharge->HC_datestart = null;
-            $hasCharge->HC_dateend = $dateEnd->getFormattedDate(DateUtil::DB_DATE);
-        } else if ($storedCharge->CH_period == Charge::PERIOD_HALFYEARLY) {
-            $dateEnd = new DateUtil();
-            try {
-                if ($hasCharge->HC_dateend != '') {
-                    $dateEnd->parseDate($hasCharge->HC_dateend, DateUtil::FORMAT_HALFYEARLY);
-                } else {
-                    $dateEnd->setTime(null);
-                }
-            } catch (Exception $e) {
-                $appContext->insertMessage(_("Date is in incorrect format"));
-                HTML_Person::editHasCharge($person, $hasCharge, $storedCharge, $status);
-                return;
-            }
-            $hasCharge->HC_datestart = null;
-            $hasCharge->HC_dateend = $dateEnd->getFormattedDate(DateUtil::DB_DATE);
-        } else if ($storedCharge->CH_period == Charge::PERIOD_YEARLY) {
-            $dateEnd = new DateUtil();
-            try {
-                if ($hasCharge->HC_dateend != '') {
-                    $dateEnd->parseDate($hasCharge->HC_dateend, DateUtil::FORMAT_MONTHLY);
-                } else {
-                    $dateEnd->setTime(null);
-                }
-            } catch (Exception $e) {
-                $appContext->insertMessage(_("Date is in incorrect format"));
-                HTML_Person::editHasCharge($person, $hasCharge, $storedCharge, $status);
-                return;
-            }
-            $hasCharge->HC_datestart = null;
-            $hasCharge->HC_dateend = $dateEnd->getFormattedDate(DateUtil::DB_DATE);
         }
     } else {
         $status['HC_datestart'] = true;
@@ -629,75 +584,6 @@ function saveHasCharge($task) {
             $hasCharge->HC_datestart = $dateStart->getFormattedDate(DateUtil::DB_DATE);
             $hasCharge->HC_dateend = DateUtil::DB_NULL_DATE;
         } else if ($storedCharge->CH_period == Charge::PERIOD_MONTHLY) {
-            $dateStart = new DateUtil();
-            $dateEnd = new DateUtil();
-            try {
-                $dateStart->parseDate($hasCharge->HC_datestart, DateUtil::FORMAT_MONTHLY);
-            } catch (Exception $e) {
-                $appContext->insertMessage(_("Date is in incorrect format"));
-                HTML_Person::editHasCharge($person, $hasCharge, $storedCharge, $status);
-                return;
-            }
-            $hasCharge->HC_datestart = $dateStart->getFormattedDate(DateUtil::DB_DATE);
-            try {
-                if ($hasCharge->HC_dateend != '') {
-                    $dateEnd->parseDate($hasCharge->HC_dateend, DateUtil::FORMAT_MONTHLY);
-                } else {
-                    $dateEnd->setTime(null);
-                }
-            } catch (Exception $e) {
-                $appContext->insertMessage(_("Date is in incorrect format"));
-                HTML_Person::editHasCharge($person, $hasCharge, $storedCharge, $status);
-                return;
-            }
-            $hasCharge->HC_dateend = $dateEnd->getFormattedDate(DateUtil::DB_DATE);
-        } else if ($storedCharge->CH_period == Charge::PERIOD_QUARTERLY) {
-            $dateStart = new DateUtil();
-            $dateEnd = new DateUtil();
-            try {
-                $dateStart->parseDate($hasCharge->HC_datestart, DateUtil::FORMAT_QUARTERLY);
-            } catch (Exception $e) {
-                $appContext->insertMessage(_("Date is in incorrect format"));
-                HTML_Person::editHasCharge($person, $hasCharge, $storedCharge, $status);
-                return;
-            }
-            $hasCharge->HC_datestart = $dateStart->getFormattedDate(DateUtil::DB_DATE);
-            try {
-                if ($hasCharge->HC_dateend != '') {
-                    $dateEnd->parseDate($hasCharge->HC_dateend, DateUtil::FORMAT_QUARTERLY);
-                } else {
-                    $dateEnd->setTime(null);
-                }
-            } catch (Exception $e) {
-                $appContext->insertMessage(_("Date is in incorrect format"));
-                HTML_Person::editHasCharge($person, $hasCharge, $storedCharge, $status);
-                return;
-            }
-            $hasCharge->HC_dateend = $dateEnd->getFormattedDate(DateUtil::DB_DATE);
-        } else if ($storedCharge->CH_period == Charge::PERIOD_HALFYEARLY) {
-            $dateStart = new DateUtil();
-            $dateEnd = new DateUtil();
-            try {
-                $dateStart->parseDate($hasCharge->HC_datestart, DateUtil::FORMAT_HALFYEARLY);
-            } catch (Exception $e) {
-                $appContext->insertMessage(_("Date is in incorrect format"));
-                HTML_Person::editHasCharge($person, $hasCharge, $storedCharge, $status);
-                return;
-            }
-            $hasCharge->HC_datestart = $dateStart->getFormattedDate(DateUtil::DB_DATE);
-            try {
-                if ($hasCharge->HC_dateend != '') {
-                    $dateEnd->parseDate($hasCharge->HC_dateend, DateUtil::FORMAT_HALFYEARLY);
-                } else {
-                    $dateEnd->setTime(null);
-                }
-            } catch (Exception $e) {
-                $appContext->insertMessage(_("Date is in incorrect format"));
-                HTML_Person::editHasCharge($person, $hasCharge, $storedCharge, $status);
-                return;
-            }
-            $hasCharge->HC_dateend = $dateEnd->getFormattedDate(DateUtil::DB_DATE);
-        } else if ($storedCharge->CH_period == Charge::PERIOD_YEARLY) {
             $dateStart = new DateUtil();
             $dateEnd = new DateUtil();
             try {

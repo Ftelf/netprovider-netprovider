@@ -27,15 +27,12 @@ class DateUtil {
     const DB_MIN_DATE = '1000-01-01';
     const DB_MAX_DATE = '9999-12-31';
 
-    const FORMAT_YEARLY = 'Y';
     const FORMAT_MONTHLY = 'm/Y';
     const FORMAT_FULL = 'H:i:s d.m.Y';
     const FORMAT_DATE = 'd.m.Y';
     const FORMAT_SHORTDATE = 'd.m.y';
     const FORMAT_TIME = 'H:i:s';
     const FORMAT_SHORTTIME = 'H:i';
-    const FORMAT_QUARTERLY = 'q/Y';
-    const FORMAT_HALFYEARLY = 'half/Y';
 
     const DB_DATE = 'Y-m-d';
     const DB_DATETIME = 'Y-m-d H:i:s';
@@ -298,10 +295,6 @@ class DateUtil {
             return self::DB_NULL_DATETIME;
         } else if ($this->_timestamp == null) {
             return "";
-        } else if ($format == self::FORMAT_QUARTERLY) {
-            return (floor((date("n", $this->_timestamp) - 1) / 3) + 1)."/".date("Y", $this->_timestamp);
-        } else if ($format == self::FORMAT_HALFYEARLY) {
-            return (floor((date("n", $this->_timestamp) - 1) / 6) + 1)."/".date("Y", $this->_timestamp);
         } else {
             if (!($dateString = date($format, $this->_timestamp))) $dateString = "";
             return $dateString;
@@ -309,14 +302,7 @@ class DateUtil {
     }
     public function parseDate($dateString, $format) {
         $matches = null;
-        if ($format == self::FORMAT_YEARLY) {
-            if (mb_ereg("^([[:digit:]]{4})$", $dateString, $matches)) {
-                $this->_timestamp = mktime(0, 0, 0, 1, 1, $matches[1]);
-            } else {
-                $this->_timestamp = null;
-                throw new Exception("Date parse Error: '$dateString', format: '$format'");
-            }
-        } else if ($format == self::FORMAT_MONTHLY) {
+        if ($format == self::FORMAT_MONTHLY) {
             if (mb_ereg("^([[:digit:]]{1,2})/([[:digit:]]{4})$", $dateString, $matches)) {
                 $this->_timestamp = mktime(0, 0, 0, $matches[1], 1, $matches[2]);
             } else {
@@ -333,20 +319,6 @@ class DateUtil {
         } else if ($format == self::FORMAT_DATE) {
             if (mb_ereg("^([[:digit:]]{1,2}).([[:digit:]]{1,2}).([[:digit:]]{4})$", $dateString, $matches)) {
                 $this->_timestamp = mktime(0, 0, 0, $matches[2], $matches[1], $matches[3]);
-            } else {
-                $this->_timestamp = null;
-                throw new Exception("Date parse Error: '$dateString', format: '$format'");
-            }
-        } else if ($format == self::FORMAT_QUARTERLY) {
-            if (mb_ereg("^([[:digit:]]{1})/([[:digit:]]{4})$", $dateString, $matches)) {
-                $this->_timestamp = mktime(0, 0, 0, ($matches[1] - 1) * 3 + 1, 1, $matches[2]);
-            } else {
-                $this->_timestamp = null;
-                throw new Exception("Date parse Error: '$dateString', format: '$format'");
-            }
-        } else if ($format == self::FORMAT_HALFYEARLY) {
-            if (mb_ereg("^([12])/([[:digit:]]{4})$", $dateString, $matches)) {
-                $this->_timestamp = mktime(0, 0, 0, ($matches[1] - 1) * 6 + 1, 1, $matches[2]);
             } else {
                 $this->_timestamp = null;
                 throw new Exception("Date parse Error: '$dateString', format: '$format'");

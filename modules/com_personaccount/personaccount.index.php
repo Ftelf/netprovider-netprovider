@@ -109,7 +109,7 @@ switch ($task) {
 }
 
 /**
- * 
+ *
  */
 function showPersonAccount() {
     global $database, $mainframe, $acl, $core;
@@ -157,7 +157,8 @@ function showPersonAccount() {
         }
     }
     $pageNav = new PageNav(count($persons), $limitstart, $limit);
-    HTML_PersonAccount::showEntries(array_slice($persons, $limitstart, $limit), $personAccounts, $pageNav, $filter, $msgs);
+    $personsView = array_slice($persons, $limitstart, $limit);
+    HTML_PersonAccount::showEntries($personsView, $personAccounts, $pageNav, $filter, $msgs);
 }
 /**
  * @param integer $pid PersonID
@@ -248,7 +249,7 @@ function savePersonAccount($pid, $task) {
     }
 }
 /**
- * 
+ *
  */
 function createBlankCharges() {
     global $database, $appContext, $my, $acl;
@@ -263,7 +264,7 @@ function createBlankCharges() {
     Core::redirect("index2.php?option=com_personaccount");
 }
 /**
- * 
+ *
  */
 function proceedCharges() {
     global $database, $appContext, $my, $acl;
@@ -387,15 +388,6 @@ function freeCharge($ceid) {
         case Charge::PERIOD_MONTHLY:
             $format = DateUtil::FORMAT_MONTHLY;
             break;
-        case Charge::PERIOD_QUARTERLY:
-            $format = DateUtil::FORMAT_QUARTERLY;
-            break;
-        case Charge::PERIOD_HALFYEARLY:
-            $format = DateUtil::FORMAT_HALFYEARLY;
-            break;
-        case Charge::PERIOD_YEARLY:
-            $format = DateUtil::FORMAT_MONTHLY;
-            break;
         default:
             $format = DateUtil::FORMAT_FULL;
     }
@@ -436,15 +428,6 @@ function ignoreCharge($ceid) {
             $format = DateUtil::FORMAT_DATE;
             break;
         case Charge::PERIOD_MONTHLY:
-            $format = DateUtil::FORMAT_MONTHLY;
-            break;
-        case Charge::PERIOD_QUARTERLY:
-            $format = DateUtil::FORMAT_QUARTERLY;
-            break;
-        case Charge::PERIOD_HALFYEARLY:
-            $format = DateUtil::FORMAT_HALFYEARLY;
-            break;
-        case Charge::PERIOD_YEARLY:
             $format = DateUtil::FORMAT_MONTHLY;
             break;
         default:
@@ -497,15 +480,6 @@ function removeCharge($ceid) {
             $format = DateUtil::FORMAT_DATE;
             break;
         case Charge::PERIOD_MONTHLY:
-            $format = DateUtil::FORMAT_MONTHLY;
-            break;
-        case Charge::PERIOD_QUARTERLY:
-            $format = DateUtil::FORMAT_QUARTERLY;
-            break;
-        case Charge::PERIOD_HALFYEARLY:
-            $format = DateUtil::FORMAT_HALFYEARLY;
-            break;
-        case Charge::PERIOD_YEARLY:
             $format = DateUtil::FORMAT_MONTHLY;
             break;
         default:

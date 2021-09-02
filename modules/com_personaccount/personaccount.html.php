@@ -125,7 +125,7 @@ class HTML_PersonAccount {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table>
@@ -154,7 +154,7 @@ class HTML_PersonAccount {
       </td>
     </tr>
     </table>
-    
+
     <table class="adminlist">
     <thead>
     <tr>
@@ -237,9 +237,9 @@ class HTML_PersonAccount {
    <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
-  
+
   </div>
 
   <div class="clr"></div>
@@ -282,7 +282,7 @@ class HTML_PersonAccount {
 	function personAccountEntryAction(el, id) {
 		var form = document.adminForm;
 		var action = el.value;
-		
+
 		if (action == 'returnPayment') {
 			if (window.confirm("<?php echo _("Return payment for new process ?"); ?>")) {
 				hideMainMenu();
@@ -293,11 +293,11 @@ class HTML_PersonAccount {
 			}
 		}
 	}
-	
+
 	function changeEntryAction(el, id) {
 		var form = document.adminForm;
 		var action = el.value;
-		
+
 		if (action == 'freeCharge') {
 			var confirm = window.confirm("<?php echo _("Excuse payment and let use service for free for this period ?"); ?>");
 		} else if (action == 'ignoreCharge') {
@@ -311,8 +311,8 @@ class HTML_PersonAccount {
 		} else {
 			return;
 		}
-		
-		
+
+
 		if (confirm) {
 			hideMainMenu();
 			form.CE_chargeentryid.value = id;
@@ -374,7 +374,7 @@ class HTML_PersonAccount {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table width="100%">
@@ -430,9 +430,9 @@ class HTML_PersonAccount {
     </td>
     </tr>
     </table>
-    
+
     <br/>
-    
+
     <table class="adminlist">
     <thead>
     <tr>
@@ -656,20 +656,11 @@ class HTML_PersonAccount {
 			case Charge::PERIOD_MONTHLY:
 				$format = DateUtil::FORMAT_MONTHLY;
 				break;
-			case Charge::PERIOD_QUARTERLY:
-				$format = DateUtil::FORMAT_QUARTERLY;
-				break;
-			case Charge::PERIOD_HALFYEARLY:
-				$format = DateUtil::FORMAT_HALFYEARLY;
-				break;
-			case Charge::PERIOD_YEARLY:
-				$format = DateUtil::FORMAT_MONTHLY;
-				break;
 			default:
 				$format = DateUtil::FORMAT_FULL;
 		}
 		echo $periodDate->getFormattedDate($format);
-		
+
 		$writeOffDate = clone $periodDate;
 		$writeOffDate->add(DateUtil::DAY, $chargeEntry->CE_writeoffoffset);
 ?>
@@ -754,9 +745,9 @@ class HTML_PersonAccount {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
-  
+
   </div>
 
   <div class="clr"></div>
@@ -845,7 +836,7 @@ class HTML_PersonAccount {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table>
@@ -911,7 +902,7 @@ class HTML_PersonAccount {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -931,7 +922,7 @@ class HTML_PersonAccount {
 ?>
 <script type="text/javascript" language="JavaScript">
 	document.write(getCalendarStyles());
-	
+
 	var cal1x = new CalendarPopup("caldiv");
 	cal1x.setMonthNames("Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec");
 	cal1x.showYearNavigation(true);
@@ -940,7 +931,7 @@ class HTML_PersonAccount {
 	cal1x.setTodayText("Dnes");
 	cal1x.offsetX = 0;
 	cal1x.offsetY = 20;
-	
+
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
@@ -1006,7 +997,7 @@ class HTML_PersonAccount {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table width="100%">
@@ -1112,7 +1103,7 @@ class HTML_PersonAccount {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 

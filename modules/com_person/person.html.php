@@ -680,15 +680,6 @@ class HTML_person {
 			case Charge::PERIOD_MONTHLY:
 				$format = DateUtil::FORMAT_MONTHLY;
 				break;
-			case Charge::PERIOD_QUARTERLY:
-				$format = DateUtil::FORMAT_QUARTERLY;
-				break;
-			case Charge::PERIOD_HALFYEARLY:
-				$format = DateUtil::FORMAT_HALFYEARLY;
-				break;
-			case Charge::PERIOD_YEARLY:
-				$format = DateUtil::FORMAT_MONTHLY;
-				break;
 			default:
 				$format = DateUtil::FORMAT_FULL;
 		}
@@ -850,15 +841,6 @@ class HTML_person {
 				$jsFormat = 'dd.MM.yyyy';
 				break;
 			case Charge::PERIOD_MONTHLY:
-				$jsFormat = 'MM/yyyy';
-				break;
-			case Charge::PERIOD_QUARTERLY:
-				$jsFormat = 'm/yyyy'; //TODO> to be implemented
-				break;
-			case Charge::PERIOD_HALFYEARLY:
-				$jsFormat = 'm/yyyy'; //TODO> to be implemented
-				break;
-			case Charge::PERIOD_YEARLY:
 				$jsFormat = 'MM/yyyy';
 				break;
 		}
@@ -1042,62 +1024,11 @@ class HTML_person {
             </script>
             <input type="text" name="HC_datestart" value="<?php echo $dateStart->getFormattedDate(DateUtil::FORMAT_MONTHLY); ?>" class="width-form-button" size="35" maxlength="10" />
             <a href="#" onclick="cal1x.showCalendar('anchor1x'); return false;" name="anchor1x" id="anchor1x"><img src="images/22x22/apps/calendar.png" style="width: 16px; height: 16px; vertical-align: middle; position: relative; top: -2px; cursor: pointer;" alt="<?php echo _("Calendar"); ?>" /></a>
-<?php	} else if ($charge->CH_period == Charge::PERIOD_QUARTERLY) { ?>
-            <script type="text/javascript" language="JavaScript" ID="jscal1x">
-		var cal1x = new CalendarPopup("caldiv");
-		cal1x.setDisplayType("quarter");
-		cal1x.setReturnQuarterFunction("myQuarterReturn1x");
-		cal1x.showYearNavigation(true);
-		cal1x.offsetX = 0;
-		cal1x.offsetY = 16;
-		function myQuarterReturn1x(y,q) {
-			document.adminForm.HC_datestart.value=q+"/"+y;
-		}
-            </script>
-            <input type="text" name="HC_datestart" value="<?php echo $dateStart->getFormattedDate(DateUtil::FORMAT_QUARTERLY); ?>" class="width-form-button" size="35" maxlength="10" />
-            <a href="#" onclick="cal1x.showCalendar('anchor1x'); return false;" name="anchor1x" id="anchor1x"><img src="images/22x22/apps/calendar.png" style="width: 16px; height: 16px; vertical-align: middle; position: relative; top: -2px; cursor: pointer;" alt="<?php echo _("Calendar"); ?>" /></a>
-<?php	} else if ($charge->CH_period == Charge::PERIOD_HALFYEARLY) { ?>
-            <script type="text/javascript" language="JavaScript" ID="jscal1x">
-		var cal1x = new CalendarPopup("caldiv");
-		cal1x.setDisplayType("half");
-		cal1x.setReturnHalfFunction("myHalfReturn1x");
-		cal1x.showYearNavigation(true);
-		cal1x.offsetX = 0;
-		cal1x.offsetY = 16;
-		function myHalfReturn1x(y,h) {
-			document.adminForm.HC_datestart.value=h+"/"+y;
-		}
-            </script>
-            <input type="text" name="HC_datestart" value="<?php echo $dateStart->getFormattedDate(DateUtil::FORMAT_HALFYEARLY); ?>" class="width-form-button" size="35" maxlength="10" />
-            <a href="#" onclick="cal1x.showCalendar('anchor1x'); return false;" name="anchor1x" id="anchor1x"><img src="images/22x22/apps/calendar.png" style="width: 16px; height: 16px; vertical-align: middle; position: relative; top: -2px; cursor: pointer;" alt="<?php echo _("Calendar"); ?>" /></a>
-<?php	} if ($charge->CH_period == Charge::PERIOD_YEARLY) { ?>
-            <script type="text/javascript" language="JavaScript" ID="jscal1x">
-		var cal1x = new CalendarPopup("caldiv");
-		cal1x.setDisplayType("month");
-		cal1x.setMonthNames("Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec");
-		cal1x.setMonthAbbreviations("Led","Úno","Bře","Dub","Kvě","Čer","Čer","Srp","Zář","Říj","Lis","Pro");
-		cal1x.setReturnMonthFunction("myMonthReturn1x");
-		cal1x.showYearNavigation(true);
-		cal1x.offsetX = 0;
-		cal1x.offsetY = 16;
-		function myMonthReturn1x(y,m) {
-			if (m < 10) m = '0' + m;
-			document.adminForm.HC_datestart.value=m+"/"+y;
-		}
-            </script>
-            <input type="text" name="HC_datestart" value="<?php echo $dateStart->getFormattedDate(DateUtil::FORMAT_MONTHLY); ?>" class="width-form-button" size="35" maxlength="10" />
-            <a href="#" onclick="cal1x.showCalendar('anchor1x'); return false;" name="anchor1x" id="anchor1x"><img src="images/22x22/apps/calendar.png" style="width: 16px; height: 16px; vertical-align: middle; position: relative; top: -2px; cursor: pointer;" alt="<?php echo _("Calendar"); ?>" /></a>
 <?php	}
 	} else {
 		if ($charge->CH_period == Charge::PERIOD_ONCE) { ?>
             <input type="text" name="HC_datestart" value="<?php echo $dateStart->getFormattedDate(DateUtil::FORMAT_DATE); ?>" class="width-form-button" size="35" disabled="disabled" />
 <?php	} else if ($charge->CH_period == Charge::PERIOD_MONTHLY) { ?>
-            <input type="text" name="HC_datestart" value="<?php echo $dateStart->getFormattedDate(DateUtil::FORMAT_MONTHLY); ?>" class="width-form-button" size="35" disabled="disabled" />
-<?php	} else if ($charge->CH_period == Charge::PERIOD_QUARTERLY) { ?>
-            <input type="text" name="HC_datestart" value="<?php echo $dateStart->getFormattedDate(DateUtil::FORMAT_QUARTERLY); ?>" class="width-form-button" size="35" disabled="disabled" />
-<?php	} else if ($charge->CH_period == Charge::PERIOD_HALFYEARLY) { ?>
-            <input type="text" name="HC_datestart" value="<?php echo $dateStart->getFormattedDate(DateUtil::FORMAT_HALFYEARLY); ?>" class="width-form-button" size="35" disabled="disabled" />
-<?php	} if ($charge->CH_period == Charge::PERIOD_YEARLY) { ?>
             <input type="text" name="HC_datestart" value="<?php echo $dateStart->getFormattedDate(DateUtil::FORMAT_MONTHLY); ?>" class="width-form-button" size="35" disabled="disabled" />
 <?php	}
 	}
@@ -1133,67 +1064,6 @@ class HTML_person {
 			}
             </script>
             <input type="text" name="HC_dateend" value="<?php echo $dateEnd->getFormattedDate(DateUtil::FORMAT_MONTHLY); ?>" class="width-form-button" size="35" maxlength="10" />
-            <a href="#" onclick="cal2x.showCalendar('anchor2x'); return false;" name="anchor2x" id="anchor2x"><img src="images/22x22/apps/calendar.png" style="width: 16px; height: 16px; vertical-align: middle; position: relative; top: -2px; cursor: pointer;" alt="<?php echo _("Calendar"); ?>" /></a>
-          </td>
-        </tr>
-<?php
-	} else if ($charge->CH_period == Charge::PERIOD_QUARTERLY) { ?>
-        <tr>
-          <td><?php echo _("End date:"); ?></td>
-          <td>
-            <script type="text/javascript" language="JavaScript" ID="jscal2x">
-			var cal2x = new CalendarPopup("caldiv");
-			cal2x.setDisplayType("quarter");
-			cal2x.setReturnQuarterFunction("myQuarterReturn2x");
-			cal2x.showYearNavigation(true);
-			cal2x.offsetX = 0;
-			cal2x.offsetY = 16;
-			function myQuarterReturn2x(y,q) {
-				document.adminForm.HC_dateend.value=q+"/"+y;
-			}
-            </script>
-            <input type="text" name="HC_dateend" value="<?php echo $dateEnd->getFormattedDate(DateUtil::FORMAT_QUARTERLY); ?>" class="width-form-button" size="35" maxlength="10" />
-            <a href="#" onclick="cal2x.showCalendar('anchor2x'); return false;" name="anchor2x" id="anchor2x"><img src="images/22x22/apps/calendar.png" style="width: 16px; height: 16px; vertical-align: middle; position: relative; top: -2px; cursor: pointer;" alt="<?php echo _("Calendar"); ?>" /></a>
-          </td>
-        </tr>
-<?php
-	} else if ($charge->CH_period == Charge::PERIOD_HALFYEARLY) { ?>
-        <tr>
-          <td><?php echo _("End date:"); ?></td>
-          <td>
-            <script type="text/javascript" language="JavaScript" ID="jscal2x">
-			var cal2x = new CalendarPopup("caldiv");
-			cal2x.setDisplayType("half");
-			cal2x.setReturnHalfFunction("myHalfReturn2x");
-			cal2x.showYearNavigation(true);
-			cal2x.offsetX = 0;
-			cal2x.offsetY = 16;
-			function myHalfReturn2x(y,h) {
-				document.adminForm.HC_dateend.value=h+"/"+y;
-			}
-            </script>
-            <input type="text" name="HC_dateend" value="<?php echo $dateEnd->getFormattedDate(DateUtil::FORMAT_HALFYEARLY); ?>" class="width-form-button" size="35" maxlength="10" />
-            <a href="#" onclick="cal2x.showCalendar('anchor2x'); return false;" name="anchor2x" id="anchor2x"><img src="images/22x22/apps/calendar.png" style="width: 16px; height: 16px; vertical-align: middle; position: relative; top: -2px; cursor: pointer;" alt="<?php echo _("Calendar"); ?>" /></a>
-          </td>
-        </tr>
-<?php
-	} else if ($charge->CH_period == Charge::PERIOD_YEARLY) { ?>
-        <tr>
-          <td><?php echo _("End date:"); ?></td>
-          <td>
-            <script type="text/javascript" language="JavaScript" ID="jscal2x">
-			var cal2x = new CalendarPopup("caldiv");
-			cal2x.setDisplayType("month");
-			cal2x.setReturnYearFunction("myMonthReturn2x");
-			cal2x.showYearNavigation(true);
-			cal2x.offsetX = 0;
-			cal2x.offsetY = 16;
-			function myMonthReturn2x(y,m) {
-				if (m < 10) m = '0' + m;
-				document.adminForm.HC_dateend.value=m+"/"+y;
-			}
-            </script>
-            <input type="text" name="HC_dateend" value="<?php echo $dateEnd->getFormattedDate(DateUtil::FORMAT_MONTHLY);; ?>" class="width-form-button" size="35" maxlength="10" />
             <a href="#" onclick="cal2x.showCalendar('anchor2x'); return false;" name="anchor2x" id="anchor2x"><img src="images/22x22/apps/calendar.png" style="width: 16px; height: 16px; vertical-align: middle; position: relative; top: -2px; cursor: pointer;" alt="<?php echo _("Calendar"); ?>" /></a>
           </td>
         </tr>
@@ -1244,20 +1114,6 @@ class HTML_person {
 
 <?php
 	if ($charge->CH_period == Charge::PERIOD_MONTHLY) {
-?>
-		formValidator.addValidation("HC_dateend","date=MM/yyyy","<?php echo _("End date is in incorrect format"); ?>");
-<?php
-	} else if ($charge->CH_period == Charge::PERIOD_QUARTERLY) {
-?>
-//		formValidator.addValidation("HC_dateend","date=yyyy","<?php echo _("End date is in incorrect format"); ?>");
-		//TODO> implement validator
-<?php
-	} else if ($charge->CH_period == Charge::PERIOD_HALFYEARLY) {
-?>
-//		formValidator.addValidation("HC_dateend","date=yyyy","<?php echo _("End date is in incorrect format"); ?>");
-		//TODO implement validator
-<?php
-	} else if ($charge->CH_period == Charge::PERIOD_YEARLY) {
 ?>
 		formValidator.addValidation("HC_dateend","date=MM/yyyy","<?php echo _("End date is in incorrect format"); ?>");
 <?php

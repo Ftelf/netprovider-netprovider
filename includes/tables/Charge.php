@@ -49,16 +49,10 @@ class Charge {
     const PERIOD_ONCE = 1;
     //reserve weekly = 2
     const PERIOD_MONTHLY = 3;
-    const PERIOD_QUARTERLY = 4;
-    const PERIOD_HALFYEARLY = 5;
-    const PERIOD_YEARLY = 6;
 
     public static $PERIOD_ARRAY = array(
         1, //Once
-        3, //Monthly
-        4, //Quarterly
-        5, //Half-yearly
-        6, //Yearly
+        3 //Monthly
     );
 
     public static function getLocalizedPeriod($period) {
@@ -68,15 +62,6 @@ class Charge {
 
             case self::PERIOD_MONTHLY:
                 return _("Monthly");
-
-            case self::PERIOD_QUARTERLY:
-                return _("Quarterly");
-
-            case self::PERIOD_HALFYEARLY:
-                return _("Half-yearly");
-
-            case self::PERIOD_YEARLY:
-                return _("Yearly");
         }
     }
 

@@ -413,15 +413,6 @@ class HTML_myprofile {
 		case Charge::PERIOD_MONTHLY:
 			$format = DateUtil::FORMAT_MONTHLY;
 			break;
-		case Charge::PERIOD_QUARTERLY:
-			$format = DateUtil::FORMAT_QUARTERLY;
-			break;
-		case Charge::PERIOD_HALFYEARLY:
-			$format = DateUtil::FORMAT_HALFYEARLY;
-			break;
-		case Charge::PERIOD_YEARLY:
-			$format = DateUtil::FORMAT_MONTHLY;
-			break;
 		default:
 			$format = DateUtil::FORMAT_FULL;
 	}
