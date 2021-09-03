@@ -24,7 +24,6 @@ require_once($core->getAppRoot() . "includes/tables/PersonAccount.php");
 require_once($core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php");
 require_once($core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php");
 require_once($core->getAppRoot() . "includes/dao/ChargeEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/InvoiceDAO.php");
 require_once($core->getAppRoot() . "includes/billing/ChargesUtil.php");
 require_once($core->getAppRoot() . "includes/utils/DateUtil.php");
 require_once('personaccount.html.php');
@@ -181,11 +180,6 @@ function showPersonAccountDetail($pid=null) {
         $hasCharge->_chargeEntries = $chargeEntriesTmp;
         foreach ($chargeEntriesTmp as $chargeEntryTmp) {
             $chargeEntries[$chargeEntryTmp->CE_chargeentryid] = $chargeEntryTmp;
-            try {
-                $chargeEntryTmp->_invoice = InvoiceDAO::getInvoiceByChargeEntryID($chargeEntryTmp->CE_chargeentryid);
-            } catch (Exception $e) {
-                $chargeEntryTmp->_invoice = null;
-            }
         }
     }
     HTML_PersonAccount::showPersonAccountDetail($person, $personAccount, $bankAccountEntries, $personAccountEntries, $chargeEntries, $hasCharges, $charges);
@@ -462,7 +456,6 @@ function removeCharge($ceid) {
             $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false, false);
         }
         ChargeEntryDAO::removeChargeEntryByID($chargeEntry->CE_chargeentryid);
-        InvoiceDAO::removeInvoiceByChargeEntryID($chargeEntry->CE_chargeentryid);
         $database->commit();
     } catch (Exception $e) {
         $database->rollback();

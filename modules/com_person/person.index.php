@@ -21,7 +21,6 @@ defined('VALID_MODULE') or die(_("Direct access into this section is not allowed
 global $core;
 require_once($core->getAppRoot() . "includes/dao/SessionDAO.php");
 require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once($core->getAppRoot() . "includes/dao/InvoiceDAO.php");
 require_once($core->getAppRoot() . "includes/dao/PersonAccountDAO.php");
 require_once($core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php");
 require_once($core->getAppRoot() . "includes/dao/GroupDAO.php");
@@ -36,6 +35,7 @@ require_once($core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php");
 require_once($core->getAppRoot() . "includes/dao/LogDAO.php");
 require_once($core->getAppRoot() . "includes/dao/MessageDAO.php");
 require_once($core->getAppRoot() . "includes/dao/NetworkDAO.php");
+require_once($core->getAppRoot() . "includes/billing/ChargesUtil.php");
 require_once('person.html.php');
 
 $task = Utils::getParam($_REQUEST, 'task', null);
@@ -509,7 +509,6 @@ function removeHasCharge($hcid=null) {
             }
 
             ChargeEntryDAO::removeChargeEntryByID($chargeEntry->CE_chargeentryid);
-            InvoiceDAO::removeInvoiceByChargeEntryID($chargeEntry->CE_chargeentryid);
         }
 
         HasChargeDAO::removeHasChargeByID($hasCharge->HC_haschargeid);
@@ -565,12 +564,6 @@ function saveHasCharge($task) {
             }
             $hasCharge->HC_datestart = null;
             $hasCharge->HC_dateend = $dateEnd->getFormattedDate(DateUtil::DB_DATE);
-
-            // check for missing charge entries
-            $chargeEntries = ChargeEntryDAO::getChargeEntryArrayByHasChargeID($hasCharge->HC_haschargeid, $nextPaymentDayAfterEnd);
-
-            $nextPaymentDayAfterEnd = new DateUtil($dateEnd);
-            $nextPaymentDayAfterEnd->add(DateUtil::MONTH, 1);
         }
     } else {
         $status['HC_datestart'] = true;

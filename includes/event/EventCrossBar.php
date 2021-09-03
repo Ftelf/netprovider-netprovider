@@ -88,37 +88,6 @@ Class EventCrossBar {
                     }
                 }
             }
-        } else if ($event instanceof InvoiceCreated) {
-            foreach ($this->handleEventArray as &$handleEvent) {
-                if ($handleEvent->HE_type == HandleEvent::TYPE_INVOICE_CREATED &&
-                    $handleEvent->HE_status == HandleEvent::STATUS_ENABLED) {
-
-                    $invoicePdf = new InvoiceFactory($event->getInvoiceId());
-
-                    $blob = array(array(
-                        "NAME" => $invoicePdf->getFilename(),
-                        "ATTACHMENT" => $invoicePdf->getBlob()
-                    ));
-
-                    if ($handleEvent->HE_notifypersonid) {
-                        $person = PersonDAO::getPersonByID($handleEvent->HE_notifypersonid);
-                    } else {
-                        $person = $event->getPerson();
-                    }
-
-                    $template = $this->templateArray[$handleEvent->HE_handleeventid];
-                    $template = mb_ereg_replace("\|PERSON_NAME\|", $event->getPerson()->PE_firstname." ".$event->getPerson()->PE_surname, $template);
-
-                    $this->emailUtil->queueMessage($person, $handleEvent->HE_emailsubject, $template, $blob);
-
-                    try {
-                        $this->emailUtil->sendMessages();
-                    } catch (Exception $e) {
-                        $msg = "Error sending message: " . $e->getMessage();
-                        $database->log($msg, Log::LEVEL_ERROR);
-                    }
-                }
-            }
         }
     }
 } // End of EventCrossBar class

@@ -260,7 +260,6 @@ class HTML_PersonAccount {
 		global $core;
 		$enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
 		$entriesColspan = ($enableVatPayerSpecifics) ? 11 : 9;
-		$enableInvoiceModule = $core->getProperty(Core::ENABLE_INVOICE_MODULE);
 ?>
 <script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
@@ -304,10 +303,6 @@ class HTML_PersonAccount {
 			var confirm = window.confirm("<?php echo _("Ignore payment and disable service for this period ?"); ?>");
 		} else if (action == 'removeCharge') {
 			var confirm = window.confirm("<?php echo _("Remove this payment ? It it was already payed, amount is benefited to user's account"); ?>");
-		<?php if ($core->getProperty(Core::ENABLE_INVOICE_MODULE)) { ?>
-		} else if (action == 'generateInvoice') {
-			window.open("download.php?option=com_personaccount&task=invoice&CE_chargeentryid="+id,'_blank','');
-		<?php } ?>
 		} else {
 			return;
 		}
@@ -707,11 +702,6 @@ class HTML_PersonAccount {
 		$chargeEntry->CE_status == ChargeEntry::STATUS_DISABLED) {
 ?>
           <option value="removeCharge"><?php echo _("Remove"); ?></option>
-<?php
-	}
-	if ($enableInvoiceModule && $chargeEntry->_invoice) {
-?>
-          <option value="generateInvoice"><?php echo _("Invoice"); ?></option>
 <?php
 	}
 ?>

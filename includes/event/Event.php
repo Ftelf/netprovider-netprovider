@@ -17,7 +17,6 @@
 
 global $core;
 require_once($core->getAppRoot() . "includes/event/ChargePaymentDeadlineEvent.php");
-require_once($core->getAppRoot() . "includes/event/InvoiceCreated.php");
 
 /**
  * Event

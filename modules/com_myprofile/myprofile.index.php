@@ -24,7 +24,6 @@ require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
 require_once($core->getAppRoot() . "includes/dao/PersonAccountDAO.php");
 require_once($core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php");
 require_once($core->getAppRoot() . "includes/dao/GroupDAO.php");
-require_once($core->getAppRoot() . "includes/dao/InvoiceDAO.php");
 require_once($core->getAppRoot() . "includes/dao/ChargeDAO.php");
 require_once($core->getAppRoot() . "includes/dao/ChargeDAO.php");
 require_once($core->getAppRoot() . "includes/dao/HasChargeDAO.php");
@@ -79,14 +78,6 @@ function showPerson() {
 
     foreach ($hasCharges as &$hasCharge) {
         $hasCharge->_chargeEntries = ChargeEntryDAO::getChargeEntryArrayByHasChargeID($hasCharge->HC_haschargeid);
-
-        foreach ($hasCharge->_chargeEntries as &$chargeEntry) {
-            try {
-                $chargeEntry->_invoice = InvoiceDAO::getInvoiceByChargeEntryID($chargeEntry->CE_chargeentryid);
-            } catch (Exception $e) {
-                $chargeEntry->_invoice = null;
-            }
-        }
     }
 
     $group = GroupDAO::getGroupByID($person->PE_groupid);

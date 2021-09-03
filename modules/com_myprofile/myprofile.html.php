@@ -38,7 +38,6 @@ class HTML_myprofile {
 		$allowFirmRegistration = $core->getProperty(Core::ALLOW_FIRM_REGISTRATION);
 		$enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
 		$chargesTableColspan = ($enableVatPayerSpecifics) ? 11 : 9;
-		$enableInvoiceModule = $core->getProperty(Core::ENABLE_INVOICE_MODULE);
 		$birthDate = new DateUtil($person->PE_birthdate);
 		$registerDate = new DateUtil($person->PE_registerdate);
 ?>
@@ -63,12 +62,6 @@ class HTML_myprofile {
 		document.getElementById('date_monthx').value = document.adminForm.date_month.value;
   		document.adminForm.submit();
 	}
-
-	<?php if ($core->getProperty(Core::ENABLE_INVOICE_MODULE)) { ?>
-	function generateInvoice(id) {
-		window.open("download.php?option=com_myprofile&task=invoice&IN_invoiceid="+id,'_blank','');
-	}
-	<?php } ?>
 </script>
 
 <div id="caldiv" STYLE="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;z-index:999;"></div>
@@ -385,7 +378,6 @@ class HTML_myprofile {
             <th width="10%" class="title"><?php echo _("Amount"); ?></th>
             <?php } ?>
             <th width="10%" class="title"><?php echo _("Currency"); ?></th>
-            <th width="10%" class="title"><?php echo _("Action"); ?></th>
           </tr>
           </thead>
           <tbody>
@@ -445,21 +437,6 @@ class HTML_myprofile {
             </td>
             <td align="left">
               <?php echo $chargeEntry->CE_currency; ?>
-            </td>
-            <td align="left">
-<?php
-	if ($enableInvoiceModule && $chargeEntry->_invoice) {
-
-?>
-              <a href="javascript:generateInvoice(<?php echo $chargeEntry->_invoice->IN_invoiceid; ?>)"><?php echo _("Invoice"); ?></a>
-<?php
-	} else {
-
-?>
-              N/A
-<?php
-	}
-?>
             </td>
           </tr>
 <?php

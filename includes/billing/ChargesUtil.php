@@ -24,13 +24,10 @@ require_once($core->getAppRoot() . "includes/net/email/MimeDecode.php");
 require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
 require_once($core->getAppRoot() . "includes/dao/ChargeDAO.php");
 require_once($core->getAppRoot() . "includes/dao/ChargeEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/InvoiceDAO.php");
-require_once($core->getAppRoot() . "includes/dao/InvoiceNumberDAO.php");
 require_once($core->getAppRoot() . "includes/dao/HasChargeDAO.php");
 require_once($core->getAppRoot() . "includes/dao/PersonAccountDAO.php");
 require_once($core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php");
 require_once($core->getAppRoot() . "includes/utils/DateUtil.php");
-require_once($core->getAppRoot() . "includes/invoice/InvoiceFactory.php");
 
 /**
  * ChargesUtil
@@ -59,163 +56,128 @@ class ChargesUtil {
         }
     }
 
-    public function createBlankChargeEntriesForPerson($person) {
+    public function createBlankChargeEntriesForPerson($person, $ignoreStatuses = false) {
         global $database, $eventCrossBar;
 
         $now = new DateUtil();
-
-        $persons = PersonDAO::getPersonWithAccountArray();
         $charges = ChargeDAO::getChargeArray();
 
-        // Iterate all active persons
-        //
-        if ($person->PE_status == Person::STATUS_ACTIVE) {
+        // Iterate persons
+        if ($ignoreStatuses || $person->PE_status == Person::STATUS_ACTIVE) {
+
             // get HasCharges for current person
-            //
             $hasCharges = HasChargeDAO::getHasChargeArrayByPersonID($person->PE_personid);
+
             // Iterate all HasCharges for this person
-            //
             foreach ($hasCharges as &$hasCharge) {
-                if ($hasCharge->HC_status == HasCharge::STATUS_ENABLED ||
-                  $hasCharge->HC_status == HasCharge::STATUS_FORCE_DISABLED ||
-                  $hasCharge->HC_status == HasCharge::STATUS_FORCE_ENABLED) {
+                if (!$ignoreStatuses &&
+                  $hasCharge->HC_status != HasCharge::STATUS_ENABLED &&
+                  $hasCharge->HC_status != HasCharge::STATUS_FORCE_DISABLED &&
+                  $hasCharge->HC_status != HasCharge::STATUS_FORCE_ENABLED) {
+                    continue;
+                }
 
-                    if (isset($charges[$hasCharge->HC_chargeid])) {
-                        $charge = $charges[$hasCharge->HC_chargeid];
+                if (!isset($charges[$hasCharge->HC_chargeid])) {
+                    $msg = sprintf("PersonID: %s has non-existent chargeID: %d", $person->PE_personid, $hasCharge->HC_chargeid);
+                    $this->_messages[] = $msg;
+                    $database->log($msg);
 
-                        $dateStart = new DateUtil($hasCharge->HC_datestart);
-                        $dateEnd = new DateUtil($hasCharge->HC_dateend);
-                        // Invalid date ?
-                        //
-                        if ($dateEnd->getTime() != null && $dateStart->after($dateEnd)) {
-                            $msg = sprintf("PersonID: %s has chargeID: %d where start date is before end date", $person->PE_personid, $hasCharge->HC_chargeid);
+                    return;
+                }
+
+                $charge = $charges[$hasCharge->HC_chargeid];
+
+                $dateStart = new DateUtil($hasCharge->HC_datestart);
+                $dateEnd = new DateUtil($hasCharge->HC_dateend);
+
+                // Invalid date ?
+                if ($dateEnd->getTime() != null && $dateStart->after($dateEnd)) {
+                    $msg = sprintf("PersonID: %s has chargeID: %d where start date is before end date", $person->PE_personid, $hasCharge->HC_chargeid);
+                    $this->_messages[] = $msg;
+                    $database->log($msg);
+                    continue;
+                }
+
+                // get all ChargeEntries for this HasCharge
+                $chargeEntries = ChargeEntryDAO::getChargeEntryArrayByHasChargeID($hasCharge->HC_haschargeid);
+
+                if ($charge->CH_period == Charge::PERIOD_MONTHLY) {
+                    // Process monthly payment
+                    // tsStart is start date aligned to 1.day of month in case of any bogus data
+                    if ($dateStart->get(DateUtil::DAY) != 1) {
+                        $msg = "HasCharge ID: $hasCharge->HC_haschargeid has invalid start date";
+                        $this->_messages[] = $msg;
+                        $database->log($msg);
+                        continue;
+                    }
+
+                    $mDateMax = clone $now;
+                    $mDateMax->set(DateUtil::SECONDS, 0);
+                    $mDateMax->set(DateUtil::MINUTES, 0);
+                    $mDateMax->set(DateUtil::HOUR, 0);
+                    $mDateMax->set(DateUtil::DAY, 1);
+                    $mDateMax->add(DateUtil::MONTH, $this->_advancePayments);
+
+                    if ($dateEnd->getTime() == null) {
+                        $mEndDate = new DateUtil();
+                        $mEndDate->setTime($mDateMax->getTime());
+                    } else {
+                        $mEndDate = clone $dateEnd;
+                        if ($mEndDate->get(DateUtil::DAY) != 1) {
+                            $msg = "HasCharge ID: $hasCharge->HC_haschargeid has invalid end date";
                             $this->_messages[] = $msg;
                             $database->log($msg);
                             continue;
                         }
+                        if ($mEndDate->after($mDateMax)) {
+                            $mEndDate->setTime($mDateMax->getTime());
+                        }
+                    }
+                    $floatingDate = clone $dateStart;
 
-                        // get all ChargeEntries for this HasCharge
-                        //
-                        $chargeEntries = ChargeEntryDAO::getChargeEntryArrayByHasChargeID($hasCharge->HC_haschargeid);
-
-                        if ($charge->CH_period == Charge::PERIOD_MONTHLY) {
-                            // Process monthly payment
-                            // tsStart is start date alinged to 1.day of month in case of any bogus data
-                            if ($dateStart->get(DateUtil::DAY) != 1) {
-                                $msg = "HasCharge ID: $hasCharge->HC_haschargeid has invalid start date";
+                    while (!$mEndDate->before($floatingDate)) {
+                        $found = false;
+                        foreach ($chargeEntries as $chargeEntry) {
+                            $ceDate = new DateUtil($chargeEntry->CE_period_date);
+                            if ($ceDate->get(DateUtil::DAY) != 1) {
+                                $msg = "ChargeEntry ID: $chargeEntry->CE_chargeentryid has invalid period date";
                                 $this->_messages[] = $msg;
                                 $database->log($msg);
                                 continue;
                             }
-
-                            $mDateMax = clone $now;
-                            $mDateMax->set(DateUtil::SECONDS, 0);
-                            $mDateMax->set(DateUtil::MINUTES, 0);
-                            $mDateMax->set(DateUtil::HOUR, 0);
-                            $mDateMax->set(DateUtil::DAY, 1);
-                            $mDateMax->add(DateUtil::MONTH, $this->_advancePayments);
-
-                            if ($dateEnd->getTime() == null) {
-                                $mEndDate = new DateUtil();
-                                $mEndDate->setTime($mDateMax->getTime());
-                            } else {
-                                $mEndDate = clone $dateEnd;
-                                if ($mEndDate->get(DateUtil::DAY) != 1) {
-                                    $msg = "HasCharge ID: $hasCharge->HC_haschargeid has invalid end date";
-                                    $this->_messages[] = $msg;
-                                    $database->log($msg);
-                                    continue;
-                                }
-                                if ($mEndDate->after($mDateMax)) {
-                                    $mEndDate->setTime($mDateMax->getTime());
-                                }
-                            }
-                            $floatingDate = clone $dateStart;
-
-                            while (!$mEndDate->before($floatingDate)) {
-                                $found = false;
-                                foreach ($chargeEntries as $chargeEntry) {
-                                    $ceDate = new DateUtil($chargeEntry->CE_period_date);
-                                    if ($ceDate->get(DateUtil::DAY) != 1) {
-                                        $msg = "ChargeEntry ID: $chargeEntry->CE_chargeentryid has invalid period date";
-                                        $this->_messages[] = $msg;
-                                        $database->log($msg);
-                                        continue;
-                                    }
-                                    if ($floatingDate->compareTo($ceDate) == 0) {
-                                        $found = true;
-                                        break;
-                                    }
-                                }
-                                if (!$found) {
-                                    // No ChargeEntry stored, crete new one
-                                    //
-                                    try {
-                                        $database->startTransaction();
-
-                                        $chargeEntry = new ChargeEntry();
-                                        $chargeEntry->CE_haschargeid = $hasCharge->HC_haschargeid;
-                                        $chargeEntry->CE_baseamount = $charge->CH_baseamount;
-                                        $chargeEntry->CE_vat = $charge->CH_vat;
-                                        $chargeEntry->CE_amount = $charge->CH_amount;
-                                        $chargeEntry->CE_currency = $charge->CH_currency;
-                                        $chargeEntry->CE_period_date = $floatingDate->getFormattedDate(DateUtil::DB_DATE);
-                                        $chargeEntry->CE_writeoffoffset = $charge->CH_writeoffoffset;
-                                        $chargeEntry->CE_realize_date = DateUtil::DB_NULL_DATE;
-                                        $chargeEntry->CE_overdue = 0;
-                                        $chargeEntry->CE_status = ChargeEntry::STATUS_PENDING;
-                                        $database->insertObject("chargeentry", $chargeEntry, "CE_chargeentryid", false);
-
-                                        $periodDate = new DateUtil($chargeEntry->CE_period_date);
-
-                                        try {
-                                            $invoiceNumber = InvoiceNumberDAO::getInvoiceByYear($periodDate->get(DateUtil::YEAR));
-                                        } catch (Exception $e) {
-                                            $invoiceNumber = new InvoiceNumber();
-                                            $invoiceNumber->IV_year = $periodDate->get(DateUtil::YEAR);
-                                            $invoiceNumber->IV_number = 1;
-
-                                            $database->insertObject("invoicenumber", $invoiceNumber, "IV_invoicenumberid", false);
-                                        }
-
-                                        $invoice = new Invoice();
-                                        $invoice->IN_invoicenumber = $periodDate->get(DateUtil::YEAR).$invoiceNumber->IV_number;
-                                        $invoice->IN_personid = $person->PE_personid;
-                                        $invoice->IN_chargeentryid = $chargeEntry->CE_chargeentryid;
-                                        $invoice->IN_dateofpay = $chargeEntry->CE_period_date;
-                                        $invoice->IN_invoicedate = $chargeEntry->CE_period_date;
-                                        $invoice->IN_taxdate = $chargeEntry->CE_period_date;
-                                        $invoice->IN_recommendedpaydate = $chargeEntry->CE_period_date;
-                                        $invoice->IN_bankaccount = "";
-                                        $invoice->IN_constantsymbol = $person->PA_constantsymbol;
-                                        $invoice->IN_variablesymbol = $person->PA_variablesymbol;
-                                        $invoice->IN_specificsymbol = $person->PA_specificsymbol;
-                                        $invoice->IN_baseamount = $chargeEntry->CE_baseamount;
-                                        $invoice->IN_amount = $chargeEntry->CE_amount;
-                                        $invoice->IN_currency = $chargeEntry->CE_currency;
-                                        $database->insertObject("invoice", $invoice, "IN_invoiceid", false);
-
-                                        $invoiceNumber->IV_number++;
-                                        $database->updateObject("invoicenumber", $invoiceNumber, "IV_invoicenumberid", false, false);
-
-                                        $event = new InvoiceCreated($now, clone $person, "Invoice created", $invoice->IN_invoiceid);
-                                        $eventCrossBar->dispatchEvent($event);
-
-                                        $database->commit();
-                                    } catch (Exception $e) {
-                                        $database->rollback();
-                                        $msg = "Charge::PERIOD_MONTHLY, Error creating chargeEntry: " . $e . ", " . $e->getMessage();
-                                        $this->_messages[] = $msg;
-                                        $database->log($msg, LOG::LEVEL_ERROR);
-                                    }
-                                }
-                                $floatingDate->add(DateUtil::MONTH, 1);
+                            if ($floatingDate->compareTo($ceDate) == 0) {
+                                $found = true;
+                                break;
                             }
                         }
-                    } else {
-                        $msg = sprintf("PersonID: %s has non-existent chargeID: %d", $person->PE_personid, $hasCharge->HC_chargeid);
-                        $this->_messages[] = $msg;
-                        $database->log($msg);
+                        if (!$found) {
+                            // No ChargeEntry stored, crete new one
+                            //
+                            try {
+                                $database->startTransaction();
+
+                                $chargeEntry = new ChargeEntry();
+                                $chargeEntry->CE_haschargeid = $hasCharge->HC_haschargeid;
+                                $chargeEntry->CE_baseamount = $charge->CH_baseamount;
+                                $chargeEntry->CE_vat = $charge->CH_vat;
+                                $chargeEntry->CE_amount = $charge->CH_amount;
+                                $chargeEntry->CE_currency = $charge->CH_currency;
+                                $chargeEntry->CE_period_date = $floatingDate->getFormattedDate(DateUtil::DB_DATE);
+                                $chargeEntry->CE_writeoffoffset = $charge->CH_writeoffoffset;
+                                $chargeEntry->CE_realize_date = DateUtil::DB_NULL_DATE;
+                                $chargeEntry->CE_overdue = 0;
+                                $chargeEntry->CE_status = ChargeEntry::STATUS_PENDING;
+                                $database->insertObject("chargeentry", $chargeEntry, "CE_chargeentryid", false);
+
+                                $database->commit();
+                            } catch (Exception $e) {
+                                $database->rollback();
+                                $msg = "Charge::PERIOD_MONTHLY, Error creating chargeEntry: " . $e . ", " . $e->getMessage();
+                                $this->_messages[] = $msg;
+                                $database->log($msg, LOG::LEVEL_ERROR);
+                            }
+                        }
+                        $floatingDate->add(DateUtil::MONTH, 1);
                     }
                 }
             }

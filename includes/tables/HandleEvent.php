@@ -58,12 +58,10 @@ class HandleEvent {
 
     const TYPE_CHARGE_PAYMENT_DEADLINE = 1;
 //	const TYPE_PAYMENT_RECEIVED = 2;
-    const TYPE_INVOICE_CREATED = 3;
 
     public static $TYPE_ARRAY = array(
-        1, //Charge payment deadline
+        1 //Charge payment deadline
 //		2 //Payment received
-        3 //Invoice created
     );
 
     public static function getLocalizedType($type) {
@@ -73,9 +71,6 @@ class HandleEvent {
 
 //			case self::TYPE_PAYMENT_RECEIVED:
 //				return _("Payment received");
-
-            case self::TYPE_INVOICE_CREATED:
-                return _("Invoice created");
         }
     }
 } // End of HandleEvent class

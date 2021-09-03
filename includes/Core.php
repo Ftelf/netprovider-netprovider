@@ -44,7 +44,6 @@ Class Core {
     const SYSTEM_DEBUG = "Debug";
 
     const BLANK_CHARGES_ADVANCE_COUNT = "Blank charges advance count";
-    const ENABLE_INVOICE_MODULE = "Enable invoice module";
     const ENABLE_VAT_PAYER_SPECIFICS = "Enable VAT Payer specifics";
     const ALLOW_FIRM_REGISTRATION = "Allow firm registration";
 
