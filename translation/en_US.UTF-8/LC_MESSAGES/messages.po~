@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-03 15:46+0200\n"
+"POT-Creation-Date: 2018-10-10 08:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,145 +67,153 @@ msgstr ""
 msgid "RB PDF attachment"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:126
+#: includes/tables/BankAccountEntry.php:130
 #: modules/com_paymentreport/paymentreport.html.php:483
 msgid "Other"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:129
+#: includes/tables/BankAccountEntry.php:133
 msgid "Transfer"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:132
+#: includes/tables/BankAccountEntry.php:136
 msgid "Incoming payment"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:135
+#: includes/tables/BankAccountEntry.php:139
 msgid "Cash deposit"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:138
+#: includes/tables/BankAccountEntry.php:142
 msgid "Continuing transfer"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:141
+#: includes/tables/BankAccountEntry.php:145
 msgid "Other transaction fee"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:144
+#: includes/tables/BankAccountEntry.php:148
 msgid "Positive increase"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:147
+#: includes/tables/BankAccountEntry.php:151
 msgid "Cash dispencer draft"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:150
+#: includes/tables/BankAccountEntry.php:154
 msgid "Credit card payment"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:153
+#: includes/tables/BankAccountEntry.php:157
 msgid "Account list generation"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:156
+#: includes/tables/BankAccountEntry.php:160
 msgid "Credit card administration fee"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:159
+#: includes/tables/BankAccountEntry.php:163
 msgid "Distribution of bank list"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:162
+#: includes/tables/BankAccountEntry.php:166
 msgid "Pool transfer"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:165
+#: includes/tables/BankAccountEntry.php:169
 msgid "Using and managing of Internet"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:168
+#: includes/tables/BankAccountEntry.php:172
 msgid "Loan increase"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:171
+#: includes/tables/BankAccountEntry.php:175
 msgid "Loan payment"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:174
+#: includes/tables/BankAccountEntry.php:178
 msgid "Using and managing of Account"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:177
+#: includes/tables/BankAccountEntry.php:181
 msgid "External fee"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:180
+#: includes/tables/BankAccountEntry.php:184
 msgid "Bank certificate"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:183
+#: includes/tables/BankAccountEntry.php:187
 msgid "Dissaving investment"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:186
+#: includes/tables/BankAccountEntry.php:190
 msgid "Transaction fee"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:189
+#: includes/tables/BankAccountEntry.php:193
 msgid "Cash withdraw"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:192
+#: includes/tables/BankAccountEntry.php:196
 msgid "Foreign SEPA"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:195
-msgid "Outcome"
+#: includes/tables/BankAccountEntry.php:199
+msgid "Outgoing Payment"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:198
+#: includes/tables/BankAccountEntry.php:202
 msgid "Interest tax"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:201
+#: includes/tables/BankAccountEntry.php:205
 msgid "Permanent payment"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:204
+#: includes/tables/BankAccountEntry.php:208
 msgid "One time payment"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:207
+#: includes/tables/BankAccountEntry.php:211
 msgid "Incoming payment #2"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:210
+#: includes/tables/BankAccountEntry.php:214
 msgid "One time payment #2"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:225 includes/tables/ChargeEntry.php:67
+#: includes/tables/BankAccountEntry.php:217
+msgid "Permanent Order"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:220
+msgid "Outgoing Charge"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:235 includes/tables/ChargeEntry.php:67
 #: includes/tables/Message.php:48
 msgid "Pending"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:228
+#: includes/tables/BankAccountEntry.php:238
 msgid "Processed"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:247
+#: includes/tables/BankAccountEntry.php:257
 msgid "Waiting for identification"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:250
+#: includes/tables/BankAccountEntry.php:260
 msgid "Person account"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:253
+#: includes/tables/BankAccountEntry.php:263
 msgid "Internal transaction"
 msgstr ""
 
-#: includes/tables/BankAccountEntry.php:256
+#: includes/tables/BankAccountEntry.php:266
 #: modules/com_personaccount/personaccount.html.php:714
 msgid "Ignore"
 msgstr ""

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-03 15:46+0200\n"
-"PO-Revision-Date: 2018-10-03 15:47+0200\n"
+"POT-Creation-Date: 2018-10-10 08:34+0200\n"
+"PO-Revision-Date: 2018-10-10 08:36+0200\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
 "Language: cs\n"
@@ -67,145 +67,153 @@ msgstr "KB ABO"
 msgid "RB PDF attachment"
 msgstr "Příloha RB PDF"
 
-#: includes/tables/BankAccountEntry.php:126
+#: includes/tables/BankAccountEntry.php:130
 #: modules/com_paymentreport/paymentreport.html.php:483
 msgid "Other"
 msgstr "Jíný"
 
-#: includes/tables/BankAccountEntry.php:129
+#: includes/tables/BankAccountEntry.php:133
 msgid "Transfer"
 msgstr "Převod"
 
-#: includes/tables/BankAccountEntry.php:132
+#: includes/tables/BankAccountEntry.php:136
 msgid "Incoming payment"
 msgstr "Příchozí platba"
 
-#: includes/tables/BankAccountEntry.php:135
+#: includes/tables/BankAccountEntry.php:139
 msgid "Cash deposit"
 msgstr "Vklad hotovosti"
 
-#: includes/tables/BankAccountEntry.php:138
+#: includes/tables/BankAccountEntry.php:142
 msgid "Continuing transfer"
 msgstr "Trvalý převod"
 
-#: includes/tables/BankAccountEntry.php:141
+#: includes/tables/BankAccountEntry.php:145
 msgid "Other transaction fee"
 msgstr "Jiný trans. poplatek"
 
-#: includes/tables/BankAccountEntry.php:144
+#: includes/tables/BankAccountEntry.php:148
 msgid "Positive increase"
 msgstr "Kladný úrok"
 
-#: includes/tables/BankAccountEntry.php:147
+#: includes/tables/BankAccountEntry.php:151
 msgid "Cash dispencer draft"
 msgstr "Výběr z bankomatu"
 
-#: includes/tables/BankAccountEntry.php:150
+#: includes/tables/BankAccountEntry.php:154
 msgid "Credit card payment"
 msgstr "Platba kreditní kartou"
 
-#: includes/tables/BankAccountEntry.php:153
+#: includes/tables/BankAccountEntry.php:157
 msgid "Account list generation"
 msgstr "Generování výpisu účtu"
 
-#: includes/tables/BankAccountEntry.php:156
+#: includes/tables/BankAccountEntry.php:160
 msgid "Credit card administration fee"
 msgstr "Poplatek za vedení karty"
 
-#: includes/tables/BankAccountEntry.php:159
+#: includes/tables/BankAccountEntry.php:163
 msgid "Distribution of bank list"
 msgstr "Distribuce bankovního výpisu"
 
-#: includes/tables/BankAccountEntry.php:162
+#: includes/tables/BankAccountEntry.php:166
 msgid "Pool transfer"
 msgstr "Poolovací převod"
 
-#: includes/tables/BankAccountEntry.php:165
+#: includes/tables/BankAccountEntry.php:169
 msgid "Using and managing of Internet"
 msgstr "Využívání a správa Internetového bankovnictví"
 
-#: includes/tables/BankAccountEntry.php:168
+#: includes/tables/BankAccountEntry.php:172
 msgid "Loan increase"
 msgstr "Úročení úvěru"
 
-#: includes/tables/BankAccountEntry.php:171
+#: includes/tables/BankAccountEntry.php:175
 msgid "Loan payment"
 msgstr "Splácení úvěru"
 
-#: includes/tables/BankAccountEntry.php:174
+#: includes/tables/BankAccountEntry.php:178
 msgid "Using and managing of Account"
 msgstr "Využívání a správa Konta"
 
-#: includes/tables/BankAccountEntry.php:177
+#: includes/tables/BankAccountEntry.php:181
 msgid "External fee"
 msgstr "Poplatek za externí zpracování"
 
-#: includes/tables/BankAccountEntry.php:180
+#: includes/tables/BankAccountEntry.php:184
 msgid "Bank certificate"
 msgstr "Vydání dávkového certifikátu"
 
-#: includes/tables/BankAccountEntry.php:183
+#: includes/tables/BankAccountEntry.php:187
 msgid "Dissaving investment"
 msgstr "Čerpání Investičního"
 
-#: includes/tables/BankAccountEntry.php:186
+#: includes/tables/BankAccountEntry.php:190
 msgid "Transaction fee"
 msgstr "Transakční poplatek"
 
-#: includes/tables/BankAccountEntry.php:189
+#: includes/tables/BankAccountEntry.php:193
 msgid "Cash withdraw"
 msgstr "Výběr hotovosti"
 
-#: includes/tables/BankAccountEntry.php:192
+#: includes/tables/BankAccountEntry.php:196
 msgid "Foreign SEPA"
 msgstr "Odchozí ZPS SEPA plat"
 
-#: includes/tables/BankAccountEntry.php:195
-msgid "Outcome"
+#: includes/tables/BankAccountEntry.php:199
+msgid "Outgoing Payment"
 msgstr "Odchozí platba"
 
-#: includes/tables/BankAccountEntry.php:198
+#: includes/tables/BankAccountEntry.php:202
 msgid "Interest tax"
 msgstr "Srážka daně z úroků"
 
-#: includes/tables/BankAccountEntry.php:201
+#: includes/tables/BankAccountEntry.php:205
 msgid "Permanent payment"
 msgstr "Trvalá platba"
 
-#: includes/tables/BankAccountEntry.php:204
+#: includes/tables/BankAccountEntry.php:208
 msgid "One time payment"
 msgstr "Jednorázová platba"
 
-#: includes/tables/BankAccountEntry.php:207
+#: includes/tables/BankAccountEntry.php:211
 msgid "Incoming payment #2"
 msgstr "Příchozí platba #2"
 
-#: includes/tables/BankAccountEntry.php:210
+#: includes/tables/BankAccountEntry.php:214
 msgid "One time payment #2"
 msgstr "Jednorázová platba #2"
 
-#: includes/tables/BankAccountEntry.php:225 includes/tables/ChargeEntry.php:67
+#: includes/tables/BankAccountEntry.php:217
+msgid "Permanent Order"
+msgstr "Trvalý příkaz"
+
+#: includes/tables/BankAccountEntry.php:220
+msgid "Outgoing Charge"
+msgstr "Odchozí úhrada"
+
+#: includes/tables/BankAccountEntry.php:235 includes/tables/ChargeEntry.php:67
 #: includes/tables/Message.php:48
 msgid "Pending"
 msgstr "Čeká na zpracování"
 
-#: includes/tables/BankAccountEntry.php:228
+#: includes/tables/BankAccountEntry.php:238
 msgid "Processed"
 msgstr "Zpracováno"
 
-#: includes/tables/BankAccountEntry.php:247
+#: includes/tables/BankAccountEntry.php:257
 msgid "Waiting for identification"
 msgstr "Čeká na identifikaci"
 
-#: includes/tables/BankAccountEntry.php:250
+#: includes/tables/BankAccountEntry.php:260
 msgid "Person account"
 msgstr "Uživatelský účet"
 
-#: includes/tables/BankAccountEntry.php:253
+#: includes/tables/BankAccountEntry.php:263
 msgid "Internal transaction"
 msgstr "Interní transakce"
 
-#: includes/tables/BankAccountEntry.php:256
+#: includes/tables/BankAccountEntry.php:266
 #: modules/com_personaccount/personaccount.html.php:714
 msgid "Ignore"
 msgstr "Ignorovat"
@@ -3717,6 +3725,9 @@ msgstr "Interní chyba systému"
 #: site/index2.php:147
 msgid "Supervisor has been informed"
 msgstr "Správce byl informován"
+
+#~ msgid "Outcome"
+#~ msgstr "Odchozí platba"
 
 #~ msgid "ABO"
 #~ msgstr "ABO"
