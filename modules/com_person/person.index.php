@@ -600,15 +600,20 @@ function saveHasCharge($task) {
         $database->updateObject("hascharge", $hasCharge, "HC_haschargeid", false, false);
     }
 
+    $chargesUtil = new ChargesUtil();
+    $chargesUtil->createOrRemoveChargeEntriesForPerson($person, true, true);
+
     switch ($task) {
         case 'applyHasCharge':
-            $msg = sprintf(_("Payment '%s' has been actualized for user '%s'"), $storedCharge->CH_name, $person->PE_surname." ".$person->PE_firstname);
+            $msg = sprintf(_("Payment '%s' has been actualized for user '%s'"), $storedCharge->CH_name, "$person->PE_surname $person->PE_firstname");
             $appContext->insertMessage($msg);
+            $appContext->insertMessages($chargesUtil->getMessages());
             $database->log($msg, LOG::LEVEL_INFO);
             Core::redirect("index2.php?option=com_person&hidemainmenu=1&task=editHasCharge&PE_personid=$hasCharge->HC_personid&HC_haschargeid=$hasCharge->HC_haschargeid");
         case 'saveHasCharge':
-            $msg = sprintf(_("Payment '%s' has been saved for user '%s'"), $storedCharge->CH_name, $person->PE_surname." ".$person->PE_firstname);
+            $msg = sprintf(_("Payment '%s' has been saved for user '%s'"), $storedCharge->CH_name, "$person->PE_surname $person->PE_firstname");
             $appContext->insertMessage($msg);
+            $appContext->insertMessages($chargesUtil->getMessages());
             $database->log($msg, LOG::LEVEL_INFO);
             Core::redirect("index2.php?option=com_person&hidemainmenu=1&task=edit&PE_personid=$hasCharge->HC_personid");
         default:
