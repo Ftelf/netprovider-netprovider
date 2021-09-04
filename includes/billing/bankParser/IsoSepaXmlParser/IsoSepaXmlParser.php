@@ -8,11 +8,11 @@
 // | This source file is part of Stealth ISP QOS system,                  |
 // | see LICENSE for licence details.                                     |
 // +----------------------------------------------------------------------+
-// | Authors: Lukas Dziadkowiec <stealth.home@seznam.cz>                  |
+// | Authors: Lukas Dziadkowiec <i.ftelf@gmail.com>                  |
 // +----------------------------------------------------------------------+
 
 /**
- * @author  Lukas Dziadkowiec <stealth.home@seznam.cz>
+ * @author  Lukas Dziadkowiec <i.ftelf@gmail.com>
  */
 
 global $core;

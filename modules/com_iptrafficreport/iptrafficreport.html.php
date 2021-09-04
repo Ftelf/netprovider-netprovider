@@ -8,11 +8,11 @@
 // | This source file is part of Stealth ISP QOS system,                  |
 // | see LICENSE for licence details.                                     |
 // +----------------------------------------------------------------------+
-// | Authors: Lukas Dziadkowiec <stealth.home@seznam.cz>                  |
+// | Authors: Lukas Dziadkowiec <i.ftelf@gmail.com>                  |
 // +----------------------------------------------------------------------+
 
 /**
- * @author  Lukas Dziadkowiec <stealth.home@seznam.cz>
+ * @author  Lukas Dziadkowiec <i.ftelf@gmail.com>
  */
 
 /** ensure this file is being included by a parent file */
@@ -32,12 +32,12 @@ class HTML_IpTrafficReport {
 	document.write(getCalendarStyles());
   	function filterChange() {
   		document.getElementById('date_fromx').value = document.adminForm.date_from.value;
-  		document.getElementById('date_tox').value = document.adminForm.date_to.value; 
+  		document.getElementById('date_tox').value = document.adminForm.date_to.value;
   		document.adminForm.submit();
   	}
   	function sortChange(sort_key, sort_direction) {
   		document.getElementById('sort_key').value = sort_key;
-  		document.getElementById('sort_direction').value = sort_direction; 
+  		document.getElementById('sort_direction').value = sort_direction;
   		document.adminForm.submit();
   	}
 	var cal1x = new CalendarPopup("caldiv");
@@ -202,9 +202,9 @@ class HTML_IpTrafficReport {
     <input type="hidden" name="filter[sort_direction]" id="sort_direction" value="<?php echo $filter['sort_direction']?>" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
-  
+
   </div>
 
   <div class="clr"></div>

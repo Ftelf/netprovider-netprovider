@@ -8,11 +8,11 @@
 // | This source file is part of Stealth ISP QOS system,                  |
 // | see LICENSE for licence details.                                     |
 // +----------------------------------------------------------------------+
-// | Authors: Lukas Dziadkowiec <stealth.home@seznam.cz>                  |
+// | Authors: Lukas Dziadkowiec <i.ftelf@gmail.com>                  |
 // +----------------------------------------------------------------------+
 
 /**
- * @author  Lukas Dziadkowiec <stealth.home@seznam.cz>
+ * @author  Lukas Dziadkowiec <i.ftelf@gmail.com>
  */
 
 /** ensure this file is being included by a parent file */
@@ -42,7 +42,7 @@ class HTML_admin {
         <div class="t"></div>
       </div>
     </div>
-  
+
     <div class="m">
       <div class="header icon-48-home">
         <?php echo _("Main page"); ?>
@@ -55,9 +55,9 @@ class HTML_admin {
       </div>
     </div>
   </div>
-  
+
   <div class="clr"></div>
-  
+
   <div id="element-box">
     <table class="adminform">
     <tr>
@@ -71,7 +71,7 @@ class HTML_admin {
 				</a>
 			</div>
 		</div>
-		
+
 		<div style="float: left;">
 			<div class="icon">
 				<a href="index2.php?option=com_group">
@@ -80,7 +80,7 @@ class HTML_admin {
 				</a>
 			</div>
 		</div>
-		
+
 		<div style="float: left;">
 			<div class="icon">
 				<a href="index2.php?option=com_role">
@@ -89,7 +89,7 @@ class HTML_admin {
 				</a>
 			</div>
 		</div>
-		
+
 		<div style="float: left;">
 			<div class="icon">
 				<a href="index2.php?option=com_bankaccount">
@@ -98,7 +98,7 @@ class HTML_admin {
 				</a>
 			</div>
 		</div>
-		
+
 		<div style="float: left;">
 			<div class="icon">
 				<a href="index2.php?option=com_personaccount">
@@ -107,7 +107,7 @@ class HTML_admin {
 				</a>
 			</div>
 		</div>
-		
+
 		<div style="float: left;">
 			<div class="icon">
 				<a href="index2.php?option=com_charge">
@@ -116,7 +116,7 @@ class HTML_admin {
 				</a>
 			</div>
 		</div>
-		
+
 		<div style="float: left;">
 			<div class="icon">
 				<a href="index2.php?option=com_network">
@@ -125,7 +125,7 @@ class HTML_admin {
 				</a>
 			</div>
 		</div>
-		
+
 		<div style="float: left;">
 			<div class="icon">
 				<a href="index2.php?option=com_paymentreport">
@@ -134,7 +134,7 @@ class HTML_admin {
 				</a>
 			</div>
 		</div>
-		
+
 		<div style="float: left;">
 			<div class="icon">
 				<a href="index2.php?option=com_scripts">
@@ -249,9 +249,9 @@ class HTML_admin {
     </tr>
     </table>
   </div>
-  
+
   <div class="clr"></div>
-  
+
 </div>
 
 <div class="clr"></div>
