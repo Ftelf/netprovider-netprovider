@@ -58,7 +58,7 @@ class ChargesUtil {
         }
     }
 
-    public function createOrRemoveChargeEntriesForPerson($person, $ignoreStatuses = false, $verbose = false) {
+    public function createOrRemoveChargeEntriesForPerson($person, $ignoreStatuses = false, $enableMessagesForEntries = false) {
         global $database, $eventCrossBar;
 
         $now = new DateUtil();
@@ -132,7 +132,7 @@ class ChargesUtil {
                         }
 
                         if ($mEndDate->after($mDateMax)) {
-                            $mEndDate->setTime($mDateMax->getTime());
+                            $mEndDate = clone $mDateMax;
                         }
                     }
                     $floatingDate = clone $dateStart;
@@ -156,7 +156,7 @@ class ChargesUtil {
                                 $chargeEntry->CE_status = ChargeEntry::STATUS_PENDING;
                                 $database->insertObject("chargeentry", $chargeEntry, "CE_chargeentryid", false);
 
-                                if ($verbose) {
+                                if ($enableMessagesForEntries) {
                                     $msg = sprintf(_("Adding payment entry for user %s with date %s"), "$person->PE_firstname $person->PE_surname", $floatingDate->getFormattedDate(DateUtil::FORMAT_MONTHLY));
                                     $this->_messages[] = $msg;
                                     $database->log($msg);
@@ -329,7 +329,7 @@ class ChargesUtil {
                     // Check if this ChargeEntry write-off refers to the future or not
                     // therefore shouldn't be payed right now
                     if (!$now->before($writeOffDate)) {
-                        //Time to pay bills
+                        // Time to pay bills
                         if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING ||
                           $chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS) {
 
@@ -459,7 +459,7 @@ class ChargesUtil {
                     }
                 }
             }
-        } else if (	$person->PE_status == Person::STATUS_PASSIVE ||
+        } else if ($person->PE_status == Person::STATUS_PASSIVE ||
           $person->PE_status == Person::STATUS_DISCARTED) {
 
             foreach ($hasCharges as $hasCharge) {

@@ -15,7 +15,7 @@
 /**
  * @author  Lukas Dziadkowiec <stealth.home@seznam.cz>
  */
- 
+
     require_once(dirname(__FILE__) . "/../includes/Core.php");
     putenv("LANGUAGE=");
     $core = new Core();
