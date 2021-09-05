@@ -366,7 +366,6 @@ class ChargesUtil {
                                 $database->updateObject("chargeentry", $chargeEntry, "CE_chargeentryid", false, false);
                                 $database->commit();
                             } catch (Exception $e) {
-                                //TODO fix DATETIME 0000-00-00
                                 $database->rollback();
                                 $msg = "Error processing ChargeEntry: " . $e->getMessage();
                                 $this->_messages[] = $msg;

@@ -22,6 +22,7 @@ class DateUtil {
     /** @var timestamp */
     private $_timestamp = null;
     private $_date = null;
+    private $_isDebug = null;
 
     const DB_NULL_DATE = '0000-00-00';
     const DB_NULL_DATETIME = '0000-00-00 00:00:00';
@@ -49,6 +50,10 @@ class DateUtil {
      * @param $date sets timestamp or parse database date format to timestamp
      */
     public function __construct($date=null) {
+        global $core;
+
+        $this->_isDebug = $core->getProperty(Core::SYSTEM_DEBUG);
+
         if ($date == null) {
             $this->_timestamp = time();
         } else if ($date == self::DB_NULL_DATE) {
@@ -59,7 +64,9 @@ class DateUtil {
             $this->_timestamp = strtotime($date);
         }
 
-        $this->_date = $this->getFormattedDate(self::DB_DATETIME);
+        if ($this->_isDebug) {
+            $this->_date = $this->getFormattedDate(self::DB_DATETIME);
+        }
     }
     /**
      * Gets the value for a given time field.
@@ -159,7 +166,9 @@ class DateUtil {
                 break;
         }
 
-        $this->_date = $this->getFormattedDate(self::DB_DATETIME);
+        if ($this->_isDebug) {
+            $this->_date = $this->getFormattedDate(self::DB_DATETIME);
+        }
     }
     /**
      * Date Arithmetic function. Adds the specified (signed) amount of time to the given time field, based on the calendar's rules. For example, to subtract 5 days from the current time of the calendar, you can achieve it by calling:
@@ -231,7 +240,9 @@ class DateUtil {
                 break;
         }
 
-        $this->_date = $this->getFormattedDate(self::DB_DATETIME);
+        if ($this->_isDebug) {
+            $this->_date = $this->getFormattedDate(self::DB_DATETIME);
+        }
     }
     /**
      * Gets this Calendar's current time.
@@ -247,7 +258,9 @@ class DateUtil {
     public function setTime($timestamp) {
         $this->_timestamp = $timestamp;
 
-        $this->_date = $this->getFormattedDate(self::DB_DATETIME);
+        if ($this->_isDebug) {
+            $this->_date = $this->getFormattedDate(self::DB_DATETIME);
+        }
     }
     /**
      * Compares the time field records. Equivalent to comparing result of conversion to UTC.
@@ -337,7 +350,9 @@ class DateUtil {
             throw new Exception("Unsupported date format '$format'");
         }
 
-        $this->_date = $this->getFormattedDate(self::DB_DATETIME);
+        if ($this->_isDebug) {
+            $this->_date = $this->getFormattedDate(self::DB_DATETIME);
+        }
     }
 
     function __toString() {
