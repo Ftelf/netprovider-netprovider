@@ -47,9 +47,7 @@ Class Core {
     const ENABLE_VAT_PAYER_SPECIFICS = "Enable VAT Payer specifics";
     const ALLOW_FIRM_REGISTRATION = "Allow firm registration";
 
-    const GLOBAL_QOS_ENABLED = "global qos enabled";
     const GLOBAL_IP_FILTER_ENABLED = "global IP filter enabled";
-    const QOS_BANDWIDTH_MARGIN_PERCENT = "bandwidth margin";
     const REJECT_UNKNOWN_IP = "Reject unknown IP";
     const REDIRECT_UNKNOWN_IP = "Redirect unknown IP";
     const REDIRECT_TO_IP = "Redirect to IP";

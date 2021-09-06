@@ -39,13 +39,11 @@ class CommanderCrossbar {
 
     private $networkDevices;
 
-    private $globalQOSEnabled;
     private $globalIPFilterEnabled;
 
     public function __construct() {
         global $core;
 
-        $this->globalQOSEnabled = $core->getProperty(Core::GLOBAL_QOS_ENABLED);
         $this->globalIPFilterEnabled = $core->getProperty(Core::GLOBAL_IP_FILTER_ENABLED);
     }
 
@@ -54,7 +52,7 @@ class CommanderCrossbar {
     }
 
     public function inicialize() {
-        global $core, $appContext;
+        global $appContext;
         $networkIPArray = array();
 
         if (($persons = PersonDAO::getPersonArrayForQOS()) == null) {
@@ -105,11 +103,11 @@ class CommanderCrossbar {
         $allNetworks = NetworkDAO::getNetworkArray();
         $networkDeviceArray = array();
 
-        if ($this->globalQOSEnabled || $this->globalIPFilterEnabled) {
+        if ($this->globalIPFilterEnabled) {
             $networkDevices = NetworkDeviceDAO::getNetworkDeviceArray();
 
             foreach ($networkDevices as &$networkDevice) {
-                if ($networkDevice->ND_qosEnabled || $networkDevice->ND_ipFilterEnabled) {
+                if ($networkDevice->ND_ipFilterEnabled) {
                     $leafNetworks = array();
 
                     if ($networkDevice->ND_managementInterfaceId) {
@@ -280,6 +278,22 @@ class CommanderCrossbar {
         }
     }
 
+    public function synchronizeFilter() {
+        $result = array();
+
+        foreach ($this->networkDevices as &$networkDevice) {
+            if ($this->globalIPFilterEnabled && $networkDevice->ND_ipFilterEnabled) {
+                $commander = $this->getCommander($networkDevice);
+
+                $results = $commander->synchronizeFilter($networkDevice->EXECUTOR);
+
+                $result = array_merge($result, $results);
+            }
+        }
+
+        return $result;
+    }
+
     public function ipFilterDown() {
         $result = array();
 
@@ -304,38 +318,6 @@ class CommanderCrossbar {
                 $commander = $this->getCommander($networkDevice);
 
                 $results = $commander->getIPFilterUp($networkDevice->EXECUTOR);
-
-                $result = array_merge($result, $results);
-            }
-        }
-
-        return $result;
-    }
-
-    public function qosDown() {
-        $result = array();
-
-        foreach ($this->networkDevices as &$networkDevice) {
-            if ($this->globalQOSEnabled && $networkDevice->ND_qosEnabled) {
-                $commander = $this->getCommander($networkDevice);
-
-                $results = $commander->getQosDown($networkDevice->EXECUTOR);
-
-                $result = array_merge($result, $results);
-            }
-        }
-
-        return $result;
-    }
-
-    public function qosUp() {
-        $result = array();
-
-        foreach ($this->networkDevices as &$networkDevice) {
-            if ($this->globalQOSEnabled && $networkDevice->ND_qosEnabled) {
-                $commander = $this->getCommander($networkDevice);
-
-                $results = $commander->getQosUp($networkDevice->EXECUTOR);
 
                 $result = array_merge($result, $results);
             }

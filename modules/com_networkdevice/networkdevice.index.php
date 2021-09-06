@@ -298,7 +298,6 @@ function saveNetworkDevice($task) {
     $isNew 	= !$networkDevice->ND_networkdeviceid;
 
     $networkDevice->ND_useCommandSudo = Utils::getParam($_POST, 'ND_useCommandSudo', 0);
-    $networkDevice->ND_qosEnabled = Utils::getParam($_POST, 'ND_qosEnabled', 0);
     $networkDevice->ND_ipFilterEnabled = Utils::getParam($_POST, 'ND_ipFilterEnabled', 0);
 
     $ND_password1 = trim(Utils::getParam($_POST, 'ND_password1', ""));
@@ -314,34 +313,6 @@ function saveNetworkDevice($task) {
         $core->alert(_("User passwords are not same"));
 
         $showAgain = true;
-    }
-
-    if (!is_numeric($networkDevice->ND_qosBandwidthDownload)) {
-        if ($networkDevice->ND_qosBandwidthDownload == '') {
-            $networkDevice->ND_qosBandwidthDownload = 0;
-        } else {
-            $core->alert(_("Internet download bandwidth (kbps): is not numeric value"));
-            $networkDevice->ND_qosBandwidthDownload = 0;
-            $showAgain = true;
-        }
-    }
-
-    if (!is_numeric($networkDevice->ND_qosBandwidthUpload)) {
-        if ($networkDevice->ND_qosBandwidthUpload == '') {
-            $networkDevice->ND_qosBandwidthUpload = 0;
-        } else {
-            $core->alert(_("Internet upload bandwidth (kbps): is not numeric value"));
-            $networkDevice->ND_qosBandwidthUpload = 0;
-            $showAgain = true;
-        }
-    }
-
-    if (!$networkDevice->ND_qosBandwidthDownload) {
-        $networkDevice->ND_qosBandwidthDownload = 0;
-    }
-
-    if (!$networkDevice->ND_qosBandwidthUpload) {
-        $networkDevice->ND_qosBandwidthUpload = 0;
     }
 
     if ($showAgain) {

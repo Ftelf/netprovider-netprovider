@@ -19,7 +19,7 @@
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 /**
- * 
+ *
  */
 class HTML_scripts {
 	/**
@@ -35,16 +35,14 @@ class HTML_scripts {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			hideMainMenu();
-			
+
 			return;
 		}
 		if (pressbutton == 'ipfilteron') {
 			submitform(pressbutton);
 		} else if (pressbutton == 'ipfilteroff') {
 			submitform(pressbutton);
-		} else if (pressbutton == 'qoson') {
-			submitform(pressbutton);
-		} else if (pressbutton == 'qosoff') {
+		} else if (pressbutton == 'synchronizeFilter') {
 			submitform(pressbutton);
 		}
 	}
@@ -77,23 +75,16 @@ class HTML_scripts {
               </a>
             </td>
 
-            <td id="toolbar-qos-on">
-              <a href="javascript:submitbutton('qoson');">
-                <span title="<?php echo _("QOS on"); ?>" class="icon-32-qos-on"></span>
-                <?php echo _("QOS on"); ?>
-              </a>
-            </td>
-
-            <td id="toolbar-qos-off">
-              <a href="javascript:submitbutton('qosoff');">
-                <span title="<?php echo _("QOS off"); ?>" class="icon-32-qos-off"></span>
-                <?php echo _("QOS off"); ?>
+            <td id="toolbar-synchronize-ip-filter">
+              <a href="javascript:submitbutton('synchronizeFilter');">
+                <span title="<?php echo _("Synchronize IP filter"); ?>" class="icon-32-synchronize-ip-filter"></span>
+                <?php echo _("Synchronize IP filter"); ?>
               </a>
             </td>
           </tr>
           </table>
         </div>
-        
+
         <div class="header icon-48-person">
           <?php echo _("Scripts:"); ?> <?php echo ($command) ? _($command) : ""; ?>, <?php echo ($filter['execute'] != 'checked') ? _("dry run") : ""; ?>
         </div>
@@ -134,7 +125,7 @@ class HTML_scripts {
    <input type="hidden" name="filter[void]" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 

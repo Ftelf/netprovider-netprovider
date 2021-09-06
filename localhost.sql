@@ -325,10 +325,7 @@ CREATE TABLE IF NOT EXISTS `networkdevice` (
   `ND_commandIptables` varchar(255) collate utf8_czech_ci NOT NULL,
   `ND_commandIp` varchar(255) collate utf8_czech_ci NOT NULL,
   `ND_commandTc` varchar(255) collate utf8_czech_ci NOT NULL,
-  `ND_qosEnabled` tinyint(1) NOT NULL,
   `ND_ipFilterEnabled` tinyint(1) NOT NULL,
-  `ND_qosBandwidthDownload` bigint(20) NOT NULL default '0',
-  `ND_qosBandwidthUpload` bigint(20) NOT NULL default '0',
   `ND_lanInterfaceid` int(11) NOT NULL,
   `ND_wanInterfaceid` int(11) NOT NULL,
   PRIMARY KEY  (`ND_networkdeviceid`)

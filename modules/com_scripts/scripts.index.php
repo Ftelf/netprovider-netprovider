@@ -38,21 +38,15 @@ switch ($task) {
         ipFilterOff();
         break;
 
-    case 'qoson':
-        qosOn();
-        break;
-
-    case 'qosoff':
-        qosOff();
+    case 'synchronizeFilter':
+        synchronizeFilter();
         break;
 
     default:
         show();
         break;
 }
-/**
- * 
- */
+
 function show() {
     $filter = array();
     // default settings if no setting in session
@@ -91,9 +85,7 @@ function ipFilterOn() {
 
     HTML_scripts::showScripts($command, $results, $filter);
 }
-/**
- * @param $task
- */
+
 function ipFilterOff() {
     $filter = array();
     // default settings if no setting in session
@@ -111,61 +103,35 @@ function ipFilterOff() {
         $results = $commanderCrossbar->ipFilterDown();
     } catch (Exception $e) {
         $results = array(array(
-            null,
-            null,
-            $e->getMessage()
+          null,
+          null,
+          $e->getMessage()
         ));
     }
 
     HTML_scripts::showScripts($command, $results, $filter);
 }
 
-function qosOn() {
+function synchronizeFilter() {
     $filter = array();
     // default settings if no setting in session
     // do we want Network headers for IPs to be shown ?
     //
     $filter['execute'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_scripts']['filter'], 'execute', null);
 
-    $command = _("QOS on");
+    $command = _("Synchronize IP filter");
 
     try {
         $commanderCrossbar = new CommanderCrossbar();
         $commanderCrossbar->setDryRun(!$filter['execute']);
         $commanderCrossbar->inicialize();
 
-        $results = $commanderCrossbar->qosUp();
+        $results = $commanderCrossbar->synchronizeFilter();
     } catch (Exception $e) {
         $results = array(array(
-            null,
-            null,
-            $e->getMessage()
-        ));
-    }
-
-    HTML_scripts::showScripts($command, $results, $filter);
-}
-
-function qosOff() {
-    $filter = array();
-    // default settings if no setting in session
-    // do we want Network headers for IPs to be shown ?
-    //
-    $filter['execute'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_scripts']['filter'], 'execute', null);
-
-    $command = _("QOS off");
-
-    try {
-        $commanderCrossbar = new CommanderCrossbar();
-        $commanderCrossbar->setDryRun(!$filter['execute']);
-        $commanderCrossbar->inicialize();
-
-        $results = $commanderCrossbar->qosDown();
-    } catch (Exception $e) {
-        $results = array(array(
-            null,
-            null,
-            $e->getMessage()
+          null,
+          null,
+          $e->getMessage()
         ));
     }
 

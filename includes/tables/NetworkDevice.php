@@ -48,13 +48,7 @@ class NetworkDevice {
     /** @var varchar(255) iptables command */
     var $ND_commandTc = null;
     /** @var boolean use QOS on this device */
-    var $ND_qosEnabled = null;
-    /** @var boolean use IP filter on this device */
     var $ND_ipFilterEnabled = null;
-    /** @var int QOS bandwidth download */
-    var $ND_qosBandwidthDownload = null;
-    /** @var int QOS bandwidth upload */
-    var $ND_qosBandwidthUpload = null;
     /** @var int ID wan interface */
     var $ND_wanInterfaceid = null;
 

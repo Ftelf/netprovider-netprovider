@@ -60,7 +60,7 @@ class HTML_NetworkDevice {
   		var td1Div = document.getElementById('toggle-td1-' + id);
   		var td2Div = document.getElementById('toggle-td2-' + id);
   		var td3Div = document.getElementById('toggle-td3-' + id);
-  		
+
   		if (image.toggle) {
   			image.src = "images/22x22/actions/2downarrow.png";
   			td1Div.style.height = "70px";
@@ -69,7 +69,7 @@ class HTML_NetworkDevice {
   			td2Div.style.overflow = "hidden";
   			td3Div.style.height = "70px";
   			td3Div.style.overflow = "hidden";
-  			
+
   			image.toggle = false;
   		} else {
   			image.src = "images/22x22/actions/2uparrow.png";
@@ -79,10 +79,10 @@ class HTML_NetworkDevice {
   			td2Div.style.overflow = "";
   			td3Div.style.height = "auto";
   			td3Div.style.overflow = "";
-  			
+
   			image.toggle = true;
   		}
-  		
+
   	}
 </script>
 
@@ -122,7 +122,7 @@ class HTML_NetworkDevice {
           </tr>
           </table>
         </div>
-        
+
         <div class="header icon-48-network-device">
           <?php echo _("Network devices management"); ?>
         </div>
@@ -234,7 +234,7 @@ class HTML_NetworkDevice {
 		echo '<div><strong>'._("MAC:").'</strong> ' . $wirelessInterface->NW_mac . '</div>';
 		echo '<div><strong>'._("Description:").'</strong> ' . $wirelessInterface->NW_description . '</div>';
 		echo '<div><strong>'._("IP:").'</strong>: ' . $wirelessInterface->ip . ' ' . $wirelessInterface->dns . '</div>';
-		
+
 	}
 ?>
      </div>
@@ -257,7 +257,7 @@ class HTML_NetworkDevice {
    <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -284,7 +284,7 @@ class HTML_NetworkDevice {
 		if (pressbutton == 'apply') {
 			hideMainMenu();
 		}
-		
+
 		var form = document.adminForm;
 
 		// do field validation
@@ -298,7 +298,7 @@ class HTML_NetworkDevice {
 			submitform(pressbutton);
 		}
 	}
-	
+
 	function newN() {
 		hideMainMenu();
 		submitbutton('newNetwork');
@@ -314,7 +314,7 @@ class HTML_NetworkDevice {
 			submitbutton('removeNetwork');
 		}
 	}
-	
+
 	function newP() {
 		hideMainMenu();
 		submitbutton('newProperty');
@@ -420,7 +420,7 @@ class HTML_NetworkDevice {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table width="100%">
@@ -465,9 +465,9 @@ class HTML_NetworkDevice {
         </tr>
         </tbody>
         </table>
-        
+
         <br/>
-        
+
         <table class="adminform">
         <thead>
         <tr>
@@ -504,9 +504,9 @@ class HTML_NetworkDevice {
         </tr>
         </tbody>
         </table>
-        
+
         <br/>
-        
+
         <table class="adminform">
         <thead>
         <tr>
@@ -536,9 +536,9 @@ class HTML_NetworkDevice {
         </tr>
         </tbody>
         </table>
-        
+
         <br/>
-        
+
         <table class="adminform">
         <thead>
         <tr>
@@ -577,33 +577,9 @@ class HTML_NetworkDevice {
         </tr>
         </tbody>
         </table>
-        
+
         <br/>
-        
-        <table class="adminform">
-        <thead>
-        <tr>
-          <th colspan="2"><?php echo _("QOS"); ?></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td width="150"><?php echo _("Enable QOS:"); ?></td>
-          <td width="205"><input type="checkbox" name="ND_qosEnabled" value="1" <?php if ($networkDevice->ND_qosEnabled) echo 'checked="checked"';?>/></td>
-        </tr>
-        <tr>
-          <td><?php echo _("Internet download bandwidth (kbps):"); ?></td>
-          <td><input type="text" name="ND_qosBandwidthDownload" class="width-form" size="40" value="<?php echo $networkDevice->ND_qosBandwidthDownload; ?>" /></td>
-        </tr>
-        <tr>
-          <td><?php echo _("Internet upload bandwidth (kbps):"); ?></td>
-          <td><input type="text" name="ND_qosBandwidthUpload" class="width-form" size="40" value="<?php echo $networkDevice->ND_qosBandwidthUpload; ?>" /></td>
-        </tr>
-        </tbody>
-        </table>
-        
-        <br/>
-        
+
         <table class="adminform">
         <thead>
         <tr>
@@ -617,9 +593,9 @@ class HTML_NetworkDevice {
         </tr>
         </tbody>
         </table>
-        
+
         <br/>
-        
+
         <table class="adminform">
         <thead>
         <tr>
@@ -662,9 +638,9 @@ class HTML_NetworkDevice {
 ?>
         </tbody>
         </table>
-        
+
         <br/>
-        
+
         <table class="adminform">
         <thead>
         <tr>
@@ -709,7 +685,7 @@ class HTML_NetworkDevice {
 	$k = 0;
 	foreach ($networkDevice->interfaces as $interface) {
 		$linkE = "javascript:editI('$interface->NI_networkdeviceinterfaceid');";
-		$linkR = "javascript:removeI('$interface->NI_networkdeviceinterfaceid');";		
+		$linkR = "javascript:removeI('$interface->NI_networkdeviceinterfaceid');";
 ?>
         <tr class="<?php echo "row$k"; ?>">
         <td>
@@ -759,7 +735,7 @@ class HTML_NetworkDevice {
 	$k = 0;
 	foreach ($networkDevice->wirelessInterfaces as $wInterface) {
 		$linkE = "javascript:editW('$wInterface->NW_networkdevicewirelessinterfaceid');";
-		$linkR = "javascript:removeW('$wInterface->NW_networkdevicewirelessinterfaceid');";		
+		$linkR = "javascript:removeW('$wInterface->NW_networkdevicewirelessinterfaceid');";
 //		if (!$first) echo '<tr><td colspan="2"><hr /></td></tr>';
 //		$first = false;
 ?>
@@ -828,7 +804,7 @@ class HTML_NetworkDevice {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -913,7 +889,7 @@ class HTML_NetworkDevice {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table width="100%">
@@ -935,7 +911,7 @@ class HTML_NetworkDevice {
           <td>
             <select name="NI_ipid" class="width-form" size="1">
 <?php
-		echo '<option value="0"' ; if ($networkDeviceInterface->NI_ipid == 0) echo ' selected="selected"';echo ">- Nenastavena -</option>\n"; 
+		echo '<option value="0"' ; if ($networkDeviceInterface->NI_ipid == 0) echo ' selected="selected"';echo ">- Nenastavena -</option>\n";
 	foreach ($ips as $ip) {
 		echo '<option value="' . $ip->IP_ipid . '"' ; if ($networkDeviceInterface->NI_ipid == $ip->IP_ipid) echo ' selected="selected"';echo ">$ip->IP_address</option>\n";
 	}
@@ -962,7 +938,7 @@ class HTML_NetworkDevice {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -1047,7 +1023,7 @@ class HTML_NetworkDevice {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table width="100%">
@@ -1069,7 +1045,7 @@ class HTML_NetworkDevice {
           <td>
             <select name="NW_ipid" class="width-form" size="1">
 <?php
-		echo '<option value="0"' ; if ($networkDeviceWirelessInterface->NW_ipid == 0) echo ' selected="selected"';echo ">- Nenastavena -</option>\n"; 
+		echo '<option value="0"' ; if ($networkDeviceWirelessInterface->NW_ipid == 0) echo ' selected="selected"';echo ">- Nenastavena -</option>\n";
 	foreach ($ips as $ip) {
 		echo '<option value="' . $ip->IP_ipid . '"' ; if ($networkDeviceWirelessInterface->NW_ipid == $ip->IP_ipid) echo ' selected="selected"';echo ">$ip->IP_address</option>\n";
 	}
@@ -1144,7 +1120,7 @@ class HTML_NetworkDevice {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -1230,7 +1206,7 @@ class HTML_NetworkDevice {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table width="100%">
@@ -1266,7 +1242,7 @@ class HTML_NetworkDevice {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -1350,7 +1326,7 @@ class HTML_NetworkDevice {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table width="100%">
@@ -1392,7 +1368,7 @@ class HTML_NetworkDevice {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 

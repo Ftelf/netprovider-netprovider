@@ -55,9 +55,6 @@
 class Service {
     public $_runPayments = null;
 
-    public $_runQosDown = null;
-    public $_runQosUp = null;
-
     public $_proceedNetworking = null;
 
     public $_ipFilterDown = null;
@@ -82,9 +79,6 @@ class Service {
 
         $this->_ipFilterDown = (in_array('--ip-filter-down', $argv));
         $this->_ipFilterUp = (in_array('--ip-filter-up', $argv));
-
-        $this->_runQosDown = (in_array('--qos-down', $argv));
-        $this->_runQosUp = (in_array('--qos-up', $argv));
 
         $this->_ipAccount = (in_array('--ip-account', $argv));
 
@@ -124,20 +118,6 @@ class Service {
                 $this->ipFilterUp();
 
                 $msg = "ip filter up service completed successfully";
-                syslog(LOG_INFO, $msg);
-                $database->log($msg, Log::LEVEL_INFO);
-            }
-
-            if (!$this->_proceedNetworking && $this->_runQosDown) {
-                $this->qosDown();
-                $msg = "QOS down service completed successfully";
-                syslog(LOG_INFO, $msg);
-                $database->log($msg, Log::LEVEL_INFO);
-            }
-
-            if (!$this->_proceedNetworking && $this->_runQosUp) {
-                $this->qosUp();
-                $msg = "QOS up service completed successfully";
                 syslog(LOG_INFO, $msg);
                 $database->log($msg, Log::LEVEL_INFO);
             }
@@ -199,10 +179,7 @@ class Service {
         $commanderCrossbar->setDryRun($this->_dryRun);
         $commanderCrossbar->inicialize();
 
-        $this->showResult($commanderCrossbar->ipFilterDown());
-        //$this->showResult($commanderCrossbar->qosDown());
         $this->showResult($commanderCrossbar->ipFilterUp());
-        //$this->showResult($commanderCrossbar->qosUp());
     }
 
     public function ipFilterDown() {
@@ -219,21 +196,6 @@ class Service {
         $commanderCrossbar->inicialize();
 
         $this->showResult($commanderCrossbar->ipFilterUp());
-    }
-
-    public function qosDown() {
-        $commanderCrossbar = new CommanderCrossbar();
-        $commanderCrossbar->setDryRun($this->_dryRun);
-        $commanderCrossbar->inicialize();
-
-        $this->showResult($commanderCrossbar->qosDown());
-    }
-    public function qosUp() {
-        $commanderCrossbar = new CommanderCrossbar();
-        $commanderCrossbar->setDryRun($this->_dryRun);
-        $commanderCrossbar->inicialize();
-
-        $this->showResult($commanderCrossbar->qosUp());
     }
 
     public function ipAccount() {

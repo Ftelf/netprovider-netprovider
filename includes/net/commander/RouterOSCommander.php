@@ -63,22 +63,8 @@ if (! function_exists('array_column')) {
  * RouterOSCommander
  */
 class RouterOSCommander {
-    const TC_CLASSID_START = 101;
-
-    const FAIR_QUEUE_DISCIPLINE = "esfq";
-    const USER_QUEUE_DISCIPLINE = "pfifo";
-
-    const CHAIN_ACCT_IN = 'FILTER-IN';
-    const CHAIN_ACCT_OUT = 'FILTER-OUT';
-
-    const IPTABLES_CHAIN_HEADER = 'Chain %s (1 references)';
-    const IPTABLES_LIST_HEADER = 'pkts[[:space:]]+bytes[[:space:]]+target[[:space:]]+prot[[:space:]]+opt[[:space:]]+in[[:space:]]+out[[:space:]]+source[[:space:]]+destination';
-
-    const IPTABLES_LIST_ENTRY = '^([[:digit:]]+)[[:space:]]+([[:digit:]]+)[[:space:]]+ACCEPT[[:space:]]+all[[:space:]]+--[[:space:]]+\*[[:space:]]+\*[[:space:]]+([[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}(/[[:digit:]]{1,2})?)[[:space:]]+([[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}(/[[:digit:]]{1,2})?)$';
-
     private $networkDevice;
 
-    private $bandwidthMargin;
     private $rejectUnknownIP;
     private $redirectUnknownIP;
     private $redirectToIP;
@@ -89,7 +75,6 @@ class RouterOSCommander {
 
         $this->networkDevice = $networkDevice;
 
-        $this->bandwidthMargin = $core->getProperty(Core::QOS_BANDWIDTH_MARGIN_PERCENT);
         $this->rejectUnknownIP = $core->getProperty(Core::REJECT_UNKNOWN_IP);
         $this->redirectUnknownIP = $core->getProperty(Core::REDIRECT_UNKNOWN_IP);
         $this->redirectToIP = $core->getProperty(Core::REDIRECT_TO_IP);
@@ -104,7 +89,7 @@ class RouterOSCommander {
 
         $ipArray = array();
 
-        $filterInIpCmd = array("/ip/firewall/filter/print", "?=chain=FILTER-IN", "?=action=accept", "=stats=");
+        $filterInIpCmd = array("/ip/firewall/filter/print", "?=chain=XFILTER-IN", "?=action=accept", "=stats=");
         $filterInIpResult = $executor->execute($filterInIpCmd);
         foreach ($filterInIpResult[1] as $filterInIp) {
             $acc = array();
@@ -113,7 +98,7 @@ class RouterOSCommander {
             $ipArray[$filterInIp['dst-address']] = $acc;
         }
 
-        $filterOutIpCmd = array("/ip/firewall/filter/print", "?=chain=FILTER-OUT", "?=action=accept", "=stats=");
+        $filterOutIpCmd = array("/ip/firewall/filter/print", "?=chain=XFILTER-OUT", "?=action=accept", "=stats=");
         $filterOutIpResult = $executor->execute($filterOutIpCmd);
         foreach ($filterOutIpResult[1] as $filterOutIp) {
             if (isset($ipArray[$filterOutIp['src-address']])) {
@@ -175,39 +160,235 @@ class RouterOSCommander {
         }
     }
 
-    public function getIPFilterDown($executor) {
+    public function synchronizeFilter($executor) {
+        $diacriticsUtil = new DiacriticsUtil();
         $cmds = array();
 
-        $iptablesCommand = $this->networkDevice->ND_commandIptables;
-        $wanInterface = $this->networkDevice->wanInterface;
+        if (!$this->isIpFilterValid($executor)) {
+            $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-IN", "=.proplist=.id");
+            $filterArray = $executor->execute($cmd);
+            $cmds[] = $filterArray;
 
-//		$cmds[] = sprintf("%s -D FORWARD -i %s -j FILTER-IN 2>/dev/null", $iptablesCommand, $wanInterface);
-//		$cmds[] = sprintf("%s -D FORWARD -o %s -j FILTER-OUT 2>/dev/null", $iptablesCommand, $wanInterface);
-//		$cmds[] = sprintf("%s -t nat -D PREROUTING -j WEB-REDIRECT 2>/dev/null", $iptablesCommand);
-//
+            if (count($filterArray[1])) {
+                $idArray = array_column($filterArray[1], '.id');
+                $ids = implode(',', $idArray);
 
-        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-IN", "=.proplist=.id");
-        $filterArray = $executor->execute($cmd);
-        $cmds[] = $filterArray;
+                $cmd = array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids));
+                $cmds[] = $executor->execute($cmd);
+            }
 
-        if (count($filterArray[1])) {
-            $idArray = array_column($filterArray[1], '.id');
-            $ids = implode(',', $idArray);
+            $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-OUT", "=.proplist=.id");
+            $filterArray = $executor->execute($cmd);
+            $cmds[] = $filterArray;
 
+            if (count($filterArray[1])) {
+                $idArray = array_column($filterArray[1], '.id');
+                $ids = implode(',', $idArray);
+
+                $cmd = array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids));
+                $cmds[] = $executor->execute($cmd);
+            }
+
+            $cmd = array("/ip/firewall/filter/add", "=chain=XFILTER-IN", "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-IN:");
+            $cmds[] = $executor->execute($cmd);
+            $cmd = array("/ip/firewall/filter/add", "=chain=XFILTER-OUT", "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-OUT:");
+            $cmds[] = $executor->execute($cmd);
+
+            $cmd= array("/ip/firewall/filter/add", "=chain=XFILTER-IN", "=action=reject", "=disabled=no");
+            $cmds[] = $executor->execute($cmd);
+            $cmd = array("/ip/firewall/filter/add", "=chain=XFILTER-OUT", "=action=reject", "=disabled=no");
+            $cmds[] = $executor->execute($cmd);
+        }
+
+        $ipAddressMap = array();
+        foreach ($this->networkDevice->NETWORKS as &$network) {
+            foreach ($network['INTERNETS'] as &$internet) {
+                foreach ($internet['IPS'] as &$ip) {
+                    $ipAddress = $ip['IP_address'];
+                    if (isset($ipAddressMap[$ipAddress])) {
+                        continue;
+                    }
+
+                    $ipAddressMap[$ipAddress] = $diacriticsUtil->removeDiacritic($internet['PE_firstname'] . " " . $internet['PE_surname'] . ", " . $ip['IP_dns']);
+                }
+            }
+        }
+
+        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-IN", "=.proplist=.id,dst-address");
+        $resultFilterIn = $executor->execute($cmd);
+        $cmds[] = $resultFilterIn;
+
+        $filterInEntries = $resultFilterIn[1];
+        $idsToBeRemovedInFilterInArray = [];
+        for ($i = 0; $i < (count($filterInEntries) - 2); $i++) {
+            $entryFilterIn = $filterInEntries[$i];
+            $ipAddress = $entryFilterIn['dst-address'];
+
+            if (!isset($ipAddressMap[$ipAddress])) {
+                $idsToBeRemovedInFilterInArray[] = $entryFilterIn['.id'];
+            }
+        }
+
+        if (count($idsToBeRemovedInFilterInArray) > 0) {
+            $ids = implode(',', $idsToBeRemovedInFilterInArray);
             $cmd = array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids));
             $cmds[] = $executor->execute($cmd);
         }
 
+        $ipAddressesInFilter = array_column(array_slice($filterInEntries, 0, count($filterInEntries) - 2), 'dst-address');
+        $idToPlaceFilterIn = $filterInEntries[count($filterInEntries) - 2]['.id'];
 
-        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-OUT", "=.proplist=.id");
-        $filterArray = $executor->execute($cmd);
-        $cmds[] = $filterArray;
+        foreach ($ipAddressMap as $address => $comment) {
+            if (!in_array($address, $ipAddressesInFilter)) {
+                $cmd = array("/ip/firewall/filter/add", "=chain=XFILTER-IN",  sprintf("=dst-address=%s", $address), sprintf("=comment=%s", $comment), "=action=accept", "=place-before=$idToPlaceFilterIn");
+                $cmds[] = $executor->execute($cmd);
+            }
+        }
 
-        if (count($filterArray[1])) {
-            $idArray = array_column($filterArray[1], '.id');
-            $ids = implode(',', $idArray);
 
+        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-OUT", "=.proplist=.id,src-address");
+        $resultFilterOut = $executor->execute($cmd);
+        $cmds[] = $resultFilterOut;
+
+        $filterOutEntries = $resultFilterOut[1];
+        $idsToBeRemovedOutFilterInArray = [];
+        for ($i = 0; $i < (count($filterOutEntries) - 2); $i++) {
+            $entryFilterOut = $filterOutEntries[$i];
+            $ipAddress = $entryFilterOut['src-address'];
+
+            if (!isset($ipAddressMap[$ipAddress])) {
+                $idsToBeRemovedOutFilterInArray[] = $entryFilterOut['.id'];
+            }
+        }
+
+        if (count($idsToBeRemovedOutFilterInArray) > 0) {
+            $ids = implode(',', $idsToBeRemovedOutFilterInArray);
             $cmd = array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids));
+            $cmds[] = $executor->execute($cmd);
+        }
+
+        $ipAddressesOutFilter = array_column(array_slice($filterOutEntries, 0, count($filterOutEntries) - 2), 'src-address');
+        $idToPlaceFilterOut = $filterOutEntries[count($filterOutEntries) - 2]['.id'];
+
+        foreach ($ipAddressMap as $address => $comment) {
+            if (!in_array($address, $ipAddressesOutFilter)) {
+                $cmd = array("/ip/firewall/filter/add", "=chain=XFILTER-OUT",  sprintf("=src-address=%s", $address), sprintf("=comment=%s", $comment), "=action=accept", "=place-before=$idToPlaceFilterOut");
+                $cmds[] = $executor->execute($cmd);
+            }
+        }
+
+        return self::parseArrayReadable($cmds);
+    }
+
+    public function isIpFilterValid($executor) {
+        $cmds = array();
+
+        // XFILTER-IN
+        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-IN", "=.proplist=.id,dst-address,action");
+        $resultFilterIn = $executor->execute($cmd);
+        $cmds[] = $resultFilterIn;
+
+        $filterInEntries = $resultFilterIn[1];
+
+        $filterInCount = count($filterInEntries);
+
+        if ($filterInCount < 2) {
+//            throw new Exception("Invalid entries in XFILTER-IN chain");
+            return false;
+        }
+
+        $filterInLogEntry = $filterInEntries[$filterInCount - 2];
+
+        if ($filterInLogEntry['action'] != 'log') {
+//            throw new Exception("Last but one entry in XFILTER-IN should be: log, but was: " . $filterInLogEntry['action']);
+            return false;
+        }
+
+        $filterInRejectEntry = $filterInEntries[$filterInCount - 1];
+
+        if ($filterInRejectEntry['action'] != 'reject') {
+//            throw new Exception("Last entry in XFILTER-IN should be: reject, but was: " . $filterInRejectEntry['action']);
+            return false;
+        }
+
+        for ($i = 0; $i < $filterInCount - 2; $i++) {
+            if ($filterInEntries[$i]['action'] != 'accept') {
+//                throw new Exception("XFILTER-IN entry at position: $i should be accept, but was: ".$filterInEntries[$i]['action']);
+                return false;
+            }
+        }
+
+        // XFILTER-OUT
+        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-OUT", "=.proplist=.id,src-address,action");
+        $resultFilterOut = $executor->execute($cmd);
+        $cmds[] = $resultFilterOut;
+
+        $filterOutEntries = $resultFilterOut[1];
+
+        $filterOutCount = count($filterOutEntries);
+
+        if ($filterOutCount < 2) {
+//            throw new Exception("Invalid entries in XFILTER-OUT chain");
+            return false;
+        }
+
+        $filterInLogEntry = $filterOutEntries[$filterOutCount - 2];
+
+        if ($filterInLogEntry['action'] != 'log') {
+//            throw new Exception("Last but one entry in XFILTER-OUT should be: log, but was: " . $filterInLogEntry['action']);
+            return false;
+        }
+
+        $filterInRejectEntry = $filterOutEntries[$filterOutCount - 1];
+
+        if ($filterInRejectEntry['action'] != 'reject') {
+//            throw new Exception("Last entry in XFILTER-OUT should be: reject, but was: " . $filterInRejectEntry['action']);
+            return false;
+        }
+
+        for ($i = 0; $i < $filterOutCount - 2; $i++) {
+            if ($filterOutEntries[$i]['action'] != 'accept') {
+//                throw new Exception("XFILTER-IN entry at position: $i should be accept, but was: ".$filterInEntries[$i]['action']);
+                return false;
+            }
+        }
+
+        // Match them together
+        if ($filterInCount !== $filterOutCount) {
+//            throw new Exception("Entries count of XFILTER-IN and XFILTER-OUT differs $filterInCount not equals $filterOutCount");
+            return false;
+        }
+
+        for ($i = 0; $i < $filterInCount - 2; $i++) {
+            if ($filterInEntries[$i]['dst-address'] != $filterOutEntries[$i]['src-address']) {
+//                throw new Exception("XFILTER-IN entry at position: $i should have same dst-address: ".$filterOutEntries[$i]['src-address']." as src-address:".$filterInEntries[$i]['dst-address']." in XFILTER-OUT");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function getIPFilterDown($executor) {
+        $this->synchronizeFilter($executor);
+
+        $cmds = array();
+
+        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-IN", "?action=reject", "?disabled=no");
+        $resultFilterIn = $executor->execute($cmd);
+        $cmds[] = $resultFilterIn;
+
+        if (isset($resultFilterIn[1]) and count($resultFilterIn[1]) == 1) {
+            $cmd = array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterIn[1][0]['.id']), "=disabled=yes");
+            $cmds[] = $executor->execute($cmd);
+        }
+
+        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-OUT", "?action=reject", "?disabled=no");
+        $resultFilterOut = $executor->execute($cmd);
+        $cmds[] = $resultFilterOut;
+
+        if (isset($resultFilterOut[1]) and count($resultFilterOut[1]) == 1) {
+            $cmd = array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterOut[1][0]['.id']), "=disabled=yes");
             $cmds[] = $executor->execute($cmd);
         }
 
@@ -215,100 +396,29 @@ class RouterOSCommander {
     }
 
     public function getIPFilterUp($executor) {
+        $this->synchronizeFilter($executor);
+
         $cmds = array();
 
-        $iptablesCommand = $this->networkDevice->ND_commandIptables;
-        $wanInterface = $this->networkDevice->wanInterface;
-        $redirectIPEnabled = $this->rejectUnknownIP && $this->redirectUnknownIP;
-        $redirectToIP = $this->redirectToIP;
-        $diacriticsUtil = new DiacriticsUtil();
+        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-IN", "?action=reject", "?disabled=yes");
+        $resultFilterIn = $executor->execute($cmd);
+        $cmds[] = $resultFilterIn;
 
-//		$cmds[] = '/ip/firewall/filter/getall';
-//		if ($redirectIPEnabled) {
-//			$cmds[] = sprintf("%s -t nat -N WEB-REDIRECT", $iptablesCommand);
-//		}
-
-        $usedIpAddresses = array();
-        foreach ($this->networkDevice->NETWORKS as &$network) {
-            foreach ($network['INTERNETS'] as &$internet) {
-                foreach ($internet['IPS'] as &$ip) {
-                    $ipAddress = $ip['IP_address'];
-                    if (array_search($ipAddress, $usedIpAddresses)) {
-                        continue;
-                    }
-                    $usedIpAddresses[] = $ipAddress;
-                    //accept all known clients
-                    $comment = $diacriticsUtil->removeDiacritic($internet['PE_firstname'] . " " . $internet['PE_surname'] . ", " . $ip['IP_dns']);
-                    $cmds[] = array("/ip/firewall/filter/add", "=chain=FILTER-IN",  sprintf("=dst-address=%s", $ipAddress), sprintf("=comment=%s", $comment), "=action=accept");
-                    $cmds[] = array("/ip/firewall/filter/add", "=chain=FILTER-OUT", sprintf("=src-address=%s", $ipAddress), sprintf("=comment=%s", $comment), "=action=accept");
-//					if ($redirectIPEnabled) {
-//						$cmds[] = sprintf("/ip firewall nat add chain=WEB-REDIRECT src-address=%s action=return", $ipAddress);
-//					}
-                }
-            }
+        if (isset($resultFilterIn[1]) and count($resultFilterIn[1]) == 1) {
+            $cmd = array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterIn[1][0]['.id']), "=disabled=no");
+            $cmds[] = $executor->execute($cmd);
         }
 
-        // this will enable access to certail ips even when internet is not enabled for this ip
-        //
-// 		foreach ($this->allowedHosts as &$host) {
-// 			$parts = explode(":", $host);
+        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-OUT", "?action=reject", "?disabled=yes");
+        $resultFilterOut = $executor->execute($cmd);
+        $cmds[] = $resultFilterOut;
 
-// 			$cmds[] = array("/ip/firewall/filter/add", "=chain=FILTER-IN", "=protocol=tcp",  sprintf("=src-address=%s", $parts[0]), "=action=accept");
-
-// 			if (count($parts) == 1) {
-// 				$cmds[] = array("/ip/firewall/filter/add", "=chain=FILTER-OUT", "=protocol=tcp", sprintf("=dst-address=%s", $parts[0]), "=action=accept");
-// 			} else if (count($parts) == 2) {
-// 				$cmds[] = array("/ip/firewall/filter/add", "=chain=FILTER-OUT", "=protocol=tcp", sprintf("=dst-address=%s", $parts[0]), sprintf("=dst-port=%s", $parts[1]), "=action=accept");
-// 			}
-// 		}
-
-// 		/**
-// 		 * all unknown clients will be logged
-// 		 */
-        $cmds[] = array("/ip/firewall/filter/add", "=chain=FILTER-IN", "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-IN:");
-        $cmds[] = array("/ip/firewall/filter/add", "=chain=FILTER-OUT", "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-OUT:");
-
-        $cmds[] = array("/ip/firewall/filter/add", "=chain=FILTER-IN", "=action=reject");
-        $cmds[] = array("/ip/firewall/filter/add", "=chain=FILTER-OUT", "=action=reject");
-
-// 		if ($this->rejectUnknownIP) {
-// 			/**
-// 			 * all unknown clients will be rejected
-// 			 */
-// 			$cmds[] = array("/ip/firewall/filter/add", "=chain=FILTER-IN",  "=action=reject");
-// 			$cmds[] = array("/ip/firewall/filter/add", "=chain=FILTER-OUT", "=action=reject");
-// 		}
-
-        // this will enable access to certail ips even when internet is not enabled for this ip in NAT chain
-//		if ($redirectIPEnabled) {
-//			foreach ($this->allowedHosts as &$host) {
-//				$parts = explode(":", $host);
-//
-//				$cmds[] = sprintf("/ip firewall nat add chain=WEB-REDIRECT drc-address=%s action=return",  $parts[0]);
-//			}
-//			$cmds[] = sprintf("/ip firewall nat add chain=WEB-REDIRECT protocol=tcp dst-port=80 jump-target=dstnat to-addresses=%s to-ports=80", $redirectToIP);
-//		}
-
-        //$cmds[] = array("/ip/firewall/filter/add", "=chain=forward", sprintf("=in-interface=%s", $wanInterface), "=action=jump", "=jump-target=FILTER-IN");
-        //$cmds[] = array("/ip/firewall/filter/add", "=chain=forward", sprintf("=out-interface=%s", $wanInterface), "=action=jump", "=jump-target=FILTER-OUT");
-
-        if ($redirectIPEnabled) {
-//			$cmds[] = sprintf("%s -t nat -A PREROUTING -j WEB-REDIRECT", $iptablesCommand);
+        if (isset($resultFilterOut[1]) and count($resultFilterOut[1]) == 1) {
+            $cmd = array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterOut[1][0]['.id']), "=disabled=no");
+            $cmds[] = $executor->execute($cmd);
         }
 
-        return self::parseArrayReadable($executor->executeArray($cmds));
-    }
-
-    public function getQosDown($executor) {
-        $cmds = array();
-
-        return self::parseArrayReadable($executor->executeArray($cmds));
-    }
-
-    public function getQosUp($executor) {
-        $cmds = array();
-
-        return self::parseArrayReadable($executor->executeArray($cmds));
+        return self::parseArrayReadable($cmds);
     }
 
     static function parseCommandReadable($array) {
@@ -321,7 +431,7 @@ class RouterOSCommander {
             foreach ($array[1] as $returnPart) {
                 $string = '';
                 foreach ($returnPart as $key=>$value) {
-                    $string .= $key."=".$value.' ';
+                    $string .= "$key=$value ";
                 }
                 $return1[] = $string;
             }

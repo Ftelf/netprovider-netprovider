@@ -63,9 +63,7 @@
 
 .icon-32-ip-filter-off		{ background-image: url("../images/32x32/actions/shutdown.png"); }
 
-.icon-32-qos-on				{ background-image: url("../images/32x32/actions/autostart.png"); }
-
-.icon-32-qos-off			{ background-image: url("../images/32x32/actions/shutdown.png"); }
+.icon-32-synchronize-ip-filter		{ background-image: url("../images/32x32/actions/agt_update-product.png"); }
 
 .icon-32-send				{ background-image: url("../images/32x32/apps/mail.png"); }
 
