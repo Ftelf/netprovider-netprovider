@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-03 22:47+0200\n"
+"POT-Creation-Date: 2021-09-07 10:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,9 +32,19 @@ msgstr ""
 msgid "API login failed at %s@%s"
 msgstr ""
 
-#: includes/net/CommanderCrossbar.php:252
-#: modules/com_networkdevice/networkdevice.index.php:797
-#: modules/com_networkdevice/networkdevice.index.php:814
+#: includes/billing/ChargesUtil.php:160
+#, php-format
+msgid "Adding payment entry for user %s with date %s"
+msgstr ""
+
+#: includes/billing/ChargesUtil.php:215
+#, php-format
+msgid "Removing payment entry for user %s with date %s not between %s and %s"
+msgstr ""
+
+#: includes/net/CommanderCrossbar.php:250
+#: modules/com_networkdevice/networkdevice.index.php:768
+#: modules/com_networkdevice/networkdevice.index.php:785
 #, php-format
 msgid "Login successfull: mikrotik API %s@%s"
 msgstr ""
@@ -358,11 +368,11 @@ msgstr ""
 msgid "Cannot be sent"
 msgstr ""
 
-#: includes/tables/NetworkDevice.php:79
+#: includes/tables/NetworkDevice.php:73
 msgid "GNU Linux Debian"
 msgstr ""
 
-#: includes/tables/NetworkDevice.php:82
+#: includes/tables/NetworkDevice.php:76
 msgid "RouterOS (Mikrotik)"
 msgstr ""
 
@@ -848,14 +858,14 @@ msgstr ""
 #: modules/com_network/network.html.php:664
 #: modules/com_networkdevice/networkdevice.html.php:387
 #: modules/com_networkdevice/networkdevice.html.php:388
-#: modules/com_networkdevice/networkdevice.html.php:880
-#: modules/com_networkdevice/networkdevice.html.php:881
-#: modules/com_networkdevice/networkdevice.html.php:1014
-#: modules/com_networkdevice/networkdevice.html.php:1015
-#: modules/com_networkdevice/networkdevice.html.php:1197
-#: modules/com_networkdevice/networkdevice.html.php:1198
-#: modules/com_networkdevice/networkdevice.html.php:1317
-#: modules/com_networkdevice/networkdevice.html.php:1318
+#: modules/com_networkdevice/networkdevice.html.php:856
+#: modules/com_networkdevice/networkdevice.html.php:857
+#: modules/com_networkdevice/networkdevice.html.php:990
+#: modules/com_networkdevice/networkdevice.html.php:991
+#: modules/com_networkdevice/networkdevice.html.php:1173
+#: modules/com_networkdevice/networkdevice.html.php:1174
+#: modules/com_networkdevice/networkdevice.html.php:1293
+#: modules/com_networkdevice/networkdevice.html.php:1294
 #: modules/com_person/person.html.php:406
 #: modules/com_person/person.html.php:407
 #: modules/com_person/person.html.php:877
@@ -887,14 +897,14 @@ msgstr ""
 #: modules/com_network/network.html.php:671
 #: modules/com_networkdevice/networkdevice.html.php:394
 #: modules/com_networkdevice/networkdevice.html.php:395
-#: modules/com_networkdevice/networkdevice.html.php:887
-#: modules/com_networkdevice/networkdevice.html.php:888
-#: modules/com_networkdevice/networkdevice.html.php:1021
-#: modules/com_networkdevice/networkdevice.html.php:1022
-#: modules/com_networkdevice/networkdevice.html.php:1204
-#: modules/com_networkdevice/networkdevice.html.php:1205
-#: modules/com_networkdevice/networkdevice.html.php:1324
-#: modules/com_networkdevice/networkdevice.html.php:1325
+#: modules/com_networkdevice/networkdevice.html.php:863
+#: modules/com_networkdevice/networkdevice.html.php:864
+#: modules/com_networkdevice/networkdevice.html.php:997
+#: modules/com_networkdevice/networkdevice.html.php:998
+#: modules/com_networkdevice/networkdevice.html.php:1180
+#: modules/com_networkdevice/networkdevice.html.php:1181
+#: modules/com_networkdevice/networkdevice.html.php:1300
+#: modules/com_networkdevice/networkdevice.html.php:1301
 #: modules/com_person/person.html.php:413
 #: modules/com_person/person.html.php:414
 #: modules/com_person/person.html.php:884
@@ -934,14 +944,14 @@ msgstr ""
 #: modules/com_network/network.html.php:678
 #: modules/com_networkdevice/networkdevice.html.php:401
 #: modules/com_networkdevice/networkdevice.html.php:402
-#: modules/com_networkdevice/networkdevice.html.php:894
-#: modules/com_networkdevice/networkdevice.html.php:895
-#: modules/com_networkdevice/networkdevice.html.php:1028
-#: modules/com_networkdevice/networkdevice.html.php:1029
-#: modules/com_networkdevice/networkdevice.html.php:1211
-#: modules/com_networkdevice/networkdevice.html.php:1212
-#: modules/com_networkdevice/networkdevice.html.php:1331
-#: modules/com_networkdevice/networkdevice.html.php:1332
+#: modules/com_networkdevice/networkdevice.html.php:870
+#: modules/com_networkdevice/networkdevice.html.php:871
+#: modules/com_networkdevice/networkdevice.html.php:1004
+#: modules/com_networkdevice/networkdevice.html.php:1005
+#: modules/com_networkdevice/networkdevice.html.php:1187
+#: modules/com_networkdevice/networkdevice.html.php:1188
+#: modules/com_networkdevice/networkdevice.html.php:1307
+#: modules/com_networkdevice/networkdevice.html.php:1308
 #: modules/com_person/person.html.php:420
 #: modules/com_person/person.html.php:421
 #: modules/com_person/person.html.php:891
@@ -1308,10 +1318,10 @@ msgstr ""
 #: modules/com_internet/internet.html.php:79
 #: modules/com_networkdevice/networkdevice.html.php:104
 #: modules/com_networkdevice/networkdevice.html.php:105
-#: modules/com_networkdevice/networkdevice.html.php:646
-#: modules/com_networkdevice/networkdevice.html.php:691
-#: modules/com_networkdevice/networkdevice.html.php:740
-#: modules/com_networkdevice/networkdevice.html.php:812
+#: modules/com_networkdevice/networkdevice.html.php:622
+#: modules/com_networkdevice/networkdevice.html.php:667
+#: modules/com_networkdevice/networkdevice.html.php:716
+#: modules/com_networkdevice/networkdevice.html.php:788
 #: modules/com_person/person.html.php:84 modules/com_person/person.html.php:85
 #: modules/com_role/role.html.php:79 modules/com_role/role.html.php:80
 msgid "New"
@@ -1332,10 +1342,10 @@ msgstr ""
 #: modules/com_networkdevice/networkdevice.html.php:111
 #: modules/com_networkdevice/networkdevice.html.php:112
 #: modules/com_networkdevice/networkdevice.html.php:410
-#: modules/com_networkdevice/networkdevice.html.php:639
-#: modules/com_networkdevice/networkdevice.html.php:684
-#: modules/com_networkdevice/networkdevice.html.php:730
-#: modules/com_networkdevice/networkdevice.html.php:802
+#: modules/com_networkdevice/networkdevice.html.php:615
+#: modules/com_networkdevice/networkdevice.html.php:660
+#: modules/com_networkdevice/networkdevice.html.php:706
+#: modules/com_networkdevice/networkdevice.html.php:778
 #: modules/com_person/person.html.php:91 modules/com_person/person.html.php:92
 #: modules/com_person/person.html.php:429
 #: modules/com_person/person.html.php:723
@@ -1358,10 +1368,10 @@ msgstr ""
 #: modules/com_message/message.html.php:103
 #: modules/com_networkdevice/networkdevice.html.php:118
 #: modules/com_networkdevice/networkdevice.html.php:119
-#: modules/com_networkdevice/networkdevice.html.php:639
-#: modules/com_networkdevice/networkdevice.html.php:684
-#: modules/com_networkdevice/networkdevice.html.php:730
-#: modules/com_networkdevice/networkdevice.html.php:802
+#: modules/com_networkdevice/networkdevice.html.php:615
+#: modules/com_networkdevice/networkdevice.html.php:660
+#: modules/com_networkdevice/networkdevice.html.php:706
+#: modules/com_networkdevice/networkdevice.html.php:778
 #: modules/com_person/person.html.php:98 modules/com_person/person.html.php:99
 #: modules/com_role/role.html.php:93 modules/com_role/role.html.php:94
 msgid "Delete"
@@ -1462,10 +1472,10 @@ msgstr[1] ""
 #: modules/com_networkdevice/networkdevice.html.php:201
 #: modules/com_networkdevice/networkdevice.html.php:235
 #: modules/com_networkdevice/networkdevice.html.php:463
-#: modules/com_networkdevice/networkdevice.html.php:726
-#: modules/com_networkdevice/networkdevice.html.php:798
-#: modules/com_networkdevice/networkdevice.html.php:947
-#: modules/com_networkdevice/networkdevice.html.php:1129
+#: modules/com_networkdevice/networkdevice.html.php:702
+#: modules/com_networkdevice/networkdevice.html.php:774
+#: modules/com_networkdevice/networkdevice.html.php:923
+#: modules/com_networkdevice/networkdevice.html.php:1105
 #: modules/com_role/role.html.php:270
 msgid "Description:"
 msgstr ""
@@ -1588,7 +1598,7 @@ msgstr ""
 #: modules/com_handleevent/handleevent.index.php:150
 #: modules/com_internet/internet.index.php:143 modules/com_log/log.index.php:97
 #: modules/com_message/message.index.php:109
-#: modules/com_networkdevice/networkdevice.index.php:451
+#: modules/com_networkdevice/networkdevice.index.php:422
 #: modules/com_person/person.index.php:309 modules/com_role/role.index.php:129
 msgid "Please select record to erase"
 msgstr ""
@@ -1744,7 +1754,7 @@ msgstr ""
 
 #: modules/com_common/html_mainmenu.php:44
 #: modules/com_network/network.html.php:499
-#: modules/com_networkdevice/networkdevice.html.php:1362
+#: modules/com_networkdevice/networkdevice.html.php:1338
 msgid "Network"
 msgstr ""
 
@@ -1964,11 +1974,11 @@ msgstr ""
 #: modules/com_networkdevice/networkdevice.html.php:197
 #: modules/com_networkdevice/networkdevice.html.php:229
 #: modules/com_networkdevice/networkdevice.html.php:437
-#: modules/com_networkdevice/networkdevice.html.php:718
-#: modules/com_networkdevice/networkdevice.html.php:770
-#: modules/com_networkdevice/networkdevice.html.php:930
-#: modules/com_networkdevice/networkdevice.html.php:1064
-#: modules/com_networkdevice/networkdevice.html.php:1247
+#: modules/com_networkdevice/networkdevice.html.php:694
+#: modules/com_networkdevice/networkdevice.html.php:746
+#: modules/com_networkdevice/networkdevice.html.php:906
+#: modules/com_networkdevice/networkdevice.html.php:1040
+#: modules/com_networkdevice/networkdevice.html.php:1223
 #: modules/com_personaccount/personaccount.html.php:386
 #: modules/com_personaccount/personaccount.html.php:838
 #: modules/com_personaccount/personaccount.html.php:999
@@ -2501,7 +2511,7 @@ msgid "DNS name"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.html.php:550
-#: modules/com_networkdevice/networkdevice.html.php:626
+#: modules/com_networkdevice/networkdevice.html.php:602
 msgid "Networks"
 msgstr ""
 
@@ -2567,8 +2577,8 @@ msgid "Passwords doesn't match"
 msgstr ""
 
 #: modules/com_myprofile/myprofile.index.php:187
-#: modules/com_networkdevice/networkdevice.index.php:314
-#: modules/com_networkdevice/networkdevice.index.php:768
+#: modules/com_networkdevice/networkdevice.index.php:313
+#: modules/com_networkdevice/networkdevice.index.php:739
 #: modules/com_person/person.index.php:207
 msgid "User passwords are not same"
 msgstr ""
@@ -2593,7 +2603,7 @@ msgstr ""
 #: modules/com_network/network.html.php:136
 #: modules/com_network/network.html.php:144
 #: modules/com_network/network.html.php:145
-#: modules/com_networkdevice/networkdevice.html.php:1340
+#: modules/com_networkdevice/networkdevice.html.php:1316
 msgid "Edit network"
 msgstr ""
 
@@ -2691,7 +2701,7 @@ msgid "- Choose owner -"
 msgstr ""
 
 #: modules/com_network/network.html.php:634
-#: modules/com_networkdevice/networkdevice.html.php:1295
+#: modules/com_networkdevice/networkdevice.html.php:1271
 msgid "Please select network"
 msgstr ""
 
@@ -2756,10 +2766,10 @@ msgstr ""
 
 #: modules/com_networkdevice/networkdevice.html.php:127
 #: modules/com_networkdevice/networkdevice.html.php:410
-#: modules/com_networkdevice/networkdevice.html.php:903
-#: modules/com_networkdevice/networkdevice.html.php:1037
-#: modules/com_networkdevice/networkdevice.html.php:1220
-#: modules/com_networkdevice/networkdevice.html.php:1340
+#: modules/com_networkdevice/networkdevice.html.php:879
+#: modules/com_networkdevice/networkdevice.html.php:1013
+#: modules/com_networkdevice/networkdevice.html.php:1196
+#: modules/com_networkdevice/networkdevice.html.php:1316
 msgid "Network devices management"
 msgstr ""
 
@@ -2773,8 +2783,8 @@ msgid "Network device"
 msgstr ""
 
 #: modules/com_networkdevice/networkdevice.html.php:167
-#: modules/com_networkdevice/networkdevice.html.php:703
-#: modules/com_networkdevice/networkdevice.html.php:925
+#: modules/com_networkdevice/networkdevice.html.php:679
+#: modules/com_networkdevice/networkdevice.html.php:901
 msgid "Network interface"
 msgstr ""
 
@@ -2798,38 +2808,38 @@ msgid "Management interface:"
 msgstr ""
 
 #: modules/com_networkdevice/networkdevice.html.php:230
-#: modules/com_networkdevice/networkdevice.html.php:774
-#: modules/com_networkdevice/networkdevice.html.php:1081
+#: modules/com_networkdevice/networkdevice.html.php:750
+#: modules/com_networkdevice/networkdevice.html.php:1057
 msgid "Mode:"
 msgstr ""
 
 #: modules/com_networkdevice/networkdevice.html.php:231
-#: modules/com_networkdevice/networkdevice.html.php:778
-#: modules/com_networkdevice/networkdevice.html.php:1095
+#: modules/com_networkdevice/networkdevice.html.php:754
+#: modules/com_networkdevice/networkdevice.html.php:1071
 msgid "SSID:"
 msgstr ""
 
 #: modules/com_networkdevice/networkdevice.html.php:232
-#: modules/com_networkdevice/networkdevice.html.php:782
-#: modules/com_networkdevice/networkdevice.html.php:1099
+#: modules/com_networkdevice/networkdevice.html.php:758
+#: modules/com_networkdevice/networkdevice.html.php:1075
 msgid "Frequency domain:"
 msgstr ""
 
 #: modules/com_networkdevice/networkdevice.html.php:233
-#: modules/com_networkdevice/networkdevice.html.php:786
-#: modules/com_networkdevice/networkdevice.html.php:1113
+#: modules/com_networkdevice/networkdevice.html.php:762
+#: modules/com_networkdevice/networkdevice.html.php:1089
 msgid "Frequency (channel):"
 msgstr ""
 
 #: modules/com_networkdevice/networkdevice.html.php:234
-#: modules/com_networkdevice/networkdevice.html.php:790
+#: modules/com_networkdevice/networkdevice.html.php:766
 msgid "MAC:"
 msgstr ""
 
 #: modules/com_networkdevice/networkdevice.html.php:236
-#: modules/com_networkdevice/networkdevice.html.php:722
-#: modules/com_networkdevice/networkdevice.html.php:794
-#: modules/com_networkdevice/networkdevice.html.php:934
+#: modules/com_networkdevice/networkdevice.html.php:698
+#: modules/com_networkdevice/networkdevice.html.php:770
+#: modules/com_networkdevice/networkdevice.html.php:910
 msgid "IP:"
 msgstr ""
 
@@ -2916,179 +2926,155 @@ msgid "None"
 msgstr ""
 
 #: modules/com_networkdevice/networkdevice.html.php:586
-msgid "QOS"
-msgstr ""
-
-#: modules/com_networkdevice/networkdevice.html.php:591
-msgid "Enable QOS:"
-msgstr ""
-
-#: modules/com_networkdevice/networkdevice.html.php:595
-msgid "Internet download bandwidth (kbps):"
-msgstr ""
-
-#: modules/com_networkdevice/networkdevice.html.php:599
-msgid "Internet upload bandwidth (kbps):"
-msgstr ""
-
-#: modules/com_networkdevice/networkdevice.html.php:610
 msgid "IP filter"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:615
+#: modules/com_networkdevice/networkdevice.html.php:591
 msgid "Enable IP filter:"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:671
+#: modules/com_networkdevice/networkdevice.html.php:647
 msgid "Properties"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:752
+#: modules/com_networkdevice/networkdevice.html.php:728
 msgid "Wireless interface"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:858
+#: modules/com_networkdevice/networkdevice.html.php:834
 msgid "Please enter interface name"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:903
+#: modules/com_networkdevice/networkdevice.html.php:879
 msgid "Edit network interface"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:992
+#: modules/com_networkdevice/networkdevice.html.php:968
 msgid "Please enter wireless interface name"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:1037
+#: modules/com_networkdevice/networkdevice.html.php:1013
 msgid "Edit network wireless interface"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:1059
+#: modules/com_networkdevice/networkdevice.html.php:1035
 msgid "Network wireless interface"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:1125
+#: modules/com_networkdevice/networkdevice.html.php:1101
 msgid "Mac:"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:1173
+#: modules/com_networkdevice/networkdevice.html.php:1149
 msgid "Please enter property name"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:1175
+#: modules/com_networkdevice/networkdevice.html.php:1151
 msgid "Please enter property value"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:1220
+#: modules/com_networkdevice/networkdevice.html.php:1196
 msgid "Edit property"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:1242
+#: modules/com_networkdevice/networkdevice.html.php:1218
 msgid "Property"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:1251
+#: modules/com_networkdevice/networkdevice.html.php:1227
 msgid "Value:"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.html.php:1367
+#: modules/com_networkdevice/networkdevice.html.php:1343
 msgid "Network:"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:323
-msgid "Internet download bandwidth (kbps): is not numeric value"
-msgstr ""
-
-#: modules/com_networkdevice/networkdevice.index.php:333
-msgid "Internet upload bandwidth (kbps): is not numeric value"
-msgstr ""
-
-#: modules/com_networkdevice/networkdevice.index.php:435
+#: modules/com_networkdevice/networkdevice.index.php:406
 #, php-format
 msgid "Network device '%s' updated"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:440
+#: modules/com_networkdevice/networkdevice.index.php:411
 #, php-format
 msgid "Network device '%s' saved"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:470
+#: modules/com_networkdevice/networkdevice.index.php:441
 #, php-format
 msgid "Network device '%s' deleted"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:521
+#: modules/com_networkdevice/networkdevice.index.php:492
 #, php-format
 msgid "Network device network '%s' updated for network device %s"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:526
+#: modules/com_networkdevice/networkdevice.index.php:497
 #, php-format
 msgid "Network device network '%s' saved for network device %s"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:545
+#: modules/com_networkdevice/networkdevice.index.php:516
 #, php-format
 msgid "Network device managed network '%s' for network device '%s' deleted"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:592
+#: modules/com_networkdevice/networkdevice.index.php:563
 #, php-format
 msgid "Network interface '%s' updated"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:597
+#: modules/com_networkdevice/networkdevice.index.php:568
 #, php-format
 msgid "Network interface '%s' saved"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:614
+#: modules/com_networkdevice/networkdevice.index.php:585
 #, php-format
 msgid "Network interface '%s' for network device '%s' deleted"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:659
+#: modules/com_networkdevice/networkdevice.index.php:630
 #, php-format
 msgid "Network wireless interface '%s' updated"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:664
+#: modules/com_networkdevice/networkdevice.index.php:635
 #, php-format
 msgid "Network wireless interface '%s' saved"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:681
+#: modules/com_networkdevice/networkdevice.index.php:652
 #, php-format
 msgid "Network wireless interface '%s' for network device '%s' deleted"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:719
+#: modules/com_networkdevice/networkdevice.index.php:690
 #, php-format
 msgid "Network device property '%s' updated"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:724
+#: modules/com_networkdevice/networkdevice.index.php:695
 #, php-format
 msgid "Network device property '%s' saved"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:741
+#: modules/com_networkdevice/networkdevice.index.php:712
 #, php-format
 msgid "Network device property '%s' for network device '%s' deleted"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:788
+#: modules/com_networkdevice/networkdevice.index.php:759
 #, php-format
 msgid "Login successfull: ssh %s@%s"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:825
+#: modules/com_networkdevice/networkdevice.index.php:796
 #, php-format
 msgid "iptables not found on specified path %s"
 msgstr ""
 
-#: modules/com_networkdevice/networkdevice.index.php:850
+#: modules/com_networkdevice/networkdevice.index.php:821
 #, php-format
 msgid "Login failed: %s@%s: %s"
 msgstr ""
@@ -3407,10 +3393,20 @@ msgid "Charge '%s' has been removed from user '%s'"
 msgstr ""
 
 #: modules/com_person/person.index.php:561
-#: modules/com_person/person.index.php:605
-#: modules/com_person/person.index.php:617
+#: modules/com_person/person.index.php:577
+#: modules/com_person/person.index.php:589
 #: modules/com_personaccount/personaccount.index.php:527
 msgid "Date is in incorrect format"
+msgstr ""
+
+#: modules/com_person/person.index.php:609
+#, php-format
+msgid "Payment '%s' has been actualized for user '%s'"
+msgstr ""
+
+#: modules/com_person/person.index.php:615
+#, php-format
+msgid "Payment '%s' has been saved for user '%s'"
 msgstr ""
 
 #: modules/com_personaccount/personaccount.html.php:64
@@ -3639,39 +3635,33 @@ msgstr[1] ""
 msgid "User role '%s' deleted"
 msgstr ""
 
-#: modules/com_scripts/scripts.html.php:68
-#: modules/com_scripts/scripts.html.php:69
-#: modules/com_scripts/scripts.index.php:76
+#: modules/com_scripts/scripts.html.php:66
+#: modules/com_scripts/scripts.html.php:67
+#: modules/com_scripts/scripts.index.php:70
 msgid "IP filter on"
 msgstr ""
 
-#: modules/com_scripts/scripts.html.php:75
-#: modules/com_scripts/scripts.html.php:76
-#: modules/com_scripts/scripts.index.php:104
+#: modules/com_scripts/scripts.html.php:73
+#: modules/com_scripts/scripts.html.php:74
+#: modules/com_scripts/scripts.index.php:96
 msgid "IP filter off"
 msgstr ""
 
-#: modules/com_scripts/scripts.html.php:82
-#: modules/com_scripts/scripts.html.php:83
-#: modules/com_scripts/scripts.index.php:130
-msgid "QOS on"
+#: modules/com_scripts/scripts.html.php:80
+#: modules/com_scripts/scripts.html.php:81
+#: modules/com_scripts/scripts.index.php:122
+msgid "Synchronize IP filter"
 msgstr ""
 
 #: modules/com_scripts/scripts.html.php:89
-#: modules/com_scripts/scripts.html.php:90
-#: modules/com_scripts/scripts.index.php:156
-msgid "QOS off"
-msgstr ""
-
-#: modules/com_scripts/scripts.html.php:98
 msgid "Scripts:"
 msgstr ""
 
-#: modules/com_scripts/scripts.html.php:98
+#: modules/com_scripts/scripts.html.php:89
 msgid "dry run"
 msgstr ""
 
-#: modules/com_scripts/scripts.html.php:116
+#: modules/com_scripts/scripts.html.php:107
 msgid "Run"
 msgstr ""
 

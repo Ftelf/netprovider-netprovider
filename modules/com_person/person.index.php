@@ -602,6 +602,7 @@ function saveHasCharge($task) {
 
     $chargesUtil = new ChargesUtil();
     $chargesUtil->createOrRemoveChargeEntriesForPerson($person, true, true);
+    $chargesUtil->proceedChargesForPerson($person);
 
     switch ($task) {
         case 'applyHasCharge':

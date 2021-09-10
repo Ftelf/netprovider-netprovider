@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-03 22:47+0200\n"
-"PO-Revision-Date: 2018-10-10 08:36+0200\n"
+"POT-Creation-Date: 2021-09-07 10:16+0200\n"
+"PO-Revision-Date: 2021-09-07 12:54+0200\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
 "Language: cs\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>=2 && n<=4 ? 1 : 2;\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 3.0\n"
 
 #: debug/db.php:31 site/index.php:35 site/index2.php:40
 msgid "Cannot connect to database"
@@ -32,9 +32,19 @@ msgstr "SSH2 příhlášení selhalo na %s@%s"
 msgid "API login failed at %s@%s"
 msgstr "Příhlášení pomocí API selhalo na %s@%s"
 
-#: includes/net/CommanderCrossbar.php:252
-#: modules/com_networkdevice/networkdevice.index.php:797
-#: modules/com_networkdevice/networkdevice.index.php:814
+#: includes/billing/ChargesUtil.php:160
+#, php-format
+msgid "Adding payment entry for user %s with date %s"
+msgstr "Přidávám záznam platbu pro uživatele %s s datem %s"
+
+#: includes/billing/ChargesUtil.php:215
+#, php-format
+msgid "Removing payment entry for user %s with date %s not between %s and %s"
+msgstr "Odstraňuji platbu pro uživatele %s s datumem %s, který není mezi %s a %s"
+
+#: includes/net/CommanderCrossbar.php:250
+#: modules/com_networkdevice/networkdevice.index.php:768
+#: modules/com_networkdevice/networkdevice.index.php:785
 #, php-format
 msgid "Login successfull: mikrotik API %s@%s"
 msgstr "Úspěšné přihlášení: mikrotik API %s@%s"
@@ -61,7 +71,7 @@ msgstr "Příloha RB PDF"
 
 #: includes/tables/BankAccount.php:100
 msgid "ISO SEPA XML"
-msgstr ""
+msgstr "ISO SEPA XML"
 
 #: includes/tables/BankAccountEntry.php:130
 #: modules/com_paymentreport/paymentreport.html.php:483
@@ -276,9 +286,8 @@ msgid "PDF file"
 msgstr "Soubor PDF"
 
 #: includes/tables/EmailList.php:83
-#, fuzzy
 msgid "ISO SEPA XML file"
-msgstr "Soubor XML"
+msgstr "Soubor ISO SEPA XML"
 
 #: includes/tables/Group.php:44
 msgid "User"
@@ -359,11 +368,11 @@ msgstr "Posláno"
 msgid "Cannot be sent"
 msgstr "Nelze poslat"
 
-#: includes/tables/NetworkDevice.php:79
+#: includes/tables/NetworkDevice.php:73
 msgid "GNU Linux Debian"
 msgstr "GNU/Linux Debian"
 
-#: includes/tables/NetworkDevice.php:82
+#: includes/tables/NetworkDevice.php:76
 msgid "RouterOS (Mikrotik)"
 msgstr "RouterOS (Mikrotik)"
 
@@ -832,9 +841,8 @@ msgid "Note"
 msgstr "Poznámka"
 
 #: modules/com_bankaccount/bankaccount.html.php:348
-#, fuzzy
 msgid "User account name"
-msgstr "Uživatelský účet:"
+msgstr "Uživatelský účet"
 
 #: modules/com_bankaccount/bankaccount.html.php:491
 #: modules/com_bankaccount/bankaccount.html.php:492
@@ -851,14 +859,14 @@ msgstr "Uživatelský účet:"
 #: modules/com_network/network.html.php:664
 #: modules/com_networkdevice/networkdevice.html.php:387
 #: modules/com_networkdevice/networkdevice.html.php:388
-#: modules/com_networkdevice/networkdevice.html.php:880
-#: modules/com_networkdevice/networkdevice.html.php:881
-#: modules/com_networkdevice/networkdevice.html.php:1014
-#: modules/com_networkdevice/networkdevice.html.php:1015
-#: modules/com_networkdevice/networkdevice.html.php:1197
-#: modules/com_networkdevice/networkdevice.html.php:1198
-#: modules/com_networkdevice/networkdevice.html.php:1317
-#: modules/com_networkdevice/networkdevice.html.php:1318
+#: modules/com_networkdevice/networkdevice.html.php:856
+#: modules/com_networkdevice/networkdevice.html.php:857
+#: modules/com_networkdevice/networkdevice.html.php:990
+#: modules/com_networkdevice/networkdevice.html.php:991
+#: modules/com_networkdevice/networkdevice.html.php:1173
+#: modules/com_networkdevice/networkdevice.html.php:1174
+#: modules/com_networkdevice/networkdevice.html.php:1293
+#: modules/com_networkdevice/networkdevice.html.php:1294
 #: modules/com_person/person.html.php:406
 #: modules/com_person/person.html.php:407
 #: modules/com_person/person.html.php:877
@@ -890,14 +898,14 @@ msgstr "Aktualizuj"
 #: modules/com_network/network.html.php:671
 #: modules/com_networkdevice/networkdevice.html.php:394
 #: modules/com_networkdevice/networkdevice.html.php:395
-#: modules/com_networkdevice/networkdevice.html.php:887
-#: modules/com_networkdevice/networkdevice.html.php:888
-#: modules/com_networkdevice/networkdevice.html.php:1021
-#: modules/com_networkdevice/networkdevice.html.php:1022
-#: modules/com_networkdevice/networkdevice.html.php:1204
-#: modules/com_networkdevice/networkdevice.html.php:1205
-#: modules/com_networkdevice/networkdevice.html.php:1324
-#: modules/com_networkdevice/networkdevice.html.php:1325
+#: modules/com_networkdevice/networkdevice.html.php:863
+#: modules/com_networkdevice/networkdevice.html.php:864
+#: modules/com_networkdevice/networkdevice.html.php:997
+#: modules/com_networkdevice/networkdevice.html.php:998
+#: modules/com_networkdevice/networkdevice.html.php:1180
+#: modules/com_networkdevice/networkdevice.html.php:1181
+#: modules/com_networkdevice/networkdevice.html.php:1300
+#: modules/com_networkdevice/networkdevice.html.php:1301
 #: modules/com_person/person.html.php:413
 #: modules/com_person/person.html.php:414
 #: modules/com_person/person.html.php:884
@@ -937,14 +945,14 @@ msgstr "Ulož"
 #: modules/com_network/network.html.php:678
 #: modules/com_networkdevice/networkdevice.html.php:401
 #: modules/com_networkdevice/networkdevice.html.php:402
-#: modules/com_networkdevice/networkdevice.html.php:894
-#: modules/com_networkdevice/networkdevice.html.php:895
-#: modules/com_networkdevice/networkdevice.html.php:1028
-#: modules/com_networkdevice/networkdevice.html.php:1029
-#: modules/com_networkdevice/networkdevice.html.php:1211
-#: modules/com_networkdevice/networkdevice.html.php:1212
-#: modules/com_networkdevice/networkdevice.html.php:1331
-#: modules/com_networkdevice/networkdevice.html.php:1332
+#: modules/com_networkdevice/networkdevice.html.php:870
+#: modules/com_networkdevice/networkdevice.html.php:871
+#: modules/com_networkdevice/networkdevice.html.php:1004
+#: modules/com_networkdevice/networkdevice.html.php:1005
+#: modules/com_networkdevice/networkdevice.html.php:1187
+#: modules/com_networkdevice/networkdevice.html.php:1188
+#: modules/com_networkdevice/networkdevice.html.php:1307
+#: modules/com_networkdevice/networkdevice.html.php:1308
 #: modules/com_person/person.html.php:420
 #: modules/com_person/person.html.php:421
 #: modules/com_person/person.html.php:891
@@ -1099,7 +1107,7 @@ msgstr "Počet položek"
 
 #: modules/com_bankaccount/bankaccount.html.php:868
 msgid "since"
-msgstr "Od"
+msgstr "od"
 
 #: modules/com_bankaccount/bankaccount.html.php:869
 #: modules/com_myprofile/myprofile.html.php:293
@@ -1245,15 +1253,15 @@ msgstr "Nemáte dostatečná práva"
 
 #: modules/com_bankaccount/bankaccount.index.php:397
 msgid "Downloading new printouts finished without errors"
-msgstr "Stahování nových výpisů dokončeno bez chyb."
+msgstr "Stahování nových výpisů dokončeno bez chyb"
 
 #: modules/com_bankaccount/bankaccount.index.php:424
 msgid "Import finished without errors"
-msgstr "Import dokončen bez chyb."
+msgstr "Import dokončen bez chyb"
 
 #: modules/com_bankaccount/bankaccount.index.php:451
 msgid "Entries processed without errors"
-msgstr "Položky zpracovány bez chyb."
+msgstr "Položky zpracovány bez chyb"
 
 #: modules/com_bankaccount/bankaccount.index.php:577
 msgid "Amount must be in number format"
@@ -1311,10 +1319,10 @@ msgstr "Opravdu chcete smazat vybrané položky ?"
 #: modules/com_internet/internet.html.php:79
 #: modules/com_networkdevice/networkdevice.html.php:104
 #: modules/com_networkdevice/networkdevice.html.php:105
-#: modules/com_networkdevice/networkdevice.html.php:646
-#: modules/com_networkdevice/networkdevice.html.php:691
-#: modules/com_networkdevice/networkdevice.html.php:740
-#: modules/com_networkdevice/networkdevice.html.php:812
+#: modules/com_networkdevice/networkdevice.html.php:622
+#: modules/com_networkdevice/networkdevice.html.php:667
+#: modules/com_networkdevice/networkdevice.html.php:716
+#: modules/com_networkdevice/networkdevice.html.php:788
 #: modules/com_person/person.html.php:84 modules/com_person/person.html.php:85
 #: modules/com_role/role.html.php:79 modules/com_role/role.html.php:80
 msgid "New"
@@ -1335,10 +1343,10 @@ msgstr "Nová"
 #: modules/com_networkdevice/networkdevice.html.php:111
 #: modules/com_networkdevice/networkdevice.html.php:112
 #: modules/com_networkdevice/networkdevice.html.php:410
-#: modules/com_networkdevice/networkdevice.html.php:639
-#: modules/com_networkdevice/networkdevice.html.php:684
-#: modules/com_networkdevice/networkdevice.html.php:730
-#: modules/com_networkdevice/networkdevice.html.php:802
+#: modules/com_networkdevice/networkdevice.html.php:615
+#: modules/com_networkdevice/networkdevice.html.php:660
+#: modules/com_networkdevice/networkdevice.html.php:706
+#: modules/com_networkdevice/networkdevice.html.php:778
 #: modules/com_person/person.html.php:91 modules/com_person/person.html.php:92
 #: modules/com_person/person.html.php:429
 #: modules/com_person/person.html.php:723
@@ -1361,10 +1369,10 @@ msgstr "Editace"
 #: modules/com_message/message.html.php:103
 #: modules/com_networkdevice/networkdevice.html.php:118
 #: modules/com_networkdevice/networkdevice.html.php:119
-#: modules/com_networkdevice/networkdevice.html.php:639
-#: modules/com_networkdevice/networkdevice.html.php:684
-#: modules/com_networkdevice/networkdevice.html.php:730
-#: modules/com_networkdevice/networkdevice.html.php:802
+#: modules/com_networkdevice/networkdevice.html.php:615
+#: modules/com_networkdevice/networkdevice.html.php:660
+#: modules/com_networkdevice/networkdevice.html.php:706
+#: modules/com_networkdevice/networkdevice.html.php:778
 #: modules/com_person/person.html.php:98 modules/com_person/person.html.php:99
 #: modules/com_role/role.html.php:93 modules/com_role/role.html.php:94
 msgid "Delete"
@@ -1466,10 +1474,10 @@ msgstr[2] "%s Dnů"
 #: modules/com_networkdevice/networkdevice.html.php:201
 #: modules/com_networkdevice/networkdevice.html.php:235
 #: modules/com_networkdevice/networkdevice.html.php:463
-#: modules/com_networkdevice/networkdevice.html.php:726
-#: modules/com_networkdevice/networkdevice.html.php:798
-#: modules/com_networkdevice/networkdevice.html.php:947
-#: modules/com_networkdevice/networkdevice.html.php:1129
+#: modules/com_networkdevice/networkdevice.html.php:702
+#: modules/com_networkdevice/networkdevice.html.php:774
+#: modules/com_networkdevice/networkdevice.html.php:923
+#: modules/com_networkdevice/networkdevice.html.php:1105
 #: modules/com_role/role.html.php:270
 msgid "Description:"
 msgstr "Popis:"
@@ -1592,7 +1600,7 @@ msgstr "Šablona platby '%s' uložena"
 #: modules/com_handleevent/handleevent.index.php:150
 #: modules/com_internet/internet.index.php:143 modules/com_log/log.index.php:97
 #: modules/com_message/message.index.php:109
-#: modules/com_networkdevice/networkdevice.index.php:451
+#: modules/com_networkdevice/networkdevice.index.php:422
 #: modules/com_person/person.index.php:309 modules/com_role/role.index.php:129
 msgid "Please select record to erase"
 msgstr "Vyber položku ke smazání"
@@ -1750,7 +1758,7 @@ msgstr "Spravovat internetové služby"
 
 #: modules/com_common/html_mainmenu.php:44
 #: modules/com_network/network.html.php:499
-#: modules/com_networkdevice/networkdevice.html.php:1362
+#: modules/com_networkdevice/networkdevice.html.php:1338
 msgid "Network"
 msgstr "Síť"
 
@@ -1807,14 +1815,12 @@ msgstr "Správci událostí"
 #: modules/com_common/html_mainmenu.php:54
 #: modules/com_massmessages/massmessages.html.php:74
 #: modules/com_massmessages/massmessages.html.php:277
-#, fuzzy
 msgid "Mass messages"
-msgstr "Zprávy"
+msgstr "Hromadné zprávy"
 
 #: modules/com_common/html_mainmenu.php:54
-#, fuzzy
 msgid "Send mass messages"
-msgstr "Zasílání zpráv"
+msgstr "Odeslat hromadnou zprávu"
 
 #: modules/com_common/html_mainmenu.php:56
 msgid "Reports"
@@ -1896,7 +1902,7 @@ msgstr "Uživatelská skupina"
 
 #: modules/com_group/group.html.php:269
 msgid "Group name:"
-msgstr "Název skupiny"
+msgstr "Název skupiny:"
 
 #: modules/com_group/group.html.php:277
 msgid "User level:"
@@ -1973,11 +1979,11 @@ msgstr "Typ:"
 #: modules/com_networkdevice/networkdevice.html.php:197
 #: modules/com_networkdevice/networkdevice.html.php:229
 #: modules/com_networkdevice/networkdevice.html.php:437
-#: modules/com_networkdevice/networkdevice.html.php:718
-#: modules/com_networkdevice/networkdevice.html.php:770
-#: modules/com_networkdevice/networkdevice.html.php:930
-#: modules/com_networkdevice/networkdevice.html.php:1064
-#: modules/com_networkdevice/networkdevice.html.php:1247
+#: modules/com_networkdevice/networkdevice.html.php:694
+#: modules/com_networkdevice/networkdevice.html.php:746
+#: modules/com_networkdevice/networkdevice.html.php:906
+#: modules/com_networkdevice/networkdevice.html.php:1040
+#: modules/com_networkdevice/networkdevice.html.php:1223
 #: modules/com_personaccount/personaccount.html.php:386
 #: modules/com_personaccount/personaccount.html.php:838
 #: modules/com_personaccount/personaccount.html.php:999
@@ -2185,9 +2191,8 @@ msgstr "Systém"
 #: modules/com_massmessages/massmessages.html.php:66
 #: modules/com_massmessages/massmessages.html.php:261
 #: modules/com_massmessages/massmessages.html.php:262
-#, fuzzy
 msgid "New mass message"
-msgstr "Zasílání zpráv"
+msgstr "Nová hromadná zpráva"
 
 #: modules/com_massmessages/massmessages.html.php:114
 #: modules/com_network/network.html.php:281
@@ -2239,26 +2244,26 @@ msgstr "Příjemce"
 #: modules/com_massmessages/massmessages.html.php:354
 #: modules/com_massmessages/massmessages.html.php:397
 msgid "E-Mail"
-msgstr ""
+msgstr "E-Mail"
 
 #: modules/com_massmessages/massmessages.html.php:139
 #: modules/com_massmessages/massmessages.html.php:309
 #: modules/com_massmessages/massmessages.html.php:355
 #: modules/com_massmessages/massmessages.html.php:398
 msgid "Cell phone number"
-msgstr ""
+msgstr "Mobilní telefon"
 
 #: modules/com_massmessages/massmessages.html.php:301
 msgid "Recipients to be notified"
-msgstr ""
+msgstr "Příjemci k notifikaci"
 
 #: modules/com_massmessages/massmessages.html.php:348
 msgid "Recipients without valid mobile contact"
-msgstr ""
+msgstr "Příjemci bez validního telefonního kontaktu"
 
 #: modules/com_massmessages/massmessages.html.php:391
 msgid "Inactive recipients"
-msgstr ""
+msgstr "Neaktivní příjemci"
 
 #: modules/com_message/message.html.php:95
 #: modules/com_message/message.html.php:96
@@ -2267,7 +2272,7 @@ msgstr "Odeslat"
 
 #: modules/com_message/message.html.php:111
 msgid "Message list"
-msgstr "Zprávy:"
+msgstr "Zprávy"
 
 #: modules/com_message/message.html.php:154
 #: modules/com_myprofile/myprofile.html.php:581
@@ -2385,7 +2390,7 @@ msgstr "Telefon:"
 #: modules/com_myprofile/myprofile.html.php:843
 #: modules/com_person/person.html.php:535
 msgid "Secondary Phone:"
-msgstr ""
+msgstr "Sekundární telefon:"
 
 #: modules/com_myprofile/myprofile.html.php:197
 #: modules/com_myprofile/myprofile.html.php:847
@@ -2512,7 +2517,7 @@ msgid "DNS name"
 msgstr "DNS jméno"
 
 #: modules/com_myprofile/myprofile.html.php:550
-#: modules/com_networkdevice/networkdevice.html.php:626
+#: modules/com_networkdevice/networkdevice.html.php:602
 msgid "Networks"
 msgstr "Sítě"
 
@@ -2578,8 +2583,8 @@ msgid "Passwords doesn't match"
 msgstr "Hesla nesouhlasí"
 
 #: modules/com_myprofile/myprofile.index.php:187
-#: modules/com_networkdevice/networkdevice.index.php:314
-#: modules/com_networkdevice/networkdevice.index.php:768
+#: modules/com_networkdevice/networkdevice.index.php:313
+#: modules/com_networkdevice/networkdevice.index.php:739
 #: modules/com_person/person.index.php:207
 msgid "User passwords are not same"
 msgstr "Hesla nejsou stejná"
@@ -2604,7 +2609,7 @@ msgstr "Nová síť"
 #: modules/com_network/network.html.php:136
 #: modules/com_network/network.html.php:144
 #: modules/com_network/network.html.php:145
-#: modules/com_networkdevice/networkdevice.html.php:1340
+#: modules/com_networkdevice/networkdevice.html.php:1316
 msgid "Edit network"
 msgstr "Edituj síť"
 
@@ -2702,7 +2707,7 @@ msgid "- Choose owner -"
 msgstr "- Vyber vlastníka -"
 
 #: modules/com_network/network.html.php:634
-#: modules/com_networkdevice/networkdevice.html.php:1295
+#: modules/com_networkdevice/networkdevice.html.php:1271
 msgid "Please select network"
 msgstr "Prosím vyberte síť"
 
@@ -2767,10 +2772,10 @@ msgstr "Síť %s uživatele '%s' byla smazána"
 
 #: modules/com_networkdevice/networkdevice.html.php:127
 #: modules/com_networkdevice/networkdevice.html.php:410
-#: modules/com_networkdevice/networkdevice.html.php:903
-#: modules/com_networkdevice/networkdevice.html.php:1037
-#: modules/com_networkdevice/networkdevice.html.php:1220
-#: modules/com_networkdevice/networkdevice.html.php:1340
+#: modules/com_networkdevice/networkdevice.html.php:879
+#: modules/com_networkdevice/networkdevice.html.php:1013
+#: modules/com_networkdevice/networkdevice.html.php:1196
+#: modules/com_networkdevice/networkdevice.html.php:1316
 msgid "Network devices management"
 msgstr "Správa síťových zařízení"
 
@@ -2784,8 +2789,8 @@ msgid "Network device"
 msgstr "Síťové zařízení"
 
 #: modules/com_networkdevice/networkdevice.html.php:167
-#: modules/com_networkdevice/networkdevice.html.php:703
-#: modules/com_networkdevice/networkdevice.html.php:925
+#: modules/com_networkdevice/networkdevice.html.php:679
+#: modules/com_networkdevice/networkdevice.html.php:901
 msgid "Network interface"
 msgstr "Síťový interface"
 
@@ -2809,38 +2814,38 @@ msgid "Management interface:"
 msgstr "Management interface:"
 
 #: modules/com_networkdevice/networkdevice.html.php:230
-#: modules/com_networkdevice/networkdevice.html.php:774
-#: modules/com_networkdevice/networkdevice.html.php:1081
+#: modules/com_networkdevice/networkdevice.html.php:750
+#: modules/com_networkdevice/networkdevice.html.php:1057
 msgid "Mode:"
 msgstr "Mód:"
 
 #: modules/com_networkdevice/networkdevice.html.php:231
-#: modules/com_networkdevice/networkdevice.html.php:778
-#: modules/com_networkdevice/networkdevice.html.php:1095
+#: modules/com_networkdevice/networkdevice.html.php:754
+#: modules/com_networkdevice/networkdevice.html.php:1071
 msgid "SSID:"
 msgstr "SSID:"
 
 #: modules/com_networkdevice/networkdevice.html.php:232
-#: modules/com_networkdevice/networkdevice.html.php:782
-#: modules/com_networkdevice/networkdevice.html.php:1099
+#: modules/com_networkdevice/networkdevice.html.php:758
+#: modules/com_networkdevice/networkdevice.html.php:1075
 msgid "Frequency domain:"
 msgstr "Frekvenční pásmo:"
 
 #: modules/com_networkdevice/networkdevice.html.php:233
-#: modules/com_networkdevice/networkdevice.html.php:786
-#: modules/com_networkdevice/networkdevice.html.php:1113
+#: modules/com_networkdevice/networkdevice.html.php:762
+#: modules/com_networkdevice/networkdevice.html.php:1089
 msgid "Frequency (channel):"
 msgstr "Frekvence (kanál):"
 
 #: modules/com_networkdevice/networkdevice.html.php:234
-#: modules/com_networkdevice/networkdevice.html.php:790
+#: modules/com_networkdevice/networkdevice.html.php:766
 msgid "MAC:"
 msgstr "MAC:"
 
 #: modules/com_networkdevice/networkdevice.html.php:236
-#: modules/com_networkdevice/networkdevice.html.php:722
-#: modules/com_networkdevice/networkdevice.html.php:794
-#: modules/com_networkdevice/networkdevice.html.php:934
+#: modules/com_networkdevice/networkdevice.html.php:698
+#: modules/com_networkdevice/networkdevice.html.php:770
+#: modules/com_networkdevice/networkdevice.html.php:910
 msgid "IP:"
 msgstr "IP:"
 
@@ -2927,179 +2932,155 @@ msgid "None"
 msgstr "Žádný"
 
 #: modules/com_networkdevice/networkdevice.html.php:586
-msgid "QOS"
-msgstr "QOS"
-
-#: modules/com_networkdevice/networkdevice.html.php:591
-msgid "Enable QOS:"
-msgstr "Povolit QOS:"
-
-#: modules/com_networkdevice/networkdevice.html.php:595
-msgid "Internet download bandwidth (kbps):"
-msgstr "Garantovaný download na internet (kbps):"
-
-#: modules/com_networkdevice/networkdevice.html.php:599
-msgid "Internet upload bandwidth (kbps):"
-msgstr "Garantovaný upload na internet (kbps):"
-
-#: modules/com_networkdevice/networkdevice.html.php:610
 msgid "IP filter"
 msgstr "IP filtr"
 
-#: modules/com_networkdevice/networkdevice.html.php:615
+#: modules/com_networkdevice/networkdevice.html.php:591
 msgid "Enable IP filter:"
 msgstr "Povolit IP filtr:"
 
-#: modules/com_networkdevice/networkdevice.html.php:671
+#: modules/com_networkdevice/networkdevice.html.php:647
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: modules/com_networkdevice/networkdevice.html.php:752
+#: modules/com_networkdevice/networkdevice.html.php:728
 msgid "Wireless interface"
 msgstr "Bezdrátový interface"
 
-#: modules/com_networkdevice/networkdevice.html.php:858
+#: modules/com_networkdevice/networkdevice.html.php:834
 msgid "Please enter interface name"
 msgstr "Prosím zadejte jméno interface"
 
-#: modules/com_networkdevice/networkdevice.html.php:903
+#: modules/com_networkdevice/networkdevice.html.php:879
 msgid "Edit network interface"
 msgstr "Editace síťového interface"
 
-#: modules/com_networkdevice/networkdevice.html.php:992
+#: modules/com_networkdevice/networkdevice.html.php:968
 msgid "Please enter wireless interface name"
 msgstr "Prosím zadejte jméno bezdrátového interface"
 
-#: modules/com_networkdevice/networkdevice.html.php:1037
+#: modules/com_networkdevice/networkdevice.html.php:1013
 msgid "Edit network wireless interface"
 msgstr "Editace síťového bezdrátového interface"
 
-#: modules/com_networkdevice/networkdevice.html.php:1059
+#: modules/com_networkdevice/networkdevice.html.php:1035
 msgid "Network wireless interface"
 msgstr "Bezdrátový síťový interface"
 
-#: modules/com_networkdevice/networkdevice.html.php:1125
+#: modules/com_networkdevice/networkdevice.html.php:1101
 msgid "Mac:"
 msgstr "Mac:"
 
-#: modules/com_networkdevice/networkdevice.html.php:1173
+#: modules/com_networkdevice/networkdevice.html.php:1149
 msgid "Please enter property name"
 msgstr "Prosím zadejte název vlastnosti"
 
-#: modules/com_networkdevice/networkdevice.html.php:1175
+#: modules/com_networkdevice/networkdevice.html.php:1151
 msgid "Please enter property value"
 msgstr "Prosím zadejte hodnotu vlastnosti"
 
-#: modules/com_networkdevice/networkdevice.html.php:1220
+#: modules/com_networkdevice/networkdevice.html.php:1196
 msgid "Edit property"
 msgstr "Editace vlastnosti"
 
-#: modules/com_networkdevice/networkdevice.html.php:1242
+#: modules/com_networkdevice/networkdevice.html.php:1218
 msgid "Property"
 msgstr "Vlastnost"
 
-#: modules/com_networkdevice/networkdevice.html.php:1251
+#: modules/com_networkdevice/networkdevice.html.php:1227
 msgid "Value:"
 msgstr "Hodnota:"
 
-#: modules/com_networkdevice/networkdevice.html.php:1367
+#: modules/com_networkdevice/networkdevice.html.php:1343
 msgid "Network:"
 msgstr "Síť:"
 
-#: modules/com_networkdevice/networkdevice.index.php:323
-msgid "Internet download bandwidth (kbps): is not numeric value"
-msgstr "Garantovaný download na internet (kbps): musí být numerická hodnota"
-
-#: modules/com_networkdevice/networkdevice.index.php:333
-msgid "Internet upload bandwidth (kbps): is not numeric value"
-msgstr "Garantovaný upload na internet (kbps): musí být numerická hodnota"
-
-#: modules/com_networkdevice/networkdevice.index.php:435
+#: modules/com_networkdevice/networkdevice.index.php:406
 #, php-format
 msgid "Network device '%s' updated"
 msgstr "Síťové zařízení '%s' aktualizováno"
 
-#: modules/com_networkdevice/networkdevice.index.php:440
+#: modules/com_networkdevice/networkdevice.index.php:411
 #, php-format
 msgid "Network device '%s' saved"
 msgstr "Síťové zařízení '%s' uloženo"
 
-#: modules/com_networkdevice/networkdevice.index.php:470
+#: modules/com_networkdevice/networkdevice.index.php:441
 #, php-format
 msgid "Network device '%s' deleted"
 msgstr "Síťové zařízení '%s' smazáno"
 
-#: modules/com_networkdevice/networkdevice.index.php:521
+#: modules/com_networkdevice/networkdevice.index.php:492
 #, php-format
 msgid "Network device network '%s' updated for network device %s"
 msgstr "Spravovaná síť '%s' síťového zařízení '%s' aktualizována"
 
-#: modules/com_networkdevice/networkdevice.index.php:526
+#: modules/com_networkdevice/networkdevice.index.php:497
 #, php-format
 msgid "Network device network '%s' saved for network device %s"
 msgstr "Spravovaná síť '%s' síťového zařízení '%s' uložena"
 
-#: modules/com_networkdevice/networkdevice.index.php:545
+#: modules/com_networkdevice/networkdevice.index.php:516
 #, php-format
 msgid "Network device managed network '%s' for network device '%s' deleted"
 msgstr "Spravovaná síť '%s' síťového zařízení '%s' smazána"
 
-#: modules/com_networkdevice/networkdevice.index.php:592
+#: modules/com_networkdevice/networkdevice.index.php:563
 #, php-format
 msgid "Network interface '%s' updated"
 msgstr "Síťový interface '%s' aktualizován"
 
-#: modules/com_networkdevice/networkdevice.index.php:597
+#: modules/com_networkdevice/networkdevice.index.php:568
 #, php-format
 msgid "Network interface '%s' saved"
 msgstr "Síťový interface '%s' uložen"
 
-#: modules/com_networkdevice/networkdevice.index.php:614
+#: modules/com_networkdevice/networkdevice.index.php:585
 #, php-format
 msgid "Network interface '%s' for network device '%s' deleted"
 msgstr "Síťový interface '%s' síťového zařízení '%s' smazán"
 
-#: modules/com_networkdevice/networkdevice.index.php:659
+#: modules/com_networkdevice/networkdevice.index.php:630
 #, php-format
 msgid "Network wireless interface '%s' updated"
 msgstr "Bezdrátový síťový interface '%s' aktualizován"
 
-#: modules/com_networkdevice/networkdevice.index.php:664
+#: modules/com_networkdevice/networkdevice.index.php:635
 #, php-format
 msgid "Network wireless interface '%s' saved"
 msgstr "Bezdrátový síťový interface '%s' uložen"
 
-#: modules/com_networkdevice/networkdevice.index.php:681
+#: modules/com_networkdevice/networkdevice.index.php:652
 #, php-format
 msgid "Network wireless interface '%s' for network device '%s' deleted"
 msgstr "Bezdrátový síťový interface '%s' síťového zařízení '%s' smazán"
 
-#: modules/com_networkdevice/networkdevice.index.php:719
+#: modules/com_networkdevice/networkdevice.index.php:690
 #, php-format
 msgid "Network device property '%s' updated"
 msgstr "Vlastnost síťového zařízení '%s' aktualizována"
 
-#: modules/com_networkdevice/networkdevice.index.php:724
+#: modules/com_networkdevice/networkdevice.index.php:695
 #, php-format
 msgid "Network device property '%s' saved"
 msgstr "Vlastnost síťového zařízení '%s' uložena"
 
-#: modules/com_networkdevice/networkdevice.index.php:741
+#: modules/com_networkdevice/networkdevice.index.php:712
 #, php-format
 msgid "Network device property '%s' for network device '%s' deleted"
 msgstr "Vlastnost '%s' síťového zařízení '%s' smazána"
 
-#: modules/com_networkdevice/networkdevice.index.php:788
+#: modules/com_networkdevice/networkdevice.index.php:759
 #, php-format
 msgid "Login successfull: ssh %s@%s"
 msgstr "Úspěšné přihlášení: ssh %s@%s"
 
-#: modules/com_networkdevice/networkdevice.index.php:825
+#: modules/com_networkdevice/networkdevice.index.php:796
 #, php-format
 msgid "iptables not found on specified path %s"
 msgstr "iptables nebyl nalezen na cestě %s"
 
-#: modules/com_networkdevice/networkdevice.index.php:850
+#: modules/com_networkdevice/networkdevice.index.php:821
 #, php-format
 msgid "Login failed: %s@%s: %s"
 msgstr "Přihlášení selhalo: %s@%s: %s"
@@ -3251,11 +3232,11 @@ msgstr "Telefon"
 
 #: modules/com_person/person.html.php:164
 msgid "Secondary Phone"
-msgstr ""
+msgstr "Sekundární telefon"
 
 #: modules/com_person/person.html.php:165
 msgid "Address"
-msgstr "Adresa:"
+msgstr "Adresa"
 
 #: modules/com_person/person.html.php:167
 msgid "Registered"
@@ -3421,11 +3402,21 @@ msgid "Charge '%s' has been removed from user '%s'"
 msgstr "Platba '%s' byla odebrána uživateli '%s'"
 
 #: modules/com_person/person.index.php:561
-#: modules/com_person/person.index.php:605
-#: modules/com_person/person.index.php:617
+#: modules/com_person/person.index.php:577
+#: modules/com_person/person.index.php:589
 #: modules/com_personaccount/personaccount.index.php:527
 msgid "Date is in incorrect format"
 msgstr "Nesprávný fomát datumu"
+
+#: modules/com_person/person.index.php:609
+#, php-format
+msgid "Payment '%s' has been actualized for user '%s'"
+msgstr "Platba '%s' byla aktualizována pro uživatele '%s'"
+
+#: modules/com_person/person.index.php:615
+#, php-format
+msgid "Payment '%s' has been saved for user '%s'"
+msgstr "Platba '%s' byla uložena pro uživatele '%s'"
 
 #: modules/com_personaccount/personaccount.html.php:64
 msgid "Conflicting variable symbols"
@@ -3487,7 +3478,7 @@ msgstr "Ignorovat toto období a vypnout službu ?"
 
 #: modules/com_personaccount/personaccount.html.php:305
 msgid "Remove this payment ? It it was already payed, amount is benefited to user's account"
-msgstr "Odstranit tuto položku ? Jestliže byla již zaplacena, peníze se vrátí na účet ?"
+msgstr "Odstranit tuto položku ? Jestliže byla již zaplacena, peníze se vrátí na účet"
 
 #: modules/com_personaccount/personaccount.html.php:359
 msgid "User's account detail"
@@ -3654,39 +3645,33 @@ msgstr[2] "Nelze smazat roli '%s', jelikož má asociováno '%s' uživatelů"
 msgid "User role '%s' deleted"
 msgstr "Uživatelská role '%s' smazána"
 
-#: modules/com_scripts/scripts.html.php:68
-#: modules/com_scripts/scripts.html.php:69
-#: modules/com_scripts/scripts.index.php:76
+#: modules/com_scripts/scripts.html.php:66
+#: modules/com_scripts/scripts.html.php:67
+#: modules/com_scripts/scripts.index.php:70
 msgid "IP filter on"
-msgstr "nahodit IP filtr"
+msgstr "Nahodit IP filtr"
 
-#: modules/com_scripts/scripts.html.php:75
-#: modules/com_scripts/scripts.html.php:76
-#: modules/com_scripts/scripts.index.php:104
+#: modules/com_scripts/scripts.html.php:73
+#: modules/com_scripts/scripts.html.php:74
+#: modules/com_scripts/scripts.index.php:96
 msgid "IP filter off"
-msgstr "shodit IP filtr"
+msgstr "Shodit IP filtr"
 
-#: modules/com_scripts/scripts.html.php:82
-#: modules/com_scripts/scripts.html.php:83
-#: modules/com_scripts/scripts.index.php:130
-msgid "QOS on"
-msgstr "QOS nahodit"
+#: modules/com_scripts/scripts.html.php:80
+#: modules/com_scripts/scripts.html.php:81
+#: modules/com_scripts/scripts.index.php:122
+msgid "Synchronize IP filter"
+msgstr "Synchronizovat IP filtr"
 
 #: modules/com_scripts/scripts.html.php:89
-#: modules/com_scripts/scripts.html.php:90
-#: modules/com_scripts/scripts.index.php:156
-msgid "QOS off"
-msgstr "QOS shodit"
-
-#: modules/com_scripts/scripts.html.php:98
 msgid "Scripts:"
 msgstr "Skripty:"
 
-#: modules/com_scripts/scripts.html.php:98
+#: modules/com_scripts/scripts.html.php:89
 msgid "dry run"
 msgstr "spustit nanečisto"
 
-#: modules/com_scripts/scripts.html.php:116
+#: modules/com_scripts/scripts.html.php:107
 msgid "Run"
 msgstr "Spustit"
 
@@ -3701,7 +3686,7 @@ msgstr "Neautorizovaný login, uživatelské jméno: %s"
 
 #: site/index.php:55 site/index.php:60
 msgid "Wrong username, password or access rights, please try again"
-msgstr "Spatné uživatelské jméno, heslo nebo přístupová práva, prosím zkuste znovu."
+msgstr "Spatné uživatelské jméno, heslo nebo přístupová práva, prosím zkuste znovu"
 
 #: site/index.php:59
 #, php-format
@@ -3715,6 +3700,30 @@ msgstr "Interní chyba systému"
 #: site/index2.php:147
 msgid "Supervisor has been informed"
 msgstr "Správce byl informován"
+
+#~ msgid "QOS"
+#~ msgstr "QOS"
+
+#~ msgid "Enable QOS:"
+#~ msgstr "Povolit QOS:"
+
+#~ msgid "Internet download bandwidth (kbps):"
+#~ msgstr "Garantovaný download na internet (kbps):"
+
+#~ msgid "Internet upload bandwidth (kbps):"
+#~ msgstr "Garantovaný upload na internet (kbps):"
+
+#~ msgid "Internet download bandwidth (kbps): is not numeric value"
+#~ msgstr "Garantovaný download na internet (kbps): musí být numerická hodnota"
+
+#~ msgid "Internet upload bandwidth (kbps): is not numeric value"
+#~ msgstr "Garantovaný upload na internet (kbps): musí být numerická hodnota"
+
+#~ msgid "QOS on"
+#~ msgstr "QOS nahodit"
+
+#~ msgid "QOS off"
+#~ msgstr "QOS shodit"
 
 #~ msgid "CSOB xml"
 #~ msgstr "ČSOB xml"
@@ -3763,12 +3772,6 @@ msgstr "Správce byl informován"
 
 #~ msgid "Invoice"
 #~ msgstr "Faktura"
-
-#~ msgid "Payment '%s' has been actualized for user '%s'"
-#~ msgstr "Platba '%s' byla aktualizována pro uživatele '%s'"
-
-#~ msgid "Payment '%s' has been saved for user '%s'"
-#~ msgstr "Platba '%s' byla uložena pro uživatele '%s'"
 
 #~ msgid "Outcome"
 #~ msgstr "Odchozí platba"
