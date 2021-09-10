@@ -1,11 +1,11 @@
 <?php
 //
 // +----------------------------------------------------------------------+
-// | Stealth ISP QOS system                                               |
+// | Ftelf ISP billing system                                               |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2006-2007 Ing. Lukas Dziadkowiec                       |
 // +----------------------------------------------------------------------+
-// | This source file is part of Stealth ISP QOS system,                  |
+// | This source file is part of Ftelf ISP billing system,                  |
 // | see LICENSE for licence details.                                     |
 // +----------------------------------------------------------------------+
 // | Authors: Lukas Dziadkowiec <i.ftelf@gmail.com>                  |
@@ -493,9 +493,9 @@ class HTML_PaymentReport {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
-  
+
   </div>
 
   <div class="clr"></div>

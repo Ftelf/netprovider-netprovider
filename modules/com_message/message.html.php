@@ -1,11 +1,11 @@
 <?php
 //
 // +----------------------------------------------------------------------+
-// | Stealth ISP QOS system                                               |
+// | Ftelf ISP billing system                                               |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2006-2007 Ing. Lukas Dziadkowiec                       |
 // +----------------------------------------------------------------------+
-// | This source file is part of Stealth ISP QOS system,                  |
+// | This source file is part of Ftelf ISP billing system,                  |
 // | see LICENSE for licence details.                                     |
 // +----------------------------------------------------------------------+
 // | Authors: Lukas Dziadkowiec <i.ftelf@gmail.com>                  |
@@ -44,7 +44,7 @@ class HTML_message {
   	}
   	function filterChange() {
   		document.getElementById('date_fromx').value = document.adminForm.date_from.value;
-  		document.getElementById('date_tox').value = document.adminForm.date_to.value; 
+  		document.getElementById('date_tox').value = document.adminForm.date_to.value;
   		document.adminForm.submit();
   	}
   	function editP(id) {
@@ -106,7 +106,7 @@ class HTML_message {
           </tr>
           </table>
         </div>
-        
+
         <div class="header icon-48-messages">
           <?php echo _("Message list"); ?>
         </div>
@@ -173,7 +173,7 @@ class HTML_message {
 	foreach ($messages as &$message) {
 		$linkPerson = "javascript:editP('". $message->ME_personid . "');";
 		$dateTime = new DateUtil($message->ME_datetime);
-		
+
 		if (isset($persons[$message->ME_personid])) {
 			$personName = $persons[$message->ME_personid]->PE_firstname . " ". $persons[$message->ME_personid]->PE_surname;
 		} else {
@@ -220,9 +220,9 @@ class HTML_message {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
-  
+
   </div>
 
   <div class="clr"></div>

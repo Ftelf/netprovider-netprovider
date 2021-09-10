@@ -1,11 +1,11 @@
 <?php
 //
 // +----------------------------------------------------------------------+
-// | Stealth ISP QOS system                                               |
+// | Ftelf ISP billing system                                               |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2006-2007 Ing. Lukas Dziadkowiec                       |
 // +----------------------------------------------------------------------+
-// | This source file is part of Stealth ISP QOS system,                  |
+// | This source file is part of Ftelf ISP billing system,                  |
 // | see LICENSE for licence details.                                     |
 // +----------------------------------------------------------------------+
 // | Authors: Lukas Dziadkowiec <i.ftelf@gmail.com>                  |
@@ -54,7 +54,7 @@ class HTML_BankAccount {
   	}
   	function filterChange() {
   		document.getElementById('date_fromx').value = document.adminForm.date_from.value;
-  		document.getElementById('date_tox').value = document.adminForm.date_to.value; 
+  		document.getElementById('date_tox').value = document.adminForm.date_to.value;
   		document.adminForm.submit();
   	}
 
@@ -120,7 +120,7 @@ class HTML_BankAccount {
           </tr>
           </table>
         </div>
-        
+
         <div class="header icon-48-bank-account">
           <?php echo _("Bank account entry printout"); ?>
         </div>
@@ -300,9 +300,9 @@ class HTML_BankAccount {
     </tr>
     </tbody>
     </table>
-    
+
     <br/>
-    
+
     <table class="adminlist">
     <thead>
     <tr>
@@ -441,9 +441,9 @@ class HTML_BankAccount {
    <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
-  
+
   </div>
 
   <div class="clr"></div>
@@ -524,9 +524,9 @@ class HTML_BankAccount {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
-    
+
     <form action="index2.php" method="post" name="adminForm">
     <table width="100%">
     <tr>
@@ -548,9 +548,9 @@ class HTML_BankAccount {
         </tr>
         </tbody>
         </table>
-        
+
         <br/>
-        
+
         <table class="adminform">
         <thead>
         <tr>
@@ -605,9 +605,9 @@ class HTML_BankAccount {
           <td width="205"><input type="text" name="BA_startbalance" class="width-form" size="40" value="<?php echo NumberFormat::formatMoney($bankAccount->BA_startbalance); ?>"<?php if (!$flags['BA_startballance']) echo ' disabled="disabled"'; ?> /></td>
         </tr>
         </table>
-        
+
         <br/>
-        
+
         <table class="adminform">
         <thead>
         <tr>
@@ -645,9 +645,9 @@ class HTML_BankAccount {
         </tr>
         </tbody>
         </table>
-        
+
         <br/>
-        
+
         <table class="adminform">
         <thead>
         <tr>
@@ -689,7 +689,7 @@ class HTML_BankAccount {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -813,7 +813,7 @@ class HTML_BankAccount {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table class="splitform">
@@ -853,9 +853,9 @@ class HTML_BankAccount {
     </td>
     </tr>
     </table>
-    
+
     <br/>
-    
+
     <table class="adminlist">
     <thead>
     <tr>
@@ -916,7 +916,7 @@ class HTML_BankAccount {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -947,13 +947,13 @@ class HTML_BankAccount {
 			alert("<?php echo _("Identification wasn't performed"); ?>");
 		} else if (form.BE_identifycode.options[form.BE_identifycode.selectedIndex].value == <?php echo BankAccountEntry::IDENTIFY_PERSONACCOUNT; ?> && pressbutton == 'save') {
 			var rows = document.getElementById('userTable').getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-			
+
 			if (rows.length > 1) {
 				var sum = 0;
 				for (var i = 1, l = rows.length; i < l; i++) {
 					var row = rows[i];
 					var subString = row.childNodes[1].childNodes[0].value;
-					
+
 					var subNumber = parseFloat(subString);
 					if (subNumber && subString != subNumber) {
 						alert('<?php echo _("Please enter amount in valid number format"); ?>');
@@ -961,7 +961,7 @@ class HTML_BankAccount {
 					}
 					sum += subNumber;
 				}
-				
+
 				if (amount == sum) {
 					submitform('saveBAE');
 				} else {
@@ -974,7 +974,7 @@ class HTML_BankAccount {
 			submitform('saveBAE');
 		}
 	}
-	
+
 	function onChangeIdentification() {
 		var form = document.adminForm;
 		if (form.BE_identifycode.options[form.BE_identifycode.selectedIndex].value == <?php echo BankAccountEntry::IDENTIFY_PERSONACCOUNT ?>) {
@@ -983,18 +983,18 @@ class HTML_BankAccount {
 			document.getElementById('PN_personaccountidBlock').style.display = 'none';
 		}
 	}
-	
+
 	function onChangeUserAccount() {
 		var form = document.adminForm;
 		var PN_personaccountid = form.PN_personaccountid;
 		var selectedIndex = PN_personaccountid.selectedIndex;
 		var selectedItem = PN_personaccountid[selectedIndex];
 		var value = selectedItem.value;
-		
+
 		if (value == 0) {
 			return;
 		}
-		
+
 		var row = document.createElement("TR");
 		//Cell 1
 		var cell1 = document.createElement("td");
@@ -1003,11 +1003,11 @@ class HTML_BankAccount {
 		hidden.setAttribute("name", "PN_personaccountid["+value+"]");
 		hidden.setAttribute("value", value);
 		cell1.appendChild(hidden);
-		
+
 		var text = document.createTextNode(selectedItem.text);
 		cell1.appendChild(text);
 		row.appendChild(cell1);
-		
+
 		var cell2 = document.createElement("td");
 		var text = document.createElement("input");
 		text.setAttribute("type", "text");
@@ -1015,17 +1015,17 @@ class HTML_BankAccount {
 		text.setAttribute("value", "");
 		text.setAttribute("class", "width-form-button");
 		cell2.appendChild(text);
-		
+
 		row.appendChild(cell2);
-		
+
 		var cell3 = document.createElement("td");
 		cell3.innerHTML = '<img src="images/16x16/actions/cancel.png"/ style="cursor: pointer;" onclick="removeUserAccount(this, '+value+')">';
-		
+
 		row.appendChild(cell3);
 		document.getElementById('userTable').getElementsByTagName("tbody")[0].appendChild(row);
-		
+
 		PN_personaccountid.remove(selectedIndex);
-		
+
 		form.PN_personaccountid.selectedIndex = 0;
 	}
 	function removeUserAccount(img, id) {
@@ -1033,11 +1033,11 @@ class HTML_BankAccount {
 		var row = cell.parentNode;
 		var name = row.getElementsByTagName("td")[0].childNodes[1].nodeValue;
 		document.getElementById('userTable').getElementsByTagName("tbody")[0].removeChild(row);
-		
+
 		var option = document.createElement("option");
 		option.value = id;
 		option.text = name;
-		
+
 		try {
 			document.adminForm.PN_personaccountid.add(option, null);
 		} catch(e) {
@@ -1045,7 +1045,7 @@ class HTML_BankAccount {
 		}
 		sortList();
 	}
-	
+
 	function sortList() {
 		var lb = document.adminForm.PN_personaccountid;
 		arrTexts = new Array();
@@ -1117,7 +1117,7 @@ class HTML_BankAccount {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table width="100%">
@@ -1216,9 +1216,9 @@ class HTML_BankAccount {
         </tr>
         </tbody>
         </table>
-        
+
         <br/>
-        
+
         <div id="PN_personaccountidBlock" style="display: none;">
         <table class="adminform" id="userTable">
         <thead>
@@ -1236,7 +1236,7 @@ class HTML_BankAccount {
 ?>
               <option value="0" selected="selected"><?php echo _("- Select user's account -"); ?></option><?php echo "\n";
 	}
-	
+
 	foreach($persons as $person) {
 ?>
               <option value="<?php echo $person->PA_personaccountid; ?>"><?php echo $person->PE_surname." ".$person->PE_firstname; echo ($person->PE_nick) ? ", ".$person->PE_nick : ""; ?></option>
@@ -1262,7 +1262,7 @@ class HTML_BankAccount {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -1521,7 +1521,7 @@ class HTML_BankAccount {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm"  enctype="multipart/form-data">
     <input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
@@ -1566,7 +1566,7 @@ class HTML_BankAccount {
     </td>
     </tr>
     </table>
-    
+
     <input type="hidden" name="option" value="com_bankaccount" />
     <input type="hidden" name="BA_bankaccountid" value="<?php echo $bankAccount->BA_bankaccountid; ?>" />
     <input type="hidden" name="task" value="" />
@@ -1574,7 +1574,7 @@ class HTML_BankAccount {
     <input type="hidden" name="hidemainmenu" value="1" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 

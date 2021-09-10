@@ -1,11 +1,11 @@
 <?php
 //
 // +----------------------------------------------------------------------+
-// | Stealth ISP QOS system                                               |
+// | Ftelf ISP billing system                                               |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2006-2007 Ing. Lukas Dziadkowiec                       |
 // +----------------------------------------------------------------------+
-// | This source file is part of Stealth ISP QOS system,                  |
+// | This source file is part of Ftelf ISP billing system,                  |
 // | see LICENSE for licence details.                                     |
 // +----------------------------------------------------------------------+
 // | Authors: Lukas Dziadkowiec <i.ftelf@gmail.com>                  |
@@ -224,7 +224,7 @@ function showNetwork() {
 //	if ($selectedNetwork->NE_networkdeviceid) {
 //		try {
 //			$networkDevice = NetworkDeviceDAO::getNetworkDeviceByID($selectedNetwork->NE_networkdeviceid);
-//			
+//
 //			$selectedNetwork->IPFilterDeviceName = $networkDevice->ND_name;
 //		} catch (Exception $e) {
 //			$selectedNetwork->IPFilterDeviceName = "Missing";
@@ -729,7 +729,7 @@ function subNetworkPermutationByRange($n1, $n2, $self) {
  * substract all subnetworks specified by $n2Array from parent network $n1
  * @param $n1 in format A.B.C.D/BITMASK
  * @param $n2Array array of networks in following format A.B.C.D/BITMASK, has to be sorter ascendedly
- * @return true if there is any place for new network 
+ * @return true if there is any place for new network
  */
 function isAnyFreeSubNetworks(&$n1, &$n2Array) {
     global $database;
@@ -782,7 +782,7 @@ function isAnyFreeSubNetworks(&$n1, &$n2Array) {
  * @param $n1 in format A.B.C.D/BITMASK
  * @param $n2Array array of networks in following format A.B.C.D/BITMASK, has to be sorter ascendedly
  * @param $nn find out if this network can be inserted
- * @return true if there is any place for new network 
+ * @return true if there is any place for new network
  */
 function isSpaceForSubNetwork(&$n1, &$n2Array, &$nn) {
     global $database;
