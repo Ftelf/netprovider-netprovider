@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-07 10:16+0200\n"
-"PO-Revision-Date: 2021-09-11 11:22+0200\n"
+"POT-Creation-Date: 2021-09-11 19:09+0200\n"
+"PO-Revision-Date: 2021-09-11 19:11+0200\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
 "Language: cs\n"
@@ -1598,7 +1598,7 @@ msgstr "Šablona platby '%s' uložena"
 #: modules/com_charge/charge.index.php:184
 #: modules/com_group/group.index.php:135
 #: modules/com_handleevent/handleevent.index.php:150
-#: modules/com_internet/internet.index.php:143 modules/com_log/log.index.php:97
+#: modules/com_internet/internet.index.php:139 modules/com_log/log.index.php:97
 #: modules/com_message/message.index.php:109
 #: modules/com_networkdevice/networkdevice.index.php:422
 #: modules/com_person/person.index.php:309 modules/com_role/role.index.php:129
@@ -2031,11 +2031,11 @@ msgid "Internet templates management"
 msgstr "Správa šablon internetu"
 
 #: modules/com_internet/internet.html.php:123
-msgid "Guarant download"
+msgid "Guaranteed download"
 msgstr "Grantovaný download"
 
 #: modules/com_internet/internet.html.php:124
-msgid "Guarant upload"
+msgid "Guaranteed upload"
 msgstr "Garantovaný upload"
 
 #: modules/com_internet/internet.html.php:125
@@ -2051,22 +2051,22 @@ msgid "Please enter template description"
 msgstr "Prosím zadejte popis šablony"
 
 #: modules/com_internet/internet.html.php:229
-#: modules/com_internet/internet.index.php:107
-msgid "Guarant download is not in proper number format"
+#: modules/com_internet/internet.index.php:102
+msgid "Guaranteed download is not in proper number format"
 msgstr "Garantovaný download není ve správném číselném formátu"
 
 #: modules/com_internet/internet.html.php:231
-#: modules/com_internet/internet.index.php:108
+#: modules/com_internet/internet.index.php:103
 msgid "Maximum download is not in proper number format"
 msgstr "Maximální download není ve správném číselném formátu"
 
 #: modules/com_internet/internet.html.php:233
-#: modules/com_internet/internet.index.php:109
-msgid "Guarant upload is not in proper number format"
+#: modules/com_internet/internet.index.php:104
+msgid "Guaranteed upload is not in proper number format"
 msgstr "Garantovaný upload není ve správném číselném formátu"
 
 #: modules/com_internet/internet.html.php:235
-#: modules/com_internet/internet.index.php:110
+#: modules/com_internet/internet.index.php:105
 msgid "Maximum upload is not in proper number format"
 msgstr "Maximální upload není ve správném číselném formátu"
 
@@ -2075,11 +2075,11 @@ msgid "Internet template"
 msgstr "Šablona internetu"
 
 #: modules/com_internet/internet.html.php:321
-msgid "Guarant download (kbps):"
+msgid "Guaranteed download (kbps):"
 msgstr "Grantovaný download (kbps):"
 
 #: modules/com_internet/internet.html.php:327
-msgid "Guarant upload (kbps):"
+msgid "Guaranteed upload (kbps):"
 msgstr "Garantovaný upload (kbps):"
 
 #: modules/com_internet/internet.html.php:333
@@ -2090,25 +2090,25 @@ msgstr "Maximální download (kbps):"
 msgid "Maximum upload (kbps):"
 msgstr "Maximální upload (kbps):"
 
-#: modules/com_internet/internet.index.php:125
+#: modules/com_internet/internet.index.php:120
 #, php-format
 msgid "Internet template '%s' updated"
 msgstr "Šablona internetu '%s' aktualizována"
 
-#: modules/com_internet/internet.index.php:130
+#: modules/com_internet/internet.index.php:125
 #, php-format
 msgid "Internet template '%s' saved"
 msgstr "Šablona internetu '%s' uložena"
 
-#: modules/com_internet/internet.index.php:152
+#: modules/com_internet/internet.index.php:148
 #, php-format
-msgid "Cannot delete internet template '%s', because it has binded %s payment service"
-msgid_plural "Cannot delete internet template '%s', because it has binded %s payment services"
-msgstr[0] "Nelze smazat šablonu internetu '%s', jelikož má asociovánu '%s' šablonu platby"
-msgstr[1] "Nelze smazat šablonu internetu '%s', jelikož má asociovány '%s' šablony platby"
-msgstr[2] "Nelze smazat šablonu internetu '%s', jelikož má asociováno '%s' šablon plateb"
+msgid "Cannot delete internet template '%s', because it has bound %s payment service: "
+msgid_plural "Cannot delete internet template '%s', because it has bound %s payment services: "
+msgstr[0] "Nelze smazat šablonu internetu '%s', jelikož má asociovánu '%s' šablonu platby: "
+msgstr[1] "Nelze smazat šablonu internetu '%s', jelikož má asociovány '%s' šablony platby: "
+msgstr[2] "Nelze smazat šablonu internetu '%s', jelikož má asociováno '%s' šablon plateb: "
 
-#: modules/com_internet/internet.index.php:163
+#: modules/com_internet/internet.index.php:160
 #, php-format
 msgid "Internet template '%s' deleted"
 msgstr "Šablona internetu '%s' smazána"

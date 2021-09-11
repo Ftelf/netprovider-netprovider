@@ -42,7 +42,7 @@ class InternetDAO {
         global $database;
         $query = "SELECT * FROM `internet` as i,`charge` as ch WHERE i.IN_internetid='$id' AND i.IN_internetid=ch.CH_internetid";
         $database->setQuery($query);
-        return $database->loadObjectList("IN_internetid");
+        return $database->loadObjectList("CH_chargeid");
     }
     static function getInternetByID($id) {
         if (!$id) throw new Exception("no ID specified");

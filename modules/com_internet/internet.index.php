@@ -52,18 +52,14 @@ switch ($task) {
         break;
 
     case 'cancel':
-        showInternet();
-        break;
-
     default:
         showInternet();
         break;
 }
 /**
- * 
  */
 function showInternet() {
-    global $database, $mainframe, $acl, $core;
+    global $core;
     require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
 
     $limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_internet'], 'limit', 10);
@@ -75,12 +71,11 @@ function showInternet() {
     $pageNav = new PageNav($total, $limitstart, $limit);
     HTML_internet::showInternet($internets, $pageNav);
 }
+
 /**
  * @param $iid
  */
 function editInternet($iid=null) {
-    global $database, $my, $acl;
-
     if ($iid != null) {
         $internet = InternetDAO::getInternetByID($iid);
     } else {
@@ -89,27 +84,27 @@ function editInternet($iid=null) {
 
     HTML_internet::editInternet($internet);
 }
+
 /**
  * @param $task
  */
 function saveInternet($task) {
-    global $database, $mainframe, $my, $acl, $appContext;
+    global $database, $appContext;
 
     $internet = new Internet();
     database::bind($_POST, $internet);
-    $isNew 	= !$internet->IN_internetid;
+    $isNew = !$internet->IN_internetid;
 
     // get proper values
-    //
-    $errorArray = '';
+    $errorArray = [];
     if (Utils::getParam($_REQUEST, 'IN_dnl_rate_cb', null) == "1") $internet->IN_dnl_rate = -1;
     if (Utils::getParam($_REQUEST, 'IN_upl_rate_cb', null) == "1") $internet->IN_upl_rate = -1;
-    if (!is_numeric($internet->IN_dnl_rate)) $errorArray .= _("Guarant download is not in proper number format").'\n';
-    if (!is_numeric($internet->IN_dnl_ceil)) $errorArray .= _("Maximum download is not in proper number format").'\n';
-    if (!is_numeric($internet->IN_upl_rate)) $errorArray .= _("Guarant upload is not in proper number format").'\n';
-    if (!is_numeric($internet->IN_upl_ceil)) $errorArray .= _("Maximum upload is not in proper number format").'\n';
-    if (strlen($errorArray)) {
-        Core::alert($errorArray);
+    if (!is_numeric($internet->IN_dnl_rate)) $errorArray[] = _("Guaranteed download is not in proper number format").'\n';
+    if (!is_numeric($internet->IN_dnl_ceil)) $errorArray[] = _("Maximum download is not in proper number format").'\n';
+    if (!is_numeric($internet->IN_upl_rate)) $errorArray[] = _("Guaranteed upload is not in proper number format").'\n';
+    if (!is_numeric($internet->IN_upl_ceil)) $errorArray[] = _("Maximum upload is not in proper number format").'\n';
+    if (count($errorArray)) {
+        Core::alert(implode(", ", $errorArray));
         HTML_internet::editInternet($internet);
         return;
     }
@@ -138,7 +133,8 @@ function saveInternet($task) {
  * @param $cid
  */
 function removeInternet($cid) {
-    global $database, $mainframe, $my, $acl, $appContext;
+    global $database, $appContext;
+
     if (count($cid) < 1) {
         Core::backWithAlert(_("Please select record to erase"));
     }
@@ -149,15 +145,16 @@ function removeInternet($cid) {
             $internetCharges = InternetDAO::getInternetChargesArrayByID($id);
 
             if (count($internetCharges)) {
-                $msg = sprintf(ngettext("Cannot delete internet template '%s', because it has binded %s payment service", "Cannot delete internet template '%s', because it has binded %s payment services", count($internetCharges)), $internet->IN_name, count($internetCharges));
+                $msg = sprintf(ngettext("Cannot delete internet template '%s', because it has bound %s payment service: ", "Cannot delete internet template '%s', because it has bound %s payment services: ", count($internetCharges)), $internet->IN_name, count($internetCharges));
                 $database->log($msg, LOG::LEVEL_WARNING);
-                $limit = 10;
-                foreach ($internetCharges as $internetCharge) {
-                    $msg .= "\\n'" . $internetCharge->CH_name . "'";
-                    if (!--$limit) break;
+                $limit = 3;
+                $names = array_column(array_slice($internetCharges, 0, $limit), 'CH_name');
+                if (count($internetCharges) > $limit) {
+                    $names[] = "...";
                 }
-                if (count($internetCharges) > $limit) $msg .= '\n...';
-                Core::backWithAlert($msg);
+                $msg .= implode(', ', $names);
+
+                Core::alert($msg);
             } else {
                 InternetDAO::removeInternetByID($id);
                 $msg = sprintf(_("Internet template '%s' deleted"), $internet->IN_name);

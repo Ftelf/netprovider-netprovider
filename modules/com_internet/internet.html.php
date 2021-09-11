@@ -24,7 +24,7 @@ defined('VALID_MODULE') or die(_("Direct access into this section is not allowed
 class HTML_internet {
 	/**
 	 * showInternet
-	 * @param $internet
+	 * @param $internets
 	 * @param $pageNav
 	 */
 	static function showInternet(&$internets, &$pageNav) {
@@ -96,7 +96,7 @@ class HTML_internet {
           </tr>
           </table>
         </div>
-        
+
         <div class="header icon-48-internet-teplate">
           <?php echo _("Internet templates management"); ?>
         </div>
@@ -120,8 +120,8 @@ class HTML_internet {
      <th width="2%" class="title">#</th>
      <th width="2%" class="title"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo $pageNav->limit; ?>);" /></th>
      <th width="16%" class="title"><?php echo _("Template name"); ?></th>
-     <th width="13%" class="title"><?php echo _("Guarant download"); ?></th>
-     <th width="13%" class="title"><?php echo _("Guarant upload"); ?></th>
+     <th width="13%" class="title"><?php echo _("Guaranteed download"); ?></th>
+     <th width="13%" class="title"><?php echo _("Guaranteed upload"); ?></th>
      <th width="12%" class="title"><?php echo _("Maximum download"); ?></th>
      <th width="12%" class="title"><?php echo _("Maximum upload"); ?></th>
      <th width="5%" class="title"><?php echo _("Priority"); ?></th>
@@ -187,9 +187,9 @@ class HTML_internet {
    <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
-  
+
   </div>
 
   <div class="clr"></div>
@@ -212,9 +212,9 @@ class HTML_internet {
 			if (pressbutton == 'apply') {
 				hideMainMenu();
 			}
-			
+
 			var form = document.adminForm;
-			
+
 			var IN_dnl_rate_temp = parseInt(form.IN_dnl_rate.value);
 			var IN_dnl_ceil_temp = parseInt(form.IN_dnl_ceil.value);
 			var IN_upl_rate_temp = parseInt(form.IN_upl_rate.value);
@@ -226,11 +226,11 @@ class HTML_internet {
 			} else if (trim(form.IN_description.value) == "") {
 				alert("<?php echo _("Please enter template description"); ?>");
 			} else if (!form.IN_dnl_rate_cb.checked && (String(IN_dnl_rate_temp) != form.IN_dnl_rate.value || IN_dnl_rate_temp < 0)) {
-				alert("<?php echo _("Guarant download is not in proper number format"); ?>");
+				alert("<?php echo _("Guaranteed download is not in proper number format"); ?>");
 			} else if (String(IN_dnl_ceil_temp) != form.IN_dnl_ceil.value || IN_dnl_rate_temp <= 0) {
 				alert("<?php echo _("Maximum download is not in proper number format"); ?>");
 			} else if (!form.IN_upl_rate_cb.checked && (String(IN_upl_rate_temp) != form.IN_upl_rate.value || IN_upl_rate_temp < 0)) {
-				alert("<?php echo _("Guarant upload is not in proper number format"); ?>");
+				alert("<?php echo _("Guaranteed upload is not in proper number format"); ?>");
 			} else if (String(IN_upl_ceil_temp) != form.IN_upl_ceil.value || IN_upl_ceil_temp <= 0) {
 				alert("<?php echo _("Maximum upload is not in proper number format"); ?>");
 			} else {
@@ -296,7 +296,7 @@ class HTML_internet {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table width="100%">
@@ -318,13 +318,13 @@ class HTML_internet {
           <td colspan="3"><input type="text" name="IN_description" class="inputbox" size="40" value="<?php echo $internet->IN_description;?>" /></td>
         </tr>
         <tr>
-          <td><?php echo _("Guarant download (kbps):"); ?></td>
+          <td><?php echo _("Guaranteed download (kbps):"); ?></td>
           <td width="205"><input type="text" name="IN_dnl_rate" class="inputbox" size="40" value="<?php echo ($internet->IN_dnl_rate == -1) ?  "" : $internet->IN_dnl_rate;?>" <?php if ($internet->IN_dnl_rate == -1) echo 'disabled="disabled"';?>/></td>
           <td><input type="checkbox" name="IN_dnl_rate_cb" value="1" onclick="dnl_cb(this.checked);" <?php if ($internet->IN_dnl_rate == -1) echo 'checked="checked"';?>/></td>
           <td>Auto</td>
         </tr>
         <tr>
-          <td><?php echo _("Guarant upload (kbps):"); ?></td>
+          <td><?php echo _("Guaranteed upload (kbps):"); ?></td>
           <td><input type="text" name="IN_upl_rate" class="inputbox" size="40" value="<?php echo ($internet->IN_upl_rate == -1) ?  "" : $internet->IN_upl_rate;?>" <?php if ($internet->IN_upl_rate == -1) echo 'disabled="disabled"';?>/></td>
           <td><input type="checkbox" name="IN_upl_rate_cb" value="1" onclick="upl_cb(this.checked);" <?php if ($internet->IN_upl_rate == -1) echo 'checked="checked"';?>/></td>
           <td>Auto</td>
@@ -363,7 +363,7 @@ class HTML_internet {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
