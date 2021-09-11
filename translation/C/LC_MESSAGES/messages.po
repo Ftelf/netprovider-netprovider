@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-11 19:09+0200\n"
+"POT-Creation-Date: 2021-09-11 21:06+0200\n"
 "PO-Revision-Date: 2008-01-24 12:18+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -41,11 +41,11 @@ msgstr ""
 msgid "Removing payment entry for user %s with date %s not between %s and %s"
 msgstr ""
 
-#: includes/net/CommanderCrossbar.php:250
+#: includes/net/CommanderCrossbar.php:194
 #: modules/com_networkdevice/networkdevice.index.php:768
 #: modules/com_networkdevice/networkdevice.index.php:785
 #, php-format
-msgid "Login successfull: mikrotik API %s@%s"
+msgid "Login successful: mikrotik API %s@%s"
 msgstr ""
 
 #: includes/net/email/EmailUtil.php:122
@@ -3065,7 +3065,7 @@ msgstr ""
 
 #: modules/com_networkdevice/networkdevice.index.php:759
 #, php-format
-msgid "Login successfull: ssh %s@%s"
+msgid "Login successful: ssh %s@%s"
 msgstr ""
 
 #: modules/com_networkdevice/networkdevice.index.php:796

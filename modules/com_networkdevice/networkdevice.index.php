@@ -756,7 +756,7 @@ function testLogin() {
 
                 $executor = new Executor(Executor::REMOTE_SSH2, $settings, true);
 
-                $appContext->insertMessage(sprintf(_("Login successfull: ssh %s@%s"), $networkDevice->ND_login, $managementIp->IP_address));
+                $appContext->insertMessage(sprintf(_("Login successful: ssh %s@%s"), $networkDevice->ND_login, $managementIp->IP_address));
             } else if ($networkDevice->ND_platform == NetworkDevice::PLATFORM_ROUTEROS) {
                 $settings = array();
                 $settings[Executor::REMOTE_HOST] = $managementIp->IP_address;
@@ -765,7 +765,7 @@ function testLogin() {
 
                 $executor = new Executor(Executor::REMOTE_MIKROTIK_API, $settings, true);
 
-                $appContext->insertMessage(sprintf(_("Login successfull: mikrotik API %s@%s"), $networkDevice->ND_login, $managementIp->IP_address));
+                $appContext->insertMessage(sprintf(_("Login successful: mikrotik API %s@%s"), $networkDevice->ND_login, $managementIp->IP_address));
             }
 
         } else {
@@ -782,7 +782,7 @@ function testLogin() {
 
                 $executor = new Executor(Executor::REMOTE_MIKROTIK_API, $settings, true);
 
-                $appContext->insertMessage(sprintf(_("Login successfull: mikrotik API %s@%s"), $networkDevice->ND_login, '127.0.0.1'));
+                $appContext->insertMessage(sprintf(_("Login successful: mikrotik API %s@%s"), $networkDevice->ND_login, '127.0.0.1'));
             }
         }
 

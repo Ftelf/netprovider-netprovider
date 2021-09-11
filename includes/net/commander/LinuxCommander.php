@@ -35,11 +35,6 @@ require_once 'Net/IPv4.php';
  * LinuxCommander
  */
 class LinuxCommander {
-    const TC_CLASSID_START = 101;
-
-    const FAIR_QUEUE_DISCIPLINE = "esfq";
-    const USER_QUEUE_DISCIPLINE = "pfifo";
-
     const CHAIN_ACCT_IN = 'FILTER-IN';
     const CHAIN_ACCT_OUT = 'FILTER-OUT';
 

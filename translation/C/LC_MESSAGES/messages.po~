@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-07 10:16+0200\n"
+"POT-Creation-Date: 2021-09-11 19:09+0200\n"
 "PO-Revision-Date: 2008-01-24 12:18+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1595,7 +1595,7 @@ msgstr ""
 #: modules/com_charge/charge.index.php:184
 #: modules/com_group/group.index.php:135
 #: modules/com_handleevent/handleevent.index.php:150
-#: modules/com_internet/internet.index.php:143 modules/com_log/log.index.php:97
+#: modules/com_internet/internet.index.php:139 modules/com_log/log.index.php:97
 #: modules/com_message/message.index.php:109
 #: modules/com_networkdevice/networkdevice.index.php:422
 #: modules/com_person/person.index.php:309 modules/com_role/role.index.php:129
@@ -2045,22 +2045,22 @@ msgid "Please enter template description"
 msgstr ""
 
 #: modules/com_internet/internet.html.php:229
-#: modules/com_internet/internet.index.php:107
+#: modules/com_internet/internet.index.php:102
 msgid "Guaranteed download is not in proper number format"
 msgstr ""
 
 #: modules/com_internet/internet.html.php:231
-#: modules/com_internet/internet.index.php:108
+#: modules/com_internet/internet.index.php:103
 msgid "Maximum download is not in proper number format"
 msgstr ""
 
 #: modules/com_internet/internet.html.php:233
-#: modules/com_internet/internet.index.php:109
+#: modules/com_internet/internet.index.php:104
 msgid "Guaranteed upload is not in proper number format"
 msgstr ""
 
 #: modules/com_internet/internet.html.php:235
-#: modules/com_internet/internet.index.php:110
+#: modules/com_internet/internet.index.php:105
 msgid "Maximum upload is not in proper number format"
 msgstr ""
 
@@ -2084,24 +2084,24 @@ msgstr ""
 msgid "Maximum upload (kbps):"
 msgstr ""
 
-#: modules/com_internet/internet.index.php:125
+#: modules/com_internet/internet.index.php:120
 #, php-format
 msgid "Internet template '%s' updated"
 msgstr ""
 
-#: modules/com_internet/internet.index.php:130
+#: modules/com_internet/internet.index.php:125
 #, php-format
 msgid "Internet template '%s' saved"
 msgstr ""
 
-#: modules/com_internet/internet.index.php:152
+#: modules/com_internet/internet.index.php:148
 #, php-format
-msgid "Cannot delete internet template '%s', because it has binded %s payment service"
-msgid_plural "Cannot delete internet template '%s', because it has binded %s payment services"
+msgid "Cannot delete internet template '%s', because it has bound %s payment service: "
+msgid_plural "Cannot delete internet template '%s', because it has bound %s payment services: "
 msgstr[0] ""
 msgstr[1] ""
 
-#: modules/com_internet/internet.index.php:163
+#: modules/com_internet/internet.index.php:160
 #, php-format
 msgid "Internet template '%s' deleted"
 msgstr ""

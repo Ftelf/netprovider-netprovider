@@ -53,6 +53,7 @@ class CommanderCrossbar {
 
     public function inicialize() {
         global $appContext;
+
         $networkIPArray = array();
 
         if (($persons = PersonDAO::getPersonArrayForQOS()) == null) {
@@ -156,63 +157,6 @@ class CommanderCrossbar {
             }
         }
 
-        foreach ($networkDeviceArray as &$networkDevice) {
-            $SumGuarantedDownload = 0;	//Sum of Guaranted Download
-            $SumGuarantedUpload = 0;	//Sum of Guaranted Upload
-            $SumCeilDownload = 0;		//Sum of Ceil Download
-            $SumCeilUpload = 0;			//Sum of Ceil Upload
-
-            foreach ($networkDevice->NETWORKS as &$network) {
-                foreach ($network['INTERNETS'] as &$internet) {
-                    if ( $internet['IN_dnl_rate'] == -1 ) {
-                        // sumarize download CEILs for "fair" calculations (only for AUTO users)
-                        //
-                        $SumCeilDownload += $internet['IN_dnl_ceil'];
-                    } else {
-                        // sumarize guaranted downloads
-                        //
-                        $SumGuarantedDownload += $internet['IN_dnl_rate'];
-                    }
-                    if ( $internet['IN_upl_rate'] == -1 ) {
-                        // sumarize upload CEILs for "fair" calculations (only for AUTO users)
-                        //
-                        $SumCeilUpload += $internet['IN_upl_ceil'];
-                    } else {
-                        // sumarize guaranted uploads
-                        //
-                        $SumGuarantedUpload += $internet['IN_upl_rate'];
-                    }
-                }
-            }
-            // now we know guaranted bandwidth, so we can split "not used" bandwidth to "AUTO" clients
-            //
-            $redistributeGuarantedDownload = ($networkDevice->ND_qosBandwidthDownload) - $SumGuarantedDownload;
-            $redistributeGuarantedUpload = ($networkDevice->ND_qosBandwidthUpload) - $SumGuarantedUpload;
-
-            foreach ($networkDevice->NETWORKS as &$network) {
-                foreach ($network['INTERNETS'] as &$internet) {
-                    if ($internet['IN_dnl_rate'] == -1) {
-                        // if customer has set "AUTO" download bandwidth calculate guaranted bandwidth automaticaly
-                        //
-                        $downloadRate = floor(($internet['IN_dnl_ceil'] / $SumCeilDownload) * $redistributeGuarantedDownload);
-                        if ($downloadRate < 1) {
-                            $downloadRate = 1;
-                        }
-                        $internet['IN_dnl_rate'] = ($downloadRate > $internet['IN_dnl_ceil']) ? $internet['IN_dnl_ceil'] : $downloadRate;	// if guaranted > ceil
-                    }
-                    if ($internet['IN_upl_rate'] == -1) {
-                        // if customer has set "AUTO" upload bandwidth calculate guaranted bandwidth automaticaly
-                        //
-                        $uploadRate = floor(($internet['IN_upl_ceil'] / $SumCeilUpload) * $redistributeGuarantedUpload);
-                        if ($uploadRate < 1) {
-                            $uploadRate = 1;
-                        }
-                        $internet['IN_upl_rate'] = ($uploadRate > $internet['IN_upl_ceil']) ? $internet['IN_upl_ceil'] : $uploadRate;	// if guaranted > ceil
-                    }
-                }
-            }
-        }
-
         // create connection for each enabled device
         foreach ($networkDeviceArray as &$networkDevice) {
             if (isset($networkDevice->MANAGEMENT_IP)) {
@@ -247,7 +191,7 @@ class CommanderCrossbar {
 
                     $executor = new Executor(Executor::REMOTE_MIKROTIK_API, $settings, !$this->dryRun);
 
-                    $appContext->insertMessage(sprintf(_("Login successfull: mikrotik API %s@%s"), $networkDevice->ND_login, $managementIp->IP_address));
+                    $appContext->insertMessage(sprintf(_("Login successful: mikrotik API %s@%s"), $networkDevice->ND_login, $managementIp->IP_address));
                 }
             }
 

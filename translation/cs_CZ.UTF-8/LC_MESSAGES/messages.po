@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-11 19:09+0200\n"
-"PO-Revision-Date: 2021-09-11 19:11+0200\n"
+"POT-Creation-Date: 2021-09-11 21:06+0200\n"
+"PO-Revision-Date: 2021-09-11 21:07+0200\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
 "Language: cs\n"
@@ -42,11 +42,11 @@ msgstr "Přidávám záznam platbu pro uživatele %s s datem %s"
 msgid "Removing payment entry for user %s with date %s not between %s and %s"
 msgstr "Odstraňuji platbu pro uživatele %s s datumem %s, který není mezi %s a %s"
 
-#: includes/net/CommanderCrossbar.php:250
+#: includes/net/CommanderCrossbar.php:194
 #: modules/com_networkdevice/networkdevice.index.php:768
 #: modules/com_networkdevice/networkdevice.index.php:785
 #, php-format
-msgid "Login successfull: mikrotik API %s@%s"
+msgid "Login successful: mikrotik API %s@%s"
 msgstr "Úspěšné přihlášení: mikrotik API %s@%s"
 
 #: includes/net/email/EmailUtil.php:122
@@ -3072,7 +3072,7 @@ msgstr "Vlastnost '%s' síťového zařízení '%s' smazána"
 
 #: modules/com_networkdevice/networkdevice.index.php:759
 #, php-format
-msgid "Login successfull: ssh %s@%s"
+msgid "Login successful: ssh %s@%s"
 msgstr "Úspěšné přihlášení: ssh %s@%s"
 
 #: modules/com_networkdevice/networkdevice.index.php:796
