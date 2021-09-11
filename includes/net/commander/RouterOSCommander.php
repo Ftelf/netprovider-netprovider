@@ -64,7 +64,7 @@ class RouterOSCommander {
 
         $ipArray = array();
 
-        $filterInIpCmd = array("/ip/firewall/filter/print", "?=chain=XFILTER-IN", "?=action=accept", "=stats=");
+        $filterInIpCmd = array("/ip/firewall/filter/print", "?=chain=FILTER-IN", "?=action=accept", "=stats=");
         $filterInIpResult = $executor->execute($filterInIpCmd);
         foreach ($filterInIpResult[1] as $filterInIp) {
             $acc = array();
@@ -73,7 +73,7 @@ class RouterOSCommander {
             $ipArray[$filterInIp['dst-address']] = $acc;
         }
 
-        $filterOutIpCmd = array("/ip/firewall/filter/print", "?=chain=XFILTER-OUT", "?=action=accept", "=stats=");
+        $filterOutIpCmd = array("/ip/firewall/filter/print", "?=chain=FILTER-OUT", "?=action=accept", "=stats=");
         $filterOutIpResult = $executor->execute($filterOutIpCmd);
         foreach ($filterOutIpResult[1] as $filterOutIp) {
             if (isset($ipArray[$filterOutIp['src-address']])) {
@@ -140,7 +140,7 @@ class RouterOSCommander {
         $cmds = array();
 
         if (!$this->isIpFilterValid($executor)) {
-            $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-IN", "=.proplist=.id");
+            $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-IN", "=.proplist=.id");
             $filterArray = $executor->execute($cmd);
             $cmds[] = $filterArray;
 
@@ -152,7 +152,7 @@ class RouterOSCommander {
                 $cmds[] = $executor->execute($cmd);
             }
 
-            $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-OUT", "=.proplist=.id");
+            $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-OUT", "=.proplist=.id");
             $filterArray = $executor->execute($cmd);
             $cmds[] = $filterArray;
 
@@ -164,14 +164,14 @@ class RouterOSCommander {
                 $cmds[] = $executor->execute($cmd);
             }
 
-            $cmd = array("/ip/firewall/filter/add", "=chain=XFILTER-IN", "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-IN:");
+            $cmd = array("/ip/firewall/filter/add", "=chain=FILTER-IN", "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-IN:");
             $cmds[] = $executor->execute($cmd);
-            $cmd = array("/ip/firewall/filter/add", "=chain=XFILTER-OUT", "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-OUT:");
+            $cmd = array("/ip/firewall/filter/add", "=chain=FILTER-OUT", "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-OUT:");
             $cmds[] = $executor->execute($cmd);
 
-            $cmd= array("/ip/firewall/filter/add", "=chain=XFILTER-IN", "=action=reject", "=disabled=no");
+            $cmd= array("/ip/firewall/filter/add", "=chain=FILTER-IN", "=action=reject", "=disabled=no");
             $cmds[] = $executor->execute($cmd);
-            $cmd = array("/ip/firewall/filter/add", "=chain=XFILTER-OUT", "=action=reject", "=disabled=no");
+            $cmd = array("/ip/firewall/filter/add", "=chain=FILTER-OUT", "=action=reject", "=disabled=no");
             $cmds[] = $executor->execute($cmd);
         }
 
@@ -189,7 +189,7 @@ class RouterOSCommander {
             }
         }
 
-        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-IN", "=.proplist=.id,dst-address");
+        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-IN", "=.proplist=.id,dst-address");
         $resultFilterIn = $executor->execute($cmd);
         $cmds[] = $resultFilterIn;
 
@@ -215,13 +215,13 @@ class RouterOSCommander {
 
         foreach ($ipAddressMap as $address => $comment) {
             if (!in_array($address, $ipAddressesInFilter)) {
-                $cmd = array("/ip/firewall/filter/add", "=chain=XFILTER-IN",  sprintf("=dst-address=%s", $address), sprintf("=comment=%s", $comment), "=action=accept", "=place-before=$idToPlaceFilterIn");
+                $cmd = array("/ip/firewall/filter/add", "=chain=FILTER-IN",  sprintf("=dst-address=%s", $address), sprintf("=comment=%s", $comment), "=action=accept", "=place-before=$idToPlaceFilterIn");
                 $cmds[] = $executor->execute($cmd);
             }
         }
 
 
-        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-OUT", "=.proplist=.id,src-address");
+        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-OUT", "=.proplist=.id,src-address");
         $resultFilterOut = $executor->execute($cmd);
         $cmds[] = $resultFilterOut;
 
@@ -247,7 +247,7 @@ class RouterOSCommander {
 
         foreach ($ipAddressMap as $address => $comment) {
             if (!in_array($address, $ipAddressesOutFilter)) {
-                $cmd = array("/ip/firewall/filter/add", "=chain=XFILTER-OUT",  sprintf("=src-address=%s", $address), sprintf("=comment=%s", $comment), "=action=accept", "=place-before=$idToPlaceFilterOut");
+                $cmd = array("/ip/firewall/filter/add", "=chain=FILTER-OUT",  sprintf("=src-address=%s", $address), sprintf("=comment=%s", $comment), "=action=accept", "=place-before=$idToPlaceFilterOut");
                 $cmds[] = $executor->execute($cmd);
             }
         }
@@ -258,8 +258,8 @@ class RouterOSCommander {
     public function isIpFilterValid($executor) {
         $cmds = array();
 
-        // XFILTER-IN
-        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-IN", "=.proplist=.id,dst-address,action");
+        // FILTER-IN
+        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-IN", "=.proplist=.id,dst-address,action");
         $resultFilterIn = $executor->execute($cmd);
         $cmds[] = $resultFilterIn;
 
@@ -268,33 +268,33 @@ class RouterOSCommander {
         $filterInCount = count($filterInEntries);
 
         if ($filterInCount < 2) {
-//            throw new Exception("Invalid entries in XFILTER-IN chain");
+//            throw new Exception("Invalid entries in FILTER-IN chain");
             return false;
         }
 
         $filterInLogEntry = $filterInEntries[$filterInCount - 2];
 
         if ($filterInLogEntry['action'] != 'log') {
-//            throw new Exception("Last but one entry in XFILTER-IN should be: log, but was: " . $filterInLogEntry['action']);
+//            throw new Exception("Last but one entry in FILTER-IN should be: log, but was: " . $filterInLogEntry['action']);
             return false;
         }
 
         $filterInRejectEntry = $filterInEntries[$filterInCount - 1];
 
         if ($filterInRejectEntry['action'] != 'reject') {
-//            throw new Exception("Last entry in XFILTER-IN should be: reject, but was: " . $filterInRejectEntry['action']);
+//            throw new Exception("Last entry in FILTER-IN should be: reject, but was: " . $filterInRejectEntry['action']);
             return false;
         }
 
         for ($i = 0; $i < $filterInCount - 2; $i++) {
             if ($filterInEntries[$i]['action'] != 'accept') {
-//                throw new Exception("XFILTER-IN entry at position: $i should be accept, but was: ".$filterInEntries[$i]['action']);
+//                throw new Exception("FILTER-IN entry at position: $i should be accept, but was: ".$filterInEntries[$i]['action']);
                 return false;
             }
         }
 
-        // XFILTER-OUT
-        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-OUT", "=.proplist=.id,src-address,action");
+        // FILTER-OUT
+        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-OUT", "=.proplist=.id,src-address,action");
         $resultFilterOut = $executor->execute($cmd);
         $cmds[] = $resultFilterOut;
 
@@ -303,40 +303,40 @@ class RouterOSCommander {
         $filterOutCount = count($filterOutEntries);
 
         if ($filterOutCount < 2) {
-//            throw new Exception("Invalid entries in XFILTER-OUT chain");
+//            throw new Exception("Invalid entries in FILTER-OUT chain");
             return false;
         }
 
         $filterInLogEntry = $filterOutEntries[$filterOutCount - 2];
 
         if ($filterInLogEntry['action'] != 'log') {
-//            throw new Exception("Last but one entry in XFILTER-OUT should be: log, but was: " . $filterInLogEntry['action']);
+//            throw new Exception("Last but one entry in FILTER-OUT should be: log, but was: " . $filterInLogEntry['action']);
             return false;
         }
 
         $filterInRejectEntry = $filterOutEntries[$filterOutCount - 1];
 
         if ($filterInRejectEntry['action'] != 'reject') {
-//            throw new Exception("Last entry in XFILTER-OUT should be: reject, but was: " . $filterInRejectEntry['action']);
+//            throw new Exception("Last entry in FILTER-OUT should be: reject, but was: " . $filterInRejectEntry['action']);
             return false;
         }
 
         for ($i = 0; $i < $filterOutCount - 2; $i++) {
             if ($filterOutEntries[$i]['action'] != 'accept') {
-//                throw new Exception("XFILTER-IN entry at position: $i should be accept, but was: ".$filterInEntries[$i]['action']);
+//                throw new Exception("FILTER-IN entry at position: $i should be accept, but was: ".$filterInEntries[$i]['action']);
                 return false;
             }
         }
 
         // Match them together
         if ($filterInCount !== $filterOutCount) {
-//            throw new Exception("Entries count of XFILTER-IN and XFILTER-OUT differs $filterInCount not equals $filterOutCount");
+//            throw new Exception("Entries count of FILTER-IN and FILTER-OUT differs $filterInCount not equals $filterOutCount");
             return false;
         }
 
         for ($i = 0; $i < $filterInCount - 2; $i++) {
             if ($filterInEntries[$i]['dst-address'] != $filterOutEntries[$i]['src-address']) {
-//                throw new Exception("XFILTER-IN entry at position: $i should have same dst-address: ".$filterOutEntries[$i]['src-address']." as src-address:".$filterInEntries[$i]['dst-address']." in XFILTER-OUT");
+//                throw new Exception("FILTER-IN entry at position: $i should have same dst-address: ".$filterOutEntries[$i]['src-address']." as src-address:".$filterInEntries[$i]['dst-address']." in FILTER-OUT");
                 return false;
             }
         }
@@ -349,7 +349,7 @@ class RouterOSCommander {
 
         $cmds = array();
 
-        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-IN", "?action=reject", "?disabled=no");
+        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-IN", "?action=reject", "?disabled=no");
         $resultFilterIn = $executor->execute($cmd);
         $cmds[] = $resultFilterIn;
 
@@ -358,7 +358,7 @@ class RouterOSCommander {
             $cmds[] = $executor->execute($cmd);
         }
 
-        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-OUT", "?action=reject", "?disabled=no");
+        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-OUT", "?action=reject", "?disabled=no");
         $resultFilterOut = $executor->execute($cmd);
         $cmds[] = $resultFilterOut;
 
@@ -375,7 +375,7 @@ class RouterOSCommander {
 
         $cmds = array();
 
-        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-IN", "?action=reject", "?disabled=yes");
+        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-IN", "?action=reject", "?disabled=yes");
         $resultFilterIn = $executor->execute($cmd);
         $cmds[] = $resultFilterIn;
 
@@ -384,7 +384,7 @@ class RouterOSCommander {
             $cmds[] = $executor->execute($cmd);
         }
 
-        $cmd = array("/ip/firewall/filter/print", "?chain=XFILTER-OUT", "?action=reject", "?disabled=yes");
+        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-OUT", "?action=reject", "?disabled=yes");
         $resultFilterOut = $executor->execute($cmd);
         $cmds[] = $resultFilterOut;
 
