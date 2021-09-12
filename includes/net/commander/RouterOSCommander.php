@@ -36,6 +36,9 @@ require_once 'Net/IPv4.php';
  * RouterOSCommander
  */
 class RouterOSCommander {
+    const FILTER_IN = 'FILTER-IN';
+    const FILTER_OUT = 'FILTER-OUT';
+
     private $networkDevice;
 
     private $rejectUnknownIP;
@@ -64,8 +67,7 @@ class RouterOSCommander {
 
         $ipArray = array();
 
-        $filterInIpCmd = array("/ip/firewall/filter/print", "?=chain=FILTER-IN", "?=action=accept", "=stats=");
-        $filterInIpResult = $executor->execute($filterInIpCmd);
+        $filterInIpResult = $executor->execute(array("/ip/firewall/filter/print", sprintf("?=chain=%s", RouterOSCommander::FILTER_IN), "?=action=accept", "=stats="));
         foreach ($filterInIpResult[1] as $filterInIp) {
             $acc = array();
             $acc['bytes-in'] = $filterInIp['bytes'];
@@ -73,8 +75,7 @@ class RouterOSCommander {
             $ipArray[$filterInIp['dst-address']] = $acc;
         }
 
-        $filterOutIpCmd = array("/ip/firewall/filter/print", "?=chain=FILTER-OUT", "?=action=accept", "=stats=");
-        $filterOutIpResult = $executor->execute($filterOutIpCmd);
+        $filterOutIpResult = $executor->execute(array("/ip/firewall/filter/print", sprintf("?=chain=%s", RouterOSCommander::FILTER_OUT), "?=action=accept", "=stats="));
         foreach ($filterOutIpResult[1] as $filterOutIp) {
             if (isset($ipArray[$filterOutIp['src-address']])) {
                 $ipArray[$filterOutIp['src-address']]['bytes-out'] = $filterOutIp['bytes'];
@@ -139,41 +140,7 @@ class RouterOSCommander {
         $diacriticsUtil = new DiacriticsUtil();
         $cmds = array();
 
-        if (!$this->isIpFilterValid($executor)) {
-            $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-IN", "=.proplist=.id");
-            $filterArray = $executor->execute($cmd);
-            $cmds[] = $filterArray;
-
-            if (count($filterArray[1])) {
-                $idArray = array_column($filterArray[1], '.id');
-                $ids = implode(',', $idArray);
-
-                $cmd = array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids));
-                $cmds[] = $executor->execute($cmd);
-            }
-
-            $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-OUT", "=.proplist=.id");
-            $filterArray = $executor->execute($cmd);
-            $cmds[] = $filterArray;
-
-            if (count($filterArray[1])) {
-                $idArray = array_column($filterArray[1], '.id');
-                $ids = implode(',', $idArray);
-
-                $cmd = array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids));
-                $cmds[] = $executor->execute($cmd);
-            }
-
-            $cmd = array("/ip/firewall/filter/add", "=chain=FILTER-IN", "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-IN:");
-            $cmds[] = $executor->execute($cmd);
-            $cmd = array("/ip/firewall/filter/add", "=chain=FILTER-OUT", "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-OUT:");
-            $cmds[] = $executor->execute($cmd);
-
-            $cmd= array("/ip/firewall/filter/add", "=chain=FILTER-IN", "=action=reject", "=disabled=no");
-            $cmds[] = $executor->execute($cmd);
-            $cmd = array("/ip/firewall/filter/add", "=chain=FILTER-OUT", "=action=reject", "=disabled=no");
-            $cmds[] = $executor->execute($cmd);
-        }
+        $this->resetIpFilter($executor, $cmds);
 
         $ipAddressMap = array();
         foreach ($this->networkDevice->NETWORKS as &$network) {
@@ -189,8 +156,7 @@ class RouterOSCommander {
             }
         }
 
-        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-IN", "=.proplist=.id,dst-address");
-        $resultFilterIn = $executor->execute($cmd);
+        $resultFilterIn = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "=.proplist=.id,dst-address"));
         $cmds[] = $resultFilterIn;
 
         $filterInEntries = $resultFilterIn[1];
@@ -205,9 +171,7 @@ class RouterOSCommander {
         }
 
         if (count($idsToBeRemovedInFilterInArray) > 0) {
-            $ids = implode(',', $idsToBeRemovedInFilterInArray);
-            $cmd = array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids));
-            $cmds[] = $executor->execute($cmd);
+            $cmds[] = $executor->execute(array("/ip/firewall/filter/remove", sprintf("=numbers=%s", implode(',', $idsToBeRemovedInFilterInArray))));
         }
 
         $ipAddressesInFilter = array_column(array_slice($filterInEntries, 0, count($filterInEntries) - 2), 'dst-address');
@@ -215,14 +179,20 @@ class RouterOSCommander {
 
         foreach ($ipAddressMap as $address => $comment) {
             if (!in_array($address, $ipAddressesInFilter)) {
-                $cmd = array("/ip/firewall/filter/add", "=chain=FILTER-IN",  sprintf("=dst-address=%s", $address), sprintf("=comment=%s", $comment), "=action=accept", "=place-before=$idToPlaceFilterIn");
-                $cmds[] = $executor->execute($cmd);
+                $cmds[] = $executor->execute(
+                    array(
+                        "/ip/firewall/filter/add",
+                        sprintf("=chain=%s", RouterOSCommander::FILTER_IN),
+                        sprintf("=dst-address=%s", $address),
+                        sprintf("=comment=%s", $comment),
+                        "=action=accept",
+                        "=place-before=$idToPlaceFilterIn"
+                    )
+                );
             }
         }
 
-
-        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-OUT", "=.proplist=.id,src-address");
-        $resultFilterOut = $executor->execute($cmd);
+        $resultFilterOut = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "=.proplist=.id,src-address"));
         $cmds[] = $resultFilterOut;
 
         $filterOutEntries = $resultFilterOut[1];
@@ -238,8 +208,7 @@ class RouterOSCommander {
 
         if (count($idsToBeRemovedOutFilterInArray) > 0) {
             $ids = implode(',', $idsToBeRemovedOutFilterInArray);
-            $cmd = array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids));
-            $cmds[] = $executor->execute($cmd);
+            $cmds[] = $executor->execute(array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids)));
         }
 
         $ipAddressesOutFilter = array_column(array_slice($filterOutEntries, 0, count($filterOutEntries) - 2), 'src-address');
@@ -247,98 +216,85 @@ class RouterOSCommander {
 
         foreach ($ipAddressMap as $address => $comment) {
             if (!in_array($address, $ipAddressesOutFilter)) {
-                $cmd = array("/ip/firewall/filter/add", "=chain=FILTER-OUT",  sprintf("=src-address=%s", $address), sprintf("=comment=%s", $comment), "=action=accept", "=place-before=$idToPlaceFilterOut");
-                $cmds[] = $executor->execute($cmd);
+                $cmds[] = $executor->execute(
+                    array(
+                        "/ip/firewall/filter/add",
+                          sprintf("=chain=%s", RouterOSCommander::FILTER_OUT),
+                          sprintf("=src-address=%s", $address),
+                          sprintf("=comment=%s", $comment),
+                          "=action=accept",
+                          "=place-before=$idToPlaceFilterOut"
+                    )
+                );
             }
         }
 
         return self::parseArrayReadable($cmds);
     }
 
-    public function isIpFilterValid($executor) {
-        $cmds = array();
+    public function resetIpFilter($executor, &$cmds) {
+        if (!$this->isIpFilterValid($executor, $cmds)) {
+            $filterArray = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "=.proplist=.id"));
+            $cmds[] = $filterArray;
 
+            if (count($filterArray[1])) {
+                $idArray = array_column($filterArray[1], '.id');
+                $ids = implode(',', $idArray);
+
+                $cmds[] = $executor->execute(array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids)));
+            }
+
+            $filterArray = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "=.proplist=.id"));
+            $cmds[] = $filterArray;
+
+            if (count($filterArray[1])) {
+                $idArray = array_column($filterArray[1], '.id');
+                $ids = implode(',', $idArray);
+
+                $cmds[] = $executor->execute(array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids)));
+            }
+
+            $cmds[] = $executor->execute(array("/ip/firewall/filter/add", sprintf("=chain=%s", RouterOSCommander::FILTER_IN), "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-IN:"));
+            $cmds[] = $executor->execute(array("/ip/firewall/filter/add", sprintf("=chain=%s", RouterOSCommander::FILTER_OUT), "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-OUT:"));
+
+            $cmds[] = $executor->execute(array("/ip/firewall/filter/add", sprintf("=chain=%s", RouterOSCommander::FILTER_IN), "=action=reject", "=disabled=no"));
+            $cmds[] = $executor->execute(array("/ip/firewall/filter/add", sprintf("=chain=%s", RouterOSCommander::FILTER_OUT), "=action=reject", "=disabled=no"));
+        }
+    }
+
+    public function isIpFilterValid($executor, &$cmds) {
         // FILTER-IN
-        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-IN", "=.proplist=.id,dst-address,action");
-        $resultFilterIn = $executor->execute($cmd);
+        $resultFilterIn = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "=.proplist=.id,dst-address,action"));
         $cmds[] = $resultFilterIn;
 
         $filterInEntries = $resultFilterIn[1];
+        $filterInIPPart = array_slice($filterInEntries, 0, count($filterInEntries) - 2);
 
-        $filterInCount = count($filterInEntries);
-
-        if ($filterInCount < 2) {
-//            throw new Exception("Invalid entries in FILTER-IN chain");
+        if (array_column(array_slice($filterInEntries, -2), "action") !== ["log", "reject"]) {
             return false;
         }
 
-        $filterInLogEntry = $filterInEntries[$filterInCount - 2];
-
-        if ($filterInLogEntry['action'] != 'log') {
-//            throw new Exception("Last but one entry in FILTER-IN should be: log, but was: " . $filterInLogEntry['action']);
+        if (count(array_filter($filterInIPPart, function ($e) { return $e["action"] !== "accept"; }))) {
             return false;
-        }
-
-        $filterInRejectEntry = $filterInEntries[$filterInCount - 1];
-
-        if ($filterInRejectEntry['action'] != 'reject') {
-//            throw new Exception("Last entry in FILTER-IN should be: reject, but was: " . $filterInRejectEntry['action']);
-            return false;
-        }
-
-        for ($i = 0; $i < $filterInCount - 2; $i++) {
-            if ($filterInEntries[$i]['action'] != 'accept') {
-//                throw new Exception("FILTER-IN entry at position: $i should be accept, but was: ".$filterInEntries[$i]['action']);
-                return false;
-            }
         }
 
         // FILTER-OUT
-        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-OUT", "=.proplist=.id,src-address,action");
-        $resultFilterOut = $executor->execute($cmd);
+        $resultFilterOut = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "=.proplist=.id,src-address,action"));
         $cmds[] = $resultFilterOut;
 
         $filterOutEntries = $resultFilterOut[1];
+        $filterOutIPPart = array_slice($filterOutEntries, 0, count($filterOutEntries) - 2);
 
-        $filterOutCount = count($filterOutEntries);
-
-        if ($filterOutCount < 2) {
-//            throw new Exception("Invalid entries in FILTER-OUT chain");
+        if (array_column(array_slice($filterOutEntries, -2), "action") !== ["log", "reject"]) {
             return false;
         }
 
-        $filterInLogEntry = $filterOutEntries[$filterOutCount - 2];
-
-        if ($filterInLogEntry['action'] != 'log') {
-//            throw new Exception("Last but one entry in FILTER-OUT should be: log, but was: " . $filterInLogEntry['action']);
+        if (count(array_filter($filterOutIPPart, function ($e) { return $e["action"] !== "accept"; }))) {
             return false;
         }
 
-        $filterInRejectEntry = $filterOutEntries[$filterOutCount - 1];
-
-        if ($filterInRejectEntry['action'] != 'reject') {
-//            throw new Exception("Last entry in FILTER-OUT should be: reject, but was: " . $filterInRejectEntry['action']);
+        if (array_column($filterInIPPart, "dst-address") !== array_column($filterOutIPPart, "src-address")) {
             return false;
-        }
-
-        for ($i = 0; $i < $filterOutCount - 2; $i++) {
-            if ($filterOutEntries[$i]['action'] != 'accept') {
-//                throw new Exception("FILTER-IN entry at position: $i should be accept, but was: ".$filterInEntries[$i]['action']);
-                return false;
-            }
-        }
-
-        // Match them together
-        if ($filterInCount !== $filterOutCount) {
-//            throw new Exception("Entries count of FILTER-IN and FILTER-OUT differs $filterInCount not equals $filterOutCount");
-            return false;
-        }
-
-        for ($i = 0; $i < $filterInCount - 2; $i++) {
-            if ($filterInEntries[$i]['dst-address'] != $filterOutEntries[$i]['src-address']) {
-//                throw new Exception("FILTER-IN entry at position: $i should have same dst-address: ".$filterOutEntries[$i]['src-address']." as src-address:".$filterInEntries[$i]['dst-address']." in FILTER-OUT");
-                return false;
-            }
         }
 
         return true;
@@ -349,22 +305,18 @@ class RouterOSCommander {
 
         $cmds = array();
 
-        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-IN", "?action=reject", "?disabled=no");
-        $resultFilterIn = $executor->execute($cmd);
+        $resultFilterIn = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "?action=reject", "?disabled=no"));
         $cmds[] = $resultFilterIn;
 
         if (isset($resultFilterIn[1]) and count($resultFilterIn[1]) == 1) {
-            $cmd = array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterIn[1][0]['.id']), "=disabled=yes");
-            $cmds[] = $executor->execute($cmd);
+            $cmds[] = $executor->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterIn[1][0]['.id']), "=disabled=yes"));
         }
 
-        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-OUT", "?action=reject", "?disabled=no");
-        $resultFilterOut = $executor->execute($cmd);
+        $resultFilterOut = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "?action=reject", "?disabled=no"));
         $cmds[] = $resultFilterOut;
 
         if (isset($resultFilterOut[1]) and count($resultFilterOut[1]) == 1) {
-            $cmd = array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterOut[1][0]['.id']), "=disabled=yes");
-            $cmds[] = $executor->execute($cmd);
+            $cmds[] = $executor->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterOut[1][0]['.id']), "=disabled=yes"));
         }
 
         return self::parseArrayReadable($cmds);
@@ -375,22 +327,18 @@ class RouterOSCommander {
 
         $cmds = array();
 
-        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-IN", "?action=reject", "?disabled=yes");
-        $resultFilterIn = $executor->execute($cmd);
+        $resultFilterIn = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "?action=reject", "?disabled=yes"));
         $cmds[] = $resultFilterIn;
 
         if (isset($resultFilterIn[1]) and count($resultFilterIn[1]) == 1) {
-            $cmd = array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterIn[1][0]['.id']), "=disabled=no");
-            $cmds[] = $executor->execute($cmd);
+            $cmds[] = $executor->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterIn[1][0]['.id']), "=disabled=no"));
         }
 
-        $cmd = array("/ip/firewall/filter/print", "?chain=FILTER-OUT", "?action=reject", "?disabled=yes");
-        $resultFilterOut = $executor->execute($cmd);
+        $resultFilterOut = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "?action=reject", "?disabled=yes"));
         $cmds[] = $resultFilterOut;
 
         if (isset($resultFilterOut[1]) and count($resultFilterOut[1]) == 1) {
-            $cmd = array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterOut[1][0]['.id']), "=disabled=no");
-            $cmds[] = $executor->execute($cmd);
+            $cmds[] = $executor->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterOut[1][0]['.id']), "=disabled=no"));
         }
 
         return self::parseArrayReadable($cmds);

@@ -113,7 +113,7 @@ class HTML_scripts {
 	foreach ($results as $result) {
 ?>
     <span style="color: #7CFC00;"><?php echo $result[0]; ?></span><br/>
-    <?php if (isset($result[1]) && $result[1]) { ?><span style="color: #0400FD;"><?php echo $result[1]; ?></span><br/><?php } ?>
+    <?php if (isset($result[1]) && $result[1]) { ?><span style="color: #a470FF;"><?php echo $result[1]; ?></span><br/><?php } ?>
     <?php if (isset($result[2]) && $result[2]) { ?><span style="color: #FD7F00;"><?php echo $result[2]; ?></span><br/><?php } ?>
 <?php
 	}
