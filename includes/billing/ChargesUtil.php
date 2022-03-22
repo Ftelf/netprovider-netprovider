@@ -159,7 +159,7 @@ class ChargesUtil {
                                 if ($enableMessagesForEntries) {
                                     $msg = sprintf(_("Adding payment entry for user %s with date %s"), "$person->PE_firstname $person->PE_surname", $floatingDate->getFormattedDate(DateUtil::FORMAT_MONTHLY));
                                     $this->_messages[] = $msg;
-                                    $database->log($msg);
+                                    $database->log($msg, LOG::LEVEL_INFO);
                                 }
 
                                 $database->commit();

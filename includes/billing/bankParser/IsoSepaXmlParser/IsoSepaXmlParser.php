@@ -118,9 +118,9 @@ class IsoSepaXmlParser {
     }
 
     function parseTxDtlsElement($txDtlsElement, $bankAccountEntry) {
-        $bankAccountEntry->BE_variablesymbol = $this->getNumberValue($txDtlsElement, ['Refs', 'EndToEndId'], true);
-        $bankAccountEntry->BE_constantsymbol = $this->getNumberValue($txDtlsElement, ['Refs', 'InstrId'], true);
-        $bankAccountEntry->BE_specificsymbol = $this->getNumberValue($txDtlsElement, ['Refs', 'PmtInfId'], true);
+        $bankAccountEntry->BE_variablesymbol = $this->getTextValue($txDtlsElement, ['Refs', 'EndToEndId'], true);
+        $bankAccountEntry->BE_constantsymbol = $this->getTextValue($txDtlsElement, ['Refs', 'InstrId'], true);
+        $bankAccountEntry->BE_specificsymbol = $this->getTextValue($txDtlsElement, ['Refs', 'PmtInfId'], true);
 
         $bankAccountEntry->BE_accountname = $this->getTextValue($txDtlsElement, ['RltdPties', 'DbtrAcct', 'Nm'], true);
         if ($bankAccountEntry->BE_accountname === null) {
