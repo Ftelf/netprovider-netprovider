@@ -15,7 +15,7 @@
  * @author  Lukas Dziadkowiec <i.ftelf@gmail.com>
  */
 
-	global $core;
+	global $mainframe;
 	$seconds = round($mainframe->getTimer(), 3);
 ?>
 
@@ -24,6 +24,6 @@
       COPYRIGHT &copy; 2007 Lukáš Dziadkowiec ALL RIGHTS RESERVED
     </p>
     <p class="statistics">
-      <?php printf(ngettext("Page generated in %s second", "Page generated in %s seconds", $seconds), $seconds); ?>
+      <?php printf(gettext("Page generated in %s seconds"), $seconds); ?>
     </p>
   </div>

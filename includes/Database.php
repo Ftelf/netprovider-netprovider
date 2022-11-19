@@ -15,6 +15,7 @@
  * @author  Lukas Dziadkowiec <i.ftelf@gmail.com>
  */
 
+global $core;
 require_once($core->getAppRoot() . "includes/tables/Log.php");
 require_once($core->getAppRoot() . "includes/utils/DateUtil.php");
 require_once($core->getAppRoot() . "includes/utils/Utils.php");
@@ -175,7 +176,7 @@ class Database {
     * @param string
     * @param boolean
     */
-    static function bindArrayToObject($array, &$obj, $ignore='', $prefix=null, $checkSlashes=true) {
+    static function bindArrayToObject($array, &$obj, $ignore='', $prefix=null) {
         if (!is_array($array) || !is_object($obj)) {
             throw new Exception("bind failed.");
         }
@@ -183,7 +184,7 @@ class Database {
         foreach (get_object_vars($obj) as $k => $v) {
             if(substr( $k, 0, 1 ) != '_' && strpos($ignore, $k) === false) {
                 if (isset($array[$prefix.$k])) {
-                    $obj->$k = ($checkSlashes && get_magic_quotes_gpc()) ? Database::myStripslashes($array[$prefix.$k]) : $array[$prefix.$k];
+                    $obj->$k = $array[$prefix.$k];
                 }
             }
         }
@@ -218,7 +219,7 @@ class Database {
         if ($object != null) {
             $results =& $this->retrieveResults('', 1, 'assoc');
             if (count($results)) {
-                $this->bindArrayToObject($results[0], $object, null, null, false);
+                $this->bindArrayToObject($results[0], $object, null);
                 return;
             }
         } else {
