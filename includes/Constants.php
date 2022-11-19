@@ -1,18 +1,15 @@
 <?php
-//
-// +----------------------------------------------------------------------+
-// | Ftelf ISP billing system                                               |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2006-2007 Ing. Lukas Dziadkowiec                       |
-// +----------------------------------------------------------------------+
-// | This source file is part of Ftelf ISP billing system,                  |
-// | see LICENSE for licence details.                                     |
-// +----------------------------------------------------------------------+
-// | Authors: Lukas Dziadkowiec <i.ftelf@gmail.com>                  |
-// +----------------------------------------------------------------------+
-
 /**
- * @author  Lukas Dziadkowiec <i.ftelf@gmail.com>
+ * Ftelf ISP billing system
+ * This source file is part of Ftelf ISP billing system
+ * see LICENSE for licence details.
+ * php version 8.1.12
+ *
+ * @category Helper
+ * @package  NetProvider
+ * @author   Lukas Dziadkowiec <i.ftelf@gmail.com>
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link     https://www.ovjih.net
  */
 
 /**
@@ -23,7 +20,7 @@ define( "_NP_NOTRIM", 0x0001 );
 define( "_NP_ALLOWHTML", 0x0002 );
 
 /**
- * 
+ *
  */
 define( "_ACL_USERS",    0x0001 );
 define( "_ACL_NETWORKS", 0x0002 );
