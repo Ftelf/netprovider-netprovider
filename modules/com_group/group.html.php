@@ -1,19 +1,16 @@
 <?php
-//
-// +----------------------------------------------------------------------+
-// | Ftelf ISP billing system                                               |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2006-2007 Ing. Lukas Dziadkowiec                       |
-// +----------------------------------------------------------------------+
-// | This source file is part of Ftelf ISP billing system,                  |
-// | see LICENSE for licence details.                                     |
-// +----------------------------------------------------------------------+
-// | Authors: Lukas Dziadkowiec <i.ftelf@gmail.com>                  |
-// +----------------------------------------------------------------------+
-
 /**
-* @author  Lukas Dziadkowiec <i.ftelf@gmail.com>
-*/
+ * Ftelf ISP billing system
+ * This source file is part of Ftelf ISP billing system
+ * see LICENSE for licence details.
+ * php version 8.1.12
+ *
+ * @category Helper
+ * @package  NetProvider
+ * @author   Lukas Dziadkowiec <i.ftelf@gmail.com>
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link     https://www.ovjih.net
+ */
 
 /** ensure this file is being included by a parent file */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
@@ -97,7 +94,7 @@ class HTML_group {
           </tr>
           </table>
         </div>
-        
+
         <div class="header icon-48-group">
           <?php echo _("User groups"); ?>
         </div>
@@ -172,9 +169,9 @@ class HTML_group {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
-  
+
   </div>
 
   <div class="clr"></div>
@@ -200,7 +197,7 @@ class HTML_group {
 		}
 	}
 </script>
-    
+
 <div id="content-box">
   <div class="padding">
     <div id="toolbar-box">
@@ -252,7 +249,7 @@ class HTML_group {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table width="100%">
@@ -301,7 +298,7 @@ class HTML_group {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 

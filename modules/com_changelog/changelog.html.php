@@ -1,19 +1,16 @@
 <?php
-//
-// +----------------------------------------------------------------------+
-// | Ftelf ISP billing system                                               |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2006-2007 Ing. Lukas Dziadkowiec                       |
-// +----------------------------------------------------------------------+
-// | This source file is part of Ftelf ISP billing system,                  |
-// | see LICENSE for licence details.                                     |
-// +----------------------------------------------------------------------+
-// | Authors: Lukas Dziadkowiec <i.ftelf@gmail.com>                  |
-// +----------------------------------------------------------------------+
-
 /**
-* @author  Lukas Dziadkowiec <i.ftelf@gmail.com>
-*/
+ * Ftelf ISP billing system
+ * This source file is part of Ftelf ISP billing system
+ * see LICENSE for licence details.
+ * php version 8.1.12
+ *
+ * @category Helper
+ * @package  NetProvider
+ * @author   Lukas Dziadkowiec <i.ftelf@gmail.com>
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link     https://www.ovjih.net
+ */
 
 /** ensure this file is being included by a parent file */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
@@ -73,9 +70,9 @@ class HTML_changelog {
     <input type="hidden" name="filter[void]" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
-  
+
   </div>
 
   <div class="clr"></div>
