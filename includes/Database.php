@@ -205,13 +205,14 @@ class Database {
     }
 
     /**
-    * This global function loads the first row of a query into an object
-    *
-    * If an object is passed to this function, the returned row is bound to the existing elements of <var>object</var>.
-    * If <var>object</var> has a value of null, then all of the returned query fields returned in the object.
-    * @param string The SQL query
-    * @param object The address of variable
-    */
+     * This global function loads the first row of a query into an object
+     *
+     * If an object is passed to this function, the returned row is bound to the existing elements of <var>object</var>.
+     * If <var>object</var> has a value of null, then all of the returned query fields returned in the object.
+     * @param string The SQL query
+     * @param object The address of variable
+     * @throws Exception if operation fail
+     */
     function loadObject(&$object) {
         if ($object != null) {
             $results =& $this->retrieveResults('', 1, 'assoc');

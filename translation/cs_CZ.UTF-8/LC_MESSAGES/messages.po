@@ -3690,7 +3690,7 @@ msgstr "Spatné uživatelské jméno, heslo nebo přístupová práva, prosím z
 
 #: site/index.php:59
 #, php-format
-msgid "Incorect password for username: %s"
+msgid "Incorrect password for username: %s"
 msgstr "Nesprávné heslo pro uživatele: %s"
 
 #: site/index2.php:146
