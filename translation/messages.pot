@@ -3680,7 +3680,7 @@ msgstr ""
 
 #: site/index.php:59
 #, php-format
-msgid "Incorect password for username: %s"
+msgid "Incorrect password for username: %s"
 msgstr ""
 
 #: site/index2.php:146

@@ -12,14 +12,14 @@
  * @link     https://www.ovjih.net
  */
 
-require_once(dirname(__FILE__) . "/../includes/Core.php");
+require_once __DIR__ . "/../includes/Core.php";
 $core = new Core();
-require_once($core->getAppRoot() . "includes/Constants.php");
-require_once($core->getAppRoot() . "includes/AppContext.php");
-require_once($core->getAppRoot() . "includes/Database.php");
-require_once($core->getAppRoot() . "includes/utils/Utils.php");
-require_once($core->getAppRoot() . "includes/tables/Session.php");
-require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
+require_once $core->getAppRoot() . "includes/Constants.php";
+require_once $core->getAppRoot() . "includes/AppContext.php";
+require_once $core->getAppRoot() . "includes/Database.php";
+require_once $core->getAppRoot() . "includes/utils/Utils.php";
+require_once $core->getAppRoot() . "includes/tables/Session.php";
+require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
 
 try {
     $database = new Database(
@@ -29,32 +29,33 @@ try {
         $core->getProperty(Core::DATABASE_NAME)
     );
 } catch (Exception $e) {
-    $core->alert(_("Cannot connect to database"));
+    $core::alert(_("Cannot connect to database"));
     exit();
 }
 
 // if we have POST, ie. attempt to login
 if (isset($_POST['submit'])) {
     // get username and pass from POST
-    $username = Utils::getParam( $_POST, 'usrname', '');
-    $pass = Utils::getParam( $_POST, 'pass', '');
+    $username = Utils::getParam($_POST, 'username', '');
+    $pass = Utils::getParam($_POST, 'pass', '');
 
     if (strlen($pass) < 6) {
-        $core->redirect('index.php', _("Password minimal length is 6 characters. Please try again."));
+        $core::redirect('index.php', _("Password minimal length is 6 characters. Please try again."));
     }
 
     $pass = md5($pass);
 
+    $my = null;
     try {
         $my = PersonDAO::getPersonWithGroupByUsername($username);
     } catch (Exception $e) {
         $database->log(sprintf(_("Unauthorized login, username: %s"), $username), Log::LEVEL_SECURITY);
-        $core->redirect('index.php', _("Wrong username, password or access rights, please try again"));
+        $core::redirect('index.php', _("Wrong username, password or access rights, please try again"));
     }
 
-    if ($my->PE_password != $pass) {
-        $database->log(sprintf(_("Incorect password for username: %s"), $username), Log::LEVEL_SECURITY);
-        $core->redirect('index.php', _("Wrong username, password or access rights, please try again"));
+    if ($my->PE_password !== $pass) {
+        $database->log(sprintf(_("Incorrect password for username: %s"), $username), Log::LEVEL_SECURITY);
+        $core::redirect('index.php', _("Wrong username, password or access rights, please try again"));
     }
 
     session_name("NETPROVIDER");
@@ -71,16 +72,22 @@ if (isset($_POST['submit'])) {
     $session->SE_username = $username;
     $session->SE_ip = $_SERVER['REMOTE_ADDR'];
 
-    $person = PersonDAO::getPersonByID($my->PE_personid);
+    $person = null;
+    try {
+        $person = PersonDAO::getPersonByID($my->PE_personid);
+    } catch (Exception $e) {
+        $database->log(sprintf(_("Cannot retrieve Person by ID: %s"), $my->PE_personid), Log::LEVEL_CRITICAL);
+        $core::redirect('index.php', _("Internal error, please try again"));
+    }
 
     $person->PE_lastloggedin = $now->getFormattedDate(DateUtil::DB_DATETIME);
 
     try {
-        $database->updateObject("person", $person, "PE_personid", false, false);
-        $database->insertObject("session", $session, null, false);
+        $database->updateObject("person", $person, "PE_personid", false);
+        $database->insertObject("session", $session);
     } catch (Exception $e) {
         $database->log($e, Log::LEVEL_ERROR);
-        $core->redirect('index.php');
+        $core::redirect('index.php');
     }
 
     $_SESSION['APP_CONTEXT'] = new AppContext();
@@ -93,11 +100,12 @@ if (isset($_POST['submit'])) {
     $_SESSION['USER'] = $my;
 
     // get custom user settings from database
-    //
-    if (($_SESSION['UI_SETTINGS'] = unserialize($my->PE_uistate)) == null) $_SESSION['UI_SETTINGS'] = array();
+    if (!is_array($_SESSION['UI_SETTINGS'] = unserialize($my->PE_uistate, ['allowed_classes' => false]))) {
+        $_SESSION['UI_SETTINGS'] = [];
+    }
 
     session_write_close();
-    $core->redirect('index2.php');
+    $core::redirect('index2.php');
 } else {
     try {
         $personByIP = PersonDAO::getPersonByIP($_SERVER['REMOTE_ADDR']);
@@ -106,6 +114,5 @@ if (isset($_POST['submit'])) {
         $foundUsername = "";
     }
 
-    require_once($core->getAppRoot() . "modules/com_common/login.php");
+    include_once $core->getAppRoot() . "modules/com_common/login.php";
 }
-?>

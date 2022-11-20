@@ -70,8 +70,14 @@ class PersonDAO {
         $database->setQuery($query);
         return $database->loadObjectList('PE_personid');
     }
+
+    /**
+     * @param $id
+     * @return Person
+     * @throws Exception
+     */
     static function getPersonByID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+        if ($id === null) throw new Exception("no ID specified");
         global $database;
         $person = new Person();
         $query = "SELECT * FROM `person` WHERE `PE_personid`='$id' LIMIT 1";
@@ -135,14 +141,20 @@ class PersonDAO {
         $database->setQuery($query);
         return $database->loadObjectList('PE_personid');
     }
+
+    /**
+     * @param $username
+     * @return null
+     * @throws Exception
+     */
     static function getPersonWithGroupByUsername($username) {
-        if ($username == null) throw new Exception("username ID specified");
+        if ($username === null) throw new Exception("no username specified");
         global $database;
-        $person = null;
+        $personWithGroup = null;
         $query = "SELECT * FROM `person`,`group` WHERE `PE_username`='$username' AND `PE_groupid`=`GR_groupid` LIMIT 1";
         $database->setQuery($query);
-        $database->loadObject($person);
-        return $person;
+        $database->loadObject($personWithGroup);
+        return $personWithGroup;
     }
     static function getPersonArrayForQOS() {
         global $database;
