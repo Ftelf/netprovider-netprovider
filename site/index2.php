@@ -144,7 +144,7 @@ try {
         $emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), "Net provider error", $e);
     }
 
-    if ($core->getProperty(Core::SYSTEM_DEBUG, false)) {
+    if ($core->getProperty(Core::SYSTEM_DEBUG)) {
         echo "<pre>" . $e . "</pre>";
     } else {
         $msg = _("Internal system error");
@@ -156,7 +156,7 @@ $mainframe->timerStop();
 
 require $core->getAppRoot() . "modules/com_common/html_footer.php";
 
-if ($core->getProperty(Core::SYSTEM_DEBUG, false)) {
+if ($core->getProperty(Core::SYSTEM_DEBUG)) {
     require $core->getAppRoot() . "modules/com_common/html_debug.php";
 }
 require $core->getAppRoot() . "modules/com_common/html_end.php";
