@@ -73,6 +73,9 @@ class Person {
     /** @var datetime lastlogged in date */
     var $PE_lastloggedin = null;
 
+    /** @var text serialized uistate */
+    var $PE_uistate = null;
+
     const STATUS_PASSIVE = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_DISCARTED = 9;
