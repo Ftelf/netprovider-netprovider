@@ -36,8 +36,8 @@ try {
 // if we have POST, ie. attempt to login
 if (isset($_POST['submit'])) {
     // get username and pass from POST
-    $username = Utils::getParam($_POST, 'username', '');
-    $pass = Utils::getParam($_POST, 'pass', '');
+    $username = $_POST['username'] ?? '';
+    $pass = $_POST['pass'] ?? '';
 
     if (strlen($pass) < 6) {
         $core::redirect('index.php', _("Password minimal length is 6 characters. Please try again."));
@@ -45,7 +45,6 @@ if (isset($_POST['submit'])) {
 
     $pass = md5($pass);
 
-    $my = null;
     try {
         $my = PersonDAO::getPersonWithGroupByUsername($username);
     } catch (Exception $e) {

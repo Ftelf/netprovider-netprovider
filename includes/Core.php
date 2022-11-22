@@ -119,6 +119,11 @@ Class Core {
         return $this->ini;
     }
 
+    /**
+     * @param $property
+     * @return mixed
+     * @throws PropertyException
+     */
     function getProperty($property) {
         if (isset($this->ini[$property])) {
             return $this->ini[$property];

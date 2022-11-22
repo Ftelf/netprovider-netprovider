@@ -71,15 +71,27 @@ class SessionDAO {
         //
         return $sessions;
     }
+
+    /**
+     * @param $session
+     * @return The|null
+     * @throws Exception
+     */
     static function checkSession($session) {
-        if ($session == null ) throw new Exception("no Session specified");
+        if ($session === null ) throw new Exception("no Session specified");
         global $database;
         $query = "SELECT count(*) FROM `session` WHERE `SE_sessionid`='$session->SE_sessionid' AND `SE_username`='$session->SE_username' AND `SE_personid`='$session->SE_personid' LIMIT 1";
         $database->setQuery($query);
         return $database->loadResult();
     }
+
+    /**
+     * @param $id
+     * @return void
+     * @throws Exception
+     */
     static function updateSessionTimeout($id) {
-        if ($id == null) throw new Exception("no ID specified");
+        if ($id === null) throw new Exception("no ID specified");
         global $database;
         $query = "UPDATE `session` SET `SE_time`='" . time() . "' WHERE `SE_sessionid`='$id'";
         $database->setQuery($query);
