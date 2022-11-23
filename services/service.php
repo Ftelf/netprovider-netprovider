@@ -88,7 +88,7 @@ class Service
         openlog("NetProvider", LOG_PERROR, LOG_DAEMON);
 
         try {
-            if ($this->isRunPayments && !$this->isDryRun) {
+            if ($this->isRunPayments) {
                 $this->payments();
                 $msg = "Payments service completed successfully";
                 syslog(LOG_INFO, $msg);
@@ -119,14 +119,14 @@ class Service
                 $database->log($msg, Log::LEVEL_INFO);
             }
 
-            if (!$this->isProceedNetworking && $this->isIPAccount && !$this->isDryRun) {
+            if (!$this->isProceedNetworking && $this->isIPAccount) {
                 $this->ipAccount();
                 $msg = "ip accounting service completed successfully";
                 syslog(LOG_INFO, $msg);
                 $database->log($msg, Log::LEVEL_INFO);
             }
 
-            if ($this->isCleanUp && !$this->isDryRun) {
+            if ($this->isCleanUp) {
                 $this->cleanUp();
                 $msg = "database cleanup completed successfully";
                 syslog(LOG_INFO, $msg);
@@ -158,6 +158,10 @@ class Service
      */
     public function payments(): void
     {
+        if ($this->isDryRun) {
+            return;
+        }
+
         // Download new BankAccountLists
         $bankAccounts = BankAccountDAO::getBankAccountArray();
 
@@ -216,6 +220,10 @@ class Service
      */
     public function ipAccount(): void
     {
+        if ($this->isDryRun) {
+            return;
+        }
+
         $commanderCrossbar = new CommanderCrossbar();
         $commanderCrossbar->setDryRun($this->isDryRun);
         $commanderCrossbar->inicialize();
@@ -229,6 +237,10 @@ class Service
      */
     public function cleanUp(): void
     {
+        if ($this->isDryRun) {
+            return;
+        }
+
         function processNewIPAccount($ip, $date, $ipAccountEntry): void
         {
             global $database;
