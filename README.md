@@ -13,6 +13,3 @@
 - Net_IPv4
 - Net_POP3
 - Net_SMTP
-
-
-max_execution_time

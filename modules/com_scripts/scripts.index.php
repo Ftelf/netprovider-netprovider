@@ -12,19 +12,16 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/net/CommanderCrossbar.php");
-require_once("scripts.html.php");
+require_once $core->getAppRoot() . "includes/net/CommanderCrossbar.php";
+require_once "scripts.html.php";
 
-$task = Utils::getParam($_REQUEST, 'task', null);
-$rid = Utils::getParam($_REQUEST, 'RO_roleid', null);
-$cid = Utils::getParam($_REQUEST, 'cid', array(0));
-if (!is_array($cid)) {
-    $cid = array (0);
-}
+$task = $_REQUEST['task'] ?? null;
 
 switch ($task) {
     case 'ipfilteron':
@@ -44,25 +41,23 @@ switch ($task) {
         break;
 }
 
-function show() {
-    $filter = array();
+function show(): void
+{
+    $filter = [];
     // default settings if no setting in session
     // do we want Network headers for IPs to be shown ?
-    //
-    $filter['execute'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_scripts']['filter'], 'execute', null);
+    $filter['execute'] = $_SESSION['UI_SETTINGS']['com_scripts']['filter'] ?? 'execute';
 
     $command = '';
-    $messages = array();
+    $messages = [];
 
     HTML_scripts::showScripts($command, $messages, $filter);
 }
 
-function ipFilterOn() {
-    $filter = array();
-    // default settings if no setting in session
-    // do we want Network headers for IPs to be shown ?
-    //
-    $filter['execute'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_scripts']['filter'], 'execute', null);
+function ipFilterOn(): void
+{
+    $filter = [];
+    $filter['execute'] = $_SESSION['UI_SETTINGS']['com_scripts']['filter'] ?? 'execute';
 
     $command = _("IP filter on");
 
@@ -73,22 +68,20 @@ function ipFilterOn() {
 
         $results = $commanderCrossbar->ipFilterUp();
     } catch (Exception $e) {
-        $results = array(array(
+        $results = [[
             null,
             null,
             $e->getMessage()
-        ));
+        ]];
     }
 
     HTML_scripts::showScripts($command, $results, $filter);
 }
 
-function ipFilterOff() {
-    $filter = array();
-    // default settings if no setting in session
-    // do we want Network headers for IPs to be shown ?
-    //
-    $filter['execute'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_scripts']['filter'], 'execute', null);
+function ipFilterOff(): void
+{
+    $filter = [];
+    $filter['execute'] = $_SESSION['UI_SETTINGS']['com_scripts']['filter'] ?? 'execute';
 
     $command = _("IP filter off");
 
@@ -99,22 +92,20 @@ function ipFilterOff() {
 
         $results = $commanderCrossbar->ipFilterDown();
     } catch (Exception $e) {
-        $results = array(array(
-          null,
-          null,
-          $e->getMessage()
-        ));
+        $results = [[
+            null,
+            null,
+            $e->getMessage()
+        ]];
     }
 
     HTML_scripts::showScripts($command, $results, $filter);
 }
 
-function synchronizeFilter() {
-    $filter = array();
-    // default settings if no setting in session
-    // do we want Network headers for IPs to be shown ?
-    //
-    $filter['execute'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_scripts']['filter'], 'execute', null);
+function synchronizeFilter(): void
+{
+    $filter = [];
+    $filter['execute'] = $_SESSION['UI_SETTINGS']['com_scripts']['filter'] ?? 'execute';
 
     $command = _("Synchronize IP filter");
 
@@ -125,13 +116,12 @@ function synchronizeFilter() {
 
         $results = $commanderCrossbar->synchronizeFilter();
     } catch (Exception $e) {
-        $results = array(array(
-          null,
-          null,
-          $e->getMessage()
-        ));
+        $results = [[
+            null,
+            null,
+            $e->getMessage()
+        ]];
     }
 
     HTML_scripts::showScripts($command, $results, $filter);
 }
-?>
