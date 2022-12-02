@@ -38,7 +38,7 @@ class HTML_myprofile {
 		$birthDate = new DateUtil($person->PE_birthdate);
 		$registerDate = new DateUtil($person->PE_registerdate);
 ?>
-<script type="text/javascript" language="javascript">
+<script type="text/javascript">
 	document.write(getCalendarStyles());
 
 	function edit() {
@@ -226,9 +226,9 @@ class HTML_myprofile {
       </td>
       <td valign="top">
       <div class="tab-page" id="modules-cpanel-myperson">
-	  <script language="JavaScript" type="text/javascript">var tabPanePerson1 = new WebFXTabPane(document.getElementById("modules-cpanel-myperson"), 1);</script>
+	  <script type="text/javascript">var tabPanePerson1 = new WebFXTabPane(document.getElementById("modules-cpanel-myperson"), 1);</script>
 	  <div class="tab-page" id="module01"><h2 class="tab"><?php echo _("Login creditials"); ?></h2>
-        <script language="JavaScript" type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module01"));</script>
+        <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module01"));</script>
         <table class="adminform">
         <thead>
         <tr>
@@ -248,7 +248,7 @@ class HTML_myprofile {
         </table>
       </div>
       <div class="tab-page" id="module02"><h2 class="tab"><?php echo _("Role"); ?></h2>
-        <script language="JavaScript" type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module02"));</script>
+        <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module02"));</script>
         <table class="adminform">
         <thead>
         <tr>
@@ -271,7 +271,7 @@ class HTML_myprofile {
         </table>
       </div>
       <div class="tab-page" id="module03"><h2 class="tab"><?php echo _("Payments"); ?></h2>
-        <script language="JavaScript" type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module03"));</script>
+        <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module03"));</script>
       <table class="adminlist">
       <thead>
       <tr>
@@ -453,7 +453,7 @@ class HTML_myprofile {
       </table>
       </div>
       <div class="tab-page" id="module04"><h2 class="tab"><?php echo _("Incoming payments"); ?></h2>
-        <script language="JavaScript" type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module04"));</script>
+        <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module04"));</script>
     <table class="adminlist">
     <thead>
     <tr>
@@ -521,7 +521,7 @@ class HTML_myprofile {
     </table>
       </div>
       <div class="tab-page" id="module05"><h2 class="tab"><?php echo _("IP addresses"); ?></h2>
-        <script language="JavaScript" type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module05"));</script>
+        <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module05"));</script>
         <table class="adminlist">
         <thead>
         <tr>
@@ -569,7 +569,7 @@ class HTML_myprofile {
         </table>
       </div>
       <div class="tab-page" id="module07"><h2 class="tab"><?php echo _("Messages"); ?></h2>
-        <script language="JavaScript" type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module07"));</script>
+        <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module07"));</script>
       <table class="adminlist">
       <thead>
       <tr>
@@ -612,7 +612,7 @@ class HTML_myprofile {
      </table>
       </div>
       <div class="tab-page" id="module08"><h2 class="tab"><?php echo _("Data traffic"); ?></h2>
-        <script language="JavaScript" type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module08"));</script>
+        <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module08"));</script>
       <table class="adminlist">
       <thead>
       <tr>
@@ -688,7 +688,7 @@ class HTML_myprofile {
 		$birthDate = new DateUtil($person->PE_birthdate);
 		$registerDate = new DateUtil($person->PE_registerdate);
 ?>
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 	document.write(getCalendarStyles());
 
 	var cal1x = new CalendarPopup("caldiv");
@@ -860,9 +860,9 @@ class HTML_myprofile {
       </td>
       <td valign="top">
     <div class="tab-page" id="modules-cpanel-editmyprofile">
-      <script language="JavaScript" type="text/javascript">var tabPanePerson1 = new WebFXTabPane(document.getElementById("modules-cpanel-editmyprofile"), 1);</script>
+      <script type="text/javascript">var tabPanePerson1 = new WebFXTabPane(document.getElementById("modules-cpanel-editmyprofile"), 1);</script>
       <div class="tab-page" id="module01"><h2 class="tab"><?php echo _("Login creditials"); ?></h2>
-        <script language="JavaScript" type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module01"));</script>
+        <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module01"));</script>
         <table class="adminform">
         <thead>
         <tr>
@@ -902,7 +902,7 @@ class HTML_myprofile {
 <div class="clr"></div>
 </div>
 
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 	var formValidator = new Validator("adminForm");
 	formValidator.addValidation("PE_firstname","required","<?php echo _("Please enter firstname"); ?>");
 	formValidator.addValidation("PE_surname","required","<?php echo _("Please enter surname"); ?>");

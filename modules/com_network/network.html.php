@@ -33,11 +33,11 @@ class HTML_Network {
 		$ipv4 = new Net_IPv4();
 		$selectedNetworkParsed = $ipv4->parseAddress($selectedNetwork->NE_net);
 ?>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 	function show(id) {
     	var form = document.adminForm;
     	form.NE_networkid.value = id;
-    	var se = document.getElementById('filter_NE_networkid');   	
+    	var se = document.getElementById('filter_NE_networkid');
     	se.value = id;
    		submitform('show');
 	}
@@ -224,7 +224,7 @@ class HTML_Network {
           </tr>
           </table>
         </div>
-        
+
         <div class="header icon-48-network">
           <?php echo _("IP network management"); ?>
         </div>
@@ -248,7 +248,7 @@ class HTML_Network {
       <td><input type="checkbox" name="filter[netheaders]" value="checked" onChange="document.adminForm.submit();" <?php if ($filter['netheaders'] == 'checked') echo 'checked="checked"'; ?> /></td>
     </tr>
     </table>
-    
+
     <table class="adminform">
     <tbody>
     <tr>
@@ -260,10 +260,10 @@ class HTML_Network {
 	global $treeId, $lastParent;
 	$treeId = 0;
 	$lastParent = -1;
-	 
+
 	HTML_Network::buildTree("d", $networkTree);
 	$linkPerson = "javascript:editP('". $persons[$selectedNetwork->NE_personid]->PE_personid . "');";
-	
+
 ?>
 		d.closeAll();
 		document.write(d);
@@ -320,7 +320,7 @@ class HTML_Network {
 	foreach ($ipShowList as $ip) {
 		$linkPerson = "javascript:editP('". $persons[$ip->IP_personid]->PE_personid . "');";
 		if ($ip->IP_networkid != $nid & $filter['netheaders'] == 'checked') {
-			$nid = $ip->IP_networkid; 
+			$nid = $ip->IP_networkid;
 			$subNetwork = $subNetworks[$nid];
 			$ipv4 = new Net_IPv4();
 			$subNetworkParsed = $ipv4->parseAddress($subNetwork->NE_net);
@@ -344,7 +344,7 @@ class HTML_Network {
        </table>
        </td>
        </tr>
-<?php			
+<?php
 		}
 		$link = "javascript:editI('$ip->IP_ipid');";
 ?>
@@ -388,7 +388,7 @@ class HTML_Network {
    <input type="hidden" id="filter_NE_networkid" name="filter[NE_networkid]" value="<?php echo $selectedNetwork->NE_networkid; ?>" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -409,14 +409,14 @@ class HTML_Network {
 
 		$net = $ipv4->parseAddress($network->NE_net);
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
 			return;
 		}
-		
+
 		// do field validation
 		if (trim(form.IP_address.value) == "0") {
 			alert("<?php echo _("Please select IP address"); ?>");
@@ -484,7 +484,7 @@ class HTML_Network {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table width="100%">
@@ -511,7 +511,7 @@ class HTML_Network {
         </tr>
         </tbody>
         </table>
-        
+
         <br/>
 
         <table class="adminform">
@@ -551,7 +551,7 @@ class HTML_Network {
         </tr>
         </tbody>
         </table>
-        
+
       </td>
       <td width="10">
         &nbsp;
@@ -595,7 +595,7 @@ class HTML_Network {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -618,14 +618,14 @@ class HTML_Network {
 		$ipv4 = new Net_IPv4();
 		$parentNetworkParsed = $ipv4->parseAddress($parentNetwork->NE_net);
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
 			return;
 		}
-		
+
 		// do field validation
 		if (trim(form.NE_net.value) == "0") {
 			alert("<?php echo _("Please select network"); ?>");
@@ -693,7 +693,7 @@ class HTML_Network {
     </div>
 
     <div class="clr"></div>
-    
+
     <div id="element-box">
     <form action="index2.php" method="post" name="adminForm">
     <table width="100%">
@@ -724,9 +724,9 @@ class HTML_Network {
         </tr>
         </tbody>
         </table>
-        
+
         <br/>
-        
+
         <table class="adminform">
         <thead>
         <tr>
@@ -821,7 +821,7 @@ class HTML_Network {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
 </div>
 
@@ -838,12 +838,12 @@ class HTML_Network {
 		foreach ($networkTree as $network) {
 			$pId = $network->NE_parent_networkid;
 			if ($pId == 0) $pId = -1;
-		
+
 			echo $treeClassName . ".add($network->NE_networkid, $pId, '$network->NE_net', 'javascript:show($network->NE_networkid);', '$network->NE_description');\n";
-			
+
 			if ($network->child != null) HTML_Network::buildTree($treeClassName, $network->child);
 		}
-	
+
 	}
 } // End of HTML_network class
 ?>

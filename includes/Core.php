@@ -97,7 +97,7 @@ Class Core {
     }
 
     static function backWithAlert($msg=null) {
-        echo '<script language="JavaScript" type="text/javascript">';
+        echo '<script type="text/javascript">';
         if ($msg) {
             echo "alert('" . str_replace("'", "\\'", $msg) . "');";
         }

@@ -23,7 +23,7 @@ class HTML_admin {
 	static function show(&$sessions, &$logs, &$persons) {
 		global $core;
 ?>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 	function force_logout(id) {
 		var form = document.adminForm;
 		form.SE_sessionid.value = id;

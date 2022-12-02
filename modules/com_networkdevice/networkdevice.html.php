@@ -25,7 +25,7 @@ class HTML_NetworkDevice {
 	static function showNetworkDevices(&$networkDevices, &$filter, &$pageNav) {
 		global $core;
 ?>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 	function edit(id) {
     	document.adminForm.ND_networkdeviceid.value = id;
     	hideMainMenu();
@@ -269,7 +269,7 @@ class HTML_NetworkDevice {
 	static function editNetworkDevice(&$networkDevice) {
 		global $core;
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		if (pressbutton == 'cancel') {
 			submitform( pressbutton );
@@ -817,7 +817,7 @@ class HTML_NetworkDevice {
 	static function editNetworkDeviceInterface(&$networkDeviceInterface, &$ips) {
 		global $core;
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		hideMainMenu();
 		var form = document.adminForm;
@@ -951,7 +951,7 @@ class HTML_NetworkDevice {
 	static function editNetworkDeviceWirelessInterface(&$networkDeviceWirelessInterface, $ips) {
 		global $core;
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		hideMainMenu();
 		var form = document.adminForm;
@@ -1132,7 +1132,7 @@ class HTML_NetworkDevice {
 	static function editNetworkDeviceProperty(&$networkDeviceProperty) {
 		global $core;
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		hideMainMenu();
 		var form = document.adminForm;
@@ -1254,7 +1254,7 @@ class HTML_NetworkDevice {
 	static function editNetworkDeviceNetwork($hasManagedNetwork, &$networks) {
 		global $core;
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		hideMainMenu();
 		var form = document.adminForm;

@@ -24,9 +24,9 @@ class HTML_message {
 	static function showMessage(&$messages, &$persons, &$pageNav, &$filter) {
 		global $core;
 ?>
-<script type="text/javascript" language="javascript" src="js/CalendarPopup.js"></script>
-<script type="text/javascript" language="JavaScript">document.write(getCalendarStyles());</script>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript" src="js/CalendarPopup.js"></script>
+<script type="text/javascript">document.write(getCalendarStyles());</script>
+<script type="text/javascript">
   	function send() {
 		submitbutton('send');
   	}

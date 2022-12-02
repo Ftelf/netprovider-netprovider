@@ -24,9 +24,9 @@ class HTML_log {
 	static function showLog(&$logs, &$persons, &$pageNav, &$filter) {
 		global $core;
 ?>
-<script type="text/javascript" language="javascript" src="js/CalendarPopup.js"></script>
-<script type="text/javascript" language="JavaScript">document.write(getCalendarStyles());</script>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript" src="js/CalendarPopup.js"></script>
+<script type="text/javascript">document.write(getCalendarStyles());</script>
+<script type="text/javascript">
 	function editP(id) {
     	var form = document.adminForm;
     	form.option.value = 'com_person';
@@ -46,7 +46,7 @@ class HTML_log {
   	}
   	function filterChange() {
   		document.getElementById('date_fromx').value = document.adminForm.date_from.value;
-  		document.getElementById('date_tox').value = document.adminForm.date_to.value; 
+  		document.getElementById('date_tox').value = document.adminForm.date_to.value;
   		document.adminForm.submit();
   	}
 
@@ -94,7 +94,7 @@ class HTML_log {
           </tr>
           </table>
         </div>
-        
+
         <div class="header icon-48-log">
           <?php echo _("Log list"); ?>
         </div>
@@ -169,7 +169,7 @@ class HTML_log {
 	foreach ($logs as $log) {
 		$linkPerson = "javascript:editP('". $log->LO_personid . "');";
 		$logDate = new DateUtil($log->LO_datetime);
-		
+
 		if ($log->LO_personid == 0) {
 			$loggerName = _("System");
 		} else {
@@ -209,9 +209,9 @@ class HTML_log {
     <input type="hidden" name="hidemainmenu" value="0" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
-  
+
   </div>
 
   <div class="clr"></div>

@@ -24,8 +24,8 @@ class HTML_IpTrafficReport {
 	static function showTraffic(&$ips, &$report, &$filter, &$pageNav) {
 		global $core;
 ?>
-<script type="text/javascript" language="javascript" src="js/CalendarPopup.js"></script>
-<script type="text/javascript" language="JavaScript" ID="jscal1x">
+<script type="text/javascript" src="js/CalendarPopup.js"></script>
+<script type="text/javascript" ID="jscal1x">
 	document.write(getCalendarStyles());
   	function filterChange() {
   		document.getElementById('date_fromx').value = document.adminForm.date_from.value;

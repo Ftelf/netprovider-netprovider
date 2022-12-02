@@ -18,7 +18,7 @@
   </div>
 
   <div id="myMenuID"></div>
-      <script language="JavaScript" type="text/javascript">
+      <script type="text/javascript">
       var myMenu =
       [
         [null, '<?php echo addslashes(_("Home")); ?>', 'index2.php', null, '<?php echo addslashes(_("Home page")); ?>'],

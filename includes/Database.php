@@ -173,16 +173,13 @@ class Database {
     * @param string
     * @param boolean
     */
-    static function bindArrayToObject($array, &$obj, $ignore='', $prefix=null) {
+    static function bindArrayToObject($array, &$obj) {
         if (!is_array($array) || !is_object($obj)) {
             throw new Exception("bind failed.");
         }
-        if ($prefix == null) $prefix = '';
         foreach (get_object_vars($obj) as $k => $v) {
-            if(substr( $k, 0, 1 ) != '_' && strpos($ignore, $k) === false) {
-                if (isset($array[$prefix.$k])) {
-                    $obj->$k = $array[$prefix.$k];
-                }
+            if ($k[0] !== '_' && isset($array[$k])) {
+                $obj->$k = $array[$k];
             }
         }
     }
@@ -217,7 +214,7 @@ class Database {
         if ($object != null) {
             $results =& $this->retrieveResults('', 1, 'assoc');
             if (count($results)) {
-                $this->bindArrayToObject($results[0], $object, null);
+                $this->bindArrayToObject($results[0], $object);
                 return;
             }
         } else {
@@ -312,8 +309,8 @@ class Database {
     *	@param array $hash named array
     *	@return null|string	null is operation was satisfactory, otherwise returns an error
     */
-    static function bind($array, &$object, $ignore="") {
-        return Database::bindArrayToObject($array, $object, $ignore);
+    static function bind($array, &$object) {
+        return Database::bindArrayToObject($array, $object);
     }
 
     function log($text, $level=0) {

@@ -23,7 +23,7 @@
     <meta http-equiv="Content-Language" content="cz" />
     <link rel="stylesheet" href="css/login.css" type="text/css" />
     <link rel="shortcut icon" href="favicon.ico" />
-    <script language="javascript" type="text/javascript">
+    <script type="text/javascript">
 	function setFocus() {
 		document.loginForm.username.select();
 		document.loginForm.username.focus();
