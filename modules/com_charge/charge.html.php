@@ -30,7 +30,7 @@ class HTML_charge {
 		$enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
 		$chargesTableColspan = ($enableVatPayerSpecifics) ? 12 : 10;
 ?>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 	function edit(id) {
     	var form = document.adminForm;
     	form.CH_chargeid.value = id;
@@ -232,7 +232,7 @@ class HTML_charge {
 		global $core;
 		$enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	var IN_name = new Array();
 	var IN_description = new Array();
 	var IN_dnl_rate = new Array();
@@ -545,7 +545,7 @@ class HTML_charge {
 
 <div class="clr"></div>
 </div>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
   updateTypeSelect();
 </script>
 <?php

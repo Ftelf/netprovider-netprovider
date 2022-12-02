@@ -33,7 +33,7 @@ class HTML_person {
 		$tableColspan = ($allowFirmRegistration) ? 13 : 12;
 ?>
 
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 	function edit(id) {
     	var form = document.adminForm;
     	form.PE_personid.value = id;
@@ -290,7 +290,7 @@ class HTML_person {
         $lastloggedinFormatted = ($person->PE_lastloggedin) ? (new DateUtil($person->PE_lastloggedin))->getFormattedDate(DateUtil::FORMAT_FULL) : 'n/a';
         $registerDateFormatted = ($person->PE_registerdate) ? (new DateUtil($person->PE_registerdate))->getFormattedDate(DateUtil::FORMAT_FULL) : 'n/a';
 ?>
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
     	document.write(getCalendarStyles());
 
 		var cal1x = new CalendarPopup("caldiv");
@@ -560,9 +560,9 @@ class HTML_person {
       </td>
       <td valign="top">
       <div class="tab-page" id="modules-cpanel-person">
-	  <script language="JavaScript" type="text/javascript">var tabPanePerson1 = new WebFXTabPane(document.getElementById("modules-cpanel-person"), 1);</script>
+	  <script type="text/javascript">var tabPanePerson1 = new WebFXTabPane(document.getElementById("modules-cpanel-person"), 1);</script>
       <div class="tab-page" id="module01"><h2 class="tab"><?php echo _("Login creditials"); ?></h2>
-        <script language="JavaScript" type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module01"));</script>
+        <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module01"));</script>
         <table class="adminform">
         <thead>
         <tr>
@@ -598,7 +598,7 @@ class HTML_person {
         </table>
       </div>
       <div class="tab-page" id="module02"><h2 class="tab"><?php echo _("Role"); ?></h2>
-        <script language="JavaScript" type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module02"));</script>
+        <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module02"));</script>
         <table class="adminform">
         <thead>
         <tr>
@@ -637,7 +637,7 @@ class HTML_person {
         </table>
       </div>
       <div class="tab-page" id="module03"><h2 class="tab"><?php echo _("Payments"); ?></h2>
-        <script language="JavaScript" type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module03"));</script>
+        <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module03"));</script>
         <table class="adminlist">
         <thead>
         <tr>
@@ -750,7 +750,7 @@ class HTML_person {
         </table>
       </div>
       <div class="tab-page" id="module04"><h2 class="tab"><?php echo _("IP addresses"); ?></h2>
-        <script language="JavaScript" type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module04"));</script>
+        <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module04"));</script>
         <table class="adminlist">
         <thead>
         <tr>
@@ -798,7 +798,7 @@ class HTML_person {
 <div class="clr"></div>
 </div>
 
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 	var formValidator = new Validator("adminForm");
 //	formValidator.addValidation("PE_firstname","required","<?php echo _("Please enter firstname"); ?>");
 //	formValidator.addValidation("PE_surname","required","<?php echo _("Please enter surname"); ?>");
@@ -836,7 +836,7 @@ class HTML_person {
 				break;
 		}
 ?>
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 	document.write(getCalendarStyles());
 
 	function submitbutton(pressbutton) {
@@ -985,7 +985,7 @@ class HTML_person {
 	$dateEnd = new DateUtil($hascharge->HC_dateend);
 	if ($status['HC_datestart']) {
 		if ($charge->CH_period == Charge::PERIOD_MONTHLY) { ?>
-            <script type="text/javascript" language="JavaScript" ID="jscal1x">
+            <script type="text/javascript" ID="jscal1x">
 		var cal1x = new CalendarPopup("caldiv");
 		cal1x.setDisplayType("month");
 		cal1x.setMonthNames("Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec");
@@ -1015,7 +1015,7 @@ class HTML_person {
         <tr>
           <td><?php echo _("End date:"); ?></td>
           <td>
-            <script type="text/javascript" language="JavaScript" ID="jscal2x">
+            <script type="text/javascript" ID="jscal2x">
 			var cal2x = new CalendarPopup("caldiv");
 			cal2x.setDisplayType("month");
 			cal2x.setMonthNames("Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec");
@@ -1073,7 +1073,7 @@ class HTML_person {
 <div class="clr"></div>
 </div>
 
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 	var formValidator = new Validator("adminForm");
 	formValidator.addValidation("HC_datestart","required","<?php echo _("Please enter start date"); ?>");
 	formValidator.addValidation("HC_datestart","date=<?php echo $jsFormat; ?>","<?php echo _("Start date is in incorrect format"); ?>");

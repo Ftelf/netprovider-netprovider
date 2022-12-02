@@ -27,7 +27,7 @@ class HTML_group {
 	static function showGroups(&$groups, &$pageNav) {
 		global $core;
 ?>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 	function edit(id) {
     	var form = document.adminForm;
     	form.GR_groupid.value = id;
@@ -185,7 +185,7 @@ class HTML_group {
 	static function editGroup($group) {
 		global $core;
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
@@ -305,7 +305,7 @@ class HTML_group {
 <div class="clr"></div>
 </div>
 
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 	var formValidator = new Validator("adminForm");
 	formValidator.addValidation("GR_name","required","<?php echo _("Please enter group name"); ?>");
 </script>

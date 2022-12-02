@@ -27,7 +27,7 @@ class HTML_handleevent {
 	static function showHandleEvents(&$handleevents, &$persons, &$pageNav) {
 		global $core;
 ?>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 	function edit(id) {
     	var form = document.adminForm;
     	form.HE_handleeventid.value = id;
@@ -203,7 +203,7 @@ class HTML_handleevent {
 	static function editHandleEvent($handleEvent, $persons, $templates) {
 		global $core;
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
@@ -381,7 +381,7 @@ class HTML_handleevent {
 <div class="clr"></div>
 </div>
 
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 	var formValidator = new Validator("adminForm");
 	formValidator.addValidation("HE_name","required","<?php echo _("Please enter event handler name"); ?>");
 </script>

@@ -28,8 +28,8 @@ class HTML_PaymentReport {
 		global $core;
         $enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
 ?>
-<script type="text/javascript" language="javascript" src="js/CalendarPopup.js"></script>
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript" src="js/CalendarPopup.js"></script>
+<script type="text/javascript">
 	document.write(getCalendarStyles());
 	var cal1x = new CalendarPopup("caldiv");
 	cal1x.setDisplayType("month");

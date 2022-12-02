@@ -30,7 +30,7 @@ class HTML_massmessages {
 		$ipv4 = new Net_IPv4();
 		$selectedNetworkParsed = $ipv4->parseAddress($selectedNetwork->NE_net);
 ?>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 	function show(id) {
     	var form = document.adminForm;
     	form.NE_networkid.value = id;
@@ -230,7 +230,7 @@ class HTML_massmessages {
         global $core;
         $ipv4 = new Net_IPv4();
         ?>
-        <script language="JavaScript" type="text/javascript">
+        <script type="text/javascript">
             function sendMessage() {
                 hideMainMenu();
                 submitbutton('sendMessage');

@@ -27,7 +27,7 @@ class HTML_role {
 	static function showRoles(&$roles, &$pageNav) {
 		global $core;
 ?>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 	function edit(id) {
     	var form = document.adminForm;
     	form.RO_roleid.value = id;
@@ -182,7 +182,7 @@ class HTML_role {
 	static function editRole($role) {
 		global $core;
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
@@ -288,7 +288,7 @@ class HTML_role {
 <div class="clr"></div>
 </div>
 
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 	var formValidator = new Validator("adminForm");
 	formValidator.addValidation("RO_name","required","<?php echo _("Please enter role name"); ?>");
 </script>

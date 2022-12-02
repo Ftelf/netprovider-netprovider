@@ -27,7 +27,7 @@ class HTML_internet {
 	static function showInternet(&$internets, &$pageNav) {
 		global $core;
 ?>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 	function edit(id) {
     	var form = document.adminForm;
     	form.IN_internetid.value = id;
@@ -200,7 +200,7 @@ class HTML_internet {
 	static function editInternet($internet) {
 		global $core;
 ?>
-    <script language="javascript" type="text/javascript">
+    <script type="text/javascript">
 		function submitbutton(pressbutton) {
 			if (pressbutton == 'cancel') {
 				submitform( pressbutton );

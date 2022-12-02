@@ -30,9 +30,9 @@ class HTML_PersonAccount {
 	static function showEntries(&$persons, &$personAccounts, &$pageNav, &$filter, $msgs) {
 		global $core, $my;
 ?>
-<script type="text/javascript" language="javascript" src="js/CalendarPopup.js"></script>
-<script type="text/javascript" language="JavaScript">document.write(getCalendarStyles());</script>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript" src="js/CalendarPopup.js"></script>
+<script type="text/javascript">document.write(getCalendarStyles());</script>
+<script type="text/javascript">
 	function showDetail(id) {
     	var form = document.adminForm;
     	form.PE_personid.value = id;
@@ -258,7 +258,7 @@ class HTML_PersonAccount {
 		$enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
 		$entriesColspan = ($enableVatPayerSpecifics) ? 11 : 9;
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
@@ -743,7 +743,7 @@ class HTML_PersonAccount {
 	static function editPersonAccountDetail(&$person, &$personAccount) {
 		global $core;
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
@@ -902,7 +902,7 @@ class HTML_PersonAccount {
 		global $core, $my;
 		$date = new DateUtil($personAccountEntry->PN_date);
 ?>
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 	document.write(getCalendarStyles());
 
 	var cal1x = new CalendarPopup("caldiv");

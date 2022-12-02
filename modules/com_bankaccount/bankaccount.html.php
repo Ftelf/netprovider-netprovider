@@ -24,9 +24,9 @@ class HTML_BankAccount {
 	static function showEntries(&$bankAccounts, $bid, &$bankAccountEntries, &$report, &$filter, &$pageNav) {
 		global $core, $my;
 ?>
-<script type="text/javascript" language="javascript" src="js/CalendarPopup.js"></script>
-<script type="text/javascript" language="JavaScript">document.write(getCalendarStyles());</script>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript" src="js/CalendarPopup.js"></script>
+<script type="text/javascript">document.write(getCalendarStyles());</script>
+<script type="text/javascript">
 	function showBankList() {
 		hideMainMenu();
 		submitbutton('showBankList');
@@ -455,7 +455,7 @@ class HTML_BankAccount {
 	static function editBankAccount(&$bankAccount, &$flags) {
 		global $core;
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
@@ -693,7 +693,7 @@ class HTML_BankAccount {
 <div class="clr"></div>
 </div>
 
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 	var formValidator = new Validator("adminForm");
 	formValidator.addValidation("BA_bankname","required","<?php echo _("Please enter bank name"); ?>");
 	formValidator.addValidation("BA_banknumber","required","<?php echo _("Please enter bank identification number"); ?>");
@@ -713,9 +713,9 @@ class HTML_BankAccount {
 	static function showBankList(&$bankAccount, &$emailLists, &$pageNav) {
 		global $core, $my;
 ?>
-<script type="text/javascript" language="javascript" src="js/CalendarPopup.js"></script>
-<script type="text/javascript" language="JavaScript">document.write(getCalendarStyles());</script>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript" src="js/CalendarPopup.js"></script>
+<script type="text/javascript">document.write(getCalendarStyles());</script>
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
@@ -931,7 +931,7 @@ class HTML_BankAccount {
 		$datetime = new DateUtil($bankAccountEntry->BE_datetime);
 		$writeoffDate = new DateUtil($bankAccountEntry->BE_writeoff_date);
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	var amount = <?php echo $bankAccountEntry->BE_amount; ?>;
 
 	function submitbutton(pressbutton) {
@@ -1274,7 +1274,7 @@ class HTML_BankAccount {
     static function editBankAccountEntries(&$bankAccountEntries) {
         global $core;
         ?>
-        <script language="javascript" type="text/javascript">
+        <script type="text/javascript">
             function submitbutton(pressbutton) {
                 var form = document.adminForm;
                 if (pressbutton == 'cancel') {
@@ -1470,7 +1470,7 @@ class HTML_BankAccount {
 	static function uploadBankLists(&$bankAccount) {
 		global $core, $my;
 ?>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'doUploadBankLists') {
