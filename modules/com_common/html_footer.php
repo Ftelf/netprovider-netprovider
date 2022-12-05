@@ -18,7 +18,7 @@
 
   <div id="footer">
     <p class="copyright">
-      COPYRIGHT &copy; 2007 Lukáš Dziadkowiec ALL RIGHTS RESERVED
+      COPYRIGHT &copy; 2023 Lukáš Dziadkowiec ALL RIGHTS RESERVED
     </p>
     <p class="statistics">
       <?php printf(gettext("Page generated in %s seconds"), $seconds); ?>
