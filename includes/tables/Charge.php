@@ -15,73 +15,97 @@
 /**
  * Charge
  */
-class Charge {
-    /** @var int charge id PK */
-    var $CH_chargeid = null;
-    /** @var varchar(255) name of the charge */
-    var $CH_name = null;
-    /** @var varchar(255) description */
-    var $CH_description = null;
-    /** @var int charge every time period */
-    var $CH_period = null;
-    /** @var DECIMAL(10,2) */
-    var $CH_vat = null;
-    /** @var DECIMAL(10,2) */
-    var $CH_baseamount = null;
-    /** @var DECIMAL(10,2) charge amount */
-    var $CH_amount = null;
-    /** @var varchar(10) currency of account */
-    var $CH_currency = null;
-    /** @var int offset in days that specify deadline date for payment */
-    var $CH_tolerance = null;
-    /** @var int write-off offset in days */
-    var $CH_writeoffoffset = null;
-    /** @var int type of charge */
-    var $CH_type = null;
-    /** @var int internet ID FK */
-    var $CH_priority = null;
-    /** @var int charge priority ID FK */
-    var $CH_internetid = null;
+class Charge
+{
+    /**
+     * @public int charge id PK
+     */
+    public $CH_chargeid;
+    /**
+     * @public varchar(255) name of the charge
+     */
+    public $CH_name;
+    /**
+     * @public varchar(255) description
+     */
+    public $CH_description;
+    /**
+     * @public int charge every time period
+     */
+    public $CH_period;
+    /**
+     * @public DECIMAL(10,2)
+     */
+    public $CH_vat;
+    /**
+     * @public DECIMAL(10,2)
+     */
+    public $CH_baseamount;
+    /**
+     * @public DECIMAL(10,2) charge amount
+     */
+    public $CH_amount;
+    /**
+     * @public varchar(10) currency of account
+     */
+    public $CH_currency;
+    /**
+     * @public int offset in days that specify deadline date for payment
+     */
+    public $CH_tolerance;
+    /**
+     * @public int write-off offset in days
+     */
+    public $CH_writeoffoffset;
+    /**
+     * @public int type of charge
+     */
+    public $CH_type;
+    /**
+     * @public int internet ID FK
+     */
+    public $CH_priority;
+    /**
+     * @public int charge priority ID FK
+     */
+    public $CH_internetid;
 
-    const PERIOD_MONTHLY = 3;
+    public const PERIOD_MONTHLY = 3;
 
-    public static $PERIOD_ARRAY = array(
-        3 //Monthly
-    );
+    public static array $PERIOD_ARRAY = [
+        self::PERIOD_MONTHLY
+    ];
 
-    public static function getLocalizedPeriod($period) {
-        switch ($period) {
-            case self::PERIOD_MONTHLY:
-                return _("Monthly");
-        }
+    public static array $periodLocalization = [
+        self::PERIOD_MONTHLY => "Monthly",
+    ];
+
+    public static function getLocalizedPeriod($period): string
+    {
+        return _(self::$periodLocalization[$period] ?? '');
     }
 
-    const TYPE_UNSPECIFIED = 1;
-    const TYPE_INTERNET_PAYMENT = 2;
-    const TYPE_ENTRY_FEE = 3;
-    const TYPE_PENALTY = 4;
+    public const TYPE_UNSPECIFIED = 1;
+    public const TYPE_INTERNET_PAYMENT = 2;
+    public const TYPE_ENTRY_FEE = 3;
+    public const TYPE_PENALTY = 4;
 
-    public static $TYPE_ARRAY = array(
-        1, //Unspecified
-        2, //Internet payment
-        3, //Entry fee
-        4, //Penalty
-    );
+    public static array $TYPE_ARRAY = [
+        self::TYPE_UNSPECIFIED,
+        self::TYPE_INTERNET_PAYMENT,
+        self::TYPE_ENTRY_FEE,
+        self::TYPE_PENALTY
+    ];
 
-    public static function getLocalizedType($type) {
-        switch ($type) {
-            case self::TYPE_UNSPECIFIED:
-                return _("Unspecified");
+    public static array $typeLocalization = [
+        self::TYPE_UNSPECIFIED => "Unspecified",
+        self::TYPE_INTERNET_PAYMENT => "Internet payment",
+        self::TYPE_ENTRY_FEE => "Entry fee",
+        self::TYPE_PENALTY => "Penalty"
+    ];
 
-            case self::TYPE_INTERNET_PAYMENT:
-                return _("Internet payment");
-
-            case self::TYPE_ENTRY_FEE:
-                return _("Entry fee");
-
-            case self::TYPE_PENALTY:
-                return _("Penalty");
-        }
+    public static function getLocalizedType($type): string
+    {
+        return _(self::$typeLocalization[$type] ?? '');
     }
 } // End of Charge class
-?>

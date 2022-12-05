@@ -15,90 +15,129 @@
 /**
  *  BankAccount
  */
-class BankAccount {
-    /** @var int bankaccount id PK */
-    var $BA_bankaccountid = null;
-    /** @var int bank name */
-    var $BA_bankname = null;
-    /** @var int bank number */
-    var $BA_banknumber = null;
-    /** @var varchar name of account provided by bank */
-    var $BA_accountname = null;
-    /** @var int account number */
-    var $BA_accountnumber = null;
-    /** @var varchar account iban */
-    var $BA_iban = null;
-    /** @var varchar(10) currency of account */
-    var $BA_currency = null;
-    /** @var DECIMAL (10,2) account balance at the start */
-    var $BA_startbalance = null;
-    /** @var DECIMAL (10,2) total account income */
-    var $BA_income = null;
-    /** @var DECIMAL (10,2) total account expenses */
-    var $BA_expenses = null;
-    /** @var DECIMAL (10,2) charges included in the expenses */
-    var $BA_includedcharges = null;
-    /** @var DECIMAL (10,2) account balance at the end */
-    var $BA_balance = null;
-    /** @var DECIMAL (10,2) blocked amount */
-    var $BA_blockedbalance = null;
-    /** @var int datasource, specify how data will be fetched */
-    var $BA_datasource = null;
-    /** @var int datasource, specify type of data */
-    var $BA_datasourcetype = null;
-    /** @var varchar(255) datasource variables */
-    var $BA_emailserver = null;
-    /** @var varchar(255) datasource variables */
-    var $BA_emailusername = null;
-    /** @var varchar(255) datasource variables */
-    var $BA_emailpassword = null;
-    /** @var varchar(255) datasource variables */
-    var $BA_emailsender = null;
-    /** @var varchar(255) datasource variables */
-    var $BA_emailsubject = null;
+class BankAccount
+{
+    /**
+     * @public int bankaccount id PK
+     */
+    public $BA_bankaccountid;
+    /**
+     * @public int bank name
+     */
+    public $BA_bankname;
+    /**
+     * @public int bank number
+     */
+    public $BA_banknumber;
+    /**
+     * @public varchar name of account provided by bank
+     */
+    public $BA_accountname;
+    /**
+     * @public int account number
+     */
+    public $BA_accountnumber;
+    /**
+     * @public varchar account iban
+     */
+    public $BA_iban;
+    /**
+     * @public varchar(10) currency of account
+     */
+    public $BA_currency;
+    /**
+     * @public DECIMAL (10,2) account balance at the start
+     */
+    public $BA_startbalance;
+    /**
+     * @public DECIMAL (10,2) total account income
+     */
+    public $BA_income;
+    /**
+     * @public DECIMAL (10,2) total account expenses
+     */
+    public $BA_expenses;
+    /**
+     * @public DECIMAL (10,2) charges included in the expenses
+     */
+    public $BA_includedcharges;
+    /**
+     * @public DECIMAL (10,2) account balance at the end
+     */
+    public $BA_balance;
+    /**
+     * @public DECIMAL (10,2) blocked amount
+     */
+    public $BA_blockedbalance;
+    /**
+     * @public int datasource, specify how data will be fetched
+     */
+    public $BA_datasource;
+    /**
+     * @public int datasource, specify type of data
+     */
+    public $BA_datasourcetype;
+    /**
+     * @public varchar(255) datasource variables
+     */
+    public $BA_emailserver;
+    /**
+     * @public varchar(255) datasource variables
+     */
+    public $BA_emailusername;
+    /**
+     * @public varchar(255) datasource variables
+     */
+    public $BA_emailpassword;
+    /**
+     * @public varchar(255) datasource variables
+     */
+    public $BA_emailsender;
+    /**
+     * @public varchar(255) datasource variables
+     */
+    public $BA_emailsubject;
 
-    const DATASOURCE_MANUAL = 1;
-    const DATASOURCE_EMAIL_CONTENT = 2;
+    public const DATASOURCE_MANUAL = 1;
+    public const DATASOURCE_EMAIL_CONTENT = 2;
 
-    public static $datasourceArray = array(
-        1, //Manual
-        2  //EMail content
-    );
+    public static array $datasourceArray = [
+        self::DATASOURCE_MANUAL,
+        self::DATASOURCE_EMAIL_CONTENT
+    ];
 
-    public static function getLocalizedDatasource($datasource) {
-        switch ($datasource) {
-            case self::DATASOURCE_MANUAL:
-                return _("Manual");
+    public static array $datasourceLocalization = [
+        self::DATASOURCE_MANUAL => "Manual",
+        self::DATASOURCE_EMAIL_CONTENT => "EMail content"
+    ];
 
-            case self::DATASOURCE_EMAIL_CONTENT:
-                return _("EMail content");
-        }
+    public static function getLocalizedDatasource($datasource): string
+    {
+        return _(self::$datasourceLocalization[$datasource] ?? '');
     }
 
-    const DATASOURCE_TYPE_RB_ATTACHMENT_TXT = 1;
-    const DATASOURCE_TYPE_RB_ATTACHMENT_PDF = 4;
-    const DATASOURCE_TYPE_ISO_SEPA_XML = 5;
+    public const DATASOURCE_TYPE_RB_ATTACHMENT_TXT = 1;
+    public const DATASOURCE_TYPE_RB_ATTACHMENT_PDF = 4;
+    public const DATASOURCE_TYPE_ISO_SEPA_XML = 5;
 
-    public static $datasourceTypesArray = array(
-        1, //RB attachment TXT
-        4, //RB attachment PDF
-        5, //ISO SEPA XML
-    );
+    public static array $datasourceTypesArray = [
+        self::DATASOURCE_TYPE_RB_ATTACHMENT_TXT,
+        self::DATASOURCE_TYPE_RB_ATTACHMENT_PDF,
+        self::DATASOURCE_TYPE_ISO_SEPA_XML
+    ];
 
-    public static function getLocalizedDatasourceType($datasourceType) {
-        switch ($datasourceType) {
-            case self::DATASOURCE_TYPE_RB_ATTACHMENT_TXT:
-                return _("RB TXT attachment");
+    public static array $datasourceTypeLocalization = [
+        self::DATASOURCE_TYPE_RB_ATTACHMENT_TXT => "RB TXT attachment",
+        self::DATASOURCE_TYPE_RB_ATTACHMENT_PDF => "RB PDF attachment",
+        self::DATASOURCE_TYPE_ISO_SEPA_XML => "ISO SEPA XML"
+    ];
 
-            case self::DATASOURCE_TYPE_RB_ATTACHMENT_PDF:
-                return _("RB PDF attachment");
-
-            case self::DATASOURCE_TYPE_ISO_SEPA_XML:
-                return _("ISO SEPA XML");
-        }
+    public static function getLocalizedDatasourceType($datasourceType): string
+    {
+        return _(self::$datasourceTypeLocalization[$datasourceType] ?? '');
     }
 
-    public static $CURRENCY_ARRAY = array(
+    public static array $CURRENCY_ARRAY = [
         "AED", //United Arab Emirates, Dirhams
         "AFN", //Afghanistan, Afghanis
         "ALL", //Albania, Leke
@@ -271,6 +310,5 @@ class BankAccount {
         "ZAR", //South Africa, Rand
         "ZMK", //Zambia, Kwacha
         "ZWD"  //Zimbabwe, Zimbabwe Dollars
-    );
+    ];
 } // End of BankAccount class
-?>

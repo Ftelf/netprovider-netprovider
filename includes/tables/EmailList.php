@@ -15,70 +15,90 @@
 /**
  * EmailList
  */
-class EmailList {
-    /** @var int emaillist id PK */
-    var $EL_emaillistid = null;
-    /** @var int bankaccount id FK */
-    var $EL_bankaccountid = null;
-    /** @var varchar(255) imap id of email */
-    var $EL_uidl = null;
-    /** @var varchar(255) name of file with list */
-    var $EL_name = null;
-    /** @var varchar(255) currency */
-    var $EL_currency = null;
-    /** @var int year */
-    var $EL_year = null;
-    /** @var int order number */
-    var $EL_no = null;
-    /** @var datetime start date of listing */
-    var $EL_datefrom = null;
-    /** @var datetime end date of listing */
-    var $EL_dateto = null;
-    /** @var text list */
-    var $EL_list = null;
-    /** @var int type of maillist */
-    var $EL_listtype = null;
-    /** @var text list entry count */
-    var $EL_entrycount = null;
-    /** @var int status of maillist */
-    var $EL_status = null;
+class EmailList
+{
+    /**
+     * @public int emaillist id PK
+     */
+    public $EL_emaillistid;
+    /**
+     * @public int bankaccount id FK
+     */
+    public $EL_bankaccountid;
+    /**
+     * @public varchar(255) imap id of email
+     */
+    public $EL_uidl;
+    /**
+     * @public varchar(255) name of file with list
+     */
+    public $EL_name;
+    /**
+     * @public varchar(255) currency
+     */
+    public $EL_currency;
+    /**
+     * @public int year
+     */
+    public $EL_year;
+    /**
+     * @public int order number
+     */
+    public $EL_no;
+    /**
+     * @public datetime start date of listing
+     */
+    public $EL_datefrom;
+    /**
+     * @public datetime end date of listing
+     */
+    public $EL_dateto;
+    /**
+     * @public text list
+     */
+    public $EL_list;
+    /**
+     * @public int type of maillist
+     */
+    public $EL_listtype;
+    /**
+     * @public text list entry count
+     */
+    public $EL_entrycount;
+    /**
+     * @public int status of maillist
+     */
+    public $EL_status;
 
-    const STATUS_PENDING = 1;
-    const STATUS_ERROR = 2;
-    const STATUS_COMPLETED = 3;
+    public const STATUS_PENDING = 1;
+    public const STATUS_ERROR = 2;
+    public const STATUS_COMPLETED = 3;
 
-    const LISTTYPE_NONE = 1;
-    const LISTTYPE_TXT = 2;
-    const LISTTYPE_PDF = 3;
-    const LISTTYPE_SEPA_XML = 5;
+    public static array $statusLocalization = [
+        self::STATUS_PENDING => "Waiting for process",
+        self::STATUS_ERROR => "Error",
+        self::STATUS_COMPLETED => "Completed"
+    ];
 
-    public static function getLocalizedStatus($status) {
-        switch ($status) {
-            case self::STATUS_PENDING:
-                return _("Waiting for process");
-
-            case self::STATUS_ERROR:
-                return _("Error");
-
-            case self::STATUS_COMPLETED:
-                return _("Completed");
-        }
+    public static function getLocalizedStatus($status): string
+    {
+        return _(self::$statusLocalization[$status] ?? '');
     }
 
-    public static function getLocalizedListType($listtype) {
-            switch ($listtype) {
-                case self::LISTTYPE_NONE:
-                    return _("No attachment");
+    public const LISTTYPE_NONE = 1;
+    public const LISTTYPE_TXT = 2;
+    public const LISTTYPE_PDF = 3;
+    public const LISTTYPE_SEPA_XML = 5;
 
-                case self::LISTTYPE_TXT:
-                    return _("TXT file");
+    public static array $listTypeLocalization = [
+        self::LISTTYPE_NONE => "No attachment",
+        self::LISTTYPE_TXT => "TXT file",
+        self::LISTTYPE_PDF => "PDF file",
+        self::LISTTYPE_SEPA_XML => "ISO SEPA XML file"
+    ];
 
-                case self::LISTTYPE_PDF:
-                    return _("PDF file");
-
-                case self::LISTTYPE_SEPA_XML:
-                    return _("ISO SEPA XML file");
-            }
-        }
+    public static function getLocalizedListType($listtype): string
+    {
+        return _(self::$listTypeLocalization[$listtype] ?? '');
+    }
 } // End of EmailList class
-?>
