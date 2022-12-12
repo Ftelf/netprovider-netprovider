@@ -17,17 +17,17 @@
  */
 class Message {
     /** @var int charge id PK */
-    var $ME_messageid = null;
+    var $ME_messageid;
     /** @var int person id FK */
-    var $ME_personid = null;
+    var $ME_personid;
     /** @var datetime datetime */
-    var $ME_datetime = null;
+    var $ME_datetime;
     /** @var varchar(255) subject of the message */
-    var $ME_subject = null;
+    var $ME_subject;
     /** @var text body of the message */
-    var $ME_body = null;
+    var $ME_body;
     /** @var int status of the message */
-    var $ME_status = null;
+    var $ME_status;
 
     const STATUS_PENDING = 1;
     const STATUS_SENDED = 2;

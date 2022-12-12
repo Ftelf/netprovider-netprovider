@@ -245,7 +245,7 @@ function savePersonAccount($pid, $task) {
 function createBlankCharges() {
     global $database, $appContext, $my, $acl;
 
-    if ($my->GR_level == Group::SUPER_ADMININSTRATOR) {
+    if ($my->GR_level == Group::SUPER_ADMINISTRATOR) {
         $chargesUtil = new ChargesUtil();
         $chargesUtil->createBlankChargeEntries();
 
@@ -260,7 +260,7 @@ function createBlankCharges() {
 function proceedCharges() {
     global $database, $appContext, $my, $acl;
 
-    if ($my->GR_level == Group::SUPER_ADMININSTRATOR) {
+    if ($my->GR_level == Group::SUPER_ADMINISTRATOR) {
         $chargesUtil = new ChargesUtil();
         $chargesUtil->proceedCharges(false);
 

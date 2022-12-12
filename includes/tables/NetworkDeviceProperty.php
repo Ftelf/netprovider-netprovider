@@ -15,14 +15,22 @@
 /**
  * NetworkDeviceProperty
  */
-class NetworkDeviceProperty {
-    /** @var int networkdeviceproproperty ID PK */
-    var $NP_networkdevicepropertyid = null;
-    /** @var int NetworkDevice ID FK */
-    var $NP_networkdeviceid = null;
-    /** @var varchar(255) propertynamename */
-    var $NP_name = null;
-    /** @var varchar(255) propertyvalue */
-    var $NP_value = null;
+class NetworkDeviceProperty
+{
+    /**
+     * @var int networkdeviceproproperty ID PK
+     */
+    public $NP_networkdevicepropertyid;
+    /**
+     * @var int NetworkDevice ID FK
+     */
+    public $NP_networkdeviceid;
+    /**
+     * @var varchar(255) propertynamename
+     */
+    public $NP_name;
+    /**
+     * @var varchar(255) propertyvalue
+     */
+    public $NP_value;
 } // End of NetworkDeviceProperty class
-?>

@@ -17,64 +17,64 @@
  */
 class Person {
     /** @var int user id PK */
-    var $PE_personid = null;
+    var $PE_personid;
     /** @var string user login name */
-    var $PE_username = null;
+    var $PE_username;
     /** @var string user login password as md5 */
-    var $PE_password = null;
+    var $PE_password;
     /** @var string user group FK */
-    var $PE_groupid = null;
+    var $PE_groupid;
     /** @var int personaccount id FK */
-    var $PE_personaccountid = null;
+    var $PE_personaccountid;
     /** @var string firstname */
-    var $PE_firstname = null;
+    var $PE_firstname;
     /** @var string surname */
-    var $PE_surname = null;
+    var $PE_surname;
     /** @var string degree prefix */
-    var $PE_degree_prefix = null;
+    var $PE_degree_prefix;
     /** @var string degree suffix */
-    var $PE_degree_suffix = null;
+    var $PE_degree_suffix;
     /** @var string gender */
-    var $PE_gender = null;
+    var $PE_gender;
     /** @var date date of birth  */
-    var $PE_birthdate = null;
+    var $PE_birthdate;
     /** @var string nickname */
-    var $PE_nick = null;
+    var $PE_nick;
     /** @var string email */
-    var $PE_email = null;
+    var $PE_email;
     /** @var string telephone number */
-    var $PE_tel = null;
+    var $PE_tel;
     /** @var string secondary phone number */
-    var $PE_secondary_phone_number = null;
+    var $PE_secondary_phone_number;
     /** @var string icq number */
-    var $PE_icq = null;
+    var $PE_icq;
     /** @var string jabber */
-    var $PE_jabber = null;
+    var $PE_jabber;
     /** @var string address */
-    var $PE_address = null;
+    var $PE_address;
     /** @var string city */
-    var $PE_city = null;
+    var $PE_city;
     /** @var string zip code */
-    var $PE_zip = null;
+    var $PE_zip;
     /** @var int status */
-    var $PE_ic = null;
+    var $PE_ic;
     /** @var int status */
-    var $PE_dic = null;
+    var $PE_dic;
     /** @var int status */
-    var $PE_shortcompanyname = null;
+    var $PE_shortcompanyname;
     /** @var int status */
-    var $PE_companyname = null;
+    var $PE_companyname;
     /** @var int status */
-    var $PE_status = null;
+    var $PE_status;
 
     /** @var datetime register date */
-    var $PE_registerdate = null;
+    var $PE_registerdate;
 
     /** @var datetime lastlogged in date */
-    var $PE_lastloggedin = null;
+    var $PE_lastloggedin;
 
     /** @var text serialized uistate */
-    var $PE_uistate = null;
+    var $PE_uistate;
 
     const STATUS_PASSIVE = 0;
     const STATUS_ACTIVE = 1;

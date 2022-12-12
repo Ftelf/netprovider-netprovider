@@ -17,37 +17,37 @@
  */
 class NetworkDevice {
     /** @var int networkdevice id PK */
-    var $ND_networkdeviceid = null;
+    var $ND_networkdeviceid;
     /** @var varchar(255) name of the device */
-    var $ND_name = null;
+    var $ND_name;
     /** @var varchar(255) vendor */
-    var $ND_vendor = null;
+    var $ND_vendor;
     /** @var varchar(255) type */
-    var $ND_type = null;
+    var $ND_type;
     /** @var int platform */
-    var $ND_platform = null;
+    var $ND_platform;
     /** @var varchar(255) description */
-    var $ND_description = null;
+    var $ND_description;
     /** @var int management interface id */
-    var $ND_managementInterfaceId = null;
+    var $ND_managementInterfaceId;
     /** @var varchar(255) login name */
-    var $ND_login = null;
+    var $ND_login;
     /** @var varchar(255) login password */
-    var $ND_password = null;
+    var $ND_password;
     /** @var boolean use sudo command */
-    var $ND_useCommandSudo = null;
+    var $ND_useCommandSudo;
     /** @var varchar(255) sudo command */
-    var $ND_commandSudo = null;
+    var $ND_commandSudo;
     /** @var varchar(255) iptables command */
-    var $ND_commandIptables = null;
+    var $ND_commandIptables;
     /** @var varchar(255) ip command */
-    var $ND_commandIp = null;
+    var $ND_commandIp;
     /** @var varchar(255) iptables command */
-    var $ND_commandTc = null;
+    var $ND_commandTc;
     /** @var boolean use QOS on this device */
-    var $ND_ipFilterEnabled = null;
+    var $ND_ipFilterEnabled;
     /** @var int ID wan interface */
-    var $ND_wanInterfaceid = null;
+    var $ND_wanInterfaceid;
 
 //	const PLATFORM_UNSPECIFIED = 1;
     const PLATFORM_GNU_LINUX_DEBIAN = 2;

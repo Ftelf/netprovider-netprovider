@@ -97,8 +97,8 @@ class EmailList
         self::LISTTYPE_SEPA_XML => "ISO SEPA XML file"
     ];
 
-    public static function getLocalizedListType($listtype): string
+    public static function getLocalizedListType($listType): string
     {
-        return _(self::$listTypeLocalization[$listtype] ?? '');
+        return _(self::$listTypeLocalization[$listType] ?? '');
     }
 } // End of EmailList class

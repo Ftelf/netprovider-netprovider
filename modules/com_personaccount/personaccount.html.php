@@ -79,7 +79,7 @@ class HTML_PersonAccount {
         <div id="toolbar" class="toolbar">
           <table class="toolbar">
 <?php
-	if ($my->GR_level == Group::SUPER_ADMININSTRATOR) {
+	if ($my->GR_level == Group::SUPER_ADMINISTRATOR) {
 ?>
           <tr>
             <td id="toolbar-create-blank-charges">
@@ -1047,7 +1047,7 @@ class HTML_PersonAccount {
       <td width="205">
         <select name="PN_source" class="width-form">
 <?php
-	if ($my->GR_level == Group::SUPER_ADMININSTRATOR) {
+	if ($my->GR_level == Group::SUPER_ADMINISTRATOR) {
 ?>
           <option value="<?php echo PersonAccountEntry::SOURCE_CASH; ?>" <?php echo ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_CASH) ? 'selected="selected"' : ""; ?>><?php echo PersonAccountEntry::getLocalizedSource(PersonAccountEntry::SOURCE_CASH); ?></option>
 <?php

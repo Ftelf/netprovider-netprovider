@@ -167,7 +167,7 @@ class PersonDAO {
     static function getSuperAdministratorsPersonArray() {
         global $database;
 
-        $query = "SELECT * FROM `person` as pe, `group` as gr WHERE pe.PE_status='".Person::STATUS_ACTIVE."' AND pe.PE_groupid = gr.GR_groupid AND gr.GR_level='".Group::SUPER_ADMININSTRATOR."' ORDER BY pe.PE_surname, pe.PE_firstname";
+        $query = "SELECT * FROM `person` as pe, `group` as gr WHERE pe.PE_status='".Person::STATUS_ACTIVE."' AND pe.PE_groupid = gr.GR_groupid AND gr.GR_level='".Group::SUPER_ADMINISTRATOR."' ORDER BY pe.PE_surname, pe.PE_firstname";
 
         $database->setQuery($query);
         return $database->loadObjectList('PE_personid');

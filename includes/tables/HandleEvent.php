@@ -15,60 +15,78 @@
 /**
  * HandleEvent
  */
-class HandleEvent {
-    /** @var int charge id PK */
-    var $HE_handleeventid = null;
-    /** @var int type */
-    var $HE_type = null;
-    /** @var boolean enabled */
-    var $HE_status = null;
-    /** @var varchar(255) name */
-    var $HE_name = null;
-    /** @var int charge id PK */
-    var $HE_notifypersonid = null;
-    /** @var int notify days before turnoff */
-    var $HE_notifydaysbeforeturnoff = null;
-    /** @var varchar(255) email subject */
-    var $HE_emailsubject = null;
-    /** @var varchar(255) template path */
-    var $HE_templatepath = null;
-    /** @var varchar(255) name */
-    var $HE_description = null;
+class HandleEvent
+{
+    /**
+     * @var int charge id PK
+     */
+    public $HE_handleeventid;
+    /**
+     * @var int type
+     */
+    public $HE_type;
+    /**
+     * @var boolean enabled
+     */
+    public $HE_status;
+    /**
+     * @var varchar(255) name
+     */
+    public $HE_name;
+    /**
+     * @var int charge id PK
+     */
+    public $HE_notifypersonid;
+    /**
+     * @var int notify days before turnoff
+     */
+    public $HE_notifydaysbeforeturnoff;
+    /**
+     * @var varchar(255) email subject
+     */
+    public $HE_emailsubject;
+    /**
+     * @var varchar(255) template path
+     */
+    public $HE_templatepath;
+    /**
+     * @var varchar(255) name
+     */
+    public $HE_description;
 
-    const STATUS_DISABLED = 0;
-    const STATUS_ENABLED = 1;
+    public const STATUS_DISABLED = 0;
+    public const STATUS_ENABLED = 1;
 
-    public static $STATUS_ARRAY = array(
-        0, //Disabled
-        1  //Enabled
-    );
+    public static array $STATUS_ARRAY = [
+        self::STATUS_DISABLED,
+        self::STATUS_ENABLED
+    ];
 
-    public static function getLocalizedStatus($enabled) {
-        switch ($enabled) {
-            case self::STATUS_DISABLED:
-                return _("Disabled");
+    public static array $statusLocalization = [
+        self::STATUS_DISABLED => "Disabled",
+        self::STATUS_ENABLED => "Enabled"
+    ];
 
-            case self::STATUS_ENABLED:
-                return _("Enabled");
-        }
+    public static function getLocalizedStatus($status): string
+    {
+        return _(self::$statusLocalization[$status] ?? '');
     }
 
-    const TYPE_CHARGE_PAYMENT_DEADLINE = 1;
-//	const TYPE_PAYMENT_RECEIVED = 2;
+    public const TYPE_CHARGE_PAYMENT_DEADLINE = 1;
+    //  const TYPE_PAYMENT_RECEIVED = 2;
 
-    public static $TYPE_ARRAY = array(
-        1 //Charge payment deadline
-//		2 //Payment received
-    );
+    public static array $TYPE_ARRAY = [
+        self::TYPE_CHARGE_PAYMENT_DEADLINE
+//        self::TYPE_PAYMENT_RECEIVED
+    ];
 
-    public static function getLocalizedType($type) {
-        switch ($type) {
-            case self::TYPE_CHARGE_PAYMENT_DEADLINE:
-                return _("Charge payment deadline");
+    public static array $typeLocalization = [
+        self::TYPE_CHARGE_PAYMENT_DEADLINE => "Charge payment deadline"
+//        self::TYPE_PAYMENT_RECEIVED => "Payment received"
+    ];
 
-//			case self::TYPE_PAYMENT_RECEIVED:
-//				return _("Payment received");
-        }
+    public static function getLocalizedType($type): string
+    {
+        return _(self::$typeLocalization[$type] ?? '');
     }
 } // End of HandleEvent class
-?>

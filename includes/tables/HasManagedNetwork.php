@@ -15,12 +15,18 @@
 /**
  *  Rolemember
  */
-class HasManagedNetwork {
-    /** @var int has managed network id PK */
-    var $MN_hasmanagednetworkid = null;
-    /** @var int FK network device ID */
-    var $MN_networkdeviceid = null;
-    /** @var int FK network ID */
-    var $MN_networkid = null;
+class HasManagedNetwork
+{
+    /**
+     * @var int has managed network id PK
+     */
+    public $MN_hasmanagednetworkid;
+    /**
+     * @var int FK network device ID
+     */
+    public $MN_networkdeviceid;
+    /**
+     * @var int FK network ID
+     */
+    public $MN_networkid;
 } // End of HasManagedNetwork class
-?>

@@ -17,25 +17,25 @@
  */
 class NetworkDeviceWirelessInterface {
     /** @var int networkdevicewireless ID PK */
-    var $NW_networkdevicewirelessinterfaceid = null;
+    var $NW_networkdevicewirelessinterfaceid;
     /** @var int NetworkDevice ID FK */
-    var $NW_networkdeviceid = null;
+    var $NW_networkdeviceid;
     /** @var int ip ID FK */
-    var $NW_ipid = null;
+    var $NW_ipid;
     /** @var varchar(255) description */
-    var $NW_ifname = null;
+    var $NW_ifname;
     /** @var int frequencyband */
-    var $NW_band = null;
+    var $NW_band;
     /** @var int frequency */
-    var $NW_frequency = null;
+    var $NW_frequency;
     /** @var int mode */
-    var $NW_mode = null;
+    var $NW_mode;
     /** @var varchar(255) ssid */
-    var $NW_ssid = null;
+    var $NW_ssid;
     /** @var varchar(255) mac */
-    var $NW_mac = null;
+    var $NW_mac;
     /** @var varchar(255) description */
-    var $NW_description = null;
+    var $NW_description;
 
     const BAND_2GHz_80211B = 1;
     const BAND_2GHz_80211BG = 2;

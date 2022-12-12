@@ -17,15 +17,15 @@
  */
 class Log {
     /** @var int log id PK */
-    var $LO_logid = null;
+    var $LO_logid;
     /** @var int id of the person */
-    var $LO_personid = null;
+    var $LO_personid;
     /** @var datetime timestamp */
-    var $LO_datetime = null;
+    var $LO_datetime;
     /** @var String log string */
-    var $LO_log = null;
+    var $LO_log;
     /** @var int log level */
-    var $LO_level = null;
+    var $LO_level;
 
     const LEVEL_UNSPECIFIED = 0;
     const LEVEL_LOG = 1;

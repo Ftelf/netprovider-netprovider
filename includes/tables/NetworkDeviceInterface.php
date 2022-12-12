@@ -17,17 +17,17 @@
  */
 class NetworkDeviceInterface {
     /** @var int networkdeviceinterface ID PK */
-    var $NI_networkdeviceinterfaceid = null;
+    var $NI_networkdeviceinterfaceid;
     /** @var int NetworkDevice ID FK */
-    var $NI_networkdeviceid = null;
+    var $NI_networkdeviceid;
     /** @var int ip ID FK */
-    var $NI_ipid = null;
+    var $NI_ipid;
     /** @var varchar(10) ifname */
-    var $NI_ifname = null;
+    var $NI_ifname;
     /** @var int type of interface */
-    var $NI_type = null;
+    var $NI_type;
     /** @var varchar(255) description */
-    var $NI_description = null;
+    var $NI_description;
 
     const TYPE_UNSPECIFIED = 0;
     const TYPE_LAN = 1;

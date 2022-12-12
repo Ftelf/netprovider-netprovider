@@ -97,7 +97,7 @@ class HTML_BankAccount {
               </a>
             </td>
 <?php
-	if ($my->GR_level == Group::SUPER_ADMININSTRATOR) {
+	if ($my->GR_level == Group::SUPER_ADMINISTRATOR) {
 ?>
             <td id="toolbar-edit">
               <a href="javascript:editBA();">
@@ -750,7 +750,7 @@ class HTML_BankAccount {
           <table class="toolbar">
           <tr>
 <?php
-	if ($my->GR_level == Group::SUPER_ADMININSTRATOR) {
+	if ($my->GR_level == Group::SUPER_ADMINISTRATOR) {
 ?>
             <td id="toolbar-upload-bank-lists">
               <a href="javascript:submitbutton('uploadBankLists');">

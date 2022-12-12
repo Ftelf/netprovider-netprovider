@@ -17,21 +17,21 @@
  */
 class PersonAccountEntry {
     /** @var int personaccountentry id PK */
-    var $PN_personaccountentryid = null;
+    var $PN_personaccountentryid;
     /** @var int bankaccountentry id FK */
-    var $PN_bankaccountentryid = null;
+    var $PN_bankaccountentryid;
     /** @var int personaccount id FK */
-    var $PN_personaccountid = null;
+    var $PN_personaccountid;
     /** @var datetime datetime when entry is received */
-    var $PN_date = null;
+    var $PN_date;
     /** @var DECIMAL(10,2) amount */
-    var $PN_amount = null;
+    var $PN_amount;
     /** @var varchar(10) currency of account */
-    var $PN_currency = null;
+    var $PN_currency;
     /** @var int source */
-    var $PN_source = null;
+    var $PN_source;
     /** @var varchar(255) comment */
-    var $PN_comment = null;
+    var $PN_comment;
 
     const SOURCE_BANKACCOUNT = 1;
     const SOURCE_CASH = 2;

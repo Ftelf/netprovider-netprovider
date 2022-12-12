@@ -15,16 +15,26 @@
 /**
  * Ip
  */
-class Ip {
-    /** @var int ip id PK */
-    var $IP_ipid = null;
-    /** @var int networkid id PK */
-    var $IP_networkid = null;
-    /** @var int personid FK */
-    var $IP_personid = null;
-    /** @var varchar ip address */
-    var $IP_address = null;
-    /** @var varchar dns record */
-    var $IP_dns = null;
+class Ip
+{
+    /**
+     * @var int ip id PK
+     */
+    public $IP_ipid;
+    /**
+     * @var int networkid id PK
+     */
+    public $IP_networkid;
+    /**
+     * @var int personid FK
+     */
+    public $IP_personid;
+    /**
+     * @var varchar ip address
+     */
+    public $IP_address;
+    /**
+     * @var varchar dns record
+     */
+    public $IP_dns;
 } // End of Ip class
-?>

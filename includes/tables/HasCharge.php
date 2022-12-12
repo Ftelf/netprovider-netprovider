@@ -15,67 +15,76 @@
 /**
  *  HasCharge
  */
+class HasCharge
+{
+    /**
+     * @var int hascharge id PK
+     */
+    public $HC_haschargeid;
+    /**
+     * @var int chargeid FK
+     */
+    public $HC_chargeid;
+    /**
+     * @var int personid FK
+     */
+    public $HC_personid;
+    /**
+     * @var date datestart
+     */
+    public $HC_datestart;
+    /**
+     * @var date dateend, null when charge is continuous
+     */
+    public $HC_dateend;
+    /**
+     * @var int status
+     */
+    public $HC_status;
+    /**
+     * @var int current status
+     */
+    public $HC_actualstate;
 
-class HasCharge {
-    /** @var int hascharge id PK */
-    var $HC_haschargeid = null;
-    /** @var int chargeid FK */
-    var $HC_chargeid = null;
-    /** @var int personid FK */
-    var $HC_personid = null;
-    /** @var date datestart */
-    var $HC_datestart = null;
-    /** @var date dateend, null when charge is continuous */
-    var $HC_dateend = null;
-    /** @var int status */
-    var $HC_status = null;
-    /** @var int current status */
-    var $HC_actualstate = null;
+    public const STATUS_DISABLED = 0;
+    public const STATUS_ENABLED = 1;
+    public const STATUS_FORCE_DISABLED = 2;
+    public const STATUS_FORCE_ENABLED = 3;
 
-    const STATUS_DISABLED = 0;
-    const STATUS_ENABLED = 1;
-    const STATUS_FORCE_DISABLED = 2;
-    const STATUS_FORCE_ENABLED = 3;
+    public static array $STATUS_ARRAY = [
+        self::STATUS_DISABLED,
+        self::STATUS_ENABLED,
+        self::STATUS_FORCE_DISABLED,
+        self::STATUS_FORCE_ENABLED
+    ];
 
-    public static $STATUS_ARRAY = array(
-        0, //Deactivated
-        1, //Activated
-        2, //Service is always deactivated
-        3  //Service is always activated
-    );
+    public static array $statusLocalization = [
+        self::STATUS_DISABLED => "Deactivated",
+        self::STATUS_ENABLED => "Activated",
+        self::STATUS_FORCE_DISABLED => "Service is always deactivated",
+        self::STATUS_FORCE_ENABLED => "Service is always activated"
+    ];
 
-    public static function getLocalizedStatus($status) {
-        switch ($status) {
-            case self::STATUS_DISABLED:
-                return _("Deactivated");
-
-            case self::STATUS_ENABLED:
-                return _("Activated");
-
-            case self::STATUS_FORCE_DISABLED:
-                return _("Service is always deactivated");
-
-            case self::STATUS_FORCE_ENABLED:
-                return _("Service is always activated");
-        }
+    public static function getLocalizedStatus($status): string
+    {
+        return _(self::$statusLocalization[$status] ?? '');
     }
 
-    const ACTUALSTATE_DISABLED = 0;
-    const ACTUALSTATE_ENABLED = 1;
+    public const ACTUALSTATE_DISABLED = 0;
+    public const ACTUALSTATE_ENABLED = 1;
 
-    public static $ACTUALSTATE_ARRAY = array(
-        0, //Deactivated
-        1  //Activated
-    );
+    public static array $ACTUALSTATE_ARRAY = [
+        self::ACTUALSTATE_DISABLED,
+        self::ACTUALSTATE_ENABLED
+    ];
 
-    public static function getLocalizedActualState($actualState) {
-        switch ($actualState) {
-            case self::ACTUALSTATE_DISABLED:
-                return _("Deactivated");
+    public static array $actualStateLocalization = [
+        self::ACTUALSTATE_DISABLED => "Deactivated",
+        self::ACTUALSTATE_ENABLED => "Activated"
+    ];
 
-            case self::ACTUALSTATE_ENABLED:
-                return _("Activated");
-        }
+    public static function getLocalizedActualState($actualState): string
+    {
+        return _(self::$actualStateLocalization[$actualState] ?? '');
     }
 } // End of HasCharge class
-?>

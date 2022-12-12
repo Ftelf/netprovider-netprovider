@@ -15,18 +15,30 @@
 /**
  *  Session
  */
-class Session {
-    /** @var int session ID PK */
-    var $SE_sessionid = null;
-    /** @var int time of creation timestamp */
-    var $SE_time = null;
-    /** @var int personid FK */
-    var $SE_personid = null;
-    /** @var int access list */
-    var $SE_acl = null;
-    /** @var varchar(255) username */
-    var $SE_username = null;
-    /** @var varchar(15) IP address */
-    var $SE_ip = null;
+class Session
+{
+    /**
+     * @var int session ID PK
+     */
+    public $SE_sessionid;
+    /**
+     * @var int time of creation timestamp
+     */
+    public $SE_time;
+    /**
+     * @var int personid FK
+     */
+    public $SE_personid;
+    /**
+     * @var int access list
+     */
+    public $SE_acl;
+    /**
+     * @var varchar(255) username
+     */
+    public $SE_username;
+    /**
+     * @var varchar(15) IP address
+     */
+    public $SE_ip;
 } // End of Session class
-?>
