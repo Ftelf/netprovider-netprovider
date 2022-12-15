@@ -15,41 +15,51 @@
 /**
  * Message
  */
-class Message {
-    /** @var int charge id PK */
-    var $ME_messageid;
-    /** @var int person id FK */
-    var $ME_personid;
-    /** @var datetime datetime */
-    var $ME_datetime;
-    /** @var varchar(255) subject of the message */
-    var $ME_subject;
-    /** @var text body of the message */
-    var $ME_body;
-    /** @var int status of the message */
-    var $ME_status;
+class Message
+{
+    /**
+     * @var int charge id PK
+     */
+    public $ME_messageid;
+    /**
+     * @var int person id FK
+     */
+    public $ME_personid;
+    /**
+     * @var datetime datetime
+     */
+    public $ME_datetime;
+    /**
+     * @var varchar(255) subject of the message
+     */
+    public $ME_subject;
+    /**
+     * @var text body of the message
+     */
+    public $ME_body;
+    /**
+     * @var int status of the message
+     */
+    public $ME_status;
 
-    const STATUS_PENDING = 1;
-    const STATUS_SENDED = 2;
-    const STATUS_CANNOT_BE_SEND = 3;
+    public const STATUS_PENDING = 1;
+    public const STATUS_SENDED = 2;
+    public const STATUS_CANNOT_BE_SEND = 3;
 
-    public static $STATUS_ARRAY = array(
-        1, //Pending
-        2, //Sent
-        3  //Cannot be sent
-    );
+    public static array $STATUS_ARRAY = [
+        self::STATUS_PENDING,
+        self::STATUS_SENDED,
+        self::STATUS_CANNOT_BE_SEND
+    ];
 
-    public static function getLocalizedStatus($status) {
-        switch ($status) {
-            case self::STATUS_PENDING :
-                return _("Pending");
+    public static array $statusLocalization = [
+        self::STATUS_PENDING => "Pending",
+        self::STATUS_SENDED => "Sent",
+        self::STATUS_CANNOT_BE_SEND => "Cannot be sent"
+    ];
 
-            case self::STATUS_SENDED :
-                return _("Sent");
-
-            case self::STATUS_CANNOT_BE_SEND :
-                return _("Cannot be sent");
-        }
+    public static function getLocalizedStatus($status): string
+    {
+        return _(self::$statusLocalization[$status] ?? '');
     }
 } // End of Message class
-?>

@@ -15,66 +15,94 @@
 /**
  * NetworkDevice
  */
-class NetworkDevice {
-    /** @var int networkdevice id PK */
-    var $ND_networkdeviceid;
-    /** @var varchar(255) name of the device */
-    var $ND_name;
-    /** @var varchar(255) vendor */
-    var $ND_vendor;
-    /** @var varchar(255) type */
-    var $ND_type;
-    /** @var int platform */
-    var $ND_platform;
-    /** @var varchar(255) description */
-    var $ND_description;
-    /** @var int management interface id */
-    var $ND_managementInterfaceId;
-    /** @var varchar(255) login name */
-    var $ND_login;
-    /** @var varchar(255) login password */
-    var $ND_password;
-    /** @var boolean use sudo command */
-    var $ND_useCommandSudo;
-    /** @var varchar(255) sudo command */
-    var $ND_commandSudo;
-    /** @var varchar(255) iptables command */
-    var $ND_commandIptables;
-    /** @var varchar(255) ip command */
-    var $ND_commandIp;
-    /** @var varchar(255) iptables command */
-    var $ND_commandTc;
-    /** @var boolean use QOS on this device */
-    var $ND_ipFilterEnabled;
-    /** @var int ID wan interface */
-    var $ND_wanInterfaceid;
+class NetworkDevice
+{
+    /**
+     * @var int networkdevice id PK
+     */
+    public $ND_networkdeviceid;
+    /**
+     * @var varchar(255) name of the device
+     */
+    public $ND_name;
+    /**
+     * @var varchar(255) vendor
+     */
+    public $ND_vendor;
+    /**
+     * @var varchar(255) type
+     */
+    public $ND_type;
+    /**
+     * @var int platform
+     */
+    public $ND_platform;
+    /**
+     * @var varchar(255) description
+     */
+    public $ND_description;
+    /**
+     * @var int management interface id
+     */
+    public $ND_managementInterfaceId;
+    /**
+     * @var varchar(255) login name
+     */
+    public $ND_login;
+    /**
+     * @var varchar(255) login password
+     */
+    public $ND_password;
+    /**
+     * @var boolean use sudo command
+     */
+    public $ND_useCommandSudo;
+    /**
+     * @var varchar(255) sudo command
+     */
+    public $ND_commandSudo;
+    /**
+     * @var varchar(255) iptables command
+     */
+    public $ND_commandIptables;
+    /**
+     * @var varchar(255) ip command
+     */
+    public $ND_commandIp;
+    /**
+     * @var varchar(255) iptables command
+     */
+    public $ND_commandTc;
+    /**
+     * @var boolean use QOS on this device
+     */
+    public $ND_ipFilterEnabled;
+    /**
+     * @var int ID wan interface
+     */
+    public $ND_wanInterfaceid;
 
-//	const PLATFORM_UNSPECIFIED = 1;
-    const PLATFORM_GNU_LINUX_DEBIAN = 2;
-    const PLATFORM_ROUTEROS = 3;
-//	const PLATFORM_HWAP_CLIENT = 4;
+    //  public const PLATFORM_UNSPECIFIED = 1;
+    public const PLATFORM_GNU_LINUX_DEBIAN = 2;
+    public const PLATFORM_ROUTEROS = 3;
+    //  public const PLATFORM_HWAP_CLIENT = 4;
 
     public static $PLATFORM_ARRAY = array(
-//		1, //Unspecified
-        2,  //GNU Linux Debian
-        3  //RouterOS (Mikrotik)
-//		4, //HW AP/Client
+        //      self::PLATFORM_UNSPECIFIED, //Unspecified
+        self::PLATFORM_GNU_LINUX_DEBIAN,  //GNU Linux Debian
+        self::PLATFORM_ROUTEROS  //RouterOS (Mikrotik)
+        //      self::PLATFORM_HWAP_CLIENT, //HW AP/Client
     );
 
-    public static function getLocalizedPlatform($platform) {
-        switch ($platform) {
-//			case self::PLATFORM_UNSPECIFIED :
-//				return _("Unspecified");
+    public static array $platformLocalization = [
+//        self::PLATFORM_UNSPECIFIED => "Unspecified",
+        self::PLATFORM_GNU_LINUX_DEBIAN => "GNU Linux Debian",
+        self::PLATFORM_ROUTEROS => "RouterOS (Mikrotik)"
+//        self::PLATFORM_HWAP_CLIENT => "HW AP/Client"
+    ];
 
-            case self::PLATFORM_GNU_LINUX_DEBIAN :
-                return _("GNU Linux Debian");
-
-            case self::PLATFORM_ROUTEROS :
-                return _("RouterOS (Mikrotik)");
-
-//			case self::PLATFORM_HWAP_CLIENT :
-//				return _("HW AP/Client");
-        }
+    public static function getLocalizedPlatform($platform): string
+    {
+        return _(self::$platformLocalization[$platform] ?? '');
     }
 } // End of NetworkDevice class
-?>
