@@ -15,22 +15,38 @@
 /**
  * Internet
  */
-class Internet {
-    /** @var int internet ID PK */
-    var $IN_internetid = null;
-    /** @var varchar(255) name */
-    var $IN_name = null;
-    /** @var varchar(255) description */
-    var $IN_description = null;
-    /** @var int dnl_rate */
-    var $IN_dnl_rate = null;
-    /** @var int dnl_ceil */
-    var $IN_dnl_ceil = null;
-    /** @var int upl_rate */
-    var $IN_upl_rate = null;
-    /** @var int upl_ceil */
-    var $IN_upl_ceil = null;
-    /** @var priority */
-    var $IN_prio = null;
+class Internet
+{
+    /**
+     * @var int internet ID PK
+     */
+    public $IN_internetid;
+    /**
+     * @var varchar(255) name
+     */
+    public $IN_name;
+    /**
+     * @var varchar(255) description
+     */
+    public $IN_description;
+    /**
+     * @var int dnl_rate
+     */
+    public $IN_dnl_rate;
+    /**
+     * @var int dnl_ceil
+     */
+    public $IN_dnl_ceil;
+    /**
+     * @var int upl_rate
+     */
+    public $IN_upl_rate;
+    /**
+     * @var int upl_ceil
+     */
+    public $IN_upl_ceil;
+    /**
+     * @var priority
+     */
+    public $IN_prio;
 } // End of Internet class
-?>

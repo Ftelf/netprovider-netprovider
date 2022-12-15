@@ -15,20 +15,34 @@
 /**
  * IpAccount
  */
-class IpAccount {
-    /** @var int ip id PK */
-    var $IA_ipaccountid = null;
-    /** @var int ip id FK */
-    var $IA_ipid = null;
-    /** @var datetime datetime FK */
-    var $IA_datetime = null;
-    /** @var integer bytes in count */
-    var $IA_bytes_in = null;
-    /** @var integer bytes out count */
-    var $IA_bytes_out = null;
-    /** @var integer packet in count */
-    var $IA_packets_in = null;
-    /** @var integer packet out count */
-    var $IA_packets_out = null;
+class IpAccount
+{
+    /**
+     * @var int ip id PK
+     */
+    public $IA_ipaccountid;
+    /**
+     * @var int ip id FK
+     */
+    public $IA_ipid;
+    /**
+     * @var datetime datetime FK
+     */
+    public $IA_datetime;
+    /**
+     * @var integer bytes in count
+     */
+    public $IA_bytes_in;
+    /**
+     * @var integer bytes out count
+     */
+    public $IA_bytes_out;
+    /**
+     * @var integer packet in count
+     */
+    public $IA_packets_in;
+    /**
+     * @var integer packet out count
+     */
+    public $IA_packets_out;
 } // End of IpAccount class
-?>

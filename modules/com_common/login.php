@@ -101,7 +101,7 @@
     <noscript><?php echo _("Javascript must be enabled to function system properly"); ?></noscript>
 
     <div class="footer" align="center">
-      <div align="center">COPYRIGHT &copy; 2007 Ing. Lukáš Dziadkowiec ALL RIGHTS RESERVED</div>
+      <div align="center">COPYRIGHT &copy; 2023 Lukáš Dziadkowiec ALL RIGHTS RESERVED</div>
     </div>
   </body>
 </html>

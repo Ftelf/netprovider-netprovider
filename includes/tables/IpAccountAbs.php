@@ -15,18 +15,30 @@
 /**
  * IpAccount
  */
-class IpAccountAbs {
-    /** @var int ip id PK */
-    var $IB_ipaccountabsid = null;
-    /** @var int ip id FK */
-    var $IB_ipid = null;
-    /** @var integer bytes in count */
-    var $IB_bytes_in = null;
-    /** @var integer bytes out count */
-    var $IB_bytes_out = null;
-    /** @var integer packet in count */
-    var $IB_packets_in = null;
-    /** @var integer packet out count */
-    var $IB_packets_out = null;
+class IpAccountAbs
+{
+    /**
+     * @var int ip id PK
+     */
+    public $IB_ipaccountabsid;
+    /**
+     * @var int ip id FK
+     */
+    public $IB_ipid;
+    /**
+     * @var integer bytes in count
+     */
+    public $IB_bytes_in;
+    /**
+     * @var integer bytes out count
+     */
+    public $IB_bytes_out;
+    /**
+     * @var integer packet in count
+     */
+    public $IB_packets_in;
+    /**
+     * @var integer packet out count
+     */
+    public $IB_packets_out;
 } // End of IpAccountAbs class
-?>

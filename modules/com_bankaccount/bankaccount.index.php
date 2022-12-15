@@ -258,7 +258,7 @@ function editBankAccount($bid=null) {
     HTML_BankAccount::editBankAccount($bankAccount, $flags);
 }
 /**
- * 
+ *
  */
 function saveBankAccount($task) {
     global $database, $mainframe, $my, $acl, $appContext;
@@ -331,7 +331,7 @@ function saveBankAccount($task) {
     }
 }
 /**
- * 
+ *
  */
 function showBankList($bid) {
     global $database, $my, $acl, $core;
@@ -357,12 +357,12 @@ function showBankList($bid) {
     HTML_BankAccount::showBankList($bankAccount, $slicedEmailLists, $pageNav);
 }
 /**
- * 
+ *
  */
 function uploadBankLists($bid) {
     global $database, $my, $acl, $appContext;
 
-    if ($my->GR_level != Group::SUPER_ADMININSTRATOR) {
+    if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
         $appContext->insertMessage(_("Insuficient rights"));
         Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
     }
@@ -372,12 +372,12 @@ function uploadBankLists($bid) {
     HTML_BankAccount::uploadBankLists($bankAccount);
 }
 /**
- * 
+ *
  */
 function downloadBankLists($bid) {
     global $database, $my, $acl, $appContext;
 
-    if ($my->GR_level != Group::SUPER_ADMININSTRATOR) {
+    if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
         $appContext->insertMessage(_("Insuficient rights"));
         Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
     }
@@ -400,12 +400,12 @@ function downloadBankLists($bid) {
     Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
 }
 /**
- * 
+ *
  */
 function processBankLists($bid) {
     global $database, $my, $acl, $appContext;
 
-    if ($my->GR_level != Group::SUPER_ADMININSTRATOR) {
+    if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
         $appContext->insertMessage("Insuficient rights");
         Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
     }
@@ -428,12 +428,12 @@ function processBankLists($bid) {
     Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
 }
 /**
- * 
+ *
  */
 function proceedAccountEntries($bid) {
     global $database, $my, $acl, $appContext;
 
-    if ($my->GR_level != Group::SUPER_ADMININSTRATOR) {
+    if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
         Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
     }
 
@@ -455,12 +455,12 @@ function proceedAccountEntries($bid) {
     Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
 }
 /**
- * 
+ *
  */
 function doUploadBankLists($bid) {
     global $database, $my, $acl, $appContext;
 
-    if ($my->GR_level != Group::SUPER_ADMININSTRATOR) {
+    if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
         $appContext->insertMessage(_("Insuficient rights"));
         Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
     }

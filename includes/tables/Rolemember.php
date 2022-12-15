@@ -15,12 +15,18 @@
 /**
  *  Rolemember
  */
-class Rolemember {
-    /** @var int rolemember id PK */
-    var $RM_rolememberid = null;
-    /** @var string name of the group */
-    var $RM_personid = null;
-    /** @var int description */
-    var $RM_roleid = null;
+class Rolemember
+{
+    /**
+     * @var int rolemember id PK
+     */
+    public $RM_rolememberid;
+    /**
+     * @var string name of the group
+     */
+    public $RM_personid;
+    /**
+     * @var int description
+     */
+    public $RM_roleid;
 } // End of Rolemember class
-?>

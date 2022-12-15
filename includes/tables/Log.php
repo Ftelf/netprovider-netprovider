@@ -15,63 +15,61 @@
 /**
  * Log
  */
-class Log {
-    /** @var int log id PK */
-    var $LO_logid = null;
-    /** @var int id of the person */
-    var $LO_personid = null;
-    /** @var datetime timestamp */
-    var $LO_datetime = null;
-    /** @var String log string */
-    var $LO_log = null;
-    /** @var int log level */
-    var $LO_level = null;
+class Log
+{
+    /**
+     * @var int log id PK
+     */
+    public $LO_logid;
+    /**
+     * @var int id of the person
+     */
+    public $LO_personid;
+    /**
+     * @var datetime timestamp
+     */
+    public $LO_datetime;
+    /**
+     * @var String log string
+     */
+    public $LO_log;
+    /**
+     * @var int log level
+     */
+    public $LO_level;
 
-    const LEVEL_UNSPECIFIED = 0;
-    const LEVEL_LOG = 1;
-    const LEVEL_DEBUG = 2;
-    const LEVEL_INFO = 3;
-    const LEVEL_WARNING = 4;
-    const LEVEL_ERROR = 5;
-    const LEVEL_CRITICAL = 6;
-    const LEVEL_SECURITY = 7;
+    public const LEVEL_UNSPECIFIED = 0;
+    public const LEVEL_LOG = 1;
+    public const LEVEL_DEBUG = 2;
+    public const LEVEL_INFO = 3;
+    public const LEVEL_WARNING = 4;
+    public const LEVEL_ERROR = 5;
+    public const LEVEL_CRITICAL = 6;
+    public const LEVEL_SECURITY = 7;
 
-    public static $LEVEL_ARRAY = array(
-        1, //Log
-        2, //Debug
-        3, //Info
-        4, //Warning
-        5, //Error
-        6, //Critical
-        7  //Security
-    );
+    public static $LEVEL_ARRAY = [
+        self::LEVEL_LOG,
+        self::LEVEL_DEBUG,
+        self::LEVEL_INFO,
+        self::LEVEL_WARNING,
+        self::LEVEL_ERROR,
+        self::LEVEL_CRITICAL,
+        self::LEVEL_SECURITY
+    ];
 
-    public static function getLocalizedLevel($level) {
-        switch ($level) {
-            case self::LEVEL_UNSPECIFIED:
-                return _("Unspecified");
+    public static array $levelLocalization = [
+        self::LEVEL_UNSPECIFIED => "Unspecified",
+        self::LEVEL_LOG => "Log",
+        self::LEVEL_DEBUG => "Debug",
+        self::LEVEL_INFO => "Info",
+        self::LEVEL_WARNING => "Warning",
+        self::LEVEL_ERROR => "Error",
+        self::LEVEL_CRITICAL => "Critical",
+        self::LEVEL_SECURITY => "Security"
+    ];
 
-            case self::LEVEL_LOG:
-                return _("Log");
-
-            case self::LEVEL_DEBUG:
-                return _("Debug");
-
-            case self::LEVEL_INFO:
-                return _("Info");
-
-            case self::LEVEL_WARNING:
-                return _("Warning");
-
-            case self::LEVEL_ERROR:
-                return _("Error");
-
-            case self::LEVEL_CRITICAL:
-                return _("Critical");
-
-            case self::LEVEL_SECURITY:
-                return _("Security");
-        }
+    public static function getLocalizedLevel($level): string
+    {
+        return _(self::$levelLocalization[$level] ?? '');
     }
 } // End of Log class
-?>

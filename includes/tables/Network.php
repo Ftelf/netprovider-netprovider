@@ -15,16 +15,26 @@
 /**
  * Network
  */
-class Network {
-    /** @var int id */
-    var $NE_networkid = null;
-    /** @var int id of parent when nested */
-    var $NE_parent_networkid = null;
-    /** @var int id of owner */
-    var $NE_personid = null;
-    /** @var varchar network */
-    var $NE_net = null;
-    /** @var varchar network */
-    var $NE_description = null;
+class Network
+{
+    /**
+     * @var int id
+     */
+    public $NE_networkid;
+    /**
+     * @var int id of parent when nested
+     */
+    public $NE_parent_networkid;
+    /**
+     * @var int id of owner
+     */
+    public $NE_personid;
+    /**
+     * @var varchar network
+     */
+    public $NE_net;
+    /**
+     * @var varchar network
+     */
+    public $NE_description;
 } // End of Network class
-?>

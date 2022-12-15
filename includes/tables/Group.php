@@ -15,37 +15,43 @@
 /**
  * Group
  */
-class Group {
-    /** @var int group id PK */
-    var $GR_groupid = null;
-    /** @var string name of the group */
-    var $GR_name = null;
-    /** @var int access list definition */
-    var $GR_acl = null;
-    /** @var int group right level */
-    var $GR_level = null;
+class Group
+{
+    /**
+     * @var int group id PK
+     */
+    public $GR_groupid;
+    /**
+     * @var string name of the group
+     */
+    public $GR_name;
+    /**
+     * @var int access list definition
+     */
+    public $GR_acl;
+    /**
+     * @var int group right level
+     */
+    public $GR_level;
 
-    const USER = 0;
-    const ADMINISTRATOR = 5;
-    const SUPER_ADMININSTRATOR = 9;
+    public const USER = 0;
+    public const ADMINISTRATOR = 5;
+    public const SUPER_ADMINISTRATOR = 9;
 
-    public static $LEVEL_ARRAY = array(
-        0, //User
-        5, //Administrator
-        9  //Super administrator
-    );
+    public static array $LEVEL_ARRAY = [
+        self::USER,
+        self::ADMINISTRATOR,
+        self::SUPER_ADMINISTRATOR
+    ];
 
-    public static function getLocalizedLevel($level) {
-        switch ($level) {
-            case self::USER:
-                return _("User");
+    public static array $levelLocalization = [
+        self::USER => "User",
+        self::ADMINISTRATOR => "Administrator",
+        self::SUPER_ADMINISTRATOR => "Super administrator"
+    ];
 
-            case self::ADMINISTRATOR:
-                return _("Administrator");
-
-            case self::SUPER_ADMININSTRATOR:
-                return _("Super administrator");
-        }
+    public static function getLocalizedLevel($level): string
+    {
+        return _(self::$levelLocalization[$level] ?? '');
     }
 } // End of Group class
-?>

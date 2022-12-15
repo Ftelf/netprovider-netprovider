@@ -15,28 +15,35 @@
 /**
  * NetworkDeviceInterface
  */
-class NetworkDeviceInterface {
-    /** @var int networkdeviceinterface ID PK */
-    var $NI_networkdeviceinterfaceid = null;
-    /** @var int NetworkDevice ID FK */
-    var $NI_networkdeviceid = null;
-    /** @var int ip ID FK */
-    var $NI_ipid = null;
-    /** @var varchar(10) ifname */
-    var $NI_ifname = null;
-    /** @var int type of interface */
-    var $NI_type = null;
-    /** @var varchar(255) description */
-    var $NI_description = null;
+class NetworkDeviceInterface
+{
+    /**
+     * @var int networkdeviceinterface ID PK
+     */
+    public $NI_networkdeviceinterfaceid;
+    /**
+     * @var int NetworkDevice ID FK
+     */
+    public $NI_networkdeviceid;
+    /**
+     * @var int ip ID FK
+     */
+    public $NI_ipid;
+    /**
+     * @var varchar(10) ifname
+     */
+    public $NI_ifname;
+    /**
+     * @var int type of interface
+     */
+    public $NI_type;
+    /**
+     * @var varchar(255) description
+     */
+    public $NI_description;
 
-    const TYPE_UNSPECIFIED = 0;
-    const TYPE_LAN = 1;
-    const TYPE_WAN = 2;
+    public const TYPE_UNSPECIFIED = 0;
+    public const TYPE_LAN = 1;
+    public const TYPE_WAN = 2;
 
-    public static $PLATFORM_ARRAY = array(
-        0, //Unspecified
-        1, //Lan
-        2  //Wan
-    );
 } // End of NetworkDeviceInterface class
-?>

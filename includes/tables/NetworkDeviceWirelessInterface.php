@@ -15,106 +15,112 @@
 /**
  * NetworkDeviceWirelessInterface
  */
-class NetworkDeviceWirelessInterface {
-    /** @var int networkdevicewireless ID PK */
-    var $NW_networkdevicewirelessinterfaceid = null;
-    /** @var int NetworkDevice ID FK */
-    var $NW_networkdeviceid = null;
-    /** @var int ip ID FK */
-    var $NW_ipid = null;
-    /** @var varchar(255) description */
-    var $NW_ifname = null;
-    /** @var int frequencyband */
-    var $NW_band = null;
-    /** @var int frequency */
-    var $NW_frequency = null;
-    /** @var int mode */
-    var $NW_mode = null;
-    /** @var varchar(255) ssid */
-    var $NW_ssid = null;
-    /** @var varchar(255) mac */
-    var $NW_mac = null;
-    /** @var varchar(255) description */
-    var $NW_description = null;
+class NetworkDeviceWirelessInterface
+{
+    /**
+     * @var int networkdevicewireless ID PK
+     */
+    public $NW_networkdevicewirelessinterfaceid;
+    /**
+     * @var int NetworkDevice ID FK
+     */
+    public $NW_networkdeviceid;
+    /**
+     * @var int ip ID FK
+     */
+    public $NW_ipid;
+    /**
+     * @var varchar(255) description
+     */
+    public $NW_ifname;
+    /**
+     * @var int frequencyband
+     */
+    public $NW_band;
+    /**
+     * @var int frequency
+     */
+    public $NW_frequency;
+    /**
+     * @var int mode
+     */
+    public $NW_mode;
+    /**
+     * @var varchar(255) ssid
+     */
+    public $NW_ssid;
+    /**
+     * @var varchar(255) mac
+     */
+    public $NW_mac;
+    /**
+     * @var varchar(255) description
+     */
+    public $NW_description;
 
-    const BAND_2GHz_80211B = 1;
-    const BAND_2GHz_80211BG = 2;
-    const BAND_2GHz_80211G = 3;
-    const BAND_2GHz_80211G_TURBO = 4;
-    const BAND_5GHz_80211A_5Mhz = 5;
-    const BAND_5GHz_80211A_10Mhz = 6;
-    const BAND_5GHz_80211A = 7;
-    const BAND_5GHz_80211A_TURBO = 8;
+    public const BAND_2GHz_80211B = 1;
+    public const BAND_2GHz_80211BG = 2;
+    public const BAND_2GHz_80211G = 3;
+    public const BAND_2GHz_80211G_TURBO = 4;
+    public const BAND_5GHz_80211A_5Mhz = 5;
+    public const BAND_5GHz_80211A_10Mhz = 6;
+    public const BAND_5GHz_80211A = 7;
+    public const BAND_5GHz_80211A_TURBO = 8;
 
-    public static $BAND_ARRAY = array(
-        1, //2Ghz 802.11b
-        2, //2Ghz 802.11b/g
-        3, //2Ghz 802.11g
-        4, //2Ghz 802.11g turbo
-        5, //5Ghz 802.11a 5MHz kanál
-        6, //5Ghz 802.11a 10MHz kanál
-        7, //5Ghz 802.11a
-        8  //5Ghz 802.11a turbo
-    );
+    public static array $BAND_ARRAY = [
+        self::BAND_2GHz_80211B,
+        self::BAND_2GHz_80211BG,
+        self::BAND_2GHz_80211G,
+        self::BAND_2GHz_80211G_TURBO,
+        self::BAND_5GHz_80211A_5Mhz,
+        self::BAND_5GHz_80211A_10Mhz,
+        self::BAND_5GHz_80211A,
+        self::BAND_5GHz_80211A_TURBO
+    ];
 
-    public static function getLocalizedBand($band) {
-        switch ($band) {
-            case self::BAND_2GHz_80211B :
-                return _("2.4Ghz 802.11b");
+    public static array $bandLocalization = [
+        self::BAND_2GHz_80211B => "2.4Ghz 802.11b",
+        self::BAND_2GHz_80211BG => "2.4Ghz 802.11b/g",
+        self::BAND_2GHz_80211G => "2.4Ghz 802.11g",
+        self::BAND_2GHz_80211G_TURBO => "2.4Ghz 802.11g turbo",
+        self::BAND_5GHz_80211A_5Mhz => "5Ghz 802.11a 5MHz kanál",
+        self::BAND_5GHz_80211A_10Mhz => "5Ghz 802.11a 10MHz kanál",
+        self::BAND_5GHz_80211A => "5Ghz 802.11a",
+        self::BAND_5GHz_80211A_TURBO => "5Ghz 802.11a turbo"
+    ];
 
-            case self::BAND_2GHz_80211BG :
-                return _("2.4Ghz 802.11b/g");
-
-            case self::BAND_2GHz_80211G :
-                return _("2.4Ghz 802.11g");
-
-            case self::BAND_2GHz_80211G_TURBO :
-                return _("2.4Ghz 802.11g turbo");
-
-            case self::BAND_5GHz_80211A_5Mhz :
-                return _("5Ghz 802.11a 5MHz kanál");
-
-            case self::BAND_5GHz_80211A_10Mhz :
-                return _("5Ghz 802.11a 10MHz kanál");
-
-            case self::BAND_5GHz_80211A :
-                return _("5Ghz 802.11a");
-
-            case self::BAND_5GHz_80211A_TURBO :
-                return _("5Ghz 802.11a turbo");
-        }
+    public static function getLocalizedBand($band): string
+    {
+        return _(self::$bandLocalization[$band] ?? '');
     }
 
-    const MODE_UNDEFINED = 0;
-    const MODE_AP_BRIDGE = 1;
-    const MODE_STATION = 2;
-    const MODE_WDS_BRIDGE = 3;
+    public const MODE_UNDEFINED = 0;
+    public const MODE_AP_BRIDGE = 1;
+    public const MODE_STATION = 2;
+    public const MODE_WDS_BRIDGE = 3;
 
-    public static $MODE_ARRAY = array(
-        0, //Undefined
-        1, //AP Bridge
-        2, //Client
-        3  //WDS Bridge
-    );
+    public static array $MODE_ARRAY = [
+        self::MODE_UNDEFINED,
+        self::MODE_AP_BRIDGE,
+        self::MODE_STATION,
+        self::MODE_WDS_BRIDGE
+    ];
 
-    public static function getLocalizedMode($mode) {
-        switch ($mode) {
-            case self::MODE_UNDEFINED :
-                return _("Undefined");
+    public static array $modeLocalization = [
+        self::MODE_UNDEFINED => "Undefined",
+        self::MODE_AP_BRIDGE => "AP Bridge",
+        self::MODE_STATION => "Client",
+        self::MODE_WDS_BRIDGE => "WDS bridge"
+    ];
 
-            case self::MODE_AP_BRIDGE :
-                return _("AP Bridge");
-
-            case self::MODE_STATION :
-                return _("Client");
-
-            case self::MODE_WDS_BRIDGE :
-                return _("WDS bridge");
-        }
+    public static function getLocalizedMode($mode): string
+    {
+        return _(self::$modeLocalization[$mode] ?? '');
     }
 
-    public static function getFrequencyConstants() {
-        return array(
+    public static function getFrequencyConstants(): array
+    {
+        return [
             2312 => "N/A",
             2317 => "N/A",
             2322 => "N/A",
@@ -395,7 +401,6 @@ class NetworkDeviceWirelessInterface {
             6090 => "N/A",
             6095 => "N/A",
             6100 => "N/A"
-        );
+        ];
     }
 } // End of NetworkDeviceWirelessInterface class
-?>
