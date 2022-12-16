@@ -15,45 +15,59 @@
 /**
  * PersonAccountEntry
  */
-class PersonAccountEntry {
-    /** @var int personaccountentry id PK */
-    var $PN_personaccountentryid;
-    /** @var int bankaccountentry id FK */
-    var $PN_bankaccountentryid;
-    /** @var int personaccount id FK */
-    var $PN_personaccountid;
-    /** @var datetime datetime when entry is received */
-    var $PN_date;
-    /** @var DECIMAL(10,2) amount */
-    var $PN_amount;
-    /** @var varchar(10) currency of account */
-    var $PN_currency;
-    /** @var int source */
-    var $PN_source;
-    /** @var varchar(255) comment */
-    var $PN_comment;
+class PersonAccountEntry
+{
+    /**
+     * @var int personaccountentry id PK
+     */
+    public $PN_personaccountentryid;
+    /**
+     * @var int bankaccountentry id FK
+     */
+    public $PN_bankaccountentryid;
+    /**
+     * @var int personaccount id FK
+     */
+    public $PN_personaccountid;
+    /**
+     * @var datetime datetime when entry is received
+     */
+    public $PN_date;
+    /**
+     * @var DECIMAL(10,2) amount
+     */
+    public $PN_amount;
+    /**
+     * @var varchar(10) currency of account
+     */
+    public $PN_currency;
+    /**
+     * @var int source
+     */
+    public $PN_source;
+    /**
+     * @var varchar(255) comment
+     */
+    public $PN_comment;
 
-    const SOURCE_BANKACCOUNT = 1;
-    const SOURCE_CASH = 2;
-    const SOURCE_DISCOUNT = 3;
+    public const SOURCE_BANKACCOUNT = 1;
+    public const SOURCE_CASH = 2;
+    public const SOURCE_DISCOUNT = 3;
 
-    public static $SOURCE_ARRAY = array(
-        1, //Bank transaction
-        2, //Cash
-        3 //Discount
-    );
+    public static array $SOURCE_ARRAY = [
+        self::SOURCE_BANKACCOUNT,
+        self::SOURCE_CASH,
+        self::SOURCE_DISCOUNT
+    ];
 
-    public static function getLocalizedSource($source) {
-        switch ($source) {
-            case self::SOURCE_BANKACCOUNT:
-                return _("Bank transaction");
+    public static array $sourceLocalization = [
+        self::SOURCE_BANKACCOUNT => "Bank transaction",
+        self::SOURCE_CASH => "Cash",
+        self::SOURCE_DISCOUNT => "Discount"
+    ];
 
-            case self::SOURCE_CASH:
-                return _("Cash");
-
-            case self::SOURCE_DISCOUNT:
-                return _("Discount");
-        }
+    public static function getLocalizedSource($source): string
+    {
+        return _(self::$sourceLocalization[$source] ?? '');
     }
 } // End of PersonAccountEntry class
-?>

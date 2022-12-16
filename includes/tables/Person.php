@@ -15,88 +15,142 @@
 /**
  * Person
  */
-class Person {
-    /** @var int user id PK */
-    var $PE_personid;
-    /** @var string user login name */
-    var $PE_username;
-    /** @var string user login password as md5 */
-    var $PE_password;
-    /** @var string user group FK */
-    var $PE_groupid;
-    /** @var int personaccount id FK */
-    var $PE_personaccountid;
-    /** @var string firstname */
-    var $PE_firstname;
-    /** @var string surname */
-    var $PE_surname;
-    /** @var string degree prefix */
-    var $PE_degree_prefix;
-    /** @var string degree suffix */
-    var $PE_degree_suffix;
-    /** @var string gender */
-    var $PE_gender;
-    /** @var date date of birth  */
-    var $PE_birthdate;
-    /** @var string nickname */
-    var $PE_nick;
-    /** @var string email */
-    var $PE_email;
-    /** @var string telephone number */
-    var $PE_tel;
-    /** @var string secondary phone number */
-    var $PE_secondary_phone_number;
-    /** @var string icq number */
-    var $PE_icq;
-    /** @var string jabber */
-    var $PE_jabber;
-    /** @var string address */
-    var $PE_address;
-    /** @var string city */
-    var $PE_city;
-    /** @var string zip code */
-    var $PE_zip;
-    /** @var int status */
-    var $PE_ic;
-    /** @var int status */
-    var $PE_dic;
-    /** @var int status */
-    var $PE_shortcompanyname;
-    /** @var int status */
-    var $PE_companyname;
-    /** @var int status */
-    var $PE_status;
+class Person
+{
+    /**
+     * @var int user id PK
+     */
+    public $PE_personid;
+    /**
+     * @var string user login name
+     */
+    public $PE_username;
+    /**
+     * @var string user login password as md5
+     */
+    public $PE_password;
+    /**
+     * @var string user group FK
+     */
+    public $PE_groupid;
+    /**
+     * @var int personaccount id FK
+     */
+    public $PE_personaccountid;
+    /**
+     * @var string firstname
+     */
+    public $PE_firstname;
+    /**
+     * @var string surname
+     */
+    public $PE_surname;
+    /**
+     * @var string degree prefix
+     */
+    public $PE_degree_prefix;
+    /**
+     * @var string degree suffix
+     */
+    public $PE_degree_suffix;
+    /**
+     * @var string gender
+     */
+    public $PE_gender;
+    /**
+     * @var date date of birth
+     */
+    public $PE_birthdate;
+    /**
+     * @var string nickname
+     */
+    public $PE_nick;
+    /**
+     * @var string email
+     */
+    public $PE_email;
+    /**
+     * @var string telephone number
+     */
+    public $PE_tel;
+    /**
+     * @var string secondary phone number
+     */
+    public $PE_secondary_phone_number;
+    /**
+     * @var string icq number
+     */
+    public $PE_icq;
+    /**
+     * @var string jabber
+     */
+    public $PE_jabber;
+    /**
+     * @var string address
+     */
+    public $PE_address;
+    /**
+     * @var string city
+     */
+    public $PE_city;
+    /**
+     * @var string zip code
+     */
+    public $PE_zip;
+    /**
+     * @var int status
+     */
+    public $PE_ic;
+    /**
+     * @var int status
+     */
+    public $PE_dic;
+    /**
+     * @var int status
+     */
+    public $PE_shortcompanyname;
+    /**
+     * @var int status
+     */
+    public $PE_companyname;
+    /**
+     * @var int status
+     */
+    public $PE_status;
 
-    /** @var datetime register date */
-    var $PE_registerdate;
+    /**
+     * @var datetime register date
+     */
+    public $PE_registerdate;
 
-    /** @var datetime lastlogged in date */
-    var $PE_lastloggedin;
+    /**
+     * @var datetime lastlogged in date
+     */
+    public $PE_lastloggedin;
 
-    /** @var text serialized uistate */
-    var $PE_uistate;
+    /**
+     * @var text serialized uistate
+     */
+    public $PE_uistate;
 
-    const STATUS_PASSIVE = 0;
-    const STATUS_ACTIVE = 1;
-    const STATUS_DISCARTED = 9;
+    public const STATUS_PASSIVE = 0;
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_DISCARTED = 9;
 
-    public static $STATUS_ARRAY = array(
-        0, //Passive
-        1, //Active
-        9  //Discarted
-    );
+    public static array $STATUS_ARRAY = [
+        self::STATUS_PASSIVE,
+        self::STATUS_ACTIVE,
+        self::STATUS_DISCARTED
+    ];
 
-    public static function getLocalizedStatus($source) {
-        switch ($source) {
-            case self::STATUS_PASSIVE:
-                return _("Passive");
+    public static array $statusLocalization = [
+        self::STATUS_PASSIVE => "Passive",
+        self::STATUS_ACTIVE => "Active",
+        self::STATUS_DISCARTED => "Discarted"
+    ];
 
-            case self::STATUS_ACTIVE:
-                return _("Active");
-
-            case self::STATUS_DISCARTED:
-                return _("Discarted");
-        }
+    public static function getLocalizedStatus($status): string
+    {
+        return _(self::$statusLocalization[$status] ?? '');
     }
 } // End of Person class
-?>
