@@ -13,22 +13,28 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "/includes/tables/NetworkDevice.php");
-require_once($core->getAppRoot() . "/includes/tables/Network.php");
-require_once($core->getAppRoot() . "/includes/tables/HasManagedNetwork.php");
+require_once $core->getAppRoot() . "/includes/tables/NetworkDevice.php";
+require_once $core->getAppRoot() . "/includes/tables/Network.php";
+require_once $core->getAppRoot() . "/includes/tables/HasManagedNetwork.php";
 
 /**
- *  RolememberDAO
+ *  HasManagedNetworkDAO
  */
-class HasManagedNetworkDAO {
-    static function getHasManagedNetworkAndNetworksArrayByNetworkDeviceID($id) {
+class HasManagedNetworkDAO
+{
+    public static function getHasManagedNetworkAndNetworksArrayByNetworkDeviceID($id): array
+    {
         global $database;
         $query = "SELECT * FROM `hasmanagednetwork` as h,`network` as n WHERE h.MN_networkdeviceid='$id' AND h.MN_networkid=n.NE_networkid";
         $database->setQuery($query);
         return $database->loadObjectList("MN_hasmanagednetworkid");
     }
-    static function getHasManagedNetworkByID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+
+    public static function getHasManagedNetworkByID($id): HasManagedNetwork
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $hasManagedNetwork = new HasManagedNetwork();
         $query = "SELECT * FROM `hasmanagednetwork` WHERE `MN_hasmanagednetworkid`='$id' LIMIT 1";
@@ -36,19 +42,26 @@ class HasManagedNetworkDAO {
         $database->loadObject($hasManagedNetwork);
         return $hasManagedNetwork;
     }
-    static function removeHasManagedNetworkByID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+
+    public static function removeHasManagedNetworkByID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `hasmanagednetwork` WHERE `MN_hasmanagednetworkid`='$id'";
         $database->setQuery($query);
         $database->query();
     }
-    static function removeHasManagedNetworksByManagedDeviceID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+
+    public static function removeHasManagedNetworksByManagedDeviceID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `hasmanagednetwork` WHERE `MN_networkdeviceid`='$id'";
         $database->setQuery($query);
         $database->query();
     }
-} // End of RolememberDAO class
-?>
+} // End of HasManagedNetworkDAO class

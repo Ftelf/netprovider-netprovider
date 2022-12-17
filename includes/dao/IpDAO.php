@@ -13,33 +13,39 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "/includes/tables/Ip.php");
-require_once($core->getAppRoot() . "/includes/tables/Person.php");
+require_once $core->getAppRoot() . "/includes/tables/Ip.php";
+require_once $core->getAppRoot() . "/includes/tables/Person.php";
 
 /**
  *  IpDAO
  */
-class IpDAO {
-    const none = 0;
-    const PE_firstname = 1;
-    const PE_surname = 2;
-    const PE_nick = 3;
-    const IP_address = 4;
-    const data = 5;
+class IpDAO
+{
+    public const none = 0;
+    public const PE_firstname = 1;
+    public const PE_surname = 2;
+    public const PE_nick = 3;
+    public const IP_address = 4;
+    public const data = 5;
 
-    static function getIpCount() {
+    public static function getIpCount()
+    {
         global $database;
         $query = "SELECT count(*) FROM `ip`";
         $database->setQuery($query);
         return $database->loadResult();
     }
-    static function getIpArray() {
+
+    public static function getIpArray(): array
+    {
         global $database;
         $query = "SELECT * FROM `ip`";
         $database->setQuery($query);
         return $database->loadObjectList("IP_ipid");
     }
-    static function getIpWithPersonArray($sort, $search, $limitstart=null, $limit=null) {
+
+    public static function getIpWithPersonArray($sort, $search, $limitstart = null, $limit = null): array
+    {
         global $database;
 
         $query = "SELECT * FROM `ip`, `person` WHERE IP_personid=PE_personid";
@@ -65,7 +71,9 @@ class IpDAO {
         $database->setQuery($query);
         return $database->loadObjectList("IP_ipid");
     }
-    static function getIpWithPersonArrayCount($search) {
+
+    public static function getIpWithPersonArrayCount($search)
+    {
         global $database;
 
         $query = "SELECT count(*) FROM `ip`, `person` WHERE IP_personid=PE_personid";
@@ -77,14 +85,20 @@ class IpDAO {
         $database->setQuery($query);
         return $database->loadResult();
     }
-    static function getFreeIpArray() {
+
+    public static function getFreeIpArray(): array
+    {
         global $database;
         $query = "SELECT * FROM `ip` WHERE `IP_personid`=NULL";
         $database->setQuery($query);
         return $database->loadObjectList("IP_ipid");
     }
-    static function getIpByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getIpByID($id): Ip
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $ip = new Ip();
         $query = "SELECT * FROM `ip` WHERE `IP_ipid`='$id' LIMIT 1";
@@ -92,8 +106,12 @@ class IpDAO {
         $database->loadObject($ip);
         return $ip;
     }
-    static function getIpByIP($ipq) {
-        if (!$ipq) throw new Exception("no ID specified");
+
+    public static function getIpByIP($ipq): Ip
+    {
+        if (!$ipq) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $ip = new Ip();
         $query = "SELECT * FROM `ip` WHERE `IP_address`='$ipq' LIMIT 1";
@@ -101,22 +119,34 @@ class IpDAO {
         $database->loadObject($ip);
         return $ip;
     }
-    static function getIpArrayByPersonID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getIpArrayByPersonID($id): array
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "SELECT * FROM `ip` WHERE `IP_personid`='$id'";
         $database->setQuery($query);
         return $database->loadObjectList("IP_ipid");
     }
-    static function removeIpByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function removeIpByID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `ip` WHERE `IP_ipid`='$id' LIMIT 1";
         $database->setQuery($query);
-        return $database->query();
+        $database->query();
     }
-    static function isAnyIpInNetwork($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function isAnyIpInNetwork($id): bool
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $ip = new Ip();
         $query = "SELECT * FROM `ip` WHERE `IP_networkid`='$id' LIMIT 1";
@@ -129,4 +159,3 @@ class IpDAO {
         }
     }
 } // End of IpDAO class
-?>
