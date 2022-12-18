@@ -13,26 +13,34 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "/includes/tables/Session.php");
+require_once $core->getAppRoot() . "/includes/tables/Session.php";
 
 /**
  *  SessionDAO
  */
-class SessionDAO {
-    static function getSessionCount() {
+class SessionDAO
+{
+    public static function getSessionCount()
+    {
         global $database;
         $query = "SELECT count(*) FROM `session`";
         $database->setQuery($query);
         return $database->loadResult();
     }
-    static function getSessionArray() {
+
+    public static function getSessionArray(): array
+    {
         global $database;
         $query = "SELECT * FROM `session`";
         $database->setQuery($query);
         return $database->loadObjectList("SE_sessionid");
     }
-    static function getSessionByID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+
+    public static function getSessionByID($id): Session
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $session = new Session();
         $query = "SELECT * FROM `session` WHERE `SE_sessionid`='$id' LIMIT 1";
@@ -40,28 +48,40 @@ class SessionDAO {
         $database->loadObject($session);
         return $session;
     }
-    static function removeSessionByID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+
+    public static function removeSessionByID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `session` WHERE `SE_sessionid`='$id' LIMIT 1";
         $database->setQuery($query);
         $database->query();
     }
-    static function removeSessionByPersonID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+
+    public static function removeSessionByPersonID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `session` WHERE `SE_personid`='$id' LIMIT 1";
         $database->setQuery($query);
         $database->query();
     }
-    static function removeTimeoutedSession($offset='1800') {
+
+    public static function removeTimeoutedSession($offset = '1800'): array
+    {
         global $database;
         // at first get all timeouted sessions
         //
         $past = time() - $offset;
         $query = "SELECT * FROM `session` WHERE `SE_time`<'$past'";
         $database->setQuery($query);
-        if (($sessions = $database->loadObjectList("SE_sessionid")) == null) $sessions = array();
+        if (($sessions = $database->loadObjectList("SE_sessionid")) == null) {
+            $sessions = array();
+        }
         //then remove them from session table
         //
         foreach ($sessions as $session) {
@@ -73,12 +93,15 @@ class SessionDAO {
     }
 
     /**
-     * @param $session
+     * @param  $session
      * @return The|null
      * @throws Exception
      */
-    static function checkSession($session) {
-        if ($session === null ) throw new Exception("no Session specified");
+    public static function checkSession($session)
+    {
+        if ($session === null) {
+            throw new Exception("no Session specified");
+        }
         global $database;
         $query = "SELECT count(*) FROM `session` WHERE `SE_sessionid`='$session->SE_sessionid' AND `SE_username`='$session->SE_username' AND `SE_personid`='$session->SE_personid' LIMIT 1";
         $database->setQuery($query);
@@ -86,16 +109,18 @@ class SessionDAO {
     }
 
     /**
-     * @param $id
+     * @param  $id
      * @return void
      * @throws Exception
      */
-    static function updateSessionTimeout($id) {
-        if ($id === null) throw new Exception("no ID specified");
+    public static function updateSessionTimeout($id): void
+    {
+        if ($id === null) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "UPDATE `session` SET `SE_time`='" . time() . "' WHERE `SE_sessionid`='$id'";
         $database->setQuery($query);
         $database->query();
     }
 } // End of SessionDAO class
-?>

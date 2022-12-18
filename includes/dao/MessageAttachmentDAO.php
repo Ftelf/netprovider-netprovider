@@ -13,14 +13,18 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "/includes/tables/MessageAttachment.php");
+require_once $core->getAppRoot() . "/includes/tables/MessageAttachment.php";
 
 /**
  *  MessageAttachmentDAO
  */
-class MessageAttachmentDAO {
-    static function getMessageAttachmentForMessageIDCount($messageid) {
-        if (!$messageid) throw new Exception("no ID specified");
+class MessageAttachmentDAO
+{
+    public static function getMessageAttachmentForMessageIDCount($messageid)
+    {
+        if (!$messageid) {
+            throw new Exception("no ID specified");
+        }
 
         global $database;
 
@@ -29,7 +33,9 @@ class MessageAttachmentDAO {
         $database->setQuery($query);
         return $database->loadResult();
     }
-    static function getMessageAttachmentArrayForAttachmentForMessageID($messageid) {
+
+    public static function getMessageAttachmentArrayForAttachmentForMessageID($messageid): array
+    {
         global $database;
 
         $query = sprintf("SELECT * FROM `messageattachment` WHERE MA_messageid='%s'", $messageid);
@@ -37,7 +43,9 @@ class MessageAttachmentDAO {
         $database->setQuery($query);
         return $database->loadObjectList('MA_messageattachmentid');
     }
-    static function getMessageAttachmentNamesArrayForAttachmentForMessageID($messageid) {
+
+    public static function getMessageAttachmentNamesArrayForAttachmentForMessageID($messageid): array
+    {
         global $database;
 
         $query = sprintf("SELECT MA_messageattachmentid, MA_messageid, MA_name, length(MA_attachment) as MA_attachment_length FROM `messageattachment` WHERE MA_messageid='%s'", $messageid);
@@ -45,28 +53,39 @@ class MessageAttachmentDAO {
         $database->setQuery($query);
         return $database->loadObjectList('MA_messageattachmentid');
     }
-    static function getMessageAttachmentByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getMessageAttachmentByID($id): MessageAttachment
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
-        $log = new MessageAttachment();
+        $messageAttachment = new MessageAttachment();
         $query = sprintf("SELECT * FROM `messageattachment` WHERE `MA_messageattachmentid`='%s' LIMIT 1", $id);
         $database->setQuery($query);
-        $database->loadObject($log);
-        return $log;
+        $database->loadObject($messageAttachment);
+        return $messageAttachment;
     }
-    static function removeAttachmentMessageByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function removeAttachmentMessageByID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = sprintf("DELETE FROM `messageattachment` WHERE `MA_messageattachmentid`='%s' LIMIT 1", $id);
         $database->setQuery($query);
         $database->query();
     }
-    static function removeAttachmentMessageByMessageID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function removeAttachmentMessageByMessageID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = sprintf("DELETE FROM `messageattachment` WHERE `MA_messageid`='%s'", $id);
         $database->setQuery($query);
         $database->query();
     }
 } // End of MessageAttachmentDAO class
-?>

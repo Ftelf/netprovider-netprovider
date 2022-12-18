@@ -13,19 +13,23 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "/includes/tables/Role.php");
+require_once $core->getAppRoot() . "/includes/tables/Role.php";
 
 /**
  *  RoleDAO
  */
-class RoleDAO {
-    static function getRoleCount() {
+class RoleDAO
+{
+    public static function getRoleCount()
+    {
         global $database;
         $query = "SELECT count(*) FROM `role`";
         $database->setQuery($query);
         return $database->loadResult();
     }
-    static function getRoleArray($limitstart=null, $limit=null) {
+
+    public static function getRoleArray($limitstart = null, $limit = null): array
+    {
         global $database;
         $query = "SELECT * FROM `role`";
         if ($limitstart != null && $limit != null) {
@@ -34,8 +38,12 @@ class RoleDAO {
         $database->setQuery($query);
         return $database->loadObjectList("RO_roleid");
     }
-    static function getRoleByID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+
+    public static function getRoleByID($id): Role
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $role = new Role();
         $query = "SELECT * FROM `role` WHERE `RO_roleid`='$id' LIMIT 1";
@@ -43,12 +51,15 @@ class RoleDAO {
         $database->loadObject($role);
         return $role;
     }
-    static function removeRoleByID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+
+    public static function removeRoleByID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `role` WHERE `RO_roleid`='$id' LIMIT 1";
         $database->setQuery($query);
         $database->query();
     }
 } // End of RoleDAO class
-?>

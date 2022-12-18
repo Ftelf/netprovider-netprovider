@@ -13,19 +13,23 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "/includes/tables/ChargeEntry.php");
+require_once $core->getAppRoot() . "/includes/tables/ChargeEntry.php";
 
 /**
  *  ChargeEntryDAO
  */
-class ChargeEntryDAO {
-    static function getChargeEntryCount() {
+class ChargeEntryDAO
+{
+    public static function getChargeEntryCount()
+    {
         global $database;
         $query = "SELECT count(*) FROM `chargeentry`";
         $database->setQuery($query);
         return $database->loadResult();
     }
-    static function getChargeEntryArray($limitstart=null, $limit=null) {
+
+    public static function getChargeEntryArray($limitstart = null, $limit = null): array
+    {
         global $database;
         $query = "SELECT * FROM `chargeentry`";
         if ($limitstart !== null && $limit !== null) {
@@ -35,18 +39,22 @@ class ChargeEntryDAO {
         $database->setQuery($query);
         return $database->loadObjectList("CE_chargeentryid");
     }
-    static function getChargeEntryArrayByHasChargeID($id, $dateFrom = null, $dateTo = null, $key = "CE_chargeentryid") {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getChargeEntryArrayByHasChargeID($id, $dateFrom = null, $dateTo = null, $key = "CE_chargeentryid"): array
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "SELECT * FROM `chargeentry` WHERE `CE_haschargeid`='$id'";
 
-        if ($dateFrom != null) {
+        if ($dateFrom !== null) {
             $dateFromFormatted = $dateFrom->getFormattedDate(DateUtil::DB_DATE);
 
             $query .= " AND date '$dateFromFormatted' <= CE_period_date";
         }
 
-        if ($dateTo != null) {
+        if ($dateTo !== null) {
             $dateTo = $dateTo->getFormattedDate(DateUtil::DB_DATE);
 
             $query .= " AND CE_period_date <= date '$dateTo'";
@@ -57,8 +65,12 @@ class ChargeEntryDAO {
         $database->setQuery($query);
         return $database->loadObjectList($key);
     }
-    static function getChargeEntryByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getChargeEntryByID($id): ChargeEntry
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $chargeEntry = new ChargeEntry();
         $query = "SELECT * FROM `chargeentry` WHERE `CE_chargeentryid`='$id' LIMIT 1";
@@ -66,12 +78,15 @@ class ChargeEntryDAO {
         $database->loadObject($chargeEntry);
         return $chargeEntry;
     }
-    static function removeChargeEntryByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function removeChargeEntryByID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `chargeentry` WHERE `CE_chargeentryid`='$id' LIMIT 1";
         $database->setQuery($query);
         $database->query();
     }
 } // End of ChargeEntryDAO class
-?>

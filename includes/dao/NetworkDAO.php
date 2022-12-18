@@ -13,40 +13,56 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "/includes/tables/Network.php");
+require_once $core->getAppRoot() . "/includes/tables/Network.php";
 
 /**
  *  NetworkDAO
  */
-class NetworkDAO {
-    static function getNetworkCount() {
+class NetworkDAO
+{
+    public static function getNetworkCount()
+    {
         global $database;
         $query = "SELECT count(*) FROM `network`";
         $database->setQuery($query);
         return $database->loadResult();
     }
-    static function getNetworkArray() {
+
+    public static function getNetworkArray(): array
+    {
         global $database;
         $query = "SELECT * FROM `network`";
         $database->setQuery($query);
         return $database->loadObjectList("NE_networkid");
     }
-    static function getNetworkArrayByParentNetworkID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getNetworkArrayByParentNetworkID($id): array
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "SELECT * FROM `network` WHERE `NE_parent_networkid`='$id'";
         $database->setQuery($query);
         return $database->loadObjectList("NE_networkid");
     }
-    static function getNetworkArrayByPersonID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getNetworkArrayByPersonID($id): array
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "SELECT * FROM `network` WHERE `NE_personid`='$id'";
         $database->setQuery($query);
         return $database->loadObjectList("NE_networkid");
     }
-    static function getNetworkByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getNetworkByID($id): Network
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $network = new Network();
         $query = "SELECT * FROM `network` WHERE `NE_networkid`='$id' LIMIT 1";
@@ -54,8 +70,12 @@ class NetworkDAO {
         $database->loadObject($network);
         return $network;
     }
-    static function getFirstNetworkByParentNetworkID($id) {
-        if ($id === null) throw new Exception("no ID specified");
+
+    public static function getFirstNetworkByParentNetworkID($id): Network
+    {
+        if ($id === null) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $network = new Network();
         $query = "SELECT * FROM `network` WHERE `NE_parent_networkid`='$id' LIMIT 1";
@@ -63,15 +83,23 @@ class NetworkDAO {
         $database->loadObject($network);
         return $network;
     }
-    static function removeNetworkByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function removeNetworkByID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `network` WHERE `NE_networkid`='$id' LIMIT 1";
         $database->setQuery($query);
-        return $database->query();
+        $database->query();
     }
-    static function isLeafNetwork($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function isLeafNetwork($id): bool
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $network = new Network();
         $query = "SELECT * FROM `network` WHERE `NE_parent_networkid`='$id' LIMIT 1";
@@ -84,4 +112,3 @@ class NetworkDAO {
         }
     }
 } // End of NetworkDAO class
-?>

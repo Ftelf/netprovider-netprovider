@@ -13,19 +13,23 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "/includes/tables/Group.php");
+require_once $core->getAppRoot() . "/includes/tables/Group.php";
 
 /**
  *  GroupDAO
  */
-class GroupDAO {
-    static function getGroupCount() {
+class GroupDAO
+{
+    public static function getGroupCount()
+    {
         global $database;
         $query = "SELECT count(*) FROM `group`";
         $database->setQuery($query);
         return $database->loadResult();
     }
-    static function getGroupArray($limitstart=null, $limit=null) {
+
+    public static function getGroupArray($limitstart = null, $limit = null): array
+    {
         global $database;
         $query = "SELECT * FROM `group`";
         if ($limitstart !== null && $limit !== null) {
@@ -34,8 +38,12 @@ class GroupDAO {
         $database->setQuery($query);
         return $database->loadObjectList("GR_groupid");
     }
-    static function getGroupByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getGroupByID($id): Group
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $group = new Group();
         $query = "SELECT * FROM `group` WHERE `GR_groupid`='$id' LIMIT 1";
@@ -43,12 +51,15 @@ class GroupDAO {
         $database->loadObject($group);
         return $group;
     }
-    static function removeGroupByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function removeGroupByID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `group` WHERE `GR_groupid`='$id' LIMIT 1";
         $database->setQuery($query);
         $database->query();
     }
 } // End of GroupDAO class
-?>

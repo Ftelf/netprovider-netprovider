@@ -13,33 +13,45 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "/includes/tables/NetworkDeviceInterface.php");
+require_once $core->getAppRoot() . "/includes/tables/NetworkDeviceInterface.php";
 
 /**
  *  NetworkDeviceInterfaceDAO
  */
-class NetworkDeviceInterfaceDAO {
-    static function getNetworkDeviceInterfaceCount() {
+class NetworkDeviceInterfaceDAO
+{
+    public static function getNetworkDeviceInterfaceCount()
+    {
         global $database;
         $query = "SELECT count(*) FROM `networkdeviceinterface`";
         $database->setQuery($query);
         return $database->loadResult();
     }
-    static function getNetworkDeviceInterfaceArray() {
+
+    public static function getNetworkDeviceInterfaceArray(): array
+    {
         global $database;
         $query = "SELECT * FROM `networkdeviceinterface`";
         $database->setQuery($query);
         return $database->loadObjectList("NI_networkdeviceinterfaceid");
     }
-    static function getNetworkDeviceInterfaceArrayByNetworkDeviceID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+
+    public static function getNetworkDeviceInterfaceArrayByNetworkDeviceID($id): array
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "SELECT * FROM `networkdeviceinterface` WHERE `NI_networkdeviceid`='$id'";
         $database->setQuery($query);
         return $database->loadObjectList("NI_networkdeviceinterfaceid");
     }
-    static function getNetworkDeviceInterfaceByID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+
+    public static function getNetworkDeviceInterfaceByID($id): NetworkDeviceInterface
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $networkDeviceInterface = new NetworkDeviceInterface();
         $query = "SELECT * FROM `networkdeviceinterface` WHERE `NI_networkdeviceinterfaceid`='$id' LIMIT 1";
@@ -47,19 +59,26 @@ class NetworkDeviceInterfaceDAO {
         $database->loadObject($networkDeviceInterface);
         return $networkDeviceInterface;
     }
-    static function removeNetworkDeviceInterfaceByID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+
+    public static function removeNetworkDeviceInterfaceByID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `networkdeviceinterface` WHERE `NI_networkdeviceinterfaceid`='$id' LIMIT 1";
         $database->setQuery($query);
         $database->query();
     }
-    static function removeNetworkDeviceInterfaceByNetworkDeviceID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+
+    public static function removeNetworkDeviceInterfaceByNetworkDeviceID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `networkdeviceinterface` WHERE `NI_networkdeviceid`='$id'";
         $database->setQuery($query);
         $database->query();
     }
 } // End of NetworkDeviceInterfaceDAO class
-?>

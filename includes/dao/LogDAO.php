@@ -13,19 +13,21 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "/includes/tables/Log.php");
-require_once($core->getAppRoot() . "/includes/utils/DateUtil.php");
+require_once $core->getAppRoot() . "/includes/tables/Log.php";
+require_once $core->getAppRoot() . "/includes/utils/DateUtil.php";
 
 /**
  *  LogDAO
  */
-class LogDAO {
-    static function getLogCount($logLevel=0, $personid=null, $dateFrom="0000-00-00 00:00:00", $dateTo="0000-00-00 00:00:00") {
+class LogDAO
+{
+    public static function getLogCount($logLevel = 0, $personid = null, $dateFrom = "0000-00-00 00:00:00", $dateTo = "0000-00-00 00:00:00")
+    {
         global $database;
 
         $query = "SELECT count(*) FROM `log` WHERE 1";
 
-        if ($logLevel!=0) {
+        if ($logLevel != 0) {
             $query .= " AND `LO_level`='$logLevel'";
         }
         if ($personid != "" && $personid != "0") {
@@ -41,12 +43,14 @@ class LogDAO {
         $database->setQuery($query);
         return $database->loadResult();
     }
-    static function getLogArray($logLevel=0, $personid=null, $dateFrom="0000-00-00 00:00:00", $dateTo="0000-00-00 00:00:00", $limitstart=null, $limit=null) {
+
+    public static function getLogArray($logLevel = 0, $personid = null, $dateFrom = "0000-00-00 00:00:00", $dateTo = "0000-00-00 00:00:00", $limitstart = null, $limit = null): array
+    {
         global $database;
 
         $query = "SELECT * FROM `log` WHERE 1";
 
-        if ($logLevel!=0) {
+        if ($logLevel != 0) {
             $query .= " AND `LO_level`='$logLevel'";
         }
         if ($personid != "" && $personid != "0") {
@@ -66,7 +70,9 @@ class LogDAO {
         $database->setQuery($query);
         return $database->loadObjectList('LO_logid');
     }
-    static function getPersonArrayWhenInLog() {
+
+    public static function getPersonArrayWhenInLog(): array
+    {
         global $database;
 
         $query = "SELECT PE_personid, PE_firstname, PE_surname FROM `log`, `person` WHERE LO_personid=PE_personid GROUP BY PE_personid";
@@ -74,15 +80,23 @@ class LogDAO {
         $database->setQuery($query);
         return $database->loadObjectList('PE_personid');
     }
-    static function getLastLogArray($count) {
-        if (!$count) throw new Exception("count not specified");
+
+    public static function getLastLogArray($count): array
+    {
+        if (!$count) {
+            throw new Exception("count not specified");
+        }
         global $database;
         $query = "SELECT * FROM `log` ORDER BY `LO_datetime` DESC LIMIT $count";
         $database->setQuery($query);
         return $database->loadObjectList('LO_logid');
     }
-    static function getLogByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getLogByID($id): Log
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $log = new Log();
         $query = "SELECT * FROM `log` WHERE `LO_logid`='$id' LIMIT 1";
@@ -90,19 +104,26 @@ class LogDAO {
         $database->loadObject($log);
         return $log;
     }
-    static function removeLogByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function removeLogByID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `log` WHERE `LO_logid`='$id' LIMIT 1";
         $database->setQuery($query);
         $database->query();
     }
-    static function removeLogByPersonID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function removeLogByPersonID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `log` WHERE `LO_personid`='$id' LIMIT 1";
         $database->setQuery($query);
         $database->query();
     }
 } // End of LogDAO class
-?>

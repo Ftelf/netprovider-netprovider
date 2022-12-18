@@ -13,20 +13,24 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "/includes/tables/Charge.php");
-require_once("BankAccountDAO.php");
+require_once $core->getAppRoot() . "/includes/tables/Charge.php";
+require_once "BankAccountDAO.php";
 
 /**
  *  ChargeDAO
  */
-class ChargeDAO {
-    static function getChargeCount() {
+class ChargeDAO
+{
+    public static function getChargeCount()
+    {
         global $database;
         $query = "SELECT count(*) FROM `charge`";
         $database->setQuery($query);
         return $database->loadResult();
     }
-    static function getChargeArray($limitstart=null, $limit=null) {
+
+    public static function getChargeArray($limitstart = null, $limit = null): array
+    {
         global $database;
         $query = "SELECT * FROM `charge`";
         if ($limitstart !== null && $limit !== null) {
@@ -35,21 +39,31 @@ class ChargeDAO {
         $database->setQuery($query);
         return $database->loadObjectList("CH_chargeid");
     }
-    static function getChargeArrayByPeriod($period) {
+
+    public static function getChargeArrayByPeriod($period): array
+    {
         global $database;
         $query = "SELECT * FROM `charge` WHERE `CH_period`=$period";
         $database->setQuery($query);
         return $database->loadObjectList("CH_chargeid");
     }
-    static function getUsedChargeArray($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getUsedChargeArray($id): array
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "SELECT * FROM `person` as p,`hascharge` as hc,`charge` as ch WHERE ch.CH_chargeid=$id AND ch.CH_chargeid=hc.HC_chargeid AND p.PE_personid=hc.HC_personid";
         $database->setQuery($query);
         return $database->loadObjectList("PE_personid");
     }
-    static function getChargeByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getChargeByID($id): Charge
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $charge = new Charge();
         $query = "SELECT * FROM `charge` WHERE `CH_chargeid`='$id' LIMIT 1";
@@ -57,12 +71,15 @@ class ChargeDAO {
         $database->loadObject($charge);
         return $charge;
     }
-    static function removeChargeByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function removeChargeByID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `charge` WHERE `CH_chargeid`='$id' LIMIT 1";
         $database->setQuery($query);
         $database->query();
     }
 } // End of ChargeDAO class
-?>

@@ -13,21 +13,25 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "/includes/tables/HasCharge.php");
-require_once($core->getAppRoot() . "/includes/tables/Charge.php");
-require_once($core->getAppRoot() . "/includes/tables/Internet.php");
+require_once $core->getAppRoot() . "/includes/tables/HasCharge.php";
+require_once $core->getAppRoot() . "/includes/tables/Charge.php";
+require_once $core->getAppRoot() . "/includes/tables/Internet.php";
 
 /**
  *  HasChargeDAO
  */
-class HasChargeDAO {
-    static function getHasChargeCount() {
+class HasChargeDAO
+{
+    public static function getHasChargeCount()
+    {
         global $database;
         $query = "SELECT count(*) FROM `hascharge`";
         $database->setQuery($query);
         return $database->loadResult();
     }
-    static function getHasChargeArray($limitstart=null, $limit=null) {
+
+    public static function getHasChargeArray($limitstart = null, $limit = null): array
+    {
         global $database;
         $query = "SELECT * FROM `hascharge`";
         if ($limitstart !== null && $limit !== null) {
@@ -36,8 +40,12 @@ class HasChargeDAO {
         $database->setQuery($query);
         return $database->loadObjectList("HC_haschargeid");
     }
-    static function getHasChargeByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getHasChargeByID($id): HasCharge
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $hasCharge = new HasCharge();
         $query = "SELECT * FROM `hascharge` WHERE `HC_haschargeid`='$id' LIMIT 1";
@@ -45,25 +53,37 @@ class HasChargeDAO {
         $database->loadObject($hasCharge);
         return $hasCharge;
     }
-    static function getHasChargeArrayByPersonID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getHasChargeArrayByPersonID($id): array
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "SELECT HC_haschargeid, HC_chargeid, HC_personid, HC_datestart, HC_dateend, HC_status, HC_actualstate FROM `charge`, `hascharge` WHERE `HC_personid`='$id' AND `CH_chargeid` = `HC_chargeid` ORDER BY CH_priority DESC";
         $database->setQuery($query);
         return $database->loadObjectList("HC_haschargeid");
     }
-    static function getHasChargeWithChargeWithPersonArrayByPersonID($pid) {
-        if (!$pid) throw new Exception("no ID specified");
+
+    public static function getHasChargeWithChargeWithPersonArrayByPersonID($pid): array
+    {
+        if (!$pid) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "SELECT * FROM `person` as p, `hascharge` as hc, `charge` as ch WHERE p.PE_personid='$pid' AND p.PE_personid=hc.HC_personid AND hc.HC_chargeid=ch.CH_chargeid";
         $database->setQuery($query);
         return $database->loadObjectList("HC_haschargeid");
     }
-    static function getHasChargeReportArray($pid, $chargesids, $dateFrom = null, $dateTo = null) {
-        if (!$pid || !is_array($chargesids)) throw new Exception("not specified both IDs");
+
+    public static function getHasChargeReportArray($pid, $chargesids, $dateFrom = null, $dateTo = null): array
+    {
+        if (!$pid || !is_array($chargesids)) {
+            throw new Exception("not specified both IDs");
+        }
         global $database;
         $query =
-            "SELECT * FROM `person` as p, `hascharge` as hc, `charge` as ch ".
+            "SELECT * FROM `person` as p, `hascharge` as hc, `charge` as ch " .
             "WHERE p.PE_personid='$pid' AND p.PE_personid=hc.HC_personid AND hc.HC_chargeid=ch.CH_chargeid";
 
         if (count($chargesids)) {
@@ -72,9 +92,9 @@ class HasChargeDAO {
             $query .= " AND false";
         }
 
-        if ($dateFrom != null) {
+        if ($dateFrom !== null) {
             $dateFromFormatted = $dateFrom->getFormattedDate(DateUtil::DB_DATE);
-            $dateToFormatted = ($dateTo == null) ? DateUtil::DB_MAX_DATE : $dateTo->getFormattedDate(DateUtil::DB_DATE);
+            $dateToFormatted = ($dateTo === null) ? DateUtil::DB_MAX_DATE : $dateTo->getFormattedDate(DateUtil::DB_DATE);
 
             $query .= " AND ( ( hc.HC_datestart <= date '$dateToFormatted' ) AND ( IF(hc.HC_dateend = '0000-00-00', date '9999-12-31', hc.HC_dateend) >= date '$dateFromFormatted' ) )";
         }
@@ -84,19 +104,26 @@ class HasChargeDAO {
         $database->setQuery($query);
         return $database->loadObjectList("HC_haschargeid");
     }
-    static function getHasChargeWithInternetChargeOnlyByPersonID($pid) {
-        if (!$pid) throw new Exception("no ID specified");
+
+    public static function getHasChargeWithInternetChargeOnlyByPersonID($pid): array
+    {
+        if (!$pid) {
+            throw new Exception("no ID specified");
+        }
         global $database;
-        $query = "SELECT * FROM `hascharge` as hc, `charge` as ch, `internet` as i WHERE hc.HC_personid='$pid' AND hc.HC_chargeid=ch.CH_chargeid AND ch.CH_type=".Charge::TYPE_INTERNET_PAYMENT." AND hc.HC_actualstate=".HasCharge::ACTUALSTATE_ENABLED." AND ch.CH_internetid=i.IN_internetid";
+        $query = "SELECT * FROM `hascharge` as hc, `charge` as ch, `internet` as i WHERE hc.HC_personid='$pid' AND hc.HC_chargeid=ch.CH_chargeid AND ch.CH_type=" . Charge::TYPE_INTERNET_PAYMENT . " AND hc.HC_actualstate=" . HasCharge::ACTUALSTATE_ENABLED . " AND ch.CH_internetid=i.IN_internetid";
         $database->setQuery($query);
         return $database->loadObjectList("HC_haschargeid");
     }
-    static function removeHasChargeByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function removeHasChargeByID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `hascharge` WHERE `HC_haschargeid`='$id' LIMIT 1";
         $database->setQuery($query);
         $database->query();
     }
 } // End of HasChargeDAO class
-?>

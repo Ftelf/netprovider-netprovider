@@ -13,19 +13,23 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "/includes/tables/PersonAccount.php");
+require_once $core->getAppRoot() . "/includes/tables/PersonAccount.php";
 
 /**
  *  PersonAccountDAO
  */
-class PersonAccountDAO {
-    static function getPersonAccountCount() {
+class PersonAccountDAO
+{
+    public static function getPersonAccountCount()
+    {
         global $database;
         $query = "SELECT count(*) FROM `personaccount`";
         $database->setQuery($query);
         return $database->loadResult();
     }
-    static function getPersonAccountArray($limitstart=null, $limit=null) {
+
+    public static function getPersonAccountArray($limitstart = null, $limit = null): array
+    {
         global $database;
         $query = "SELECT * FROM `personaccount`";
         if ($limitstart !== null && $limit !== null) {
@@ -34,8 +38,12 @@ class PersonAccountDAO {
         $database->setQuery($query);
         return $database->loadObjectList("PA_personaccountid");
     }
-    static function getPersonAccountByID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+
+    public static function getPersonAccountByID($id): PersonAccount
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $personAccount = new PersonAccount();
         $query = "SELECT * FROM `personaccount` WHERE `PA_personaccountid`='$id' LIMIT 1";
@@ -43,12 +51,15 @@ class PersonAccountDAO {
         $database->loadObject($personAccount);
         return $personAccount;
     }
-    static function removePersonAccountByID($id) {
-        if ($id == null) throw new Exception("no ID specified");
+
+    public static function removePersonAccountByID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `personaccount` WHERE `PA_personaccountid`='$id' LIMIT 1";
         $database->setQuery($query);
         $database->query();
     }
 } // End of PersonAccountDAO class
-?>

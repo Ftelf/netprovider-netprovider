@@ -13,15 +13,17 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "/includes/tables/Message.php");
-require_once($core->getAppRoot() . "/includes/utils/DateUtil.php");
-require_once($core->getAppRoot() . "/includes/dao/MessageAttachmentDAO.php");
+require_once $core->getAppRoot() . "/includes/tables/Message.php";
+require_once $core->getAppRoot() . "/includes/utils/DateUtil.php";
+require_once $core->getAppRoot() . "/includes/dao/MessageAttachmentDAO.php";
 
 /**
  *  MessageDAO
  */
-class MessageDAO {
-    static function getMessageCount($personid=null, $dateFrom="0000-00-00 00:00:00", $dateTo="0000-00-00 00:00:00") {
+class MessageDAO
+{
+    public static function getMessageCount($personid = null, $dateFrom = "0000-00-00 00:00:00", $dateTo = "0000-00-00 00:00:00")
+    {
         global $database;
 
         $query = "SELECT count(*) FROM `message` WHERE 1";
@@ -39,7 +41,9 @@ class MessageDAO {
         $database->setQuery($query);
         return $database->loadResult();
     }
-    static function getMessageArray($personid=null, $dateFrom="0000-00-00 00:00:00", $dateTo="0000-00-00 00:00:00", $limitstart=null, $limit=null) {
+
+    public static function getMessageArray($personid = null, $dateFrom = "0000-00-00 00:00:00", $dateTo = "0000-00-00 00:00:00", $limitstart = null, $limit = null): array
+    {
         global $database;
 
         $query = "SELECT * FROM `message` WHERE 1";
@@ -60,14 +64,20 @@ class MessageDAO {
         $database->setQuery($query);
         return $database->loadObjectList('ME_messageid');
     }
-    static function getPendingMessageArray() {
+
+    public static function getPendingMessageArray(): array
+    {
         global $database;
         $query = "SELECT * FROM `message` WHERE ME_status!=" . Message::STATUS_SENDED;
         $database->setQuery($query);
         return $database->loadObjectList('ME_messageid');
     }
-    static function getMessageByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function getMessageByID($id): Message
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $message = new Message();
         $query = "SELECT * FROM `message` WHERE `ME_messageid`='$id' LIMIT 1";
@@ -75,19 +85,26 @@ class MessageDAO {
         $database->loadObject($message);
         return $message;
     }
-    static function removeMessageByID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function removeMessageByID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `message` WHERE `ME_messageid`='$id' LIMIT 1";
         $database->setQuery($query);
         $database->query();
     }
-    static function removeMessageByPersonID($id) {
-        if (!$id) throw new Exception("no ID specified");
+
+    public static function removeMessageByPersonID($id): void
+    {
+        if (!$id) {
+            throw new Exception("no ID specified");
+        }
         global $database;
         $query = "DELETE FROM `message` WHERE `ME_personid`='$id' LIMIT 1";
         $database->setQuery($query);
         $database->query();
     }
 } // End of MessageDAO class
-?>
