@@ -13,39 +13,40 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/BankAccountDAO.php");
-require_once($core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/EmailListDAO.php");
-require_once($core->getAppRoot() . "includes/net/email/MimeDecode.php");
+require_once $core->getAppRoot() . "includes/dao/BankAccountDAO.php";
+require_once $core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php";
+require_once $core->getAppRoot() . "includes/dao/EmailListDAO.php";
+require_once $core->getAppRoot() . "includes/net/email/MimeDecode.php";
 
-require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonAccountDAO.php");
-require_once($core->getAppRoot() . "includes/dao/ChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/ChargeEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/HasChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonAccountDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php");
-require_once($core->getAppRoot() . "includes/utils/DateUtil.php");
+require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonAccountDAO.php";
+require_once $core->getAppRoot() . "includes/dao/ChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/ChargeEntryDAO.php";
+require_once $core->getAppRoot() . "includes/dao/HasChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonAccountDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php";
+require_once $core->getAppRoot() . "includes/utils/DateUtil.php";
 
 /**
  * ChargesUtil
  */
-class ChargesUtil {
-    private $_messages = array();
+class ChargesUtil
+{
+    private array $_messages = [];
     private $_advancePayments = 1;
     private $_charges;
 
-    public function __construct() {
+    public function __construct()
+    {
         global $core;
 
         $this->_advancePayments = $core->getProperty(Core::BLANK_CHARGES_ADVANCE_COUNT);
         $this->_charges = ChargeDAO::getChargeArray();
     }
 
-    public function createBlankChargeEntries() {
+    public function createBlankChargeEntries()
+    {
         global $database, $eventCrossBar;
-
-        $now = new DateUtil();
 
         $persons = PersonDAO::getPersonWithAccountArray();
 
@@ -55,7 +56,8 @@ class ChargesUtil {
         }
     }
 
-    public function createOrRemoveChargeEntriesForPerson($person, $ignoreStatuses = false, $enableMessagesForEntries = false) {
+    public function createOrRemoveChargeEntriesForPerson($person, $ignoreStatuses = false, $enableMessagesForEntries = false)
+    {
         global $database, $eventCrossBar;
 
         $now = new DateUtil();
@@ -68,10 +70,11 @@ class ChargesUtil {
 
             // Iterate all HasCharges for this person
             foreach ($hasCharges as &$hasCharge) {
-                if (!$ignoreStatuses &&
-                  $hasCharge->HC_status != HasCharge::STATUS_ENABLED &&
-                  $hasCharge->HC_status != HasCharge::STATUS_FORCE_DISABLED &&
-                  $hasCharge->HC_status != HasCharge::STATUS_FORCE_ENABLED) {
+                if (!$ignoreStatuses
+                    && $hasCharge->HC_status != HasCharge::STATUS_ENABLED
+                    && $hasCharge->HC_status != HasCharge::STATUS_FORCE_DISABLED
+                    && $hasCharge->HC_status != HasCharge::STATUS_FORCE_ENABLED
+                ) {
                     continue;
                 }
 
@@ -156,7 +159,7 @@ class ChargesUtil {
                                 if ($enableMessagesForEntries) {
                                     $msg = sprintf(_("Adding payment entry for user %s with date %s"), "$person->PE_firstname $person->PE_surname", $floatingDate->getFormattedDate(DateUtil::FORMAT_MONTHLY));
                                     $this->_messages[] = $msg;
-                                    $database->log($msg, LOG::LEVEL_INFO);
+                                    $database->log($msg, Log::LEVEL_INFO);
                                 }
 
                                 $database->commit();
@@ -164,7 +167,7 @@ class ChargesUtil {
                                 $database->rollback();
                                 $msg = "Charge::PERIOD_MONTHLY, Error creating chargeEntry: " . $e . ", " . $e->getMessage();
                                 $this->_messages[] = $msg;
-                                $database->log($msg, LOG::LEVEL_ERROR);
+                                $database->log($msg, Log::LEVEL_ERROR);
                             }
                         }
 
@@ -177,10 +180,11 @@ class ChargesUtil {
         }
     }
 
-    private function validateChangeEntriesAndBuildMap($chargeEntries) {
+    private function validateChangeEntriesAndBuildMap($chargeEntries)
+    {
         global $database;
 
-        $chargeEntriesMap = array();
+        $chargeEntriesMap = [];
 
         foreach ($chargeEntries as $chargeEntry) {
             $ceDate = new DateUtil($chargeEntry->CE_period_date);
@@ -197,7 +201,8 @@ class ChargesUtil {
         return $chargeEntriesMap;
     }
 
-    private function removeChangeEntriesOutOfScope($person, $chargeEntries, $dateStart, $dateEnd) {
+    private function removeChangeEntriesOutOfScope($person, $chargeEntries, $dateStart, $dateEnd)
+    {
         global $database, $appContext;
 
         $personAccount = PersonAccountDAO::getPersonAccountByID($person->PE_personaccountid);
@@ -232,7 +237,8 @@ class ChargesUtil {
         }
     }
 
-    public function proceedCharges($fireDeadlineEvents = false) {
+    public function proceedCharges($fireDeadlineEvents = false)
+    {
         $persons = PersonDAO::getPersonArray();
 
         // Proceed all active persons
@@ -241,7 +247,8 @@ class ChargesUtil {
         }
     }
 
-    public function proceedChargesForPerson($person, $fireDeadlineEvents = false) {
+    public function proceedChargesForPerson($person, $fireDeadlineEvents = false)
+    {
         global $database, $eventCrossBar;
 
         $now = new DateUtil();
@@ -301,7 +308,7 @@ class ChargesUtil {
                 $chargeIsInPresent = false;
                 if ($dateEnd->getTime() == null) {
                     $chargeIsInPresent = true;
-                } else if ($charge->CH_period == Charge::PERIOD_MONTHLY) {
+                } elseif ($charge->CH_period == Charge::PERIOD_MONTHLY) {
                     // Process monthly payment
                     $dateEnd->add(DateUtil::MONTH, 1);
                     $chargeIsInPresent = $now->before($dateEnd);
@@ -327,8 +334,9 @@ class ChargesUtil {
                     // therefore shouldn't be payed right now
                     if (!$now->before($writeOffDate)) {
                         // Time to pay bills
-                        if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING ||
-                          $chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS) {
+                        if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING
+                            || $chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS
+                        ) {
 
                             // Calculate overdue of payment in days
                             $overdue = intval(($now->getTime() - $writeOffDate->getTime()) / (24 * 60 * 60));
@@ -366,7 +374,7 @@ class ChargesUtil {
                                 $database->rollback();
                                 $msg = "Error processing ChargeEntry: " . $e->getMessage();
                                 $this->_messages[] = $msg;
-                                $database->log($msg, LOG::LEVEL_ERROR);
+                                $database->log($msg, Log::LEVEL_ERROR);
                             }
                         }
                     }
@@ -384,34 +392,36 @@ class ChargesUtil {
                         }
                         if ($periodIsInPresent) {
                             // We should take in place only ChargeEntries which are actual now
-                            if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED ||
-                              $chargeEntry->CE_status == ChargeEntry::STATUS_PENDING ||
-                              $chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE) {
+                            if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED
+                                || $chargeEntry->CE_status == ChargeEntry::STATUS_PENDING
+                                || $chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE
+                            ) {
 
                                 // If chargeEntry is finished, pending or free, it should be enabled
                                 $actualEntryToBeEnabled &= true;
-                            } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS) {
+                            } elseif ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS) {
 
                                 // If chargeEntry is pending with insufficient funds and in tolerance margin it should be enabled
                                 $actualEntryToBeEnabled &= ($chargeEntry->CE_overdue <= $charge->CH_tolerance);
-                            } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_DISABLED) {
+                            } elseif ($chargeEntry->CE_status == ChargeEntry::STATUS_DISABLED) {
 
                                 // If chargeEntry is ignored/disabled it should be disabled
                                 $actualEntryToBeEnabled &= false;
                             }
                         } else {
                             //proceed sequence of charge entries
-                            if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED ||
-                              $chargeEntry->CE_status == ChargeEntry::STATUS_PENDING ||
-                              $chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE) {
+                            if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED
+                                || $chargeEntry->CE_status == ChargeEntry::STATUS_PENDING
+                                || $chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE
+                            ) {
 
                                 // If chargeEntry is finished, pending or free it is clear sequence
                                 $sequencePayed &= true;
-                            } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_DISABLED) {
+                            } elseif ($chargeEntry->CE_status == ChargeEntry::STATUS_DISABLED) {
 
                                 // if chargeEntry is disabled it is clean sequence
                                 $sequencePayed &= true;
-                            } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS) {
+                            } elseif ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS) {
 
                                 // If chargeEntry is pending with insufficient funds and in tolerance margin is is clear sequence, otherwise not
                                 $sequencePayed &= ($chargeEntry->CE_overdue <= $charge->CH_tolerance);
@@ -430,11 +440,11 @@ class ChargesUtil {
                 if ($chargeIsInPresent) {
                     if ($hasCharge->HC_status == HasCharge::STATUS_FORCE_ENABLED) {
                         $newActualState = HasCharge::ACTUALSTATE_ENABLED;
-                    } else if ($hasCharge->HC_status == HasCharge::STATUS_FORCE_DISABLED) {
+                    } elseif ($hasCharge->HC_status == HasCharge::STATUS_FORCE_DISABLED) {
                         $newActualState = HasCharge::ACTUALSTATE_DISABLED;
-                    } else if (!count($chargeEntries)) {
+                    } elseif (!count($chargeEntries)) {
                         $newActualState = HasCharge::ACTUALSTATE_DISABLED;
-                    } else if ($hasCharge->HC_status == HasCharge::STATUS_ENABLED) {
+                    } elseif ($hasCharge->HC_status == HasCharge::STATUS_ENABLED) {
                         if ($sequencePayed && $actualEntryToBeEnabled) {
                             $newActualState = HasCharge::ACTUALSTATE_ENABLED;
                         } else {
@@ -451,12 +461,12 @@ class ChargesUtil {
                     } catch (Exception $e) {
                         $msg = "Error processing HasCharge: " . $e->getMessage();
                         $this->_messages[] = $msg;
-                        $database->log($msg, LOG::LEVEL_ERROR);
+                        $database->log($msg, Log::LEVEL_ERROR);
                     }
                 }
             }
-        } else if ($person->PE_status == Person::STATUS_PASSIVE ||
-          $person->PE_status == Person::STATUS_DISCARTED) {
+        } elseif ($person->PE_status == Person::STATUS_PASSIVE || $person->PE_status == Person::STATUS_DISCARTED
+        ) {
 
             foreach ($hasCharges as $hasCharge) {
                 if ($hasCharge->HC_actualstate != HasCharge::ACTUALSTATE_DISABLED) {
@@ -467,8 +477,8 @@ class ChargesUtil {
         }
     }
 
-    public function getMessages() {
+    public function getMessages()
+    {
         return $this->_messages;
     }
 } // End of ChargesUtil class
-?>

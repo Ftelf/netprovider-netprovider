@@ -402,12 +402,12 @@ function saveNetworkDevice($task) {
         case 'apply':
             $msg = sprintf(_("Network device '%s' updated"), $networkDevice->ND_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDevice->ND_networkdeviceid&hidemainmenu=1");
         case 'save':
             $msg = sprintf(_("Network device '%s' saved"), $networkDevice->ND_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         default:
             Core::redirect("index2.php?option=com_networkdevice");
     }
@@ -437,7 +437,7 @@ function removeNetworkDevice($cid) {
 
             $msg = sprintf(_("Network device '%s' deleted"), $networkDevice->ND_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         }
         Core::redirect("index2.php?option=com_networkdevice");
     }
@@ -488,12 +488,12 @@ function saveNetworkDeviceNetwork($task) {
         case 'applyNetwork':
             $msg = sprintf(_("Network device network '%s' updated for network device %s"), $network->NE_net, $networkDevice->ND_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_networkdevice&task=editNetwork&MN_hasmanagednetworkid=$hasManagedNetwork->MN_hasmanagednetworkid&hidemainmenu=1");
         case 'saveNetwork':
             $msg = sprintf(_("Network device network '%s' saved for network device %s"), $network->NE_net, $networkDevice->ND_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         default:
             Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$hasManagedNetwork->MN_networkdeviceid&hidemainmenu=1");
     }
@@ -512,7 +512,7 @@ function removeNetworkDeviceNetwork($nnid) {
 
         $msg = sprintf(_("Network device managed network '%s' for network device '%s' deleted"), $network->NE_net, $networkDevice->ND_name);
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_INFO);
+        $database->log($msg, Log::LEVEL_INFO);
     }
 
     Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDevice->ND_networkdeviceid&hidemainmenu=1");
@@ -559,12 +559,12 @@ function saveNetworkDeviceInterface($task) {
         case 'applyInterface':
             $msg = sprintf(_("Network interface '%s' updated"), $networkDeviceInterface->NI_ifname);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_networkdevice&task=editInterface&ND_networkdeviceid=$networkDeviceInterface->NI_networkdeviceid&NI_networkdeviceinterfaceid=$networkDeviceInterface->NI_networkdeviceinterfaceid&hidemainmenu=1");
         case 'saveInterface':
             $msg = sprintf(_("Network interface '%s' saved"), $networkDeviceInterface->NI_ifname);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         default:
             Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDeviceInterface->NI_networkdeviceid&hidemainmenu=1");
     }
@@ -581,7 +581,7 @@ function removeNetworkDeviceInterface($iid) {
 
         $msg = sprintf(_("Network interface '%s' for network device '%s' deleted"), $networkDeviceInterface->NI_ifname, $networkDevice->ND_name);
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_INFO);
+        $database->log($msg, Log::LEVEL_INFO);
     }
 
     Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDevice->ND_networkdeviceid&hidemainmenu=1");
@@ -626,12 +626,12 @@ function saveNetworkDeviceWirelessInterface($task) {
         case 'applyWirelessInterface':
             $msg = sprintf(_("Network wireless interface '%s' updated"), $networkDeviceWirelessInterface->NW_ifname);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_networkdevice&task=editWirelessInterface&NW_networkdevicewirelessinterfaceid=$networkDeviceWirelessInterface->NW_networkdevicewirelessinterfaceid&hidemainmenu=1");
         case 'saveWirelessInterface':
             $msg = sprintf(_("Network wireless interface '%s' saved"), $networkDeviceWirelessInterface->NW_ifname);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         default:
             Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDeviceWirelessInterface->NW_networkdeviceid&hidemainmenu=1");
     }
@@ -648,7 +648,7 @@ function removeNetworkDeviceWirelessInterface($wid) {
 
         $msg = sprintf(_("Network wireless interface '%s' for network device '%s' deleted"), $networkDeviceWirelessInterface->NW_ifname, $networkDevice->ND_name);
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_INFO);
+        $database->log($msg, Log::LEVEL_INFO);
     }
 
     Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDevice->ND_networkdeviceid&hidemainmenu=1");
@@ -686,12 +686,12 @@ function saveNetworkDeviceProperty($task) {
         case 'applyProperty':
             $msg = sprintf(_("Network device property '%s' updated"), $networkDeviceProperty->NP_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_networkdevice&task=editProperty&NP_networkdevicepropertyid=$networkDeviceProperty->NP_networkdevicepropertyid&hidemainmenu=1");
         case 'saveProperty':
             $msg = sprintf(_("Network device property '%s' saved"), $networkDeviceProperty->NP_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         default:
             Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDeviceProperty->NP_networkdeviceid&hidemainmenu=1");
     }
@@ -708,7 +708,7 @@ function removeNetworkDeviceProperty($pid) {
 
         $msg = sprintf(_("Network device property '%s' for network device '%s' deleted"), $networkDeviceProperty->NP_name, $networkDevice->ND_name);
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_INFO);
+        $database->log($msg, Log::LEVEL_INFO);
     }
 
     Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDevice->ND_networkdeviceid&hidemainmenu=1");

@@ -205,7 +205,7 @@ function savePerson() {
 
     $msg = sprintf(_("User '%s' actualized his profile"), $person->PE_firstname." ".$person->PE_surname);//$msg = "Uživatel: '$person->PE_firstname $person->PE_surname' aktualizoval svůj profil";
     $appContext->insertMessage($msg);
-    $database->log($msg, LOG::LEVEL_INFO);
+    $database->log($msg, Log::LEVEL_INFO);
 
     Core::redirect("index2.php?option=com_myprofile");
 }

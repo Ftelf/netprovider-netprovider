@@ -113,12 +113,12 @@ function saveGroup($task) {
         case 'apply':
             $msg = sprintf(_("Group '%s' updated"), $group->GR_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_group&task=edit&GR_groupid=$group->GR_groupid&hidemainmenu=1");
         case 'save':
             $msg = sprintf(_("Group '%s' saved"), $group->GR_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         default:
             Core::redirect("index2.php?option=com_group");
     }
@@ -140,7 +140,7 @@ function removeGroup($cid) {
 
             if (count($persons)) {
                 $msg = sprintf(ngettext("Cannot delete user group '%s', because it has binded %s user", "Cannot delete user group '%s', because it has binded %s users", count($persons)), $group->GR_name, count($persons));
-                $database->log($msg, LOG::LEVEL_WARNING);
+                $database->log($msg, Log::LEVEL_WARNING);
                 $limit = 10;
                 foreach ($persons as $person) {
                     $msg .= "\\n'" . $person->PE_firstname . " " . $person->PE_surname . "'";
@@ -152,7 +152,7 @@ function removeGroup($cid) {
                 GroupDAO::removeGroupByID($id);
                 $msg = sprintf(_("User group '%s' deleted"), $group->GR_name);
                 $appContext->insertMessage($msg);
-                $database->log($msg, LOG::LEVEL_INFO);
+                $database->log($msg, Log::LEVEL_INFO);
             }
         }
         Core::redirect("index2.php?option=com_group");

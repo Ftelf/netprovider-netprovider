@@ -147,7 +147,7 @@ class EmailBankAccountList {
 
                 $msg = "V databázi chybí výpis mezi: {$previousListName->EL_name} a {$listName->EL_name}";
                 $this->_messages[] = $msg;
-                $database->log($msg, LOG::LEVEL_ERROR);
+                $database->log($msg, Log::LEVEL_ERROR);
 
                 if ($core->getProperty(Core::SEND_EMAIL_ON_CRITICAL_ERROR)) {
                     $emailUtil = new EmailUtil();
@@ -182,7 +182,7 @@ class EmailBankAccountList {
         } else {
             $msg = "List: neplatný název přílohy: '{$filename}'";
             $this->_messages[] = $msg;
-            $database->log($msg, LOG::LEVEL_ERROR);
+            $database->log($msg, Log::LEVEL_ERROR);
         }
 
         $this->checkAndStoreEmailList($filename, $emailList, $isAlreadyPersisted);
@@ -190,7 +190,7 @@ class EmailBankAccountList {
         if ($isAlreadyPersisted) {
             $msg = "Výpis: '{$emailList->EL_name}' je již uložen v databázi";
             $this->_messages[] = $msg;
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         }
     }
     /**
@@ -215,7 +215,7 @@ class EmailBankAccountList {
                     $database->updateObject("emaillist", $emailList, "EL_emaillistid", false, false);
                     $msg = "Výpis $emailList->EL_name nemohl být zpársován";
                     $this->_messages[] = $msg;
-                    $database->log($msg, LOG::LEVEL_ERROR);
+                    $database->log($msg, Log::LEVEL_ERROR);
                     continue;
                 }
                 $parsedList = $bankParserFactory->getDocument();
@@ -234,7 +234,7 @@ class EmailBankAccountList {
 
                     $msg = "Položky výpisu $emailList->EL_name úspěšně importovány";
                     $this->_messages[] = $msg;
-                    $database->log($msg, LOG::LEVEL_INFO);
+                    $database->log($msg, Log::LEVEL_INFO);
                 } catch (Exception $e) {
                     $database->rollback();
                     $emailList->EL_status = EmailList::STATUS_ERROR;
@@ -242,7 +242,7 @@ class EmailBankAccountList {
 
                     $msg = "ERROR: Položky výpisu $emailList->EL_name nebyly importovány: " . $e->getMessage();
                     $this->_messages[] = $msg;
-                    $database->log($msg, LOG::LEVEL_ERROR);
+                    $database->log($msg, Log::LEVEL_ERROR);
                 }
             }
         }
@@ -262,7 +262,7 @@ class EmailBankAccountList {
         } else {
             $msg = "List: neplatný název přílohy: '{$filename}'";
             $this->_messages[] = $msg;
-            $database->log($msg, LOG::LEVEL_WARNING);
+            $database->log($msg, Log::LEVEL_WARNING);
             return false;
         }
 
@@ -288,7 +288,7 @@ class EmailBankAccountList {
         } else {
             $msg = "List: neplatný název přílohy: '{$filename}'";
             $this->_messages[] = $msg;
-            $database->log($msg, LOG::LEVEL_ERROR);
+            $database->log($msg, Log::LEVEL_ERROR);
             return false;
         }
 
@@ -306,7 +306,7 @@ class EmailBankAccountList {
             if (!$this->unzipFile($fileContent, $filename, $emailList->EL_list, $emailList->EL_name)) {
                 $msg = "List: Cannot unzip file: '{$filename}'";
                 $this->_messages[] = $msg;
-                $database->log($msg, LOG::LEVEL_ERROR);
+                $database->log($msg, Log::LEVEL_ERROR);
                 return false;
             }
             $accountNumber = $matches[1];
@@ -323,7 +323,7 @@ class EmailBankAccountList {
         } else {
             $msg = "List: neplatný název přílohy: '{$filename}'";
             $this->_messages[] = $msg;
-            $database->log($msg, LOG::LEVEL_ERROR);
+            $database->log($msg, Log::LEVEL_ERROR);
             return false;
         }
 
@@ -347,7 +347,7 @@ class EmailBankAccountList {
 
         if ($msg) {
             $this->_messages[] = $msg;
-            $database->log($msg, LOG::LEVEL_ERROR);
+            $database->log($msg, Log::LEVEL_ERROR);
             return false;
         }
 
@@ -383,7 +383,7 @@ class EmailBankAccountList {
         } catch (Exception $e) {
             $msg = "Výpis: {$emailList->EL_name} nemohl být zpracován, obsahuje chyby. ERROR: {$e->getMessage()}";
             $this->_messages[] = $msg;
-            $database->log($msg, LOG::LEVEL_ERROR);
+            $database->log($msg, Log::LEVEL_ERROR);
 
             if ($core->getProperty(Core::SEND_EMAIL_ON_CRITICAL_ERROR)) {
                 $emailUtil = new EmailUtil();
@@ -398,13 +398,13 @@ class EmailBankAccountList {
                 $database->insertObject("emaillist", $emailList, "EL_emaillistid", false);
                 $msg = "Výpis: {$emailList->EL_name} uložen do databáze";
                 $this->_messages[] = $msg;
-                $database->log($msg, LOG::LEVEL_INFO);
+                $database->log($msg, Log::LEVEL_INFO);
 
                 $dbNames[] = $emailList->EL_name;
             } catch (Exception $e) {
                 $msg = "Výpis: {$emailList->EL_name} nebyl uložen do databáze. ERROR: {$e->getMessage()}";
                 $this->_messages[] = $msg;
-                $database->log($msg, LOG::LEVEL_ERROR);
+                $database->log($msg, Log::LEVEL_ERROR);
             }
         }
     }
@@ -417,7 +417,7 @@ class EmailBankAccountList {
         if (endsWithCaseInsensitive($filename, '.zip') === false) {
             $msg = "Soubor nemá příponu .zip: '%{$filename}'";
             $this->_messages[] = $msg;
-            $database->log($msg, LOG::LEVEL_ERROR);
+            $database->log($msg, Log::LEVEL_ERROR);
             return false;
         }
 
@@ -443,7 +443,7 @@ class EmailBankAccountList {
 
                 $msg = "V ZIP souboru přílohy: '{$filename}' není xml výpis: '{$unzippedFilename}'";
                 $this->_messages[] = $msg;
-                $database->log($msg, LOG::LEVEL_ERROR);
+                $database->log($msg, Log::LEVEL_ERROR);
                 return false;
             }
         } else {
@@ -451,7 +451,7 @@ class EmailBankAccountList {
 
             $msg = "Nelze otevřít ZIP soubor přílohy:'{$filename}'";
             $this->_messages[] = $msg;
-            $database->log($msg, LOG::LEVEL_ERROR);
+            $database->log($msg, Log::LEVEL_ERROR);
             return false;
         }
     }

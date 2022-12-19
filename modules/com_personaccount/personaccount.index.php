@@ -227,13 +227,13 @@ function savePersonAccount($pid, $task) {
         case 'apply':
             $msg = sprintf(_("User account from user '%s' updated"), $person->PE_firstname." ".$person->PE_surname);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_personaccount&task=edit&PE_personid=$person->PE_personid&hidemainmenu=1");
             break;
         case 'save':
             $msg = sprintf(_("User account from user '%s' saved"), $person->PE_firstname." ".$person->PE_surname);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         default:
             Core::redirect("index2.php?option=com_personaccount&task=showDetail&PE_personid=$person->PE_personid&hidemainmenu=1");
             break;
@@ -304,14 +304,14 @@ function returnPayment($pid, $pnid) {
 
                 $msg = sprintf(_("User's '%s' payment with amount %s and date %s has been removed"), $person->PE_firstname." ".$person->PE_surname, $personAccountEntry->PN_amount, $date->getFormattedDate(DateUtil::FORMAT_DATE));
                 $appContext->insertMessage($msg);
-                $database->log($msg, LOG::LEVEL_INFO);
+                $database->log($msg, Log::LEVEL_INFO);
             }
 
             $dateTime = new DateUtil($bankAccountEntry->BE_datetime);
 
             $msg = sprintf(_("Bank entry %s %s %s %s amount %s returned to process"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $bankAccountEntry->BE_accountnumber."/".$bankAccountEntry->BE_banknumber, $bankAccountEntry->BE_accountname, $bankAccountEntry->BE_message, $bankAccountEntry->BE_amount);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         } else if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_CASH) {
             $personAccount = PersonAccountDAO::getPersonAccountByID($personAccountEntry->PN_personaccountid);
 
@@ -325,7 +325,7 @@ function returnPayment($pid, $pnid) {
 
             $msg = sprintf(_("User's '%s' payment with amount %s and date %s has been removed"), $person->PE_firstname." ".$person->PE_surname, $personAccountEntry->PN_amount, $date->getFormattedDate(DateUtil::FORMAT_DATE));
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         } else if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_DISCOUNT) {
             $personAccount = PersonAccountDAO::getPersonAccountByID($personAccountEntry->PN_personaccountid);
 
@@ -338,7 +338,7 @@ function returnPayment($pid, $pnid) {
 
             $msg = sprintf(_("User's '%s' payment with amount %s and date %s has been removed"), $person->PE_firstname." ".$person->PE_surname, $personAccountEntry->PN_amount, $date->getFormattedDate(DateUtil::FORMAT_DATE));
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         }
         $database->commit();
     } catch (Exception $e) {
@@ -383,7 +383,7 @@ function freeCharge($ceid) {
 
     $msg = sprintf(_("User's '%s' payment '%s' for period %s was excused"), $person->PE_firstname." ".$person->PE_surname, $charge->CH_name, $period->getFormattedDate($format));
     $appContext->insertMessage($msg);
-    $database->log($msg, LOG::LEVEL_INFO);
+    $database->log($msg, Log::LEVEL_INFO);
 
     Core::redirect("index2.php?option=com_personaccount&task=showDetail&PE_personid=$hasCharge->HC_personid&hidemainmenu=1");
 }
@@ -422,7 +422,7 @@ function ignoreCharge($ceid) {
 
     $msg = sprintf(_("User's '%s' payment '%s' for period %s is ignored"), $person->PE_firstname." ".$person->PE_surname, $charge->CH_name, $period->getFormattedDate($format));
     $appContext->insertMessage($msg);
-    $database->log($msg, LOG::LEVEL_INFO);
+    $database->log($msg, Log::LEVEL_INFO);
 
     Core::redirect("index2.php?option=com_personaccount&task=showDetail&PE_personid=$hasCharge->HC_personid&hidemainmenu=1");
 }
@@ -470,7 +470,7 @@ function removeCharge($ceid) {
 
     $msg = sprintf(_("User's '%s' payment '%s' for period %s was removed"), $person->PE_firstname." ".$person->PE_surname, $charge->CH_name, $period->getFormattedDate($format));
     $appContext->insertMessage($msg);
-    $database->log($msg, LOG::LEVEL_INFO);
+    $database->log($msg, Log::LEVEL_INFO);
 
     Core::redirect("index2.php?option=com_personaccount&task=showDetail&PE_personid=$hasCharge->HC_personid&hidemainmenu=1");
 }
@@ -543,7 +543,7 @@ function savePersonAccountEntry($pid, $task) {
         default:
             $msg = sprintf(_("User's '%s' account was benefited with money amount '%s'"), $person->PE_firstname." ".$person->PE_surname, $personAccountEntry->PN_amount);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
 
             Core::redirect("index2.php?option=com_personaccount&task=showDetail&PE_personid=$person->PE_personid&hidemainmenu=1");
             break;

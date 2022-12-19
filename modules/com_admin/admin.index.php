@@ -56,11 +56,11 @@ function force_logout($sid) {
             SessionDAO::removeSessionByID($sid);
             $msg = sprintf(_("User '%s' was forcelly logged out"), $session->SE_username);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         } catch (Exception $e) {
             $msg = sprintf(_("User '%s' wasn't forcelly logged out, probably was logged out itself"), $session->SE_username);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_WARNING);
+            $database->log($msg, Log::LEVEL_WARNING);
         }
     }
     Core::redirect("index2.php?option=com_admin");

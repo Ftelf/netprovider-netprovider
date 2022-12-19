@@ -119,7 +119,7 @@ class HTML_log {
         <select name="filter[log_level]" size="1" onchange="document.adminForm.submit( );">
         <option value="0" <?php if ($filter['log_level'] == -1) echo ' selected="selected"';?>><?php echo _("- Log level -"); ?></option>
 <?php
-	foreach (LOG::$LEVEL_ARRAY as $logLevel) {
+	foreach (Log::$LEVEL_ARRAY as $logLevel) {
 		echo '<option value="' . $logLevel . '"'; if ($filter['log_level'] == $logLevel) echo ' selected="selected"'; echo ">".Log::getLocalizedLevel($logLevel)."</option>";
 	}
 ?>

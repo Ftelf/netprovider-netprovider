@@ -89,7 +89,7 @@ function showNetwork() {
         // Validate all ip if does not match right subnet, then quietly log
         // DEBUG
         if (!$ipv4->ipInNetwork($ip->IP_address, $allNetworks[$ip->IP_networkid]->NE_net)) {
-            $database->log("ERROR: IPID '$ip->IP_ipid' IP '$ip->IP_address' nepatří do sítě ID '" . $allNetworks[$ip->IP_networkid]->NE_networkid . "' síť '" . $allNetworks[$ip->IP_networkid]->NE_net . "'", LOG::LEVEL_ERROR);
+            $database->log("ERROR: IPID '$ip->IP_ipid' IP '$ip->IP_address' nepatří do sítě ID '" . $allNetworks[$ip->IP_networkid]->NE_networkid . "' síť '" . $allNetworks[$ip->IP_networkid]->NE_net . "'", Log::LEVEL_ERROR);
         }
     }
 
@@ -176,20 +176,20 @@ function sendMessage() {
             $commonMessage = "$person->PE_firstname $person->PE_surname <$person->PE_tel> SMS: \"$message\"";
             if ($xml->getName() === "status") {
                 $logMessage = "$commonMessage chyba: $xml->message";
-                $database->log($logMessage, LOG::LEVEL_ERROR);
+                $database->log($logMessage, Log::LEVEL_ERROR);
                 $appContext->insertMessage($logMessage);
                 continue;
             }
 
             if ($xml->getName() === "messages") {
                 $logMessage = "$commonMessage odesláno";
-                $database->log($logMessage, LOG::LEVEL_INFO);
+                $database->log($logMessage, Log::LEVEL_INFO);
                 $appContext->insertMessage($logMessage);
                 continue;
             }
 
             $logMessage = "$commonMessage neznámá chyba při odesílání: $result";
-            $database->log($logMessage, LOG::LEVEL_ERROR);
+            $database->log($logMessage, Log::LEVEL_ERROR);
             $appContext->insertMessage($logMessage);
         }
     }

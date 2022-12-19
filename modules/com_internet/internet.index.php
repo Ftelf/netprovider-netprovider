@@ -116,12 +116,12 @@ function saveInternet($task) {
         case 'apply':
             $msg = sprintf(_("Internet template '%s' updated"), $internet->IN_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_internet&task=edit&IN_internetid=$internet->IN_internetid&hidemainmenu=1");
         case 'save':
             $msg = sprintf(_("Internet template '%s' saved"), $internet->IN_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         default:
             Core::redirect("index2.php?option=com_internet");
     }
@@ -143,7 +143,7 @@ function removeInternet($cid) {
 
             if (count($internetCharges)) {
                 $msg = sprintf(ngettext("Cannot delete internet template '%s', because it has bound %s payment service: ", "Cannot delete internet template '%s', because it has bound %s payment services: ", count($internetCharges)), $internet->IN_name, count($internetCharges));
-                $database->log($msg, LOG::LEVEL_WARNING);
+                $database->log($msg, Log::LEVEL_WARNING);
                 $limit = 3;
                 $names = array_column(array_slice($internetCharges, 0, $limit), 'CH_name');
                 if (count($internetCharges) > $limit) {
@@ -156,7 +156,7 @@ function removeInternet($cid) {
                 InternetDAO::removeInternetByID($id);
                 $msg = sprintf(_("Internet template '%s' deleted"), $internet->IN_name);
                 $appContext->insertMessage($msg);
-                $database->log($msg, LOG::LEVEL_INFO);
+                $database->log($msg, Log::LEVEL_INFO);
             }
         }
         Core::redirect("index2.php?option=com_internet");

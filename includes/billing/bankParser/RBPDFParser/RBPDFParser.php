@@ -21,7 +21,7 @@ require_once($core->getAppRoot() . "includes/PdfParser/Parser.php");
  * RBPDFParser class
  */
 class RBPDFParser {
-    private $fcontents = array();
+    private $fcontents = [];
     private $p;
     private $count;
 
@@ -61,15 +61,15 @@ class RBPDFParser {
     const FOOTER_1 = '^Raiffeisenbank a.s., Hvězdova 1716/2b, 140 78 Praha 4, zapsaná v OR vedeném Městským soudem v Praze, oddíl B, vložka 2051, IČO 49240901|Raiffeisenbank a.s. , Hvězdova 1716/2b • PO box 64 • 140 78 Praha 4 • tel.: 800 900 900 • e-mail: info@rb.cz • web: www.rb.cz • IČ: 49240901$';
     const FOOTER_2 = '^e-mail: info@rb.cz, www.rb.cz, infolinka 800 900 900 Strana   [[:digit:]]{1,3} / [[:digit:]]{1,3}|zapsaná v obchodním rejstříku vedeném Městským soudem v Praze, sp. zn. B, 2051 Strana   [[:digit:]]{1,3} / [[:digit:]]{1,3}$';
 
-    static $KNOWN_TRANSACTION_CATEGORY_ARRAY = array(
+    static $KNOWN_TRANSACTION_CATEGORY_ARRAY = [
         0  => 'Platba',
         1  => 'Poplatek',
         2  => 'Trvalá platba',
         3  => 'Platba kartou',
         4  => 'Trvalý příkaz'
-    );
+    ];
 
-    static $KNOWN_TRANSACTION_ARRAY = array(
+    static $KNOWN_TRANSACTION_ARRAY = [
         0  => 'Jiný',
         1  => 'Převod',
         2  => 'Příchozí platba',
@@ -101,7 +101,7 @@ class RBPDFParser {
         28 => 'Jednorázová úhrada',
         29 => 'Trvalý příkaz',
         30 => 'Odchozí úhrada'
-    );
+    ];
 
     /**
      * Constructor RBPDFParser
@@ -131,8 +131,8 @@ class RBPDFParser {
      */
     function parse() {
         $this->p = 0;
-        $this->document = array();
-        $this->document['LIST'] = array();
+        $this->document = [];
+        $this->document['LIST'] = [];
 
         $this->searchHeader();
 
@@ -154,17 +154,17 @@ class RBPDFParser {
                 $this->document['LIST_DATE_TO'] = $matches[7] . "-" . $matches[6] . "-" . $matches[5];
                 $this->document['YEAR'] = $matches[4];
 
-                $matches = $this->matchNextLine(self::ADDRESS_1);
-                $matches = $this->matchNextLine(self::ADDRESS_2);
-                $matches = $this->matchNextLine(self::ADDRESS_3);
+                $this->matchNextLine(self::ADDRESS_1);
+                $this->matchNextLine(self::ADDRESS_2);
+                $this->matchNextLine(self::ADDRESS_3);
 
                 $matchesAcountNumber = $this->matchNextLine(self::CISLO_UCTU);
                 $this->document['ACCOUNT_NUMBER'] = $matchesAcountNumber[1];
                 $this->document['BANK_NUMBER'] = $matchesAcountNumber[2];
                 $this->document['CURRENCY'] = $matchesAcountNumber[3];
-                $matches = $this->matchNextLine(self::NAZEV_UCTU);
-                $matches = $this->matchNextLine(self::IBAN);
-                $matches = $this->matchNextLine(self::BIC);
+                $this->matchNextLine(self::NAZEV_UCTU);
+                $this->matchNextLine(self::IBAN);
+                $this->matchNextLine(self::BIC);
 
                 break;
             }
@@ -209,7 +209,7 @@ class RBPDFParser {
 
         $bae->BE_note = "";
 
-        $categoryMatchLenghtArray = array();
+        $categoryMatchLenghtArray = [];
         foreach (self::$KNOWN_TRANSACTION_CATEGORY_ARRAY as $k => $transactionCategory) {
             if (mb_strpos($descriptionString, $transactionCategory) === 0) {
                 $categoryMatchLenghtArray[$k] = mb_strlen($transactionCategory);

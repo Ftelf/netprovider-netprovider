@@ -318,13 +318,13 @@ function saveBankAccount($task) {
         case 'applyBA':
             $msg = sprintf(_("Bank account '%s' '%s' updated"), $accountName, $accountNumber);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_bankaccount&task=editBA&BA_bankaccountid=$bankAccount->BA_bankaccountid&hidemainmenu=1");
             break;
         case 'saveBA':
             $msg = sprintf(_("Bank account '%s' '%s' saved"), $accountName, $accountNumber);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         default:
             Core::redirect("index2.php?option=com_bankaccount&task=show&BA_bankaccountid=$bankAccount->BA_bankaccountid");
             break;
@@ -395,7 +395,7 @@ function downloadBankLists($bid) {
     } catch (Exception $e) {
         $msg = "Error proceeding bank account lists: " . $e->getMessage();
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_ERROR);
+        $database->log($msg, Log::LEVEL_ERROR);
     }
     Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
 }
@@ -422,7 +422,7 @@ function processBankLists($bid) {
     } catch (Exception $e) {
         $msg = "Error importing bank account entries: " . $e->getMessage();
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_ERROR);
+        $database->log($msg, Log::LEVEL_ERROR);
     }
 
     Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
@@ -449,7 +449,7 @@ function proceedAccountEntries($bid) {
     } catch (Exception $e) {
         $msg = "Error proceeding bank account entries: " . $e->getMessage();
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_ERROR);
+        $database->log($msg, Log::LEVEL_ERROR);
     }
 
     Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
@@ -480,7 +480,7 @@ function doUploadBankLists($bid) {
     if ($_FILES['banklistFile']['type'] != $fileType) {
         $msg = "Bank list file must be in '{$fileType}' format, found: '{$_FILES['banklistFile']['type']}'";
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_ERROR);
+        $database->log($msg, Log::LEVEL_ERROR);
         Core::redirect("index2.php?option=com_bankaccount&task=uploadBankLists&BA_bankaccountid=$bid&hidemainmenu=1");
     }
 
@@ -493,7 +493,7 @@ function doUploadBankLists($bid) {
     } catch (Exception $e) {
         $msg = "Error proceeding bank account lists: {$e->getMessage()}";
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_ERROR);
+        $database->log($msg, Log::LEVEL_ERROR);
     }
 
     Core::redirect("index2.php?option=com_bankaccount&task=uploadBankLists&BA_bankaccountid=$bid&hidemainmenu=1");
@@ -617,7 +617,7 @@ function saveBankAccountEntry($task) {
                 $person = PersonDAO::getPersonByPersonAccountID($personAccount->PA_personaccountid);
                 $msg = sprintf(_("Bank entry %s %s %s %s amount %s credited person account '%s' with %s"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $storedBankAccountEntry->BE_accountnumber."/".$storedBankAccountEntry->BE_banknumber, $storedBankAccountEntry->BE_accountname, $storedBankAccountEntry->BE_message, $storedBankAccountEntry->BE_amount, $person->PE_firstname." ".$person->PE_surname, $personAccountEntry->PN_amount);
                 $appContext->insertMessage($msg);
-                $database->log($msg, LOG::LEVEL_INFO);
+                $database->log($msg, Log::LEVEL_INFO);
             }
             $database->commit();
         } catch (Exception $e) {
@@ -632,7 +632,7 @@ function saveBankAccountEntry($task) {
         default:
             $msg = sprintf(_("Bank entry %s %s %s %s amount %s proceed"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $storedBankAccountEntry->BE_accountnumber."/".$storedBankAccountEntry->BE_banknumber, $storedBankAccountEntry->BE_accountname, $storedBankAccountEntry->BE_message, $storedBankAccountEntry->BE_amount);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_bankaccount&task=show&BA_bankaccountid=$storedBankAccountEntry->BE_bankaccountid");
             break;
     }
@@ -662,7 +662,7 @@ function saveBankAccountEntries($cid, $task) {
         $dateTime = new DateUtil($bankAccountEntry->BE_datetime);
         $msg = sprintf(_("Bank entry %s %s %s %s amount %s proceed"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $bankAccountEntry->BE_accountnumber."/".$bankAccountEntry->BE_banknumber, $bankAccountEntry->BE_accountname, $bankAccountEntry->BE_message, $bankAccountEntry->BE_amount);
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_INFO);
+        $database->log($msg, Log::LEVEL_INFO);
 
         $BA_bankaccountid = $bankAccountEntry->BE_bankaccountid;
     }
