@@ -84,7 +84,7 @@ class BankAccountEntry
     /**
      * @public integer status, default '0'
      */
-    public int $BE_status;
+    public $BE_status;
     /**
      * @public integer identifycode, default '0'
      */
