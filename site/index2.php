@@ -115,7 +115,7 @@ try {
 require $core->getAppRoot() . "modules/com_common/html_start.php";
 require $core->getAppRoot() . "modules/com_common/html_header.php";
 
-if ($my->GR_level === 0) {
+if ($my->GR_level == Group::USER) {
     $option = 'com_myprofile';
 }
 

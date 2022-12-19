@@ -13,64 +13,69 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonAccountDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
+require_once $core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonAccountDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
 
 /**
  * AccountEntryUtil
  */
-class AccountEntryUtil {
-    private $_bankAccount;
-    private $_messages;
+class AccountEntryUtil
+{
+    private BankAccount $_bankAccount;
+    private array $_messages;
 
-    public function __construct($bankAccount) {
-        $this->bankAccount = $bankAccount;
-        $this->_messages = array();
+    public function __construct($bankAccount)
+    {
+        $this->_bankAccount = $bankAccount;
+        $this->_messages = [];
     }
-    function getMessages() {
+
+    public function getMessages(): array
+    {
         return $this->_messages;
     }
-    public function proceedAccountEntries() {
+
+    public function proceedAccountEntries(): void
+    {
         global $database;
 
-        $bankAccountEntries = BankAccountEntryDAO::getBankAccountEntryArrayByBankAccountID($this->bankAccount->BA_bankaccountid);
+        $bankAccountEntries = BankAccountEntryDAO::getBankAccountEntryArrayByBankAccountID($this->_bankAccount->BA_bankaccountid);
         $persons = PersonDAO::getPersonWithAccountArray();
 
         foreach ($bankAccountEntries as $bankAccountEntry) {
+
             // Proceed only pending BankAccountEntry
-            //
             if ($bankAccountEntry->BE_status != BankAccountEntry::STATUS_PENDING) {
                 continue;
             }
-            if ($bankAccountEntry->BE_typeoftransaction == BankAccountEntry::TYPE_DIFFENTTRANSACTIONCHARGE ||
-                $bankAccountEntry->BE_typeoftransaction == BankAccountEntry::TYPE_POSITIVEINCREASE /*||
+            if ($bankAccountEntry->BE_typeoftransaction == BankAccountEntry::TYPE_DIFFENTTRANSACTIONCHARGE
+                || $bankAccountEntry->BE_typeoftransaction == BankAccountEntry::TYPE_POSITIVEINCREASE /*||
                 $bankAccountEntry->BE_typeoftransaction == BankAccountEntry::TYPE_CASHDISPENCERDRAFT ||
-                $bankAccountEntry->BE_typeoftransaction == BankAccountEntry::TYPE_BANKCARDPAYMENT*/) {
+                $bankAccountEntry->BE_typeoftransaction == BankAccountEntry::TYPE_BANKCARDPAYMENT*/
+            ) {
 
                 $bankAccountEntry->BE_identifycode = BankAccountEntry::IDENTIFY_INTERNALTRANSACTION;
                 $bankAccountEntry->BE_status = BankAccountEntry::STATUS_PROCESSED;
-                $database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", false, false);
+                $database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", false);
                 continue;
             }
             if ($bankAccountEntry->BE_variablesymbol) {
                 // try find person by variable symbol
-                //
-                foreach ($persons as &$person) {
-                    if (    $person->PE_status == Person::STATUS_ACTIVE &&
-                            $person->PA_variablesymbol && $person->PA_variablesymbol == $bankAccountEntry->BE_variablesymbol &&
-                            (!$person->PA_constantsymbol || $person->PA_constantsymbol == $bankAccountEntry->BE_constantsymbol) &&
-                            (!$person->PA_specificsymbol || $person->PA_specificsymbol == $bankAccountEntry->BE_specificsymbol) ) {
-
+                foreach ($persons as $person) {
+                    if ($person->PE_status == Person::STATUS_ACTIVE
+                        && $person->PA_variablesymbol && $person->PA_variablesymbol == $bankAccountEntry->BE_variablesymbol
+                        && (!$person->PA_constantsymbol || $person->PA_constantsymbol == $bankAccountEntry->BE_constantsymbol)
+                        && (!$person->PA_specificsymbol || $person->PA_specificsymbol == $bankAccountEntry->BE_specificsymbol)
+                    ) {
                         // this payment is for this person and variable and-or constant and-or specific symbol matches
-                        //
                         $bankAccountEntry->BE_identifycode = BankAccountEntry::IDENTIFY_PERSONACCOUNT;
                         $bankAccountEntry->BE_status = BankAccountEntry::STATUS_PROCESSED;
-                        // new incomming payment for PersonAccount;
-                        //
+
+                        // new incoming payment for PersonAccount;
                         $personAccountEntry = new PersonAccountEntry();
-                        $personAccountEntry->PN_bankaccountentryid =$bankAccountEntry->BE_bankaccountentryid;
+                        $personAccountEntry->PN_bankaccountentryid = $bankAccountEntry->BE_bankaccountentryid;
                         $personAccountEntry->PN_personaccountid = $person->PA_personaccountid;
                         $personAccountEntry->PN_date = $bankAccountEntry->BE_datetime;
                         $personAccountEntry->PN_amount = $bankAccountEntry->BE_amount;
@@ -78,28 +83,27 @@ class AccountEntryUtil {
                         $personAccountEntry->PN_comment = $bankAccountEntry->BE_message;
 
                         // Get PersonAccount from database and update balance
-                        //
                         $personAccount = PersonAccountDAO::getPersonAccountByID($person->PA_personaccountid);
                         $personAccount->PA_balance += $personAccountEntry->PN_amount;
                         $personAccount->PA_income += $personAccountEntry->PN_amount;
 
                         try {
                             $database->startTransaction();
-                            $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false, false);
+                            $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false);
+
                             // Insert PersonAccountEntry into database
-                            //
-                            $database->insertObject("personaccountentry", $personAccountEntry, "PN_personaccountentryid", false);
+                            $database->insertObject("personaccountentry", $personAccountEntry, "PN_personaccountentryid");
+
                             // Update BankAccountEntry
-                            //
                             $bankAccountEntry->BE_personaccountentryid = $personAccountEntry->PN_personaccountentryid;
-                            $database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", false, false);
+                            $database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", false);
                             $database->commit();
                             $this->_messages[] = "Platba z účtu $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, částka $bankAccountEntry->BE_amount identifikována od uživatele $person->PE_firstname $person->PE_surname";
                         } catch (Exception $e) {
                             $database->rollback();
                             $msg = "Platba z účtu $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, částka $bankAccountEntry->BE_amount identifikována od uživatele $person->PE_firstname $person->PE_surname nemohla být uložena: " . $e->getMessage();
                             $this->_messages[] = $msg;
-                            $database->log($msg, LOG::LEVEL_ERROR);
+                            $database->log($msg, Log::LEVEL_ERROR);
                         }
                     }
                 }
@@ -107,4 +111,3 @@ class AccountEntryUtil {
         }
     }
 } // End of AccountEntryUtil class
-?>

@@ -95,7 +95,7 @@ class EmailUtil {
             $database->rollback();
             $msg = "Error creating Message: " . $e->getMessage();
             $this->_messages[] = $msg;
-            $database->log($msg, LOG::LEVEL_ERROR);
+            $database->log($msg, Log::LEVEL_ERROR);
         }
     }
 

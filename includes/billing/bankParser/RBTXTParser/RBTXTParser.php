@@ -285,7 +285,7 @@ class RBTXTParser {
                 }
             }
             if (!$found) {
-                $database->log(sprintf("Line: %s, transaction type is unknown: '%s'", $this->p, $type), LOG::LEVEL_DEBUG);
+                $database->log(sprintf("Line: %s, transaction type is unknown: '%s'", $this->p, $type), Log::LEVEL_DEBUG);
 
                 $bae->BE_typeoftransaction = 0;
 //				throw new Exception(sprintf("Line: %s, transaction type is unknown: '%s'", $this->p, $type));

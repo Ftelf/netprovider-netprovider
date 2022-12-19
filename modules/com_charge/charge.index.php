@@ -162,12 +162,12 @@ function saveCharge($task) {
         case 'apply':
             $msg = sprintf(_("Payment template '%s' updated"), $charge->CH_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_charge&task=edit&CH_chargeid=$charge->CH_chargeid&hidemainmenu=1");
         case 'save':
             $msg = sprintf(_("Payment template '%s' saved"), $charge->CH_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         default:
             Core::redirect("index2.php?option=com_charge");
     }
@@ -189,7 +189,7 @@ function removeCharge($cid) {
 
             if (count($hasCharges)) {
                 $msg = sprintf(ngettext("Cannot delete payment template '%s', because it has binded %s payment", "Cannot delete payment template '%s', because it has binded %s payments", count($hasCharges)), $charge->CH_name, count($hasCharges));
-                $database->log($msg, LOG::LEVEL_WARNING);
+                $database->log($msg, Log::LEVEL_WARNING);
                 $limit = 10;
                 foreach ($hasCharges as $hasCharge) {
                     $msg .= "\\n'" . $hasCharge->PE_firstname . " " . $hasCharge->PE_surname . "'";
@@ -201,7 +201,7 @@ function removeCharge($cid) {
                 ChargeDAO::removeChargeByID($id);
                 $msg = sprintf(_("Payment template '%s' deleted"), $charge->CH_name);
                 $appContext->insertMessage($msg);
-                $database->log($msg, LOG::LEVEL_INFO);
+                $database->log($msg, Log::LEVEL_INFO);
             }
         }
         Core::redirect("index2.php?option=com_charge");

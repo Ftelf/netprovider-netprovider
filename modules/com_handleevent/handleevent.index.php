@@ -128,12 +128,12 @@ function saveHandleEvent($task) {
         case 'apply':
             $msg = sprintf(_("Event handler '%s' updated"), $handleEvent->HE_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_handleevent&task=edit&HE_handleeventid=$handleEvent->HE_handleeventid&hidemainmenu=1");
         case 'save':
             $msg = sprintf(_("Event handler '%s' saved"), $handleEvent->HE_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         default:
             Core::redirect("index2.php?option=com_handleevent");
     }
@@ -154,7 +154,7 @@ function removeHandleEvent($cid) {
             HandleEventDAO::removeHandleEventByID($id);
             $msg = sprintf(_("Event handler '%s' deleted"), $handleEvent->HE_name);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         }
         Core::redirect("index2.php?option=com_handleevent");
     }

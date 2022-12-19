@@ -13,29 +13,33 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "includes/tables/BankAccountEntry.php");
+require_once $core->getAppRoot() . "includes/tables/BankAccountEntry.php";
 
 /**
  * IsoSepaXmlParser
  */
-class IsoSepaXmlParser {
+class IsoSepaXmlParser
+{
     private $xml = null;
 
     /**
      * Constructor IsoSepaXmlParser
-     * @param String $content plain text with list
+     *
+     * @param String $xml plain text with list
      */
-    public function __construct($xml) {
+    public function __construct($xml)
+    {
         $this->xml = $xml;
 
-        $this->document = array();
-        $this->document['LIST'] = array();
+        $this->document = [];
+        $this->document['LIST'] = [];
     }
 
     /**
      * implementation of parse method
      */
-    function parse() {
+    public function parse(): void
+    {
         $document = new SimpleXMLElement($this->xml);
 
         $nss = $document->getDocNamespaces();
@@ -50,19 +54,22 @@ class IsoSepaXmlParser {
         $this->parseBkToCstmrStmtElement($this->getChild($document, 'BkToCstmrStmt'));
     }
 
-    function parseBkToCstmrStmtElement($bkToCstmrStmtElement) {
+    private function parseBkToCstmrStmtElement($bkToCstmrStmtElement): void
+    {
         $this->parseGrpHdrElement($this->getChild($bkToCstmrStmtElement, 'GrpHdr'));
         $this->parseStmtElement($this->getChild($bkToCstmrStmtElement, 'Stmt'));
     }
 
-    function parseGrpHdrElement($grpHdr) {
+    private function parseGrpHdrElement($grpHdr): void
+    {
         $listPeriod = $this->getTextValue($grpHdr, 'AddtlInf');
         if (strcmp($listPeriod, 'Denní') !== 0) {
             throw new Exception("This is not a daily list");
         }
     }
 
-    function parseStmtElement($stmtElement) {
+    private function parseStmtElement($stmtElement): void
+    {
         $this->document['LIST_NO'] = $this->getNumberValue($stmtElement, 'LglSeqNb');
         $this->document['IBAN'] = $this->getTextValue($stmtElement, ['Acct', 'Id', 'IBAN']);
         $this->document['CURRENCY'] = $this->getTextValue($stmtElement, ['Acct', 'Ccy']);
@@ -85,7 +92,8 @@ class IsoSepaXmlParser {
         }
     }
 
-    function parseNtryElement($ntryElement) {
+    private function parseNtryElement($ntryElement): void
+    {
         $bankAccountEntry = new BankAccountEntry();
 
         $bankAccountEntry->BE_charge = 0;
@@ -96,14 +104,14 @@ class IsoSepaXmlParser {
         if (strcmp($creditDebitIndicator, 'CRDT') == 0) {
             $bankAccountEntry->BE_typeoftransaction = BankAccountEntry::TYPE_INCOMEPAYMENT;
             $bankAccountEntry->BE_amount = number_format(floatval($amount), 2, '.', '');
-        } else if (strcmp($creditDebitIndicator, 'DBIT') == 0) {
+        } elseif (strcmp($creditDebitIndicator, 'DBIT') == 0) {
             $bankAccountEntry->BE_typeoftransaction = BankAccountEntry::TYPE_TRANSACTION;
             $bankAccountEntry->BE_amount = number_format(-floatval($amount), 2, '.', '');
         } else {
             throw new Exception("Unknown CdtDbtInd");
         }
 
-//        $currency = $this->getAttributeTextValue($ntryElement, 'Amt', 'Ccy');
+        //        $currency = $this->getAttributeTextValue($ntryElement, 'Amt', 'Ccy');
 
         $bankAccountEntry->BE_writeoff_date = $this->getDateTimeValue($ntryElement, ['BookgDt', 'DtTm']);
         $bankAccountEntry->BE_datetime = $this->getDateTimeValue($ntryElement, ['ValDt', 'DtTm']);
@@ -114,7 +122,8 @@ class IsoSepaXmlParser {
         $this->document['LIST'][] = $bankAccountEntry;
     }
 
-    function parseTxDtlsElement($txDtlsElement, $bankAccountEntry) {
+    private function parseTxDtlsElement($txDtlsElement, $bankAccountEntry): void
+    {
         $bankAccountEntry->BE_variablesymbol = $this->getTextValue($txDtlsElement, ['Refs', 'EndToEndId'], true);
         $bankAccountEntry->BE_constantsymbol = $this->getTextValue($txDtlsElement, ['Refs', 'InstrId'], true);
         $bankAccountEntry->BE_specificsymbol = $this->getTextValue($txDtlsElement, ['Refs', 'PmtInfId'], true);
@@ -146,7 +155,8 @@ class IsoSepaXmlParser {
         }
     }
 
-    function getChild($parentElement, $elements, $optional = false, $message = '') {
+    private function getChild($parentElement, $elements, $optional = false, $message = '')
+    {
         if (is_array($elements) && count($elements) < 1) {
             throw new Exception("Invalid call parameter, {$message}");
         }
@@ -179,7 +189,8 @@ class IsoSepaXmlParser {
         return $parentElement->$elements;
     }
 
-    function getSingleChild($parentElement, $element) {
+    private function getSingleChild($parentElement, $element)
+    {
         if (!($parentElement instanceof SimpleXMLElement) || $parentElement->count() != 1 || !isset($parentElement->$element)) {
             throw new Exception("Missing or extra <$element> element in parent <$parentElement>");
         }
@@ -187,7 +198,8 @@ class IsoSepaXmlParser {
         return $parentElement->$element;
     }
 
-    function getTextValue($parentElement, $elements, $optional = false, $message = '') {
+    private function getTextValue($parentElement, $elements, $optional = false, $message = '')
+    {
         $child = $this->getChild($parentElement, $elements, $optional, $message);
 
         if ($optional && $child === null) {
@@ -201,7 +213,8 @@ class IsoSepaXmlParser {
         return $child->__toString();
     }
 
-    function getNumberValue($parentElement, $element, $optional = false, $message = '') {
+    private function getNumberValue($parentElement, $element, $optional = false, $message = '')
+    {
         $textValue = $this->getTextValue($parentElement, $element, $optional, $message);
 
         if ($optional && $textValue === null) {
@@ -215,7 +228,8 @@ class IsoSepaXmlParser {
         }
     }
 
-    function getDateTimeValue($parentElement, $element, $optional = false, $message = '') {
+    private function getDateTimeValue($parentElement, $element, $optional = false, $message = '')
+    {
         $textValue = $this->getTextValue($parentElement, $element, $optional, $message);
 
         if ($optional && $textValue === null) {
@@ -230,7 +244,8 @@ class IsoSepaXmlParser {
         return $dateTime->format('Y-m-d H:i:s');
     }
 
-    function getAttributeTextValue($parentElement, $elements, $attributeName, $optional = false, $message = '') {
+    private function getAttributeTextValue($parentElement, $elements, $attributeName, $optional = false, $message = '')
+    {
         $child = $this->getChild($parentElement, $elements, $optional, $message);
 
         if ($optional && $child === null) {
@@ -254,10 +269,11 @@ class IsoSepaXmlParser {
 
     /**
      * implementation of getDocument method
+     *
      * @return array
      */
-    function getDocument() {
+    public function getDocument()
+    {
         return $this->document;
     }
 } // End of IsoSepaXmlParser class
-?>

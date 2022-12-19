@@ -289,12 +289,12 @@ function savePerson($task) {
         case 'apply':
             $msg = sprintf(_("User '%s' updated"), $person->PE_firstname." ".$person->PE_surname);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_person&task=edit&PE_personid=$person->PE_personid&hidemainmenu=1");
         case 'save':
             $msg = sprintf(_("User '%s' saved"), $person->PE_firstname." ".$person->PE_surname);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         default:
             Core::redirect("index2.php?option=com_person");
     }
@@ -318,7 +318,7 @@ function removePerson($cid) {
 
             if (count($networks)) {
                 $msg = sprintf(ngettext("Cannot delete user '%s' beacause it has associated %s network", "Cannot delete user '%s' beacause it has associated %s networks", count($networks)), $person->PE_firstname." ".$person->PE_surname, count($networks));
-                $database->log($msg, LOG::LEVEL_WARNING);
+                $database->log($msg, Log::LEVEL_WARNING);
                 $limit = 10;
                 foreach ($networks as $network) {
                     $msg .= "\\n'" . $network->NE_net . "'";
@@ -332,7 +332,7 @@ function removePerson($cid) {
 
             if (count($personAccountEntries)) {
                 $msg = sprintf(ngettext("Cannot delete user '%s' beacause it has associated %s account entry", "Cannot delete user '%s' beacause it has associated %s account entries", count($personAccountEntries)), $person->PE_firstname." ".$person->PE_surname, count($personAccountEntries));
-                $database->log($msg, LOG::LEVEL_WARNING);
+                $database->log($msg, Log::LEVEL_WARNING);
                 $limit = 10;
                 foreach ($personAccountEntries as $personAccountEntry) {
                     $msg .= "\\n'" . $personAccountEntry->PN_date . " částka " . $personAccountEntry->PN_amount . "'";
@@ -377,7 +377,7 @@ function removePerson($cid) {
             }
             $msg = sprintf(_("User '%s' deleted"), $person->PE_firstname." ".$person->PE_surname);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         }
     }
     Core::redirect("index2.php?option=com_person");
@@ -408,7 +408,7 @@ function addRole($pid, $rid) {
         $database->insertObject("rolemember", $rolemember, "RM_rolememberid", false);
         $msg = sprintf(_("Role '%s' has been added to user '%s'"), $role->RO_name, $person->PE_surname." ".$person->PE_firstname);
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_INFO);
+        $database->log($msg, Log::LEVEL_INFO);
     }
 
     Core::redirect("index2.php?option=com_person&task=edit&PE_personid=$pid&hidemainmenu=1");
@@ -432,7 +432,7 @@ function removeRole($pid, $rmid) {
         RolememberDAO::removeRolemembersByID($rmid);
         $msg = sprintf(_("Role '%s' has been removed from user '%s'"), $role->RO_name, $person->PE_surname." ".$person->PE_firstname);
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_INFO);
+        $database->log($msg, Log::LEVEL_INFO);
     }
 
     Core::redirect("index2.php?option=com_person&task=edit&PE_personid=$pid&hidemainmenu=1");
@@ -520,7 +520,7 @@ function removeHasCharge($hcid=null) {
 
     $msg = sprintf(_("Charge '%s' has been removed from user '%s'"), $charge->CH_name, $person->PE_surname." ".$person->PE_firstname);
     $appContext->insertMessage($msg);
-    $database->log($msg, LOG::LEVEL_INFO);
+    $database->log($msg, Log::LEVEL_INFO);
 
     Core::redirect(sprintf("index2.php?option=com_person&task=edit&PE_personid=%s&hidemainmenu=1", $hasCharge->HC_personid));
 }
@@ -606,13 +606,13 @@ function saveHasCharge($task) {
             $msg = sprintf(_("Payment '%s' has been actualized for user '%s'"), $storedCharge->CH_name, "$person->PE_surname $person->PE_firstname");
             $appContext->insertMessage($msg);
             $appContext->insertMessages($chargesUtil->getMessages());
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_person&hidemainmenu=1&task=editHasCharge&PE_personid=$hasCharge->HC_personid&HC_haschargeid=$hasCharge->HC_haschargeid");
         case 'saveHasCharge':
             $msg = sprintf(_("Payment '%s' has been saved for user '%s'"), $storedCharge->CH_name, "$person->PE_surname $person->PE_firstname");
             $appContext->insertMessage($msg);
             $appContext->insertMessages($chargesUtil->getMessages());
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_person&hidemainmenu=1&task=edit&PE_personid=$hasCharge->HC_personid");
         default:
             Core::redirect("index2.php?option=com_person");

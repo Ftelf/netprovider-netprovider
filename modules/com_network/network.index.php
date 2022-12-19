@@ -133,7 +133,7 @@ function showNetwork() {
         // Validate all ip if does not match right subnet, then quietly log
         // DEBUG
         if (!$ipv4->ipInNetwork($ip->IP_address, $allNetworks[$ip->IP_networkid]->NE_net)) {
-            $database->log("ERROR: IPID '$ip->IP_ipid' IP '$ip->IP_address' nepatří do sítě ID '" . $allNetworks[$ip->IP_networkid]->NE_networkid . "' síť '" . $allNetworks[$ip->IP_networkid]->NE_net . "'", LOG::LEVEL_ERROR);
+            $database->log("ERROR: IPID '$ip->IP_ipid' IP '$ip->IP_address' nepatří do sítě ID '" . $allNetworks[$ip->IP_networkid]->NE_networkid . "' síť '" . $allNetworks[$ip->IP_networkid]->NE_net . "'", Log::LEVEL_ERROR);
         }
     }
     // sort ips for each network
@@ -203,7 +203,7 @@ function showNetwork() {
         $flags['net_edit'] = true;
         $flags['net_delete'] = true;
     } else {
-        $database->log("ERROR: mod_network, nedefinovaný stav u sítě ID '$nid' síť '$selectedNetwork->NE_net'", LOG::LEVEL_ERROR);
+        $database->log("ERROR: mod_network, nedefinovaný stav u sítě ID '$nid' síť '$selectedNetwork->NE_net'", Log::LEVEL_ERROR);
         Core::redirect("index2.php");
     }
     // new IP can be added only to leaf network and if there is any room left
@@ -259,7 +259,7 @@ function editIP($ipid=null, $nid) {
     if (!NetworkDAO::isLeafNetwork($nid)) {
         $msg = "ERROR: mod_network, pokus o otevření editIP a vložení nové IP adresy do ne-leaf sítě ID '$nid' síť '$network->NE_net'";
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_ERROR);
+        $database->log($msg, Log::LEVEL_ERROR);
         Core::redirect("index2.php?option=com_network&NE_networkid=$nid");
     }
     // load Person list
@@ -284,7 +284,7 @@ function editIP($ipid=null, $nid) {
             unset($availableIpList[ip2long($usedIp->IP_address)]);
         }
         if (count($availableIpList) == 0) {
-            $database->log("ERROR: mod_network, pokus o otevření editIP a vložení nové IP adresy do plné sítě ID '$nid' síť '$network->NE_net'", LOG::LEVEL_ERROR);
+            $database->log("ERROR: mod_network, pokus o otevření editIP a vložení nové IP adresy do plné sítě ID '$nid' síť '$network->NE_net'", Log::LEVEL_ERROR);
             Core::redirect("index2.php?option=com_network&NE_networkid=$nid");
         }
     } else {
@@ -316,7 +316,7 @@ function editNetwork($task, $nid=null) {
     } else {
         $msg = "ERROR: mod_network, nedefinovaná akce '$task' s ID '$nid'";
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_ERROR);
+        $database->log($msg, Log::LEVEL_ERROR);
         Core::redirect("index2.php?option=com_network&NE_networkid=$nid");
     }
     // Load all direct subNetworks
@@ -347,7 +347,7 @@ function editNetwork($task, $nid=null) {
         if ($parentNetworkParsed->bitmask >= 24) {
             $possibleNetworkArray = getFreeSubNetworks($parentNetwork->NE_net, $plainSubNetworks);
             if (sizeof($possibleNetworkArray) == 0) {
-                $database->log("ERROR: mod_network, pokus vložit novou podsíť do sítě, kde již není místo ID '$parentNetwork->NE_networkid' síť '$parentNetwork->NE_net'", LOG::LEVEL_ERROR);
+                $database->log("ERROR: mod_network, pokus vložit novou podsíť do sítě, kde již není místo ID '$parentNetwork->NE_networkid' síť '$parentNetwork->NE_net'", Log::LEVEL_ERROR);
                 Core::redirect("index2.php?option=com_network&NE_networkid=$nid");
             }
             $flags['NE_net'] = "LIST";
@@ -358,7 +358,7 @@ function editNetwork($task, $nid=null) {
             } else {
                 $msg = "ERROR: mod_network, pokus vložit novou podsíť do sítě, kde již není místo ID '$parentNetwork->NE_networkid' síť '$parentNetwork->NE_net'";
                 $appContext->insertMessage($msg);
-                $database->log($msg, LOG::LEVEL_ERROR);
+                $database->log($msg, Log::LEVEL_ERROR);
                 Core::redirect("index2.php?option=com_network&NE_networkid=$nid");
             }
         }
@@ -391,7 +391,7 @@ function saveIP($task, $iid, $nid) {
     if (!NetworkDAO::isLeafNetwork($nid)) {
         $msg = "ERROR: mod_network, pokus o uložení IP adresy do ne-leaf sítě ID '$nid' síť '$network->NE_net'";
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_ERROR);
+        $database->log($msg, Log::LEVEL_ERROR);
         Core::redirect("index2.php?option=com_network");
     }
 
@@ -408,12 +408,12 @@ function saveIP($task, $iid, $nid) {
         case 'applyI':
             $msg = sprintf(_("IP: %s in network %s assigned to person '%s'"), $ip->IP_address, $network->NE_net, $person->PE_firstname." ".$person->PE_surname);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_network&task=editI&IP_ipid=$ip->IP_ipid&NE_networkid=$nid&hidemainmenu=1");
         case 'saveI':
             $msg = sprintf(_("IP: %s in network %s assigned to person '%s'"), $ip->IP_address, $network->NE_net, $person->PE_firstname." ".$person->PE_surname);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         default:
             Core::redirect("index2.php?option=com_network");
             break;
@@ -483,7 +483,7 @@ function saveNetwork($task) {
         if ($networkFromDatabase->NE_net != $network->NE_net) {
             $msg = "ERROR: pokus o post pozměněné sítě ID '$networkFromDatabase->NE_networkid' v síti '$network->NE_net' přidána uživateli '$person->PE_firstname $person->PE_surname'";
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_ERROR);
+            $database->log($msg, Log::LEVEL_ERROR);
             Core::redirect("index2.php?option=com_network&task=editN&NE_networkid=$network->NE_networkid&hidemainmenu=1");
         }
     }
@@ -501,12 +501,12 @@ function saveNetwork($task) {
         case 'applyN':
             $msg = sprintf(_("Network %s assigned to user '%s'"), $network->NE_net, $person->PE_firstname." ".$person->PE_surname);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_network&task=editN&NE_networkid=$network->NE_networkid&hidemainmenu=1");
         case 'saveN':
             $msg = sprintf(_("Network %s assigned to user '%s'"), $network->NE_net, $person->PE_firstname." ".$person->PE_surname);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         default:
             Core::redirect("index2.php?option=com_network&NE_networkid=$network->NE_parent_networkid");
             break;
@@ -534,7 +534,7 @@ function removeIp($cid) {
             IpAccountAbsDAO::removeIpAccountAbsByIPID($id);
             $msg = sprintf(_("IP %s from user %s was deleted"), $ip->IP_address, $person->PE_firstname." ".$person->PE_surname);
             $appContext->insertMessage($msg);
-            $database->log($msg, LOG::LEVEL_INFO);
+            $database->log($msg, Log::LEVEL_INFO);
         }
         Core::redirect("index2.php?option=com_network");
     }
@@ -553,7 +553,7 @@ function removeNetwork($nid) {
     if (!NetworkDAO::isLeafNetwork($nid)) {
         $msg = "ERROR: pokus smazat ne-leaf síť ID '$network->NE_networkid' sít '$network->NE_net'";
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_ERROR);
+        $database->log($msg, Log::LEVEL_ERROR);
         Core::redirect("index2.php?option=com_network&NE_networkid=$network->NE_parent_networkid");
     }
     // check if there is any IP
@@ -561,13 +561,13 @@ function removeNetwork($nid) {
     if (IpDAO::isAnyIpInNetwork($network->NE_networkid)) {
         $msg = "ERROR: pokus smazat síť s IP, ID '$network->NE_networkid' sít '$network->NE_net'";
         $appContext->insertMessage($msg);
-        $database->log($msg, LOG::LEVEL_ERROR);
+        $database->log($msg, Log::LEVEL_ERROR);
         Core::redirect("index2.php?option=com_network&NE_networkid=$network->NE_parent_networkid");
     }
     NetworkDAO::removeNetworkByID($nid);
     $msg = sprintf(_("Network %s from user %s was deleted"), $network->NE_net, $person->PE_firstname." ".$person->PE_surname);
     $appContext->insertMessage($msg);
-    $database->log($msg, LOG::LEVEL_INFO);
+    $database->log($msg, Log::LEVEL_INFO);
     // select parent network
     //
     $_SESSION['UI_SETTINGS']['com_network']['filter']['NE_networkid'] = $network->NE_parent_networkid;
@@ -648,11 +648,11 @@ function getFreeSubNetworks(&$n1, &$n2Array) {
     }
     $countAfter = sizeof($innerNets);
     if ($countAfter != $countBefore) {
-        $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", LOG::LEVEL_ERROR);
+        $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", Log::LEVEL_ERROR);
         return array();
     }
     if (sizeof($innerNets) == 0) {
-        $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", LOG::LEVEL_ERROR);
+        $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", Log::LEVEL_ERROR);
         return array();
     }
     $lastAnchor = $np1->long;
@@ -749,11 +749,11 @@ function isAnyFreeSubNetworks(&$n1, &$n2Array) {
     }
     $countAfter = sizeof($innerNets);
     if ($countAfter != $countBefore) {
-        $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", LOG::LEVEL_ERROR);
+        $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", Log::LEVEL_ERROR);
         return false;
     }
     if ($countAfter == 0) {
-        $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", LOG::LEVEL_ERROR);
+        $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", Log::LEVEL_ERROR);
         return false;
     }
     $lastAnchor = $np1->long;
@@ -805,11 +805,11 @@ function isSpaceForSubNetwork(&$n1, &$n2Array, &$nn) {
     }
     $countAfter = sizeof($innerNets);
     if ($countAfter != $countBefore) {
-        $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", LOG::LEVEL_ERROR);
+        $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", Log::LEVEL_ERROR);
         return false;
     }
     if ($countAfter == 0) {
-        $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", LOG::LEVEL_ERROR);
+        $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", Log::LEVEL_ERROR);
         return false;
     }
     $lastAnchor = $np1->long;
