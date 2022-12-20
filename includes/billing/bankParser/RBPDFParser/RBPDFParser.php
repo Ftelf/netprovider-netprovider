@@ -13,14 +13,15 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "includes/tables/BankAccountEntry.php");
+require_once $core->getAppRoot() . "includes/tables/BankAccountEntry.php";
 
-require_once($core->getAppRoot() . "includes/PdfParser/Parser.php");
+require_once $core->getAppRoot() . "includes/PdfParser/Parser.php";
 
 /**
  * RBPDFParser class
  */
-class RBPDFParser {
+class RBPDFParser
+{
     private $fcontents = [];
     private $p;
     private $count;
@@ -55,31 +56,30 @@ class RBPDFParser {
     const ACCOUNT_ENTRY_LINE_3_X = '^(.*)$';
 
 
-
     const TRAILING_TEXT_1 = '^Zpráva pro klienta$';
 
     const FOOTER_1 = '^Raiffeisenbank a.s., Hvězdova 1716/2b, 140 78 Praha 4, zapsaná v OR vedeném Městským soudem v Praze, oddíl B, vložka 2051, IČO 49240901|Raiffeisenbank a.s. , Hvězdova 1716/2b • PO box 64 • 140 78 Praha 4 • tel.: 800 900 900 • e-mail: info@rb.cz • web: www.rb.cz • IČ: 49240901$';
     const FOOTER_2 = '^e-mail: info@rb.cz, www.rb.cz, infolinka 800 900 900 Strana   [[:digit:]]{1,3} / [[:digit:]]{1,3}|zapsaná v obchodním rejstříku vedeném Městským soudem v Praze, sp. zn. B, 2051 Strana   [[:digit:]]{1,3} / [[:digit:]]{1,3}$';
 
     static $KNOWN_TRANSACTION_CATEGORY_ARRAY = [
-        0  => 'Platba',
-        1  => 'Poplatek',
-        2  => 'Trvalá platba',
-        3  => 'Platba kartou',
-        4  => 'Trvalý příkaz'
+        0 => 'Platba',
+        1 => 'Poplatek',
+        2 => 'Trvalá platba',
+        3 => 'Platba kartou',
+        4 => 'Trvalý příkaz'
     ];
 
     static $KNOWN_TRANSACTION_ARRAY = [
-        0  => 'Jiný',
-        1  => 'Převod',
-        2  => 'Příchozí platba',
-        3  => 'Vklad hotovosti',
-        4  => 'Trvalý převod',
-        5  => 'Jiný trans. poplatek',
-        6  => 'Kladný úrok',
-        7  => 'Výběr z bankomatu',
-        8  => 'Platba kartou',
-        9  => 'Generování bankovních',
+        0 => 'Jiný',
+        1 => 'Převod',
+        2 => 'Příchozí platba',
+        3 => 'Vklad hotovosti',
+        4 => 'Trvalý převod',
+        5 => 'Jiný trans. poplatek',
+        6 => 'Kladný úrok',
+        7 => 'Výběr z bankomatu',
+        8 => 'Platba kartou',
+        9 => 'Generování bankovních',
         10 => 'Poplatek za vedení ka',
         11 => 'Distribuce bankovního',
         12 => 'Poolovací převod',
@@ -105,9 +105,11 @@ class RBPDFParser {
 
     /**
      * Constructor RBPDFParser
+     *
      * @param String $content plain text with list
      */
-    public function __construct($content) {
+    public function __construct($content)
+    {
         $parser = new \Smalot\PdfParser\Parser();
 
         $pdf = $parser->parseContent($content);
@@ -121,15 +123,16 @@ class RBPDFParser {
         }
         $this->count = count($this->fcontents);
 
-//        echo "<pre>";
-//        print_r($this->fcontents);
-//        echo "</pre>";
+        //        echo "<pre>";
+        //        print_r($this->fcontents);
+        //        echo "</pre>";
     }
 
     /**
      * implementation of parse method
      */
-    function parse() {
+    function parse()
+    {
         $this->p = 0;
         $this->document = [];
         $this->document['LIST'] = [];
@@ -138,13 +141,14 @@ class RBPDFParser {
 
         $this->searchAccounts();
 
-//        echo "<pre>";
-//        print_r($this->document);
-//        echo "</pre>";
+        //        echo "<pre>";
+        //        print_r($this->document);
+        //        echo "</pre>";
     }
 
-    function searchHeader() {
-        while ($this->hasNext()){
+    function searchHeader()
+    {
+        while ($this->hasNext()) {
             if ($matches = $this->tryMatchNextLine(self::HEADER)) {
                 // bank header
                 //
@@ -174,7 +178,8 @@ class RBPDFParser {
     /**
      * implementation of searchAccounts method
      */
-    function searchAccounts() {
+    function searchAccounts()
+    {
         global $database;
 
         while ($this->hasNext()) {
@@ -191,7 +196,8 @@ class RBPDFParser {
         }
     }
 
-    function searchAccountEntry() {
+    function searchAccountEntry()
+    {
         if ($this->tryMatchNextLine(self::TRAILING_TEXT_1)) {
             return false;
         }
@@ -238,7 +244,7 @@ class RBPDFParser {
         if ($matches2_1 = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_2_1, $line2_1)) {
             if ($bae->BE_typeoftransaction === 20) {
                 if ($matches2_1[4]) {
-                    throw new Exception('U položky "'.self::$KNOWN_TRANSACTION_ARRAY[20].'" by nemělo být uvedeno bankovní konto');
+                    throw new Exception('U položky "' . self::$KNOWN_TRANSACTION_ARRAY[20] . '" by nemělo být uvedeno bankovní konto');
                 }
 
                 if ($matches2_1[8]) {
@@ -253,15 +259,15 @@ class RBPDFParser {
                 } else {
                     $line2_2 = $this->getNext();
                     if ($matches2_2 = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_2_2, $line2_2)) {
-                        $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
-                        $bae->BE_banknumber = $matches2_1[7].$matches2_2[1];
+                        $bae->BE_accountnumber = $matches2_1[5] . $matches2_1[6];
+                        $bae->BE_banknumber = $matches2_1[7] . $matches2_2[1];
 
                         if ($matches2_2[2]) {
                             $bae->BE_constantsymbol = $matches2_2[2];
                         }
                     } else if ($matches2_2_MESSAGE = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_2_2_MESSAGE, $line2_2)) {
-                        $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
-                        $bae->BE_banknumber = $matches2_1[7].$matches2_2_MESSAGE[1];
+                        $bae->BE_accountnumber = $matches2_1[5] . $matches2_1[6];
+                        $bae->BE_banknumber = $matches2_1[7] . $matches2_2_MESSAGE[1];
 
                         if ($matches2_2_MESSAGE[2]) {
                             $bae->BE_message = $matches2_2_MESSAGE[2];
@@ -269,7 +275,7 @@ class RBPDFParser {
                     }
                 }
             } else {
-                $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
+                $bae->BE_accountnumber = $matches2_1[5] . $matches2_1[6];
                 $bae->BE_banknumber = $matches2_1[7];
 
                 if ($matches2_1[8]) {
@@ -277,15 +283,15 @@ class RBPDFParser {
                 }
             }
         } else if ($matches2_1 = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_2_1_MESSAGE, $line2_1)) {
-//            echo "<pre>XYX</pre>";
-//            echo "<pre>$line2_1</pre>";
-//            echo "<pre>";
-//            print_r($matches2_1);
-//            echo "</pre>";
+            //            echo "<pre>XYX</pre>";
+            //            echo "<pre>$line2_1</pre>";
+            //            echo "<pre>";
+            //            print_r($matches2_1);
+            //            echo "</pre>";
 
             if ($bae->BE_typeoftransaction === 20) {
                 if ($matches2_1[4]) {
-                    throw new Exception('U položky "'.self::$KNOWN_TRANSACTION_ARRAY[20].'" by nemělo být uvedeno bankovní konto');
+                    throw new Exception('U položky "' . self::$KNOWN_TRANSACTION_ARRAY[20] . '" by nemělo být uvedeno bankovní konto');
                 }
 
                 if ($matches2_1[8]) {
@@ -293,31 +299,31 @@ class RBPDFParser {
                 }
             } elseif (mb_strlen($matches2_1[7]) < 4) {
                 throw new Exception("Nelze matchnout řádek 2_11, Číslo banky je přes více řádků: $line2_1");
-//                if ($bae->BE_typeoftransaction == 8) {
-//                    $matches2_2_PK = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_2_2_PK);
-//                    if ($matches2_2_PK[2]) {
-//                        $bae->BE_message = $matches2_2_PK[2];
-//                    }
-//                } else {
-//                    $line2_2 = $this->getNext();
-//                    if ($matches2_2 = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_2_2, $line2_2)) {
-//                        $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
-//                        $bae->BE_banknumber = $matches2_1[7].$matches2_2[1];
-//
-//                        if ($matches2_2[2]) {
-//                            $bae->BE_constantsymbol = $matches2_2[2];
-//                        }
-//                    } else if ($matches2_2_MESSAGE = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_2_2_MESSAGE, $line2_2)) {
-//                        $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
-//                        $bae->BE_banknumber = $matches2_1[7].$matches2_2_MESSAGE[1];
-//
-//                        if ($matches2_2_MESSAGE[2]) {
-//                            $bae->BE_message = $matches2_2_MESSAGE[2];
-//                        }
-//                    }
-//                }
+                //                if ($bae->BE_typeoftransaction == 8) {
+                //                    $matches2_2_PK = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_2_2_PK);
+                //                    if ($matches2_2_PK[2]) {
+                //                        $bae->BE_message = $matches2_2_PK[2];
+                //                    }
+                //                } else {
+                //                    $line2_2 = $this->getNext();
+                //                    if ($matches2_2 = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_2_2, $line2_2)) {
+                //                        $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
+                //                        $bae->BE_banknumber = $matches2_1[7].$matches2_2[1];
+                //
+                //                        if ($matches2_2[2]) {
+                //                            $bae->BE_constantsymbol = $matches2_2[2];
+                //                        }
+                //                    } else if ($matches2_2_MESSAGE = $this->tryMatch(self::ACCOUNT_ENTRY_LINE_2_2_MESSAGE, $line2_2)) {
+                //                        $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
+                //                        $bae->BE_banknumber = $matches2_1[7].$matches2_2_MESSAGE[1];
+                //
+                //                        if ($matches2_2_MESSAGE[2]) {
+                //                            $bae->BE_message = $matches2_2_MESSAGE[2];
+                //                        }
+                //                    }
+                //                }
             } else {
-                $bae->BE_accountnumber = $matches2_1[5].$matches2_1[6];
+                $bae->BE_accountnumber = $matches2_1[5] . $matches2_1[6];
                 $bae->BE_banknumber = $matches2_1[7];
 
                 if ($matches2_1[8]) {
@@ -335,7 +341,7 @@ class RBPDFParser {
             $bae->BE_writeoff_date = $matches2_1[3] . "-" . str_pad($matches2_1[2], 2, "0", STR_PAD_LEFT) . "-" . str_pad($matches2_1[1], 2, "0", STR_PAD_LEFT);
 
             $bae->BE_variablesymbol = $matches1[5];
-            $bae->BE_amount = preg_replace("/\s|&nbsp;/",'', htmlentities($matches1[6]));
+            $bae->BE_amount = preg_replace("/\s|&nbsp;/", '', htmlentities($matches1[6]));
 
             $bae->BE_charge = 0;
 
@@ -361,13 +367,13 @@ class RBPDFParser {
         $matches3_1 = $this->matchNextLine(self::ACCOUNT_ENTRY_LINE_3_1);
 
         $followingNote = $this->parseVariableNoteLines();
-        $bae->BE_note = trim($matches3_1[3]).$followingNote;
+        $bae->BE_note = trim($matches3_1[3]) . $followingNote;
 
         $bae->BE_datetime = $matches1[3] . "-" . str_pad($matches1[2], 2, "0", STR_PAD_LEFT) . "-" . str_pad($matches1[1], 2, "0", STR_PAD_LEFT) . " 00:00:00";
         $bae->BE_writeoff_date = $matches2_1[3] . "-" . str_pad($matches2_1[2], 2, "0", STR_PAD_LEFT) . "-" . str_pad($matches2_1[1], 2, "0", STR_PAD_LEFT);
 
         $bae->BE_variablesymbol = $matches1[5];
-        $bae->BE_amount = preg_replace("/\s|&nbsp;/",'', htmlentities($matches1[6]));
+        $bae->BE_amount = preg_replace("/\s|&nbsp;/", '', htmlentities($matches1[6]));
 
         $bae->BE_accountname = $matches3_1[2];
 
@@ -388,7 +394,8 @@ class RBPDFParser {
         return $bae;
     }
 
-    function parseVariableNoteLines() {
+    function parseVariableNoteLines()
+    {
         $maxlines = 3;
 
         $note = "";
@@ -430,7 +437,8 @@ class RBPDFParser {
         return $note;
     }
 
-    function tryMatch($pattern, $string) {
+    function tryMatch($pattern, $string)
+    {
         $matches = null;
         if (mb_ereg($pattern, $string, $matches)) {
             return $matches;
@@ -439,26 +447,29 @@ class RBPDFParser {
         return null;
     }
 
-    function tryMatchNextLine($pattern) {
+    function tryMatchNextLine($pattern)
+    {
         return $this->tryMatch($pattern, $this->getNext());
     }
 
-    function matchNextLine($pattern) {
+    function matchNextLine($pattern)
+    {
         $nextLine = $this->getNext();
         if ($matches = $this->tryMatch($pattern, $nextLine)) {
             return $matches;
         }
 
-//        echo "<pre>".'nelze provést match na řádku: '.$this->p.', text: "'.$nextLine.'", pattern: "'.$pattern.'"'."</pre>";
+        //        echo "<pre>".'nelze provést match na řádku: '.$this->p.', text: "'.$nextLine.'", pattern: "'.$pattern.'"'."</pre>";
 
-        throw new Exception('nelze provést match na řádku: '.$this->p.', text: "'.$nextLine.'", pattern: "'.$pattern.'"');
+        throw new Exception('nelze provést match na řádku: ' . $this->p . ', text: "' . $nextLine . '", pattern: "' . $pattern . '"');
     }
 
     /**
      *
      * @return unknown_type
      */
-    function hasNext() {
+    function hasNext()
+    {
         return ($this->p < $this->count);
     }
 
@@ -466,7 +477,8 @@ class RBPDFParser {
      *
      * @return unknown_type
      */
-    function getCurrent() {
+    function getCurrent()
+    {
         $text = $this->fcontents[$this->p - 1];
         return $text;
     }
@@ -475,7 +487,8 @@ class RBPDFParser {
      *
      * @return unknown_type
      */
-    function getNext() {
+    function getNext()
+    {
         if ($this->p == $this->count) {
             throw new Exception("getNext(): Not such element");
         }
@@ -487,7 +500,8 @@ class RBPDFParser {
      *
      * @return unknown_type
      */
-    function moveBack() {
+    function moveBack()
+    {
         if ($this->p < 1) {
             throw new Exception("Cannot move back, already at the beginning");
         }
@@ -498,8 +512,8 @@ class RBPDFParser {
     /**
      * implementation of getDocument method
      */
-    function getDocument() {
+    function getDocument()
+    {
         return $this->document;
     }
 } // End of RBPDFParser class
-?>

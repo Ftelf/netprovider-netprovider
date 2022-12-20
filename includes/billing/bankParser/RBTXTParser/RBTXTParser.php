@@ -13,12 +13,13 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "includes/tables/BankAccountEntry.php");
+require_once $core->getAppRoot() . "includes/tables/BankAccountEntry.php";
 
 /**
  * RBTXTParser class
  */
-class RBTXTParser {
+class RBTXTParser
+{
     private $fcontents = array();
     private $p;
     private $count;
@@ -50,16 +51,16 @@ class RBTXTParser {
     const DETAILY_ZPS = 'Detaily ZPS transakcí uvedených v pohybech na běžném účtu';
 
     static $KNOWN_TRANSACTION_ARRAY = array(
-        0  => 'Jiný',
-        1  => 'Převod',
-        2  => 'Příchozí platba',
-        3  => 'Vklad hotovosti',
-        4  => 'Trvalý převod',
-        5  => 'Jiný trans. poplatek',
-        6  => 'Kladný úrok',
-        7  => 'Výběr z bankomatu',
-        8  => 'Platba kartou',
-        9  => 'Generování bankovních',
+        0 => 'Jiný',
+        1 => 'Převod',
+        2 => 'Příchozí platba',
+        3 => 'Vklad hotovosti',
+        4 => 'Trvalý převod',
+        5 => 'Jiný trans. poplatek',
+        6 => 'Kladný úrok',
+        7 => 'Výběr z bankomatu',
+        8 => 'Platba kartou',
+        9 => 'Generování bankovních',
         10 => 'Poplatek za vedení ka',
         11 => 'Distribuce bankovního',
         12 => 'Poolovací převod',
@@ -79,9 +80,11 @@ class RBTXTParser {
 
     /**
      * Constructor RBTXTParser
+     *
      * @param String $content plain text with list
      */
-    public function __construct($content) {
+    public function __construct($content)
+    {
         $tok = strtok($content, "\r\n");
         while ($tok) {
             $this->fcontents[] = $tok;
@@ -93,7 +96,8 @@ class RBTXTParser {
     /**
      * implementation of parse method
      */
-    function parse() {
+    function parse()
+    {
         $this->p = 0;
         $this->document = array();
         $this->document['LIST'] = array();
@@ -126,7 +130,7 @@ class RBTXTParser {
             // bank account header
             //
             if (mb_ereg(self::NAZEV_UCTU, $this->getCurrent(), $matches)) {
-                    $this->document['ACCOUNT_NAME'] = $matches[1];
+                $this->document['ACCOUNT_NAME'] = $matches[1];
                 if (mb_ereg(self::CISLO_UCTU, $this->getNext(), $matches)) {
                     $this->document['ACCOUNT_NUMBER'] = $matches[1];
                     $this->document['BANK_NUMBER'] = $matches[2];
@@ -155,7 +159,8 @@ class RBTXTParser {
     /**
      * implementation of parseAccounts method
      */
-    function parseAccounts() {
+    function parseAccounts()
+    {
         global $database;
 
         while (true) {
@@ -288,8 +293,8 @@ class RBTXTParser {
                 $database->log(sprintf("Line: %s, transaction type is unknown: '%s'", $this->p, $type), Log::LEVEL_DEBUG);
 
                 $bae->BE_typeoftransaction = 0;
-//				throw new Exception(sprintf("Line: %s, transaction type is unknown: '%s'", $this->p, $type));
-//              TODO: send email message with new transaction type
+                //              throw new Exception(sprintf("Line: %s, transaction type is unknown: '%s'", $this->p, $type));
+                //              TODO: send email message with new transaction type
             }
             if (count($line_4) == 0) {
                 $bae->BE_message = "";
@@ -307,7 +312,8 @@ class RBTXTParser {
      *
      * @return unknown_type
      */
-    function hasNext() {
+    function hasNext()
+    {
         return ($this->p < $this->count);
     }
 
@@ -315,7 +321,8 @@ class RBTXTParser {
      *
      * @return unknown_type
      */
-    function getCurrent() {
+    function getCurrent()
+    {
         $text = $this->fcontents[$this->p - 1];
         return $text;
     }
@@ -324,7 +331,8 @@ class RBTXTParser {
      *
      * @return unknown_type
      */
-    function getNext() {
+    function getNext()
+    {
         if ($this->p == $this->count) {
             throw new Exception("getNext(): Not such element");
         }
@@ -335,8 +343,8 @@ class RBTXTParser {
     /**
      * implementation of getDocument method
      */
-    function getDocument() {
+    function getDocument()
+    {
         return $this->document;
     }
 } // End of RBTXTParser class
-?>
