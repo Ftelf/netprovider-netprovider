@@ -13,44 +13,51 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "includes/event/ChargePaymentDeadlineEvent.php");
+require_once $core->getAppRoot() . "includes/event/ChargePaymentDeadlineEvent.php";
 
 /**
  * Event
  */
-Class Event {
-    var $date = null;
-    var $message = null;
-    var $person = null;
+class Event
+{
+    private $date;
+    private $message;
+    private $person;
 
-    public function __construct($date, $person, $message) {
+    public function __construct($date, $person, $message)
+    {
         $this->setDate($date);
         $this->setPerson($person);
         $this->setMessage($message);
     }
 
-    public function setDate($date) {
+    public function setDate($date): void
+    {
         $this->date = $date;
     }
 
-    public function getDate() {
+    public function getDate()
+    {
         return $this->date;
     }
 
-    public function setMessage($message) {
+    public function setMessage($message): void
+    {
         $this->message = $message;
     }
 
-    public function getMessage() {
+    public function getMessage()
+    {
         return $this->message;
     }
 
-    public function setPerson($person) {
+    public function setPerson($person): void
+    {
         $this->person = $person;
     }
 
-    public function getPerson() {
+    public function getPerson()
+    {
         return $this->person;
     }
 } // End of Event class
-?>

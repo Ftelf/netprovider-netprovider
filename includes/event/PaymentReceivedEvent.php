@@ -15,32 +15,35 @@
 /**
  * PaymentReceivedEvent
  */
-Class PaymentReceivedEvent extends Event {
-    var $paymentDate = null;
-    var $switchOffDate = null;
+class PaymentReceivedEvent extends Event
+{
+    private $paymentDate;
+    private $switchOffDate;
 
-    public function __construct($date, $person, $message, $paymentDate, $switchOffDate) {
-        $this->setDate($date);
-        $this->setPerson($person);
-        $this->setMessage($message);
+    public function __construct($date, $person, $message, $paymentDate, $switchOffDate)
+    {
+        parent::__construct($date, $person, $message);
         $this->setPaymentDate($paymentDate);
         $this->setSwitchOffDate($switchOffDate);
     }
 
-    public function setPaymentDate($paymentDate) {
+    public function setPaymentDate($paymentDate): void
+    {
         $this->paymentDate = $paymentDate;
     }
 
-    public function getPaymentDate() {
+    public function getPaymentDate()
+    {
         return $this->paymentDate;
     }
 
-    public function setSwitchOffDate($switchOffDate) {
+    public function setSwitchOffDate($switchOffDate): void
+    {
         $this->switchOffDate = $switchOffDate;
     }
 
-    public function getSwitchOffDate() {
+    public function getSwitchOffDate()
+    {
         return $this->switchOffDate;
     }
 } // End of PaymentReceivedEvent class
-?>
