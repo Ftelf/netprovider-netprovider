@@ -118,6 +118,7 @@ function saveInternet($task) {
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_internet&task=edit&IN_internetid=$internet->IN_internetid&hidemainmenu=1");
+            break;
         case 'save':
             $msg = sprintf(_("Internet template '%s' saved"), $internet->IN_name);
             $appContext->insertMessage($msg);

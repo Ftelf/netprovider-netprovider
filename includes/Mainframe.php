@@ -12,6 +12,7 @@
  * @link     https://www.ovjih.net
  */
 
+global $core;
 require_once($core->getAppRoot() . "includes/Database.php");
 
 /**
@@ -27,9 +28,9 @@ class MainFrame {
     /** @var action */
     var $_action = null;
     /** @var tstart */
-    var $_tstart;
+    private float $_tstart;
     /** @var tvalue */
-    var $_tvalue;
+    private float $_tvalue;
     /** @var array messages */
     var $_msg = null;
 

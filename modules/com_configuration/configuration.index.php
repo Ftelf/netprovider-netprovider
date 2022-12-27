@@ -13,4 +13,3 @@ function showConfiguration() {
 
     HTML_Configuration::showConfiguration(parse_ini_file($core->getAppRoot() . 'config/netprovider.ini', true));
 }
-?>

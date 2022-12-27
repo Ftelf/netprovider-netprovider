@@ -370,10 +370,10 @@ class EmailBankAccountList {
                 throw new Exception("Čísla bank nesouhlasí: {$this->_bankAccount->BA_banknumber} != {$parsedList['BANK_NUMBER']}, výpis: '{$filename}'");
             }
             if ($this->_bankAccount->BA_currency != $parsedList['CURRENCY']) {
-                throw new Exception("Měna nesouhlasí {$this->_bankAccount->BA_currency} != {$parsedList[CURRENCY]}, výpis: '{$filename}'");
+                throw new Exception("Měna nesouhlasí {$this->_bankAccount->BA_currency} != {$parsedList['CURRENCY']}, výpis: '{$filename}'");
             }
             if ($emailList->EL_no != $parsedList['LIST_NO']) {
-                throw new Exception("Číslo výpisu nesouhlasí {$emailList->EL_no} != {$parsedList[LIST_NO]}, výpis: '{$filename}'");
+                throw new Exception("Číslo výpisu nesouhlasí {$emailList->EL_no} != {$parsedList['LIST_NO']}, výpis: '{$filename}'");
             }
             $emailList->EL_currency = $parsedList['CURRENCY'];
             $emailList->EL_datefrom = $parsedList['LIST_DATE_FROM'];
@@ -422,7 +422,7 @@ class EmailBankAccountList {
         }
 
         // Create a temporary file which creates file with unique file name
-        $tmp = tempnam(sys_get_temp_dir(), md5(uniqid(microtime(true))));
+        $tmp = tempnam(sys_get_temp_dir(), md5(uniqid(microtime(true), true)));
 
         // Write the zipped content inside
         file_put_contents($tmp, $content);

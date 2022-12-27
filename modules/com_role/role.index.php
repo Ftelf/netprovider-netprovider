@@ -109,6 +109,7 @@ function saveRole($task) {
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_role&task=edit&RO_roleid=$role->RO_roleid&hidemainmenu=1");
+            break;
         case 'save':
             $msg = sprintf(_("Role '%s' saved"), $role->RO_name);
             $appContext->insertMessage($msg);

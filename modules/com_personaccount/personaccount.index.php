@@ -294,8 +294,8 @@ function returnPayment($pid, $pnid) {
             foreach ($personAccountEntries as $personAccountEntry) {
                 $personAccount = PersonAccountDAO::getPersonAccountByID($personAccountEntry->PN_personaccountid);
                 $person = PersonDAO::getPersonByPersonAccountID($personAccount->PA_personaccountid);
-                $personAccount->PA_balance -= $personAccountEntry->PN_amount;
-                $personAccount->PA_income -= $personAccountEntry->PN_amount;
+                $personAccount->PA_balance = (float)$personAccount->PA_balance - (float)$personAccountEntry->PN_amount;
+                $personAccount->PA_income = (float)$personAccount->PA_income - (float)$personAccountEntry->PN_amount;
 
                 $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false, false);
                 PersonAccountEntryDAO::removePersonAccountEntryByID($personAccountEntry->PN_personaccountentryid);
@@ -315,8 +315,8 @@ function returnPayment($pid, $pnid) {
         } else if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_CASH) {
             $personAccount = PersonAccountDAO::getPersonAccountByID($personAccountEntry->PN_personaccountid);
 
-            $personAccount->PA_balance -= $personAccountEntry->PN_amount;
-            $personAccount->PA_income -= $personAccountEntry->PN_amount;
+            $personAccount->PA_balance = (float)$personAccount->PA_balance - (float)$personAccountEntry->PN_amount;
+            $personAccount->PA_income = (float)$personAccount->PA_income - (float)$personAccountEntry->PN_amount;
 
             $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false, false);
             PersonAccountEntryDAO::removePersonAccountEntryByID($personAccountEntry->PN_personaccountentryid);
@@ -329,7 +329,7 @@ function returnPayment($pid, $pnid) {
         } else if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_DISCOUNT) {
             $personAccount = PersonAccountDAO::getPersonAccountByID($personAccountEntry->PN_personaccountid);
 
-            $personAccount->PA_balance -= $personAccountEntry->PN_amount;
+            $personAccount->PA_balance = (float)$personAccount->PA_balance - (float)$personAccountEntry->PN_amount;
 
             $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false, false);
             PersonAccountEntryDAO::removePersonAccountEntryByID($personAccountEntry->PN_personaccountentryid);
@@ -509,10 +509,10 @@ function savePersonAccountEntry($pid, $task) {
     }
 
     if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_CASH) {
-        $personAccount->PA_balance += $personAccountEntry->PN_amount;
-        $personAccount->PA_income += $personAccountEntry->PN_amount;
+        $personAccount->PA_balance = (float)$personAccount->PA_balance + (float)$personAccountEntry->PN_amount;
+        $personAccount->PA_income = (float)$personAccount->PA_income + (float)$personAccountEntry->PN_amount;
     } else if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_DISCOUNT) {
-        $personAccount->PA_balance += $personAccountEntry->PN_amount;
+        $personAccount->PA_balance = (float)$personAccount->PA_balance + (float)$personAccountEntry->PN_amount;
     } else {
         throw new Exception("ERROR: unknown BankAccountEntry source");
     }

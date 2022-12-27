@@ -14,15 +14,16 @@
 
 global $core;
 require_once "Mail.php";
-require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once($core->getAppRoot() . "includes/dao/MessageDAO.php");
-require_once($core->getAppRoot() . "includes/utils/DateUtil.php");
+require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
+require_once $core->getAppRoot() . "includes/dao/MessageDAO.php";
+require_once $core->getAppRoot() . "includes/utils/DateUtil.php";
 require_once "Mail/mime.php";
 
 /**
  * ChargesUtil
  */
-class EmailUtil {
+class EmailUtil
+{
     private $_database;
     private $_messages = array();
     private $_smtp_server;
@@ -32,7 +33,8 @@ class EmailUtil {
     private $_smtp_password;
     private $_email_from;
 
-    public function __construct() {
+    public function __construct()
+    {
         global $database, $core;
         $this->_database = $database;
         $this->_smtp_server = $core->getProperty(Core::SMTP_SERVER);
@@ -43,7 +45,8 @@ class EmailUtil {
         $this->_email_from = $core->getProperty(Core::SMTP_FROM);
     }
 
-    public function sendMessage($personid, $subject, $body) {
+    public function sendMessage($personid, $subject, $body)
+    {
         global $database;
 
         $now = new DateUtil();
@@ -62,7 +65,8 @@ class EmailUtil {
         }
     }
 
-    public function queueMessage($person, $subject, $body, $attachments) {
+    public function queueMessage($person, $subject, $body, $attachments)
+    {
         global $database;
 
         $now = new DateUtil();
@@ -99,7 +103,8 @@ class EmailUtil {
         }
     }
 
-    public function sendMessages() {
+    public function sendMessages()
+    {
         global $database;
 
         $messages = MessageDAO::getPendingMessageArray();
@@ -116,7 +121,7 @@ class EmailUtil {
                     $message->ME_status = Message::STATUS_SENDED;
                     $database->updateObject("message", $message, "ME_messageid", false, false);
 
-                    $database->log(_("Email notification sent").": ".$message->ME_body, Log::LEVEL_INFO);
+                    $database->log(_("Email notification sent") . ": " . $message->ME_body, Log::LEVEL_INFO);
                 }
             } catch (Exception $e) {
                 $message->ME_status = Message::STATUS_CANNOT_BE_SEND;
@@ -128,8 +133,9 @@ class EmailUtil {
         }
     }
 
-    public function sendEmailMessage($recipient, $subject, $body, $messageAttachments=null) {
-        $headers = array (
+    public function sendEmailMessage($recipient, $subject, $body, $messageAttachments = null)
+    {
+        $headers = array(
             'From' => $this->_email_from,
             'To' => $recipient,
             'Subject' => $subject
@@ -139,7 +145,7 @@ class EmailUtil {
         $mime->setTXTBody($body);
 
         if ($messageAttachments != null) {
-            foreach($messageAttachments as $messageAttachment) {
+            foreach ($messageAttachments as $messageAttachment) {
                 $filename = $messageAttachment->MA_name;
                 if (strlen($filename) > 61) {
                     $filename = substr($filename, 0, 57) . ".pdf";
@@ -153,7 +159,7 @@ class EmailUtil {
 
         $smtp = Mail::factory(
             'smtp',
-            array (
+            array(
                 'host' => $this->_smtp_server,
                 'port' => $this->_smtp_port,
                 'auth' => $this->_smtp_auth,
@@ -169,4 +175,3 @@ class EmailUtil {
         }
     }
 } // End of EmailUtil class
-?>

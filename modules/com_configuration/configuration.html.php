@@ -8,7 +8,7 @@ class HTML_Configuration {
 	 * showConfiguration
 	 * @param $conf
 	 */
-	static function showConfiguration(&$conf) {
+	public static function showConfiguration($conf): void {
 		global $core;
 ?>
 
@@ -76,9 +76,9 @@ class HTML_Configuration {
    <input type="hidden" name="option" value="com_configuration" />
     </form>
     </div>
-    
+
     <div class="clr"></div>
-  
+
   </div>
 
   <div class="clr"></div>

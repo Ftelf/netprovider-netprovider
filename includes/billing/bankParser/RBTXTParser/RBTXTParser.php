@@ -31,14 +31,14 @@ class RBTXTParser
     const ZA = '^za ([[:digit:]]{2}).([[:digit:]]{2}).([[:digit:]]{4})$';
     const ZA_OBDOBI = '^Za období ([[:digit:]]{2}).([[:digit:]]{2}).([[:digit:]]{4})/([[:digit:]]{2}).([[:digit:]]{2}).([[:digit:]]{4})$';
 
-    const NAZEV_UCTU = '^Název účtu:[[:space:]]*([[:print:]]*)$';
-    const CISLO_UCTU = '^Číslo účtu:[[:space:]]*([[:digit:]]*)/([[:digit:]]{4})$';
-    const IBAN = '^IBAN:[[:space:]]*([[:alnum:]]*)$';
-    const MENA = '^Měna:[[:space:]]*([[:alpha:]]*)$';
+    const NAZEV_UCTU = '^Název účtu:\s*([[:print:]]*)$';
+    const CISLO_UCTU = '^Číslo účtu:\s*([[:digit:]]*)/([[:digit:]]{4})$';
+    const IBAN = '^IBAN:\s*([[:alnum:]]*)$';
+    const MENA = '^Měna:\s*([[:alpha:]]*)$';
 
     const HARD_DELIMETER = '^=+$';
     const ACCOUNT_DELIMETER = '^-+$';
-    const ACCOUNT_LINE_1 = '^[[:space:]]*[[:digit:]{2}.[[:digit:]{2}.$';
+    const ACCOUNT_LINE_1 = '^\s*[[:digit:]{2}.[[:digit:]{2}.$';
     const ACCOUNT_LINE_2 = '^-+$';
     const ACCOUNT_LINE_3 = '^-+$';
     const ACCOUNT_LINE_4 = '^-+$';

@@ -183,23 +183,6 @@ class Database {
             }
         }
     }
-    /**
-    * Strip slashes from strings or arrays of strings
-    * @param value the input string or array
-    */
-    function myStripslashes(&$value) {
-        if (is_string($value)) {
-            $ret = stripslashes($value);
-        } else if (is_array($value)) {
-            $ret = array();
-            while (list($key, $val) = each($value)) {
-                $ret[$key] = $this->myStripslashes($val);
-            }
-        } else {
-            $ret = $value;
-        }
-        return $ret;
-    }
 
     /**
      * This global function loads the first row of a query into an object

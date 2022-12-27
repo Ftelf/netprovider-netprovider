@@ -164,6 +164,7 @@ function saveCharge($task) {
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_charge&task=edit&CH_chargeid=$charge->CH_chargeid&hidemainmenu=1");
+            break;
         case 'save':
             $msg = sprintf(_("Payment template '%s' saved"), $charge->CH_name);
             $appContext->insertMessage($msg);

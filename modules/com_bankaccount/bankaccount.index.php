@@ -154,6 +154,7 @@ function showBankAccount($bid = null) {
     $report['GLOBAL']['BALANCE'] = $bankAccounts[$bid]->BA_startbalance;
     $report['LIST']['BALANCE'] = "-";
 
+    $allBankAccountEntries = [];
     if (isset($bankAccounts[$bid])) {
         $allBankAccountEntries = BankAccountEntryDAO::getBankAccountEntryArrayByBankAccountID($bankAccounts[$bid]->BA_bankaccountid);
     }
@@ -475,6 +476,7 @@ function doUploadBankLists($bid) {
         $fileType = "text/xml";
     } else {
         Core::redirect("index2.php?option=com_bankaccount&task=uploadBankLists&BA_bankaccountid=$bid&hidemainmenu=1");
+        return;
     }
 
     if ($_FILES['banklistFile']['type'] != $fileType) {
@@ -641,13 +643,13 @@ function saveBankAccountEntry($task) {
  *
  */
 function saveBankAccountEntries($cid, $task) {
-    global $database, $mainframe, $my, $acl, $appContext;
+    global $database, $appContext;
 
     $ic = Utils::getParam($_POST, 'BE_identifycode', null);
 
-
+    $BA_bankaccountid = "";
     foreach ($cid as $id) {
-        $eid = intval($id);
+        $eid = (int)$id;
         $bankAccountEntry = BankAccountEntryDAO::getBankAccountEntryByID($eid);
         // Do not allow edit proceeded entries
         //
@@ -667,10 +669,5 @@ function saveBankAccountEntries($cid, $task) {
         $BA_bankaccountid = $bankAccountEntry->BE_bankaccountid;
     }
 
-    switch ($task) {
-        default:
-            Core::redirect("index2.php?option=com_bankaccount&task=show&BA_bankaccountid=$BA_bankaccountid");
-            break;
-    }
+    Core::redirect("index2.php?option=com_bankaccount&task=show&BA_bankaccountid=$BA_bankaccountid");
 }
-?>

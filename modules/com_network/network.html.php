@@ -346,7 +346,7 @@ class HTML_Network {
        </tr>
 <?php
 		}
-		$link = "javascript:editI('$ip->IP_ipid');";
+		$iPAddressLink = "javascript:editI('$ip->IP_ipid');";
 ?>
        <tr class="<?php echo "row$k"; ?>">
          <td>
@@ -356,7 +356,7 @@ class HTML_Network {
            <input type="checkbox" id="<?php echo "cb$iip"; ?>" name="cid[]" value="<?php echo $ip->IP_ipid; ?>" onclick="isChecked(this.checked);" />
          </td>
          <td>
-           <a href="<?php echo $link; ?>"><?php echo $ip->IP_address; ?></a>
+           <a href="<?php echo $iPAddressLink; ?>"><?php echo $ip->IP_address; ?></a>
          </td>
          <td>
        <?php echo $ip->IP_dns; ?>
