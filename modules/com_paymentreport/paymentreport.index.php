@@ -12,17 +12,19 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once($core->getAppRoot() . "includes/dao/GroupDAO.php");
-require_once($core->getAppRoot() . "includes/dao/ChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/HasChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/ChargeEntryDAO.php");
-require_once($core->getAppRoot() . "includes/html/css/PaymentReportStyles.php");
-require_once('paymentreport.html.php');
+require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
+require_once $core->getAppRoot() . "includes/dao/GroupDAO.php";
+require_once $core->getAppRoot() . "includes/dao/ChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/HasChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/ChargeEntryDAO.php";
+require_once $core->getAppRoot() . "includes/html/css/PaymentReportStyles.php";
+require_once 'paymentreport.html.php';
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 
@@ -32,9 +34,10 @@ switch ($task) {
         break;
 }
 
-function showPaymentReport() {
+function showPaymentReport()
+{
     global $database, $mainframe, $acl, $core, $appContext;
-    require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
+    include_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
     $filter = array();
 
@@ -54,17 +57,21 @@ function showPaymentReport() {
     $persons = PersonDAO::getPersonWithAccountArray($filter['search'], 0, $filter['PE_status'], null, null);
     $allCharges = ChargeDAO::getChargeArray();
 
-    $charges = array_filter($allCharges, function($v, $k) {
+    $charges = array_filter(
+        $allCharges, function ($v, $k) {
         return $v->CH_period == Charge::PERIOD_MONTHLY;
-    }, ARRAY_FILTER_USE_BOTH);
+    }, ARRAY_FILTER_USE_BOTH
+    );
 
     if (!is_array($filter_CH_chargeid)) {
         $filter['CH_chargeid'] = $filter_CH_chargeid = array();
     }
 
-    $selectedCharges = array_filter($charges, function($v, $k) use($filter_CH_chargeid) {
+    $selectedCharges = array_filter(
+        $charges, function ($v, $k) use ($filter_CH_chargeid) {
         return in_array($v->CH_chargeid, $filter_CH_chargeid);
-    }, ARRAY_FILTER_USE_BOTH);
+    }, ARRAY_FILTER_USE_BOTH
+    );
 
 
     $paymentReport = array();
@@ -123,84 +130,84 @@ function showPaymentReport() {
 
     $messages = array();
 
-//    if ($charge->CH_period == Charge::PERIOD_MONTHLY) {
-        $iDate = $dateFrom;
-        while (!$iDate->after($dateTo)) {
-            $report['dates'][$iDate->getTime()] = array();
-            $report['dates'][$iDate->getTime()]['DateUtil'] = clone $iDate;
-            $report['dates'][$iDate->getTime()]['DATE_STRING'] = $iDate->getFormattedDate(DateUtil::FORMAT_MONTHLY);
+    //    if ($charge->CH_period == Charge::PERIOD_MONTHLY) {
+    $iDate = $dateFrom;
+    while (!$iDate->after($dateTo)) {
+        $report['dates'][$iDate->getTime()] = array();
+        $report['dates'][$iDate->getTime()]['DateUtil'] = clone $iDate;
+        $report['dates'][$iDate->getTime()]['DATE_STRING'] = $iDate->getFormattedDate(DateUtil::FORMAT_MONTHLY);
 
-            $report['dates'][$iDate->getTime()]['summary'] = array();
-            $report['dates'][$iDate->getTime()]['summary']['payed'] = 0;
-            $report['dates'][$iDate->getTime()]['summary']['payedWithDelay'] = 0;
-            $report['dates'][$iDate->getTime()]['summary']['delayed'] = 0;
-            $report['dates'][$iDate->getTime()]['summary']['pending'] = 0;
-            $report['dates'][$iDate->getTime()]['summary']['free'] = 0;
+        $report['dates'][$iDate->getTime()]['summary'] = array();
+        $report['dates'][$iDate->getTime()]['summary']['payed'] = 0;
+        $report['dates'][$iDate->getTime()]['summary']['payedWithDelay'] = 0;
+        $report['dates'][$iDate->getTime()]['summary']['delayed'] = 0;
+        $report['dates'][$iDate->getTime()]['summary']['pending'] = 0;
+        $report['dates'][$iDate->getTime()]['summary']['free'] = 0;
 
-            $iDate->add(DateUtil::MONTH, 1);
-        }
+        $iDate->add(DateUtil::MONTH, 1);
+    }
 
-        reset($paymentReport);
-        foreach ($paymentReport as $key => &$personReport) {
-            reset($personReport);
-            foreach ($personReport->_hasCharge as $haschargeid => &$hasCharge) {
-                if ($filter_HC_status != -1) {
-                    if ($hasCharge->HC_status != $filter_HC_status) {
-                        unset($personReport->_hasCharge[$haschargeid]);
-                        continue;
-                    }
-                }
-
-                if ($filter_HC_actualstate != -1) {
-                    if ($hasCharge->HC_actualstate != $filter_HC_actualstate) {
-                        unset($personReport->_hasCharge[$haschargeid]);
-                        continue;
-                    }
-                }
-
-                $hasCharge->_dates = array();
-                $foundAnyEntry = false;
-
-                reset($report['dates']);
-                foreach ($report['dates'] as &$date) {
-                    $dbDate = $date['DateUtil']->getFormattedDate(DateUtil::DB_DATE);
-
-                    $info = array();
-                    $info['date'] = $dbDate;
-                    $info['colspan'] = 1;
-
-                    // test if HasCharge belongs to current dateEntry
-                    $dateStart = new DateUtil($hasCharge->HC_datestart);
-                    $dateEnd = new DateUtil($hasCharge->HC_dateend);
-                    if (!$dateStart->after($date['DateUtil']) && ($dateEnd->getTime() == null || !$date['DateUtil']->after($dateEnd))) {
-                        if (isset($hasCharge->_chargeEntries[$dbDate])) {
-                            $chargeEntry = $hasCharge->_chargeEntries[$dbDate];
-
-                            chargeEntryToStyle($hasCharge, $chargeEntry, $info, $date);
-
-                            $foundAnyEntry = true;
-                        } else {
-                            $info['text'] = '';
-                            $info['style'] = PaymentReportStyles::STATUS_PENDING_PAYMENT_NOT_CREATED;
-                        }
-                    } else {
-                        $info['text'] = '';
-                        $info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
-                    }
-                    $hasCharge->_dates[$date['DateUtil']->getTime()] = $info;
-                }
-                if (!$foundAnyEntry) {
-                    $messages[] = '<a href="/index2.php?option=com_person&task=edit&hidemainmenu=1&PE_personid=' . $personReport->PE_personid . '">' . $personReport->PE_firstname . ' ' . $personReport->PE_surname . '</a>: ' . _('Has unterminated payment');
-
-                    unset($paymentReport[$key]);
+    reset($paymentReport);
+    foreach ($paymentReport as $key => &$personReport) {
+        reset($personReport);
+        foreach ($personReport->_hasCharge as $haschargeid => &$hasCharge) {
+            if ($filter_HC_status != -1) {
+                if ($hasCharge->HC_status != $filter_HC_status) {
+                    unset($personReport->_hasCharge[$haschargeid]);
+                    continue;
                 }
             }
 
-            if (count($personReport->_hasCharge) == 0) {
+            if ($filter_HC_actualstate != -1) {
+                if ($hasCharge->HC_actualstate != $filter_HC_actualstate) {
+                    unset($personReport->_hasCharge[$haschargeid]);
+                    continue;
+                }
+            }
+
+            $hasCharge->_dates = array();
+            $foundAnyEntry = false;
+
+            reset($report['dates']);
+            foreach ($report['dates'] as &$date) {
+                $dbDate = $date['DateUtil']->getFormattedDate(DateUtil::DB_DATE);
+
+                $info = array();
+                $info['date'] = $dbDate;
+                $info['colspan'] = 1;
+
+                // test if HasCharge belongs to current dateEntry
+                $dateStart = new DateUtil($hasCharge->HC_datestart);
+                $dateEnd = new DateUtil($hasCharge->HC_dateend);
+                if (!$dateStart->after($date['DateUtil']) && ($dateEnd->getTime() == null || !$date['DateUtil']->after($dateEnd))) {
+                    if (isset($hasCharge->_chargeEntries[$dbDate])) {
+                        $chargeEntry = $hasCharge->_chargeEntries[$dbDate];
+
+                        chargeEntryToStyle($hasCharge, $chargeEntry, $info, $date);
+
+                        $foundAnyEntry = true;
+                    } else {
+                        $info['text'] = '';
+                        $info['style'] = PaymentReportStyles::STATUS_PENDING_PAYMENT_NOT_CREATED;
+                    }
+                } else {
+                    $info['text'] = '';
+                    $info['style'] = PaymentReportStyles::STATUS_HAS_NO_CHARGE;
+                }
+                $hasCharge->_dates[$date['DateUtil']->getTime()] = $info;
+            }
+            if (!$foundAnyEntry) {
+                $messages[] = '<a href="/index2.php?option=com_person&task=edit&hidemainmenu=1&PE_personid=' . $personReport->PE_personid . '">' . $personReport->PE_firstname . ' ' . $personReport->PE_surname . '</a>: ' . _('Has unterminated payment');
+
                 unset($paymentReport[$key]);
             }
         }
-//    }
+
+        if (count($personReport->_hasCharge) == 0) {
+            unset($paymentReport[$key]);
+        }
+    }
+    //    }
 
     $pageNav = new PageNav(count($paymentReport), $limitstart, $limit);
     $paymentReport = array_slice($paymentReport, $limitstart, $limit);
@@ -208,7 +215,8 @@ function showPaymentReport() {
     HTML_PaymentReport::showPayments($messages, $charges, $paymentReport, $report, $filter, $pageNav);
 }
 
-function chargeEntryToStyle(&$hasCharge, &$chargeEntry, &$info, &$date) {
+function chargeEntryToStyle(&$hasCharge, &$chargeEntry, &$info, &$date)
+{
     if ($chargeEntry->CE_status == ChargeEntry::STATUS_ERROR) {
         // never used so far
     } else if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED && $chargeEntry->CE_overdue == 0) {
@@ -240,4 +248,3 @@ function chargeEntryToStyle(&$hasCharge, &$chargeEntry, &$info, &$date) {
         $info['style'] = PaymentReportStyles::STATUS_OTHER;
     }
 }
-?>

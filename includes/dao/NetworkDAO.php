@@ -101,14 +101,8 @@ class NetworkDAO
             throw new Exception("no ID specified");
         }
         global $database;
-        $network = new Network();
-        $query = "SELECT * FROM `network` WHERE `NE_parent_networkid`='$id' LIMIT 1";
+        $query = "SELECT count(*) FROM `network` WHERE `NE_parent_networkid`='$id'";
         $database->setQuery($query);
-        try {
-            $database->loadObject($network);
-            return false;
-        } catch (Exception $e) {
-            return true;
-        }
+        return $database->loadResult() === "0";
     }
 } // End of NetworkDAO class

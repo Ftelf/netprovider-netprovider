@@ -52,7 +52,7 @@ switch ($task) {
         break;
 
     case 'editA':
-        editIP(intval($cid[0]), null);
+        editIP($cid[0], null);
         break;
 
     case 'saveI':
@@ -240,7 +240,7 @@ function showNetwork() {
  * @param $ipid
  * @param $nid
  */
-function editIP($ipid=null, $nid) {
+function editIP($ipid, $nid): void {
     global $database, $my, $acl, $appContext;
     $ipv4 = new Net_IPv4();
 
