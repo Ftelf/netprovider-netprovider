@@ -13,21 +13,24 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "includes/billing/bankParser/RBTXTParser/RBTXTParser.php");
-require_once($core->getAppRoot() . "includes/billing/bankParser/RBPDFParser/RBPDFParser.php");
-require_once($core->getAppRoot() . "includes/billing/bankParser/IsoSepaXmlParser/IsoSepaXmlParser.php");
+require_once $core->getAppRoot() . "includes/billing/bankParser/RBTXTParser/RBTXTParser.php";
+require_once $core->getAppRoot() . "includes/billing/bankParser/RBPDFParser/RBPDFParser.php";
+require_once $core->getAppRoot() . "includes/billing/bankParser/IsoSepaXmlParser/IsoSepaXmlParser.php";
 
 /**
  * BankParserFactory
  */
-class BankParserFactory {
-    private $parser = null;
+class BankParserFactory
+{
+    private object $parser;
 
     /**
      * Constructor BankParserFactory
+     *
      * @param String $content plain text with list
      */
-    public function __construct($type, $content) {
+    public function __construct($type, $content)
+    {
         switch ($type) {
             case BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_TXT:
                 $this->parser = new RBTXTParser($content);
@@ -49,17 +52,18 @@ class BankParserFactory {
     /**
      * facade method, calls factory parse method
      */
-    function parse() {
+    public function parse(): void
+    {
         $this->parser->parse();
-
     }
 
     /**
      * facade method, calls factory getDocument method
+     *
      * @return array parsed document
      */
-    function getDocument() {
+    public function getDocument()
+    {
         return $this->parser->getDocument();
     }
 } // End of BankParserFactory class
-?>

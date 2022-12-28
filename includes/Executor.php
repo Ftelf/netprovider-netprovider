@@ -175,8 +175,8 @@ class Executor {
 
             case self::REMOTE_MIKROTIK_API:
                 if ($this->_execute) {
-                    for ($i = 0; $i < count($command); $i++) {
-                        $this->routerosApi->write($command[$i], (($i + 1) == count($command)));
+                    for ($i = 0, $iMax = count($command); $i < $iMax; $i++) {
+                        $this->routerosApi->write($command[$i], (($i + 1) === $iMax));
                     }
 
                     $read = $this->routerosApi->read(true);

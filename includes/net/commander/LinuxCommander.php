@@ -13,32 +13,33 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once($core->getAppRoot() . "includes/dao/ChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/HasChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpDAO.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDAO.php");
-require_once($core->getAppRoot() . "includes/dao/HasManagedNetworkDAO.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDeviceDAO.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDeviceInterfaceDAO.php");
-require_once($core->getAppRoot() . "includes/dao/InternetDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpAccountDAO.php");
-require_once($core->getAppRoot() . "includes/Executor.php");
-require_once($core->getAppRoot() . "includes/utils/Utils.php");
+require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
+require_once $core->getAppRoot() . "includes/dao/ChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/HasChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpDAO.php";
+require_once $core->getAppRoot() . "includes/dao/NetworkDAO.php";
+require_once $core->getAppRoot() . "includes/dao/HasManagedNetworkDAO.php";
+require_once $core->getAppRoot() . "includes/dao/NetworkDeviceDAO.php";
+require_once $core->getAppRoot() . "includes/dao/NetworkDeviceInterfaceDAO.php";
+require_once $core->getAppRoot() . "includes/dao/InternetDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpAccountDAO.php";
+require_once $core->getAppRoot() . "includes/Executor.php";
+require_once $core->getAppRoot() . "includes/utils/Utils.php";
 require_once 'Net/IPv4.php';
 
 /**
  * LinuxCommander
  */
-class LinuxCommander {
-    const CHAIN_ACCT_IN = 'FILTER-IN';
-    const CHAIN_ACCT_OUT = 'FILTER-OUT';
+class LinuxCommander
+{
+    private const CHAIN_ACCT_IN = 'FILTER-IN';
+    private const CHAIN_ACCT_OUT = 'FILTER-OUT';
 
-    const IPTABLES_CHAIN_HEADER = 'Chain %s (1 references)';
-    const IPTABLES_LIST_HEADER = 'pkts[[:space:]]+bytes[[:space:]]+target[[:space:]]+prot[[:space:]]+opt[[:space:]]+in[[:space:]]+out[[:space:]]+source[[:space:]]+destination';
+    private const IPTABLES_CHAIN_HEADER = 'Chain %s (1 references)';
+    private const IPTABLES_LIST_HEADER = 'pkts\s+bytes\s+target\s+prot\s+opt\s+in\s+out\s+source\s+destination';
 
-    const IPTABLES_LIST_ENTRY = '^([[:digit:]]+)[[:space:]]+([[:digit:]]+)[[:space:]]+ACCEPT[[:space:]]+all[[:space:]]+--[[:space:]]+\*[[:space:]]+\*[[:space:]]+([[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}(/[[:digit:]]{1,2})?)[[:space:]]+([[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}(/[[:digit:]]{1,2})?)$';
+    private const IPTABLES_LIST_ENTRY = '^([[:digit:]]+)\s+([[:digit:]]+)\s+ACCEPT\s+all\s+--\s+\*\s+\*\s+([[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}(/[[:digit:]]{1,2})?)\s+([[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}(/[[:digit:]]{1,2})?)$';
 
     private $networkDevice;
 
@@ -48,7 +49,8 @@ class LinuxCommander {
     private $redirectToIP;
     private $allowedHosts;
 
-    public function __construct($networkDevice) {
+    public function __construct($networkDevice)
+    {
         global $core;
 
         $this->networkDevice = $networkDevice;
@@ -60,7 +62,8 @@ class LinuxCommander {
         $this->allowedHosts = explode(";", $core->getProperty(Core::ALLOWED_HOSTS));
     }
 
-    public function accountIP() {
+    public function accountIP(): void
+    {
         global $database;
 
         $now = new DateUtil();
@@ -71,7 +74,7 @@ class LinuxCommander {
         foreach ($networkDevices as &$networkDevice) {
             if ($this->globalIPFilterEnabled && $networkDevice->ND_ipFilterEnabled) {
                 if (isset($networkDevice->MANAGEMENT_IP)) {
-                    $settings = array();
+                    $settings = [];
                     $settings[Executor::REMOTE_HOST] = $networkDevice->MANAGEMENT_IP;
                     $settings[Executor::REMOTE_PORT] = 22;
                     $settings[Executor::LOGIN] = $networkDevice->ND_login;
@@ -80,7 +83,7 @@ class LinuxCommander {
 
                     $executor = new Executor(Executor::REMOTE_SSH2, $settings, true);
                 } else {
-                    $settings = array();
+                    $settings = [];
                     $settings[Executor::SUDO_COMMAND] = $networkDevice->ND_commandSudo;
 
                     $executor = new Executor(Executor::LOCAL_COMMAND, $settings, true);
@@ -113,30 +116,30 @@ class LinuxCommander {
                     throw new Exception(sprintf("cannot match chain head in FILTER-OUT: %s", $filterOutArr[0]));
                 }
 
-                if (!ereg(LinuxCommander::IPTABLES_LIST_HEADER, $filterInArr[1], $matches)) {
+                if (!preg_match(LinuxCommander::IPTABLES_LIST_HEADER, $filterInArr[1], $matches)) {
                     throw new Exception(sprintf("cannot match head in FILTER-IN: %s", $filterInArr[1]));
                 }
 
-                if (!ereg(LinuxCommander::IPTABLES_LIST_HEADER, $filterOutArr[1], $matches)) {
+                if (!preg_match(LinuxCommander::IPTABLES_LIST_HEADER, $filterOutArr[1], $matches)) {
                     throw new Exception(sprintf("cannot match head in FILTER-OUT: %s", $filterOutArr[1]));
                 }
 
-                $ipArray = array();
+                $ipArray = [];
                 $l = count($filterInArr);
                 for ($i = 2; $i < $l; $i++) {
                     $iIn = trim($filterInArr[$i]);
                     $iOut = trim($filterOutArr[$i]);
 
-                    if (ereg(LinuxCommander::IPTABLES_LIST_ENTRY, $iIn, $matchesIn) && ereg(LinuxCommander::IPTABLES_LIST_ENTRY, $iOut, $matchesOut)) {
+                    if (preg_match(LinuxCommander::IPTABLES_LIST_ENTRY, $iIn, $matchesIn) && preg_match(LinuxCommander::IPTABLES_LIST_ENTRY, $iOut, $matchesOut)) {
                         if ($matchesIn[5] == $matchesOut[3] && $matchesIn[3] == $matchesOut[5]) {
-                            $ipArray[] = array(
-                                "IP-SRC"		=> $matchesIn[5],
-                                "IP-DST"		=> $matchesIn[3],
-                                "BYTES-IN"		=> $matchesIn[2],
-                                "BYTES-OUT"		=> $matchesOut[2],
-                                "PACKETS-IN"	=> $matchesIn[1],
-                                "PACKETS-OUT"	=> $matchesOut[1],
-                            );
+                            $ipArray[] = [
+                                "IP-SRC" => $matchesIn[5],
+                                "IP-DST" => $matchesIn[3],
+                                "BYTES-IN" => $matchesIn[2],
+                                "BYTES-OUT" => $matchesOut[2],
+                                "PACKETS-IN" => $matchesIn[1],
+                                "PACKETS-OUT" => $matchesOut[1],
+                            ];
                         } else {
                             throw new Exception(sprintf("iptables FILTER-IN and FILTER-OUT mismatch IPs: %s != %s OR %s != %s", $matchesIn[5], $matchesOut[3], $matchesIn[3], $matchesOut[5]));
                         }
@@ -166,9 +169,9 @@ class LinuxCommander {
                     $ipAccount = new IpAccount();
                     $ipAccount->IA_ipid = $ip->IP_ipid;
 
-                    $ipAccount->IA_bytes_in =  ($accountedIP["BYTES-IN"]  >= $ipAccountAbs->IB_bytes_in)  ? $accountedIP["BYTES-IN"]  - $ipAccountAbs->IB_bytes_in  : $accountedIP["BYTES-IN"];
+                    $ipAccount->IA_bytes_in = ($accountedIP["BYTES-IN"] >= $ipAccountAbs->IB_bytes_in) ? $accountedIP["BYTES-IN"] - $ipAccountAbs->IB_bytes_in : $accountedIP["BYTES-IN"];
                     $ipAccount->IA_bytes_out = ($accountedIP["BYTES-OUT"] >= $ipAccountAbs->IB_bytes_out) ? $accountedIP["BYTES-OUT"] - $ipAccountAbs->IB_bytes_out : $accountedIP["BYTES-OUT"];
-                    $ipAccount->IA_packets_in  = ($accountedIP["PACKETS-IN"]  >= $ipAccountAbs->IB_packets_in)  ? $accountedIP["PACKETS-IN"]  - $ipAccountAbs->IB_packets_in  : $accountedIP["PACKETS-IN"];
+                    $ipAccount->IA_packets_in = ($accountedIP["PACKETS-IN"] >= $ipAccountAbs->IB_packets_in) ? $accountedIP["PACKETS-IN"] - $ipAccountAbs->IB_packets_in : $accountedIP["PACKETS-IN"];
                     $ipAccount->IA_packets_out = ($accountedIP["PACKETS-OUT"] >= $ipAccountAbs->IB_packets_out) ? $accountedIP["PACKETS-OUT"] - $ipAccountAbs->IB_packets_out : $accountedIP["PACKETS-OUT"];
 
                     $ipAccountAbs->IB_bytes_in = $accountedIP["BYTES-IN"];
@@ -192,8 +195,9 @@ class LinuxCommander {
         }
     }
 
-    public function getIPFilterDown($executor) {
-        $cmds = array();
+    public function getIPFilterDown($executor)
+    {
+        $cmds = [];
 
         $iptablesCommand = $this->networkDevice->ND_commandIptables;
         $wanInterface = $this->networkDevice->wanInterface;
@@ -214,8 +218,9 @@ class LinuxCommander {
         return self::parseArrayReadable($executor->executeArray($cmds));
     }
 
-    public function getIPFilterUp($executor) {
-        $cmds = array();
+    public function getIPFilterUp($executor)
+    {
+        $cmds = [];
 
         $iptablesCommand = $this->networkDevice->ND_commandIptables;
         $wanInterface = $this->networkDevice->wanInterface;
@@ -293,12 +298,13 @@ class LinuxCommander {
         return self::parseArrayReadable($executor->executeArray($cmds));
     }
 
-    static function parseCommandReadable($array) {
+    static function parseCommandReadable($array)
+    {
         return $array;
     }
 
-    static function parseArrayReadable($array) {
+    static function parseArrayReadable($array)
+    {
         return $array;
     }
 } // End of LinuxCommander class
-?>

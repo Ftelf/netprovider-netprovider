@@ -69,7 +69,7 @@ class NumberFormat {
 
     public static function parseSI($value, $unit) {
         $matches = null;
-        if (mb_ereg("^([[:digit:]]{1,})(\.[[:digit:]]{1,})?[[:space:]]{0,1}(T|G|M|K|k)?$unit$", $value, $matches)) {
+        if (mb_ereg("^([[:digit:]]{1,})(\.[[:digit:]]{1,})?\s{0,1}(T|G|M|K|k)?$unit$", $value, $matches)) {
             $times = 1;
             switch ($matches[3]) {
                 case "":

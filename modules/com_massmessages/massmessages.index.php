@@ -110,12 +110,13 @@ function showNetwork() {
     }
 
     // Build array with all ips in current leaf subnetworks
-    $ipShowList = array();
+    $ipShowListTemp = [];
     foreach ($leafSubNetworks as $leafSubNetwork) {
         if (isset($ipList[$leafSubNetwork->NE_networkid])) {
-            $ipShowList = array_merge($ipShowList,  $ipList[$leafSubNetwork->NE_networkid]);
+            $ipShowListTemp[] = $ipList[$leafSubNetwork->NE_networkid];
         }
     }
+    $ipShowList = array_merge([], ...$ipShowListTemp);
 
     HTML_massmessages::showNetwork($networkTree, $selectedNetwork, $leafSubNetworks, $ipShowList, $persons);
 }
@@ -212,7 +213,7 @@ function buildNetworkTree($id, $netA) {
             $arr[ip2long($netParse->network)] = clone $net;
         }
     }
-    if (sizeof($arr) == 0) return null;
+    if (count($arr) == 0) return null;
     ksort($arr);
 
     foreach ($arr as $net) {

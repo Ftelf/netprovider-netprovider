@@ -291,6 +291,7 @@ function savePerson($task) {
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_person&task=edit&PE_personid=$person->PE_personid&hidemainmenu=1");
+            break;
         case 'save':
             $msg = sprintf(_("User '%s' saved"), $person->PE_firstname." ".$person->PE_surname);
             $appContext->insertMessage($msg);
@@ -608,6 +609,7 @@ function saveHasCharge($task) {
             $appContext->insertMessages($chargesUtil->getMessages());
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_person&hidemainmenu=1&task=editHasCharge&PE_personid=$hasCharge->HC_personid&HC_haschargeid=$hasCharge->HC_haschargeid");
+            break;
         case 'saveHasCharge':
             $msg = sprintf(_("Payment '%s' has been saved for user '%s'"), $storedCharge->CH_name, "$person->PE_surname $person->PE_firstname");
             $appContext->insertMessage($msg);

@@ -130,6 +130,7 @@ function saveHandleEvent($task) {
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_handleevent&task=edit&HE_handleeventid=$handleEvent->HE_handleeventid&hidemainmenu=1");
+            break;
         case 'save':
             $msg = sprintf(_("Event handler '%s' saved"), $handleEvent->HE_name);
             $appContext->insertMessage($msg);

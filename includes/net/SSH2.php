@@ -15,40 +15,44 @@
 /**
  * SSH2
  */
-class SSH2 {
+class SSH2
+{
     private $con;
     private $host;
     private $port;
     private $login;
 
-    public function __construct($host = NULL, $port = 22) {
+    public function __construct($host = null, $port = 22)
+    {
         $this->host = $host;
         $this->port = $port;
 
         $this->con = ssh2_connect($this->host, $this->port);
         // connection attempt successful ?
         if ($this->con === false) {
-            $this->con = NULL;
+            $this->con = null;
             throw new SSH2Exception("Could not connect to host '" . $this->host . "' on port " . $this->port);
         }
     }
 
-    public function login($login = NULL, $password = NULL) {
-        if (empty ($login)) {
+    public function login($login = null, $password = null)
+    {
+        if (empty($login)) {
             throw new IllegalArgumentException("Login failed, no username supplied");
         }
         $this->login = $login;
 
         // try to log in
         if (!ssh2_auth_password($this->con, $this->login, $password)) {
-            $this->con = NULL;
+            $this->con = null;
             throw new SSH2Exception("Password authentication failed for user '" . $this->login . "'");
         }
     }
 
     // returns an array like: array('stdout goes here', 'stderr')
-    public function exec($cmd) {
-        if (empty ($this->con)) {
+    public function exec($cmd)
+    {
+        if (empty($this->con)) {
             throw new SSH2Exception("Exec failed, no connection available");
         }
         // execute the command
@@ -68,7 +72,7 @@ class SSH2 {
         fclose($stdout_stream);
         fclose($err_stream);
 
-        return array (
+        return array(
             $cmd,
             $result_dio,
             $result_err
@@ -76,8 +80,10 @@ class SSH2 {
     }
 }
 
-class SSH2Exception extends Exception {
+class SSH2Exception extends Exception
+{
 }
-class IllegalArgumentException extends Exception {
+
+class IllegalArgumentException extends Exception
+{
 }
-?>

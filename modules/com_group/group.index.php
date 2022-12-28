@@ -115,6 +115,7 @@ function saveGroup($task) {
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_group&task=edit&GR_groupid=$group->GR_groupid&hidemainmenu=1");
+            break;
         case 'save':
             $msg = sprintf(_("Group '%s' saved"), $group->GR_name);
             $appContext->insertMessage($msg);

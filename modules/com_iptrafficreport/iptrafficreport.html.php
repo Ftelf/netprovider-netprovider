@@ -140,7 +140,7 @@ class HTML_IpTrafficReport {
    </thead>
     <tfoot>
     <tr>
-      <td colspan="<?php echo sizeof($report['intervals']) + 5; ?>">
+      <td colspan="<?php echo count($report['intervals']) + 5; ?>">
 <?php
 	echo $pageNav->getListFooter();
 ?>

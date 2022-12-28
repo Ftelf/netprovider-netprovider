@@ -267,7 +267,7 @@ class HTML_PaymentReport {
    </thead>
     <tfoot>
     <tr>
-      <td colspan="<?php echo sizeof($report['dates']) + 11; ?>">
+      <td colspan="<?php echo count($report['dates']) + 11; ?>">
 <?php
 	echo $pageNav->getListFooter();
 ?>

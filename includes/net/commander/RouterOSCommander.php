@@ -13,28 +13,29 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once($core->getAppRoot() . "includes/dao/ChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/HasChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpDAO.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDAO.php");
-require_once($core->getAppRoot() . "includes/dao/HasManagedNetworkDAO.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDeviceDAO.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDeviceInterfaceDAO.php");
-require_once($core->getAppRoot() . "includes/dao/InternetDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpAccountDAO.php");
-require_once($core->getAppRoot() . "includes/Executor.php");
-require_once($core->getAppRoot() . "includes/utils/Utils.php");
-require_once($core->getAppRoot() . "includes/utils/DiacriticsUtil.php");
+require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
+require_once $core->getAppRoot() . "includes/dao/ChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/HasChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpDAO.php";
+require_once $core->getAppRoot() . "includes/dao/NetworkDAO.php";
+require_once $core->getAppRoot() . "includes/dao/HasManagedNetworkDAO.php";
+require_once $core->getAppRoot() . "includes/dao/NetworkDeviceDAO.php";
+require_once $core->getAppRoot() . "includes/dao/NetworkDeviceInterfaceDAO.php";
+require_once $core->getAppRoot() . "includes/dao/InternetDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpAccountDAO.php";
+require_once $core->getAppRoot() . "includes/Executor.php";
+require_once $core->getAppRoot() . "includes/utils/Utils.php";
+require_once $core->getAppRoot() . "includes/utils/DiacriticsUtil.php";
 require_once 'Net/IPv4.php';
 
 /**
  * RouterOSCommander
  */
-class RouterOSCommander {
-    const FILTER_IN = 'FILTER-IN';
-    const FILTER_OUT = 'FILTER-OUT';
+class RouterOSCommander
+{
+    private const FILTER_IN = 'FILTER-IN';
+    private const FILTER_OUT = 'FILTER-OUT';
 
     private $networkDevice;
 
@@ -43,7 +44,8 @@ class RouterOSCommander {
     private $redirectToIP;
     private $allowedHosts;
 
-    public function __construct($networkDevice) {
+    public function __construct($networkDevice)
+    {
         global $core;
 
         $this->networkDevice = $networkDevice;
@@ -54,7 +56,8 @@ class RouterOSCommander {
         $this->allowedHosts = explode(";", $core->getProperty(Core::ALLOWED_HOSTS));
     }
 
-    public function accountIP($executor) {
+    public function accountIP($executor): void
+    {
         $this->synchronizeFilter($executor);
 
         global $database;
@@ -62,11 +65,11 @@ class RouterOSCommander {
         $now = new DateUtil();
         $dateString = $now->getFormattedDate(DateUtil::DB_DATETIME);
 
-        $ipArray = array();
+        $ipArray = [];
 
         $filterInIpResult = $executor->execute(array("/ip/firewall/filter/print", sprintf("?=chain=%s", RouterOSCommander::FILTER_IN), "?=action=accept", "=stats="));
         foreach ($filterInIpResult[1] as $filterInIp) {
-            $acc = array();
+            $acc = [];
             $acc['bytes-in'] = $filterInIp['bytes'];
             $acc['packets-in'] = $filterInIp['packets'];
             $ipArray[$filterInIp['dst-address']] = $acc;
@@ -82,7 +85,7 @@ class RouterOSCommander {
             }
         }
 
-        foreach ($ipArray as $key=>$ipResult) {
+        foreach ($ipArray as $key => $ipResult) {
             try {
                 $ip = IpDAO::getIpByIP($key);
             } catch (Exception $e) {
@@ -109,9 +112,9 @@ class RouterOSCommander {
             $ipAccount = new IpAccount();
             $ipAccount->IA_ipid = $ip->IP_ipid;
 
-            $ipAccount->IA_bytes_in =  ($inBytes  >= $ipAccountAbs->IB_bytes_in)  ? $inBytes  - $ipAccountAbs->IB_bytes_in  : $inBytes;
+            $ipAccount->IA_bytes_in = ($inBytes >= $ipAccountAbs->IB_bytes_in) ? $inBytes - $ipAccountAbs->IB_bytes_in : $inBytes;
             $ipAccount->IA_bytes_out = ($outBytes >= $ipAccountAbs->IB_bytes_out) ? $outBytes - $ipAccountAbs->IB_bytes_out : $outBytes;
-            $ipAccount->IA_packets_in  = ($inPackets  >= $ipAccountAbs->IB_packets_in)  ? $inPackets  - $ipAccountAbs->IB_packets_in  : $inPackets;
+            $ipAccount->IA_packets_in = ($inPackets >= $ipAccountAbs->IB_packets_in) ? $inPackets - $ipAccountAbs->IB_packets_in : $inPackets;
             $ipAccount->IA_packets_out = ($outPackets >= $ipAccountAbs->IB_packets_out) ? $outPackets - $ipAccountAbs->IB_packets_out : $outPackets;
 
             $ipAccountAbs->IB_bytes_in = $inBytes;
@@ -133,13 +136,14 @@ class RouterOSCommander {
         }
     }
 
-    public function synchronizeFilter($executor) {
+    public function synchronizeFilter($executor)
+    {
         $diacriticsUtil = new DiacriticsUtil();
-        $cmds = array();
+        $cmds = [];
 
         $this->resetIpFilter($executor, $cmds);
 
-        $ipAddressMap = array();
+        $ipAddressMap = [];
         foreach ($this->networkDevice->NETWORKS as &$network) {
             foreach ($network['INTERNETS'] as &$internet) {
                 foreach ($internet['IPS'] as &$ip) {
@@ -216,11 +220,11 @@ class RouterOSCommander {
                 $cmds[] = $executor->execute(
                     array(
                         "/ip/firewall/filter/add",
-                          sprintf("=chain=%s", RouterOSCommander::FILTER_OUT),
-                          sprintf("=src-address=%s", $address),
-                          sprintf("=comment=%s", $comment),
-                          "=action=accept",
-                          "=place-before=$idToPlaceFilterOut"
+                        sprintf("=chain=%s", RouterOSCommander::FILTER_OUT),
+                        sprintf("=src-address=%s", $address),
+                        sprintf("=comment=%s", $comment),
+                        "=action=accept",
+                        "=place-before=$idToPlaceFilterOut"
                     )
                 );
             }
@@ -229,7 +233,8 @@ class RouterOSCommander {
         return self::parseArrayReadable($cmds);
     }
 
-    public function resetIpFilter($executor, &$cmds) {
+    public function resetIpFilter($executor, &$cmds): void
+    {
         if (!$this->isIpFilterValid($executor, $cmds)) {
             $filterArray = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "=.proplist=.id"));
             $cmds[] = $filterArray;
@@ -259,7 +264,8 @@ class RouterOSCommander {
         }
     }
 
-    public function isIpFilterValid($executor, &$cmds) {
+    public function isIpFilterValid($executor, &$cmds)
+    {
         // FILTER-IN
         $resultFilterIn = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "=.proplist=.id,dst-address,action"));
         $cmds[] = $resultFilterIn;
@@ -271,7 +277,14 @@ class RouterOSCommander {
             return false;
         }
 
-        if (count(array_filter($filterInIPPart, function ($e) { return $e["action"] !== "accept"; }))) {
+        if (count(
+            array_filter(
+                $filterInIPPart, function ($e) {
+                return $e["action"] !== "accept";
+            }
+            )
+        )
+        ) {
             return false;
         }
 
@@ -286,7 +299,14 @@ class RouterOSCommander {
             return false;
         }
 
-        if (count(array_filter($filterOutIPPart, function ($e) { return $e["action"] !== "accept"; }))) {
+        if (count(
+            array_filter(
+                $filterOutIPPart, function ($e) {
+                return $e["action"] !== "accept";
+            }
+            )
+        )
+        ) {
             return false;
         }
 
@@ -297,60 +317,63 @@ class RouterOSCommander {
         return true;
     }
 
-    public function getIPFilterDown($executor) {
+    public function getIPFilterDown($executor)
+    {
         $this->synchronizeFilter($executor);
 
-        $cmds = array();
+        $cmds = [];
 
         $resultFilterIn = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "?action=reject", "?disabled=no"));
         $cmds[] = $resultFilterIn;
 
-        if (isset($resultFilterIn[1]) and count($resultFilterIn[1]) == 1) {
+        if (isset($resultFilterIn[1]) && count($resultFilterIn[1]) == 1) {
             $cmds[] = $executor->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterIn[1][0]['.id']), "=disabled=yes"));
         }
 
         $resultFilterOut = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "?action=reject", "?disabled=no"));
         $cmds[] = $resultFilterOut;
 
-        if (isset($resultFilterOut[1]) and count($resultFilterOut[1]) == 1) {
+        if (isset($resultFilterOut[1]) && count($resultFilterOut[1]) == 1) {
             $cmds[] = $executor->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterOut[1][0]['.id']), "=disabled=yes"));
         }
 
         return self::parseArrayReadable($cmds);
     }
 
-    public function getIPFilterUp($executor) {
+    public function getIPFilterUp($executor)
+    {
         $this->synchronizeFilter($executor);
 
-        $cmds = array();
+        $cmds = [];
 
         $resultFilterIn = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "?action=reject", "?disabled=yes"));
         $cmds[] = $resultFilterIn;
 
-        if (isset($resultFilterIn[1]) and count($resultFilterIn[1]) == 1) {
+        if (isset($resultFilterIn[1]) && count($resultFilterIn[1]) == 1) {
             $cmds[] = $executor->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterIn[1][0]['.id']), "=disabled=no"));
         }
 
         $resultFilterOut = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "?action=reject", "?disabled=yes"));
         $cmds[] = $resultFilterOut;
 
-        if (isset($resultFilterOut[1]) and count($resultFilterOut[1]) == 1) {
+        if (isset($resultFilterOut[1]) && count($resultFilterOut[1]) == 1) {
             $cmds[] = $executor->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterOut[1][0]['.id']), "=disabled=no"));
         }
 
         return self::parseArrayReadable($cmds);
     }
 
-    static function parseCommandReadable($array) {
-        $resultArray = array();
+    static function parseCommandReadable($array)
+    {
+        $resultArray = [];
 
         $resultArray[0] = implode('', $array[0]);
 
-        $return1 = array();
+        $return1 = [];
         if (is_array($array[1])) {
             foreach ($array[1] as $returnPart) {
                 $string = '';
-                foreach ($returnPart as $key=>$value) {
+                foreach ($returnPart as $key => $value) {
                     $string .= "$key=$value ";
                 }
                 $return1[] = $string;
@@ -365,8 +388,9 @@ class RouterOSCommander {
         return $resultArray;
     }
 
-    static function parseArrayReadable($array) {
-        $resultArray = array();
+    static function parseArrayReadable($array)
+    {
+        $resultArray = [];
 
         foreach ($array as $command) {
             $resultArray[] = self::parseCommandReadable($command);
@@ -375,4 +399,3 @@ class RouterOSCommander {
         return $resultArray;
     }
 } // End of RouterOSCommander class
-?>

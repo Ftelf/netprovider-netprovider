@@ -15,66 +15,73 @@
 /**
  * ChargePaymentDeadlineEvent
  */
-Class ChargePaymentDeadlineEvent extends Event {
-    private $charge = null; //Charge that is delayed
-    private $periodDate = null; //Period date of payment: CE_period_date
-    private $writeOffDate = null; //Date of payment writeOff: CE_period_date + CE_writeoffoffset
-    private $toleranceDate = null; //Date till payment delay will be tolerated CE_period_date + CH_tolerance
+class ChargePaymentDeadlineEvent extends Event
+{
+    private $charge; //Charge that is delayed
+    private $periodDate; //Period date of payment: CE_period_date
+    private $writeOffDate; //Date of payment writeOff: CE_period_date + CE_writeoffoffset
+    private $toleranceDate; //Date till payment delay will be tolerated CE_period_date + CH_tolerance
 
-    public function __construct($date, $person, $message, $charge, $periodDate, $writeOffDate, $toleranceDate) {
-        $this->setDate($date);
-        $this->setPerson($person);
-        $this->setMessage($message);
+    public function __construct($date, $person, $message, $charge, $periodDate, $writeOffDate, $toleranceDate)
+    {
+        parent::__construct($date, $person, $message);
         $this->setCharge($charge);
         $this->setPeriodDate($periodDate);
         $this->setWriteOffDate($writeOffDate);
         $this->setToleranceDate($toleranceDate);
     }
 
-    public function setCharge($charge) {
+    public function setCharge($charge): void
+    {
         $this->charge = $charge;
     }
 
-    public function getCharge() {
+    public function getCharge()
+    {
         return $this->charge;
     }
 
-    public function setPeriodDate($periodDate) {
+    public function setPeriodDate($periodDate): void
+    {
         $this->periodDate = $periodDate;
     }
 
-    public function getPeriodDate() {
+    public function getPeriodDate()
+    {
         return $this->periodDate;
     }
 
-    public function setWriteOffDate($writeOffDate) {
+    public function setWriteOffDate($writeOffDate): void
+    {
         $this->writeOffDate = $writeOffDate;
     }
 
-    public function getWriteOffDate() {
+    public function getWriteOffDate()
+    {
         return $this->writeOffDate;
     }
 
-    public function setToleranceDate($toleranceDate) {
+    public function setToleranceDate($toleranceDate): void
+    {
         $this->toleranceDate = $toleranceDate;
     }
 
-    public function getToleranceDate() {
+    public function getToleranceDate()
+    {
         return $this->toleranceDate;
     }
 
-    function __toString() {
-        return	"\n---------------------------------\n".
-                "ChargePaymentDeadlineEvent\n".
-                "date: ".$this->date."\n".
-                "person: ".$this->person->PE_personid." ".$this->person->PE_firstname." ".$this->person->PE_surname."\n".
-                "message: ".$this->message."\n".
-                "chargeName: ".$this->charge->CH_name."\n".
-                "chargePeriod: ".$this->chargePeriod."\n".
-                "periodDate: ".$this->periodDate."\n".
-                "writeOffDate: ".$this->writeOffDate."\n".
-                "toleranceDate: ".$this->toleranceDate."\n".
-                "\n---------------------------------\n";
+    public function __toString()
+    {
+        return "\n---------------------------------\n" .
+            "ChargePaymentDeadlineEvent\n" .
+            "date: " . $this->getDate() . "\n" .
+            "person: " . $this->getPerson()->PE_personid . " " . $this->getPerson()->PE_firstname . " " . $this->getPerson()->PE_surname . "\n" .
+            "message: " . $this->getMessage() . "\n" .
+            "chargeName: " . $this->charge->CH_name . "\n" .
+            "periodDate: " . $this->periodDate . "\n" .
+            "writeOffDate: " . $this->writeOffDate . "\n" .
+            "toleranceDate: " . $this->toleranceDate . "\n" .
+            "\n---------------------------------\n";
     }
 } // End of PaymentEvent class
-?>

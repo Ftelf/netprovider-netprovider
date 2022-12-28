@@ -404,6 +404,7 @@ function saveNetworkDevice($task) {
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDevice->ND_networkdeviceid&hidemainmenu=1");
+            break;
         case 'save':
             $msg = sprintf(_("Network device '%s' saved"), $networkDevice->ND_name);
             $appContext->insertMessage($msg);
@@ -490,6 +491,7 @@ function saveNetworkDeviceNetwork($task) {
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_networkdevice&task=editNetwork&MN_hasmanagednetworkid=$hasManagedNetwork->MN_hasmanagednetworkid&hidemainmenu=1");
+            break;
         case 'saveNetwork':
             $msg = sprintf(_("Network device network '%s' saved for network device %s"), $network->NE_net, $networkDevice->ND_name);
             $appContext->insertMessage($msg);
@@ -561,6 +563,7 @@ function saveNetworkDeviceInterface($task) {
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_networkdevice&task=editInterface&ND_networkdeviceid=$networkDeviceInterface->NI_networkdeviceid&NI_networkdeviceinterfaceid=$networkDeviceInterface->NI_networkdeviceinterfaceid&hidemainmenu=1");
+            break;
         case 'saveInterface':
             $msg = sprintf(_("Network interface '%s' saved"), $networkDeviceInterface->NI_ifname);
             $appContext->insertMessage($msg);
@@ -628,6 +631,7 @@ function saveNetworkDeviceWirelessInterface($task) {
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_networkdevice&task=editWirelessInterface&NW_networkdevicewirelessinterfaceid=$networkDeviceWirelessInterface->NW_networkdevicewirelessinterfaceid&hidemainmenu=1");
+            break;
         case 'saveWirelessInterface':
             $msg = sprintf(_("Network wireless interface '%s' saved"), $networkDeviceWirelessInterface->NW_ifname);
             $appContext->insertMessage($msg);
@@ -688,6 +692,7 @@ function saveNetworkDeviceProperty($task) {
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_networkdevice&task=editProperty&NP_networkdevicepropertyid=$networkDeviceProperty->NP_networkdevicepropertyid&hidemainmenu=1");
+            break;
         case 'saveProperty':
             $msg = sprintf(_("Network device property '%s' saved"), $networkDeviceProperty->NP_name);
             $appContext->insertMessage($msg);
@@ -831,7 +836,7 @@ function getLeafNetworks($id, &$allNetworks, &$networks) {
             $childrenNetworks[ip2long($netParse->network)] = clone $network;
         }
     }
-    if (sizeof($childrenNetworks)) {
+    if (count($childrenNetworks)) {
         ksort($childrenNetworks);
 
         foreach ($childrenNetworks as $network) {

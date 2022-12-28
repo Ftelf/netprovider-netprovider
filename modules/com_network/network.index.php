@@ -174,13 +174,14 @@ function showNetwork() {
     }
     // Build array with all ips in current leaf subnetworks
     //
-    $ipShowList = array();
+    $ipShowListTemp = [];
     foreach ($leafSubNetworks as $leafSubNetwork) {
         if (isset($ipList[$leafSubNetwork->NE_networkid])) {
-            $ipShowList = array_merge($ipShowList,  $ipList[$leafSubNetwork->NE_networkid]);
+            $ipShowListTemp[] = $ipList[$leafSubNetwork->NE_networkid];
         }
     }
-    $pageNav = new PageNav(sizeof($ipShowList), $limitstart, $limit);
+    $ipShowList = array_merge([], ...$ipShowListTemp);
+    $pageNav = new PageNav(count($ipShowList), $limitstart, $limit);
     // chop $ipShowList only to IPs that we want to display
     //
     $ipShowList = array_slice($ipShowList, $limitstart, $limit);
@@ -346,7 +347,7 @@ function editNetwork($task, $nid=null) {
         $parentNetworkParsed = $ipv4->parseAddress($parentNetwork->NE_net);
         if ($parentNetworkParsed->bitmask >= 24) {
             $possibleNetworkArray = getFreeSubNetworks($parentNetwork->NE_net, $plainSubNetworks);
-            if (sizeof($possibleNetworkArray) == 0) {
+            if (count($possibleNetworkArray) == 0) {
                 $database->log("ERROR: mod_network, pokus vložit novou podsíť do sítě, kde již není místo ID '$parentNetwork->NE_networkid' síť '$parentNetwork->NE_net'", Log::LEVEL_ERROR);
                 Core::redirect("index2.php?option=com_network&NE_networkid=$nid");
             }
@@ -410,6 +411,7 @@ function saveIP($task, $iid, $nid) {
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_network&task=editI&IP_ipid=$ip->IP_ipid&NE_networkid=$nid&hidemainmenu=1");
+            break;
         case 'saveI':
             $msg = sprintf(_("IP: %s in network %s assigned to person '%s'"), $ip->IP_address, $network->NE_net, $person->PE_firstname." ".$person->PE_surname);
             $appContext->insertMessage($msg);
@@ -503,6 +505,7 @@ function saveNetwork($task) {
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_network&task=editN&NE_networkid=$network->NE_networkid&hidemainmenu=1");
+            break;
         case 'saveN':
             $msg = sprintf(_("Network %s assigned to user '%s'"), $network->NE_net, $person->PE_firstname." ".$person->PE_surname);
             $appContext->insertMessage($msg);
@@ -589,7 +592,7 @@ function buildNetworkTree($id, $netA) {
             $arr[ip2long($netParse->network)] = clone $net;
         }
     }
-    if (sizeof($arr) == 0) return null;
+    if (count($arr) == 0) return null;
     ksort($arr);
 
     foreach ($arr as $net) {
@@ -633,37 +636,38 @@ function getFreeSubNetworks(&$n1, &$n2Array) {
     $ipv4 = new Net_IPv4();
 
     $np1 = $ipv4->parseAddress($n1);
-    if (sizeof($n2Array) == 0) {
+    if (count($n2Array) == 0) {
         return subNetworkPermutation($np1, false);
     }
     // Include only subnetworks, will be remove afterwoods
     //
     $innerNets = array();
-    $countBefore = sizeof($n2Array);
+    $countBefore = count($n2Array);
     foreach ($n2Array as $n2) {
         $np2 = $ipv4->parseAddress($n2);
         if ( ($np1->long <= $np2->long) && ($ipv4->ip2double($np2->broadcast) <= $ipv4->ip2double($np1->broadcast)) ) {
             $innerNets[] = $np2;
         }
     }
-    $countAfter = sizeof($innerNets);
+    $countAfter = count($innerNets);
     if ($countAfter != $countBefore) {
         $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", Log::LEVEL_ERROR);
         return array();
     }
-    if (sizeof($innerNets) == 0) {
+    if (count($innerNets) == 0) {
         $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", Log::LEVEL_ERROR);
         return array();
     }
     $lastAnchor = $np1->long;
-    $freeNets = array();
+    $freeNetsTemp = [];
     foreach ($innerNets as $np2) {
         $n2long = $np2->long;
         if ($n2long > $lastAnchor) {
-            $freeNets = array_merge($freeNets, subNetworkPermutationByRange(long2ip($lastAnchor), $np2->network, true));
+            $freeNetsTemp[] = subNetworkPermutationByRange(long2ip($lastAnchor), $np2->network, true);
         }
         $lastAnchor = $ipv4->ip2double($np2->broadcast) + 1;
     }
+    $freeNets = array_merge([], ...$freeNetsTemp);
     // Finally add last one
     //
     if (ip2long($np2->broadcast) < ip2long($np1->broadcast)) {
@@ -734,20 +738,20 @@ function isAnyFreeSubNetworks(&$n1, &$n2Array) {
     $ipv4 = new Net_IPv4();
 
     $np1 = $ipv4->parseAddress($n1);
-    if (sizeof($n2Array) == 0) {
+    if (count($n2Array) == 0) {
         return ($np1->bitmask < 30);
     }
     // Include only subnetworks, will be remove afterwoods
     //
     $innerNets = array();
-    $countBefore = sizeof($n2Array);
+    $countBefore = count($n2Array);
     foreach ($n2Array as $n2) {
         $np2 = $ipv4->parseAddress($n2);
         if ( ($np1->long <= $np2->long) && ($ipv4->ip2double($np2->broadcast) <= $ipv4->ip2double($np1->broadcast)) ) {
             $innerNets[] = $np2;
         }
     }
-    $countAfter = sizeof($innerNets);
+    $countAfter = count($innerNets);
     if ($countAfter != $countBefore) {
         $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", Log::LEVEL_ERROR);
         return false;
@@ -788,7 +792,7 @@ function isSpaceForSubNetwork(&$n1, &$n2Array, &$nn) {
 
     $np1 = $ipv4->parseAddress($n1);
     $nnp = $ipv4->parseAddress($nn);
-    if (sizeof($n2Array) == 0) {
+    if (count($n2Array) == 0) {
         if ( ($np1->long <= $nnp->long) && ($ipv4->ip2double($nnp->broadcast) <= $ipv4->ip2double($np1->broadcast)) ) {
             return true;
         }
@@ -796,14 +800,14 @@ function isSpaceForSubNetwork(&$n1, &$n2Array, &$nn) {
     // Include only subnetworks, will be remove afterwoods
     //
     $innerNets = array();
-    $countBefore = sizeof($n2Array);
+    $countBefore = count($n2Array);
     foreach ($n2Array as $n2) {
         $np2 = $ipv4->parseAddress($n2);
         if ( ($np1->long <= $np2->long) && ($ipv4->ip2double($np2->broadcast) <= $ipv4->ip2double($np1->broadcast)) ) {
             $innerNets[] = $np2;
         }
     }
-    $countAfter = sizeof($innerNets);
+    $countAfter = count($innerNets);
     if ($countAfter != $countBefore) {
         $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", Log::LEVEL_ERROR);
         return false;

@@ -60,7 +60,7 @@
 
                 <div class="m">
                   <div class="inputlabel"><?php echo _("Username");?></div>
-                  <div><input name="username" type="text" class="inputbox" size="15" value="<?php echo $foundUsername; ?>" /></div>
+                  <div><input name="username" type="text" class="inputbox" size="15" /></div>
                   <div class="inputlabel"><?php echo _("Password");?></div>
                   <div><input name="pass" type="password" class="inputbox" size="15" /></div>
                   <div align="left"><input type="submit" name="submit" class="button" value="<?php echo _("Login"); ?>" /></div>

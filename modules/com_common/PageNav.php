@@ -83,6 +83,14 @@ class PageNav {
     */
     function getPagesLinks() {
         $html = '';
+        $html .= "
+        <script type=\"text/javascript\">
+        function goPage(suffix, limitStart) {
+            document.adminForm[`limitstart\${suffix}`].value = limitStart;
+            document.adminForm.submit();
+        };
+        </script>
+        ";
         $displayed_pages = 10;
         $total_pages = ceil( $this->total / $this->limit );
         $this_page = ceil( ($this->limitstart+1) / $this->limit );
@@ -95,8 +103,8 @@ class PageNav {
 
         if ($this_page > 1) {
             $page = ($this_page - 2) * $this->limit;
-            $html .= "\n<a href=\"#beg\" class=\"pagenav\" title=\""._("First page")."\" onclick=\"javascript: document.adminForm.limitstart".$this->suffix.".value=0; document.adminForm.submit();return false;\">&lt;&lt; "._("First")."</a>";
-            $html .= "\n<a href=\"#prev\" class=\"pagenav\" title=\""._("Previous page")."\" onclick=\"javascript: document.adminForm.limitstart".$this->suffix.".value=$page; document.adminForm.submit();return false;\">&lt; "._("Previous")."</a>";
+            $html .= "\n<a href=\"#beg\" class=\"pagenav\" title=\""._("First page")."\" onclick=\"goPage('{$this->suffix}', 0);\">&lt;&lt; "._("First")."</a>";
+            $html .= "\n<a href=\"#prev\" class=\"pagenav\" title=\""._("Previous page")."\" onclick=\"goPage('{$this->suffix}', {$page});\">&lt; "._("Previous")."</a>";
         } else {
             $html .= "\n<span class=\"pagenav\">&lt;&lt; "._("First")."</span>";
             $html .= "\n<span class=\"pagenav\">&lt; "._("Previous")."</span>";
@@ -107,15 +115,15 @@ class PageNav {
             if ($i == $this_page) {
                 $html .= "\n<span class=\"pagenav\"> $i </span>";
             } else {
-                $html .= "\n<a href=\"#$i\" class=\"pagenav\" onclick=\"javascript: document.adminForm.limitstart".$this->suffix.".value=$page; document.adminForm.submit();return false;\"><strong>$i</strong></a>";
+                $html .= "\n<a href=\"#$i\" class=\"pagenav\" onclick=\"goPage('{$this->suffix}', {$page});\"><strong>$i</strong></a>";
             }
         }
 
         if ($this_page < $total_pages) {
             $page = $this_page * $this->limit;
             $end_page = ($total_pages-1) * $this->limit;
-            $html .= "\n<a href=\"#next\" class=\"pagenav\" title=\""._("Next page")."\" onclick=\"javascript: document.adminForm.limitstart".$this->suffix.".value=$page; document.adminForm.submit();return false;\">"._("Next")." &gt;</a>";
-            $html .= "\n<a href=\"#end\" class=\"pagenav\" title=\""._("Last page")."\" onclick=\"javascript: document.adminForm.limitstart".$this->suffix.".value=$end_page; document.adminForm.submit();return false;\">"._("Last")." &gt;&gt;</a>";
+            $html .= "\n<a href=\"#next\" class=\"pagenav\" title=\""._("Next page")."\" onclick=\"goPage('{$this->suffix}', {$page});\">"._("Next")." &gt;</a>";
+            $html .= "\n<a href=\"#end\" class=\"pagenav\" title=\""._("Last page")."\" onclick=\"goPage('{$this->suffix}', {$end_page});\">"._("Last")." &gt;&gt;</a>";
         } else {
             $html .= "\n<span class=\"pagenav\">"._("Next")." &gt;</span>";
             $html .= "\n<span class=\"pagenav\">"._("Last")." &gt;&gt;</span>";

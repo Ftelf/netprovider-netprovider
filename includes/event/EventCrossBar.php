@@ -13,35 +13,38 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "includes/event/Event.php");
-require_once($core->getAppRoot() . "includes/dao/HandleEventDAO.php");
+require_once $core->getAppRoot() . "includes/event/Event.php";
+require_once $core->getAppRoot() . "includes/dao/HandleEventDAO.php";
 
 /**
  * Core
  */
-Class EventCrossBar {
-    var $handleEventArray = null;
-    var $templateArray = null;
-    var $emailUtil = null;
+class EventCrossBar
+{
+    private $handleEventArray;
+    private $templateArray;
+    private $emailUtil;
 
-    public function __construct() {
-        global $core, $database;
+    public function __construct()
+    {
+        global $core;
 
         $this->emailUtil = new EmailUtil();
 
         $this->handleEventArray = HandleEventDAO::getHandleEventArray();
-        $this->templateArray = array();
+        $this->templateArray = [];
 
-        foreach ($this->handleEventArray as &$handleEvent) {
-            $path = $core->getAppRoot()."templates/events/".$handleEvent->HE_templatepath;
+        foreach ($this->handleEventArray as $handleEvent) {
+            $path = $core->getAppRoot() . "templates/events/" . $handleEvent->HE_templatepath;
             if (!($template = file_get_contents($path))) {
-                throw new Exception("Cannot open event template file: ".$path);
+                throw new Exception("Cannot open event template file: " . $path);
             }
             $this->templateArray[$handleEvent->HE_handleeventid] = $template;
         }
     }
 
-    function dispatchEvent($event) {
+    public function dispatchEvent($event): void
+    {
         global $database;
         $now = new DateUtil();
         $now->set(DateUtil::HOUR, 0);
@@ -49,15 +52,16 @@ Class EventCrossBar {
         $now->set(DateUtil::SECONDS, 0);
 
         if ($event instanceof ChargePaymentDeadlineEvent) {
-            foreach ($this->handleEventArray as &$handleEvent) {
-                if ($handleEvent->HE_type == HandleEvent::TYPE_CHARGE_PAYMENT_DEADLINE &&
-                    $handleEvent->HE_status == HandleEvent::STATUS_ENABLED) {
+            foreach ($this->handleEventArray as $handleEvent) {
+                if ($handleEvent->HE_type == HandleEvent::TYPE_CHARGE_PAYMENT_DEADLINE
+                    && $handleEvent->HE_status == HandleEvent::STATUS_ENABLED
+                ) {
 
                     $daysBeforeTurnOff = ($event->getToleranceDate()->getTime() - $now->getTime()) / 3600 / 24;
 
                     if ($handleEvent->HE_notifydaysbeforeturnoff == null || $handleEvent->HE_notifydaysbeforeturnoff >= $daysBeforeTurnOff) {
                         $template = $this->templateArray[$handleEvent->HE_handleeventid];
-                        $template = mb_ereg_replace("\|PERSON_NAME\|", $event->getPerson()->PE_firstname." ".$event->getPerson()->PE_surname, $template);
+                        $template = mb_ereg_replace("\|PERSON_NAME\|", $event->getPerson()->PE_firstname . " " . $event->getPerson()->PE_surname, $template);
                         $template = mb_ereg_replace("\|CHARGE_NAME\|", $event->getCharge()->CH_name, $template);
                         $template = mb_ereg_replace("\|CHARGE_BASEAMOUNT\|", $event->getCharge()->CH_baseamount, $template);
                         $template = mb_ereg_replace("\|CHARGE_VAT\|", $event->getCharge()->CH_vat, $template);
@@ -88,4 +92,3 @@ Class EventCrossBar {
         }
     }
 } // End of EventCrossBar class
-?>

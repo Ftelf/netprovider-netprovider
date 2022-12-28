@@ -36,7 +36,7 @@ class Utils {
         }
     }
 
-    public static function getmicrotime() {
+    public static function getmicrotime(): float {
         list($usec, $sec) = explode(" ",microtime());
         return ((float)$usec + (float)$sec);
     }

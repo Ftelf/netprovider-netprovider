@@ -146,7 +146,7 @@ table.insideadminlist td { padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; }
 
 select.options, input.options { font-size: 8px; font-weight: normal; border: 1px solid #999999; }
 
-table.splitform { border-width: 0; width: 100%; border-collapse: collapse; margin: 0 0 0 0; padding: 5; }
+table.splitform { border-width: 0; width: 100%; border-collapse: collapse; margin: 0 0 0 0; padding: 5px; }
 /*table.splitform td { padding: 0; }*/
 
 
