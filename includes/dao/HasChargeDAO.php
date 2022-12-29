@@ -76,7 +76,7 @@ class HasChargeDAO
         return $database->loadObjectList("HC_haschargeid");
     }
 
-    public static function getHasChargeReportArray($pid, $chargesids, $dateFrom = null, $dateTo = null): array
+    public static function getHasChargeReportArray($pid, $chargesids, $status = -1, $actualState = -1, $dateFrom = null, $dateTo = null): array
     {
         if (!$pid || !is_array($chargesids)) {
             throw new Exception("not specified both IDs");
@@ -90,6 +90,14 @@ class HasChargeDAO
             $query .= " AND ch.CH_chargeid IN (" . (implode(',', $chargesids)) . ")";
         } else {
             $query .= " AND false";
+        }
+
+        if ($status != -1) {
+            $query .= " AND hc.HC_status = $status";
+        }
+
+        if ($actualState != -1) {
+            $query .= " AND hc.HC_actualstate = $actualState";
         }
 
         if ($dateFrom !== null) {
