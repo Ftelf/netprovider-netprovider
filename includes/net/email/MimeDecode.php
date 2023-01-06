@@ -837,7 +837,7 @@ class Mail_mimeDecode extends PEAR
         // Replace encoded characters
 
         $cb = function($matches) {
-            return chr(hexdec($matches[0]));
+            return chr(hexdec($matches[1]));
         };
 
         $input = preg_replace_callback( '/=([a-f0-9]{2})/i', $cb, $input);
