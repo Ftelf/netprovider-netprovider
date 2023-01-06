@@ -23,7 +23,7 @@ require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
  */
 class AccountEntryUtil
 {
-    private BankAccount $_bankAccount;
+    private $_bankAccount;
     private array $_messages;
 
     public function __construct($bankAccount)
