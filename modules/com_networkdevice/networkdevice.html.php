@@ -56,7 +56,6 @@ class HTML_NetworkDevice {
   		var image = document.getElementById('toggle-img-' + id);
   		var td1Div = document.getElementById('toggle-td1-' + id);
   		var td2Div = document.getElementById('toggle-td2-' + id);
-  		var td3Div = document.getElementById('toggle-td3-' + id);
 
   		if (image.toggle) {
   			image.src = "images/22x22/actions/2downarrow.png";
@@ -64,8 +63,6 @@ class HTML_NetworkDevice {
   			td1Div.style.overflow = "hidden";
   			td2Div.style.height = "70px";
   			td2Div.style.overflow = "hidden";
-  			td3Div.style.height = "70px";
-  			td3Div.style.overflow = "hidden";
 
   			image.toggle = false;
   		} else {
@@ -74,8 +71,6 @@ class HTML_NetworkDevice {
   			td1Div.style.overflow = "";
   			td2Div.style.height = "auto";
   			td2Div.style.overflow = "";
-  			td3Div.style.height = "auto";
-  			td3Div.style.overflow = "";
 
   			image.toggle = true;
   		}
@@ -162,7 +157,7 @@ class HTML_NetworkDevice {
      <th width="2%" class="title" align="left"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo $pageNav->limit; ?>);" /></th>
      <th width="32%" class="title" align="left"><?php echo _("Network device"); ?></th>
      <th width="32%" class="title" align="left"><?php echo _("Network interface"); ?></th>
-     <th width="24" class="title" align="left"></th>
+     <th class="title" align="left" colspan="2"></th>
    </tr>
    </thead>
     <tfoot>
