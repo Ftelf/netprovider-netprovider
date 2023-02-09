@@ -22,8 +22,6 @@ require_once($core->getAppRoot() . "includes/dao/NetworkDAO.php");
 require_once($core->getAppRoot() . "includes/dao/IpDAO.php");
 require_once($core->getAppRoot() . "includes/dao/HasManagedNetworkDAO.php");
 require_once($core->getAppRoot() . "includes/dao/NetworkDeviceInterfaceDAO.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDeviceWirelessInterfaceDAO.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDevicePropertyDAO.php");
 require_once($core->getAppRoot() . "includes/Executor.php");
 require_once($core->getAppRoot() . "includes/net/routeros_api.class.php");
 require_once 'Net/IPv4.php';
@@ -31,9 +29,7 @@ require_once 'Net/IPv4.php';
 $task = Utils::getParam($_REQUEST, 'task', null);
 $nid = Utils::getParam($_REQUEST, 'ND_networkdeviceid', null);
 $nnid = Utils::getParam($_REQUEST, 'MN_hasmanagednetworkid', null);
-$pid = Utils::getParam($_REQUEST, 'NP_networkdevicepropertyid', null);
 $iid = Utils::getParam($_REQUEST, 'NI_networkdeviceinterfaceid', null);
-$wid = Utils::getParam($_REQUEST, 'NW_networkdevicewirelessinterfaceid', null);
 $cid = Utils::getParam($_REQUEST, 'cid', array(0));
 if (!is_array($cid)) {
     $cid = array (0);
@@ -103,48 +99,6 @@ switch ($task) {
         editNetworkDevice($nid);
         break;
 
-    case 'newWirelessInterface':
-        editNetworkDeviceWirelessInterface($nid, null);
-        break;
-
-    case 'editWirelessInterface':
-        editNetworkDeviceWirelessInterface($nid, $wid);
-        break;
-
-    case 'saveWirelessInterface':
-    case 'applyWirelessInterface':
-        saveNetworkDeviceWirelessInterface($task);
-        break;
-
-    case 'removeWirelessInterface':
-        removeNetworkDeviceWirelessInterface($wid);
-        break;
-
-    case 'cancelWirelessInterface':
-        editNetworkDevice($nid);
-        break;
-
-    case 'newProperty':
-        editNetworkDeviceProperty($nid, null);
-        break;
-
-    case 'editProperty':
-        editNetworkDeviceProperty($nid, $pid);
-        break;
-
-    case 'saveProperty':
-    case 'applyProperty':
-        saveNetworkDeviceProperty($task);
-        break;
-
-    case 'removeProperty':
-        removeNetworkDeviceProperty($pid);
-        break;
-
-    case 'cancelProperty':
-        editNetworkDevice($nid);
-        break;
-
     case 'cancel':
         showNetworkDevice();
         break;
@@ -195,26 +149,6 @@ function showNetworkDevice() {
                 $networkDeviceInterface->dns = "N/A";
             }
         }
-        $networkDevice->wirelessInterfaces = (($networkDeviceWirelessInterfaces = NetworkDeviceWirelessInterfaceDAO::getNetworkDeviceWirelessInterfaceArrayByNetworkDeviceID($networkDevice->ND_networkdeviceid)) == null) ? array() : $networkDeviceWirelessInterfaces;;
-        foreach ($networkDevice->wirelessInterfaces as $networkDeviceWirelessInterface) {
-            $networkDeviceWirelessInterface->sss  = "ssS";
-            if (isset($ips[$networkDeviceWirelessInterface->NW_ipid])) {
-                $ip = $ips[$networkDeviceWirelessInterface->NW_ipid];
-                $network = $networks[$ip->IP_networkid];
-                $pNetwork = $ipv4->parseAddress($network->NE_net);
-                $pIP = $ipv4->parseAddress($ip->IP_address . '/' . $pNetwork->bitmask);
-
-                $networkDeviceWirelessInterface->ip = $pIP->ip . '/' . $pIP->bitmask;
-                $networkDeviceWirelessInterface->dns = $ip->IP_dns;
-            } else {
-                $networkDeviceWirelessInterface->ip = "N/A";
-                $networkDeviceWirelessInterface->dns = "N/A";
-            }
-            $frequencies = NetworkDeviceWirelessInterface::getFrequencyConstants();
-            $networkDeviceWirelessInterface->channel = $frequencies[$networkDeviceWirelessInterface->NW_frequency];
-        }
-
-        $networkDevice->properties = NetworkDevicePropertyDAO::getNetworkDevicePropertyArrayByNetworkDeviceID($networkDevice->ND_networkdeviceid);
     }
     $pageNav = new PageNav($total, $limitstart, $limit);
     HTML_NetworkDevice::showNetworkDevices($networkDevices, $filter, $pageNav);
@@ -256,32 +190,11 @@ function editNetworkDevice($nid=null) {
                 $networkDeviceInterface->dns = "N/A";
             }
         }
-        $networkDevice->wirelessInterfaces = (($networkDeviceWirelessInterfaces = NetworkDeviceWirelessInterfaceDAO::getNetworkDeviceWirelessInterfaceArrayByNetworkDeviceID($networkDevice->ND_networkdeviceid)) == null) ? array() : $networkDeviceWirelessInterfaces;;
-        foreach ($networkDevice->wirelessInterfaces as $networkDeviceWirelessInterface) {
-            try {
-                $ip = IpDAO::getIpByID($networkDeviceWirelessInterface->NW_ipid);
-                $network = NetworkDAO::getNetworkByID($ip->IP_networkid);
-                $pNetwork = $ipv4->parseAddress($network->NE_net);
-                $pIP = $ipv4->parseAddress($ip->IP_address . '/' . $pNetwork->bitmask);
-
-                $networkDeviceWirelessInterface->ip = $pIP->ip . '/' . $pIP->bitmask;
-                $networkDeviceWirelessInterface->dns = $ip->IP_dns;
-            } catch (Exception $e) {
-                $networkDeviceWirelessInterface->ip = "N/A";
-                $networkDeviceWirelessInterface->dns = "N/A";
-            }
-            $frequencies = NetworkDeviceWirelessInterface::getFrequencyConstants();
-            $networkDeviceWirelessInterface->channel = $frequencies[$networkDeviceWirelessInterface->NW_frequency];
-        }
-
-        $networkDevice->properties = NetworkDevicePropertyDAO::getNetworkDevicePropertyArrayByNetworkDeviceID($networkDevice->ND_networkdeviceid);
     } else {
         $networkDevice = new NetworkDevice();
         $networkDevice->networks = array();
         $networkDevice->leafNetworks = array();
-        $networkDevice->properties = array();
         $networkDevice->interfaces = array();
-        $networkDevice->wirelessInterfaces = array();
     }
     HTML_NetworkDevice::editNetworkDevice($networkDevice);
 }
@@ -345,31 +258,10 @@ function saveNetworkDevice($task) {
                     $networkDeviceInterface->dns = "N/A";
                 }
             }
-            $networkDevice->wirelessInterfaces = (($networkDeviceWirelessInterfaces = NetworkDeviceWirelessInterfaceDAO::getNetworkDeviceWirelessInterfaceArrayByNetworkDeviceID($networkDevice->ND_networkdeviceid)) == null) ? array() : $networkDeviceWirelessInterfaces;;
-            foreach ($networkDevice->wirelessInterfaces as $networkDeviceWirelessInterface) {
-                try {
-                    $ip = IpDAO::getIpByID($networkDeviceWirelessInterface->NW_ipid);
-                    $network = NetworkDAO::getNetworkByID($ip->IP_networkid);
-                    $pNetwork = $ipv4->parseAddress($network->NE_net);
-                    $pIP = $ipv4->parseAddress($ip->IP_address . '/' . $pNetwork->bitmask);
-
-                    $networkDeviceWirelessInterface->ip = $pIP->ip . '/' . $pIP->bitmask;
-                    $networkDeviceWirelessInterface->dns = $ip->IP_dns;
-                } catch (Exception $e) {
-                    $networkDeviceWirelessInterface->ip = "N/A";
-                    $networkDeviceWirelessInterface->dns = "N/A";
-                }
-                $frequencies = NetworkDeviceWirelessInterface::getFrequencyConstants();
-                $networkDeviceWirelessInterface->channel = $frequencies[$networkDeviceWirelessInterface->NW_frequency];
-            }
-
-            $networkDevice->properties = NetworkDevicePropertyDAO::getNetworkDevicePropertyArrayByNetworkDeviceID($networkDevice->ND_networkdeviceid);
         } else {
             $networkDevice->networks = array();
             $networkDevice->leafNetworks = array();
-            $networkDevice->properties = array();
             $networkDevice->interfaces = array();
-            $networkDevice->wirelessInterfaces = array();
         }
 
         HTML_NetworkDevice::editNetworkDevice($networkDevice);
@@ -427,8 +319,6 @@ function removeNetworkDevice($cid) {
                 $database->startTransaction();
                 HasManagedNetworkDAO::removeHasManagedNetworksByManagedDeviceID($networkDevice->ND_networkdeviceid);
                 NetworkDeviceInterfaceDAO::removeNetworkDeviceInterfaceByNetworkDeviceID($networkDevice->ND_networkdeviceid);
-                NetworkDevicePropertyDAO::removeNetworkDevicePropertyByNetworkDeviceID($networkDevice->ND_networkdeviceid);
-                NetworkDeviceWirelessInterfaceDAO::removeNetworkDeviceWirelessInterfaceByNetworkDeviceID($networkDevice->ND_networkdeviceid);
                 NetworkDeviceDAO::removeNetworkDevicebyID($id);
                 $database->commit();
             } catch (Exception $e) {
@@ -583,135 +473,6 @@ function removeNetworkDeviceInterface($iid) {
         NetworkDeviceInterfaceDAO::removeNetworkDeviceInterfaceByID($iid);
 
         $msg = sprintf(_("Network interface '%s' for network device '%s' deleted"), $networkDeviceInterface->NI_ifname, $networkDevice->ND_name);
-        $appContext->insertMessage($msg);
-        $database->log($msg, Log::LEVEL_INFO);
-    }
-
-    Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDevice->ND_networkdeviceid&hidemainmenu=1");
-}
-
-function editNetworkDeviceWirelessInterface($nid, $wid=null) {
-    global $database, $my, $acl;
-
-    if ($wid != null) {
-        $networkDeviceWirelessInterface = NetworkDeviceWirelessInterfaceDAO::getNetworkDeviceWirelessInterfaceByID($wid);
-    } else if ($nid != null) {
-        $networkDeviceWirelessInterface = new NetworkDeviceWirelessInterface();
-        $networkDeviceWirelessInterface->NW_networkdeviceid = $nid;
-    } else {
-        Core::redirect("index2.php?option=com_networkdevice");
-    }
-    $ips = IpDAO::getIpArray();
-    $sortedIps = Array();
-
-    foreach ($ips as $ip) {
-        $sortedIps[ip2long($ip->IP_address)] = $ip;
-    }
-    ksort($sortedIps);
-
-    HTML_NetworkDevice::editNetworkDeviceWirelessInterface($networkDeviceWirelessInterface, $sortedIps);
-}
-
-function saveNetworkDeviceWirelessInterface($task) {
-    global $database, $mainframe, $my, $acl, $appContext;
-
-    $networkDeviceWirelessInterface = new NetworkDeviceWirelessInterface();
-    database::bind($_POST, $networkDeviceWirelessInterface);
-    $isNew 	= !$networkDeviceWirelessInterface->NW_networkdevicewirelessinterfaceid;
-
-    if ($isNew) {
-        $database->insertObject("networkdevicewirelessinterface", $networkDeviceWirelessInterface, "NW_networkdevicewirelessinterfaceid", false);
-    } else {
-        $database->updateObject("networkdevicewirelessinterface", $networkDeviceWirelessInterface, "NW_networkdevicewirelessinterfaceid", false, false);
-    }
-
-    switch ($task) {
-        case 'applyWirelessInterface':
-            $msg = sprintf(_("Network wireless interface '%s' updated"), $networkDeviceWirelessInterface->NW_ifname);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-            Core::redirect("index2.php?option=com_networkdevice&task=editWirelessInterface&NW_networkdevicewirelessinterfaceid=$networkDeviceWirelessInterface->NW_networkdevicewirelessinterfaceid&hidemainmenu=1");
-            break;
-        case 'saveWirelessInterface':
-            $msg = sprintf(_("Network wireless interface '%s' saved"), $networkDeviceWirelessInterface->NW_ifname);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-        default:
-            Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDeviceWirelessInterface->NW_networkdeviceid&hidemainmenu=1");
-    }
-}
-
-function removeNetworkDeviceWirelessInterface($wid) {
-    global $database, $mainframe, $my, $acl, $appContext;
-
-    if ($wid != null) {
-        $networkDeviceWirelessInterface = NetworkDeviceWirelessInterfaceDAO::getNetworkDeviceWirelessInterfaceByID($wid);
-        $networkDevice = NetworkDeviceDAO::getNetworkDeviceByID($networkDeviceWirelessInterface->NW_networkdeviceid);
-
-        NetworkDeviceWirelessInterfaceDAO::removeNetworkDeviceWirelessInterfaceByID($wid);
-
-        $msg = sprintf(_("Network wireless interface '%s' for network device '%s' deleted"), $networkDeviceWirelessInterface->NW_ifname, $networkDevice->ND_name);
-        $appContext->insertMessage($msg);
-        $database->log($msg, Log::LEVEL_INFO);
-    }
-
-    Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDevice->ND_networkdeviceid&hidemainmenu=1");
-}
-
-function editNetworkDeviceProperty($nid, $pid=null) {
-    global $database, $my, $acl;
-
-    if ($pid != null) {
-        $networkDeviceProperty = NetworkDevicePropertyDAO::getNetworkDevicePropertyByID($pid);
-    } else if ($nid != null) {
-        $networkDeviceProperty = new NetworkDeviceProperty();
-        $networkDeviceProperty->NP_networkdeviceid = $nid;
-    } else {
-        Core::redirect("index2.php?option=com_networkdevice");
-    }
-
-    HTML_NetworkDevice::editNetworkDeviceProperty($networkDeviceProperty);
-}
-
-function saveNetworkDeviceProperty($task) {
-    global $database, $mainframe, $my, $acl, $appContext;
-
-    $networkDeviceProperty = new NetworkDeviceProperty();
-    database::bind($_POST, $networkDeviceProperty);
-    $isNew 	= !$networkDeviceProperty->NP_networkdevicepropertyid;
-
-    if ($isNew) {
-        $database->insertObject("networkdeviceproperty", $networkDeviceProperty, "NP_networkdevicepropertyid", false);
-    } else {
-        $database->updateObject("networkdeviceproperty", $networkDeviceProperty, "NP_networkdevicepropertyid", false, false);
-    }
-
-    switch ($task) {
-        case 'applyProperty':
-            $msg = sprintf(_("Network device property '%s' updated"), $networkDeviceProperty->NP_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-            Core::redirect("index2.php?option=com_networkdevice&task=editProperty&NP_networkdevicepropertyid=$networkDeviceProperty->NP_networkdevicepropertyid&hidemainmenu=1");
-            break;
-        case 'saveProperty':
-            $msg = sprintf(_("Network device property '%s' saved"), $networkDeviceProperty->NP_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-        default:
-            Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDeviceProperty->NP_networkdeviceid&hidemainmenu=1");
-    }
-}
-
-function removeNetworkDeviceProperty($pid) {
-    global $database, $mainframe, $my, $acl, $appContext;
-
-    if ($pid != null) {
-        $networkDeviceProperty = NetworkDevicePropertyDAO::getNetworkDevicePropertyByID($pid);
-        $networkDevice = NetworkDeviceDAO::getNetworkDeviceByID($networkDeviceProperty->NP_networkdeviceid);
-
-        NetworkDevicePropertyDAO::removeNetworkDevicePropertyByID($pid);
-
-        $msg = sprintf(_("Network device property '%s' for network device '%s' deleted"), $networkDeviceProperty->NP_name, $networkDevice->ND_name);
         $appContext->insertMessage($msg);
         $database->log($msg, Log::LEVEL_INFO);
     }

@@ -162,7 +162,6 @@ class HTML_NetworkDevice {
      <th width="2%" class="title" align="left"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo $pageNav->limit; ?>);" /></th>
      <th width="32%" class="title" align="left"><?php echo _("Network device"); ?></th>
      <th width="32%" class="title" align="left"><?php echo _("Network interface"); ?></th>
-     <th width="32%" class="title" align="left"><?php echo _("Wireless links"); ?></th>
      <th width="24" class="title" align="left"></th>
    </tr>
    </thead>
@@ -197,12 +196,6 @@ class HTML_NetworkDevice {
        <div><strong><?php echo _("Platform:"); ?></strong> <?php echo NetworkDevice::getLocalizedPlatform($networkDevice->ND_platform); ?></div>
        <div><strong><?php echo _("Description:"); ?></strong> <?php echo $networkDevice->ND_description; ?></div>
        <div><strong><?php echo _("Management interface:"); ?></strong> <?php echo ($networkDevice->ND_managementInterfaceId) ? $networkDevice->interfaces[$networkDevice->ND_managementInterfaceId]->NI_ifname.":".$networkDevice->interfaces[$networkDevice->ND_managementInterfaceId]->ip : "n/a"; ?></div>
-<?php
-	if (count($networkDevice->properties) > 0 ) echo '<hr />';
-	foreach ($networkDevice->properties as $property) {
-		echo '<div><strong>' . $property->NP_name . ':</strong> ' . $property->NP_value . '</div>';
-	}
-?>
      </div>
      </td>
      <td valign="top" align="left">
@@ -215,26 +208,6 @@ class HTML_NetworkDevice {
      </div>
      </td>
      <td valign="top" align="left">
-      <div id="toggle-td3-<?php echo $networkDevice->ND_networkdeviceid ?>" style="overflow: hidden; height: 70px;">
-<?php
-	$f = true;
-	foreach ($networkDevice->wirelessInterfaces as $wirelessInterface) {
-		if (!$f) {
-			echo '<hr />';
-		}
-		$f = false;
-		echo '<div><strong>'._("Name:").'</strong> ' . $wirelessInterface->NW_ifname . '</div>';
-		echo '<div><strong>'._("Mode:").'</strong> ' . NetworkDeviceWirelessInterface::getLocalizedMode($wirelessInterface->NW_mode) . '</div>';
-		echo '<div><strong>'._("SSID:").'</strong> ' . $wirelessInterface->NW_ssid . '</div>';
-		echo '<div><strong>'._("Frequency domain:").'</strong> ' . NetworkDeviceWirelessInterface::getLocalizedBand($wirelessInterface->NW_band) . '</div>';
-		echo '<div><strong>'._("Frequency (channel):").'</strong> ' . $wirelessInterface->NW_frequency . ' (' . $wirelessInterface->channel . ')</div>';
-		echo '<div><strong>'._("MAC:").'</strong> ' . $wirelessInterface->NW_mac . '</div>';
-		echo '<div><strong>'._("Description:").'</strong> ' . $wirelessInterface->NW_description . '</div>';
-		echo '<div><strong>'._("IP:").'</strong>: ' . $wirelessInterface->ip . ' ' . $wirelessInterface->dns . '</div>';
-
-	}
-?>
-     </div>
      </td>
      <td valign="top" align="left">
        <img id="toggle-img-<?php echo $networkDevice->ND_networkdeviceid ?>" style="cursor: pointer;" src="images/22x22/actions/2downarrow.png" alt="drill-down" align="middle" border="0" onclick="toggleHide(<?php echo $networkDevice->ND_networkdeviceid ?>)" />
@@ -312,21 +285,6 @@ class HTML_NetworkDevice {
 		}
 	}
 
-	function newP() {
-		hideMainMenu();
-		submitbutton('newProperty');
-	}
-	function editP(id) {
-		document.adminForm.NP_networkdevicepropertyid.value = id;
-		hideMainMenu();
-		submitform('editProperty');
-	}
-	function removeP(id) {
-		if (window.confirm("<?php echo _("Do you really want to delete this entry ?"); ?>")) {
-			document.adminForm.NP_networkdevicepropertyid.value = id;
-			submitbutton('removeProperty');
-		}
-	}
 	function newI() {
 		hideMainMenu();
 		submitbutton('newInterface');
@@ -340,21 +298,6 @@ class HTML_NetworkDevice {
 		if (window.confirm("<?php echo _("Do you really want to delete this interface ?"); ?>")) {
 			document.adminForm.NI_networkdeviceinterfaceid.value = id;
 			submitbutton('removeInterface');
-		}
-	}
-	function newW() {
-		hideMainMenu();
-		submitbutton('newWirelessInterface');
-	}
-	function editW(id) {
-		document.adminForm.NW_networkdevicewirelessinterfaceid.value = id;
-		hideMainMenu();
-		submitform('editWirelessInterface');
-	}
-	function removeW(id) {
-		if (window.confirm("<?php echo _("Do you really want to delete this wireless interface ?"); ?>")) {
-			document.adminForm.NW_networkdevicewirelessinterfaceid.value = id;
-			submitbutton('removeWirelessInterface');
 		}
 	}
 </script>
@@ -635,36 +578,6 @@ class HTML_NetworkDevice {
 ?>
         </tbody>
         </table>
-
-        <br/>
-
-        <table class="adminform">
-        <thead>
-        <tr>
-          <th colspan="3"><?php echo _("Properties"); ?></th>
-        </tr>
-        </thead>
-        <tbody>
-<?php
-	$k = 0;
-	foreach ($networkDevice->properties as $property) {
-		$linkE = "javascript:editP('$property->NP_networkdevicepropertyid');";
-		$linkR = "javascript:removeP('$property->NP_networkdevicepropertyid');";
-?>
-        <tr class="<?php echo "row$k"; ?>">
-          <td width="150"><?php echo $property->NP_name; ?></td>
-          <td width="165"><?php echo $property->NP_value; ?></td>
-          <td width="40"><a href="<?php echo $linkE; ?>"><?php echo _("Edit"); ?></a> <a href="<?php echo $linkR; ?>"><?php echo _("Delete"); ?></a></td>
-        </tr>
-<?php
-	$k = 1 - $k;
-	}
-?>
-        <tr class="<?php echo "row$k"; ?>">
-          <td colspan="3"><a href="javascript:newP();"><?php echo _("New"); ?></a></td>
-        </tr>
-        </tbody>
-        </table>
       </td>
       <td width="10">
         &nbsp;
@@ -715,77 +628,6 @@ class HTML_NetworkDevice {
         </tbody>
         </table>
         </td>
-        <td width="10">
-          &nbsp;
-        </td>
-        <td width="360" valign="top">
-        <table class="adminform">
-        <thead>
-        <tr>
-          <th colspan="2"><?php echo _("Wireless interface"); ?></th>
-        </tr>
-        </thead>
-        <tbody>
-<?php
-	$linkN = "javascript:newW();";
-//	$first = true;
-	$k = 0;
-	foreach ($networkDevice->wirelessInterfaces as $wInterface) {
-		$linkE = "javascript:editW('$wInterface->NW_networkdevicewirelessinterfaceid');";
-		$linkR = "javascript:removeW('$wInterface->NW_networkdevicewirelessinterfaceid');";
-//		if (!$first) echo '<tr><td colspan="2"><hr /></td></tr>';
-//		$first = false;
-?>
-        <tr class="<?php echo "row$k"; ?>">
-        <td>
-        <table class="insideadminlist">
-        <tr>
-          <td width="150"><?php echo _("Name:"); ?></td>
-          <td width="205"><?php echo $wInterface->NW_ifname; ?></td>
-        </tr>
-        <tr>
-          <td><?php echo _("Mode:"); ?></td>
-          <td><?php echo NetworkDeviceWirelessInterface::getLocalizedMode($wInterface->NW_mode); ?></td>
-        </tr>
-        <tr>
-          <td><?php echo _("SSID:"); ?></td>
-          <td><?php echo $wInterface->NW_ssid; ?></td>
-        </tr>
-        <tr>
-          <td><?php echo _("Frequency domain:"); ?></td>
-          <td><?php echo NetworkDeviceWirelessInterface::getLocalizedBand($wInterface->NW_band); ?></td>
-        </tr>
-        <tr>
-          <td><?php echo _("Frequency (channel):"); ?></td>
-          <td><?php echo $wInterface->NW_frequency . ' (' . $wInterface->channel . ')'; ?></td>
-        </tr>
-        <tr>
-          <td><?php echo _("MAC:"); ?></td>
-          <td><?php echo $wInterface->NW_mac; ?></td>
-        </tr>
-        <tr>
-          <td><?php echo _("IP:"); ?></td>
-          <td><?php echo $wInterface->ip . ' ' . $wInterface->dns; ?></td>
-        </tr>
-        <tr>
-          <td><?php echo _("Description:"); ?></td>
-          <td><?php echo $wInterface->NW_description; ?></td>
-        </tr>
-        <tr>
-          <td colspan="2" align="right"><a href="<?php echo $linkE; ?>"><?php echo _("Edit"); ?></a> <a href="<?php echo $linkR; ?>"><?php echo _("Delete"); ?></a></td>
-        </tr>
-        </table>
-        </td>
-        </tr>
-<?php
-	$k = 1 - $k;
-	}
-?>
-        <tr class="<?php echo "row$k"; ?>">
-          <td colspan="3"><a href="<?php echo $linkN; ?>"><?php echo _("New"); ?></a></td>
-        </tr>
-        </tbody>
-        </table>
       </td>
       <td>
       </td>
@@ -793,9 +635,7 @@ class HTML_NetworkDevice {
     </table>
     <input type="hidden" name="ND_networkdeviceid" value="<?php echo $networkDevice->ND_networkdeviceid; ?>" />
     <input type="hidden" name="MN_hasmanagednetworkid" value="" />
-    <input type="hidden" name="NP_networkdevicepropertyid" value="" />
     <input type="hidden" name="NI_networkdeviceinterfaceid" value="" />
-    <input type="hidden" name="NW_networkdevicewirelessinterfaceid" value="" />
     <input type="hidden" name="option" value="com_networkdevice" />
     <input type="hidden" name="task" value="" />
     <input type="hidden" name="hidemainmenu" value="0" />
@@ -930,310 +770,6 @@ class HTML_NetworkDevice {
     <input type="hidden" name="ND_networkdeviceid" value="<?php echo $networkDeviceInterface->NI_networkdeviceid; ?>" />
     <input type="hidden" name="NI_networkdeviceid" value="<?php echo $networkDeviceInterface->NI_networkdeviceid; ?>" />
     <input type="hidden" name="NI_networkdeviceinterfaceid" value="<?php echo $networkDeviceInterface->NI_networkdeviceinterfaceid; ?>" />
-    <input type="hidden" name="option" value="com_networkdevice" />
-    <input type="hidden" name="task" value="" />
-    <input type="hidden" name="hidemainmenu" value="0" />
-    </form>
-    </div>
-
-    <div class="clr"></div>
-</div>
-
-<div class="clr"></div>
-</div>
-<?php
-	}
-	/**
-	 * editNetworkDeviceWirelessInterface
-	 * @param $networkDeviceWirelessInterface
-	 * @param $ips
-	 */
-	static function editNetworkDeviceWirelessInterface(&$networkDeviceWirelessInterface, $ips) {
-		global $core;
-?>
-<script type="text/javascript">
-	function submitbutton(pressbutton) {
-		hideMainMenu();
-		var form = document.adminForm;
-		if (pressbutton == 'cancel') {
-			submitform('cancelWirelessInterface');
-			return;
-		}
-
-		// do field validation
-		if (trim(form.NW_ifname.value) == "") {
-			alert("<?php echo _("Please enter wireless interface name"); ?>");
-		} else {
-			submitform(pressbutton + 'WirelessInterface');
-		}
-	}
-</script>
-
-<div id="content-box">
-  <div class="padding">
-    <div id="toolbar-box">
-      <div class="t">
-        <div class="t">
-          <div class="t"></div>
-        </div>
-      </div>
-
-      <div class="m">
-        <div id="toolbar" class="toolbar">
-          <table class="toolbar">
-          <tr>
-            <td id="toolbar-apply">
-              <a href="javascript:submitbutton('apply');">
-                <span title="<?php echo _("Apply"); ?>" class="icon-32-apply"></span>
-                <?php echo _("Apply"); ?>
-              </a>
-            </td>
-
-            <td id="toolbar-save">
-              <a href="javascript:submitbutton('save');">
-                <span title="<?php echo _("Save"); ?>" class="icon-32-save"></span>
-                <?php echo _("Save"); ?>
-              </a>
-            </td>
-
-            <td id="toolbar-cancel">
-              <a href="javascript:submitbutton('cancel');">
-                <span title="<?php echo _("Cancel"); ?>" class="icon-32-cancel"></span>
-                <?php echo _("Cancel"); ?>
-              </a>
-            </td>
-          </tr>
-          </table>
-        </div>
-
-        <div class="header icon-48-network-device">
-          <?php echo _("Network devices management"); ?>: <small><?php echo _("Edit network wireless interface"); ?></small>
-        </div>
-
-        <div class="clr"></div>
-      </div>
-       <div class="b">
-        <div class="b">
-          <div class="b"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="clr"></div>
-
-    <div id="element-box">
-    <form action="index2.php" method="post" name="adminForm">
-    <table width="100%">
-    <tr>
-      <td width="360" valign="top">
-        <table class="adminform">
-        <thead>
-        <tr>
-          <th colspan="2"><?php echo _("Network wireless interface"); ?></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td width="150"><?php echo _("Name:"); ?></td>
-          <td width="205"><input type="text" name="NW_ifname" class="width-form" size="40" value="<?php echo $networkDeviceWirelessInterface->NW_ifname; ?>" /></td>
-        </tr>
-        <tr>
-          <td>IP:</td>
-          <td>
-            <select name="NW_ipid" class="width-form" size="1">
-<?php
-		echo '<option value="0"' ; if ($networkDeviceWirelessInterface->NW_ipid == 0) echo ' selected="selected"';echo ">- Nenastavena -</option>\n";
-	foreach ($ips as $ip) {
-		echo '<option value="' . $ip->IP_ipid . '"' ; if ($networkDeviceWirelessInterface->NW_ipid == $ip->IP_ipid) echo ' selected="selected"';echo ">$ip->IP_address</option>\n";
-	}
-?>
-	        </select>
-          </td>
-        </tr>
-        <tr>
-          <td><?php echo _("Mode:"); ?></td>
-          <td>
-            <select name="NW_mode" class="width-form" size="1">
-<?php
-	foreach (NetworkDeviceWirelessInterface::$MODE_ARRAY as $mk) {
-?>
-              <option value="<?php echo $mk; ?>" <?php echo ($networkDeviceWirelessInterface->NW_mode == $mk) ? 'selected="selected"' : ""; ?>><?php echo NetworkDeviceWirelessInterface::getLocalizedMode($mk); ?></option>
-<?php
-	}
-?>
-	        </select>
-          </td>
-        </tr>
-        <tr>
-          <td><?php echo _("SSID:"); ?></td>
-          <td><input type="text" name="NW_ssid" class="width-form" size="40" value="<?php echo $networkDeviceWirelessInterface->NW_ssid; ?>" /></td>
-        </tr>
-        <tr>
-          <td><?php echo _("Frequency domain:"); ?></td>
-          <td>
-            <select name="NW_band" class="width-form" size="1">
-<?php
-	foreach (NetworkDeviceWirelessInterface::$BAND_ARRAY as $bk) {
-?>
-              <option value="<?php echo $bk; ?>" <?php echo ($networkDeviceWirelessInterface->NW_band == $bk) ? 'selected="selected"' : ""; ?>><?php echo NetworkDeviceWirelessInterface::getLocalizedBand($bk); ?></option>
-<?php
-	}
-?>
-	        </select>
-          </td>
-        </tr>
-        <tr>
-          <td><?php echo _("Frequency (channel):"); ?></td>
-          <td>
-            <select name="NW_frequency" class="width-form" size="1">
-<?php
-	foreach (NetworkDeviceWirelessInterface::getFrequencyConstants() as $frequency => $channel) {
-		echo '<option value="' . $frequency . '"' ; if ($networkDeviceWirelessInterface->NW_frequency == $frequency) echo ' selected="selected"';echo ">$frequency ($channel)</option>\n";
-	}
-?>
-	        </select>
-          </td>
-        </tr>
-        <tr>
-          <td><?php echo _("Mac:"); ?></td>
-          <td><input type="text" name="NW_mac" class="width-form" size="40" value="<?php echo $networkDeviceWirelessInterface->NW_mac; ?>" /></td>
-        </tr>
-        <tr>
-          <td><?php echo _("Description:"); ?></td>
-          <td><input type="text" name="NW_description" class="width-form" size="40" value="<?php echo $networkDeviceWirelessInterface->NW_description; ?>" /></td>
-        </tr>
-        </tbody>
-        </table>
-      </td>
-      <td>
-      </td>
-    </tr>
-    </table>
-    <input type="hidden" name="ND_networkdeviceid" value="<?php echo $networkDeviceWirelessInterface->NW_networkdeviceid; ?>" />
-    <input type="hidden" name="NW_networkdeviceid" value="<?php echo $networkDeviceWirelessInterface->NW_networkdeviceid; ?>" />
-    <input type="hidden" name="NW_networkdevicewirelessinterfaceid" value="<?php echo $networkDeviceWirelessInterface->NW_networkdevicewirelessinterfaceid; ?>" />
-    <input type="hidden" name="option" value="com_networkdevice" />
-    <input type="hidden" name="task" value="" />
-    <input type="hidden" name="hidemainmenu" value="0" />
-    </form>
-    </div>
-
-    <div class="clr"></div>
-</div>
-
-<div class="clr"></div>
-</div>
-<?php
-	}
-	/**
-	 * editNetworkDeviceProperty
-	 * @param $networkDeviceProperty
-	 */
-	static function editNetworkDeviceProperty(&$networkDeviceProperty) {
-		global $core;
-?>
-<script type="text/javascript">
-	function submitbutton(pressbutton) {
-		hideMainMenu();
-		var form = document.adminForm;
-		if (pressbutton == 'cancel') {
-			submitform('cancelProperty');
-			return;
-		}
-
-		// do field validation
-		if (trim(form.NP_name.value) == "") {
-			alert("<?php echo _("Please enter property name"); ?>");
-		} if (trim(form.NP_value.value) == "") {
-			alert("<?php echo _("Please enter property value"); ?>");
-		} else {
-			submitform(pressbutton + 'Property');
-		}
-	}
-</script>
-
-<div id="content-box">
-  <div class="padding">
-    <div id="toolbar-box">
-      <div class="t">
-        <div class="t">
-          <div class="t"></div>
-        </div>
-      </div>
-
-      <div class="m">
-        <div id="toolbar" class="toolbar">
-          <table class="toolbar">
-          <tr>
-            <td id="toolbar-apply">
-              <a href="javascript:submitbutton('apply');">
-                <span title="<?php echo _("Apply"); ?>" class="icon-32-apply"></span>
-                <?php echo _("Apply"); ?>
-              </a>
-            </td>
-
-            <td id="toolbar-save">
-              <a href="javascript:submitbutton('save');">
-                <span title="<?php echo _("Save"); ?>" class="icon-32-save"></span>
-                <?php echo _("Save"); ?>
-              </a>
-            </td>
-
-            <td id="toolbar-cancel">
-              <a href="javascript:submitbutton('cancel');">
-                <span title="<?php echo _("Cancel"); ?>" class="icon-32-cancel"></span>
-                <?php echo _("Cancel"); ?>
-              </a>
-            </td>
-          </tr>
-          </table>
-        </div>
-
-        <div class="header icon-48-network-device">
-          <?php echo _("Network devices management"); ?>: <small><?php echo _("Edit property"); ?></small>
-        </div>
-
-        <div class="clr"></div>
-      </div>
-       <div class="b">
-        <div class="b">
-          <div class="b"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="clr"></div>
-
-    <div id="element-box">
-    <form action="index2.php" method="post" name="adminForm">
-    <table width="100%">
-    <tr>
-      <td width="360" valign="top">
-        <table class="adminform">
-        <thead>
-        <tr>
-          <th colspan="2"><?php echo _("Property"); ?></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td width="150"><?php echo _("Name:"); ?></td>
-          <td width="205"><input type="text" name="NP_name" class="width-form" size="40" value="<?php echo $networkDeviceProperty->NP_name; ?>" /></td>
-        </tr>
-        <tr>
-          <td><?php echo _("Value:"); ?></td>
-          <td><input type="text" name="NP_value" class="width-form" size="40" value="<?php echo $networkDeviceProperty->NP_value; ?>" /></td>
-        </tr>
-        </tbody>
-        </table>
-      </td>
-      <td>
-      </td>
-    </tr>
-    </table>
-    <input type="hidden" name="ND_networkdeviceid" value="<?php echo $networkDeviceProperty->NP_networkdeviceid; ?>" />
-    <input type="hidden" name="NP_networkdeviceid" value="<?php echo $networkDeviceProperty->NP_networkdeviceid; ?>" />
-    <input type="hidden" name="NP_networkdevicepropertyid" value="<?php echo $networkDeviceProperty->NP_networkdevicepropertyid; ?>" />
     <input type="hidden" name="option" value="com_networkdevice" />
     <input type="hidden" name="task" value="" />
     <input type="hidden" name="hidemainmenu" value="0" />
