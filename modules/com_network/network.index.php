@@ -21,7 +21,6 @@ require_once($core->getAppRoot() . "includes/dao/IpAccountDAO.php");
 require_once($core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php");
 require_once($core->getAppRoot() . "includes/dao/NetworkDAO.php");
 require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDeviceDAO.php");
 require_once('network.html.php');
 require_once 'Net/IPv4.php';
 
@@ -219,20 +218,6 @@ function showNetwork() {
     $flags['ip_edit'] = true;
     $flags['ip_delete'] = true;
 
-//	if ($selectedNetwork->NE_networkdeviceid) {
-//		try {
-//			$networkDevice = NetworkDeviceDAO::getNetworkDeviceByID($selectedNetwork->NE_networkdeviceid);
-//
-//			$selectedNetwork->IPFilterDeviceName = $networkDevice->ND_name;
-//		} catch (Exception $e) {
-//			$selectedNetwork->IPFilterDeviceName = "Missing";
-//		}
-//	} else {
-//		$selectedNetwork->IPFilterDeviceName = "N/A";
-//	}
-
-    $selectedNetwork->IPFilterDeviceName = "";
-
     HTML_network::showNetwork($networkTree, $selectedNetwork, $leafSubNetworks, $ipList, $ipShowList, $persons, $pageNav, $filter, $flags);
 }
 /**
@@ -368,7 +353,7 @@ function editNetwork($task, $nid=null) {
         $possibleNetworkArray = null;
     }
 
-    HTML_network::editNet($network, $parentNetwork, $possibleNetworkArray, $directSubNetworks, $persons, NetworkDeviceDAO::getNetworkDeviceArray(), $flags);
+    HTML_network::editNet($network, $parentNetwork, $possibleNetworkArray, $directSubNetworks, $persons, $flags);
 }
 /**
  * saveIP

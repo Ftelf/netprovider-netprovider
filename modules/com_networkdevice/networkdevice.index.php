@@ -16,93 +16,14 @@
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/NetworkDeviceDAO.php");
 require_once("networkdevice.html.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpDAO.php");
-require_once($core->getAppRoot() . "includes/dao/HasManagedNetworkDAO.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDeviceInterfaceDAO.php");
-require_once($core->getAppRoot() . "includes/Executor.php");
-require_once($core->getAppRoot() . "includes/net/routeros_api.class.php");
 require_once 'Net/IPv4.php';
+require_once $core->getAppRoot() . "includes/net/commander/LinuxCommander.php";
+require_once $core->getAppRoot() . "includes/net/commander/RouterOSCommander.php";
 
 $task = Utils::getParam($_REQUEST, 'task', null);
-$nid = Utils::getParam($_REQUEST, 'ND_networkdeviceid', null);
-$nnid = Utils::getParam($_REQUEST, 'MN_hasmanagednetworkid', null);
-$iid = Utils::getParam($_REQUEST, 'NI_networkdeviceinterfaceid', null);
-$cid = Utils::getParam($_REQUEST, 'cid', array(0));
-if (!is_array($cid)) {
-    $cid = array (0);
-}
 
 switch ($task) {
-    case 'new':
-        editNetworkDevice(null);
-        break;
-
-    case 'edit':
-        editNetworkDevice($nid);
-        break;
-
-    case 'editA':
-        editNetworkDevice(intval($cid[0]));
-        break;
-
-    case 'save':
-    case 'apply':
-        saveNetworkDevice($task);
-        break;
-
-    case 'remove':
-        removeNetworkDevice($cid);
-        break;
-
-    case 'newNetwork':
-        editNetworkDeviceNetwork($nid, null);
-        break;
-
-    case 'editNetwork':
-        editNetworkDeviceNetwork($nid, $nnid);
-        break;
-
-    case 'saveNetwork':
-    case 'applyNetwork':
-        saveNetworkDeviceNetwork($task);
-        break;
-
-    case 'removeNetwork':
-        removeNetworkDeviceNetwork($nnid);
-        break;
-
-    case 'cancelNetwork':
-        editNetworkDevice($nid);
-        break;
-
-    case 'newInterface':
-        editNetworkDeviceInterface($nid, null);
-        break;
-
-    case 'editInterface':
-        editNetworkDeviceInterface($nid, $iid);
-        break;
-
-    case 'saveInterface':
-    case 'applyInterface':
-        saveNetworkDeviceInterface($task);
-        break;
-
-    case 'removeInterface':
-        removeNetworkDeviceInterface($iid);
-        break;
-
-    case 'cancelInterface':
-        editNetworkDevice($nid);
-        break;
-
-    case 'cancel':
-        showNetworkDevice();
-        break;
-
     case 'testLogin':
         testLogin();
         break;
@@ -112,500 +33,77 @@ switch ($task) {
         break;
 }
 
-function showNetworkDevice() {
-    global $database, $mainframe, $acl, $core;
-    require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
-    $ipv4 = new Net_IPv4();
-
-    $filter = array();
-    $filter['platform'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_networkdevice']['filter'], 'platform', -1);
-
-    $limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_networkdevice'], 'limit', 10);
-    $limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_networkdevice'], 'limitstart', 0);
-
-    if ($filter['platform'] == -1) {
-        $total = NetworkDeviceDAO::getNetworkDeviceCount();
-        $networkDevices = NetworkDeviceDAO::getNetworkDeviceArray($limitstart, $limit);
-    } else {
-        $total = NetworkDeviceDAO::getNetworkDeviceCountWherePlatform($filter['platform']);
-        $networkDevices = NetworkDeviceDAO::getNetworkDeviceArrayWherePlatform($filter['platform'], $limitstart, $limit);
-    }
-    $networks = NetworkDAO::getNetworkArray();
-    $ips = IpDAO::getIpArray();
-
-    foreach ($networkDevices as $networkDevice) {
-        $networkDevice->interfaces = (($networkDeviceInterfaces = NetworkDeviceInterfaceDAO::getNetworkDeviceInterfaceArrayByNetworkDeviceID($networkDevice->ND_networkdeviceid)) == null) ? array() : $networkDeviceInterfaces;
-        foreach ($networkDevice->interfaces as $networkDeviceInterface) {
-            if (isset($ips[$networkDeviceInterface->NI_ipid])) {
-                $ip = $ips[$networkDeviceInterface->NI_ipid];
-                $network = $networks[$ip->IP_networkid];
-                $pNetwork = $ipv4->parseAddress($network->NE_net);
-                $pIP = $ipv4->parseAddress($ip->IP_address . '/' . $pNetwork->bitmask);
-
-                $networkDeviceInterface->ip = $pIP->ip . '/' . $pIP->bitmask;;
-                $networkDeviceInterface->dns = $ip->IP_dns;
-            } else {
-                $networkDeviceInterface->ip = "N/A";
-                $networkDeviceInterface->dns = "N/A";
-            }
-        }
-    }
-    $pageNav = new PageNav($total, $limitstart, $limit);
-    HTML_NetworkDevice::showNetworkDevices($networkDevices, $filter, $pageNav);
-}
-
-function editNetworkDevice($nid=null) {
-    global $database, $my, $acl;
-    $ipv4 = new Net_IPv4();
-
-    if ($nid != null) {
-        $networkDevice = NetworkDeviceDAO::getNetworkDeviceByID($nid);
-
-        if ($networkDevice->ND_password != null) {
-            $networkDevice->ND_password = "******";
-        }
-
-        $networkDevice->networks = HasManagedNetworkDAO::getHasManagedNetworkAndNetworksArrayByNetworkDeviceID($nid);
-
-        $allNetworks = NetworkDAO::getNetworkArray();
-
-        $networkDevice->leafNetworks = array();
-
-        foreach ($networkDevice->networks as $network) {
-            getLeafNetworks($network->NE_networkid, $allNetworks, $networkDevice->leafNetworks);
-        }
-
-        $networkDevice->interfaces = (($networkDeviceInterfaces = NetworkDeviceInterfaceDAO::getNetworkDeviceInterfaceArrayByNetworkDeviceID($networkDevice->ND_networkdeviceid)) == null) ? array() : $networkDeviceInterfaces;;
-        foreach ($networkDevice->interfaces as $networkDeviceInterface) {
-            try {
-                $ip = IpDAO::getIpByID($networkDeviceInterface->NI_ipid);
-                $network = NetworkDAO::getNetworkByID($ip->IP_networkid);
-                $pNetwork = $ipv4->parseAddress($network->NE_net);
-                $pIP = $ipv4->parseAddress($ip->IP_address . '/' . $pNetwork->bitmask);
-
-                $networkDeviceInterface->ip = $pIP->ip . '/' . $pIP->bitmask;;
-                $networkDeviceInterface->dns = $ip->IP_dns;
-            } catch (Exception $e) {
-                $networkDeviceInterface->ip = "N/A";
-                $networkDeviceInterface->dns = "N/A";
-            }
-        }
-    } else {
-        $networkDevice = new NetworkDevice();
-        $networkDevice->networks = array();
-        $networkDevice->leafNetworks = array();
-        $networkDevice->interfaces = array();
-    }
-    HTML_NetworkDevice::editNetworkDevice($networkDevice);
-}
-
-function saveNetworkDevice($task) {
-    global $core, $database, $mainframe, $my, $acl, $appContext;
-    $ipv4 = new Net_IPv4();
-
-    $networkDevice = new NetworkDevice();
-    database::bind($_POST, $networkDevice);
-    $isNew 	= !$networkDevice->ND_networkdeviceid;
-
-    $networkDevice->ND_useCommandSudo = Utils::getParam($_POST, 'ND_useCommandSudo', 0);
-    $networkDevice->ND_ipFilterEnabled = Utils::getParam($_POST, 'ND_ipFilterEnabled', 0);
-
-    $ND_password1 = trim(Utils::getParam($_POST, 'ND_password1', ""));
-    $ND_password2 = trim(Utils::getParam($_POST, 'ND_password2', ""));
-
-    $showAgain = false;
-
-    if (($ND_password1 == "******" && $ND_password2 == "******") || ($ND_password1 == "" && $ND_password2 == "")) {
-        $networkDevice->ND_password = null;
-    } else if ($ND_password1 == $ND_password2) {
-        $networkDevice->ND_password = $ND_password1;
-    } else {
-        $core->alert(_("User passwords are not same"));
-
-        $showAgain = true;
-    }
-
-    if ($showAgain) {
-        if ($networkDevice->ND_networkdeviceid != null) {
-            $networkDevice = NetworkDeviceDAO::getNetworkDeviceByID($networkDevice->ND_networkdeviceid);
-
-            if ($networkDevice->ND_password != null) {
-                $networkDevice->ND_password = "******";
-            }
-
-            $networkDevice->networks = HasManagedNetworkDAO::getHasManagedNetworkAndNetworksArrayByNetworkDeviceID($networkDevice->ND_networkdeviceid);
-
-            $allNetworks = NetworkDAO::getNetworkArray();
-
-            $networkDevice->leafNetworks = array();
-
-            foreach ($networkDevice->networks as $network) {
-                getLeafNetworks($network->NE_networkid, $allNetworks, $networkDevice->leafNetworks);
-            }
-
-            $networkDevice->interfaces = (($networkDeviceInterfaces = NetworkDeviceInterfaceDAO::getNetworkDeviceInterfaceArrayByNetworkDeviceID($networkDevice->ND_networkdeviceid)) == null) ? array() : $networkDeviceInterfaces;
-            foreach ($networkDevice->interfaces as $networkDeviceInterface) {
-                try {
-                    $ip = IpDAO::getIpByID($networkDeviceInterface->NI_ipid);
-                    $network = NetworkDAO::getNetworkByID($ip->IP_networkid);
-                    $pNetwork = $ipv4->parseAddress($network->NE_net);
-                    $pIP = $ipv4->parseAddress($ip->IP_address . '/' . $pNetwork->bitmask);
-
-                    $networkDeviceInterface->ip = $pIP->ip . '/' . $pIP->bitmask;;
-                    $networkDeviceInterface->dns = $ip->IP_dns;
-                } catch (Exception $e) {
-                    $networkDeviceInterface->ip = "N/A";
-                    $networkDeviceInterface->dns = "N/A";
-                }
-            }
-        } else {
-            $networkDevice->networks = array();
-            $networkDevice->leafNetworks = array();
-            $networkDevice->interfaces = array();
-        }
-
-        HTML_NetworkDevice::editNetworkDevice($networkDevice);
-        return;
-    }
-
-    if ($networkDevice->ND_networkdeviceid) {
-        $allInterfaces = NetworkDeviceInterfaceDAO::getNetworkDeviceInterfaceArrayByNetworkDeviceID($networkDevice->ND_networkdeviceid);
-    } else {
-        $allInterfaces = array();
-    }
-    $lanInterfaces = Utils::getParam($_POST, 'lanInterfaces', array());
-
-    foreach ($allInterfaces as $networkDeviceInterface) {
-        if (in_array($networkDeviceInterface->NI_networkdeviceinterfaceid, $lanInterfaces)) {
-            $networkDeviceInterface->NI_type = NetworkDeviceInterface::TYPE_LAN;
-        } else {
-            $networkDeviceInterface->NI_type = NetworkDeviceInterface::TYPE_UNSPECIFIED;
-        }
-        $database->updateObject("networkdeviceinterface", $networkDeviceInterface, "NI_networkdeviceinterfaceid", false, false);
-    }
-
-    if ($isNew) {
-        $database->insertObject("networkdevice", $networkDevice, "ND_networkdeviceid", false);
-    } else {
-        $database->updateObject("networkdevice", $networkDevice, "ND_networkdeviceid", false, false);
-    }
-
-    switch ($task) {
-        case 'apply':
-            $msg = sprintf(_("Network device '%s' updated"), $networkDevice->ND_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-            Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDevice->ND_networkdeviceid&hidemainmenu=1");
-            break;
-        case 'save':
-            $msg = sprintf(_("Network device '%s' saved"), $networkDevice->ND_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-        default:
-            Core::redirect("index2.php?option=com_networkdevice");
-    }
-}
-
-function removeNetworkDevice($cid) {
-    global $database, $mainframe, $my, $acl, $appContext;
-    if (count($cid) < 1) {
-        Core::backWithAlert(_("Please select record to erase"));
-    }
-
-    if (count($cid)) {
-        foreach ($cid as $id) {
-            $networkDevice = NetworkDeviceDAO::getNetworkDeviceByID($id);
-            try {
-                $database->startTransaction();
-                HasManagedNetworkDAO::removeHasManagedNetworksByManagedDeviceID($networkDevice->ND_networkdeviceid);
-                NetworkDeviceInterfaceDAO::removeNetworkDeviceInterfaceByNetworkDeviceID($networkDevice->ND_networkdeviceid);
-                NetworkDeviceDAO::removeNetworkDevicebyID($id);
-                $database->commit();
-            } catch (Exception $e) {
-                $database->rollback();
-                throw $e;
-            }
-
-            $msg = sprintf(_("Network device '%s' deleted"), $networkDevice->ND_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-        }
-        Core::redirect("index2.php?option=com_networkdevice");
-    }
-}
-
-function editNetworkDeviceNetwork($nid, $nnid=null) {
-    global $database, $my, $acl;
-
-    if ($nnid != null) {
-        $HasManagedNetwork = HasManagedNetworkDAO::getHasManagedNetworkByID($nnid);
-    } else if ($nid != null) {
-        $HasManagedNetwork = new HasManagedNetwork();
-        $HasManagedNetwork->MN_networkdeviceid = $nid;
-    } else {
-        Core::redirect("index2.php?option=com_networkdevice");
-    }
-
-    $networks = NetworkDAO::getNetworkArray();
-
-    $hasNetworks = HasManagedNetworkDAO::getHasManagedNetworkAndNetworksArrayByNetworkDeviceID($nid);
-
-    foreach ($hasNetworks as $hasNetwork) {
-        if ($HasManagedNetwork->MN_networkid != $hasNetwork->MN_networkid) {
-            unset($networks[$hasNetwork->MN_networkid]);
-        }
-    }
-
-    HTML_NetworkDevice::editNetworkDeviceNetwork($HasManagedNetwork, $networks);
-}
-
-function saveNetworkDeviceNetwork($task) {
-    global $database, $mainframe, $my, $acl, $appContext;
-
-    $hasManagedNetwork = new HasManagedNetwork();
-    database::bind($_POST, $hasManagedNetwork);
-    $isNew 	= !$hasManagedNetwork->MN_hasmanagednetworkid;
-
-    if ($isNew) {
-        $database->insertObject("hasmanagednetwork", $hasManagedNetwork, "MN_hasmanagednetworkid", false);
-    } else {
-        $database->updateObject("hasmanagednetwork", $hasManagedNetwork, "MN_hasmanagednetworkid", false, false);
-    }
-
-    $network = NetworkDAO::getNetworkByID($hasManagedNetwork->MN_networkid);
-    $networkDevice = NetworkDeviceDAO::getNetworkDeviceByID($hasManagedNetwork->MN_networkdeviceid);
-
-    switch ($task) {
-        case 'applyNetwork':
-            $msg = sprintf(_("Network device network '%s' updated for network device %s"), $network->NE_net, $networkDevice->ND_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-            Core::redirect("index2.php?option=com_networkdevice&task=editNetwork&MN_hasmanagednetworkid=$hasManagedNetwork->MN_hasmanagednetworkid&hidemainmenu=1");
-            break;
-        case 'saveNetwork':
-            $msg = sprintf(_("Network device network '%s' saved for network device %s"), $network->NE_net, $networkDevice->ND_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-        default:
-            Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$hasManagedNetwork->MN_networkdeviceid&hidemainmenu=1");
-    }
-}
-
-function removeNetworkDeviceNetwork($nnid) {
-    global $database, $mainframe, $my, $acl, $appContext;
-
-    if ($nnid != null) {
-        $hasManagedNetwork = HasManagedNetworkDAO::getHasManagedNetworkByID($nnid);
-
-        $network = NetworkDAO::getNetworkByID($hasManagedNetwork->MN_networkid);
-        $networkDevice = NetworkDeviceDAO::getNetworkDeviceByID($hasManagedNetwork->MN_networkdeviceid);
-
-        HasManagedNetworkDAO::removeHasManagedNetworkByID($nnid);
-
-        $msg = sprintf(_("Network device managed network '%s' for network device '%s' deleted"), $network->NE_net, $networkDevice->ND_name);
-        $appContext->insertMessage($msg);
-        $database->log($msg, Log::LEVEL_INFO);
-    }
-
-    Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDevice->ND_networkdeviceid&hidemainmenu=1");
-}
-
-function editNetworkDeviceInterface($nid, $iid=null) {
-    global $database, $my, $acl;
-
-    if ($iid != null) {
-        $networkDeviceInterface = NetworkDeviceInterfaceDAO::getNetworkDeviceInterfaceByID($iid);
-    } else if ($nid != null) {
-        $networkDeviceInterface = new NetworkDeviceInterface();
-        $networkDeviceInterface->NI_networkdeviceid = $nid;
-        $networkDeviceInterface->NI_ipid = 0;
-    } else {
-        Core::redirect("index2.php?option=com_networkdevice");
-    }
-    $ips = IpDAO::getIpArray();
-    $sortedIps = Array();
-
-    foreach ($ips as $ip) {
-        $sortedIps[ip2long($ip->IP_address)] = $ip;
-    }
-    ksort($sortedIps);
-
-    HTML_NetworkDevice::editNetworkDeviceInterface($networkDeviceInterface, $sortedIps);
-}
-
-function saveNetworkDeviceInterface($task) {
-    global $database, $mainframe, $my, $acl, $appContext;
-
-    $networkDeviceInterface = new NetworkDeviceInterface();
-    database::bind($_POST, $networkDeviceInterface);
-    $isNew 	= !$networkDeviceInterface->NI_networkdeviceinterfaceid;
-
-    if ($isNew) {
-        $networkDeviceInterface->NI_type = NetworkDeviceInterface::TYPE_UNSPECIFIED;
-        $database->insertObject("networkdeviceinterface", $networkDeviceInterface, "NI_networkdeviceinterfaceid", false);
-    } else {
-        $database->updateObject("networkdeviceinterface", $networkDeviceInterface, "NI_networkdeviceinterfaceid", false, false);
-    }
-
-    switch ($task) {
-        case 'applyInterface':
-            $msg = sprintf(_("Network interface '%s' updated"), $networkDeviceInterface->NI_ifname);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-            Core::redirect("index2.php?option=com_networkdevice&task=editInterface&ND_networkdeviceid=$networkDeviceInterface->NI_networkdeviceid&NI_networkdeviceinterfaceid=$networkDeviceInterface->NI_networkdeviceinterfaceid&hidemainmenu=1");
-            break;
-        case 'saveInterface':
-            $msg = sprintf(_("Network interface '%s' saved"), $networkDeviceInterface->NI_ifname);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-        default:
-            Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDeviceInterface->NI_networkdeviceid&hidemainmenu=1");
-    }
-}
-
-function removeNetworkDeviceInterface($iid) {
-    global $database, $mainframe, $my, $acl, $appContext;
-
-    if ($iid != null) {
-        $networkDeviceInterface = NetworkDeviceInterfaceDAO::getNetworkDeviceInterfaceByID($iid);
-        $networkDevice = NetworkDeviceDAO::getNetworkDeviceByID($networkDeviceInterface->NI_networkdeviceid);
-
-        NetworkDeviceInterfaceDAO::removeNetworkDeviceInterfaceByID($iid);
-
-        $msg = sprintf(_("Network interface '%s' for network device '%s' deleted"), $networkDeviceInterface->NI_ifname, $networkDevice->ND_name);
-        $appContext->insertMessage($msg);
-        $database->log($msg, Log::LEVEL_INFO);
-    }
-
-    Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDevice->ND_networkdeviceid&hidemainmenu=1");
+function showNetworkDevice(): void {
+    global $core;
+
+    $networkDevice = [
+        Core::NETWORK_DEVICE_PLATFORM => $core->getProperty(Core::NETWORK_DEVICE_PLATFORM),
+        Core::NETWORK_DEVICE_HOST => $core->getProperty(Core::NETWORK_DEVICE_HOST),
+        Core::NETWORK_DEVICE_PORT => $core->getProperty(Core::NETWORK_DEVICE_PORT),
+        Core::NETWORK_DEVICE_LOGIN => $core->getProperty(Core::NETWORK_DEVICE_LOGIN),
+        Core::NETWORK_DEVICE_PASSWORD => $core->getProperty(Core::NETWORK_DEVICE_PASSWORD),
+        Core::NETWORK_DEVICE_WAN_INTERFACE => $core->getProperty(Core::NETWORK_DEVICE_WAN_INTERFACE),
+        Core::NETWORK_DEVICE_COMMAND_SUDO => $core->getProperty(Core::NETWORK_DEVICE_COMMAND_SUDO),
+        Core::NETWORK_DEVICE_COMMAND_IPTABLES => $core->getProperty(Core::NETWORK_DEVICE_COMMAND_IPTABLES)
+    ];
+
+    HTML_NetworkDevice::showNetworkDevice($networkDevice);
 }
 
 function testLogin() {
-    global $core, $database, $mainframe, $my, $acl, $appContext;
+    global $core, $appContext;
 
-    $networkDevice = new NetworkDevice();
-    database::bind($_POST, $networkDevice);
+    $login = $core->getProperty(Core::NETWORK_DEVICE_LOGIN);
+    $host = $core->getProperty(Core::NETWORK_DEVICE_HOST);
 
-    if (!$networkDevice->ND_networkdeviceid) {
-        editNetworkDevice($networkDevice->ND_networkdeviceid);
-    }
-
-    $ND_password1 = trim(Utils::getParam($_POST, 'ND_password1', ""));
-    $ND_password2 = trim(Utils::getParam($_POST, 'ND_password2', ""));
-
-    if (($ND_password1 == "******" && $ND_password2 == "******") || ($ND_password1 == "" && $ND_password2 == "")) {
-        $storedNetworkDevice = NetworkDeviceDAO::getNetworkDeviceByID($networkDevice->ND_networkdeviceid);
-        $networkDevice->ND_password = $storedNetworkDevice->ND_password;
-    } else if ($ND_password1 == $ND_password2) {
-        $networkDevice->ND_password = $ND_password1;
-    } else {
-        $core->alert(_("User passwords are not same"));
-
-        editNetworkDevice($networkDevice->ND_networkdeviceid);
-    }
-
+    $platform = $core->getProperty(Core::NETWORK_DEVICE_PLATFORM);
     try {
-        if ($networkDevice->ND_managementInterfaceId) {
-            $managementInterface = NetworkDeviceInterfaceDAO::getNetworkDeviceInterfaceByID($networkDevice->ND_managementInterfaceId);
-            $managementIp = IpDAO::getIpByID($managementInterface->NI_ipid);
+        if ($platform === "LINUX") {
+            $commandIptables = $core->getProperty(Core::NETWORK_DEVICE_COMMAND_IPTABLES);
 
-            if ($networkDevice->ND_platform == NetworkDevice::PLATFORM_GNU_LINUX_DEBIAN) {
-                $settings = array();
-                $settings[Executor::REMOTE_HOST] = $managementIp->IP_address;
-                $settings[Executor::REMOTE_PORT] = 22;
-                $settings[Executor::LOGIN] = $networkDevice->ND_login;
-                $settings[Executor::PASSWORD] = $networkDevice->ND_password;
-                $settings[Executor::SUDO_COMMAND] = $networkDevice->ND_commandSudo;
+            $commander = new LinuxCommander([], true);
 
-                $executor = new Executor(Executor::REMOTE_SSH2, $settings, true);
+            $appContext->insertMessage(sprintf(_("Login successful: ssh %s@%s"), $login, $host));
 
-                $appContext->insertMessage(sprintf(_("Login successful: ssh %s@%s"), $networkDevice->ND_login, $managementIp->IP_address));
-            } else if ($networkDevice->ND_platform == NetworkDevice::PLATFORM_ROUTEROS) {
-                $settings = array();
-                $settings[Executor::REMOTE_HOST] = $managementIp->IP_address;
-                $settings[Executor::LOGIN] = $networkDevice->ND_login;
-                $settings[Executor::PASSWORD] = $networkDevice->ND_password;
-
-                $executor = new Executor(Executor::REMOTE_MIKROTIK_API, $settings, true);
-
-                $appContext->insertMessage(sprintf(_("Login successful: mikrotik API %s@%s"), $networkDevice->ND_login, $managementIp->IP_address));
-            }
-
-        } else {
-            if ($networkDevice->ND_platform == NetworkDevice::PLATFORM_GNU_LINUX_DEBIAN) {
-                $settings = array();
-                $settings[Executor::SUDO_COMMAND] = $networkDevice->ND_commandSudo;
-
-                $executor = new Executor(Executor::LOCAL_COMMAND, $settings, true);
-            } else if ($networkDevice->ND_platform == NetworkDevice::PLATFORM_ROUTEROS) {
-                $settings = array();
-                $settings[Executor::REMOTE_HOST] = '127.0.0.1';
-                $settings[Executor::LOGIN] = $networkDevice->ND_login;
-                $settings[Executor::PASSWORD] = $networkDevice->ND_password;
-
-                $executor = new Executor(Executor::REMOTE_MIKROTIK_API, $settings, true);
-
-                $appContext->insertMessage(sprintf(_("Login successful: mikrotik API %s@%s"), $networkDevice->ND_login, '127.0.0.1'));
-            }
-        }
-
-        if ($networkDevice->ND_platform == NetworkDevice::PLATFORM_GNU_LINUX_DEBIAN) {
-            $uname = $executor->execute("uname -a");
+            $uname = $commander->execute("uname -a");
             $appContext->insertMessage($uname[1]);
 
-            if ($networkDevice->ND_commandIptables) {
-                $iptables = $executor->execute(sprintf("%s --version", $networkDevice->ND_commandIptables));
+            if ($commandIptables) {
+                $iptables = $commander->execute(sprintf("%s --version", $commandIptables));
                 if ($iptables[2]) {
-                    $appContext->insertMessage(sprintf(_("iptables not found on specified path %s"), $networkDevice->ND_commandIptables));
+                    $appContext->insertMessage(sprintf(_("iptables not found on specified path %s"), $commandIptables));
                 } else {
                     $appContext->insertMessage($iptables[1]);
                 }
             } else {
-                $iptables = $executor->execute("find / -name iptables -print");
+                $iptables = $commander->execute("find / -name iptables -print");
                 $appContext->insertMessage($iptables[1]);
             }
-        } else if ($networkDevice->ND_platform == NetworkDevice::PLATFORM_ROUTEROS) {
+        } elseif ($platform === "ROUTEROS") {
+            $commander = new RouterOSCommander([], true);
 
-            $result1 = $executor->execute(array("/system/routerboard/print"));
-            $result2 = $executor->execute(array("/system/resource/print"));
+            $appContext->insertMessage(sprintf(_("Login successful: mikrotik API %s@%s"), $login, $host));
+
+            $result1 = $commander->execute(array("/system/routerboard/print"));
+            $result2 = $commander->execute(array("/system/resource/print"));
             foreach ($result1[1] as $result11) {
-                foreach ($result11 as $key=>$value) {
-                    $appContext->insertMessage($key.": ".$value);
+                foreach ($result11 as $key => $value) {
+                    $appContext->insertMessage($key . ": " . $value);
                 }
             }
 
             foreach ($result2[1] as $result21) {
-                foreach ($result21 as $key=>$value) {
-                    $appContext->insertMessage($key.": ".$value);
+                foreach ($result21 as $key => $value) {
+                    $appContext->insertMessage($key . ": " . $value);
                 }
             }
+        } else {
+            throw new Exception("Unknown platform in configuration ini file: \"${platform}\"");
         }
     } catch (Exception $e) {
-        $msg = sprintf(_("Login failed: %s@%s: %s"), $networkDevice->ND_login, $managementIp->IP_address, $e->getMessage());
+        $msg = sprintf(_("Login failed: %s@%s: %s"), $login, $host, $e->getMessage());
         $appContext->insertMessage($msg);
     }
 
-    Core::redirect("index2.php?option=com_networkdevice&task=edit&ND_networkdeviceid=$networkDevice->ND_networkdeviceid&hidemainmenu=1");
+    Core::redirect("index2.php?option=com_networkdevice");
 }
-
-function getLeafNetworks($id, &$allNetworks, &$networks) {
-    $ipv4 = new Net_IPv4();
-    $childrenNetworks = array();
-    foreach ($allNetworks as &$network) {
-        if ($network->NE_parent_networkid == $id) {
-            $netParse = $ipv4->parseAddress($network->NE_net);
-            $childrenNetworks[ip2long($netParse->network)] = clone $network;
-        }
-    }
-    if (count($childrenNetworks)) {
-        ksort($childrenNetworks);
-
-        foreach ($childrenNetworks as $network) {
-            $netParse = $ipv4->parseAddress($network->NE_net);
-            getLeafNetworks($network->NE_networkid, $allNetworks, $networks);
-        }
-    } else {
-        $networks[$id] = clone $allNetworks[$id];
-    }
-}
-?>

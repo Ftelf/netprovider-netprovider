@@ -13,21 +13,12 @@
  */
 
 global $core;
-require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
-require_once $core->getAppRoot() . "includes/dao/ChargeDAO.php";
-require_once $core->getAppRoot() . "includes/dao/HasChargeDAO.php";
 require_once $core->getAppRoot() . "includes/dao/IpDAO.php";
-require_once $core->getAppRoot() . "includes/dao/NetworkDAO.php";
-require_once $core->getAppRoot() . "includes/dao/HasManagedNetworkDAO.php";
-require_once $core->getAppRoot() . "includes/dao/NetworkDeviceDAO.php";
-require_once $core->getAppRoot() . "includes/dao/NetworkDeviceInterfaceDAO.php";
-require_once $core->getAppRoot() . "includes/dao/InternetDAO.php";
 require_once $core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php";
 require_once $core->getAppRoot() . "includes/dao/IpAccountDAO.php";
-require_once $core->getAppRoot() . "includes/Executor.php";
 require_once $core->getAppRoot() . "includes/utils/Utils.php";
 require_once $core->getAppRoot() . "includes/utils/DiacriticsUtil.php";
-require_once 'Net/IPv4.php';
+require_once($core->getAppRoot() . "includes/net/routeros_api.class.php");
 
 /**
  * RouterOSCommander
@@ -35,30 +26,86 @@ require_once 'Net/IPv4.php';
 class RouterOSCommander
 {
     private const FILTER_IN = 'FILTER-IN';
+
     private const FILTER_OUT = 'FILTER-OUT';
 
-    private $networkDevice;
+    private $routerosApi;
 
-    private $rejectUnknownIP;
-    private $redirectUnknownIP;
-    private $redirectToIP;
-    private $allowedHosts;
+    private $networks;
 
-    public function __construct($networkDevice)
+    private $host;
+
+    private $port;
+
+    private $login;
+
+    private $password;
+
+    private $diacriticsUtil;
+
+    public function __construct($networks)
     {
         global $core;
 
-        $this->networkDevice = $networkDevice;
+        $this->networks = $networks;
+        $this->diacriticsUtil = new DiacriticsUtil();
 
-        $this->rejectUnknownIP = $core->getProperty(Core::REJECT_UNKNOWN_IP);
-        $this->redirectUnknownIP = $core->getProperty(Core::REDIRECT_UNKNOWN_IP);
-        $this->redirectToIP = $core->getProperty(Core::REDIRECT_TO_IP);
-        $this->allowedHosts = explode(";", $core->getProperty(Core::ALLOWED_HOSTS));
+        $this->host = $core->getProperty(Core::NETWORK_DEVICE_HOST);
+        $this->port = $core->getProperty(Core::NETWORK_DEVICE_PORT);
+        $this->login = $core->getProperty(Core::NETWORK_DEVICE_LOGIN);
+        $this->password = $core->getProperty(Core::NETWORK_DEVICE_PASSWORD);
+
+        $this->login();
     }
 
-    public function accountIP($executor): void
+    private function login() {
+        if (!$this->host) {
+            throw new Exception('Misconfigured settings property: "Network Device Host"');
+        }
+
+        if (!$this->port) {
+            $this->port = 8729;
+        }
+
+        if (!$this->login) {
+            throw new Exception('Misconfigured settings property: "Network Device Login"');
+        }
+
+        if (!$this->password) {
+            throw new Exception('Misconfigured settings property: "Network Device Password"');
+        }
+
+        $this->routerosApi = new RouterosApi();
+        $this->routerosApi->port = $this->port;
+        $this->routerosApi->ssl = true;
+
+        if (!$this->routerosApi->connect($this->host, $this->login, $this->password)) {
+            throw new Exception(sprintf(_("RouterOS API login failed at %s@%s"), $this->login, $this->host));
+        }
+    }
+
+    public function disconnect()
     {
-        $this->synchronizeFilter($executor);
+        $this->routerosApi->disconnect();
+    }
+
+    public function execute($command)
+    {
+        for ($i = 0, $iMax = count($command); $i < $iMax; $i++) {
+            $this->routerosApi->write($command[$i], (($i + 1) === $iMax));
+        }
+
+        $read = $this->routerosApi->read(true);
+        return [
+            $command,
+            $read,
+            null
+        ];
+    }
+
+    public function accountIP(): void
+    {
+        $this->synchronizeFilter();
 
         global $database;
 
@@ -67,7 +114,7 @@ class RouterOSCommander
 
         $ipArray = [];
 
-        $filterInIpResult = $executor->execute(array("/ip/firewall/filter/print", sprintf("?=chain=%s", RouterOSCommander::FILTER_IN), "?=action=accept", "=stats="));
+        $filterInIpResult = $this->execute(array("/ip/firewall/filter/print", sprintf("?=chain=%s", RouterOSCommander::FILTER_IN), "?=action=accept", "=stats="));
         foreach ($filterInIpResult[1] as $filterInIp) {
             $acc = [];
             $acc['bytes-in'] = $filterInIp['bytes'];
@@ -75,7 +122,7 @@ class RouterOSCommander
             $ipArray[$filterInIp['dst-address']] = $acc;
         }
 
-        $filterOutIpResult = $executor->execute(array("/ip/firewall/filter/print", sprintf("?=chain=%s", RouterOSCommander::FILTER_OUT), "?=action=accept", "=stats="));
+        $filterOutIpResult = $this->execute(array("/ip/firewall/filter/print", sprintf("?=chain=%s", RouterOSCommander::FILTER_OUT), "?=action=accept", "=stats="));
         foreach ($filterOutIpResult[1] as $filterOutIp) {
             if (isset($ipArray[$filterOutIp['src-address']])) {
                 $ipArray[$filterOutIp['src-address']]['bytes-out'] = $filterOutIp['bytes'];
@@ -136,28 +183,29 @@ class RouterOSCommander
         }
     }
 
-    public function synchronizeFilter($executor)
+    public function synchronizeFilter()
     {
-        $diacriticsUtil = new DiacriticsUtil();
         $cmds = [];
 
-        $this->resetIpFilter($executor, $cmds);
+        $this->resetIpFilter($cmds);
 
         $ipAddressMap = [];
-        foreach ($this->networkDevice->NETWORKS as &$network) {
-            foreach ($network['INTERNETS'] as &$internet) {
-                foreach ($internet['IPS'] as &$ip) {
+        foreach ($this->networks as &$network) {
+            foreach ($network->INTERNET_SERVICES as &$internetService) {
+                foreach ($internetService['IPS'] as &$ip) {
                     $ipAddress = $ip['IP_address'];
                     if (isset($ipAddressMap[$ipAddress])) {
                         continue;
                     }
 
-                    $ipAddressMap[$ipAddress] = $diacriticsUtil->removeDiacritic($internet['PE_firstname'] . " " . $internet['PE_surname'] . ", " . $ip['IP_dns']);
+                    $ipAddressMap[$ipAddress] = $this->diacriticsUtil->removeDiacritic($internetService['PE_firstname'] . " " . $internetService['PE_surname'] . ", " . $ip['IP_dns']);
+                    $a = $this->diacriticsUtil->removeDiacritic($internetService['PE_firstname'] . " " . $internetService['PE_surname'] . ", " . $ip['IP_dns']);
+                    $b = $this->diacriticsUtil->removeDiacritic("{$internetService['PE_firstname']} {$internetService['PE_surname']}, {$ip['IP_dns']}");
                 }
             }
         }
 
-        $resultFilterIn = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "=.proplist=.id,dst-address"));
+        $resultFilterIn = $this->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "=.proplist=.id,dst-address"));
         $cmds[] = $resultFilterIn;
 
         $filterInEntries = $resultFilterIn[1];
@@ -172,7 +220,7 @@ class RouterOSCommander
         }
 
         if (count($idsToBeRemovedInFilterInArray) > 0) {
-            $cmds[] = $executor->execute(array("/ip/firewall/filter/remove", sprintf("=numbers=%s", implode(',', $idsToBeRemovedInFilterInArray))));
+            $cmds[] = $this->execute(array("/ip/firewall/filter/remove", sprintf("=numbers=%s", implode(',', $idsToBeRemovedInFilterInArray))));
         }
 
         $ipAddressesInFilter = array_column(array_slice($filterInEntries, 0, count($filterInEntries) - 2), 'dst-address');
@@ -180,7 +228,7 @@ class RouterOSCommander
 
         foreach ($ipAddressMap as $address => $comment) {
             if (!in_array($address, $ipAddressesInFilter)) {
-                $cmds[] = $executor->execute(
+                $cmds[] = $this->execute(
                     array(
                         "/ip/firewall/filter/add",
                         sprintf("=chain=%s", RouterOSCommander::FILTER_IN),
@@ -193,7 +241,7 @@ class RouterOSCommander
             }
         }
 
-        $resultFilterOut = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "=.proplist=.id,src-address"));
+        $resultFilterOut = $this->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "=.proplist=.id,src-address"));
         $cmds[] = $resultFilterOut;
 
         $filterOutEntries = $resultFilterOut[1];
@@ -209,7 +257,7 @@ class RouterOSCommander
 
         if (count($idsToBeRemovedOutFilterInArray) > 0) {
             $ids = implode(',', $idsToBeRemovedOutFilterInArray);
-            $cmds[] = $executor->execute(array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids)));
+            $cmds[] = $this->execute(array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids)));
         }
 
         $ipAddressesOutFilter = array_column(array_slice($filterOutEntries, 0, count($filterOutEntries) - 2), 'src-address');
@@ -217,7 +265,7 @@ class RouterOSCommander
 
         foreach ($ipAddressMap as $address => $comment) {
             if (!in_array($address, $ipAddressesOutFilter)) {
-                $cmds[] = $executor->execute(
+                $cmds[] = $this->execute(
                     array(
                         "/ip/firewall/filter/add",
                         sprintf("=chain=%s", RouterOSCommander::FILTER_OUT),
@@ -233,41 +281,41 @@ class RouterOSCommander
         return self::parseArrayReadable($cmds);
     }
 
-    public function resetIpFilter($executor, &$cmds): void
+    public function resetIpFilter(&$cmds): void
     {
-        if (!$this->isIpFilterValid($executor, $cmds)) {
-            $filterArray = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "=.proplist=.id"));
+        if (!$this->isIpFilterValid($cmds)) {
+            $filterArray = $this->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "=.proplist=.id"));
             $cmds[] = $filterArray;
 
             if (count($filterArray[1])) {
                 $idArray = array_column($filterArray[1], '.id');
                 $ids = implode(',', $idArray);
 
-                $cmds[] = $executor->execute(array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids)));
+                $cmds[] = $this->execute(array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids)));
             }
 
-            $filterArray = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "=.proplist=.id"));
+            $filterArray = $this->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "=.proplist=.id"));
             $cmds[] = $filterArray;
 
             if (count($filterArray[1])) {
                 $idArray = array_column($filterArray[1], '.id');
                 $ids = implode(',', $idArray);
 
-                $cmds[] = $executor->execute(array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids)));
+                $cmds[] = $this->execute(array("/ip/firewall/filter/remove", sprintf("=numbers=%s", $ids)));
             }
 
-            $cmds[] = $executor->execute(array("/ip/firewall/filter/add", sprintf("=chain=%s", RouterOSCommander::FILTER_IN), "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-IN:"));
-            $cmds[] = $executor->execute(array("/ip/firewall/filter/add", sprintf("=chain=%s", RouterOSCommander::FILTER_OUT), "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-OUT:"));
+            $cmds[] = $this->execute(array("/ip/firewall/filter/add", sprintf("=chain=%s", RouterOSCommander::FILTER_IN), "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-IN:"));
+            $cmds[] = $this->execute(array("/ip/firewall/filter/add", sprintf("=chain=%s", RouterOSCommander::FILTER_OUT), "=limit=1/3600,1", "=action=log", "=log-prefix=UNKNOWN-OUT:"));
 
-            $cmds[] = $executor->execute(array("/ip/firewall/filter/add", sprintf("=chain=%s", RouterOSCommander::FILTER_IN), "=action=reject", "=disabled=no"));
-            $cmds[] = $executor->execute(array("/ip/firewall/filter/add", sprintf("=chain=%s", RouterOSCommander::FILTER_OUT), "=action=reject", "=disabled=no"));
+            $cmds[] = $this->execute(array("/ip/firewall/filter/add", sprintf("=chain=%s", RouterOSCommander::FILTER_IN), "=action=reject", "=disabled=no"));
+            $cmds[] = $this->execute(array("/ip/firewall/filter/add", sprintf("=chain=%s", RouterOSCommander::FILTER_OUT), "=action=reject", "=disabled=no"));
         }
     }
 
-    public function isIpFilterValid($executor, &$cmds)
+    public function isIpFilterValid(&$cmds)
     {
         // FILTER-IN
-        $resultFilterIn = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "=.proplist=.id,dst-address,action"));
+        $resultFilterIn = $this->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "=.proplist=.id,dst-address,action"));
         $cmds[] = $resultFilterIn;
 
         $filterInEntries = $resultFilterIn[1];
@@ -289,7 +337,7 @@ class RouterOSCommander
         }
 
         // FILTER-OUT
-        $resultFilterOut = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "=.proplist=.id,src-address,action"));
+        $resultFilterOut = $this->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "=.proplist=.id,src-address,action"));
         $cmds[] = $resultFilterOut;
 
         $filterOutEntries = $resultFilterOut[1];
@@ -317,47 +365,47 @@ class RouterOSCommander
         return true;
     }
 
-    public function getIPFilterDown($executor)
+    public function getIPFilterDown()
     {
-        $this->synchronizeFilter($executor);
+        $this->synchronizeFilter();
 
         $cmds = [];
 
-        $resultFilterIn = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "?action=reject", "?disabled=no"));
+        $resultFilterIn = $this->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "?action=reject", "?disabled=no"));
         $cmds[] = $resultFilterIn;
 
         if (isset($resultFilterIn[1]) && count($resultFilterIn[1]) == 1) {
-            $cmds[] = $executor->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterIn[1][0]['.id']), "=disabled=yes"));
+            $cmds[] = $this->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterIn[1][0]['.id']), "=disabled=yes"));
         }
 
-        $resultFilterOut = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "?action=reject", "?disabled=no"));
+        $resultFilterOut = $this->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "?action=reject", "?disabled=no"));
         $cmds[] = $resultFilterOut;
 
         if (isset($resultFilterOut[1]) && count($resultFilterOut[1]) == 1) {
-            $cmds[] = $executor->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterOut[1][0]['.id']), "=disabled=yes"));
+            $cmds[] = $this->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterOut[1][0]['.id']), "=disabled=yes"));
         }
 
         return self::parseArrayReadable($cmds);
     }
 
-    public function getIPFilterUp($executor)
+    public function getIPFilterUp()
     {
-        $this->synchronizeFilter($executor);
+        $this->synchronizeFilter();
 
         $cmds = [];
 
-        $resultFilterIn = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "?action=reject", "?disabled=yes"));
+        $resultFilterIn = $this->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_IN), "?action=reject", "?disabled=yes"));
         $cmds[] = $resultFilterIn;
 
         if (isset($resultFilterIn[1]) && count($resultFilterIn[1]) == 1) {
-            $cmds[] = $executor->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterIn[1][0]['.id']), "=disabled=no"));
+            $cmds[] = $this->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterIn[1][0]['.id']), "=disabled=no"));
         }
 
-        $resultFilterOut = $executor->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "?action=reject", "?disabled=yes"));
+        $resultFilterOut = $this->execute(array("/ip/firewall/filter/print", sprintf("?chain=%s", RouterOSCommander::FILTER_OUT), "?action=reject", "?disabled=yes"));
         $cmds[] = $resultFilterOut;
 
         if (isset($resultFilterOut[1]) && count($resultFilterOut[1]) == 1) {
-            $cmds[] = $executor->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterOut[1][0]['.id']), "=disabled=no"));
+            $cmds[] = $this->execute(array("/ip/firewall/filter/set", sprintf("=numbers=%s", $resultFilterOut[1][0]['.id']), "=disabled=no"));
         }
 
         return self::parseArrayReadable($cmds);

@@ -488,7 +488,7 @@ class HTML_myprofile {
         <?php echo NumberFormat::formatMoney($personAccountEntry->PN_amount); ?>
       </td>
       <td align="left">
-        <?php echo NumberFormat::formatMoney($personAccountEntry->PN_currency); ?>
+        <?php echo $personAccountEntry->PN_currency; ?>
       </td>
       <td align="left">
         <?php echo $personAccountEntry->PN_comment; ?>

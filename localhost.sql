@@ -12,8 +12,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Databáze: `netprovider2`
 --
-CREATE DATABASE `netprovider2` DEFAULT CHARACTER SET utf8 COLLATE utf8_czech_ci;
-USE `netprovider2`;
+CREATE DATABASE `netprovider` DEFAULT CHARACTER SET utf8 COLLATE utf8_czech_ci;
+USE `netprovider`;
 
 -- --------------------------------------------------------
 
@@ -178,19 +178,6 @@ CREATE TABLE IF NOT EXISTS `hascharge` (
 -- --------------------------------------------------------
 
 --
--- Struktura tabulky `hasmanagednetwork`
---
-
-CREATE TABLE IF NOT EXISTS `hasmanagednetwork` (
-  `MN_hasmanagednetworkid` int(11) NOT NULL auto_increment,
-  `MN_networkdeviceid` int(11) NOT NULL,
-  `MN_networkid` int(11) NOT NULL,
-  PRIMARY KEY  (`MN_hasmanagednetworkid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Struktura tabulky `internet`
 --
 
@@ -299,51 +286,8 @@ CREATE TABLE IF NOT EXISTS `network` (
   `NE_personid` int(11) NOT NULL default '0',
   `NE_net` varchar(255) collate utf8_czech_ci NOT NULL default '',
   `NE_description` varchar(255) collate utf8_czech_ci NOT NULL default '',
-  `NE_networkdeviceid` int(11) default NULL,
   PRIMARY KEY  (`NE_networkid`),
   UNIQUE KEY `NE_net` (`NE_net`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Struktura tabulky `networkdevice`
---
-
-CREATE TABLE IF NOT EXISTS `networkdevice` (
-  `ND_networkdeviceid` int(11) NOT NULL auto_increment,
-  `ND_name` varchar(255) collate utf8_czech_ci NOT NULL,
-  `ND_vendor` varchar(255) collate utf8_czech_ci NOT NULL,
-  `ND_type` varchar(255) collate utf8_czech_ci NOT NULL,
-  `ND_platform` int(11) NOT NULL,
-  `ND_description` varchar(255) collate utf8_czech_ci NOT NULL,
-  `ND_managementInterfaceId` int(11) default NULL,
-  `ND_login` varchar(255) collate utf8_czech_ci default NULL,
-  `ND_password` varchar(255) collate utf8_czech_ci default NULL,
-  `ND_useCommandSudo` tinyint(1) NOT NULL,
-  `ND_commandSudo` varchar(255) collate utf8_czech_ci NOT NULL,
-  `ND_commandIptables` varchar(255) collate utf8_czech_ci NOT NULL,
-  `ND_commandIp` varchar(255) collate utf8_czech_ci NOT NULL,
-  `ND_commandTc` varchar(255) collate utf8_czech_ci NOT NULL,
-  `ND_ipFilterEnabled` tinyint(1) NOT NULL,
-  `ND_lanInterfaceid` int(11) NOT NULL,
-  `ND_wanInterfaceid` int(11) NOT NULL,
-  PRIMARY KEY  (`ND_networkdeviceid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Struktura tabulky `networkdeviceinterface`
---
-
-CREATE TABLE IF NOT EXISTS `networkdeviceinterface` (
-  `NI_networkdeviceinterfaceid` int(11) NOT NULL auto_increment,
-  `NI_networkdeviceid` int(11) NOT NULL,
-  `NI_ipid` int(11) default NULL,
-  `NI_ifname` varchar(255) collate utf8_czech_ci NOT NULL,
-  `NI_description` varchar(255) collate utf8_czech_ci NOT NULL,
-  PRIMARY KEY  (`NI_networkdeviceinterfaceid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------

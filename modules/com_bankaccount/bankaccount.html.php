@@ -599,7 +599,7 @@ class HTML_BankAccount {
         <tbody>
         <tr>
           <td width="150"><?php echo _("Starting balance"); ?></td>
-          <td width="205"><input type="text" name="BA_startbalance" class="width-form" size="40" value="<?php echo NumberFormat::formatMoney($bankAccount->BA_startbalance); ?>"<?php if (!$flags['BA_startballance']) echo ' disabled="disabled"'; ?> /></td>
+          <td width="205"><input type="text" name="BA_startbalance" class="width-form" size="40" value="<?php echo NumberFormat::formatMoney($bankAccount->BA_startbalance); ?>"<?php if (!$flags['BA_startbalance']) echo ' disabled="disabled"'; ?> /></td>
         </tr>
         </table>
 

@@ -21,7 +21,6 @@ require_once($core->getAppRoot() . "includes/dao/IpAccountDAO.php");
 require_once($core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php");
 require_once($core->getAppRoot() . "includes/dao/NetworkDAO.php");
 require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDeviceDAO.php");
 require_once($core->getAppRoot() . "includes/smsgateapi_sluzba_cz/apixml30.php");
 require_once('massmessages.html.php');
 require_once 'Net/IPv4.php';

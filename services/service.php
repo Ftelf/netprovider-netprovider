@@ -62,13 +62,8 @@ class Service
 
     public bool $isCleanUp;
 
-    private bool $isDryRun;
-
     public function __construct($argv)
     {
-
-        $this->isDryRun = in_array('--dry-run', $argv, true);
-
         $this->isRunPayments = in_array('--proceed-payments', $argv, true);
 
         $this->isProceedNetworking = in_array('--proceed-networking', $argv, true);
@@ -158,10 +153,6 @@ class Service
      */
     public function payments(): void
     {
-        if ($this->isDryRun) {
-            return;
-        }
-
         // Download new BankAccountLists
         $bankAccounts = BankAccountDAO::getBankAccountArray();
 
@@ -195,8 +186,6 @@ class Service
     public function ipFilterDown(): void
     {
         $commanderCrossbar = new CommanderCrossbar();
-        $commanderCrossbar->setDryRun($this->isDryRun);
-        $commanderCrossbar->inicialize();
 
         $this->showResult($commanderCrossbar->ipFilterDown());
     }
@@ -208,8 +197,6 @@ class Service
     public function ipFilterUp(): void
     {
         $commanderCrossbar = new CommanderCrossbar();
-        $commanderCrossbar->setDryRun($this->isDryRun);
-        $commanderCrossbar->inicialize();
 
         $this->showResult($commanderCrossbar->ipFilterUp());
     }
@@ -220,13 +207,7 @@ class Service
      */
     public function ipAccount(): void
     {
-        if ($this->isDryRun) {
-            return;
-        }
-
         $commanderCrossbar = new CommanderCrossbar();
-        $commanderCrossbar->setDryRun($this->isDryRun);
-        $commanderCrossbar->inicialize();
 
         $commanderCrossbar->accountIP();
     }
@@ -237,10 +218,6 @@ class Service
      */
     public function cleanUp(): void
     {
-        if ($this->isDryRun) {
-            return;
-        }
-
         function processNewIPAccount($ip, $date, $ipAccountEntry): void
         {
             global $database;

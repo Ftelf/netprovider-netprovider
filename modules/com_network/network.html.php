@@ -278,9 +278,8 @@ class HTML_Network {
          <th width="10%" class="title"><?php echo _("Selected network"); ?></th>
          <th width="10%" class="title"><?php echo _("Netmask"); ?></th>
          <th width="10%" class="title"><?php echo _("Broadcast"); ?></th>
-         <th width="30%" class="title"><?php echo _("Description"); ?></th>
-         <th width="20%" class="title"><?php echo _("Owner"); ?></th>
-         <th width="20%" class="title"><?php echo _("IP filter device"); ?></th>
+         <th width="24%" class="title"><?php echo _("Description"); ?></th>
+         <th width="46%" class="title"><?php echo _("Owner"); ?></th>
        </tr>
        </thead>
        <tbody>
@@ -290,7 +289,6 @@ class HTML_Network {
          <td><?php echo $selectedNetworkParsed->broadcast; ?></td>
          <td><?php echo $selectedNetwork->NE_description; ?></td>
          <td><a href="<?php echo $linkPerson; ?>"><?php echo $persons[$selectedNetwork->NE_personid]->PE_firstname . " ". $persons[$selectedNetwork->NE_personid]->PE_surname; ?></a></td>
-         <td><?php echo $selectedNetwork->IPFilterDeviceName; ?></td>
        </tr>
        </table>
        <table class="adminlist">
@@ -610,10 +608,9 @@ class HTML_Network {
 	 * @param $possibleNetworkArray
 	 * @param $subNetworks
 	 * @param $persons
-	 * @param $networkDeviceArray
 	 * @param $flags
 	 */
-	static function editNet($network, $parentNetwork, $possibleNetworkArray, $directSubNetworks, $persons, $networkDeviceArray, &$flags) {
+	static function editNet($network, $parentNetwork, $possibleNetworkArray, $directSubNetworks, $persons, &$flags) {
 		global $core;
 		$ipv4 = new Net_IPv4();
 		$parentNetworkParsed = $ipv4->parseAddress($parentNetwork->NE_net);

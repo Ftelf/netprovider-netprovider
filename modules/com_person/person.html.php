@@ -30,7 +30,7 @@ class HTML_person {
 	static function showPersons(&$persons, &$groups, &$pageNav, &$filter) {
 		global $core;
 		$allowFirmRegistration = $core->getProperty(Core::ALLOW_FIRM_REGISTRATION);
-		$tableColspan = ($allowFirmRegistration) ? 13 : 12;
+		$tableColspan = ($allowFirmRegistration) ? 14 : 13;
 ?>
 
 <script type="text/javascript">

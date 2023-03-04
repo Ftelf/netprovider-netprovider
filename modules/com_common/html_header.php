@@ -16,7 +16,7 @@ global $core;
 
     <div id="header-top">
       <div>
-        <span class="version"><?php echo sprintf(_("version %s"), "2.0.0"); ?></span>
+        <span class="version"><?php echo sprintf(_("version %s"), "3.0.0"); ?></span>
         <span class="title"><?php echo $core->getProperty(Core::UI_VENDOR); ?></span>
       </div>
     </div>
