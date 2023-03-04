@@ -43,28 +43,15 @@ switch ($task) {
 
 function show(): void
 {
-    $filter = [];
-    // default settings if no setting in session
-    // do we want Network headers for IPs to be shown ?
-    $filter['execute'] = $_SESSION['UI_SETTINGS']['com_scripts']['filter'] ?? 'execute';
-
-    $command = '';
-    $messages = [];
-
-    HTML_scripts::showScripts($command, $messages, $filter);
+    HTML_scripts::showScripts('', []);
 }
 
 function ipFilterOn(): void
 {
-    $filter = [];
-    $filter['execute'] = $_SESSION['UI_SETTINGS']['com_scripts']['filter'] ?? 'execute';
-
     $command = _("IP filter on");
 
     try {
         $commanderCrossbar = new CommanderCrossbar();
-        $commanderCrossbar->setDryRun(!$filter['execute']);
-        $commanderCrossbar->inicialize();
 
         $results = $commanderCrossbar->ipFilterUp();
     } catch (Exception $e) {
@@ -75,20 +62,15 @@ function ipFilterOn(): void
         ]];
     }
 
-    HTML_scripts::showScripts($command, $results, $filter);
+    HTML_scripts::showScripts($command, $results);
 }
 
 function ipFilterOff(): void
 {
-    $filter = [];
-    $filter['execute'] = $_SESSION['UI_SETTINGS']['com_scripts']['filter'] ?? 'execute';
-
     $command = _("IP filter off");
 
     try {
         $commanderCrossbar = new CommanderCrossbar();
-        $commanderCrossbar->setDryRun(!$filter['execute']);
-        $commanderCrossbar->inicialize();
 
         $results = $commanderCrossbar->ipFilterDown();
     } catch (Exception $e) {
@@ -99,20 +81,15 @@ function ipFilterOff(): void
         ]];
     }
 
-    HTML_scripts::showScripts($command, $results, $filter);
+    HTML_scripts::showScripts($command, $results);
 }
 
 function synchronizeFilter(): void
 {
-    $filter = [];
-    $filter['execute'] = $_SESSION['UI_SETTINGS']['com_scripts']['filter'] ?? 'execute';
-
     $command = _("Synchronize IP filter");
 
     try {
         $commanderCrossbar = new CommanderCrossbar();
-        $commanderCrossbar->setDryRun(!$filter['execute']);
-        $commanderCrossbar->inicialize();
 
         $results = $commanderCrossbar->synchronizeFilter();
     } catch (Exception $e) {
@@ -123,5 +100,5 @@ function synchronizeFilter(): void
         ]];
     }
 
-    HTML_scripts::showScripts($command, $results, $filter);
+    HTML_scripts::showScripts($command, $results);
 }

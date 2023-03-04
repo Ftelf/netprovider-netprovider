@@ -43,7 +43,7 @@
         ],
         [null, '<?php echo addslashes(_("Network")); ?>', null, null, '<?php echo addslashes(_("Network Managenent")); ?>',
           ['<img src="images/22x22/filesystems/network.png" />', '<?php echo addslashes(_("IP networks")); ?>', 'index2.php?option=com_network', null, '<?php echo addslashes(_("Manage IP networks")); ?>'],
-          ['<img src="images/22x22/apps/Network Connection Manager.png" />', '<?php echo addslashes(_("Network devices")); ?>', 'index2.php?option=com_networkdevice', null, '<?php echo addslashes(_("Manage network devices")); ?>']
+          ['<img src="images/22x22/apps/Network Connection Manager.png" />', '<?php echo addslashes(_("Network device")); ?>', 'index2.php?option=com_networkdevice', null, '<?php echo addslashes(_("Manage network device")); ?>']
         ],
         [null, '<?php echo addslashes(_("Administration")); ?>', null, null, '<?php echo addslashes(_("Administration")); ?>',
           ['<img src="images/22x22/apps/agt_runit.png" />', '<?php echo addslashes(_("Scripts")); ?>', 'index2.php?option=com_scripts', null, '<?php echo addslashes(_("Run scripts")); ?>'],
@@ -58,8 +58,7 @@
           ['<img src="images/22x22/filesystems/network_local.png" />', '<?php echo addslashes(_("IP data traffic report")); ?>', 'index2.php?option=com_iptrafficreport', null, '<?php echo addslashes(_("Create IP data traffic report")); ?>']
         ],
         [null, '<?php echo addslashes(_("Help")); ?>', null, null, '<?php echo addslashes(_("View reports")); ?>',
-          ['<img src="images/22x22/apps/antivirus.png" />', '<?php echo addslashes(_("Changelog")); ?>', 'index2.php?option=com_changelog', null, '<?php echo addslashes(_("View changelog")); ?>'],
-          ['<img src="images/22x22/actions/help.png" />', '<?php echo addslashes(_("Documentation")); ?>', 'http://netprovider.ovjih.net', null, '<?php echo addslashes(_("View documentation")); ?>']
+          ['<img src="images/22x22/apps/antivirus.png" />', '<?php echo addslashes(_("Changelog")); ?>', 'index2.php?option=com_changelog', null, '<?php echo addslashes(_("View changelog")); ?>']
         ]
       ];
       cmDraw ('myMenuID', myMenu, 'hbr', cmThemeOffice, 'ThemeOffice');

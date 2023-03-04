@@ -19,39 +19,50 @@ Class Core {
     private $_appRoot = null;
     private $ini = null;
 
-    const DATABASE_HOST = "host";
-    const DATABASE_NAME = "database";
-    const DATABASE_USERNAME = "username";
-    const DATABASE_PASSWORD = "password";
+    // Database
+    const DATABASE_HOST = "Database Host";
+    const DATABASE_NAME = "Database Name";
+    const DATABASE_USERNAME = "Database Username";
+    const DATABASE_PASSWORD = "Database Password";
 
-    const SMTP_SERVER = "Server";
-    const SMTP_PORT = "Port";
-    const SMTP_AUTH = "Auth";
-    const SMTP_FROM = "From";
-    const SMTP_USERNAME = "SMTP_username";
-    const SMTP_PASSWORD = "SMTP_password";
-
-    const UI_TITLE = "Title";
-    const UI_VENDOR = "Vendor";
-    const UI_LOCALE = "Locale";
-
-    const SMS_USERNAME = "SMS username";
-    const SMS_PASSWORD = "SMS password";
-
-    const SYSTEM_DEBUG = "Debug";
-
+    // Financial
     const BLANK_CHARGES_ADVANCE_COUNT = "Blank charges advance count";
     const ENABLE_VAT_PAYER_SPECIFICS = "Enable VAT Payer specifics";
     const ALLOW_FIRM_REGISTRATION = "Allow firm registration";
 
-    const GLOBAL_IP_FILTER_ENABLED = "global IP filter enabled";
-    const REJECT_UNKNOWN_IP = "Reject unknown IP";
-    const REDIRECT_UNKNOWN_IP = "Redirect unknown IP";
-    const REDIRECT_TO_IP = "Redirect to IP";
-    const ALLOWED_HOSTS = "Allowed hosts";
+    // SMTP
+    const SMTP_SERVER = "SMTP Server";
+    const SMTP_PORT = "SMTP Port";
+    const SMTP_AUTH = "SMTP Auth";
+    const SMTP_USERNAME = "SMTP Username";
+    const SMTP_PASSWORD = "SMTP Password";
+    const SMTP_FROM = "SMTP From";
+    const SUPERVISOR_EMAIL = "SMTP Supervisor EMail";
+    const SEND_EMAIL_ON_CRITICAL_ERROR = "SMTP Send EMail on critical error";
 
-    const SEND_EMAIL_ON_CRITICAL_ERROR = "Send EMail on critical error";
-    const SUPERVISOR_EMAIL = "Supervisor EMail";
+    // UI
+    const UI_TITLE = "Title";
+    const UI_VENDOR = "Vendor";
+    const UI_LOCALE = "Locale";
+
+    // SMS
+    const SMS_USERNAME = "SMS Username";
+    const SMS_PASSWORD = "SMS Password";
+
+    // Network Device
+    const NETWORK_DEVICE_PLATFORM = "Network Device Platform";
+    const NETWORK_DEVICE_HOST = "Network Device Host";
+    const NETWORK_DEVICE_PORT = "Network Device Port";
+    const NETWORK_DEVICE_LOGIN = "Network Device Login";
+    const NETWORK_DEVICE_PASSWORD = "Network Device Password";
+    const NETWORK_DEVICE_WAN_INTERFACE = "Network Device WAN interface";
+    const NETWORK_DEVICE_COMMAND_SUDO = "Network Device Command sudo";
+    const NETWORK_DEVICE_COMMAND_IPTABLES = "Network Device Command iptables";
+    const NETWORK_DEVICE_IP_ACCOUNTING = "Network Device IP accounting";
+    const NETWORK_DEVICE_IP_FILTER = "Network Device IP filter";
+
+    // System
+    const SYSTEM_DEBUG = "Debug";
 
     public function __construct() {
         $this->_appRoot = realpath(dirname(__FILE__) . '/../') . '/';

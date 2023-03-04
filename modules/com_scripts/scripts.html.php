@@ -23,10 +23,9 @@ class HTML_scripts
     /**
      * @param $command
      * @param $results
-     * @param $filter
      * @return void
      */
-    public static function showScripts($command, $results, $filter): void
+    public static function showScripts($command, $results): void
     {
         ?>
         <script type="text/javascript">
@@ -87,8 +86,7 @@ class HTML_scripts
                         </div>
 
                         <div class="header icon-48-person">
-                            <?php echo _("Scripts:"); ?> <?php echo ($command) ? _($command) : ""; ?>
-                            , <?php echo ($filter['execute'] !== 'checked') ? _("dry run") : ""; ?>
+                            <?php echo _("Scripts:"); ?> <?php echo ($command) ? _($command) : "N/A"; ?>
                         </div>
 
                         <div class="clr"></div>
@@ -104,14 +102,6 @@ class HTML_scripts
 
                 <div id="element-box">
                     <form action="index2.php" method="post" name="adminForm">
-                        <table class="adminheading">
-                            <tr>
-                                <th><?php echo _("Run"); ?></th>
-                                <th><input type="checkbox" name="filter[execute]"
-                                           value="checked" <?php if ($filter['execute'] === 'checked') { echo 'checked="checked"'; } ?> />
-                                </th>
-                            </tr>
-                        </table>
                         <div style="background-color: black; color: #eeeeee; height: 400px; overflow: scroll; text-align: left;">
                             <?php
                             foreach ($results as $result) {
@@ -128,7 +118,6 @@ class HTML_scripts
                         <input type="hidden" name="option" value="com_scripts"/>
                         <input type="hidden" name="task" value=""/>
                         <input type="hidden" name="hidemainmenu" value="0"/>
-                        <input type="hidden" name="filter[void]" value="0"/>
                     </form>
                 </div>
 

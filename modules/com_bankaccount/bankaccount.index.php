@@ -241,20 +241,20 @@ function editBankAccount($bid=null) {
         $flags['BA_accountnumber'] = false;
         $flags['BA_iban'] = false;
         $flags['BA_currency'] = false;
-        $flags['BA_startballance'] = false;
+        $flags['BA_startbalance'] = false;
     } else {
         // new account
         //
         $bankAccount = new BankAccount();
         $bankAccount->BA_currency = "CZK";
-        $bankAccount->BA_startballance = "0,00";
+        $bankAccount->BA_startbalance = "0,00";
         $flags['BA_bankname'] = true;
         $flags['BA_banknumber'] = true;
         $flags['BA_accountname'] = true;
         $flags['BA_accountnumber'] = true;
         $flags['BA_iban'] = true;
         $flags['BA_currency'] = true;
-        $flags['BA_startballance'] = true;
+        $flags['BA_startbalance'] = true;
     }
     HTML_BankAccount::editBankAccount($bankAccount, $flags);
 }
