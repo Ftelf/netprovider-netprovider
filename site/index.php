@@ -113,5 +113,5 @@ if (isset($_POST['submit'])) {
         $foundUsername = "";
     }
 
-    include_once $core->getAppRoot() . "modules/com_common/login.php";
+    require_once $core->getAppRoot() . "modules/com_common/login.php";
 }

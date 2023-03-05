@@ -12,36 +12,41 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
-class HTML_massmessages {
-	/**
-	 * showNetwork
-	 * @param $networkTree
-	 * @param $selectedNetwork
-	 * @param $subNetworks
-	 * @param $ipShowList
-	 * @param $allNetworks
-	 * @param $persons
-	 */
-	static function showNetwork(&$networkTree, &$selectedNetwork, &$subNetworks, &$ipShowList, &$persons) {
-		global $core;
-		$ipv4 = new Net_IPv4();
-		$selectedNetworkParsed = $ipv4->parseAddress($selectedNetwork->NE_net);
-?>
+class HTML_massmessages
+{
+    /**
+     * showNetwork
+     *
+     * @param $networkTree
+     * @param $selectedNetwork
+     * @param $subNetworks
+     * @param $ipShowList
+     * @param $allNetworks
+     * @param $persons
+     */
+    static function showNetwork(&$networkTree, &$selectedNetwork, &$subNetworks, &$ipShowList, &$persons)
+    {
+        global $core;
+        $ipv4 = new Net_IPv4();
+        $selectedNetworkParsed = $ipv4->parseAddress($selectedNetwork->NE_net);
+        ?>
 <script type="text/javascript">
-	function show(id) {
-    	var form = document.adminForm;
-    	form.NE_networkid.value = id;
-    	var se = document.getElementById('filter_NE_networkid');
-    	se.value = id;
-   		submitform('show');
-	}
-	function newMessage() {
-		hideMainMenu();
-		submitbutton('newMessage');
-  	}
+    function show(id) {
+        var form = document.adminForm;
+        form.NE_networkid.value = id;
+        var se = document.getElementById('filter_NE_networkid');
+        se.value = id;
+        submitform('show');
+    }
+    function newMessage() {
+        hideMainMenu();
+        submitbutton('newMessage');
+    }
 </script>
 
 <div id="content-box">
@@ -89,22 +94,22 @@ class HTML_massmessages {
     <tr>
       <td width="150" valign="top">
         <script type="text/javascript">
-		<!--
-		d = new dTree('d');
-<?php
-	global $treeId, $lastParent;
-	$treeId = 0;
-	$lastParent = -1;
+        <!--
+        d = new dTree('d');
+        <?php
+        global $treeId, $lastParent;
+        $treeId = 0;
+        $lastParent = -1;
 
-	HTML_massmessages::buildTree("d", $networkTree);
-?>
-		d.closeAll();
-		document.write(d);
-		d.openTo(<?php echo $selectedNetwork->NE_networkid; ?>, true);
-		//-->
+        HTML_massmessages::buildTree("d", $networkTree);
+        ?>
+        d.closeAll();
+        document.write(d);
+        d.openTo(<?php echo $selectedNetwork->NE_networkid; ?>, true);
+        //-->
         </script>
-	  </td>
-	  <td valign="top">
+      </td>
+      <td valign="top">
         <table class="adminlist">
         <thead>
         <tr>
@@ -143,19 +148,19 @@ class HTML_massmessages {
        </tr>
        </tfoot>
        <tbody>
-<?php
-	$k = 0;
-	$iip = 0;
-	$nid = null;
-	foreach ($ipShowList as $ip) {
-		if ($ip->IP_networkid != $nid) {
-			$nid = $ip->IP_networkid;
-			$subNetwork = $subNetworks[$nid];
-			$ipv4 = new Net_IPv4();
-			$subNetworkParsed = $ipv4->parseAddress($subNetwork->NE_net);
-			$link = "javascript:show('$subNetwork->NE_networkid');";
-			$networkOwner = $persons[$subNetwork->NE_personid];
-?>
+        <?php
+        $k = 0;
+        $iip = 0;
+        $nid = null;
+        foreach ($ipShowList as $ip) {
+            if ($ip->IP_networkid != $nid) {
+                $nid = $ip->IP_networkid;
+                $subNetwork = $subNetworks[$nid];
+                $ipv4 = new Net_IPv4();
+                $subNetworkParsed = $ipv4->parseAddress($subNetwork->NE_net);
+                $link = "javascript:show('$subNetwork->NE_networkid');";
+                $networkOwner = $persons[$subNetwork->NE_personid];
+                ?>
        <tr>
        <td colspan="7" style="padding: 0;">
         <table class="adminlist">
@@ -170,38 +175,38 @@ class HTML_massmessages {
        </table>
        </td>
        </tr>
-<?php
-		}
-		$person = $persons[$ip->IP_personid];
-?>
+                <?php
+            }
+            $person = $persons[$ip->IP_personid];
+            ?>
        <tr class="<?php echo "row$k"; ?>">
          <td>
-           <?php echo $iip+1; ?>
+            <?php echo $iip+1; ?>
          </td>
          <td>
            <input type="checkbox" id="<?php echo "cb$iip"; ?>" name="cid[]" value="<?php echo $ip->IP_ipid; ?>" onclick="isChecked(this.checked);" />
          </td>
          <td>
-           <?php echo $ip->IP_address; ?>
+            <?php echo $ip->IP_address; ?>
          </td>
          <td>
-       <?php echo $ip->IP_dns; ?>
+            <?php echo $ip->IP_dns; ?>
          </td>
          <td>
-           <?php echo $person->PE_firstname . " " . $person->PE_surname; ?>
+            <?php echo $person->PE_firstname . " " . $person->PE_surname; ?>
          </td>
          <td>
-           <?php echo $person->PE_email; ?>
+            <?php echo $person->PE_email; ?>
          </td>
          <td>
-           <?php echo $person->PE_tel; ?>
+            <?php echo $person->PE_tel; ?>
          </td>
        </tr>
-<?php
-		$k = 1 - $k;
-		$iip++;
-	}
-?>
+            <?php
+            $k = 1 - $k;
+            $iip++;
+        }
+        ?>
        </tbody>
        </table>
        </td>
@@ -224,9 +229,10 @@ class HTML_massmessages {
 
 <div class="clr"></div>
 </div>
-<?php
-	}
-    static function newMessage(&$personsWithoutMobile, &$persons, &$inactivePersons) {
+        <?php
+    }
+    static function newMessage(&$personsWithoutMobile, &$persons, &$inactivePersons)
+    {
         global $core;
         $ipv4 = new Net_IPv4();
         ?>
@@ -443,21 +449,25 @@ class HTML_massmessages {
         </div>
         <?php
     }
-	/**
-	 * buildTree
-	 * @param $treeClassName
-	 * @param $networkTree
-	 */
-	static function buildTree($treeClassName, $networkTree) {
-		foreach ($networkTree as $network) {
-			$pId = $network->NE_parent_networkid;
-			if ($pId == 0) $pId = -1;
+    /**
+     * buildTree
+     *
+     * @param $treeClassName
+     * @param $networkTree
+     */
+    static function buildTree($treeClassName, $networkTree)
+    {
+        foreach ($networkTree as $network) {
+            $pId = $network->NE_parent_networkid;
+            if ($pId == 0) { $pId = -1;
+            }
 
-			echo $treeClassName . ".add($network->NE_networkid, $pId, '$network->NE_net', 'javascript:show($network->NE_networkid);', '$network->NE_description');\n";
+            echo $treeClassName . ".add($network->NE_networkid, $pId, '$network->NE_net', 'javascript:show($network->NE_networkid);', '$network->NE_description');\n";
 
-			if ($network->child != null) HTML_massmessages::buildTree($treeClassName, $network->child);
-		}
+            if ($network->child != null) { HTML_massmessages::buildTree($treeClassName, $network->child);
+            }
+        }
 
-	}
+    }
 } // End of HTML_network class
 ?>

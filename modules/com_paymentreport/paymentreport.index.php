@@ -29,15 +29,15 @@ require_once 'paymentreport.html.php';
 $task = Utils::getParam($_REQUEST, 'task', null);
 
 switch ($task) {
-    default:
-        showPaymentReport();
-        break;
+default:
+    showPaymentReport();
+    break;
 }
 
 function showPaymentReport()
 {
     global $database, $mainframe, $acl, $core, $appContext;
-    include_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
+    require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
     $filter =[];
 
@@ -59,8 +59,8 @@ function showPaymentReport()
 
     $charges = array_filter(
         $allCharges, function ($v, $k) {
-        return $v->CH_period == Charge::PERIOD_MONTHLY;
-    }, ARRAY_FILTER_USE_BOTH
+            return $v->CH_period == Charge::PERIOD_MONTHLY;
+        }, ARRAY_FILTER_USE_BOTH
     );
 
     if (!is_array($filter_CH_chargeid)) {
@@ -69,8 +69,8 @@ function showPaymentReport()
 
     $selectedCharges = array_filter(
         $charges, function ($v, $k) use ($filter_CH_chargeid) {
-        return in_array($v->CH_chargeid, $filter_CH_chargeid);
-    }, ARRAY_FILTER_USE_BOTH
+            return in_array($v->CH_chargeid, $filter_CH_chargeid);
+        }, ARRAY_FILTER_USE_BOTH
     );
 
     $paymentReport =[];

@@ -15,7 +15,8 @@
 /**
  * DiacriticsUtil
  */
-class DiacriticsUtil {
+class DiacriticsUtil
+{
     private $utf8table = array ("\xc3\xa1"=>"a",
         "\xc3\xa4"=>"a",
         "\xc4\x8d"=>"c",
@@ -66,9 +67,11 @@ class DiacriticsUtil {
         "\xc5\xbd"=>"Z");
     /**
      * Gets the value for a given time field.
+     *
      * @params field - the time field.
      */
-    public function removeDiacritic($string) {
+    public function removeDiacritic($string)
+    {
         return strtr($string, $this->utf8table);
     }
 } // End of DiacriticsUtil class

@@ -13,28 +13,35 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "includes/tables/Log.php");
-require_once($core->getAppRoot() . "includes/utils/DateUtil.php");
-require_once($core->getAppRoot() . "includes/utils/Utils.php");
+require_once $core->getAppRoot() . "includes/tables/Log.php";
+require_once $core->getAppRoot() . "includes/utils/DateUtil.php";
+require_once $core->getAppRoot() . "includes/utils/Utils.php";
 
 /**
  * Database
  */
-class Database {
-    /** @var string Internal variable to hold the query sql */
+class Database
+{
+    /**
+     * @var string Internal variable to hold the query sql
+     */
     var $_sql='';
-    /** @var Internal variable to hold the connector resource */
+    /**
+     * @var Internal variable to hold the connector resource
+     */
     var $_mysqli;
 
     /**
-    * Database object constructor
-    * @param string Database host
-    * @param string Database user name
-    * @param string Database user password
-    * @param string Database name
-    * @param string Common prefix for all tables
-    */
-    public function __construct($host, $username, $password, $database) {
+     * Database object constructor
+     *
+     * @param string Database host
+     * @param string Database user name
+     * @param string Database user password
+     * @param string Database name
+     * @param string Common prefix for all tables
+     */
+    public function __construct($host, $username, $password, $database)
+    {
         $this->_mysqli = new mysqli($host, $username, $password, $database);
 
         if (mysqli_connect_errno()) {
@@ -46,34 +53,41 @@ class Database {
     }
 
     /**
-    * Get a quoted database escaped string
-    * @return string
-    */
-    function quote($text) {
+     * Get a quoted database escaped string
+     *
+     * @return string
+     */
+    function quote($text)
+    {
         return '\'' . $this->_mysqli->escape_string($text) . '\'';
     }
 
     /**
-    * Sets the SQL query string for later execution.
-    *
-    * @param string The SQL query
-    */
-    function setQuery($sql) {
+     * Sets the SQL query string for later execution.
+     *
+     * @param string The SQL query
+     */
+    function setQuery($sql)
+    {
         $this->_sql = $sql;
     }
 
     /**
-    * @return string The current value of the internal SQL vairable
-    */
-    function getQuery() {
+     * @return string The current value of the internal SQL vairable
+     */
+    function getQuery()
+    {
         return "<pre>" . htmlspecialchars($this->_sql) . "</pre>";
     }
     /**
-    * Execute the query
-    * @return mixed A database resource if successful, FALSE if not.
-    */
-    function query($sql=null) {
-        if (!$sql) $sql = $this->_sql;
+     * Execute the query
+     *
+     * @return mixed A database resource if successful, FALSE if not.
+     */
+    function query($sql=null)
+    {
+        if (!$sql) { $sql = $this->_sql;
+        }
         if (($result = $this->_mysqli->query($sql)) !== false) {
             return $result;
         } else {
@@ -81,7 +95,8 @@ class Database {
         }
     }
 
-    function query_batch($sqlArray) {
+    function query_batch($sqlArray)
+    {
         try {
             $this->query('START TRANSACTION;');
             foreach ($sqlArray as $sql) {
@@ -94,23 +109,28 @@ class Database {
         }
     }
 
-    function startTransaction() {
+    function startTransaction()
+    {
         $this->query('START TRANSACTION;');
     }
 
-    function rollback() {
+    function rollback()
+    {
         $this->query('ROLLBACK;');
     }
 
-    function commit() {
+    function commit()
+    {
         $this->query('COMMIT;');
     }
 
     /**
-    * Diagnostic function
-    */
-    function explain() {
-        if (!($cur = $this->query("EXPLAIN ".$this->_sql))) return null;
+     * Diagnostic function
+     */
+    function explain()
+    {
+        if (!($cur = $this->query("EXPLAIN ".$this->_sql))) { return null;
+        }
         $headline = $header = $body = '';
         $buf = '<table cellspacing="1" cellpadding="2" border="0" bgcolor="#000000" align="center">';
         $buf .= $this->getQuery("EXPLAIN ".$this->_sql);
@@ -118,7 +138,8 @@ class Database {
             $body .= "<tr>";
 
             foreach ($row as $k=>$v) {
-                if ($headline == '') $header .= "<th bgcolor=\"#ffffff\">$k</th>";
+                if ($headline == '') { $header .= "<th bgcolor=\"#ffffff\">$k</th>";
+                }
                 $body .= "<td bgcolor=\"#ffffff\">$v</td>";
             }
             $headline = $header;
@@ -131,14 +152,16 @@ class Database {
     }
 
     /**
-    * Load an array of retrieved database objects or values
-    * @param int Database cursor
-    * @param string The field name of a primary key
-    * @return array If <var>key</var> is empty as sequential list of returned records.
-    * If <var>key</var> is not empty then the returned array is indexed by the value
-    * the database key.  Returns <var>null</var> if the query fails.
-    */
-    function &retrieveResults($key='', $max=0, $result_type='row') {
+     * Load an array of retrieved database objects or values
+     *
+     * @param  int Database cursor
+     * @param  string The field name of a primary key
+     * @return array If <var>key</var> is empty as sequential list of returned records.
+     * If <var>key</var> is not empty then the returned array is indexed by the value
+     * the database key.  Returns <var>null</var> if the query fails.
+     */
+    function &retrieveResults($key='', $max=0, $result_type='row')
+    {
         $results = array();
         $sql_method = 'fetch_'.$result_type;
         $result = $this->query();
@@ -148,32 +171,37 @@ class Database {
             } else {
                 $results[] = $row;
             }
-            if ($max && count($results) >= $max) break;
+            if ($max && count($results) >= $max) { break;
+            }
         }
         $result->close();
         return $results;
     }
 
     /**
-    * This method loads the first field of the first row returned by the query.
-    *
-    * @return The value returned in the query or null if the query failed.
-    */
-    function loadResult() {
+     * This method loads the first field of the first row returned by the query.
+     *
+     * @return The value returned in the query or null if the query failed.
+     */
+    function loadResult()
+    {
         $results =& $this->retrieveResults('', 1, 'row');
-        if (count($results)) return $results[0][0];
-        else return null;
+        if (count($results)) { return $results[0][0];
+        } else { return null;
+        }
     }
 
     /**
-    * Copy the named array content into the object as properties
-    * only existing properties of object are filled. when undefined in hash, properties wont be deleted
-    * @param array the input array
-    * @param obj byref the object to fill of any class
-    * @param string
-    * @param boolean
-    */
-    static function bindArrayToObject($array, &$obj) {
+     * Copy the named array content into the object as properties
+     * only existing properties of object are filled. when undefined in hash, properties wont be deleted
+     *
+     * @param array the input array
+     * @param obj byref the object to fill of any class
+     * @param string
+     * @param boolean
+     */
+    static function bindArrayToObject($array, &$obj)
+    {
         if (!is_array($array) || !is_object($obj)) {
             throw new Exception("bind failed.");
         }
@@ -189,11 +217,13 @@ class Database {
      *
      * If an object is passed to this function, the returned row is bound to the existing elements of <var>object</var>.
      * If <var>object</var> has a value of null, then all of the returned query fields returned in the object.
-     * @param string The SQL query
-     * @param object The address of variable
+     *
+     * @param  string The SQL query
+     * @param  object The address of variable
      * @throws Exception if operation fail
      */
-    function loadObject(&$object) {
+    function loadObject(&$object)
+    {
         if ($object != null) {
             $results =& $this->retrieveResults('', 1, 'assoc');
             if (count($results)) {
@@ -211,32 +241,38 @@ class Database {
     }
 
     /**
-    * Load a list of database objects
-    * @param string The field name of a primary key
-    * @return array If <var>key</var> is empty as sequential list of returned records.
-    * If <var>key</var> is not empty then the returned array is indexed by the value
-    * the database key.  Returns <var>null</var> if the query fails.
-    */
-    function loadObjectList($key='') {
+     * Load a list of database objects
+     *
+     * @param  string The field name of a primary key
+     * @return array If <var>key</var> is empty as sequential list of returned records.
+     * If <var>key</var> is not empty then the returned array is indexed by the value
+     * the database key.  Returns <var>null</var> if the query fails.
+     */
+    function loadObjectList($key='')
+    {
         $results =& $this->retrieveResults($key, 0, 'object');
         return $results;
     }
 
     /**
-    * Document::db_insertObject()
-    *
-    * { Description }
-    *
-    * @param [type] $keyName
-    * @param [type] $verbose
-    */
-    function insertObject($table, &$object, $keyName=null, $verbose=false) {
+     * Document::db_insertObject()
+     *
+     * { Description }
+     *
+     * @param [type] $keyName
+     * @param [type] $verbose
+     */
+    function insertObject($table, &$object, $keyName=null, $verbose=false)
+    {
         $fmtsql = "INSERT INTO `$table` ( %s ) VALUES ( %s ) ";
         $fields = array();
         foreach (get_object_vars($object) as $k => $v) {
-            if (is_array($v) || is_object($v) || $v === null || $k[0] == '_') continue;
+            if (is_array($v) || is_object($v) || $v === null || $k[0] == '_') { continue;
+            }
             $fields[] = "`$k`";
-            if ($k == $keyName) $values[] = "NULL"; else $values[] = $this->quote($v);
+            if ($k == $keyName) { $values[] = "NULL";
+            } else { $values[] = $this->quote($v);
+            }
         }
         if (!isset($fields)) {
             throw new Exception('class database method insertObject - no fields');
@@ -246,21 +282,24 @@ class Database {
         $this->query();
         $id = $this->_mysqli->insert_id;
         ($verbose) && print "id=[$id]<br />\n";
-        if ($keyName && $id) $object->$keyName = $id;
+        if ($keyName && $id) { $object->$keyName = $id;
+        }
     }
 
     /**
-    * Document::db_updateObject()
-    *
-    * { Description }
-    *
-    * @param [type] $updateNulls
-    */
-    function updateObject($table, &$object, $keyName, $updateNulls=true, $verbose=false) {
+     * Document::db_updateObject()
+     *
+     * { Description }
+     *
+     * @param [type] $updateNulls
+     */
+    function updateObject($table, &$object, $keyName, $updateNulls=true, $verbose=false)
+    {
         $fmtsql = "UPDATE `$table` SET %s WHERE %s";
         $tmp = array();
         foreach (get_object_vars($object) as $k => $v) {
-            if (is_array($v) || is_object($v) || $k[0] == '_' OR ($v === null AND !$updateNulls)) continue;
+            if (is_array($v) || is_object($v) || $k[0] == '_' OR ($v === null AND !$updateNulls)) { continue;
+            }
 
             if ($k == $keyName) { // PK not to be updated
                 $where = "$keyName=" . $this->quote($v);
@@ -272,31 +311,36 @@ class Database {
                 $tmp[] = "`$k`=" . $this->quote($v);
             }
         }
-        if (!isset($tmp)) return true;
+        if (!isset($tmp)) { return true;
+        }
         if (!isset($where)) {
             throw new Exception('database class updateObject method - no key value');
         }
-        $this->setQuery(sprintf($fmtsql, implode(",", $tmp ), $where));
+        $this->setQuery(sprintf($fmtsql, implode(",", $tmp), $where));
         ($verbose) && print "$this->_sql<br />\n";
         $this->query();
     }
 
-    function getInsertid() {
+    function getInsertid()
+    {
         return $this->_mysqli->insert_id;
     }
 
     /**
-    *	binds a named array/hash to this object
-    *
-    *	can be overloaded/supplemented by the child class
-    *	@param array $hash named array
-    *	@return null|string	null is operation was satisfactory, otherwise returns an error
-    */
-    static function bind($array, &$object) {
+     *   binds a named array/hash to this object
+     *
+     *   can be overloaded/supplemented by the child class
+     *
+     * @param  array $hash named array
+     * @return null|string null is operation was satisfactory, otherwise returns an error
+     */
+    static function bind($array, &$object)
+    {
         return Database::bindArrayToObject($array, $object);
     }
 
-    function log($text, $level=0) {
+    function log($text, $level=0)
+    {
         global $core;
 
         $logDate = new DateUtil();

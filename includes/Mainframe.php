@@ -13,34 +13,51 @@
  */
 
 global $core;
-require_once($core->getAppRoot() . "includes/Database.php");
+require_once $core->getAppRoot() . "includes/Database.php";
 
 /**
  * MainFrame class
  */
-class MainFrame {
-    /** @var database Internal database class pointer */
+class MainFrame
+{
+    /**
+     * @var database Internal database class pointer
+     */
     var $_db = null;
-    /** @var object An object of path variables */
+    /**
+     * @var object An object of path variables
+     */
     var $_path = null;
-    /** @var option */
+    /**
+     * @var option
+     */
     var $_option = null;
-    /** @var action */
+    /**
+     * @var action
+     */
     var $_action = null;
-    /** @var tstart */
+    /**
+     * @var tstart
+     */
     private float $_tstart;
-    /** @var tvalue */
+    /**
+     * @var tvalue
+     */
     private float $_tvalue;
-    /** @var array messages */
+    /**
+     * @var array messages
+     */
     var $_msg = null;
 
     /**
-    * Class constructor
-    * @param database A database connection object
-    * @param string The url option
-    * @param string The path of the mos directory
-    */
-    public function __construct(&$db, $option, $basePath, $action) {
+     * Class constructor
+     *
+     * @param database A database connection object
+     * @param string The url option
+     * @param string The path of the mos directory
+     */
+    public function __construct(&$db, $option, $basePath, $action)
+    {
 
         $this->_db = &$db;
         $this->_option = $option;
@@ -49,7 +66,8 @@ class MainFrame {
         $this->_msg = array();
     }
 
-    function getPath() {
+    function getPath()
+    {
         global $core;
         $indexFile = str_replace("com_", "", $this->_option);
         $path = $core->getAppRoot() . "modules/" . $this->_option . "/" . $indexFile . ".index.php";
@@ -65,27 +83,33 @@ class MainFrame {
         }
     }
 
-    function timerStart() {
+    function timerStart()
+    {
         $this->_tstart = Utils::getmicrotime();
     }
 
-    function timerStop() {
+    function timerStop()
+    {
         $this->_tvalue = Utils::getmicrotime() - $this->_tstart;
     }
 
-    function getTimer() {
+    function getTimer()
+    {
         return $this->_tvalue;
     }
 
-    function setMessages($msg) {
+    function setMessages($msg)
+    {
         $this->_msg = $msg;
     }
 
-    function getMessages() {
+    function getMessages()
+    {
         return $this->_msg;
     }
 
-    function getMsgPanel() {
+    function getMsgPanel()
+    {
         if (sizeOf($this->_msg)) {
             echo '<div style="border-left: 1px solid #ccc; border-right: 1px solid #ccc; padding: 10px;"><div id="message-box"><pre style="margin:0; padding:0;">';
             echo implode("<br/>", $this->getMessages());

@@ -18,7 +18,7 @@ require_once $core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php";
 require_once $core->getAppRoot() . "includes/dao/IpAccountDAO.php";
 require_once $core->getAppRoot() . "includes/utils/Utils.php";
 require_once $core->getAppRoot() . "includes/utils/DiacriticsUtil.php";
-require_once($core->getAppRoot() . "includes/net/routeros_api.class.php");
+require_once $core->getAppRoot() . "includes/net/routeros_api.class.php";
 
 /**
  * RouterOSCommander
@@ -58,7 +58,8 @@ class RouterOSCommander
         $this->login();
     }
 
-    private function login() {
+    private function login()
+    {
         if (!$this->host) {
             throw new Exception('Misconfigured settings property: "Network Device Host"');
         }
@@ -328,8 +329,8 @@ class RouterOSCommander
         if (count(
             array_filter(
                 $filterInIPPart, function ($e) {
-                return $e["action"] !== "accept";
-            }
+                    return $e["action"] !== "accept";
+                }
             )
         )
         ) {
@@ -350,8 +351,8 @@ class RouterOSCommander
         if (count(
             array_filter(
                 $filterOutIPPart, function ($e) {
-                return $e["action"] !== "accept";
-            }
+                    return $e["action"] !== "accept";
+                }
             )
         )
         ) {

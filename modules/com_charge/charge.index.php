@@ -12,14 +12,16 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/ChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/HasChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/InternetDAO.php");
-require_once("charge.html.php");
+require_once $core->getAppRoot() . "includes/dao/ChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/HasChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/InternetDAO.php";
+require_once "charge.html.php";
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $chid = Utils::getParam($_REQUEST, 'CH_chargeid', null);
@@ -29,41 +31,42 @@ if (!is_array($cid)) {
 }
 
 switch ($task) {
-    case 'new':
-        editCharge(null);
-        break;
+case 'new':
+    editCharge(null);
+    break;
 
-    case 'edit':
-        editCharge($chid);
-        break;
+case 'edit':
+    editCharge($chid);
+    break;
 
-    case 'editA':
-        editCharge(intval($cid[0]));
-        break;
+case 'editA':
+    editCharge(intval($cid[0]));
+    break;
 
-    case 'save':
-    case 'apply':
-        saveCharge($task);
-        break;
+case 'save':
+case 'apply':
+    saveCharge($task);
+    break;
 
-    case 'remove':
-        removeCharge($cid);
-        break;
+case 'remove':
+    removeCharge($cid);
+    break;
 
-    case 'cancel':
-        showCharge();
-        break;
+case 'cancel':
+    showCharge();
+    break;
 
-    default:
-        showCharge();
-        break;
+default:
+    showCharge();
+    break;
 }
 /**
  *
  */
-function showCharge() {
+function showCharge()
+{
     global $database, $mainframe, $acl, $core;
-    require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
+    require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
     $limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_charge'], 'limit', 10);
     $limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_charge'], 'limitstart', 0);
@@ -79,7 +82,8 @@ function showCharge() {
 /**
  * @param integer $chid ChargeID
  */
-function editCharge($chid=null) {
+function editCharge($chid=null)
+{
     global $database, $my, $acl;
 
     if ($chid != null) {
@@ -99,7 +103,8 @@ function editCharge($chid=null) {
 /**
  * @param String $task task
  */
-function saveCharge($task) {
+function saveCharge($task)
+{
     global $core, $database, $mainframe, $my, $acl, $appContext;
 
     $charge = new Charge();
@@ -150,7 +155,8 @@ function saveCharge($task) {
         $charge->CH_vat = 0;
     }
 
-    if ($charge->CH_type != Charge::TYPE_INTERNET_PAYMENT) $charge->CH_internetid = null;
+    if ($charge->CH_type != Charge::TYPE_INTERNET_PAYMENT) { $charge->CH_internetid = null;
+    }
 
     if ($isNew) {
         $database->insertObject("charge", $charge, "CH_chargeid", false);
@@ -159,24 +165,25 @@ function saveCharge($task) {
     }
 
     switch ($task) {
-        case 'apply':
-            $msg = sprintf(_("Payment template '%s' updated"), $charge->CH_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-            Core::redirect("index2.php?option=com_charge&task=edit&CH_chargeid=$charge->CH_chargeid&hidemainmenu=1");
-            break;
-        case 'save':
-            $msg = sprintf(_("Payment template '%s' saved"), $charge->CH_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-        default:
-            Core::redirect("index2.php?option=com_charge");
+    case 'apply':
+        $msg = sprintf(_("Payment template '%s' updated"), $charge->CH_name);
+        $appContext->insertMessage($msg);
+        $database->log($msg, Log::LEVEL_INFO);
+        Core::redirect("index2.php?option=com_charge&task=edit&CH_chargeid=$charge->CH_chargeid&hidemainmenu=1");
+        break;
+    case 'save':
+        $msg = sprintf(_("Payment template '%s' saved"), $charge->CH_name);
+        $appContext->insertMessage($msg);
+        $database->log($msg, Log::LEVEL_INFO);
+    default:
+        Core::redirect("index2.php?option=com_charge");
     }
 }
 /**
  * @param array $cid ChargeID
  */
-function removeCharge($cid) {
+function removeCharge($cid)
+{
     global $database, $mainframe, $my, $acl, $appContext;
     if (count($cid) < 1) {
         Core::backWithAlert(_("Please select record to erase"));
@@ -194,9 +201,11 @@ function removeCharge($cid) {
                 $limit = 10;
                 foreach ($hasCharges as $hasCharge) {
                     $msg .= "\\n'" . $hasCharge->PE_firstname . " " . $hasCharge->PE_surname . "'";
-                    if (!--$limit) break;
+                    if (!--$limit) { break;
+                    }
                 }
-                if (count($hasCharges) > $limit) $msg .= '\n...';
+                if (count($hasCharges) > $limit) { $msg .= '\n...';
+                }
                 Core::backWithAlert($msg);
             } else {
                 ChargeDAO::removeChargeByID($id);
@@ -211,7 +220,8 @@ function removeCharge($cid) {
 /**
  * @return array tolerance days
  */
-function getToleranceArray() {
+function getToleranceArray()
+{
     $toleranceArray = array();
 
     for ($i = 0; $i <= 360; $i++) {

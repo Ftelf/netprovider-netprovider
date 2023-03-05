@@ -12,28 +12,30 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/SessionDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonAccountDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/GroupDAO.php");
-require_once($core->getAppRoot() . "includes/dao/ChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/ChargeEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/HasChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/RoleDAO.php");
-require_once($core->getAppRoot() . "includes/dao/RolememberDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpAccountDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php");
-require_once($core->getAppRoot() . "includes/dao/LogDAO.php");
-require_once($core->getAppRoot() . "includes/dao/MessageDAO.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDAO.php");
-require_once($core->getAppRoot() . "includes/billing/ChargesUtil.php");
-require_once('person.html.php');
+require_once $core->getAppRoot() . "includes/dao/SessionDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonAccountDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php";
+require_once $core->getAppRoot() . "includes/dao/GroupDAO.php";
+require_once $core->getAppRoot() . "includes/dao/ChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/ChargeEntryDAO.php";
+require_once $core->getAppRoot() . "includes/dao/HasChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/RoleDAO.php";
+require_once $core->getAppRoot() . "includes/dao/RolememberDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpAccountDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php";
+require_once $core->getAppRoot() . "includes/dao/LogDAO.php";
+require_once $core->getAppRoot() . "includes/dao/MessageDAO.php";
+require_once $core->getAppRoot() . "includes/dao/NetworkDAO.php";
+require_once $core->getAppRoot() . "includes/billing/ChargesUtil.php";
+require_once 'person.html.php';
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $pid = Utils::getParam($_REQUEST, 'PE_personid', null);
@@ -48,66 +50,67 @@ if (!is_array($cid)) {
 }
 
 switch ($task) {
-    case 'new':
-        editPerson(null);
-        break;
+case 'new':
+    editPerson(null);
+    break;
 
-    case 'cancelHasCharge':
-    case 'edit':
-        editPerson($pid);
-        break;
+case 'cancelHasCharge':
+case 'edit':
+    editPerson($pid);
+    break;
 
-    case 'editA':
-        editPerson(intval($cid[0]));
-        break;
+case 'editA':
+    editPerson(intval($cid[0]));
+    break;
 
-    case 'save':
-    case 'apply':
-        savePerson($task);
-        break;
+case 'save':
+case 'apply':
+    savePerson($task);
+    break;
 
-    case 'remove':
-        removePerson($cid);
-        break;
+case 'remove':
+    removePerson($cid);
+    break;
 
-    case 'cancel':
-        showPerson();
-        break;
+case 'cancel':
+    showPerson();
+    break;
 
-    case 'addRole':
-        addRole($pid, $rid);
-        break;
+case 'addRole':
+    addRole($pid, $rid);
+    break;
 
-    case 'removeRole':
-        removeRole($pid, $rmid);
-        break;
+case 'removeRole':
+    removeRole($pid, $rmid);
+    break;
 
-    case 'newHasCharge':
-        editHasCharge(null, $chid, $pid);
-        break;
+case 'newHasCharge':
+    editHasCharge(null, $chid, $pid);
+    break;
 
-    case 'editHasCharge':
-        editHasCharge($hcid, null, $pid);
-        break;
+case 'editHasCharge':
+    editHasCharge($hcid, null, $pid);
+    break;
 
-    case 'removeHasCharge':
-        removeHasCharge($hcid);
-        break;
+case 'removeHasCharge':
+    removeHasCharge($hcid);
+    break;
 
-    case 'saveHasCharge':
-    case 'applyHasCharge':
-        saveHasCharge($task);
-        break;
+case 'saveHasCharge':
+case 'applyHasCharge':
+    saveHasCharge($task);
+    break;
 
-    default:
-        showPerson();
-        break;
+default:
+    showPerson();
+    break;
 }
 
-function showPerson() {
+function showPerson()
+{
     global $database, $mainframe, $acl, $core;
 
-    require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
+    require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
     $filter = array();
     // default settings if no setting in session
@@ -127,7 +130,8 @@ function showPerson() {
     HTML_person::showPersons($persons, $groups, $pageNav, $filter);
 }
 
-function editPerson($pid=null) {
+function editPerson($pid=null)
+{
     global $database, $my, $acl;
 
     if ($pid != null) {
@@ -169,12 +173,13 @@ function editPerson($pid=null) {
     HTML_Person::editPerson($person, $groups, $hasRoles, $hasIps, $roles, $charges, $hasCharges);
 }
 
-function savePerson($task) {
+function savePerson($task)
+{
     global $core, $database, $mainframe, $my, $acl, $appContext;
 
     $person = new Person();
     database::bind($_POST, $person);
-    $isNew 	= !$person->PE_personid;
+    $isNew  = !$person->PE_personid;
 
     if (!$isNew) {
         $storedPerson = PersonDAO::getPersonByID($person->PE_personid);
@@ -187,13 +192,14 @@ function savePerson($task) {
 
     if ($person->PE_username) {
         try {
-        $findSameUsernamePerson = PersonDAO::getPersonWithGroupByUsername($person->PE_username);
+            $findSameUsernamePerson = PersonDAO::getPersonWithGroupByUsername($person->PE_username);
             if ($findSameUsernamePerson->PE_personid != $person->PE_personid) {
                 $core->alert(_("Username already exists"));
 
                 $showAgain = true;
             }
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
     }
 
     if (($PE_password1 == "******" && $PE_password2 == "******") || ($PE_password1 == "" && $PE_password2 == "")) {
@@ -236,7 +242,7 @@ function savePerson($task) {
         // get all available roles in database
         //
         $roles = RoleDAO::getRoleArray();
-        // 	if user has role, unset it from available role array
+        //  if user has role, unset it from available role array
         //
         foreach ($hasRoles as $hasRole) {
             unset($roles[$hasRole->RO_roleid]);
@@ -286,22 +292,23 @@ function savePerson($task) {
     }
 
     switch ($task) {
-        case 'apply':
-            $msg = sprintf(_("User '%s' updated"), $person->PE_firstname." ".$person->PE_surname);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-            Core::redirect("index2.php?option=com_person&task=edit&PE_personid=$person->PE_personid&hidemainmenu=1");
-            break;
-        case 'save':
-            $msg = sprintf(_("User '%s' saved"), $person->PE_firstname." ".$person->PE_surname);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-        default:
-            Core::redirect("index2.php?option=com_person");
+    case 'apply':
+        $msg = sprintf(_("User '%s' updated"), $person->PE_firstname." ".$person->PE_surname);
+        $appContext->insertMessage($msg);
+        $database->log($msg, Log::LEVEL_INFO);
+        Core::redirect("index2.php?option=com_person&task=edit&PE_personid=$person->PE_personid&hidemainmenu=1");
+        break;
+    case 'save':
+        $msg = sprintf(_("User '%s' saved"), $person->PE_firstname." ".$person->PE_surname);
+        $appContext->insertMessage($msg);
+        $database->log($msg, Log::LEVEL_INFO);
+    default:
+        Core::redirect("index2.php?option=com_person");
     }
 }
 
-function removePerson($cid) {
+function removePerson($cid)
+{
     global $database, $mainframe, $my, $acl, $appContext;
     if (count($cid) < 1) {
         Core::backWithAlert(_("Please select record to erase"));
@@ -323,9 +330,11 @@ function removePerson($cid) {
                 $limit = 10;
                 foreach ($networks as $network) {
                     $msg .= "\\n'" . $network->NE_net . "'";
-                    if (!--$limit) break;
+                    if (!--$limit) { break;
+                    }
                 }
-                if (count($networks) > $limit) $msg .= '\n...';
+                if (count($networks) > $limit) { $msg .= '\n...';
+                }
                 Core::backWithAlert($msg);
             }
 
@@ -337,9 +346,11 @@ function removePerson($cid) {
                 $limit = 10;
                 foreach ($personAccountEntries as $personAccountEntry) {
                     $msg .= "\\n'" . $personAccountEntry->PN_date . " částka " . $personAccountEntry->PN_amount . "'";
-                    if (!--$limit) break;
+                    if (!--$limit) { break;
+                    }
                 }
-                if (count($personAccountEntries) > $limit) $msg .= '\n...';
+                if (count($personAccountEntries) > $limit) { $msg .= '\n...';
+                }
                 Core::backWithAlert($msg);
             }
 
@@ -384,7 +395,8 @@ function removePerson($cid) {
     Core::redirect("index2.php?option=com_person");
 }
 
-function addRole($pid, $rid) {
+function addRole($pid, $rid)
+{
     global $database, $mainframe, $my, $acl, $appContext;
 
     if ($pid == null) {
@@ -415,7 +427,8 @@ function addRole($pid, $rid) {
     Core::redirect("index2.php?option=com_person&task=edit&PE_personid=$pid&hidemainmenu=1");
 }
 
-function removeRole($pid, $rmid) {
+function removeRole($pid, $rmid)
+{
     global $database, $mainframe, $my, $acl, $appContext;
 
     if ($rmid != null) {
@@ -440,11 +453,13 @@ function removeRole($pid, $rmid) {
 }
 /**
  * function editHasCharge
+ *
  * @param $hcid Id of edited HasCharge entry
  * @param $chid Id of New Charge entry
- * @param $pid Id of person
+ * @param $pid  Id of person
  */
-function editHasCharge($hcid=null, $chid=null, $pid=null) {
+function editHasCharge($hcid=null, $chid=null, $pid=null)
+{
     global $database, $my, $acl;
 
     if ($pid == null) {
@@ -480,11 +495,13 @@ function editHasCharge($hcid=null, $chid=null, $pid=null) {
 }
 /**
  * function removeHasCharge
+ *
  * @param $hcid Id of edited HasCharge entry
  * @param $chid Id of New Charge entry
- * @param $pid Id of person
+ * @param $pid  Id of person
  */
-function removeHasCharge($hcid=null) {
+function removeHasCharge($hcid=null)
+{
     global $database, $my, $acl, $appContext;
 
     $hasCharge = HasChargeDAO::getHasChargeByID($hcid);
@@ -527,16 +544,18 @@ function removeHasCharge($hcid=null) {
 }
 /**
  * function editHasCharge
+ *
  * @param $hcid Id of edited HasCharge entry
  * @param $chid Id of New Charge entry
- * @param $pid Id of person
+ * @param $pid  Id of person
  */
-function saveHasCharge($task) {
+function saveHasCharge($task)
+{
     global $database, $mainframe, $my, $acl, $appContext;
 
     $hasCharge = new HasCharge();
     database::bind($_POST, $hasCharge);
-    $isNew 	= !$hasCharge->HC_haschargeid;
+    $isNew  = !$hasCharge->HC_haschargeid;
 
     $status = array();
     $status['HC_datestart'] = false;
@@ -603,21 +622,21 @@ function saveHasCharge($task) {
     $chargesUtil->proceedChargesForPerson($person);
 
     switch ($task) {
-        case 'applyHasCharge':
-            $msg = sprintf(_("Payment '%s' has been actualized for user '%s'"), $storedCharge->CH_name, "$person->PE_surname $person->PE_firstname");
-            $appContext->insertMessage($msg);
-            $appContext->insertMessages($chargesUtil->getMessages());
-            $database->log($msg, Log::LEVEL_INFO);
-            Core::redirect("index2.php?option=com_person&hidemainmenu=1&task=editHasCharge&PE_personid=$hasCharge->HC_personid&HC_haschargeid=$hasCharge->HC_haschargeid");
-            break;
-        case 'saveHasCharge':
-            $msg = sprintf(_("Payment '%s' has been saved for user '%s'"), $storedCharge->CH_name, "$person->PE_surname $person->PE_firstname");
-            $appContext->insertMessage($msg);
-            $appContext->insertMessages($chargesUtil->getMessages());
-            $database->log($msg, Log::LEVEL_INFO);
-            Core::redirect("index2.php?option=com_person&hidemainmenu=1&task=edit&PE_personid=$hasCharge->HC_personid");
-        default:
-            Core::redirect("index2.php?option=com_person");
+    case 'applyHasCharge':
+        $msg = sprintf(_("Payment '%s' has been actualized for user '%s'"), $storedCharge->CH_name, "$person->PE_surname $person->PE_firstname");
+        $appContext->insertMessage($msg);
+        $appContext->insertMessages($chargesUtil->getMessages());
+        $database->log($msg, Log::LEVEL_INFO);
+        Core::redirect("index2.php?option=com_person&hidemainmenu=1&task=editHasCharge&PE_personid=$hasCharge->HC_personid&HC_haschargeid=$hasCharge->HC_haschargeid");
+        break;
+    case 'saveHasCharge':
+        $msg = sprintf(_("Payment '%s' has been saved for user '%s'"), $storedCharge->CH_name, "$person->PE_surname $person->PE_firstname");
+        $appContext->insertMessage($msg);
+        $appContext->insertMessages($chargesUtil->getMessages());
+        $database->log($msg, Log::LEVEL_INFO);
+        Core::redirect("index2.php?option=com_person&hidemainmenu=1&task=edit&PE_personid=$hasCharge->HC_personid");
+    default:
+        Core::redirect("index2.php?option=com_person");
     }
 }
 ?>

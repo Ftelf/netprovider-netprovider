@@ -32,20 +32,20 @@ class BankParserFactory
     public function __construct($type, $content)
     {
         switch ($type) {
-            case BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_TXT:
-                $this->parser = new RBTXTParser($content);
-                break;
+        case BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_TXT:
+            $this->parser = new RBTXTParser($content);
+            break;
 
-            case BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_PDF:
-                $this->parser = new RBPDFParser($content);
-                break;
+        case BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_PDF:
+            $this->parser = new RBPDFParser($content);
+            break;
 
-            case BankAccount::DATASOURCE_TYPE_ISO_SEPA_XML:
-                $this->parser = new IsoSepaXmlParser($content);
-                break;
+        case BankAccount::DATASOURCE_TYPE_ISO_SEPA_XML:
+            $this->parser = new IsoSepaXmlParser($content);
+            break;
 
-            default:
-                throw Exception("Invalid datasource type: '{$type}'");
+        default:
+            throw Exception("Invalid datasource type: '{$type}'");
         }
     }
 

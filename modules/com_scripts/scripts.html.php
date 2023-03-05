@@ -12,7 +12,9 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 /**
@@ -21,8 +23,8 @@ defined('VALID_MODULE') or die(_("Direct access into this section is not allowed
 class HTML_scripts
 {
     /**
-     * @param $command
-     * @param $results
+     * @param  $command
+     * @param  $results
      * @return void
      */
     public static function showScripts($command, $results): void
@@ -108,9 +110,11 @@ class HTML_scripts
                                 ?>
                                 <span style="color: #7CFC00;"><?php echo $result[0]; ?></span><br/>
                                 <?php if (isset($result[1]) && $result[1]) { ?><span
-                                        style="color: #a470FF;"><?php echo $result[1]; ?></span><br/><?php } ?>
+                                        style="color: #a470FF;"><?php echo $result[1]; ?></span><br/><?php
+                                } ?>
                                 <?php if (isset($result[2]) && $result[2]) { ?><span
-                                        style="color: #FD7F00;"><?php echo $result[2]; ?></span><br/><?php } ?>
+                                        style="color: #FD7F00;"><?php echo $result[2]; ?></span><br/><?php
+                                } ?>
                                 <?php
                             }
                             ?>
@@ -129,4 +133,3 @@ class HTML_scripts
         <?php
     }
 } // End of HTML_scripts class
-?>

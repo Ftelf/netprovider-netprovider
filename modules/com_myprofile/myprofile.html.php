@@ -12,53 +12,58 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 /**
  * HTML_myprofile
  */
-class HTML_myprofile {
-	/**
-	 * editPerson
-	 * @param $person
-	 * @param $groups
-	 * @param $hasRoles
-	 * @param $hasIps
-	 * @param $roles
-	 * @param $charges
-	 * @param $hasCharges
-	 * @param $internets
-	 */
-	static function showMyProfile($person, $personAccount, $bankAccountEntries, $personAccountEntries, $charges, $internets, $hasCharges, $group, $roles, $ips, $networks, $messages, $traffic) {
-		global $core;
-		$allowFirmRegistration = $core->getProperty(Core::ALLOW_FIRM_REGISTRATION);
-		$enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
-		$chargesTableColspan = ($enableVatPayerSpecifics) ? 11 : 9;
-		$birthDate = new DateUtil($person->PE_birthdate);
-		$registerDate = new DateUtil($person->PE_registerdate);
-?>
+class HTML_myprofile
+{
+    /**
+     * editPerson
+     *
+     * @param $person
+     * @param $groups
+     * @param $hasRoles
+     * @param $hasIps
+     * @param $roles
+     * @param $charges
+     * @param $hasCharges
+     * @param $internets
+     */
+    static function showMyProfile($person, $personAccount, $bankAccountEntries, $personAccountEntries, $charges, $internets, $hasCharges, $group, $roles, $ips, $networks, $messages, $traffic)
+    {
+        global $core;
+        $allowFirmRegistration = $core->getProperty(Core::ALLOW_FIRM_REGISTRATION);
+        $enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
+        $chargesTableColspan = ($enableVatPayerSpecifics) ? 11 : 9;
+        $birthDate = new DateUtil($person->PE_birthdate);
+        $registerDate = new DateUtil($person->PE_registerdate);
+        ?>
 <script type="text/javascript">
-	document.write(getCalendarStyles());
+    document.write(getCalendarStyles());
 
-	function edit() {
-    	hideMainMenu();
-   		submitform('edit');
-	}
-	var cal1x = new CalendarPopup("caldiv");
-	cal1x.setDisplayType("month");
-	cal1x.setMonthNames("Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec");
-	cal1x.setMonthAbbreviations("Led","Úno","Bře","Dub","Kvě","Čer","Čer","Srp","Zář","Říj","Lis","Pro");
-	cal1x.setReturnMonthFunction("myMonthReturn1x");
-	cal1x.showYearNavigation(true);
-	cal1x.offsetX = 0;
-	cal1x.offsetY = 16;
-	function myMonthReturn1x(y,m) {
-		if (m < 10) m = '0' + m;
-		document.adminForm.date_month.value=m+"/"+y;
-		document.getElementById('date_monthx').value = document.adminForm.date_month.value;
-  		document.adminForm.submit();
-	}
+    function edit() {
+        hideMainMenu();
+        submitform('edit');
+    }
+    var cal1x = new CalendarPopup("caldiv");
+    cal1x.setDisplayType("month");
+    cal1x.setMonthNames("Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec");
+    cal1x.setMonthAbbreviations("Led","Úno","Bře","Dub","Kvě","Čer","Čer","Srp","Zář","Říj","Lis","Pro");
+    cal1x.setReturnMonthFunction("myMonthReturn1x");
+    cal1x.showYearNavigation(true);
+    cal1x.offsetX = 0;
+    cal1x.offsetY = 16;
+    function myMonthReturn1x(y,m) {
+        if (m < 10) m = '0' + m;
+        document.adminForm.date_month.value=m+"/"+y;
+        document.getElementById('date_monthx').value = document.adminForm.date_month.value;
+        document.adminForm.submit();
+    }
 </script>
 
 <div id="caldiv" STYLE="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;z-index:999;"></div>
@@ -128,7 +133,7 @@ class HTML_myprofile {
           <td><?php echo _("User group:"); ?></td>
           <td><?php echo $group->GR_name; ?></td>
         </tr>
-		<?php if ($allowFirmRegistration) { ?>
+        <?php if ($allowFirmRegistration) { ?>
         <tr>
             <td><?php echo _("IČ:"); ?></td>
             <td><?php echo $person->PE_ic; ?></td>
@@ -145,7 +150,7 @@ class HTML_myprofile {
             <td><?php echo _("Company name:"); ?></td>
             <td><?php echo $person->PE_companyname; ?></td>
         </tr>
-		<?php } ?>
+        <?php } ?>
         <tr>
           <td><?php echo _("Firstname:"); ?></td>
           <td><?php echo $person->PE_firstname; ?></td>
@@ -226,8 +231,8 @@ class HTML_myprofile {
       </td>
       <td valign="top">
       <div class="tab-page" id="modules-cpanel-myperson">
-	  <script type="text/javascript">var tabPanePerson1 = new WebFXTabPane(document.getElementById("modules-cpanel-myperson"), 1);</script>
-	  <div class="tab-page" id="module01"><h2 class="tab"><?php echo _("Login creditials"); ?></h2>
+      <script type="text/javascript">var tabPanePerson1 = new WebFXTabPane(document.getElementById("modules-cpanel-myperson"), 1);</script>
+      <div class="tab-page" id="module01"><h2 class="tab"><?php echo _("Login creditials"); ?></h2>
         <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module01"));</script>
         <table class="adminform">
         <thead>
@@ -256,17 +261,17 @@ class HTML_myprofile {
         </tr>
         </thead>
         <tbody>
-<?php
-	$k = 0;
-	foreach($roles as $role) { ?>
+        <?php
+        $k = 0;
+        foreach($roles as $role) { ?>
         <tr class="<?php echo "row$k"; ?>">
           <td align="left">
-            <?php echo $role->RO_name; ?>
+                <?php echo $role->RO_name; ?>
           </td>
-		</tr>
-<?php
-		$k = 1 - $k;
-	} ?>
+        </tr>
+            <?php
+            $k = 1 - $k;
+        } ?>
         </tbody>
         </table>
       </div>
@@ -281,7 +286,7 @@ class HTML_myprofile {
         <th width="9%" class="title"><?php echo _("Amount without VAT"); ?></th>
         <th width="9%" class="title"><?php echo _("VAT (%)"); ?></th>
         <th width="9%" class="title"><?php echo _("Amount with VAT"); ?></th>
-		<?php } else { ?>
+        <?php } else { ?>
         <th width="9%" class="title"><?php echo _("Amount"); ?></th>
         <?php } ?>
         <th width="9%" class="title"><?php echo _("Currency"); ?></th>
@@ -293,61 +298,61 @@ class HTML_myprofile {
       </tr>
       </thead>
       <tbody>
-<?php
-	$i1 = 0;
-	foreach ($hasCharges as $hasCharge) {
-		$dateStart = new DateUtil($hasCharge->HC_datestart);
-		$dateEnd = new DateUtil($hasCharge->HC_dateend);
+        <?php
+        $i1 = 0;
+        foreach ($hasCharges as $hasCharge) {
+            $dateStart = new DateUtil($hasCharge->HC_datestart);
+            $dateEnd = new DateUtil($hasCharge->HC_dateend);
 
-		if ($dateEnd->getTime() == null) {
-			$till = _("Not limited");
-		} else {
-			$till = $dateEnd->getFormattedDate(DateUtil::FORMAT_DATE);
-		}
+            if ($dateEnd->getTime() == null) {
+                $till = _("Not limited");
+            } else {
+                $till = $dateEnd->getFormattedDate(DateUtil::FORMAT_DATE);
+            }
 
-		if ($hasCharge->HC_actualstate == HasCharge::ACTUALSTATE_ENABLED) {
-			$imageActualState = "images/16x16/actions/agt_action_success.png";
-			$altActualState = _("Enabled");
-		} else if ($hasCharge->HC_actualstate == Hascharge::ACTUALSTATE_DISABLED) {
-			$imageActualState = "images/16x16/actions/agt_stop.png";
-			$altActualState = _("Disabled");
-		}
-?>
+            if ($hasCharge->HC_actualstate == HasCharge::ACTUALSTATE_ENABLED) {
+                $imageActualState = "images/16x16/actions/agt_action_success.png";
+                $altActualState = _("Enabled");
+            } else if ($hasCharge->HC_actualstate == Hascharge::ACTUALSTATE_DISABLED) {
+                $imageActualState = "images/16x16/actions/agt_stop.png";
+                $altActualState = _("Disabled");
+            }
+            ?>
       <tr class="row0">
         <td align="left">
-          <?php echo $i1+1; ?>
+            <?php echo $i1+1; ?>
         </td>
         <td align="left">
-          <?php echo $charges[$hasCharge->HC_chargeid]->CH_name; ?>
+            <?php echo $charges[$hasCharge->HC_chargeid]->CH_name; ?>
         </td>
-        <?php if ($enableVatPayerSpecifics) { ?>
+            <?php if ($enableVatPayerSpecifics) { ?>
         <td align="left">
-          <?php echo NumberFormat::formatMoney($charges[$hasCharge->HC_chargeid]->CH_baseamount); ?>
-        </td>
-        <td align="left">
-          <?php echo NumberFormat::formatMoney($charges[$hasCharge->HC_chargeid]->CH_vat); ?>
-        </td>
-        <?php } ?>
-        <td align="left">
-          <?php echo NumberFormat::formatMoney($charges[$hasCharge->HC_chargeid]->CH_amount); ?>
+                <?php echo NumberFormat::formatMoney($charges[$hasCharge->HC_chargeid]->CH_baseamount); ?>
         </td>
         <td align="left">
-          <?php echo $charges[$hasCharge->HC_chargeid]->CH_currency; ?>
+                <?php echo NumberFormat::formatMoney($charges[$hasCharge->HC_chargeid]->CH_vat); ?>
+        </td>
+            <?php } ?>
+        <td align="left">
+            <?php echo NumberFormat::formatMoney($charges[$hasCharge->HC_chargeid]->CH_amount); ?>
         </td>
         <td align="left">
-          <?php echo Charge::getLocalizedPeriod($charges[$hasCharge->HC_chargeid]->CH_period); ?>
+            <?php echo $charges[$hasCharge->HC_chargeid]->CH_currency; ?>
         </td>
         <td align="left">
-          <?php echo $dateStart->getFormattedDate(DateUtil::FORMAT_DATE); ?>
+            <?php echo Charge::getLocalizedPeriod($charges[$hasCharge->HC_chargeid]->CH_period); ?>
         </td>
         <td align="left">
-          <?php echo $till; ?>
+            <?php echo $dateStart->getFormattedDate(DateUtil::FORMAT_DATE); ?>
         </td>
         <td align="left">
-          <?php echo Hascharge::getLocalizedStatus($hasCharge->HC_status); ?>
+            <?php echo $till; ?>
         </td>
         <td align="left">
-          <?php echo Hascharge::getLocalizedActualState($hasCharge->HC_actualstate); ?>
+            <?php echo Hascharge::getLocalizedStatus($hasCharge->HC_status); ?>
+        </td>
+        <td align="left">
+            <?php echo Hascharge::getLocalizedActualState($hasCharge->HC_actualstate); ?>
         </td>
         <td align="left">
           <img src="<?php echo $imageActualState; ?>" alt="<?php echo $altActualState; ?>" align="middle" border="0"/>
@@ -378,77 +383,77 @@ class HTML_myprofile {
           </tr>
           </thead>
           <tbody>
-<?php
-	$k2 = 0;
-	$i2 = 0;
-	foreach ($hasCharge->_chargeEntries as $chargeEntry) {
-		$periodDate = new DateUtil($chargeEntry->CE_period_date);
-		$toleranceDate = clone $periodDate;
-		$toleranceDate->add(DateUtil::DAY, $charges[$hasCharge->HC_chargeid]->CH_tolerance);
-		$realizedDate = new DateUtil($chargeEntry->CE_realize_date);
-?>
+            <?php
+            $k2 = 0;
+            $i2 = 0;
+            foreach ($hasCharge->_chargeEntries as $chargeEntry) {
+                $periodDate = new DateUtil($chargeEntry->CE_period_date);
+                $toleranceDate = clone $periodDate;
+                $toleranceDate->add(DateUtil::DAY, $charges[$hasCharge->HC_chargeid]->CH_tolerance);
+                $realizedDate = new DateUtil($chargeEntry->CE_realize_date);
+                ?>
           <tr class="<?php echo "row$k2"; ?>">
             <td align="left">
-              <?php echo $i2+1; ?>
+                <?php echo $i2+1; ?>
             </td>
             <td align="left">
-<?php
-	switch ($charges[$hasCharge->HC_chargeid]->CH_period) {
-		case Charge::PERIOD_MONTHLY:
-			$format = DateUtil::FORMAT_MONTHLY;
-			break;
-		default:
-			$format = DateUtil::FORMAT_FULL;
-	}
-	echo $periodDate->getFormattedDate($format);
+                <?php
+                switch ($charges[$hasCharge->HC_chargeid]->CH_period) {
+                case Charge::PERIOD_MONTHLY:
+                    $format = DateUtil::FORMAT_MONTHLY;
+                    break;
+                default:
+                    $format = DateUtil::FORMAT_FULL;
+                }
+                echo $periodDate->getFormattedDate($format);
 
-	$writeOffDate = clone $periodDate;
-	$writeOffDate->add(DateUtil::DAY, $chargeEntry->CE_writeoffoffset);
-?>
+                $writeOffDate = clone $periodDate;
+                $writeOffDate->add(DateUtil::DAY, $chargeEntry->CE_writeoffoffset);
+                ?>
             </td>
             <td align="left">
-              <?php echo $writeOffDate->getFormattedDate(DateUtil::FORMAT_DATE); ?>
+                <?php echo $writeOffDate->getFormattedDate(DateUtil::FORMAT_DATE); ?>
             </td>
             <td align="left">
-              <?php echo $toleranceDate->getFormattedDate(DateUtil::FORMAT_DATE); ?>
+                <?php echo $toleranceDate->getFormattedDate(DateUtil::FORMAT_DATE); ?>
             </td>
             <td align="left">
-              <?php echo $realizedDate->getFormattedDate(DateUtil::FORMAT_DATE); ?>
+                <?php echo $realizedDate->getFormattedDate(DateUtil::FORMAT_DATE); ?>
             </td>
             <td align="left">
-              <?php echo $chargeEntry->CE_overdue; ?>
+                <?php echo $chargeEntry->CE_overdue; ?>
             </td>
             <td align="left">
-              <?php echo ChargeEntry::getLocalizedStatus($chargeEntry->CE_status); ?>
+                <?php echo ChargeEntry::getLocalizedStatus($chargeEntry->CE_status); ?>
             </td>
-            <?php if ($enableVatPayerSpecifics) { ?>
+                <?php if ($enableVatPayerSpecifics) { ?>
             <td align="left">
-                <?php echo NumberFormat::formatMoney($chargeEntry->CE_baseamount); ?>
-            </td>
-            <td align="left">
-                <?php echo NumberFormat::formatMoney($chargeEntry->CE_vat); ?>
-            </td>
-            <?php } ?>
-            <td align="left">
-              <?php echo NumberFormat::formatMoney($chargeEntry->CE_amount); ?>
+                    <?php echo NumberFormat::formatMoney($chargeEntry->CE_baseamount); ?>
             </td>
             <td align="left">
-              <?php echo $chargeEntry->CE_currency; ?>
+                    <?php echo NumberFormat::formatMoney($chargeEntry->CE_vat); ?>
+            </td>
+                <?php } ?>
+            <td align="left">
+                <?php echo NumberFormat::formatMoney($chargeEntry->CE_amount); ?>
+            </td>
+            <td align="left">
+                <?php echo $chargeEntry->CE_currency; ?>
             </td>
           </tr>
-<?php
-		$k2 = 1 - $k2;
-		$i2++;
-	}
-?>
+                <?php
+                $k2 = 1 - $k2;
+                $i2++;
+            }
+            ?>
           </tbody>
           </table>
         </td>
       </tr>
-<?php
-		$i1++;
-	}
-?>
+            <?php
+            $i1++;
+        }
+        ?>
       </tbody>
       </table>
       </div>
@@ -468,55 +473,55 @@ class HTML_myprofile {
     </tr>
     </thead>
     <tbody>
-<?php
-	$k = 0;
-	$i = 0;
-	foreach ($personAccountEntries as $personAccountEntry) {
-		$date = new DateUtil($personAccountEntry->PN_date);
-?>
+        <?php
+        $k = 0;
+        $i = 0;
+        foreach ($personAccountEntries as $personAccountEntry) {
+            $date = new DateUtil($personAccountEntry->PN_date);
+            ?>
     <tr class="<?php echo "row$k"; ?>">
       <td align="left">
-        <?php echo $i+1; ?>
+            <?php echo $i+1; ?>
       </td>
       <td align="left">
-        <?php echo $date->getFormattedDate(DateUtil::FORMAT_DATE); ?>
+            <?php echo $date->getFormattedDate(DateUtil::FORMAT_DATE); ?>
       </td>
       <td align="left">
-        <?php echo PersonAccountEntry::getLocalizedSource($personAccountEntry->PN_source); ?>
+            <?php echo PersonAccountEntry::getLocalizedSource($personAccountEntry->PN_source); ?>
       </td>
       <td align="left">
-        <?php echo NumberFormat::formatMoney($personAccountEntry->PN_amount); ?>
+            <?php echo NumberFormat::formatMoney($personAccountEntry->PN_amount); ?>
       </td>
       <td align="left">
-        <?php echo $personAccountEntry->PN_currency; ?>
+            <?php echo $personAccountEntry->PN_currency; ?>
       </td>
       <td align="left">
-        <?php echo $personAccountEntry->PN_comment; ?>
+            <?php echo $personAccountEntry->PN_comment; ?>
       </td>
       <td align="left">
-<?php
-	if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_BANKACCOUNT) {
-		echo $bankAccountEntries[$personAccountEntry->PN_bankaccountentryid]->BE_accountname;
-	} else {
-		echo "n/a";
-	}
-?>
+            <?php
+            if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_BANKACCOUNT) {
+                echo $bankAccountEntries[$personAccountEntry->PN_bankaccountentryid]->BE_accountname;
+            } else {
+                echo "n/a";
+            }
+            ?>
       </td>
       <td align="left">
-<?php
-	if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_BANKACCOUNT) {
-		echo $bankAccountEntries[$personAccountEntry->PN_bankaccountentryid]->BE_accountnumber . "/" . $bankAccountEntries[$personAccountEntry->PN_bankaccountentryid]->BE_banknumber;
-	} else {
-		echo "n/a";
-	}
-?>
+            <?php
+            if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_BANKACCOUNT) {
+                echo $bankAccountEntries[$personAccountEntry->PN_bankaccountentryid]->BE_accountnumber . "/" . $bankAccountEntries[$personAccountEntry->PN_bankaccountentryid]->BE_banknumber;
+            } else {
+                echo "n/a";
+            }
+            ?>
       </td>
     </tr>
-<?php
-		$k = 1 - $k;
-		$i++;
-	}
-?>
+            <?php
+            $k = 1 - $k;
+            $i++;
+        }
+        ?>
     </tbody>
     </table>
       </div>
@@ -530,17 +535,17 @@ class HTML_myprofile {
         </tr>
         </thead>
         <tbody>
-<?php
-	$k = 0;
-	foreach($ips as $ip) { ?>
-		<tr class="<?php echo "row$k"; ?>">
+        <?php
+        $k = 0;
+        foreach($ips as $ip) { ?>
+        <tr class="<?php echo "row$k"; ?>">
           <td align="left"><?php echo $ip->IP_address; ?></td>
           <td align="left"><?php echo $ip->IP_dns; ?></td>
-		</tr>
-<?php
-		$k = 1 - $k;
-	}
-?>
+        </tr>
+            <?php
+            $k = 1 - $k;
+        }
+        ?>
         </tbody>
         </table>
       </div>
@@ -554,17 +559,17 @@ class HTML_myprofile {
         </tr>
         </thead>
         <tbody>
-<?php
-	$k = 0;
-	foreach($networks as $network) { ?>
-		<tr class="<?php echo "row$k"; ?>">
+        <?php
+        $k = 0;
+        foreach($networks as $network) { ?>
+        <tr class="<?php echo "row$k"; ?>">
           <td align="left"><?php echo $network->NE_net; ?></td>
           <td align="left"><?php echo $network->NE_description; ?></td>
-		</tr>
-<?php
-		$k = 1 - $k;
-	}
-?>
+        </tr>
+            <?php
+            $k = 1 - $k;
+        }
+        ?>
         </tbody>
         </table>
       </div>
@@ -581,33 +586,33 @@ class HTML_myprofile {
      </tr>
      </thead>
      <tbody>
-<?php
-	$k = 0;
-	$i = 0;
-	foreach ($messages as &$message) {
-		$dateTime = new DateUtil($message->ME_datetime);
-?>
+        <?php
+        $k = 0;
+        $i = 0;
+        foreach ($messages as &$message) {
+            $dateTime = new DateUtil($message->ME_datetime);
+            ?>
      <tr class="<?php echo "row$k"; ?>">
        <td align="left">
-         <?php echo $i+1; ?>
+            <?php echo $i+1; ?>
        </td>
        <td align="left"><?php echo $dateTime->getFormattedDate(DateUtil::FORMAT_FULL); ?>
        </td>
        <td align="left">
-         <?php echo $message->ME_subject; ?>
+            <?php echo $message->ME_subject; ?>
        </td>
        <td align="left">
-         <?php echo $message->ME_body; ?>
+            <?php echo $message->ME_body; ?>
        </td>
        <td align="left">
-         <?php echo Message::getLocalizedStatus($message->ME_status); ?>
+            <?php echo Message::getLocalizedStatus($message->ME_status); ?>
        </td>
      </tr>
-<?php
-		$k = 1 - $k;
-		$i++;
-	}
-?>
+            <?php
+            $k = 1 - $k;
+            $i++;
+        }
+        ?>
      </tbody>
      </table>
       </div>
@@ -627,30 +632,30 @@ class HTML_myprofile {
      </tr>
      </thead>
      <tbody>
-<?php
-	$k = 0;
-	$i = 0;
-	foreach ($traffic['TRAFFIC_MONTH'] as &$ip) {
-?>
+        <?php
+        $k = 0;
+        $i = 0;
+        foreach ($traffic['TRAFFIC_MONTH'] as &$ip) {
+            ?>
      <tr class="<?php echo "row$k"; ?>">
        <td>
        </td>
        <td align="left">
-         <?php echo $ip['IP']; ?>
+            <?php echo $ip['IP']; ?>
        </td>
        <td align="left">
-         <?php echo NumberFormat::formatMB($ip['DATA_IN']); ?>
+            <?php echo NumberFormat::formatMB($ip['DATA_IN']); ?>
        </td>
        <td align="left">
-         <?php echo NumberFormat::formatMB($ip['DATA_OUT']); ?>
+            <?php echo NumberFormat::formatMB($ip['DATA_OUT']); ?>
        </td>
      </tr>
-<?php
-		$k = 1 - $k;
-		$i++;
-	}
-    $ip = $traffic['SUMMARY'];
-?>
+            <?php
+            $k = 1 - $k;
+            $i++;
+        }
+        $ip = $traffic['SUMMARY'];
+        ?>
      <tr class="<?php echo "row$k"; ?>">
        <td align="left" colspan="2">
          <?php echo _('Summary'); ?>
@@ -680,36 +685,37 @@ class HTML_myprofile {
 
 <div class="clr"></div>
 </div>
-<?php
-	}
-	static function editMyProfile($person) {
-		global $core;
-		$allowFirmRegistration = $core->getProperty(Core::ALLOW_FIRM_REGISTRATION);
-		$birthDate = new DateUtil($person->PE_birthdate);
-		$registerDate = new DateUtil($person->PE_registerdate);
-?>
+        <?php
+    }
+    static function editMyProfile($person)
+    {
+        global $core;
+        $allowFirmRegistration = $core->getProperty(Core::ALLOW_FIRM_REGISTRATION);
+        $birthDate = new DateUtil($person->PE_birthdate);
+        $registerDate = new DateUtil($person->PE_registerdate);
+        ?>
 <script type="text/javascript">
-	document.write(getCalendarStyles());
+    document.write(getCalendarStyles());
 
-	var cal1x = new CalendarPopup("caldiv");
-	cal1x.setMonthNames("Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec");
-	cal1x.showYearNavigation(true);
-	cal1x.setDayHeaders("N","P","Ú","S","Č","P","S");
-	cal1x.setWeekStartDay(1);
-	cal1x.setTodayText("Dnes");
-	cal1x.offsetX = 0;
-	cal1x.offsetY = 16;
+    var cal1x = new CalendarPopup("caldiv");
+    cal1x.setMonthNames("Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec");
+    cal1x.showYearNavigation(true);
+    cal1x.setDayHeaders("N","P","Ú","S","Č","P","S");
+    cal1x.setWeekStartDay(1);
+    cal1x.setTodayText("Dnes");
+    cal1x.offsetX = 0;
+    cal1x.offsetY = 16;
 
-	function submitbutton(pressbutton) {
-		if (pressbutton == 'cancel') {
-			submitform(pressbutton);
-		} else if (pressbutton == 'apply') {
-			hideMainMenu();
-			submitform(pressbutton);
-		} else if (pressbutton == 'save') {
-			submitform(pressbutton);
-		}
-	}
+    function submitbutton(pressbutton) {
+        if (pressbutton == 'cancel') {
+            submitform(pressbutton);
+        } else if (pressbutton == 'apply') {
+            hideMainMenu();
+            submitform(pressbutton);
+        } else if (pressbutton == 'save') {
+            submitform(pressbutton);
+        }
+    }
 </script>
 <div id="caldiv" STYLE="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;z-index:999;"></div>
 
@@ -770,7 +776,7 @@ class HTML_myprofile {
         </tr>
         </thead>
         <tbody>
-		<?php if ($allowFirmRegistration) { ?>
+        <?php if ($allowFirmRegistration) { ?>
         <tr>
             <td><?php echo _("IČ:"); ?></td>
             <td><input type="text" name="PE_ic" class="width-form" size="40" value="<?php echo $person->PE_ic; ?>" maxlength="255" /></td>
@@ -787,7 +793,7 @@ class HTML_myprofile {
             <td><?php echo _("Company name:"); ?></td>
             <td><input type="text" name="PE_companyname" class="width-form" size="40" value="<?php echo $person->PE_companyname; ?>" maxlength="255" /></td>
         </tr>
-		<?php } ?>
+        <?php } ?>
         <tr>
           <td width="150"><?php echo _("Firstname:"); ?></td>
           <td width="205"><input type="text" name="PE_firstname" class="width-form" size="40" value="<?php echo $person->PE_firstname; ?>" maxlength="255" /></td>
@@ -804,8 +810,10 @@ class HTML_myprofile {
           <td><?php echo _("Sex:"); ?></td>
           <td>
             <select name="PE_gender" class="width-form">
-              <option value="muž" <?php if ($person->PE_gender == "muž") echo 'selected="selected"'?>>muž</option>
-              <option value="žena" <?php if ($person->PE_gender == "žena") echo 'selected="selected"'?>>žena</option>
+              <option value="muž" <?php if ($person->PE_gender == "muž") { echo 'selected="selected"'; 
+                                  }?>>muž</option>
+              <option value="žena" <?php if ($person->PE_gender == "žena") { echo 'selected="selected"'; 
+                                   }?>>žena</option>
             </select>
           </td>
         </tr>
@@ -903,26 +911,26 @@ class HTML_myprofile {
 </div>
 
 <script type="text/javascript">
-	var formValidator = new Validator("adminForm");
-	formValidator.addValidation("PE_firstname","required","<?php echo _("Please enter firstname"); ?>");
-	formValidator.addValidation("PE_surname","required","<?php echo _("Please enter surname"); ?>");
-	formValidator.addValidation("PE_birthdate","date=dd.MM.yyyy","<?php echo _("Birthdate is in incorrect format"); ?>");
-	formValidator.addValidation("PE_email","email","<?php echo _("Please enter valid E-Mail"); ?>");
-	formValidator.setAddnlValidationFunction(passwordMatchValidator);
-	formValidator.addValidation("PE_password1","minlength=6","<?php echo _("Password is too short"); ?>");
+    var formValidator = new Validator("adminForm");
+    formValidator.addValidation("PE_firstname","required","<?php echo _("Please enter firstname"); ?>");
+    formValidator.addValidation("PE_surname","required","<?php echo _("Please enter surname"); ?>");
+    formValidator.addValidation("PE_birthdate","date=dd.MM.yyyy","<?php echo _("Birthdate is in incorrect format"); ?>");
+    formValidator.addValidation("PE_email","email","<?php echo _("Please enter valid E-Mail"); ?>");
+    formValidator.setAddnlValidationFunction(passwordMatchValidator);
+    formValidator.addValidation("PE_password1","minlength=6","<?php echo _("Password is too short"); ?>");
 
-	function passwordMatchValidator() {
-		var form = document.adminForm;
+    function passwordMatchValidator() {
+        var form = document.adminForm;
 
-		if (form.PE_password1.value && form.PE_password1.value != form.PE_password2.value) {
-			alert("<?php echo _("Passwords doesn't match"); ?>");
-			return false;
-		} else {
-			return true;
-		}
-	}
+        if (form.PE_password1.value && form.PE_password1.value != form.PE_password2.value) {
+            alert("<?php echo _("Passwords doesn't match"); ?>");
+            return false;
+        } else {
+            return true;
+        }
+    }
 </script>
-<?php
-	}
+        <?php
+    }
 } // End of HTML_person class
 ?>

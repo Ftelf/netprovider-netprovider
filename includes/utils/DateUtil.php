@@ -15,8 +15,11 @@
 /**
  * DateUtil
  */
-class DateUtil {
-    /** @var timestamp */
+class DateUtil
+{
+    /**
+     * @var timestamp
+     */
     private $_timestamp = null;
     private $_date = null;
     private $_isDebug = null;
@@ -46,7 +49,8 @@ class DateUtil {
     /**
      * @param $date sets timestamp or parse database date format to timestamp
      */
-    public function __construct($date=null) {
+    public function __construct($date=null)
+    {
         global $core;
 
         $this->_isDebug = $core->getProperty(Core::SYSTEM_DEBUG);
@@ -55,7 +59,7 @@ class DateUtil {
             $this->_timestamp = time();
         } else if ($date == self::DB_NULL_DATE) {
             $this->_timestamp = null;
-        } else if ($date == self::DB_NULL_DATETIME){
+        } else if ($date == self::DB_NULL_DATETIME) {
             $this->_timestamp = null;
         } else {
             $this->_timestamp = strtotime($date);
@@ -67,100 +71,104 @@ class DateUtil {
     }
     /**
      * Gets the value for a given time field.
+     *
      * @params field - the time field.
      */
-    public function get($field) {
+    public function get($field)
+    {
         if ($this->_timestamp == null) {
             return null;
         }
         switch ($field) {
-            case self::YEAR :
-                return intval(date("Y", $this->_timestamp));
+        case self::YEAR :
+            return intval(date("Y", $this->_timestamp));
                 break;
-            case self::MONTH :
-                return intval(date("m", $this->_timestamp));
+        case self::MONTH :
+            return intval(date("m", $this->_timestamp));
                 break;
-            case self::DAY :
-                return intval(date("d", $this->_timestamp));
+        case self::DAY :
+            return intval(date("d", $this->_timestamp));
                 break;
-            case self::HOUR :
-                return intval(date("H", $this->_timestamp));
+        case self::HOUR :
+            return intval(date("H", $this->_timestamp));
                 break;
-            case self::MINUTES :
-                return intval(date("i", $this->_timestamp));
+        case self::MINUTES :
+            return intval(date("i", $this->_timestamp));
                 break;
-            case self::SECONDS :
-                return intval(date("s", $this->_timestamp));
+        case self::SECONDS :
+            return intval(date("s", $this->_timestamp));
                 break;
         }
     }
     /**
      * Sets the time field with the given value.
+     *
      * @params field - the time field.
      * @params amount - the amount of date or time to be added to the field.
      */
-    public function set($field, $value) {
+    public function set($field, $value)
+    {
         switch ($field) {
-            case self::YEAR :
-                $this->_timestamp = mktime(
-                            date("H", $this->_timestamp),
-                            date("i", $this->_timestamp),
-                            date("s", $this->_timestamp),
-                            date("m", $this->_timestamp),
-                            date("d", $this->_timestamp),
-                            $value
-                            );
-                break;
-            case self::MONTH :
-                $this->_timestamp = mktime(
-                            date("H", $this->_timestamp),
-                            date("i", $this->_timestamp),
-                            date("s", $this->_timestamp),
-                            $value,
-                            date("d", $this->_timestamp),
-                            date("Y", $this->_timestamp)
-                            );
-                break;
-            case self::DAY :
-                $this->_timestamp = mktime(
-                            date("H", $this->_timestamp),
-                            date("i", $this->_timestamp),
-                            date("s", $this->_timestamp),
-                            date("m", $this->_timestamp),
-                            $value,
-                            date("Y", $this->_timestamp)
-                            );
-                break;
-            case self::HOUR :
-                $this->_timestamp = mktime(
-                            $value,
-                            date("i", $this->_timestamp),
-                            date("s", $this->_timestamp),
-                            date("m", $this->_timestamp),
-                            date("d", $this->_timestamp),
-                            date("Y", $this->_timestamp)
-                            );
-                    break;
-            case self::MINUTES :
-                $this->_timestamp = mktime(
-                            date("H", $this->_timestamp),
-                            $value,
-                            date("s", $this->_timestamp),
-                            date("m", $this->_timestamp),
-                            date("d", $this->_timestamp),
-                            date("Y", $this->_timestamp)
-                            );
-                break;
-            case self::SECONDS :
-                $this->_timestamp = mktime(
-                            date("H", $this->_timestamp),
-                            date("i", $this->_timestamp),
-                            $value,
-                            date("m", $this->_timestamp),
-                            date("d", $this->_timestamp),
-                            date("Y", $this->_timestamp)
-                            );
-                break;
+        case self::YEAR :
+            $this->_timestamp = mktime(
+                date("H", $this->_timestamp),
+                date("i", $this->_timestamp),
+                date("s", $this->_timestamp),
+                date("m", $this->_timestamp),
+                date("d", $this->_timestamp),
+                $value
+            );
+            break;
+        case self::MONTH :
+            $this->_timestamp = mktime(
+                date("H", $this->_timestamp),
+                date("i", $this->_timestamp),
+                date("s", $this->_timestamp),
+                $value,
+                date("d", $this->_timestamp),
+                date("Y", $this->_timestamp)
+            );
+            break;
+        case self::DAY :
+            $this->_timestamp = mktime(
+                date("H", $this->_timestamp),
+                date("i", $this->_timestamp),
+                date("s", $this->_timestamp),
+                date("m", $this->_timestamp),
+                $value,
+                date("Y", $this->_timestamp)
+            );
+            break;
+        case self::HOUR :
+            $this->_timestamp = mktime(
+                $value,
+                date("i", $this->_timestamp),
+                date("s", $this->_timestamp),
+                date("m", $this->_timestamp),
+                date("d", $this->_timestamp),
+                date("Y", $this->_timestamp)
+            );
+            break;
+        case self::MINUTES :
+            $this->_timestamp = mktime(
+                date("H", $this->_timestamp),
+                $value,
+                date("s", $this->_timestamp),
+                date("m", $this->_timestamp),
+                date("d", $this->_timestamp),
+                date("Y", $this->_timestamp)
+            );
+            break;
+        case self::SECONDS :
+            $this->_timestamp = mktime(
+                date("H", $this->_timestamp),
+                date("i", $this->_timestamp),
+                $value,
+                date("m", $this->_timestamp),
+                date("d", $this->_timestamp),
+                date("Y", $this->_timestamp)
+            );
+            break;
         }
 
         if ($this->_isDebug) {
@@ -169,72 +177,74 @@ class DateUtil {
     }
     /**
      * Date Arithmetic function. Adds the specified (signed) amount of time to the given time field, based on the calendar's rules. For example, to subtract 5 days from the current time of the calendar, you can achieve it by calling:
+     *
      * @example add(Calendar.DATE, -5).
-     * @params field - the time field.
-     * @params amount - the amount of date or time to be added to the field.
+     * @params  field - the time field.
+     * @params  amount - the amount of date or time to be added to the field.
      */
-    public function add($field, $value) {
+    public function add($field, $value)
+    {
         switch ($field) {
-            case self::YEAR :
-                $this->_timestamp = mktime(
-                            date("H", $this->_timestamp),
-                            date("i", $this->_timestamp),
-                            date("s", $this->_timestamp),
-                            date("m", $this->_timestamp),
-                            date("d", $this->_timestamp),
-                            date("Y", $this->_timestamp) + $value
-                            );
-                break;
-            case self::MONTH :
-                $this->_timestamp = mktime(
-                            date("H", $this->_timestamp),
-                            date("i", $this->_timestamp),
-                            date("s", $this->_timestamp),
-                            date("m", $this->_timestamp) + $value,
-                            date("d", $this->_timestamp),
-                            date("Y", $this->_timestamp)
-                            );
-                break;
-            case self::DAY :
-                $this->_timestamp = mktime(
-                            date("H", $this->_timestamp),
-                            date("i", $this->_timestamp),
-                            date("s", $this->_timestamp),
-                            date("m", $this->_timestamp),
-                            date("d", $this->_timestamp) + $value,
-                            date("Y", $this->_timestamp)
-                            );
-                break;
-            case self::HOUR :
-                $this->_timestamp = mktime(
-                            date("H", $this->_timestamp) + $value,
-                            date("i", $this->_timestamp),
-                            date("s", $this->_timestamp),
-                            date("m", $this->_timestamp),
-                            date("d", $this->_timestamp),
-                            date("Y", $this->_timestamp)
-                            );
-                break;
-            case self::MINUTES :
-                $this->_timestamp = mktime(
-                            date("H", $this->_timestamp),
-                            date("i", $this->_timestamp) + $value,
-                            date("s", $this->_timestamp),
-                            date("m", $this->_timestamp),
-                            date("d", $this->_timestamp),
-                            date("Y", $this->_timestamp)
-                            );
-                break;
-            case self::SECONDS :
-                $this->_timestamp = mktime(
-                            date("H", $this->_timestamp),
-                            date("i", $this->_timestamp),
-                            date("s", $this->_timestamp) + $value,
-                            date("m", $this->_timestamp),
-                            date("d", $this->_timestamp),
-                            date("Y", $this->_timestamp)
-                            );
-                break;
+        case self::YEAR :
+            $this->_timestamp = mktime(
+                date("H", $this->_timestamp),
+                date("i", $this->_timestamp),
+                date("s", $this->_timestamp),
+                date("m", $this->_timestamp),
+                date("d", $this->_timestamp),
+                date("Y", $this->_timestamp) + $value
+            );
+            break;
+        case self::MONTH :
+            $this->_timestamp = mktime(
+                date("H", $this->_timestamp),
+                date("i", $this->_timestamp),
+                date("s", $this->_timestamp),
+                date("m", $this->_timestamp) + $value,
+                date("d", $this->_timestamp),
+                date("Y", $this->_timestamp)
+            );
+            break;
+        case self::DAY :
+            $this->_timestamp = mktime(
+                date("H", $this->_timestamp),
+                date("i", $this->_timestamp),
+                date("s", $this->_timestamp),
+                date("m", $this->_timestamp),
+                date("d", $this->_timestamp) + $value,
+                date("Y", $this->_timestamp)
+            );
+            break;
+        case self::HOUR :
+            $this->_timestamp = mktime(
+                date("H", $this->_timestamp) + $value,
+                date("i", $this->_timestamp),
+                date("s", $this->_timestamp),
+                date("m", $this->_timestamp),
+                date("d", $this->_timestamp),
+                date("Y", $this->_timestamp)
+            );
+            break;
+        case self::MINUTES :
+            $this->_timestamp = mktime(
+                date("H", $this->_timestamp),
+                date("i", $this->_timestamp) + $value,
+                date("s", $this->_timestamp),
+                date("m", $this->_timestamp),
+                date("d", $this->_timestamp),
+                date("Y", $this->_timestamp)
+            );
+            break;
+        case self::SECONDS :
+            $this->_timestamp = mktime(
+                date("H", $this->_timestamp),
+                date("i", $this->_timestamp),
+                date("s", $this->_timestamp) + $value,
+                date("m", $this->_timestamp),
+                date("d", $this->_timestamp),
+                date("Y", $this->_timestamp)
+            );
+            break;
         }
 
         if ($this->_isDebug) {
@@ -243,16 +253,20 @@ class DateUtil {
     }
     /**
      * Gets this Calendar's current time.
+     *
      * @return the current time.
      */
-    public function getTime() {
+    public function getTime()
+    {
         return $this->_timestamp;
     }
     /**
      * Sets this Calendar's current time with the given Date.
+     *
      * @param date - the given Date.
      */
-    public function setTime($timestamp) {
+    public function setTime($timestamp)
+    {
         $this->_timestamp = $timestamp;
 
         if ($this->_isDebug) {
@@ -261,10 +275,12 @@ class DateUtil {
     }
     /**
      * Compares the time field records. Equivalent to comparing result of conversion to UTC.
-     * @param when - the Calendar to be compared with this Calendar.
+     *
+     * @param  when - the Calendar to be compared with this Calendar.
      * @return boolean true if the current time of this Calendar is after the time of Calendar when; false otherwise.
      */
-    public function after($when) {
+    public function after($when)
+    {
         if (!$when instanceof DateUtil) {
             throw new Exception('Parameter not instance of DateUtil');
         }
@@ -275,10 +291,12 @@ class DateUtil {
     }
     /**
      * Compares the time field records. Equivalent to comparing result of conversion to UTC.
-     * @param when - the Calendar to be compared with this Calendar.
+     *
+     * @param  when - the Calendar to be compared with this Calendar.
      * @return boolean true if the current time of this Calendar is before the time of Calendar when; false otherwise.
      */
-    public function before($when) {
+    public function before($when)
+    {
         if (!$when instanceof DateUtil) {
             throw new Exception('Parameter not instance of DateUtil');
         }
@@ -288,10 +306,11 @@ class DateUtil {
         return ($this->_timestamp < $when->_timestamp);
     }
     /**
-     * @param $dateUtil
+     * @param  $dateUtil
      * @return the value 0 if the argument Date is equal to this Date; a value less than 0 if this Date is before the Date argument; and a value greater than 0 if this Date is after the Date argument.
      */
-    public function compareTo($dateUtil) {
+    public function compareTo($dateUtil)
+    {
         if (!$dateUtil instanceof DateUtil) {
             return null;
         }
@@ -303,7 +322,8 @@ class DateUtil {
             return 1;
         }
     }
-    public function getFormattedDate($format) {
+    public function getFormattedDate($format)
+    {
         if ($format == null) {
             return "";
         } else if ($format == self::DB_DATE && $this->_timestamp == null) {
@@ -315,11 +335,13 @@ class DateUtil {
         } else if ($this->_timestamp == null) {
             return "";
         } else {
-            if (!($dateString = date($format, $this->_timestamp))) $dateString = "";
+            if (!($dateString = date($format, $this->_timestamp))) { $dateString = "";
+            }
             return $dateString;
         }
     }
-    public function parseDate($dateString, $format) {
+    public function parseDate($dateString, $format)
+    {
         $matches = null;
         if ($format == self::FORMAT_MONTHLY) {
             if (mb_ereg("^([[:digit:]]{1,2})/([[:digit:]]{4})$", $dateString, $matches)) {
@@ -352,7 +374,8 @@ class DateUtil {
         }
     }
 
-    function __toString() {
+    function __toString()
+    {
         return $this->getFormattedDate(self::DB_DATETIME);
     }
 } // End of DateUtil class

@@ -12,19 +12,23 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once("changelog.html.php");
+require_once "changelog.html.php";
 
 show();
 
 /**
  * show
+ *
  * @return void void
  */
-function show() {
+function show()
+{
     global $database, $mainframe, $acl, $core;
 
     $changelogFile = $core->getAppRoot() . "CHANGELOG.md";

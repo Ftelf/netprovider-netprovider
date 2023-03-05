@@ -12,18 +12,20 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/tables/BankAccountEntry.php");
-require_once($core->getAppRoot() . "includes/tables/Group.php");
-require_once($core->getAppRoot() . "includes/dao/BankAccountDAO.php");
-require_once($core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/EmailListDAO.php");
-require_once($core->getAppRoot() . "includes/EmailBankAccountList.php");
-require_once($core->getAppRoot() . "includes/billing/AccountEntryUtil.php");
-require_once('bankaccount.html.php');
+require_once $core->getAppRoot() . "includes/tables/BankAccountEntry.php";
+require_once $core->getAppRoot() . "includes/tables/Group.php";
+require_once $core->getAppRoot() . "includes/dao/BankAccountDAO.php";
+require_once $core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php";
+require_once $core->getAppRoot() . "includes/dao/EmailListDAO.php";
+require_once $core->getAppRoot() . "includes/EmailBankAccountList.php";
+require_once $core->getAppRoot() . "includes/billing/AccountEntryUtil.php";
+require_once 'bankaccount.html.php';
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $bid = Utils::getParam($_REQUEST, 'BA_bankaccountid', null);
@@ -39,72 +41,73 @@ switch ($task) {
 //        editBankAccount(null);
 //        break;
 
-    case 'editBA':
-        editBankAccount($bid);
-        break;
+case 'editBA':
+    editBankAccount($bid);
+    break;
 
-    case 'saveBA':
-    case 'applyBA':
-        saveBankAccount($task);
-        break;
+case 'saveBA':
+case 'applyBA':
+    saveBankAccount($task);
+    break;
 
-    case 'cancelUploadBankList':
-    case 'showBankList':
-        showBankList($bid);
-        break;
+case 'cancelUploadBankList':
+case 'showBankList':
+    showBankList($bid);
+    break;
 
-    case 'uploadBankLists':
-        uploadBankLists($bid);
-        break;
+case 'uploadBankLists':
+    uploadBankLists($bid);
+    break;
 
-    case 'downloadBankLists':
-        downloadBankLists($bid);
-        break;
+case 'downloadBankLists':
+    downloadBankLists($bid);
+    break;
 
-    case 'processBankLists':
-        processBankLists($bid);
-        break;
+case 'processBankLists':
+    processBankLists($bid);
+    break;
 
-    case 'processEntries':
-        proceedAccountEntries($bid);
-        break;
+case 'processEntries':
+    proceedAccountEntries($bid);
+    break;
 
-    case 'doUploadBankLists':
-        doUploadBankLists($bid);
-        break;
+case 'doUploadBankLists':
+    doUploadBankLists($bid);
+    break;
 
 //    case 'removeB':
 //        removeGroup($cid);
 //        break;
 
-    case 'editBAE':
-        editBankAccountEntry($eid);
-        break;
+case 'editBAE':
+    editBankAccountEntry($eid);
+    break;
 
-    case 'editBAEA':
-        editBankAccountEntries($cid);
-        break;
+case 'editBAEA':
+    editBankAccountEntries($cid);
+    break;
 
-    case 'saveBAE':
-        saveBankAccountEntry($task);
-        break;
+case 'saveBAE':
+    saveBankAccountEntry($task);
+    break;
 
-    case 'saveBAEA':
-        saveBankAccountEntries($cid, $task);
-        break;
+case 'saveBAEA':
+    saveBankAccountEntries($cid, $task);
+    break;
 
-    case 'cancel':
-        showBankAccount($bid);
-        break;
+case 'cancel':
+    showBankAccount($bid);
+    break;
 
-    default:
-        showBankAccount($bid);
-        break;
+default:
+    showBankAccount($bid);
+    break;
 }
 
-function showBankAccount($bid = null) {
+function showBankAccount($bid = null)
+{
     global $database, $mainframe, $acl, $core;
-    require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
+    require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
     $filter = array();
     // get filters
@@ -162,11 +165,13 @@ function showBankAccount($bid = null) {
     $dateTo = new DateUtil();
     try {
         $dateFrom->parseDate($filter['date_from'], DateUtil::FORMAT_DATE);
-    } catch (Exception $e) {}
+    } catch (Exception $e) {
+    }
     try {
         $dateTo->parseDate($filter['date_to'], DateUtil::FORMAT_DATE);
         $dateTo->add(DateUtil::DAY, 1);
-    } catch (Exception $e) {}
+    } catch (Exception $e) {
+    }
 
     try {
         if ($dateFrom->after($dateTo)) {
@@ -174,35 +179,46 @@ function showBankAccount($bid = null) {
             $dateTo = $dateFrom;
             $dateFrom = $dateTemp;
         }
-    } catch (Exception $e) {}
+    } catch (Exception $e) {
+    }
 
     $filter['date_from'] = $dateFrom->getFormattedDate(DateUtil::FORMAT_DATE);
     $filter['date_to'] = $dateTo->getFormattedDate(DateUtil::FORMAT_DATE);
 
     $bankAccountEntries = array();
     foreach ($allBankAccountEntries as $k => $allBankAccountEntry) {
-        if ($allBankAccountEntry->BE_amount > 0) $report['GLOBAL']['INCOME'] += $allBankAccountEntry->BE_amount;
-        if ($allBankAccountEntry->BE_amount < 0) $report['GLOBAL']['EXPENSE'] += $allBankAccountEntry->BE_amount;
+        if ($allBankAccountEntry->BE_amount > 0) { $report['GLOBAL']['INCOME'] += $allBankAccountEntry->BE_amount;
+        }
+        if ($allBankAccountEntry->BE_amount < 0) { $report['GLOBAL']['EXPENSE'] += $allBankAccountEntry->BE_amount;
+        }
         $report['GLOBAL']['BALANCE'] += $allBankAccountEntry->BE_amount + $allBankAccountEntry->BE_charge;
         $report['GLOBAL']['CHARGE'] += $allBankAccountEntry->BE_charge;
 
         if ($filter['entryTypeOfTransaction'] != -1) {
-            if ($allBankAccountEntry->BE_typeoftransaction != $filter['entryTypeOfTransaction']) continue;
+            if ($allBankAccountEntry->BE_typeoftransaction != $filter['entryTypeOfTransaction']) { continue;
+            }
         }
         if ($filter['entryStatusOfTransaction'] != -1) {
-            if ($allBankAccountEntry->BE_status != $filter['entryStatusOfTransaction']) continue;
+            if ($allBankAccountEntry->BE_status != $filter['entryStatusOfTransaction']) { continue;
+            }
         }
         if ($filter['entryIdentifyCodeOfTransaction'] != -1) {
-            if ($allBankAccountEntry->BE_identifycode != $filter['entryIdentifyCodeOfTransaction']) continue;
+            if ($allBankAccountEntry->BE_identifycode != $filter['entryIdentifyCodeOfTransaction']) { continue;
+            }
         }
         $dateTime = new DateUtil($allBankAccountEntry->BE_datetime);
         try {
-            if ($dateFrom->getTime() != null && $dateTime->before($dateFrom)) continue;
-            if ($dateTo->getTime() != null && $dateTime->after($dateTo)) continue;
-        } catch (Exception $e) {}
+            if ($dateFrom->getTime() != null && $dateTime->before($dateFrom)) { continue;
+            }
+            if ($dateTo->getTime() != null && $dateTime->after($dateTo)) { continue;
+            }
+        } catch (Exception $e) {
+        }
 
-        if ($allBankAccountEntry->BE_amount > 0) $report['LIST']['INCOME'] += $allBankAccountEntry->BE_amount;
-        if ($allBankAccountEntry->BE_amount < 0) $report['LIST']['EXPENSE'] += $allBankAccountEntry->BE_amount;
+        if ($allBankAccountEntry->BE_amount > 0) { $report['LIST']['INCOME'] += $allBankAccountEntry->BE_amount;
+        }
+        if ($allBankAccountEntry->BE_amount < 0) { $report['LIST']['EXPENSE'] += $allBankAccountEntry->BE_amount;
+        }
         $report['LIST']['CHARGE'] += $allBankAccountEntry->BE_charge;
         $bankAccountEntries[$k] = $allBankAccountEntry;
     }
@@ -226,7 +242,8 @@ function showBankAccount($bid = null) {
     HTML_BankAccount::showEntries($bankAccounts, $bid, $bankAccountEntries, $report, $filter, $pageNav);
 }
 
-function editBankAccount($bid=null) {
+function editBankAccount($bid=null)
+{
     global $database, $my, $acl;
     // flags to disable certain fields
     //
@@ -261,7 +278,8 @@ function editBankAccount($bid=null) {
 /**
  *
  */
-function saveBankAccount($task) {
+function saveBankAccount($task)
+{
     global $database, $mainframe, $my, $acl, $appContext;
 
     $bankAccount = new BankAccount();
@@ -316,27 +334,28 @@ function saveBankAccount($task) {
     }
 
     switch ($task) {
-        case 'applyBA':
-            $msg = sprintf(_("Bank account '%s' '%s' updated"), $accountName, $accountNumber);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-            Core::redirect("index2.php?option=com_bankaccount&task=editBA&BA_bankaccountid=$bankAccount->BA_bankaccountid&hidemainmenu=1");
-            break;
-        case 'saveBA':
-            $msg = sprintf(_("Bank account '%s' '%s' saved"), $accountName, $accountNumber);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-        default:
-            Core::redirect("index2.php?option=com_bankaccount&task=show&BA_bankaccountid=$bankAccount->BA_bankaccountid");
-            break;
+    case 'applyBA':
+        $msg = sprintf(_("Bank account '%s' '%s' updated"), $accountName, $accountNumber);
+        $appContext->insertMessage($msg);
+        $database->log($msg, Log::LEVEL_INFO);
+        Core::redirect("index2.php?option=com_bankaccount&task=editBA&BA_bankaccountid=$bankAccount->BA_bankaccountid&hidemainmenu=1");
+        break;
+    case 'saveBA':
+        $msg = sprintf(_("Bank account '%s' '%s' saved"), $accountName, $accountNumber);
+        $appContext->insertMessage($msg);
+        $database->log($msg, Log::LEVEL_INFO);
+    default:
+        Core::redirect("index2.php?option=com_bankaccount&task=show&BA_bankaccountid=$bankAccount->BA_bankaccountid");
+        break;
     }
 }
 /**
  *
  */
-function showBankList($bid) {
+function showBankList($bid)
+{
     global $database, $my, $acl, $core;
-    require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
+    require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
     // get limits
     //
@@ -360,7 +379,8 @@ function showBankList($bid) {
 /**
  *
  */
-function uploadBankLists($bid) {
+function uploadBankLists($bid)
+{
     global $database, $my, $acl, $appContext;
 
     if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
@@ -375,7 +395,8 @@ function uploadBankLists($bid) {
 /**
  *
  */
-function downloadBankLists($bid) {
+function downloadBankLists($bid)
+{
     global $database, $my, $acl, $appContext;
 
     if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
@@ -403,7 +424,8 @@ function downloadBankLists($bid) {
 /**
  *
  */
-function processBankLists($bid) {
+function processBankLists($bid)
+{
     global $database, $my, $acl, $appContext;
 
     if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
@@ -431,7 +453,8 @@ function processBankLists($bid) {
 /**
  *
  */
-function proceedAccountEntries($bid) {
+function proceedAccountEntries($bid)
+{
     global $database, $my, $acl, $appContext;
 
     if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
@@ -458,7 +481,8 @@ function proceedAccountEntries($bid) {
 /**
  *
  */
-function doUploadBankLists($bid) {
+function doUploadBankLists($bid)
+{
     global $database, $my, $acl, $appContext;
 
     if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
@@ -503,7 +527,8 @@ function doUploadBankLists($bid) {
 /**
  *
  */
-function editBankAccountEntry($eid=null) {
+function editBankAccountEntry($eid=null)
+{
     global $database, $my, $acl;
 
     $bankAccountEntry = BankAccountEntryDAO::getBankAccountEntryByID($eid);
@@ -519,7 +544,8 @@ function editBankAccountEntry($eid=null) {
 /**
  *
  */
-function editBankAccountEntries($cid=null) {
+function editBankAccountEntries($cid=null)
+{
     global $database, $my, $acl;
 
     if (count($cid) === 1) {
@@ -548,7 +574,8 @@ function editBankAccountEntries($cid=null) {
 /**
  *
  */
-function saveBankAccountEntry($task) {
+function saveBankAccountEntry($task)
+{
     global $database, $mainframe, $my, $acl, $appContext;
 
     $bankAccountEntry = new BankAccountEntry();
@@ -631,18 +658,19 @@ function saveBankAccountEntry($task) {
     }
 
     switch ($task) {
-        default:
-            $msg = sprintf(_("Bank entry %s %s %s %s amount %s proceed"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $storedBankAccountEntry->BE_accountnumber."/".$storedBankAccountEntry->BE_banknumber, $storedBankAccountEntry->BE_accountname, $storedBankAccountEntry->BE_message, $storedBankAccountEntry->BE_amount);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-            Core::redirect("index2.php?option=com_bankaccount&task=show&BA_bankaccountid=$storedBankAccountEntry->BE_bankaccountid");
-            break;
+    default:
+        $msg = sprintf(_("Bank entry %s %s %s %s amount %s proceed"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $storedBankAccountEntry->BE_accountnumber."/".$storedBankAccountEntry->BE_banknumber, $storedBankAccountEntry->BE_accountname, $storedBankAccountEntry->BE_message, $storedBankAccountEntry->BE_amount);
+        $appContext->insertMessage($msg);
+        $database->log($msg, Log::LEVEL_INFO);
+        Core::redirect("index2.php?option=com_bankaccount&task=show&BA_bankaccountid=$storedBankAccountEntry->BE_bankaccountid");
+        break;
     }
 }
 /**
  *
  */
-function saveBankAccountEntries($cid, $task) {
+function saveBankAccountEntries($cid, $task)
+{
     global $database, $appContext;
 
     $ic = Utils::getParam($_POST, 'BE_identifycode', null);

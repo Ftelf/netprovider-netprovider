@@ -12,25 +12,35 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
-defined( 'VALID_MODULE' ) or die(_("Direct access into this section is not allowed"));
+/**
+ * ensure this file is being included by a parent file
+ */
+defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 /**
-* Page navigation support class
-*/
-class PageNav {
-    /** @var int The record number to start dislpaying from */
+ * Page navigation support class
+ */
+class PageNav
+{
+    /**
+     * @var int The record number to start dislpaying from
+     */
     var $limitstart = null;
-    /** @var int Number of rows to display per page */
+    /**
+     * @var int Number of rows to display per page
+     */
     var $limit = null;
-    /** @var int Total number of rows */
+    /**
+     * @var int Total number of rows
+     */
     var $total = null;
     var $suffix = null;
 
-    public function __construct( $total, $limitstart, $limit, $suffix="" ) {
-        $this->total = intval( $total );
-        $this->limitstart = max( $limitstart, 0 );
-        $this->limit = max( $limit, 1 );
+    public function __construct( $total, $limitstart, $limit, $suffix="" )
+    {
+        $this->total = intval($total);
+        $this->limitstart = max($limitstart, 0);
+        $this->limit = max($limit, 1);
         if ($this->limit > $this->total) {
             $this->limitstart = 0;
         }
@@ -40,9 +50,10 @@ class PageNav {
         $this->suffix = $suffix;
     }
     /**
-    * @return string The html for the limit # input box
-    */
-    function getLimitBox () {
+     * @return string The html for the limit # input box
+     */
+    function getLimitBox()
+    {
         $limits = array(5, 10, 15, 20, 25, 30, 50, 100, 200, 500);
         $ohtml = "";
         for ($i=0, $n = count($limits); $i < $n; $i++) {
@@ -61,9 +72,10 @@ class PageNav {
         return $html;
     }
     /**
-    * @return string The html for the pages counter, eg, Results 1-10 of x
-    */
-    function getPagesCounter() {
+     * @return string The html for the pages counter, eg, Results 1-10 of x
+     */
+    function getPagesCounter()
+    {
         $html = '';
         $from_result = $this->limitstart+1;
         if ($this->limitstart + $this->limit < $this->total) {
@@ -79,9 +91,10 @@ class PageNav {
         return $html;
     }
     /**
-    * @return string The html links for pages, eg, previous, next, 1 2 3 ... x
-    */
-    function getPagesLinks() {
+     * @return string The html links for pages, eg, previous, next, 1 2 3 ... x
+     */
+    function getPagesLinks()
+    {
         $html = '';
         $html .= "
         <script type=\"text/javascript\">
@@ -92,8 +105,8 @@ class PageNav {
         </script>
         ";
         $displayed_pages = 10;
-        $total_pages = ceil( $this->total / $this->limit );
-        $this_page = ceil( ($this->limitstart+1) / $this->limit );
+        $total_pages = ceil($this->total / $this->limit);
+        $this_page = ceil(($this->limitstart+1) / $this->limit);
         $start_loop = (floor(($this_page-1)/$displayed_pages))*$displayed_pages+1;
         if ($start_loop + $displayed_pages - 1 < $total_pages) {
             $stop_loop = $start_loop + $displayed_pages - 1;
@@ -131,7 +144,8 @@ class PageNav {
         return $html;
     }
 
-    function getListFooter() {
+    function getListFooter()
+    {
         $html = '<div style="text-align: center; padding: 2px;">';
         $html .= $this->getPagesLinks();
         $html .= '</div>';
@@ -141,11 +155,12 @@ class PageNav {
         $html .= '</div>';
         return $html;
     }
-/**
-* @param int The row index
-* @return int
-*/
-    function rowNumber( $i ) {
+    /**
+     @param  int The row index
+     @return int
+     */
+    function rowNumber( $i )
+    {
         return $i + 1 + $this->limitstart;
     }
 }

@@ -13,19 +13,20 @@
  */
 
 global $core;
-require_once('Net/POP3.php');
-require_once($core->getAppRoot() . "includes/utils/NumberFormat.php");
-require_once($core->getAppRoot() . "includes/dao/BankAccountDAO.php");
-require_once($core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/EmailListDAO.php");
-require_once($core->getAppRoot() . "includes/net/email/MimeDecode.php");
-require_once($core->getAppRoot() . "includes/billing/bankParser/BankParserFactory.php");
+require_once 'Net/POP3.php';
+require_once $core->getAppRoot() . "includes/utils/NumberFormat.php";
+require_once $core->getAppRoot() . "includes/dao/BankAccountDAO.php";
+require_once $core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php";
+require_once $core->getAppRoot() . "includes/dao/EmailListDAO.php";
+require_once $core->getAppRoot() . "includes/net/email/MimeDecode.php";
+require_once $core->getAppRoot() . "includes/billing/bankParser/BankParserFactory.php";
 
 /**
  * EmailBankAccountList
  * Provides connection to pop3 server and downloads bank lists
  */
-class EmailBankAccountList {
+class EmailBankAccountList
+{
     private $_bankAccount;
     private $_messages = array();
     private $_dbEmailListNamesMap;
@@ -33,7 +34,8 @@ class EmailBankAccountList {
     /**
      * Constructor
      */
-    public function __construct($bankAccount) {
+    public function __construct($bankAccount)
+    {
         global $database;
         $this->_bankAccount = $bankAccount;
 
@@ -42,9 +44,11 @@ class EmailBankAccountList {
         $dbEmailListNames = array_column($dbEmailLists, 'EL_name');
 
         $countedEmailListNames = array_count_values(array_map('strtolower', $dbEmailListNames));
-        $onlyDuplicates = array_filter($countedEmailListNames, function($count) {
-            return $count > 1;
-        }, ARRAY_FILTER_USE_BOTH);
+        $onlyDuplicates = array_filter(
+            $countedEmailListNames, function ($count) {
+                return $count > 1;
+            }, ARRAY_FILTER_USE_BOTH
+        );
 
         $msg = '';
         foreach ($onlyDuplicates as $duplicateFilename => $count) {
@@ -58,14 +62,16 @@ class EmailBankAccountList {
 
 
     }
-    function getMessages() {
+    function getMessages()
+    {
         return $this->_messages;
     }
     /**
      * updateAccountListArray
      * will download EmailList from email server and insert them into database
      */
-    function downloadNewAccountLists() {
+    function downloadNewAccountLists()
+    {
         global $database, $core;
 
         $_pop3 = new Net_POP3();
@@ -96,8 +102,9 @@ class EmailBankAccountList {
             // EmailList is identified by Sender and Subject
             // if FROM and SUBJECT matches
             //
-            if (stripos($msgDecoded->headers['from'], $this->_bankAccount->BA_emailsender) !== false &&
-                stripos($msgDecoded->headers['subject'], $this->_bankAccount->BA_emailsubject) !== false) {
+            if (stripos($msgDecoded->headers['from'], $this->_bankAccount->BA_emailsender) !== false
+                && stripos($msgDecoded->headers['subject'], $this->_bankAccount->BA_emailsubject) !== false
+            ) {
 
                 foreach ($msgDecoded->parts as $part) {
                     if (isset($part->ctype_parameters) && isset($part->ctype_parameters['name']) ) {
@@ -120,7 +127,7 @@ class EmailBankAccountList {
                             continue;
                         }
 
-                        $this->checkAndStoreEmailList($filename, $emailList,$isAlreadyPersisted);
+                        $this->checkAndStoreEmailList($filename, $emailList, $isAlreadyPersisted);
                     }
                 }
             }
@@ -163,7 +170,8 @@ class EmailBankAccountList {
      * uploadBankList
      * will upload EmailList from file and insert them into database
      */
-    function uploadBankList($filename, $fileContent) {
+    function uploadBankList($filename, $fileContent)
+    {
         global $database;
 
         $emailList = new EmailList();
@@ -196,7 +204,8 @@ class EmailBankAccountList {
     /**
      * Imports BankAccountEntries
      */
-    function importBankAccountEntries() {
+    function importBankAccountEntries()
+    {
         global $database;
 
         $emailLists = EmailListDAO::getEmailListArrayByBankAccountID($this->_bankAccount->BA_bankaccountid);
@@ -249,7 +258,8 @@ class EmailBankAccountList {
         unset($emailList);
     }
 
-    function processRbTxt($filename, $fileContent, $emailList) {
+    function processRbTxt($filename, $fileContent, $emailList)
+    {
         global $database;
         $matches = null;
         if (mb_eregi('^([[:digit:]]{5})_([[:digit:]]{6,20})_([[:alpha:]]+)\.TXT$', $filename, $matches)) {
@@ -273,7 +283,8 @@ class EmailBankAccountList {
         return $this->validateListValues($database, $emailList, $filename, $accountNumber, $currency);
     }
 
-    function processRbPdf($filename, $fileContent, $emailList) {
+    function processRbPdf($filename, $fileContent, $emailList)
+    {
         global $database;
         $matches = null;
         if (mb_eregi('^Vypis_([[:digit:]]{6,20})_([[:alpha:]]+)_([[:digit:]]{4})_([[:digit:]]{1,3})\.PDF$', $filename, $matches)) {
@@ -299,7 +310,8 @@ class EmailBankAccountList {
         return $this->validateListValues($database, $emailList, $filename, $accountNumber, $currency);
     }
 
-    function processIsoSepaXml($filename, $fileContent, $emailList) {
+    function processIsoSepaXml($filename, $fileContent, $emailList)
+    {
         global $database;
         $matches = null;
         if (mb_eregi('^Vypis_([[:digit:]]{6,20})_([[:alpha:]]+)_([[:digit:]]{4})_([[:digit:]]{1,3})\.XML.ZIP$', $filename, $matches)) {
@@ -332,7 +344,8 @@ class EmailBankAccountList {
         return $this->validateListValues($emailList, $filename, $accountNumber, $currency);
     }
 
-    function validateListValues($emailList, $filename, $accountNumber, $currency) {
+    function validateListValues($emailList, $filename, $accountNumber, $currency)
+    {
         global $database;
         $msg = '';
         if ($emailList->EL_list === null) {
@@ -354,7 +367,8 @@ class EmailBankAccountList {
         return true;
     }
 
-    function checkAndStoreEmailList($filename, $emailList, &$isAlreadyPersisted) {
+    function checkAndStoreEmailList($filename, $emailList, &$isAlreadyPersisted)
+    {
         global $database, $core;
         $emailList->EL_bankaccountid = $this->_bankAccount->BA_bankaccountid;
 
@@ -412,7 +426,8 @@ class EmailBankAccountList {
     /**
      * unzipFileIfNeeded
      */
-    function unzipFile($content, $filename, &$unzippedContent, &$unzippedFilename){
+    function unzipFile($content, $filename, &$unzippedContent, &$unzippedFilename)
+    {
         global $database;
         if (endsWithCaseInsensitive($filename, '.zip') === false) {
             $msg = "Soubor nemá příponu .zip: '%{$filename}'";
@@ -456,7 +471,8 @@ class EmailBankAccountList {
         }
     }
 } // End of EmailBankAccountList class
-function endsWithCaseInsensitive($FullStr, $EndStr) {
+function endsWithCaseInsensitive($FullStr, $EndStr)
+{
     // Get the length of the end string
     $StrLen = strlen($EndStr);
     // Look at the end of FullStr for the substring the size of EndStr

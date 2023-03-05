@@ -12,31 +12,34 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/SessionDAO.php");
-require_once($core->getAppRoot() . "includes/dao/LogDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once($core->getAppRoot() . "includes/utils/DateUtil.php");
-require_once('admin.html.php');
+require_once $core->getAppRoot() . "includes/dao/SessionDAO.php";
+require_once $core->getAppRoot() . "includes/dao/LogDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
+require_once $core->getAppRoot() . "includes/utils/DateUtil.php";
+require_once 'admin.html.php';
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $pid = Utils::getParam($_REQUEST, 'SE_personid', null);
 $sid = Utils::getParam($_REQUEST, 'SE_sessionid', null);
 
 switch ($task) {
-    case 'force_logout':
-        force_logout($sid);
-        break;
+case 'force_logout':
+    force_logout($sid);
+    break;
 
-    default:
-        show();
-        break;
+default:
+    show();
+    break;
 }
 
-function show() {
+function show()
+{
     global $database, $mainframe, $acl;
 
     $sessions = SessionDAO::getSessionArray();
@@ -46,7 +49,8 @@ function show() {
     HTML_admin::show($sessions, $logs, $persons);
 }
 
-function force_logout($sid) {
+function force_logout($sid)
+{
     global $database, $mainframe, $acl, $appContext;
 
     $session = SessionDAO::getSessionByID($sid);

@@ -12,11 +12,13 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once('handleevent.html.php');
+require_once 'handleevent.html.php';
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $heid = Utils::getParam($_REQUEST, 'HE_handleeventid', null);
@@ -26,41 +28,42 @@ if (!is_array($cid)) {
 }
 
 switch ($task) {
-    case 'new':
-        editHandleEvent(null);
-        break;
+case 'new':
+    editHandleEvent(null);
+    break;
 
-    case 'edit':
-        editHandleEvent($heid);
-        break;
+case 'edit':
+    editHandleEvent($heid);
+    break;
 
-    case 'editA':
-        editHandleEvent(intval($cid[0]));
-        break;
+case 'editA':
+    editHandleEvent(intval($cid[0]));
+    break;
 
-    case 'save':
-    case 'apply':
-        saveHandleEvent($task);
-        break;
+case 'save':
+case 'apply':
+    saveHandleEvent($task);
+    break;
 
-    case 'remove':
-        removeHandleEvent($cid);
-        break;
+case 'remove':
+    removeHandleEvent($cid);
+    break;
 
-    case 'cancel':
-        showHandleEvent();
-        break;
+case 'cancel':
+    showHandleEvent();
+    break;
 
-    default:
-        showHandleEvent();
-        break;
+default:
+    showHandleEvent();
+    break;
 }
 /**
  *
  */
-function showHandleEvent() {
+function showHandleEvent()
+{
     global $database, $mainframe, $acl, $core;
-    require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
+    require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
     $limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_handleevent'], 'limit', 10);
     $limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_handleevent'], 'limitstart', 0);
@@ -76,7 +79,8 @@ function showHandleEvent() {
 /**
  * @param $pid
  */
-function editHandleEvent($pid=null) {
+function editHandleEvent($pid=null)
+{
     global $core, $database, $my, $acl;
 
     if ($pid != null) {
@@ -106,7 +110,8 @@ function editHandleEvent($pid=null) {
 /**
  * @param $task
  */
-function saveHandleEvent($task) {
+function saveHandleEvent($task)
+{
     global $database, $mainframe, $my, $acl, $appContext;
 
     $handleEvent = new HandleEvent();
@@ -116,7 +121,7 @@ function saveHandleEvent($task) {
         $handleEvent->HE_notifypersonid = null;
     }
 
-    $isNew 	= !$handleEvent->HE_handleeventid;
+    $isNew  = !$handleEvent->HE_handleeventid;
 
     if ($isNew) {
         $database->insertObject("handleevent", $handleEvent, "HE_handleeventid", false);
@@ -125,24 +130,25 @@ function saveHandleEvent($task) {
     }
 
     switch ($task) {
-        case 'apply':
-            $msg = sprintf(_("Event handler '%s' updated"), $handleEvent->HE_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-            Core::redirect("index2.php?option=com_handleevent&task=edit&HE_handleeventid=$handleEvent->HE_handleeventid&hidemainmenu=1");
-            break;
-        case 'save':
-            $msg = sprintf(_("Event handler '%s' saved"), $handleEvent->HE_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-        default:
-            Core::redirect("index2.php?option=com_handleevent");
+    case 'apply':
+        $msg = sprintf(_("Event handler '%s' updated"), $handleEvent->HE_name);
+        $appContext->insertMessage($msg);
+        $database->log($msg, Log::LEVEL_INFO);
+        Core::redirect("index2.php?option=com_handleevent&task=edit&HE_handleeventid=$handleEvent->HE_handleeventid&hidemainmenu=1");
+        break;
+    case 'save':
+        $msg = sprintf(_("Event handler '%s' saved"), $handleEvent->HE_name);
+        $appContext->insertMessage($msg);
+        $database->log($msg, Log::LEVEL_INFO);
+    default:
+        Core::redirect("index2.php?option=com_handleevent");
     }
 }
 /**
  * @param $cid
  */
-function removeHandleEvent($cid) {
+function removeHandleEvent($cid)
+{
     global $database, $mainframe, $my, $acl, $appContext;
     if (count($cid) < 1) {
         Core::backWithAlert(_("Please select record to erase"));
@@ -160,7 +166,8 @@ function removeHandleEvent($cid) {
         Core::redirect("index2.php?option=com_handleevent");
     }
 }
-function EndsWith($FullStr, $EndStr) {
+function EndsWith($FullStr, $EndStr)
+{
     // Get the length of the end string
     $StrLen = strlen($EndStr);
     // Look at the end of FullStr for the substring the size of EndStr

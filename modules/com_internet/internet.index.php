@@ -12,12 +12,14 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/InternetDAO.php");
-require_once("internet.html.php");
+require_once $core->getAppRoot() . "includes/dao/InternetDAO.php";
+require_once "internet.html.php";
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $iid = Utils::getParam($_REQUEST, 'IN_internetid', null);
@@ -27,37 +29,38 @@ if (!is_array($cid)) {
 }
 
 switch ($task) {
-    case 'new':
-        editInternet(null);
-        break;
+case 'new':
+    editInternet(null);
+    break;
 
-    case 'edit':
-        editInternet($iid);
-        break;
+case 'edit':
+    editInternet($iid);
+    break;
 
-    case 'editA':
-        editInternet(intval($cid[0]));
-        break;
+case 'editA':
+    editInternet(intval($cid[0]));
+    break;
 
-    case 'save':
-    case 'apply':
-        saveInternet($task);
-        break;
+case 'save':
+case 'apply':
+    saveInternet($task);
+    break;
 
-    case 'remove':
-        removeInternet($cid);
-        break;
+case 'remove':
+    removeInternet($cid);
+    break;
 
-    case 'cancel':
-    default:
-        showInternet();
-        break;
+case 'cancel':
+default:
+    showInternet();
+    break;
 }
 /**
  */
-function showInternet() {
+function showInternet()
+{
     global $core;
-    require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
+    require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
     $limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_internet'], 'limit', 10);
     $limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_internet'], 'limitstart', 0);
@@ -72,7 +75,8 @@ function showInternet() {
 /**
  * @param $iid
  */
-function editInternet($iid=null) {
+function editInternet($iid=null)
+{
     if ($iid != null) {
         $internet = InternetDAO::getInternetByID($iid);
     } else {
@@ -85,7 +89,8 @@ function editInternet($iid=null) {
 /**
  * @param $task
  */
-function saveInternet($task) {
+function saveInternet($task)
+{
     global $database, $appContext;
 
     $internet = new Internet();
@@ -94,12 +99,18 @@ function saveInternet($task) {
 
     // get proper values
     $errorArray = [];
-    if (Utils::getParam($_REQUEST, 'IN_dnl_rate_cb', null) == "1") $internet->IN_dnl_rate = -1;
-    if (Utils::getParam($_REQUEST, 'IN_upl_rate_cb', null) == "1") $internet->IN_upl_rate = -1;
-    if (!is_numeric($internet->IN_dnl_rate)) $errorArray[] = _("Guaranteed download is not in proper number format").'\n';
-    if (!is_numeric($internet->IN_dnl_ceil)) $errorArray[] = _("Maximum download is not in proper number format").'\n';
-    if (!is_numeric($internet->IN_upl_rate)) $errorArray[] = _("Guaranteed upload is not in proper number format").'\n';
-    if (!is_numeric($internet->IN_upl_ceil)) $errorArray[] = _("Maximum upload is not in proper number format").'\n';
+    if (Utils::getParam($_REQUEST, 'IN_dnl_rate_cb', null) == "1") { $internet->IN_dnl_rate = -1;
+    }
+    if (Utils::getParam($_REQUEST, 'IN_upl_rate_cb', null) == "1") { $internet->IN_upl_rate = -1;
+    }
+    if (!is_numeric($internet->IN_dnl_rate)) { $errorArray[] = _("Guaranteed download is not in proper number format").'\n';
+    }
+    if (!is_numeric($internet->IN_dnl_ceil)) { $errorArray[] = _("Maximum download is not in proper number format").'\n';
+    }
+    if (!is_numeric($internet->IN_upl_rate)) { $errorArray[] = _("Guaranteed upload is not in proper number format").'\n';
+    }
+    if (!is_numeric($internet->IN_upl_ceil)) { $errorArray[] = _("Maximum upload is not in proper number format").'\n';
+    }
     if (count($errorArray)) {
         Core::alert(implode(", ", $errorArray));
         HTML_internet::editInternet($internet);
@@ -113,24 +124,25 @@ function saveInternet($task) {
     }
 
     switch ($task) {
-        case 'apply':
-            $msg = sprintf(_("Internet template '%s' updated"), $internet->IN_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-            Core::redirect("index2.php?option=com_internet&task=edit&IN_internetid=$internet->IN_internetid&hidemainmenu=1");
-            break;
-        case 'save':
-            $msg = sprintf(_("Internet template '%s' saved"), $internet->IN_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-        default:
-            Core::redirect("index2.php?option=com_internet");
+    case 'apply':
+        $msg = sprintf(_("Internet template '%s' updated"), $internet->IN_name);
+        $appContext->insertMessage($msg);
+        $database->log($msg, Log::LEVEL_INFO);
+        Core::redirect("index2.php?option=com_internet&task=edit&IN_internetid=$internet->IN_internetid&hidemainmenu=1");
+        break;
+    case 'save':
+        $msg = sprintf(_("Internet template '%s' saved"), $internet->IN_name);
+        $appContext->insertMessage($msg);
+        $database->log($msg, Log::LEVEL_INFO);
+    default:
+        Core::redirect("index2.php?option=com_internet");
     }
 }
 /**
  * @param $cid
  */
-function removeInternet($cid) {
+function removeInternet($cid)
+{
     global $database, $appContext;
 
     if (count($cid) < 1) {

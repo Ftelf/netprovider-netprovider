@@ -12,19 +12,23 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 /**
  * HTML_changelog
  */
-class HTML_changelog {
-	/**
-	 * showChangelog
-	 */
-	static function showChangelog($changelogText) {
-		global $core;
-?>
+class HTML_changelog
+{
+    /**
+     * showChangelog
+     */
+    static function showChangelog($changelogText)
+    {
+        global $core;
+        ?>
 
 <div id="content-box">
   <div class="padding">
@@ -77,7 +81,7 @@ class HTML_changelog {
 
   <div class="clr"></div>
 </div>
-<?php
-	}
+        <?php
+    }
 } // End of HTML_changelog class
 ?>
