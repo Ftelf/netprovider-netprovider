@@ -12,53 +12,56 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/SessionDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonAccountDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/GroupDAO.php");
-require_once($core->getAppRoot() . "includes/dao/ChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/ChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/HasChargeDAO.php");
-require_once($core->getAppRoot() . "includes/dao/RoleDAO.php");
-require_once($core->getAppRoot() . "includes/dao/RolememberDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpDAO.php");
-require_once($core->getAppRoot() . "includes/dao/LogDAO.php");
-require_once($core->getAppRoot() . "includes/dao/MessageDAO.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDAO.php");
-require_once($core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/InternetDAO.php");
-require_once($core->getAppRoot() . "includes/dao/ChargeEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpAccountDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php");
-require_once('myprofile.html.php');
+require_once $core->getAppRoot() . "includes/dao/SessionDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonAccountDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php";
+require_once $core->getAppRoot() . "includes/dao/GroupDAO.php";
+require_once $core->getAppRoot() . "includes/dao/ChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/ChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/HasChargeDAO.php";
+require_once $core->getAppRoot() . "includes/dao/RoleDAO.php";
+require_once $core->getAppRoot() . "includes/dao/RolememberDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpDAO.php";
+require_once $core->getAppRoot() . "includes/dao/LogDAO.php";
+require_once $core->getAppRoot() . "includes/dao/MessageDAO.php";
+require_once $core->getAppRoot() . "includes/dao/NetworkDAO.php";
+require_once $core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php";
+require_once $core->getAppRoot() . "includes/dao/InternetDAO.php";
+require_once $core->getAppRoot() . "includes/dao/ChargeEntryDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpAccountDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php";
+require_once 'myprofile.html.php';
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 
 switch ($task) {
-    case 'edit':
-        editPerson();
-        break;
+case 'edit':
+    editPerson();
+    break;
 
 
-    case 'save':
-        savePerson($task);
-        break;
+case 'save':
+    savePerson($task);
+    break;
 
-    case 'cancel':
-        showPerson();
-        break;
+case 'cancel':
+    showPerson();
+    break;
 
-    default:
-        showPerson();
-        break;
+default:
+    showPerson();
+    break;
 }
 
-function showPerson() {
+function showPerson()
+{
     global $database, $mainframe, $acl, $core;
 
     $pid = $_SESSION['SE_personid'];
@@ -145,7 +148,8 @@ function showPerson() {
     HTML_myprofile::showMyProfile($person, $personAccount, $bankAccountEntries, $personAccountEntries, $charges, $internets, $hasCharges, $group, $roles, $ips, $networks, $messages, $traffic);
 }
 
-function editPerson() {
+function editPerson()
+{
     global $database, $my, $acl;
 
     $pid = $_SESSION['SE_personid'];
@@ -159,7 +163,8 @@ function editPerson() {
     HTML_myprofile::editMyProfile($person);
 }
 
-function savePerson() {
+function savePerson()
+{
     global $core, $database, $mainframe, $my, $acl, $appContext;
 
     $pid = $_SESSION['SE_personid'];

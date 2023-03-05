@@ -12,11 +12,13 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once("networkdevice.html.php");
+require_once "networkdevice.html.php";
 require_once 'Net/IPv4.php';
 require_once $core->getAppRoot() . "includes/net/commander/LinuxCommander.php";
 require_once $core->getAppRoot() . "includes/net/commander/RouterOSCommander.php";
@@ -24,16 +26,17 @@ require_once $core->getAppRoot() . "includes/net/commander/RouterOSCommander.php
 $task = Utils::getParam($_REQUEST, 'task', null);
 
 switch ($task) {
-    case 'testLogin':
-        testLogin();
-        break;
+case 'testLogin':
+    testLogin();
+    break;
 
-    default:
-        showNetworkDevice();
-        break;
+default:
+    showNetworkDevice();
+    break;
 }
 
-function showNetworkDevice(): void {
+function showNetworkDevice(): void
+{
     global $core;
 
     $networkDevice = [
@@ -50,7 +53,8 @@ function showNetworkDevice(): void {
     HTML_NetworkDevice::showNetworkDevice($networkDevice);
 }
 
-function testLogin() {
+function testLogin()
+{
     global $core, $appContext;
 
     $login = $core->getProperty(Core::NETWORK_DEVICE_LOGIN);

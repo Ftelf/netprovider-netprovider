@@ -12,13 +12,15 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/LogDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once("log.html.php");
+require_once $core->getAppRoot() . "includes/dao/LogDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
+require_once "log.html.php";
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $lid = Utils::getParam($_REQUEST, 'LO_logid', null);
@@ -28,20 +30,21 @@ if (!is_array($cid)) {
 }
 
 switch ($task) {
-    case 'remove':
-        removeLog($cid);
-        break;
+case 'remove':
+    removeLog($cid);
+    break;
 
-    default:
-        showLog();
-        break;
+default:
+    showLog();
+    break;
 }
 /**
  *
  */
-function showLog() {
+function showLog()
+{
     global $database, $mainframe, $acl, $core;
-    require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
+    require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
     $limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_log'], 'limit', 10);
     $limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_log'], 'limitstart', 0);
@@ -56,11 +59,13 @@ function showLog() {
 
     try {
         $dateFrom->parseDate($filter['date_from'], DateUtil::FORMAT_DATE);
-    } catch (Exception $e) {}
+    } catch (Exception $e) {
+    }
 
     try {
         $dateTo->parseDate($filter['date_to'], DateUtil::FORMAT_DATE);
-    } catch (Exception $e) {}
+    } catch (Exception $e) {
+    }
 
     try {
         if ($dateFrom->after($dateTo)) {
@@ -68,7 +73,8 @@ function showLog() {
             $dateTo = $dateFrom;
             $dateFrom = $dateTemp;
         }
-    } catch (Exception $e) {}
+    } catch (Exception $e) {
+    }
 
     $filter['date_from'] = $dateFrom->getFormattedDate(DateUtil::FORMAT_DATE);
     $filter['date_to'] = $dateTo->getFormattedDate(DateUtil::FORMAT_DATE);
@@ -77,7 +83,7 @@ function showLog() {
         $dateTo->add(DateUtil::DAY, 1);
     }
 
-    $total = LogDAO::getLogCount($logLevel, $filter['personid'], $dateFrom->getFormattedDate(DateUtil::DB_DATETIME),$dateTo->getFormattedDate(DateUtil::DB_DATETIME));
+    $total = LogDAO::getLogCount($logLevel, $filter['personid'], $dateFrom->getFormattedDate(DateUtil::DB_DATETIME), $dateTo->getFormattedDate(DateUtil::DB_DATETIME));
     $logs = LogDAO::getLogArray($logLevel, $filter['personid'], $dateFrom->getFormattedDate(DateUtil::DB_DATETIME), $dateTo->getFormattedDate(DateUtil::DB_DATETIME), $limitstart, $limit);
 
     $persons = LogDAO::getPersonArrayWhenInLog();
@@ -88,7 +94,8 @@ function showLog() {
 /**
  * @param array $cid LogID
  */
-function removeLog($cid) {
+function removeLog($cid)
+{
     global $database, $mainframe, $my, $acl;
     if (count($cid) < 1) {
         Core::backWithAlert(_("Please select record to erase"));

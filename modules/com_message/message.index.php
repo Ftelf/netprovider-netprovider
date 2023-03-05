@@ -12,15 +12,17 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/MessageDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once($core->getAppRoot() . "includes/utils/DateUtil.php");
-require_once($core->getAppRoot() . "includes/net/email/EmailUtil.php");
-require_once("message.html.php");
+require_once $core->getAppRoot() . "includes/dao/MessageDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
+require_once $core->getAppRoot() . "includes/utils/DateUtil.php";
+require_once $core->getAppRoot() . "includes/net/email/EmailUtil.php";
+require_once "message.html.php";
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $mid = Utils::getParam($_REQUEST, 'ME_messageid', null);
@@ -30,24 +32,25 @@ if (!is_array($cid)) {
 }
 
 switch ($task) {
-    case 'remove':
-        removeMessage($cid);
-        break;
+case 'remove':
+    removeMessage($cid);
+    break;
 
-    case 'send':
-        send();
-        break;
+case 'send':
+    send();
+    break;
 
-    default:
-        showMessage();
-        break;
+default:
+    showMessage();
+    break;
 }
 /**
  *
  */
-function showMessage() {
+function showMessage()
+{
     global $database, $mainframe, $acl, $core;
-    require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
+    require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
     $limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_message'], 'limit', 10);
     $limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_message'], 'limitstart', 0);
@@ -60,10 +63,12 @@ function showMessage() {
     $dateTo = new DateUtil();
     try {
         $dateFrom->parseDate($filter['date_from'], DateUtil::FORMAT_DATE);
-    } catch (Exception $e) {}
+    } catch (Exception $e) {
+    }
     try {
         $dateTo->parseDate($filter['date_to'], DateUtil::FORMAT_DATE);
-    } catch (Exception $e) {}
+    } catch (Exception $e) {
+    }
 
     try {
         if ($dateFrom->after($dateTo)) {
@@ -71,7 +76,8 @@ function showMessage() {
             $dateTo = $dateFrom;
             $dateFrom = $dateTemp;
         }
-    } catch (Exception $e) {}
+    } catch (Exception $e) {
+    }
 
     $filter['date_from'] = $dateFrom->getFormattedDate(DateUtil::FORMAT_DATE);
     $filter['date_to'] = $dateTo->getFormattedDate(DateUtil::FORMAT_DATE);
@@ -80,7 +86,7 @@ function showMessage() {
         $dateTo->add(DateUtil::DAY, 1);
     }
 
-    $total = MessageDAO::getMessageCount($filter['personid'], $dateFrom->getFormattedDate(DateUtil::DB_DATETIME),$dateTo->getFormattedDate(DateUtil::DB_DATETIME));
+    $total = MessageDAO::getMessageCount($filter['personid'], $dateFrom->getFormattedDate(DateUtil::DB_DATETIME), $dateTo->getFormattedDate(DateUtil::DB_DATETIME));
     $messages = MessageDAO::getMessageArray($filter['personid'], $dateFrom->getFormattedDate(DateUtil::DB_DATETIME), $dateTo->getFormattedDate(DateUtil::DB_DATETIME), $limitstart, $limit);
 
     foreach ($messages as &$message) {
@@ -100,7 +106,8 @@ function showMessage() {
 /**
  * @param array $cid LogID
  */
-function removeMessage($cid) {
+function removeMessage($cid)
+{
     global $database, $mainframe, $my, $acl;
     if (count($cid) < 1) {
         Core::backWithAlert(_("Please select record to erase"));
@@ -115,7 +122,8 @@ function removeMessage($cid) {
 }
 /**
  */
-function send() {
+function send()
+{
     global $database, $mainframe, $my, $acl;
 
     $messagesUtil = new EmailUtil();

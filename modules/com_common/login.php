@@ -12,7 +12,7 @@
  * @link     https://www.ovjih.net
  */
 
-	global $core;
+    global $core;
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -24,10 +24,10 @@
     <link rel="stylesheet" href="css/login.css" type="text/css" />
     <link rel="shortcut icon" href="favicon.ico" />
     <script type="text/javascript">
-	function setFocus() {
-		document.loginForm.username.select();
-		document.loginForm.username.focus();
-	}
+    function setFocus() {
+        document.loginForm.username.select();
+        document.loginForm.username.focus();
+    }
     </script>
   </head>
 
@@ -40,7 +40,7 @@
 
     <div id="ctr" align="center">
 
-	  <div id="login-box">
+      <div id="login-box">
         <div class="t">
           <div class="t">
             <div class="t"></div>
@@ -48,7 +48,7 @@
         </div>
 
         <div class="m">
-	      <div class="login-form">
+          <div class="login-form">
             <form action="index.php" method="post" name="loginForm" id="loginForm">
 
               <div id="form-box">

@@ -15,7 +15,8 @@
 /**
  * Core
  */
-Class Core {
+Class Core
+{
     private $_appRoot = null;
     private $ini = null;
 
@@ -64,7 +65,8 @@ Class Core {
     // System
     const SYSTEM_DEBUG = "Debug";
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->_appRoot = realpath(dirname(__FILE__) . '/../') . '/';
 
         mb_regex_encoding("UTF-8");
@@ -88,7 +90,8 @@ Class Core {
         textdomain($domain);
     }
 
-    static function redirect($url, $msg=null) {
+    static function redirect($url, $msg=null)
+    {
         // specific filters
         if ($msg) {
             echo "<script>alert('" . str_replace("'", "\\'", $msg) . "');</script>";
@@ -103,11 +106,13 @@ Class Core {
         exit();
     }
 
-    static function alert($msg) {
+    static function alert($msg)
+    {
         echo "<script>alert('" . str_replace("'", "\\'", $msg) . "');</script>";
     }
 
-    static function backWithAlert($msg=null) {
+    static function backWithAlert($msg=null)
+    {
         echo '<script type="text/javascript">';
         if ($msg) {
             echo "alert('" . str_replace("'", "\\'", $msg) . "');";
@@ -116,26 +121,30 @@ Class Core {
         exit();
     }
 
-    static function dprint($var) {
+    static function dprint($var)
+    {
         echo '<pre>';
         print_r($var);
         echo '</pre>';
     }
 
-    function getAppRoot() {
+    function getAppRoot()
+    {
         return $this->_appRoot;
     }
 
-    function getConfig() {
+    function getConfig()
+    {
         return $this->ini;
     }
 
     /**
-     * @param $property
+     * @param  $property
      * @return mixed
      * @throws PropertyException
      */
-    function getProperty($property) {
+    function getProperty($property)
+    {
         if (isset($this->ini[$property])) {
             return $this->ini[$property];
         } else {
@@ -143,7 +152,8 @@ Class Core {
         }
     }
 
-    function getBooleanProperty($property) {
+    function getBooleanProperty($property)
+    {
         if (isset($this->ini[$property])) {
             return ($this->ini[$property]) ? true : false;
         } else {
@@ -152,6 +162,7 @@ Class Core {
     }
 } // End of Core class
 
-class PropertyException extends Exception {
+class PropertyException extends Exception
+{
 }
 ?>

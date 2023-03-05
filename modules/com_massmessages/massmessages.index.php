@@ -12,17 +12,19 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/IpDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpAccountDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php");
-require_once($core->getAppRoot() . "includes/dao/NetworkDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once($core->getAppRoot() . "includes/smsgateapi_sluzba_cz/apixml30.php");
-require_once('massmessages.html.php');
+require_once $core->getAppRoot() . "includes/dao/IpDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpAccountDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php";
+require_once $core->getAppRoot() . "includes/dao/NetworkDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
+require_once $core->getAppRoot() . "includes/smsgateapi_sluzba_cz/apixml30.php";
+require_once 'massmessages.html.php';
 require_once 'Net/IPv4.php';
 
 $task = Utils::getParam($_REQUEST, 'task', null);
@@ -33,25 +35,27 @@ if (!is_array($cid)) {
 }
 
 switch ($task) {
-    case 'newMessage':
-        newMessage($cid);
-        break;
+case 'newMessage':
+    newMessage($cid);
+    break;
 
-    case 'sendMessage':
-        sendMessage($cid);
-        break;
+case 'sendMessage':
+    sendMessage($cid);
+    break;
 
-    default:
-        showNetwork($nid);
-        break;
+default:
+    showNetwork($nid);
+    break;
 }
 
 /**
  * showNetwork
  * will show network with particular $nid NE_networkid highlighted
+ *
  * @param $nid NE_networkid of network to highlight
  */
-function showNetwork() {
+function showNetwork()
+{
     global $database;
 
     $filter = array();
@@ -93,7 +97,8 @@ function showNetwork() {
     }
 
     // sort ips for each network
-    foreach ($ipList as &$ipL) ksort($ipL);
+    foreach ($ipList as &$ipL) { ksort($ipL);
+    }
 
     // find out if current highlighted network is also leaf network
     $isLeafNetwork = NetworkDAO::isLeafNetwork($nid);
@@ -122,7 +127,8 @@ function showNetwork() {
 /**
  * newMessage
  */
-function newMessage($cid) {
+function newMessage($cid)
+{
     $persons = array();
     foreach ($cid as $ipId) {
         $person = PersonDAO::getPersonByIPId($ipId);
@@ -131,19 +137,23 @@ function newMessage($cid) {
         $persons[$person->PE_personid] = $person;
     }
 
-    function isNullOrEmptyString($str){
+    function isNullOrEmptyString($str)
+    {
         return (!isset($str) || trim($str) === '');
     }
 
-    function personsWithoutMobile($person) {
+    function personsWithoutMobile($person)
+    {
         return isNullOrEmptyString($person->PE_tel) && $person->PE_status == Person::STATUS_ACTIVE;
     }
 
-    function personsWithMobile($person) {
+    function personsWithMobile($person)
+    {
         return !isNullOrEmptyString($person->PE_tel) && $person->PE_status == Person::STATUS_ACTIVE;
     }
 
-    function inactivePersons($person) {
+    function inactivePersons($person)
+    {
         return $person->PE_status != Person::STATUS_ACTIVE;
     }
 
@@ -156,7 +166,8 @@ function newMessage($cid) {
 /**
  * newMessage
  */
-function sendMessage() {
+function sendMessage()
+{
     global $database, $appContext, $core;
 
     $message = Utils::getParam($_REQUEST, 'message', '');
@@ -170,7 +181,7 @@ function sendMessage() {
             $person = PersonDAO::getPersonById($personId);
 
             $apixml = new ApiXml30($username, $password);
-            $result = $apixml->send_message($person->PE_tel, $message, null,0);
+            $result = $apixml->send_message($person->PE_tel, $message, null, 0);
             $xml = new SimpleXMLElement($result);
 
             $commonMessage = "$person->PE_firstname $person->PE_surname <$person->PE_tel> SMS: \"$message\"";
@@ -199,11 +210,13 @@ function sendMessage() {
 /**
  * buildNetworkTree
  * will return network as tree
- * @param $id
- * @param $netA
+ *
+ * @param  $id
+ * @param  $netA
  * @return tree of networks
  */
-function buildNetworkTree($id, $netA) {
+function buildNetworkTree($id, $netA)
+{
     $arr = array();
     $ipv4 = new Net_IPv4();
     foreach ($netA as $net) {
@@ -212,7 +225,8 @@ function buildNetworkTree($id, $netA) {
             $arr[ip2long($netParse->network)] = clone $net;
         }
     }
-    if (count($arr) == 0) return null;
+    if (count($arr) == 0) { return null;
+    }
     ksort($arr);
 
     foreach ($arr as $net) {
@@ -224,14 +238,17 @@ function buildNetworkTree($id, $netA) {
 /**
  * findSubnets
  * will return all leaf subnetworks as array from network with $nid NE_networkid
- * @param $nid NE_networkid of network child where to start
- * @param $networkTree tree of network where we will search
- * @param $foundSubnets result array of found leaf networks
- * @param $found
+ *
+ * @param  $nid          NE_networkid of network child where to start
+ * @param  $networkTree  tree of network where we will search
+ * @param  $foundSubnets result array of found leaf networks
+ * @param  $found
  * @return array of subNetworks
  */
-function findLeafSubnets(&$nid, &$networkTree, &$foundSubnets, $found) {
-    if ($networkTree == null) return;
+function findLeafSubnets(&$nid, &$networkTree, &$foundSubnets, $found)
+{
+    if ($networkTree == null) { return;
+    }
 
     foreach ($networkTree as $net) {
         if ($found) {

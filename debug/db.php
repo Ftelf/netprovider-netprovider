@@ -12,24 +12,24 @@
  * @link     https://www.ovjih.net
  */
 
-require_once(dirname(__FILE__) . "/../includes/Core.php");
+require_once dirname(__FILE__) . "/../includes/Core.php";
 $core = new Core();
-require_once($core->getAppRoot() . "includes/Constants.php");
-require_once($core->getAppRoot() . "includes/Database.php");
+require_once $core->getAppRoot() . "includes/Constants.php";
+require_once $core->getAppRoot() . "includes/Database.php";
 
 try {
-	$database = new Database(
-		$core->getProperty(Core::DATABASE_HOST),
-		$core->getProperty(Core::DATABASE_USERNAME),
-		$core->getProperty(Core::DATABASE_PASSWORD),
-		$core->getProperty(Core::DATABASE_NAME)
-	);
+    $database = new Database(
+        $core->getProperty(Core::DATABASE_HOST),
+        $core->getProperty(Core::DATABASE_USERNAME),
+        $core->getProperty(Core::DATABASE_PASSWORD),
+        $core->getProperty(Core::DATABASE_NAME)
+    );
 } catch (Exception $e) {
-	echo (_("Cannot connect to database"));
-	exit();
+    echo (_("Cannot connect to database"));
+    exit();
 }
 
-	echo "connected";
+    echo "connected";
 
 
 ?>

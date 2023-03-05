@@ -24,21 +24,21 @@ require_once "scripts.html.php";
 $task = $_REQUEST['task'] ?? null;
 
 switch ($task) {
-    case 'ipfilteron':
-        ipFilterOn();
-        break;
+case 'ipfilteron':
+    ipFilterOn();
+    break;
 
-    case 'ipfilteroff':
-        ipFilterOff();
-        break;
+case 'ipfilteroff':
+    ipFilterOff();
+    break;
 
-    case 'synchronizeFilter':
-        synchronizeFilter();
-        break;
+case 'synchronizeFilter':
+    synchronizeFilter();
+    break;
 
-    default:
-        show();
-        break;
+default:
+    show();
+    break;
 }
 
 function show(): void

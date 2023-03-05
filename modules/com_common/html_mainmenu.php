@@ -1,19 +1,19 @@
 <?php
-	global $my, $core;
-	if ($my->GR_level != Group::USER) {
-		$loggedCount = SessionDAO::getSessionCount();
-?>
+    global $my, $core;
+if ($my->GR_level != Group::USER) {
+    $loggedCount = SessionDAO::getSessionCount();
+    ?>
 
 <div id="header-box">
   <div id="module-status">
     <span class="loggedin-users">
-      <?php echo $loggedCount ?>
+    <?php echo $loggedCount ?>
     </span>
     <span class="logout">
       <a href="index2.php?option=logout"><?php echo _("Logout"); ?></a>
     </span>
     <span class="loggedin-name">
-      <?php echo $my->PE_firstname . " " . $my->PE_surname . " / " . $my->PE_nick; ?>
+    <?php echo $my->PE_firstname . " " . $my->PE_surname . " / " . $my->PE_nick; ?>
     </span>
   </div>
 
@@ -23,19 +23,19 @@
       [
         [null, '<?php echo addslashes(_("Home")); ?>', 'index2.php', null, '<?php echo addslashes(_("Home page")); ?>'],
         _cmSplit,
-    	[null, '<?php echo addslashes(_("User agenda")); ?>', null, null, '<?php echo addslashes(_("User agenda")); ?>',
-    	  ['<img src="images/22x22/apps/Community Help.png" />', '<?php echo addslashes(_("Users")); ?>', null, null, '<?php echo addslashes(_("Users")); ?>',
+        [null, '<?php echo addslashes(_("User agenda")); ?>', null, null, '<?php echo addslashes(_("User agenda")); ?>',
+          ['<img src="images/22x22/apps/Community Help.png" />', '<?php echo addslashes(_("Users")); ?>', null, null, '<?php echo addslashes(_("Users")); ?>',
             ['<img src="images/22x22/apps/kuser.png" />','<?php echo addslashes(_("Users")); ?>','index2.php?option=com_person',null,'<?php echo addslashes(_("Manage users")); ?>'],
             ['<img src="images/22x22/apps/access.png" />','<?php echo addslashes(_("User groups")); ?>','index2.php?option=com_group',null,'<?php echo addslashes(_("Manage user groups")); ?>'],
             ['<img src="images/22x22/apps/Community Help.png" />','<?php echo addslashes(_("Roles and responsibilities")); ?>','index2.php?option=com_role',null,'<?php echo addslashes(_("Manage roles and responsibilities")); ?>']
           ],
           ['<img src="images/22x22/apps/personal.png" />', '<?php echo addslashes(_("My profile")); ?>', 'index2.php?option=com_myprofile', null, '<?php echo addslashes(_("Manage my profile")); ?>']
         ],
-    	_cmSplit,
-    	[null, '<?php echo addslashes(_("Financial")); ?>', null, null, '<?php echo addslashes(_("Financial Managenent")); ?>',
-    	  ['<img src="images/22x22/apps/business.png" />', '<?php echo addslashes(_("Bank accounts")); ?>', 'index2.php?option=com_bankaccount', null, '<?php echo addslashes(_("Manage bank accounts")); ?>'],
-    	  ['<img src="images/22x22/apps/kspread.png" />', '<?php echo addslashes(_("User's accounts")); ?>', 'index2.php?option=com_personaccount', null, '<?php echo addslashes(_("Manage user accounts")); ?>'],
-    	  ['<img src="images/22x22/apps/kword.png" />', '<?php echo addslashes(_("Payment templates")); ?>', 'index2.php?option=com_charge', null, '<?php echo addslashes(_("Manage payment templates")); ?>']
+        _cmSplit,
+        [null, '<?php echo addslashes(_("Financial")); ?>', null, null, '<?php echo addslashes(_("Financial Managenent")); ?>',
+          ['<img src="images/22x22/apps/business.png" />', '<?php echo addslashes(_("Bank accounts")); ?>', 'index2.php?option=com_bankaccount', null, '<?php echo addslashes(_("Manage bank accounts")); ?>'],
+          ['<img src="images/22x22/apps/kspread.png" />', '<?php echo addslashes(_("User's accounts")); ?>', 'index2.php?option=com_personaccount', null, '<?php echo addslashes(_("Manage user accounts")); ?>'],
+          ['<img src="images/22x22/apps/kword.png" />', '<?php echo addslashes(_("Payment templates")); ?>', 'index2.php?option=com_charge', null, '<?php echo addslashes(_("Manage payment templates")); ?>']
         ],
         _cmSplit,
         [null, '<?php echo addslashes(_("Services")); ?>', null, null, '<?php echo addslashes(_("Services Managenent")); ?>',
@@ -62,9 +62,9 @@
         ]
       ];
       cmDraw ('myMenuID', myMenu, 'hbr', cmThemeOffice, 'ThemeOffice');
-	  </script>
-<?php
-	}
+      </script>
+    <?php
+}
 ?>
   <div class="clr"></div>
 </div>

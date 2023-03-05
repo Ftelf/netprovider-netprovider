@@ -12,21 +12,26 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
-class HTML_NetworkDevice {
+class HTML_NetworkDevice
+{
     /**
      * showNetworkDevice
+     *
      * @param $networkDevice
      */
-    static function showNetworkDevice(&$networkDevice) {
+    static function showNetworkDevice(&$networkDevice)
+    {
         ?>
         <script type="text/javascript">
             function submitbutton(pressbutton) {
                 if (pressbutton == 'testLogin'){
                     submitform(pressbutton);
-                    return;
+
                 }
             }
         </script>

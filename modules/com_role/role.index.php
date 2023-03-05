@@ -12,13 +12,15 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/RoleDAO.php");
-require_once($core->getAppRoot() . "includes/dao/RolememberDAO.php");
-require_once("role.html.php");
+require_once $core->getAppRoot() . "includes/dao/RoleDAO.php";
+require_once $core->getAppRoot() . "includes/dao/RolememberDAO.php";
+require_once "role.html.php";
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $rid = Utils::getParam($_REQUEST, 'RO_roleid', null);
@@ -28,41 +30,42 @@ if (!is_array($cid)) {
 }
 
 switch ($task) {
-    case 'new':
-        editRole(null);
-        break;
+case 'new':
+    editRole(null);
+    break;
 
-    case 'edit':
-        editRole($rid);
-        break;
+case 'edit':
+    editRole($rid);
+    break;
 
-    case 'editA':
-        editRole(intval($cid[0]));
-        break;
+case 'editA':
+    editRole(intval($cid[0]));
+    break;
 
-    case 'save':
-    case 'apply':
-        saveRole($task);
-        break;
+case 'save':
+case 'apply':
+    saveRole($task);
+    break;
 
-    case 'remove':
-        removeRole($cid);
-        break;
+case 'remove':
+    removeRole($cid);
+    break;
 
-    case 'cancel':
-        showRole();
-        break;
+case 'cancel':
+    showRole();
+    break;
 
-    default:
-        showRole();
-        break;
+default:
+    showRole();
+    break;
 }
 /**
  *
  */
-function showRole() {
+function showRole()
+{
     global $database, $mainframe, $acl, $core;
-    require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
+    require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
     $limit = Utils::getParam($_SESSION['UI_SETTINGS']['com_role'], 'limit', 10);
     $limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_role'], 'limitstart', 0);
@@ -76,7 +79,8 @@ function showRole() {
 /**
  * @param $rid
  */
-function editRole($rid=null) {
+function editRole($rid=null)
+{
     global $database, $my, $acl;
 
     if ($rid != null) {
@@ -90,12 +94,13 @@ function editRole($rid=null) {
 /**
  * @param $task
  */
-function saveRole($task) {
+function saveRole($task)
+{
     global $database, $mainframe, $my, $acl, $appContext;
 
     $role = new Role();
     database::bind($_POST, $role);
-    $isNew 	= !$role->RO_roleid;
+    $isNew  = !$role->RO_roleid;
 
     if ($isNew) {
         $database->insertObject("role", $role, "RO_roleid", false);
@@ -104,24 +109,25 @@ function saveRole($task) {
     }
 
     switch ($task) {
-        case 'apply':
-            $msg = sprintf(_("Role '%s' updated"), $role->RO_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-            Core::redirect("index2.php?option=com_role&task=edit&RO_roleid=$role->RO_roleid&hidemainmenu=1");
-            break;
-        case 'save':
-            $msg = sprintf(_("Role '%s' saved"), $role->RO_name);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
-        default:
-            Core::redirect("index2.php?option=com_role");
+    case 'apply':
+        $msg = sprintf(_("Role '%s' updated"), $role->RO_name);
+        $appContext->insertMessage($msg);
+        $database->log($msg, Log::LEVEL_INFO);
+        Core::redirect("index2.php?option=com_role&task=edit&RO_roleid=$role->RO_roleid&hidemainmenu=1");
+        break;
+    case 'save':
+        $msg = sprintf(_("Role '%s' saved"), $role->RO_name);
+        $appContext->insertMessage($msg);
+        $database->log($msg, Log::LEVEL_INFO);
+    default:
+        Core::redirect("index2.php?option=com_role");
     }
 }
 /**
  * @param $cid
  */
-function removeRole($cid) {
+function removeRole($cid)
+{
     global $database, $mainframe, $my, $acl, $appContext;
     if (count($cid) < 1) {
         Core::backWithAlert(_("Please select record to erase"));
@@ -132,7 +138,8 @@ function removeRole($cid) {
             if (($role = RoleDAO::getRoleByID($id)) == null) {
                 Core::redirect("index2.php?option=com_role");
             }
-            if (($rolemembers = RolememberDAO::getRolememberAndPersonsArrayByRoleID($id)) == null) $rolemembers = array();
+            if (($rolemembers = RolememberDAO::getRolememberAndPersonsArrayByRoleID($id)) == null) { $rolemembers = array();
+            }
 
             if (count($rolemembers)) {
                 $msg = sprintf(ngettext("Cannot delete user role '%s', because it has binded %s user", "Cannot delete user role '%s', because it has binded %s users", count($rolemembers)), $role->RO_name, count($rolemembers));
@@ -140,9 +147,11 @@ function removeRole($cid) {
                 $limit = 10;
                 foreach ($rolemembers as $rolemember) {
                     $msg .= "\\n'" . $rolemember->PE_firstname . " " . $rolemember->PE_surname . "'";
-                    if (!--$limit) break;
+                    if (!--$limit) { break;
+                    }
                 }
-                if (count($rolemembers) > $limit) $msg .= '\n...';
+                if (count($rolemembers) > $limit) { $msg .= '\n...';
+                }
                 Core::backWithAlert($msg);
             } else {
                 RoleDAO::removeRoleByID($id);

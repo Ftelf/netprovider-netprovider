@@ -12,32 +12,35 @@
  * @link     https://www.ovjih.net
  */
 
-/** ensure this file is being included by a parent file */
+/**
+ * ensure this file is being included by a parent file
+ */
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/PersonDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpAccountDAO.php");
-require_once($core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php");
+require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpAccountDAO.php";
+require_once $core->getAppRoot() . "includes/dao/IpAccountAbsDAO.php";
 
-require_once('iptrafficreport.html.php');
+require_once 'iptrafficreport.html.php';
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 
 switch ($task) {
-    case 'trafficReport':
-        showBankList();
-        break;
+case 'trafficReport':
+    showBankList();
+    break;
 
-    default:
-        showTrafficReport();
-        break;
+default:
+    showTrafficReport();
+    break;
 }
 
-function showTrafficReport() {
+function showTrafficReport()
+{
     global $database, $mainframe, $acl, $core;
-    require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
+    require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
     $filter = array();
 
@@ -146,7 +149,8 @@ function showTrafficReport() {
     }
 
     if ($filter['sort_key'] == IpDAO::data) {
-        function cmp($a, $b) {
+        function cmp($a, $b)
+        {
             $va = 0;
             foreach ($a->data as &$ipDateReport) {
                 $va += $ipDateReport->bytes_sum;
@@ -157,11 +161,13 @@ function showTrafficReport() {
                 $vb += $ipDateReport->bytes_sum;
             }
 
-            if ($va == $vb) return 0;
+            if ($va == $vb) {
+                return 0;
+            }
             return ($va > $vb) ? -1 : 1;
         }
 
-        usort ($ips, "cmp");
+        usort($ips, "cmp");
 
         $ips = array_slice($ips, $limitstart, $limit);
     }

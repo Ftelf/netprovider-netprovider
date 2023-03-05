@@ -183,7 +183,7 @@ class HTML_log {
      <td>
        <input type="checkbox" id="<?php echo "cb$i"; ?>" name="cid[]" value="<?php echo $log->LO_logid; ?>" onclick="isChecked(this.checked);" />
      </td>
-     <td><?php echo $logDate->getFormattedDate(DateUtil::FORMAT_FULL);; ?>
+     <td><?php echo $logDate->getFormattedDate(DateUtil::FORMAT_FULL); ?>
      </td>
       <td>
        <a href="<?php echo $linkPerson; ?>"><?php echo Log::getLocalizedLevel($log->LO_level); ?></a>
