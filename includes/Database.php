@@ -227,7 +227,7 @@ class Database
         if ($object != null) {
             $results =& $this->retrieveResults('', 1, 'assoc');
             if (count($results)) {
-                $this->bindArrayToObject($results[0], $object);
+                self::bindArrayToObject($results[0], $object);
                 return;
             }
         } else {
@@ -341,8 +341,6 @@ class Database
 
     function log($text, $level=0)
     {
-        global $core;
-
         $logDate = new DateUtil();
 
         $log = new Log();

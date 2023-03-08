@@ -88,7 +88,7 @@ default:
  */
 function showNetwork()
 {
-    global $database, $mainframe, $acl, $core;
+    global $database, $core;
     require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
     $filter = array();
@@ -200,13 +200,10 @@ function showNetwork()
         $flags['net_new'] = $canAddNetwork; // there is some subnets
         $flags['net_edit'] = true;
         $flags['net_delete'] = false;
-    } else if ($isLeafNetwork) {
+    } else {
         $flags['net_new'] = $canAddNetwork; // leaf subnet
         $flags['net_edit'] = true;
         $flags['net_delete'] = true;
-    } else {
-        $database->log("ERROR: mod_network, nedefinovaný stav u sítě ID '$nid' síť '$selectedNetwork->NE_net'", Log::LEVEL_ERROR);
-        Core::redirect("index2.php");
     }
     // new IP can be added only to leaf network and if there is any room left
     //
@@ -230,7 +227,7 @@ function showNetwork()
  */
 function editIP($ipid, $nid): void
 {
-    global $database, $my, $acl, $appContext;
+    global $database, $appContext;
     $ipv4 = new Net_IPv4();
 
     // query for IP if edit or leave blank ip Class
@@ -291,7 +288,7 @@ function editIP($ipid, $nid): void
  */
 function editNetwork($task, $nid=null)
 {
-    global $database, $my, $acl, $appContext;
+    global $database, $appContext;
     $ipv4 = new Net_IPv4();
 
     $parentNetwork = new Network();
@@ -370,10 +367,9 @@ function editNetwork($task, $nid=null)
  */
 function saveIP($task, $iid, $nid)
 {
-    global $database, $mainframe, $my, $acl, $appContext;
+    global $database, $appContext;
 
     $ip = new Ip();
-    $person = new Person();
     database::bind($_POST, $ip);
     $isNew  = !$ip->IP_ipid;
 
@@ -421,11 +417,10 @@ function saveIP($task, $iid, $nid)
  */
 function saveNetwork($task)
 {
-    global $database, $mainframe, $my, $acl, $appContext;
+    global $database, $appContext;
 
     $ipv4 = new Net_IPv4();
     $network = new Network();
-    $parentNetwork = new Network();
     $person = new Person();
     database::bind($_POST, $network);
     $isNew  = !$network->NE_networkid;
@@ -518,7 +513,7 @@ function saveNetwork($task)
  */
 function removeIp($cid)
 {
-    global $database, $mainframe, $my, $acl, $appContext;
+    global $database, $appContext;
     if (count($cid) < 1) {
         Core::backWithAlert(_("Select IP address to delete"));//"Vyber IP adresu pro vymazání"
     }
@@ -547,7 +542,7 @@ function removeIp($cid)
  */
 function removeNetwork($nid)
 {
-    global $database, $mainframe, $my, $acl, $appContext;
+    global $database, $appContext;
 
     $network = NetworkDAO::getNetworkByID($nid);
     $person = PersonDAO::getPersonByID($network->NE_personid);
@@ -783,7 +778,6 @@ function isAnyFreeSubNetworks(&$n1, &$n2Array)
         return false;
     }
     $lastAnchor = $np1->long;
-    $freeNets = array();
     foreach ($innerNets as $np2) {
         $n2long = $np2->long;
         if ($n2long > $lastAnchor) {

@@ -33,7 +33,7 @@ require_once $core->getAppRoot() . "includes/utils/DateUtil.php";
 class ChargesUtil
 {
     private array $_messages = [];
-    private $_advancePayments = 1;
+    private $_advancePayments;
     private $_charges;
 
     public function __construct()
@@ -46,8 +46,6 @@ class ChargesUtil
 
     public function createBlankChargeEntries()
     {
-        global $database, $eventCrossBar;
-
         $persons = PersonDAO::getPersonWithAccountArray();
 
         // Iterate all active persons
@@ -58,7 +56,7 @@ class ChargesUtil
 
     public function createOrRemoveChargeEntriesForPerson($person, $ignoreStatuses = false, $enableMessagesForEntries = false)
     {
-        global $database, $eventCrossBar;
+        global $database;
 
         $now = new DateUtil();
 
@@ -203,7 +201,7 @@ class ChargesUtil
 
     private function removeChangeEntriesOutOfScope($person, $chargeEntries, $dateStart, $dateEnd)
     {
-        global $database, $appContext;
+        global $database;
 
         $personAccount = PersonAccountDAO::getPersonAccountByID($person->PE_personaccountid);
 
