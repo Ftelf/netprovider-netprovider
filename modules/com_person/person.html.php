@@ -667,8 +667,6 @@ class HTML_person {
 
 		$dateStartObj = new DateUtil($hasCharge->HC_datestart);
 		$dateEndObj = new DateUtil($hasCharge->HC_dateend);
-		$dateStart = "";
-		$dateEnd = "";
 
 		switch ($hasCharge->CH_period) {
 			case Charge::PERIOD_MONTHLY:

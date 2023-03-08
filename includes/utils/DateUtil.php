@@ -20,9 +20,9 @@ class DateUtil
     /**
      * @var timestamp
      */
-    private $_timestamp = null;
-    private $_date = null;
-    private $_isDebug = null;
+    private $_timestamp;
+    private $_date;
+    private $_isDebug;
 
     const DB_NULL_DATE = '0000-00-00';
     const DB_NULL_DATETIME = '0000-00-00 00:00:00';
@@ -82,22 +82,16 @@ class DateUtil
         switch ($field) {
         case self::YEAR :
             return intval(date("Y", $this->_timestamp));
-                break;
         case self::MONTH :
             return intval(date("m", $this->_timestamp));
-                break;
         case self::DAY :
             return intval(date("d", $this->_timestamp));
-                break;
         case self::HOUR :
             return intval(date("H", $this->_timestamp));
-                break;
         case self::MINUTES :
             return intval(date("i", $this->_timestamp));
-                break;
         case self::SECONDS :
             return intval(date("s", $this->_timestamp));
-                break;
         }
     }
     /**

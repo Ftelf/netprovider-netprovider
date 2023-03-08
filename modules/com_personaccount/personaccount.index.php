@@ -25,65 +25,64 @@ require_once($core->getAppRoot() . "includes/billing/ChargesUtil.php");
 require_once($core->getAppRoot() . "includes/utils/DateUtil.php");
 require_once('personaccount.html.php');
 
-$task = Utils::getParam($_REQUEST, 'task', null);
-$pid = Utils::getParam($_REQUEST, 'PE_personid', null);
-$pnid = Utils::getParam($_REQUEST, 'PN_personaccountentryid', null);
-$ceid = Utils::getParam($_REQUEST, 'CE_chargeentryid', null);
-$cid = Utils::getParam($_REQUEST, 'cid', array(0));
+$task = Utils::getParam($_REQUEST, 'task');
+$pid = Utils::getParam($_REQUEST, 'PE_personid');
+$pnid = Utils::getParam($_REQUEST, 'PN_personaccountentryid');
+$ceid = Utils::getParam($_REQUEST, 'CE_chargeentryid');
+$cid = Utils::getParam($_REQUEST, 'cid', []);
 if (!is_array($cid)) {
-    $cid = array (0);
+    $cid = [];
 }
 
 switch ($task) {
-    case 'createBlankCharges': {
+    case 'createBlankCharges':
+    {
         createBlankCharges();
         break;
     }
 
-    case 'proceedCharges': {
+    case 'proceedCharges':
+    {
         proceedCharges();
         break;
     }
 
-    case 'returnPayment': {
+    case 'returnPayment':
+    {
         returnPayment($pid, $pnid);
         break;
     }
 
-    case 'freeCharge': {
+    case 'freeCharge':
+    {
         freeCharge($ceid);
         break;
     }
 
-    case 'ignoreCharge': {
+    case 'ignoreCharge':
+    {
         ignoreCharge($ceid);
         break;
     }
 
-    case 'removeCharge': {
+    case 'removeCharge':
+    {
         removeCharge($ceid);
         break;
     }
 
     case 'cancelPAE':
     case 'showDetail':
+    case 'cancelEdit':
         showPersonAccountDetail($pid);
         break;
 
     case 'showDetailA':
-        showPersonAccountDetail(intval($cid[0]));
+        showPersonAccountDetail((int)$cid[0]);
         break;
 
     case 'edit':
         editPersonAccount($pid);
-        break;
-
-    case 'cancel':
-        showPersonAccount();
-        break;
-
-    case 'cancelEdit':
-        showPersonAccountDetail($pid);
         break;
 
     case 'apply':
@@ -96,9 +95,10 @@ switch ($task) {
         break;
 
     case 'savePAE':
-        savePersonAccountEntry($pid, $task);
+        savePersonAccountEntry($pid);
         break;
 
+    case 'cancel':
     default:
         showPersonAccount();
         break;
@@ -107,11 +107,12 @@ switch ($task) {
 /**
  *
  */
-function showPersonAccount() {
-    global $database, $mainframe, $acl, $core;
+function showPersonAccount(): void
+{
+    global $core;
     require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
 
-    $filter = array();
+    $filter = [];
     // default settings if no setting in session
     //
     $filter['search'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_personaccount']['filter'], 'search', "");
@@ -123,8 +124,8 @@ function showPersonAccount() {
 
     $persons = PersonDAO::getPersonArray($filter['search'], 0, $filter['status']);
     $personAccounts = PersonAccountDAO::getPersonAccountArray();
-    $vss = array();
-    $msgs = array();
+    $vss = [];
+    $msgs = [];
 
     foreach ($persons as $k => $person) {
         if (!isset($personAccounts[$person->PE_personaccountid])) {
@@ -142,13 +143,10 @@ function showPersonAccount() {
         if ($filter['bilance'] != -1) {
             if ($filter['bilance'] == 1 && $personAccount->PA_balance >= 0) {
                 unset($persons[$k]);
-                continue;
-            } else if ($filter['bilance'] == 2 && $personAccount->PA_balance != 0) {
+            } elseif ($filter['bilance'] == 2 && $personAccount->PA_balance != 0) {
                 unset($persons[$k]);
-                continue;
-            } else if ($filter['bilance'] == 3 && $personAccount->PA_balance <= 0) {
+            } elseif ($filter['bilance'] == 3 && $personAccount->PA_balance <= 0) {
                 unset($persons[$k]);
-                continue;
             }
         }
     }
@@ -156,12 +154,13 @@ function showPersonAccount() {
     $personsView = array_slice($persons, $limitstart, $limit);
     HTML_PersonAccount::showEntries($personsView, $personAccounts, $pageNav, $filter, $msgs);
 }
+
 /**
  * @param integer $pid PersonID
+ * @throws Exception
  */
-function showPersonAccountDetail($pid=null) {
-    global $database, $my, $acl;
-    $flags = array();
+function showPersonAccountDetail($pid = null): void
+{
     $person = PersonDAO::getPersonByID($pid);
     $personAccount = PersonAccountDAO::getPersonAccountByID($person->PE_personaccountid);
 
@@ -171,7 +170,7 @@ function showPersonAccountDetail($pid=null) {
     $charges = ChargeDAO::getChargeArray();
     $hasCharges = HasChargeDAO::getHasChargeWithChargeWithPersonArrayByPersonID($person->PE_personid);
 
-    $chargeEntries = array();
+    $chargeEntries = [];
     foreach ($hasCharges as $hasCharge) {
         $chargeEntriesTmp = ChargeEntryDAO::getChargeEntryArrayByHasChargeID($hasCharge->HC_haschargeid);
         $hasCharge->_chargeEntries = $chargeEntriesTmp;
@@ -181,26 +180,28 @@ function showPersonAccountDetail($pid=null) {
     }
     HTML_PersonAccount::showPersonAccountDetail($person, $personAccount, $bankAccountEntries, $personAccountEntries, $chargeEntries, $hasCharges, $charges);
 }
+
 /**
  * @param integer $pid PersonID
  */
-function editPersonAccount($pid=null) {
-    global $database, $my, $acl;
-    $flags = array();
+function editPersonAccount($pid = null): void
+{
     $person = PersonDAO::getPersonByID($pid);
     $personAccount = PersonAccountDAO::getPersonAccountByID($person->PE_personaccountid);
 
     HTML_PersonAccount::editPersonAccountDetail($person, $personAccount);
 }
+
 /**
  * @param integer $pid PersonID
  * @param String $task task
  */
-function savePersonAccount($pid, $task) {
-    global $database, $mainframe, $my, $acl, $appContext;
+function savePersonAccount($pid, $task): void
+{
+    global $database, $appContext;
 
     $personAccount = new PersonAccount();
-    database::bind($_POST, $personAccount);
+    Database::bind($_POST, $personAccount);
 
     $personAccount->PA_startbalance = null;
     $personAccount->PA_balance = null;
@@ -216,34 +217,38 @@ function savePersonAccount($pid, $task) {
     if (!Utils::getParam($_POST, '_CB_PA_specificsymbol', 0)) $personAccount->PA_specificsymbol = 0;
 
     if (!is_numeric($personAccount->PA_variablesymbol) ||
-        !is_numeric($personAccount->PA_constantsymbol)  ||
+        !is_numeric($personAccount->PA_constantsymbol) ||
         !is_numeric($personAccount->PA_specificsymbol)) {
         Core::redirect("index2.php?option=com_personaccount&task=edit&PE_personid=$person->PE_personid&hidemainmenu=1");
     }
 
-    $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false, false);
+    $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false);
 
     switch ($task) {
         case 'apply':
-            $msg = sprintf(_("User account from user '%s' updated"), $person->PE_firstname." ".$person->PE_surname);
+            $msg = sprintf(_("User account from user '%s' updated"), $person->PE_firstname . " " . $person->PE_surname);
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
             Core::redirect("index2.php?option=com_personaccount&task=edit&PE_personid=$person->PE_personid&hidemainmenu=1");
             break;
         case 'save':
-            $msg = sprintf(_("User account from user '%s' saved"), $person->PE_firstname." ".$person->PE_surname);
+            $msg = sprintf(_("User account from user '%s' saved"), $person->PE_firstname . " " . $person->PE_surname);
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
+            Core::redirect("index2.php?option=com_personaccount&task=showDetail&PE_personid=$person->PE_personid&hidemainmenu=1");
+            break;
         default:
             Core::redirect("index2.php?option=com_personaccount&task=showDetail&PE_personid=$person->PE_personid&hidemainmenu=1");
             break;
     }
 }
+
 /**
  *
  */
-function createBlankCharges() {
-    global $database, $appContext, $my, $acl;
+function createBlankCharges(): void
+{
+    global $appContext, $my;
 
     if ($my->GR_level == Group::SUPER_ADMINISTRATOR) {
         $chargesUtil = new ChargesUtil();
@@ -254,26 +259,30 @@ function createBlankCharges() {
 
     Core::redirect("index2.php?option=com_personaccount");
 }
+
 /**
  *
  */
-function proceedCharges() {
-    global $database, $appContext, $my, $acl;
+function proceedCharges(): void
+{
+    global $appContext, $my;
 
     if ($my->GR_level == Group::SUPER_ADMINISTRATOR) {
         $chargesUtil = new ChargesUtil();
-        $chargesUtil->proceedCharges(false);
+        $chargesUtil->proceedCharges();
 
         $appContext->insertMessage(_('Charges process finished. Messaging clients has been suppressed.'));
     }
 
     Core::redirect("index2.php?option=com_personaccount");
 }
+
 /**
  * @param integer $ceif PersonAccountEntryID
  */
-function returnPayment($pid, $pnid) {
-    global $database, $my, $acl, $appContext;
+function returnPayment($pid, $pnid): void
+{
+    global $database, $appContext;
 
     $person = PersonDAO::getPersonByID($pid);
 
@@ -287,7 +296,7 @@ function returnPayment($pid, $pnid) {
             $bankAccountEntry->BE_personaccountentryid = null;
             $bankAccountEntry->BE_status = BankAccountEntry::STATUS_PENDING;
             $bankAccountEntry->BE_identifycode = BankAccountEntry::IDENTIFY_UNIDENTIFIED;
-            $database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", true, false);
+            $database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid");
 
             $personAccountEntries = PersonAccountEntryDAO::getPersonAccountEntryArrayByBankAccountEntryID($personAccountEntry->PN_bankaccountentryid);
 
@@ -297,46 +306,46 @@ function returnPayment($pid, $pnid) {
                 $personAccount->PA_balance = (float)$personAccount->PA_balance - (float)$personAccountEntry->PN_amount;
                 $personAccount->PA_income = (float)$personAccount->PA_income - (float)$personAccountEntry->PN_amount;
 
-                $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false, false);
+                $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false);
                 PersonAccountEntryDAO::removePersonAccountEntryByID($personAccountEntry->PN_personaccountentryid);
 
                 $date = new DateUtil($personAccountEntry->PN_date);
 
-                $msg = sprintf(_("User's '%s' payment with amount %s and date %s has been removed"), $person->PE_firstname." ".$person->PE_surname, $personAccountEntry->PN_amount, $date->getFormattedDate(DateUtil::FORMAT_DATE));
+                $msg = sprintf(_("User's '%s' payment with amount %s and date %s has been removed"), $person->PE_firstname . " " . $person->PE_surname, $personAccountEntry->PN_amount, $date->getFormattedDate(DateUtil::FORMAT_DATE));
                 $appContext->insertMessage($msg);
                 $database->log($msg, Log::LEVEL_INFO);
             }
 
             $dateTime = new DateUtil($bankAccountEntry->BE_datetime);
 
-            $msg = sprintf(_("Bank entry %s %s %s %s amount %s returned to process"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $bankAccountEntry->BE_accountnumber."/".$bankAccountEntry->BE_banknumber, $bankAccountEntry->BE_accountname, $bankAccountEntry->BE_message, $bankAccountEntry->BE_amount);
+            $msg = sprintf(_("Bank entry %s %s %s %s amount %s returned to process"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $bankAccountEntry->BE_accountnumber . "/" . $bankAccountEntry->BE_banknumber, $bankAccountEntry->BE_accountname, $bankAccountEntry->BE_message, $bankAccountEntry->BE_amount);
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
-        } else if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_CASH) {
+        } elseif ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_CASH) {
             $personAccount = PersonAccountDAO::getPersonAccountByID($personAccountEntry->PN_personaccountid);
 
             $personAccount->PA_balance = (float)$personAccount->PA_balance - (float)$personAccountEntry->PN_amount;
             $personAccount->PA_income = (float)$personAccount->PA_income - (float)$personAccountEntry->PN_amount;
 
-            $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false, false);
+            $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false);
             PersonAccountEntryDAO::removePersonAccountEntryByID($personAccountEntry->PN_personaccountentryid);
 
             $date = new DateUtil($personAccountEntry->PN_date);
 
-            $msg = sprintf(_("User's '%s' payment with amount %s and date %s has been removed"), $person->PE_firstname." ".$person->PE_surname, $personAccountEntry->PN_amount, $date->getFormattedDate(DateUtil::FORMAT_DATE));
+            $msg = sprintf(_("User's '%s' payment with amount %s and date %s has been removed"), $person->PE_firstname . " " . $person->PE_surname, $personAccountEntry->PN_amount, $date->getFormattedDate(DateUtil::FORMAT_DATE));
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
-        } else if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_DISCOUNT) {
+        } elseif ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_DISCOUNT) {
             $personAccount = PersonAccountDAO::getPersonAccountByID($personAccountEntry->PN_personaccountid);
 
             $personAccount->PA_balance = (float)$personAccount->PA_balance - (float)$personAccountEntry->PN_amount;
 
-            $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false, false);
+            $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false);
             PersonAccountEntryDAO::removePersonAccountEntryByID($personAccountEntry->PN_personaccountentryid);
 
             $date = new DateUtil($personAccountEntry->PN_date);
 
-            $msg = sprintf(_("User's '%s' payment with amount %s and date %s has been removed"), $person->PE_firstname." ".$person->PE_surname, $personAccountEntry->PN_amount, $date->getFormattedDate(DateUtil::FORMAT_DATE));
+            $msg = sprintf(_("User's '%s' payment with amount %s and date %s has been removed"), $person->PE_firstname . " " . $person->PE_surname, $personAccountEntry->PN_amount, $date->getFormattedDate(DateUtil::FORMAT_DATE));
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
         }
@@ -348,11 +357,13 @@ function returnPayment($pid, $pnid) {
 
     Core::redirect("index2.php?option=com_personaccount&task=showDetail&PE_personid=$pid&hidemainmenu=1");
 }
+
 /**
  * @param integer $ceif ChargeEntryID
  */
-function freeCharge($ceid) {
-    global $database, $my, $acl, $appContext;
+function freeCharge($ceid): void
+{
+    global $database, $appContext;
 
     $chargeEntry = ChargeEntryDAO::getChargeEntryByID($ceid);
     $hasCharge = HasChargeDAO::getHasChargeByID($chargeEntry->CE_haschargeid);
@@ -370,7 +381,7 @@ function freeCharge($ceid) {
     $chargeEntry->CE_overdue = 0;
     $chargeEntry->CE_status = ChargeEntry::STATUS_TESTINGFREEOFCHARGE;
 
-    $database->updateObject("chargeentry", $chargeEntry, "CE_chargeentryid", false, false);
+    $database->updateObject("chargeentry", $chargeEntry, "CE_chargeentryid", false);
 
     switch ($charge->CH_period) {
         case Charge::PERIOD_MONTHLY:
@@ -381,17 +392,19 @@ function freeCharge($ceid) {
     }
     $period = new DateUtil($chargeEntry->CE_period_date);
 
-    $msg = sprintf(_("User's '%s' payment '%s' for period %s was excused"), $person->PE_firstname." ".$person->PE_surname, $charge->CH_name, $period->getFormattedDate($format));
+    $msg = sprintf(_("User's '%s' payment '%s' for period %s was excused"), $person->PE_firstname . " " . $person->PE_surname, $charge->CH_name, $period->getFormattedDate($format));
     $appContext->insertMessage($msg);
     $database->log($msg, Log::LEVEL_INFO);
 
     Core::redirect("index2.php?option=com_personaccount&task=showDetail&PE_personid=$hasCharge->HC_personid&hidemainmenu=1");
 }
+
 /**
  * @param integer $ceif ChargeEntryID
  */
-function ignoreCharge($ceid) {
-    global $database, $my, $acl, $appContext;
+function ignoreCharge($ceid): void
+{
+    global $database, $appContext;
 
     $chargeEntry = ChargeEntryDAO::getChargeEntryByID($ceid);
     $hasCharge = HasChargeDAO::getHasChargeByID($chargeEntry->CE_haschargeid);
@@ -409,7 +422,7 @@ function ignoreCharge($ceid) {
     $chargeEntry->CE_overdue = 0;
     $chargeEntry->CE_status = ChargeEntry::STATUS_DISABLED;
 
-    $database->updateObject("chargeentry", $chargeEntry, "CE_chargeentryid", false, false);
+    $database->updateObject("chargeentry", $chargeEntry, "CE_chargeentryid", false);
 
     switch ($charge->CH_period) {
         case Charge::PERIOD_MONTHLY:
@@ -420,17 +433,19 @@ function ignoreCharge($ceid) {
     }
     $period = new DateUtil($chargeEntry->CE_period_date);
 
-    $msg = sprintf(_("User's '%s' payment '%s' for period %s is ignored"), $person->PE_firstname." ".$person->PE_surname, $charge->CH_name, $period->getFormattedDate($format));
+    $msg = sprintf(_("User's '%s' payment '%s' for period %s is ignored"), $person->PE_firstname . " " . $person->PE_surname, $charge->CH_name, $period->getFormattedDate($format));
     $appContext->insertMessage($msg);
     $database->log($msg, Log::LEVEL_INFO);
 
     Core::redirect("index2.php?option=com_personaccount&task=showDetail&PE_personid=$hasCharge->HC_personid&hidemainmenu=1");
 }
+
 /**
  * @param integer $ceif ChargeEntryID
  */
-function removeCharge($ceid) {
-    global $database, $my, $acl, $appContext;
+function removeCharge($ceid): void
+{
+    global $database, $appContext;
 
     $chargeEntry = ChargeEntryDAO::getChargeEntryByID($ceid);
     $hasCharge = HasChargeDAO::getHasChargeByID($chargeEntry->CE_haschargeid);
@@ -468,36 +483,37 @@ function removeCharge($ceid) {
     }
     $period = new DateUtil($chargeEntry->CE_period_date);
 
-    $msg = sprintf(_("User's '%s' payment '%s' for period %s was removed"), $person->PE_firstname." ".$person->PE_surname, $charge->CH_name, $period->getFormattedDate($format));
+    $msg = sprintf(_("User's '%s' payment '%s' for period %s was removed"), $person->PE_firstname . " " . $person->PE_surname, $charge->CH_name, $period->getFormattedDate($format));
     $appContext->insertMessage($msg);
     $database->log($msg, Log::LEVEL_INFO);
 
     Core::redirect("index2.php?option=com_personaccount&task=showDetail&PE_personid=$hasCharge->HC_personid&hidemainmenu=1");
 }
+
 /**
  * @param integer $pid PersonID
  */
-function editPersonAccountEntry($pid=null) {
-    global $database, $my, $acl;
-    $flags = array();
+function editPersonAccountEntry($pid = null): void
+{
     $person = PersonDAO::getPersonByID($pid);
     $personAccount = PersonAccountDAO::getPersonAccountByID($person->PE_personaccountid);
 
     $personAccountEntry = new PersonAccountEntry();
     HTML_PersonAccount::editPersonAccountEntry($person, $personAccount, $personAccountEntry);
 }
+
 /**
  * @param integer $pid PersonID
- * @param String $task task
  */
-function savePersonAccountEntry($pid, $task) {
-    global $database, $mainframe, $my, $acl, $appContext;
+function savePersonAccountEntry($pid): void
+{
+    global $database, $appContext;
 
     $person = PersonDAO::getPersonByID($pid);
     $personAccount = PersonAccountDAO::getPersonAccountByID($person->PE_personaccountid);
 
     $personAccountEntry = new PersonAccountEntry();
-    database::bind($_POST, $personAccountEntry);
+    Database::bind($_POST, $personAccountEntry);
 
     try {
         $personAccountEntry->PN_amount = NumberFormat::parseMoney($personAccountEntry->PN_amount);
@@ -511,7 +527,7 @@ function savePersonAccountEntry($pid, $task) {
     if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_CASH) {
         $personAccount->PA_balance = (float)$personAccount->PA_balance + (float)$personAccountEntry->PN_amount;
         $personAccount->PA_income = (float)$personAccount->PA_income + (float)$personAccountEntry->PN_amount;
-    } else if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_DISCOUNT) {
+    } elseif ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_DISCOUNT) {
         $personAccount->PA_balance = (float)$personAccount->PA_balance + (float)$personAccountEntry->PN_amount;
     } else {
         throw new Exception("ERROR: unknown BankAccountEntry source");
@@ -531,22 +547,17 @@ function savePersonAccountEntry($pid, $task) {
 
     try {
         $database->startTransaction();
-        $database->insertObject("personaccountentry", $personAccountEntry, "PN_personaccountentryid", false);
-        $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false, false);
+        $database->insertObject("personaccountentry", $personAccountEntry, "PN_personaccountentryid");
+        $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false);
         $database->commit();
     } catch (Exception $e) {
         $database->rollback();
         throw $e;
     }
 
-    switch ($task) {
-        default:
-            $msg = sprintf(_("User's '%s' account was benefited with money amount '%s'"), $person->PE_firstname." ".$person->PE_surname, $personAccountEntry->PN_amount);
-            $appContext->insertMessage($msg);
-            $database->log($msg, Log::LEVEL_INFO);
+    $msg = sprintf(_("User's '%s' account was benefited with money amount '%s'"), $person->PE_firstname . " " . $person->PE_surname, $personAccountEntry->PN_amount);
+    $appContext->insertMessage($msg);
+    $database->log($msg, Log::LEVEL_INFO);
 
-            Core::redirect("index2.php?option=com_personaccount&task=showDetail&PE_personid=$person->PE_personid&hidemainmenu=1");
-            break;
-    }
+    Core::redirect("index2.php?option=com_personaccount&task=showDetail&PE_personid=$person->PE_personid&hidemainmenu=1");
 }
-?>

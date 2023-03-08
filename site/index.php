@@ -14,7 +14,6 @@
 
 require_once __DIR__ . "/../includes/Core.php";
 $core = new Core();
-require_once $core->getAppRoot() . "includes/Constants.php";
 require_once $core->getAppRoot() . "includes/AppContext.php";
 require_once $core->getAppRoot() . "includes/Database.php";
 require_once $core->getAppRoot() . "includes/utils/Utils.php";

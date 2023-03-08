@@ -14,7 +14,6 @@
 
 require_once dirname(__FILE__) . "/../includes/Core.php";
 $core = new Core();
-require_once $core->getAppRoot() . "includes/Constants.php";
 require_once $core->getAppRoot() . "includes/Database.php";
 
 try {
