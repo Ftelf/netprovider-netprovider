@@ -20,17 +20,11 @@ class Utils
     /**
      * Utility function to return a value from a named array or a specified default
      */
-    public static function getParam(&$arr, $name, $def=null, $mask=0)
+    public static function getParam(&$arr, $name, $def=null)
     {
         if (isset($arr[$name])) {
             if (is_string($arr[$name])) {
-                if (!($mask&_NP_NOTRIM)) {
-                    $arr[$name] = trim($arr[$name]);
-                }
-                if (!($mask&_NP_ALLOWHTML)) {
-                    $arr[$name] = strip_tags($arr[$name]);
-                }
-                $arr[$name] = addslashes($arr[$name]);
+                $arr[$name] = addslashes(strip_tags(trim($arr[$name])));
             }
             return $arr[$name];
         } else {
