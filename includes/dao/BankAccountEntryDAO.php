@@ -16,7 +16,7 @@ global $core;
 require_once $core->getAppRoot() . "/includes/tables/BankAccountEntry.php";
 
 /**
- *  ConfigurationDAO
+ *  BankAccountEntryDAO
  */
 class BankAccountEntryDAO
 {
