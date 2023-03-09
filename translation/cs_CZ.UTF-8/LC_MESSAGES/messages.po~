@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-09 22:35+0100\n"
-"PO-Revision-Date: 2023-03-09 22:41+0100\n"
+"POT-Creation-Date: 2023-03-09 22:54+0100\n"
+"PO-Revision-Date: 2023-03-09 22:55+0100\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
 "Language: cs\n"
@@ -137,10 +137,13 @@ msgstr "IP sítě"
 msgid "Payment report"
 msgstr "Report plateb"
 
-#: modules/com_admin/admin.html.php:143 modules/com_admin/admin.html.php:144
-#: modules/com_common/html_mainmenu.php:49
+#: modules/com_admin/admin.html.php:143 modules/com_common/html_mainmenu.php:49
 msgid "Scripts"
 msgstr "Skripty"
+
+#: modules/com_admin/admin.html.php:144
+msgid "Script"
+msgstr "Skript"
 
 #: modules/com_admin/admin.html.php:160
 msgid "Logged in"
@@ -2926,19 +2929,19 @@ msgstr "Uživatelská role '%s' smazána"
 #: modules/com_scripts/scripts.html.php:67
 #: modules/com_scripts/scripts.index.php:51
 msgid "IP filter on"
-msgstr "Nahodit IP filtr"
+msgstr "Povolit IP filtr"
 
 #: modules/com_scripts/scripts.html.php:73
 #: modules/com_scripts/scripts.html.php:75
 #: modules/com_scripts/scripts.index.php:70
 msgid "IP filter off"
-msgstr "Shodit IP filtr"
+msgstr "Zakázat IP filtr"
 
 #: modules/com_scripts/scripts.html.php:81
 #: modules/com_scripts/scripts.html.php:83
 #: modules/com_scripts/scripts.index.php:89
 msgid "Synchronize IP filter"
-msgstr "Synchronizovat IP filtr"
+msgstr "Synchronizovat"
 
 #: modules/com_scripts/scripts.html.php:91
 msgid "Scripts:"

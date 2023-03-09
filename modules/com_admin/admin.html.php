@@ -141,7 +141,7 @@ class HTML_admin
             <div class="icon">
                 <a href="index2.php?option=com_scripts">
                     <img alt="<?php echo _("Scripts"); ?>" src="images/48x48/apps/clickrun.png"/>
-                    <span><?php echo _("Script"); ?></span>
+                    <span><?php echo _("Scripts"); ?></span>
                 </a>
             </div>
         </div>

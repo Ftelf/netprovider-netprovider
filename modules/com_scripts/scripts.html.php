@@ -88,7 +88,7 @@ class HTML_scripts
                         </div>
 
                         <div class="header icon-48-person">
-                            <?php echo _("Scripts:"); ?> <?php echo ($command) ? _($command) : "N/A"; ?>
+                            <?php echo _("Script:"); ?> <?php echo ($command) ? _($command) : "N/A"; ?>
                         </div>
 
                         <div class="clr"></div>
