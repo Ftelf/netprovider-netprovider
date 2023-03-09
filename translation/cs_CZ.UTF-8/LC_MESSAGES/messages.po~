@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-09 22:35+0100\n"
-"PO-Revision-Date: 2023-03-09 22:41+0100\n"
+"POT-Creation-Date: 2023-03-09 22:58+0100\n"
+"PO-Revision-Date: 2023-03-09 22:59+0100\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
 "Language: cs\n"
@@ -2926,23 +2926,23 @@ msgstr "Uživatelská role '%s' smazána"
 #: modules/com_scripts/scripts.html.php:67
 #: modules/com_scripts/scripts.index.php:51
 msgid "IP filter on"
-msgstr "Nahodit IP filtr"
+msgstr "Povolit IP filtr"
 
 #: modules/com_scripts/scripts.html.php:73
 #: modules/com_scripts/scripts.html.php:75
 #: modules/com_scripts/scripts.index.php:70
 msgid "IP filter off"
-msgstr "Shodit IP filtr"
+msgstr "Zakázat IP filtr"
 
 #: modules/com_scripts/scripts.html.php:81
 #: modules/com_scripts/scripts.html.php:83
 #: modules/com_scripts/scripts.index.php:89
 msgid "Synchronize IP filter"
-msgstr "Synchronizovat IP filtr"
+msgstr "Synchronizovat"
 
 #: modules/com_scripts/scripts.html.php:91
-msgid "Scripts:"
-msgstr "Skripty:"
+msgid "Script:"
+msgstr "Skript:"
 
 #: site/download.php:70 site/index2.php:75
 #, php-format
@@ -2992,6 +2992,9 @@ msgstr "Interní chyba systému"
 #: site/index2.php:150
 msgid "Supervisor has been informed"
 msgstr "Správce byl informován"
+
+#~ msgid "Script"
+#~ msgstr "Skript"
 
 #~ msgid "Manual"
 #~ msgstr "Ručně"

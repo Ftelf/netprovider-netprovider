@@ -47,7 +47,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-09 22:35+0100\n"
+"POT-Creation-Date: 2023-03-09 22:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -148,9 +148,12 @@ msgstr ""
 msgid "Payment report"
 msgstr ""
 
-#: modules/com_admin/admin.html.php:143 modules/com_admin/admin.html.php:144
-#: modules/com_common/html_mainmenu.php:49
+#: modules/com_admin/admin.html.php:143 modules/com_common/html_mainmenu.php:49
 msgid "Scripts"
+msgstr ""
+
+#: modules/com_admin/admin.html.php:144
+msgid "Script"
 msgstr ""
 
 #: modules/com_admin/admin.html.php:160
