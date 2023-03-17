@@ -25,7 +25,7 @@ class Database
     /**
      * @var string Internal variable to hold the query sql
      */
-    var $_sql='';
+    var $_sql = '';
     /**
      * @var Internal variable to hold the connector resource
      */
@@ -79,14 +79,16 @@ class Database
     {
         return "<pre>" . htmlspecialchars($this->_sql) . "</pre>";
     }
+
     /**
      * Execute the query
      *
      * @return mixed A database resource if successful, FALSE if not.
      */
-    function query($sql=null)
+    function query($sql = null)
     {
-        if (!$sql) { $sql = $this->_sql;
+        if (!$sql) {
+            $sql = $this->_sql;
         }
         if (($result = $this->_mysqli->query($sql)) !== false) {
             return $result;
@@ -129,16 +131,18 @@ class Database
      */
     function explain()
     {
-        if (!($cur = $this->query("EXPLAIN ".$this->_sql))) { return null;
+        if (!($cur = $this->query("EXPLAIN " . $this->_sql))) {
+            return null;
         }
         $headline = $header = $body = '';
         $buf = '<table cellspacing="1" cellpadding="2" border="0" bgcolor="#000000" align="center">';
-        $buf .= $this->getQuery("EXPLAIN ".$this->_sql);
+        $buf .= $this->getQuery("EXPLAIN " . $this->_sql);
         while ($row = $cur->fetch_assoc()) {
             $body .= "<tr>";
 
-            foreach ($row as $k=>$v) {
-                if ($headline == '') { $header .= "<th bgcolor=\"#ffffff\">$k</th>";
+            foreach ($row as $k => $v) {
+                if ($headline == '') {
+                    $header .= "<th bgcolor=\"#ffffff\">$k</th>";
                 }
                 $body .= "<td bgcolor=\"#ffffff\">$v</td>";
             }
@@ -160,10 +164,10 @@ class Database
      * If <var>key</var> is not empty then the returned array is indexed by the value
      * the database key.  Returns <var>null</var> if the query fails.
      */
-    function &retrieveResults($key='', $max=0, $result_type='row')
+    function &retrieveResults($key = '', $max = 0, $result_type = 'row')
     {
         $results = array();
-        $sql_method = 'fetch_'.$result_type;
+        $sql_method = 'fetch_' . $result_type;
         $result = $this->query();
         while ($row = $result->$sql_method()) {
             if ($key != '') {
@@ -171,7 +175,8 @@ class Database
             } else {
                 $results[] = $row;
             }
-            if ($max && count($results) >= $max) { break;
+            if ($max && count($results) >= $max) {
+                break;
             }
         }
         $result->close();
@@ -186,8 +191,10 @@ class Database
     function loadResult()
     {
         $results =& $this->retrieveResults('', 1, 'row');
-        if (count($results)) { return $results[0][0];
-        } else { return null;
+        if (count($results)) {
+            return $results[0][0];
+        } else {
+            return null;
         }
     }
 
@@ -248,7 +255,7 @@ class Database
      * If <var>key</var> is not empty then the returned array is indexed by the value
      * the database key.  Returns <var>null</var> if the query fails.
      */
-    function loadObjectList($key='')
+    function loadObjectList($key = '')
     {
         $results =& $this->retrieveResults($key, 0, 'object');
         return $results;
@@ -262,16 +269,19 @@ class Database
      * @param [type] $keyName
      * @param [type] $verbose
      */
-    function insertObject($table, &$object, $keyName=null, $verbose=false)
+    function insertObject($table, &$object, $keyName = null, $verbose = false)
     {
         $fmtsql = "INSERT INTO `$table` ( %s ) VALUES ( %s ) ";
         $fields = array();
         foreach (get_object_vars($object) as $k => $v) {
-            if (is_array($v) || is_object($v) || $v === null || $k[0] == '_') { continue;
+            if (is_array($v) || is_object($v) || $v === null || $k[0] == '_') {
+                continue;
             }
             $fields[] = "`$k`";
-            if ($k == $keyName) { $values[] = "NULL";
-            } else { $values[] = $this->quote($v);
+            if ($k == $keyName) {
+                $values[] = "NULL";
+            } else {
+                $values[] = $this->quote($v);
             }
         }
         if (!isset($fields)) {
@@ -282,7 +292,8 @@ class Database
         $this->query();
         $id = $this->_mysqli->insert_id;
         ($verbose) && print "id=[$id]<br />\n";
-        if ($keyName && $id) { $object->$keyName = $id;
+        if ($keyName && $id) {
+            $object->$keyName = $id;
         }
     }
 
@@ -293,12 +304,13 @@ class Database
      *
      * @param [type] $updateNulls
      */
-    function updateObject($table, &$object, $keyName, $updateNulls=true, $verbose=false)
+    function updateObject($table, &$object, $keyName, $updateNulls = true, $verbose = false)
     {
         $fmtsql = "UPDATE `$table` SET %s WHERE %s";
         $tmp = array();
         foreach (get_object_vars($object) as $k => $v) {
-            if (is_array($v) || is_object($v) || $k[0] == '_' OR ($v === null AND !$updateNulls)) { continue;
+            if (is_array($v) || is_object($v) || $k[0] == '_' or ($v === null and !$updateNulls)) {
+                continue;
             }
 
             if ($k == $keyName) { // PK not to be updated
@@ -311,7 +323,8 @@ class Database
                 $tmp[] = "`$k`=" . $this->quote($v);
             }
         }
-        if (!isset($tmp)) { return true;
+        if (!isset($tmp)) {
+            return true;
         }
         if (!isset($where)) {
             throw new Exception('database class updateObject method - no key value');
@@ -339,7 +352,7 @@ class Database
         return Database::bindArrayToObject($array, $object);
     }
 
-    function log($text, $level=0)
+    function log($text, $level = 0)
     {
         $logDate = new DateUtil();
 

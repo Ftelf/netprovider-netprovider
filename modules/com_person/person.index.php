@@ -46,7 +46,7 @@ $hcid = Utils::getParam($_REQUEST, 'HC_haschargeid', null);
 $rid = Utils::getParam($_REQUEST, 'RO_roleid', null);
 
 if (!is_array($cid)) {
-    $cid = array (0);
+    $cid = array(0);
 }
 
 switch ($task) {
@@ -130,7 +130,7 @@ function showPerson()
     HTML_person::showPersons($persons, $groups, $pageNav, $filter);
 }
 
-function editPerson($pid=null)
+function editPerson($pid = null)
 {
     global $database, $my, $acl;
 
@@ -179,7 +179,7 @@ function savePerson($task)
 
     $person = new Person();
     database::bind($_POST, $person);
-    $isNew  = !$person->PE_personid;
+    $isNew = !$person->PE_personid;
 
     if (!$isNew) {
         $storedPerson = PersonDAO::getPersonByID($person->PE_personid);
@@ -293,13 +293,13 @@ function savePerson($task)
 
     switch ($task) {
     case 'apply':
-        $msg = sprintf(_("User '%s' updated"), $person->PE_firstname." ".$person->PE_surname);
+        $msg = sprintf(_("User '%s' updated"), $person->PE_firstname . " " . $person->PE_surname);
         $appContext->insertMessage($msg);
         $database->log($msg, Log::LEVEL_INFO);
         Core::redirect("index2.php?option=com_person&task=edit&PE_personid=$person->PE_personid&hidemainmenu=1");
         break;
     case 'save':
-        $msg = sprintf(_("User '%s' saved"), $person->PE_firstname." ".$person->PE_surname);
+        $msg = sprintf(_("User '%s' saved"), $person->PE_firstname . " " . $person->PE_surname);
         $appContext->insertMessage($msg);
         $database->log($msg, Log::LEVEL_INFO);
     default:
@@ -313,7 +313,7 @@ function removePerson($cid)
     if (count($cid) < 1) {
         Core::backWithAlert(_("Please select record to erase"));
     }
-    if (count($cid) ) {
+    if (count($cid)) {
         $deleted = array();
         foreach ($cid as $id) {
             // query person to be deleted
@@ -325,15 +325,17 @@ function removePerson($cid)
             $networks = NetworkDAO::getNetworkArrayByPersonID($id);
 
             if (count($networks)) {
-                $msg = sprintf(ngettext("Cannot delete user '%s' beacause it has associated %s network", "Cannot delete user '%s' beacause it has associated %s networks", count($networks)), $person->PE_firstname." ".$person->PE_surname, count($networks));
+                $msg = sprintf(ngettext("Cannot delete user '%s' beacause it has associated %s network", "Cannot delete user '%s' beacause it has associated %s networks", count($networks)), $person->PE_firstname . " " . $person->PE_surname, count($networks));
                 $database->log($msg, Log::LEVEL_WARNING);
                 $limit = 10;
                 foreach ($networks as $network) {
                     $msg .= "\\n'" . $network->NE_net . "'";
-                    if (!--$limit) { break;
+                    if (!--$limit) {
+                        break;
                     }
                 }
-                if (count($networks) > $limit) { $msg .= '\n...';
+                if (count($networks) > $limit) {
+                    $msg .= '\n...';
                 }
                 Core::backWithAlert($msg);
             }
@@ -341,15 +343,17 @@ function removePerson($cid)
             $personAccountEntries = PersonAccountEntryDAO::getPersonAccountEntryArrayByPersonAccountID($person->PE_personaccountid);
 
             if (count($personAccountEntries)) {
-                $msg = sprintf(ngettext("Cannot delete user '%s' beacause it has associated %s account entry", "Cannot delete user '%s' beacause it has associated %s account entries", count($personAccountEntries)), $person->PE_firstname." ".$person->PE_surname, count($personAccountEntries));
+                $msg = sprintf(ngettext("Cannot delete user '%s' beacause it has associated %s account entry", "Cannot delete user '%s' beacause it has associated %s account entries", count($personAccountEntries)), $person->PE_firstname . " " . $person->PE_surname, count($personAccountEntries));
                 $database->log($msg, Log::LEVEL_WARNING);
                 $limit = 10;
                 foreach ($personAccountEntries as $personAccountEntry) {
                     $msg .= "\\n'" . $personAccountEntry->PN_date . " částka " . $personAccountEntry->PN_amount . "'";
-                    if (!--$limit) { break;
+                    if (!--$limit) {
+                        break;
                     }
                 }
-                if (count($personAccountEntries) > $limit) { $msg .= '\n...';
+                if (count($personAccountEntries) > $limit) {
+                    $msg .= '\n...';
                 }
                 Core::backWithAlert($msg);
             }
@@ -387,7 +391,7 @@ function removePerson($cid)
                 $database->rollback();
                 throw $e;
             }
-            $msg = sprintf(_("User '%s' deleted"), $person->PE_firstname." ".$person->PE_surname);
+            $msg = sprintf(_("User '%s' deleted"), $person->PE_firstname . " " . $person->PE_surname);
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
         }
@@ -419,7 +423,7 @@ function addRole($pid, $rid)
         // add role membership
         //
         $database->insertObject("rolemember", $rolemember, "RM_rolememberid", false);
-        $msg = sprintf(_("Role '%s' has been added to user '%s'"), $role->RO_name, $person->PE_surname." ".$person->PE_firstname);
+        $msg = sprintf(_("Role '%s' has been added to user '%s'"), $role->RO_name, $person->PE_surname . " " . $person->PE_firstname);
         $appContext->insertMessage($msg);
         $database->log($msg, Log::LEVEL_INFO);
     }
@@ -444,13 +448,14 @@ function removeRole($pid, $rmid)
         $role = RoleDAO::getRoleByID($rolemember->RM_roleid);
 
         RolememberDAO::removeRolemembersByID($rmid);
-        $msg = sprintf(_("Role '%s' has been removed from user '%s'"), $role->RO_name, $person->PE_surname." ".$person->PE_firstname);
+        $msg = sprintf(_("Role '%s' has been removed from user '%s'"), $role->RO_name, $person->PE_surname . " " . $person->PE_firstname);
         $appContext->insertMessage($msg);
         $database->log($msg, Log::LEVEL_INFO);
     }
 
     Core::redirect("index2.php?option=com_person&task=edit&PE_personid=$pid&hidemainmenu=1");
 }
+
 /**
  * function editHasCharge
  *
@@ -458,7 +463,7 @@ function removeRole($pid, $rmid)
  * @param $chid Id of New Charge entry
  * @param $pid  Id of person
  */
-function editHasCharge($hcid=null, $chid=null, $pid=null)
+function editHasCharge($hcid = null, $chid = null, $pid = null)
 {
     global $database, $my, $acl;
 
@@ -493,6 +498,7 @@ function editHasCharge($hcid=null, $chid=null, $pid=null)
     }
     HTML_Person::editHasCharge($person, $hasCharge, $charge, $status);
 }
+
 /**
  * function removeHasCharge
  *
@@ -500,7 +506,7 @@ function editHasCharge($hcid=null, $chid=null, $pid=null)
  * @param $chid Id of New Charge entry
  * @param $pid  Id of person
  */
-function removeHasCharge($hcid=null)
+function removeHasCharge($hcid = null)
 {
     global $database, $my, $acl, $appContext;
 
@@ -536,12 +542,13 @@ function removeHasCharge($hcid=null)
         throw $e;
     }
 
-    $msg = sprintf(_("Charge '%s' has been removed from user '%s'"), $charge->CH_name, $person->PE_surname." ".$person->PE_firstname);
+    $msg = sprintf(_("Charge '%s' has been removed from user '%s'"), $charge->CH_name, $person->PE_surname . " " . $person->PE_firstname);
     $appContext->insertMessage($msg);
     $database->log($msg, Log::LEVEL_INFO);
 
     Core::redirect(sprintf("index2.php?option=com_person&task=edit&PE_personid=%s&hidemainmenu=1", $hasCharge->HC_personid));
 }
+
 /**
  * function editHasCharge
  *
@@ -555,7 +562,7 @@ function saveHasCharge($task)
 
     $hasCharge = new HasCharge();
     database::bind($_POST, $hasCharge);
-    $isNew  = !$hasCharge->HC_haschargeid;
+    $isNew = !$hasCharge->HC_haschargeid;
 
     $status = array();
     $status['HC_datestart'] = false;
@@ -639,4 +646,3 @@ function saveHasCharge($task)
         Core::redirect("index2.php?option=com_person");
     }
 }
-?>

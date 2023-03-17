@@ -51,7 +51,7 @@ class CommanderCrossbar
                         "IN_dnl_rate" => $hasCharge->IN_dnl_rate,
                         "IN_dnl_ceil" => $hasCharge->IN_dnl_ceil,
                         "IN_upl_rate" => $hasCharge->IN_upl_rate,
-                        "IN_upl_ceil" =>  $hasCharge->IN_upl_ceil,
+                        "IN_upl_ceil" => $hasCharge->IN_upl_ceil,
                         "IN_prio" => $hasCharge->IN_prio,
                         "IN_description" => $hasCharge->IN_description,
                         "IPS" => []

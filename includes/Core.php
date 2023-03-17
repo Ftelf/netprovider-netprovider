@@ -15,7 +15,7 @@
 /**
  * Core
  */
-Class Core
+class Core
 {
     private $_appRoot = null;
     private $ini = null;
@@ -90,7 +90,7 @@ Class Core
         textdomain($domain);
     }
 
-    static function redirect($url, $msg=null)
+    static function redirect($url, $msg = null)
     {
         // specific filters
         if ($msg) {
@@ -111,7 +111,7 @@ Class Core
         echo "<script>alert('" . str_replace("'", "\\'", $msg) . "');</script>";
     }
 
-    static function backWithAlert($msg=null)
+    static function backWithAlert($msg = null)
     {
         echo '<script type="text/javascript">';
         if ($msg) {
@@ -165,4 +165,5 @@ Class Core
 class PropertyException extends Exception
 {
 }
+
 ?>

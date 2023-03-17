@@ -28,7 +28,7 @@ $task = Utils::getParam($_REQUEST, 'task', null);
 $mid = Utils::getParam($_REQUEST, 'ME_messageid', null);
 $cid = Utils::getParam($_REQUEST, 'cid', array(0));
 if (!is_array($cid)) {
-    $cid = array (0);
+    $cid = array(0);
 }
 
 switch ($task) {
@@ -103,6 +103,7 @@ function showMessage()
     $pageNav = new PageNav($total, $limitstart, $limit);
     HTML_message::showMessage($messages, $persons, $pageNav, $filter);
 }
+
 /**
  * @param array $cid LogID
  */
@@ -120,6 +121,7 @@ function removeMessage($cid)
         Core::redirect("index2.php?option=com_message");
     }
 }
+
 /**
  */
 function send()
@@ -131,4 +133,3 @@ function send()
 
     Core::redirect("index2.php?option=com_message");
 }
-?>

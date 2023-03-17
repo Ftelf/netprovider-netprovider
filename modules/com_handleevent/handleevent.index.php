@@ -24,7 +24,7 @@ $task = Utils::getParam($_REQUEST, 'task', null);
 $heid = Utils::getParam($_REQUEST, 'HE_handleeventid', null);
 $cid = Utils::getParam($_REQUEST, 'cid', array(0));
 if (!is_array($cid)) {
-    $cid = array (0);
+    $cid = array(0);
 }
 
 switch ($task) {
@@ -76,10 +76,11 @@ function showHandleEvent()
     $pageNav = new PageNav($total, $limitstart, $limit);
     HTML_handleevent::showHandleEvents($handleevents, $persons, $pageNav);
 }
+
 /**
  * @param $pid
  */
-function editHandleEvent($pid=null)
+function editHandleEvent($pid = null)
 {
     global $core, $database, $my, $acl;
 
@@ -91,11 +92,11 @@ function editHandleEvent($pid=null)
 
     $persons = PersonDAO::getPersonArray();
 
-    $templateDirectory = opendir($core->getAppRoot()."templates/events/");
+    $templateDirectory = opendir($core->getAppRoot() . "templates/events/");
 
     $templates = array();
 
-    while($entryName = readdir($templateDirectory)) {
+    while ($entryName = readdir($templateDirectory)) {
         if (EndsWith($entryName, ".txt")) {
             $templates[] = $entryName;
         }
@@ -107,6 +108,7 @@ function editHandleEvent($pid=null)
 
     HTML_handleevent::editHandleEvent($handleEvent, $persons, $templates);
 }
+
 /**
  * @param $task
  */
@@ -121,7 +123,7 @@ function saveHandleEvent($task)
         $handleEvent->HE_notifypersonid = null;
     }
 
-    $isNew  = !$handleEvent->HE_handleeventid;
+    $isNew = !$handleEvent->HE_handleeventid;
 
     if ($isNew) {
         $database->insertObject("handleevent", $handleEvent, "HE_handleeventid", false);
@@ -144,6 +146,7 @@ function saveHandleEvent($task)
         Core::redirect("index2.php?option=com_handleevent");
     }
 }
+
 /**
  * @param $cid
  */
@@ -166,6 +169,7 @@ function removeHandleEvent($cid)
         Core::redirect("index2.php?option=com_handleevent");
     }
 }
+
 function EndsWith($FullStr, $EndStr)
 {
     // Get the length of the end string
@@ -175,4 +179,3 @@ function EndsWith($FullStr, $EndStr)
     // If it matches, it does end with EndStr
     return $FullStrEnd == $EndStr;
 }
-?>

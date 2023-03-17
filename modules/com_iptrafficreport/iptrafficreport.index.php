@@ -174,4 +174,3 @@ function showTrafficReport()
 
     HTML_IpTrafficReport::showTraffic($ips, $report, $filter, $pageNav);
 }
-?>

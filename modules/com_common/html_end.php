@@ -13,6 +13,6 @@
  */
 ?>
 
-  <noscript><?php echo _("Javascript must be enabled to function system properly"); ?></noscript>
-  </body>
+<noscript><?php echo _("Javascript must be enabled to function system properly"); ?></noscript>
+</body>
 </html>

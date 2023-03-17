@@ -1,123 +1,221 @@
-.icon-48-home				{ background-image: url("../images/48x48/filesystems/folder_home.png"); }
+.icon-48-home {
+    background-image: url("../images/48x48/filesystems/folder_home.png");
+}
 
-.icon-48-person				{ background-image: url("../images/48x48/apps/kuser.png"); }
+.icon-48-person {
+    background-image: url("../images/48x48/apps/kuser.png");
+}
 
-.icon-48-group				{ background-image: url("../images/48x48/apps/access.png"); }
+.icon-48-group {
+    background-image: url("../images/48x48/apps/access.png");
+}
 
-.icon-48-role				{ background-image: url("../images/48x48/apps/Community Help.png"); }
+.icon-48-role {
+    background-image: url("../images/48x48/apps/Community Help.png");
+}
 
-.icon-48-my-profile			{ background-image: url("../images/48x48/apps/personal.png"); }
+.icon-48-my-profile {
+    background-image: url("../images/48x48/apps/personal.png");
+}
 
-.icon-48-bank-account		{ background-image: url("../images/48x48/apps/business.png"); }
+.icon-48-bank-account {
+    background-image: url("../images/48x48/apps/business.png");
+}
 
-.icon-48-user-account		{ background-image: url("../images/48x48/apps/kspread.png"); }
+.icon-48-user-account {
+    background-image: url("../images/48x48/apps/kspread.png");
+}
 
-.icon-48-payment-teplate	{ background-image: url("../images/48x48/apps/kword.png"); }
+.icon-48-payment-teplate {
+    background-image: url("../images/48x48/apps/kword.png");
+}
 
-.icon-48-internet-teplate	{ background-image: url("../images/48x48/apps/Internet Connection Tools.png"); }
+.icon-48-internet-teplate {
+    background-image: url("../images/48x48/apps/Internet Connection Tools.png");
+}
 
-.icon-48-network			{ background-image: url("../images/48x48/filesystems/network.png"); }
+.icon-48-network {
+    background-image: url("../images/48x48/filesystems/network.png");
+}
 
-.icon-48-network-device		{ background-image: url("../images/48x48/apps/Network Connection Manager.png"); }
+.icon-48-network-device {
+    background-image: url("../images/48x48/apps/Network Connection Manager.png");
+}
 
-.icon-48-scripts			{ background-image: url("../images/48x48/apps/agt_runit.png"); }
+.icon-48-scripts {
+    background-image: url("../images/48x48/apps/agt_runit.png");
+}
 
-.icon-48-configuration		{ background-image: url("../images/48x48/apps/advancedsettings.png"); }
+.icon-48-configuration {
+    background-image: url("../images/48x48/apps/advancedsettings.png");
+}
 
-.icon-48-log				{ background-image: url("../images/48x48/apps/database.png"); }
+.icon-48-log {
+    background-image: url("../images/48x48/apps/database.png");
+}
 
-.icon-48-messages			{ background-image: url("../images/48x48/apps/xfmail.png"); }
+.icon-48-messages {
+    background-image: url("../images/48x48/apps/xfmail.png");
+}
 
-.icon-48-event-handler		{ background-image: url("../images/48x48/apps/alert.png"); }
+.icon-48-event-handler {
+    background-image: url("../images/48x48/apps/alert.png");
+}
 
-.icon-48-payment-report		{ background-image: url("../images/48x48/apps/icons.png"); }
+.icon-48-payment-report {
+    background-image: url("../images/48x48/apps/icons.png");
+}
 
-.icon-48-traffic-report		{ background-image: url("../images/48x48/filesystems/network_local.png"); }
+.icon-48-traffic-report {
+    background-image: url("../images/48x48/filesystems/network_local.png");
+}
 
-.icon-48-changelog			{ background-image: url("../images/48x48/apps/antivirus.png"); }
+.icon-48-changelog {
+    background-image: url("../images/48x48/apps/antivirus.png");
+}
 
-.icon-48-traffic-report		{ background-image: url("../images/48x48/filesystems/network_local.png"); }
+.icon-48-traffic-report {
+    background-image: url("../images/48x48/filesystems/network_local.png");
+}
 
-.icon-48-mass-messages		{ background-image: url("../images/48x48/apps/sms.png"); }
+.icon-48-mass-messages {
+    background-image: url("../images/48x48/apps/sms.png");
+}
 
 
+.icon-32-logout {
+    background-image: url("../images/32x32/actions/logout.png");
+}
 
-.icon-32-logout				{ background-image: url("../images/32x32/actions/logout.png"); }
+.icon-32-new {
+    background-image: url("../images/32x32/actions/filenew.png");
+}
 
-.icon-32-new				{ background-image: url("../images/32x32/actions/filenew.png"); }
+.icon-32-edit {
+    background-image: url("../images/32x32/actions/edit.png");
+}
 
-.icon-32-edit				{ background-image: url("../images/32x32/actions/edit.png"); }
+.icon-32-delete {
+    background-image: url("../images/32x32/actions/editdelete.png");
+}
 
-.icon-32-delete				{ background-image: url("../images/32x32/actions/editdelete.png"); }
 
+.icon-32-apply {
+    background-image: url("../images/32x32/actions/apply.png");
+}
 
-.icon-32-apply				{ background-image: url("../images/32x32/actions/apply.png"); }
+.icon-32-save {
+    background-image: url("../images/32x32/actions/filesave.png");
+}
 
-.icon-32-save				{ background-image: url("../images/32x32/actions/filesave.png"); }
+.icon-32-cancel {
+    background-image: url("../images/32x32/actions/cancel.png");
+}
 
-.icon-32-cancel				{ background-image: url("../images/32x32/actions/cancel.png"); }
 
+.icon-32-ip-filter-on {
+    background-image: url("../images/32x32/actions/autostart.png");
+}
 
+.icon-32-ip-filter-off {
+    background-image: url("../images/32x32/actions/shutdown.png");
+}
 
-.icon-32-ip-filter-on		{ background-image: url("../images/32x32/actions/autostart.png"); }
+.icon-32-synchronize-ip-filter {
+    background-image: url("../images/32x32/actions/agt_update-product.png");
+}
 
-.icon-32-ip-filter-off		{ background-image: url("../images/32x32/actions/shutdown.png"); }
+.icon-32-send {
+    background-image: url("../images/32x32/apps/mail.png");
+}
 
-.icon-32-synchronize-ip-filter		{ background-image: url("../images/32x32/actions/agt_update-product.png"); }
+.icon-22-calendar {
+    background-image: url("../images/22x22/apps/calendar.png");
+}
 
-.icon-32-send				{ background-image: url("../images/32x32/apps/mail.png"); }
 
-.icon-22-calendar			{ background-image: url("../images/22x22/apps/calendar.png"); }
+.icon-32-create-blank-charges {
+    background-image: url("../images/32x32/apps/clock.png");
+}
 
+.icon-32-proceed-charges {
+    background-image: url("../images/32x32/apps/kspread.png");
+}
 
+.icon-32-proceed-new-payment {
+    background-image: url("../images/32x32/actions/filenew.png");
+}
 
-.icon-32-create-blank-charges	{ background-image: url("../images/32x32/apps/clock.png"); }
+.icon-32-show-bank-list {
+    background-image: url("../images/32x32/actions/list.png");
+}
 
-.icon-32-proceed-charges	{ background-image: url("../images/32x32/apps/kspread.png"); }
+.icon-32-edit-account-entry {
+    background-image: url("../images/32x32/apps/lists.png");
+}
 
-.icon-32-proceed-new-payment	{ background-image: url("../images/32x32/actions/filenew.png"); }
 
-.icon-32-show-bank-list		{ background-image: url("../images/32x32/actions/list.png"); }
+.icon-32-upload-bank-lists {
+    background-image: url("../images/32x32/mimetypes/kspread_ksp.png");
+}
 
-.icon-32-edit-account-entry	{ background-image: url("../images/32x32/apps/lists.png"); }
+.icon-32-download-bank-lists {
+    background-image: url("../images/32x32/actions/download.png");
+}
 
+.icon-32-process-bank-lists {
+    background-image: url("../images/32x32/actions/fileimport.png");
+}
 
-.icon-32-upload-bank-lists	{ background-image: url("../images/32x32/mimetypes/kspread_ksp.png"); }
+.icon-32-process-entries {
+    background-image: url("../images/32x32/actions/run.png");
+}
 
-.icon-32-download-bank-lists	{ background-image: url("../images/32x32/actions/download.png"); }
 
-.icon-32-process-bank-lists		{ background-image: url("../images/32x32/actions/fileimport.png"); }
+.icon-32-new-network {
+    background-image: url("../images/32x32/devices/network.png");
+}
 
-.icon-32-process-entries	{ background-image: url("../images/32x32/actions/run.png"); }
+.icon-32-edit-network {
+    background-image: url("../images/32x32/apps/Network Connection Manager.png");
+}
 
+.icon-32-delete-network {
+    background-image: url("../images/32x32/actions/editdelete.png");
+}
 
 
-.icon-32-new-network	{ background-image: url("../images/32x32/devices/network.png"); }
+.icon-32-new-ip {
+    background-image: url("../images/32x32/devices/socket.png");
+}
 
-.icon-32-edit-network	{ background-image: url("../images/32x32/apps/Network Connection Manager.png"); }
+.icon-32-edit-ip {
+    background-image: url("../images/32x32/devices/socket.png");
+}
 
-.icon-32-delete-network	{ background-image: url("../images/32x32/actions/editdelete.png"); }
+.icon-32-delete-ip {
+    background-image: url("../images/32x32/actions/editdelete.png");
+}
 
 
+.icon-32-test-login {
+    background-image: url("../images/32x32/apps/xconsole.png");
+}
 
-.icon-32-new-ip			{ background-image: url("../images/32x32/devices/socket.png"); }
 
-.icon-32-edit-ip		{ background-image: url("../images/32x32/devices/socket.png"); }
+.icon-24-new {
+    background-image: url("../images/16x16/actions/filenew.png");
+}
 
-.icon-32-delete-ip		{ background-image: url("../images/32x32/actions/editdelete.png"); }
+.icon-24-edit {
+    background-image: url("../images/24x24/actions/edit.png");
+}
 
+.icon-24-delete {
+    background-image: url("../images/24x24/actions/editdelete.png");
+}
 
 
-.icon-32-test-login		{ background-image: url("../images/32x32/apps/xconsole.png"); }
-
-
-
-.icon-24-new				{ background-image: url("../images/16x16/actions/filenew.png"); }
-
-.icon-24-edit				{ background-image: url("../images/24x24/actions/edit.png"); }
-
-.icon-24-delete				{ background-image: url("../images/24x24/actions/editdelete.png"); }
-
-
-
-.icon-32-send			{ background-image: url("../images/32x32/actions/mail_send.png"); }
+.icon-32-send {
+    background-image: url("../images/32x32/actions/mail_send.png");
+}

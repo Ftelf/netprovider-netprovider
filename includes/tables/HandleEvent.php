@@ -77,12 +77,12 @@ class HandleEvent
 
     public static array $TYPE_ARRAY = [
         self::TYPE_CHARGE_PAYMENT_DEADLINE
-    //        self::TYPE_PAYMENT_RECEIVED
+//        self::TYPE_PAYMENT_RECEIVED
     ];
 
     public static array $typeLocalization = [
         self::TYPE_CHARGE_PAYMENT_DEADLINE => "Charge payment deadline"
-    //        self::TYPE_PAYMENT_RECEIVED => "Payment received"
+//        self::TYPE_PAYMENT_RECEIVED => "Payment received"
     ];
 
     public static function getLocalizedType($type): string

@@ -26,7 +26,7 @@ $task = Utils::getParam($_REQUEST, 'task', null);
 $rid = Utils::getParam($_REQUEST, 'RO_roleid', null);
 $cid = Utils::getParam($_REQUEST, 'cid', array(0));
 if (!is_array($cid)) {
-    $cid = array (0);
+    $cid = array(0);
 }
 
 switch ($task) {
@@ -76,10 +76,11 @@ function showRole()
     $pageNav = new PageNav($total, $limitstart, $limit);
     HTML_role::showRoles($roles, $pageNav);
 }
+
 /**
  * @param $rid
  */
-function editRole($rid=null)
+function editRole($rid = null)
 {
     global $database, $my, $acl;
 
@@ -91,6 +92,7 @@ function editRole($rid=null)
 
     HTML_role::editRole($role);
 }
+
 /**
  * @param $task
  */
@@ -100,7 +102,7 @@ function saveRole($task)
 
     $role = new Role();
     database::bind($_POST, $role);
-    $isNew  = !$role->RO_roleid;
+    $isNew = !$role->RO_roleid;
 
     if ($isNew) {
         $database->insertObject("role", $role, "RO_roleid", false);
@@ -123,6 +125,7 @@ function saveRole($task)
         Core::redirect("index2.php?option=com_role");
     }
 }
+
 /**
  * @param $cid
  */
@@ -138,7 +141,8 @@ function removeRole($cid)
             if (($role = RoleDAO::getRoleByID($id)) == null) {
                 Core::redirect("index2.php?option=com_role");
             }
-            if (($rolemembers = RolememberDAO::getRolememberAndPersonsArrayByRoleID($id)) == null) { $rolemembers = array();
+            if (($rolemembers = RolememberDAO::getRolememberAndPersonsArrayByRoleID($id)) == null) {
+                $rolemembers = array();
             }
 
             if (count($rolemembers)) {
@@ -147,10 +151,12 @@ function removeRole($cid)
                 $limit = 10;
                 foreach ($rolemembers as $rolemember) {
                     $msg .= "\\n'" . $rolemember->PE_firstname . " " . $rolemember->PE_surname . "'";
-                    if (!--$limit) { break;
+                    if (!--$limit) {
+                        break;
                     }
                 }
-                if (count($rolemembers) > $limit) { $msg .= '\n...';
+                if (count($rolemembers) > $limit) {
+                    $msg .= '\n...';
                 }
                 Core::backWithAlert($msg);
             } else {
@@ -163,4 +169,3 @@ function removeRole($cid)
         Core::redirect("index2.php?option=com_role");
     }
 }
-?>

@@ -84,8 +84,8 @@ class RouterosAPI
     /**
      * Login to RouterOS
      *
-     * @param string $ip Hostname (IP or domain) of the RouterOS server
-     * @param string $login The RouterOS username
+     * @param string $ip       Hostname (IP or domain) of the RouterOS server
+     * @param string $login    The RouterOS username
      * @param string $password The RouterOS password
      *
      * @return boolean                If we are connected or not
@@ -336,7 +336,7 @@ class RouterosAPI
      * Write (send) data to Router OS
      *
      * @param string $command A string with the command to send
-     * @param mixed $param2 If we set an integer, the command will send this data as a "tag"
+     * @param mixed  $param2  If we set an integer, the command will send this data as a "tag"
      *                        If we set it to boolean true, the funcion will send the comand
      *                        and finish If we set it to boolean false, the funcion will send
      *                        the comand and wait for next command Default: true
@@ -371,7 +371,7 @@ class RouterosAPI
      * Write (send) data to Router OS
      *
      * @param string $com A string with the command to send
-     * @param array $arr An array with arguments or queries
+     * @param array  $arr An array with arguments or queries
      *
      * @return array                  Array with parsed
      */
@@ -383,15 +383,15 @@ class RouterosAPI
         if ($this->isIterable($arr)) {
             foreach ($arr as $k => $v) {
                 switch ($k[0]) {
-                    case "?":
-                        $el = "$k=$v";
-                        break;
-                    case "~":
-                        $el = "$k~$v";
-                        break;
-                    default:
-                        $el = "=$k=$v";
-                        break;
+                case "?":
+                    $el = "$k=$v";
+                    break;
+                case "~":
+                    $el = "$k~$v";
+                    break;
+                default:
+                    $el = "=$k=$v";
+                    break;
                 }
 
                 $last = ($i++ == $count - 1);

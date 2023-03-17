@@ -69,4 +69,3 @@ function force_logout($sid)
     }
     Core::redirect("index2.php?option=com_admin");
 }
-?>

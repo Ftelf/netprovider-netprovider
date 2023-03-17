@@ -27,7 +27,7 @@ $task = Utils::getParam($_REQUEST, 'task', null);
 $chid = Utils::getParam($_REQUEST, 'CH_chargeid', null);
 $cid = Utils::getParam($_REQUEST, 'cid', array(0));
 if (!is_array($cid)) {
-    $cid = array (0);
+    $cid = array(0);
 }
 
 switch ($task) {
@@ -79,10 +79,11 @@ function showCharge()
     $pageNav = new PageNav($total, $limitstart, $limit);
     HTML_charge::showCharges($charges, $internets, $pageNav);
 }
+
 /**
  * @param integer $chid ChargeID
  */
-function editCharge($chid=null)
+function editCharge($chid = null)
 {
     global $database, $my, $acl;
 
@@ -100,6 +101,7 @@ function editCharge($chid=null)
 
     HTML_charge::editCharge($charge, $toleranceArray, $internets);
 }
+
 /**
  * @param String $task task
  */
@@ -155,7 +157,8 @@ function saveCharge($task)
         $charge->CH_vat = 0;
     }
 
-    if ($charge->CH_type != Charge::TYPE_INTERNET_PAYMENT) { $charge->CH_internetid = null;
+    if ($charge->CH_type != Charge::TYPE_INTERNET_PAYMENT) {
+        $charge->CH_internetid = null;
     }
 
     if ($isNew) {
@@ -179,6 +182,7 @@ function saveCharge($task)
         Core::redirect("index2.php?option=com_charge");
     }
 }
+
 /**
  * @param array $cid ChargeID
  */
@@ -201,10 +205,12 @@ function removeCharge($cid)
                 $limit = 10;
                 foreach ($hasCharges as $hasCharge) {
                     $msg .= "\\n'" . $hasCharge->PE_firstname . " " . $hasCharge->PE_surname . "'";
-                    if (!--$limit) { break;
+                    if (!--$limit) {
+                        break;
                     }
                 }
-                if (count($hasCharges) > $limit) { $msg .= '\n...';
+                if (count($hasCharges) > $limit) {
+                    $msg .= '\n...';
                 }
                 Core::backWithAlert($msg);
             } else {
@@ -217,6 +223,7 @@ function removeCharge($cid)
         Core::redirect("index2.php?option=com_charge");
     }
 }
+
 /**
  * @return array tolerance days
  */
@@ -230,4 +237,3 @@ function getToleranceArray()
 
     return $toleranceArray;
 }
-?>

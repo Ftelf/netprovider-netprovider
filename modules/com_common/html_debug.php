@@ -13,7 +13,7 @@
  */
 ?>
 
-  <div id="debug">
+<div id="debug">
     <h5 onclick="document.getElementById('div_session').style.display = 'block';">SESSION</h5>
     <div style="display: none" id="div_session">
       <pre>
@@ -38,4 +38,4 @@
         <?php print_r($_POST); ?>
       </pre>
     </div>
-  </div>
+</div>

@@ -25,7 +25,7 @@ $task = Utils::getParam($_REQUEST, 'task', null);
 $iid = Utils::getParam($_REQUEST, 'IN_internetid', null);
 $cid = Utils::getParam($_REQUEST, 'cid', array(0));
 if (!is_array($cid)) {
-    $cid = array (0);
+    $cid = array(0);
 }
 
 switch ($task) {
@@ -75,7 +75,7 @@ function showInternet()
 /**
  * @param $iid
  */
-function editInternet($iid=null)
+function editInternet($iid = null)
 {
     if ($iid != null) {
         $internet = InternetDAO::getInternetByID($iid);
@@ -99,17 +99,23 @@ function saveInternet($task)
 
     // get proper values
     $errorArray = [];
-    if (Utils::getParam($_REQUEST, 'IN_dnl_rate_cb', null) == "1") { $internet->IN_dnl_rate = -1;
+    if (Utils::getParam($_REQUEST, 'IN_dnl_rate_cb', null) == "1") {
+        $internet->IN_dnl_rate = -1;
     }
-    if (Utils::getParam($_REQUEST, 'IN_upl_rate_cb', null) == "1") { $internet->IN_upl_rate = -1;
+    if (Utils::getParam($_REQUEST, 'IN_upl_rate_cb', null) == "1") {
+        $internet->IN_upl_rate = -1;
     }
-    if (!is_numeric($internet->IN_dnl_rate)) { $errorArray[] = _("Guaranteed download is not in proper number format").'\n';
+    if (!is_numeric($internet->IN_dnl_rate)) {
+        $errorArray[] = _("Guaranteed download is not in proper number format") . '\n';
     }
-    if (!is_numeric($internet->IN_dnl_ceil)) { $errorArray[] = _("Maximum download is not in proper number format").'\n';
+    if (!is_numeric($internet->IN_dnl_ceil)) {
+        $errorArray[] = _("Maximum download is not in proper number format") . '\n';
     }
-    if (!is_numeric($internet->IN_upl_rate)) { $errorArray[] = _("Guaranteed upload is not in proper number format").'\n';
+    if (!is_numeric($internet->IN_upl_rate)) {
+        $errorArray[] = _("Guaranteed upload is not in proper number format") . '\n';
     }
-    if (!is_numeric($internet->IN_upl_ceil)) { $errorArray[] = _("Maximum upload is not in proper number format").'\n';
+    if (!is_numeric($internet->IN_upl_ceil)) {
+        $errorArray[] = _("Maximum upload is not in proper number format") . '\n';
     }
     if (count($errorArray)) {
         Core::alert(implode(", ", $errorArray));
@@ -138,6 +144,7 @@ function saveInternet($task)
         Core::redirect("index2.php?option=com_internet");
     }
 }
+
 /**
  * @param $cid
  */
@@ -175,4 +182,3 @@ function removeInternet($cid)
         Core::redirect("index2.php?option=com_internet");
     }
 }
-?>
