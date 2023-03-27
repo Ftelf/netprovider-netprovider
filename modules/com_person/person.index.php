@@ -39,14 +39,14 @@ require_once 'person.html.php';
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $pid = Utils::getParam($_REQUEST, 'PE_personid', null);
-$cid = Utils::getParam($_REQUEST, 'cid', array());
+$cid = Utils::getParam($_REQUEST, 'cid', []);
 $rmid = Utils::getParam($_REQUEST, 'RM_rolememberid', null);
 $chid = Utils::getParam($_REQUEST, 'CH_chargeid', null);
 $hcid = Utils::getParam($_REQUEST, 'HC_haschargeid', null);
 $rid = Utils::getParam($_REQUEST, 'RO_roleid', null);
 
 if (!is_array($cid)) {
-    $cid = array(0);
+    $cid = [];
 }
 
 switch ($task) {
@@ -108,11 +108,11 @@ default:
 
 function showPerson()
 {
-    global $database, $mainframe, $acl, $core;
+    global $core;
 
     require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
-    $filter = array();
+    $filter = [];
     // default settings if no setting in session
     //
     $filter['search'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_person']['filter'], 'search', "");
@@ -132,8 +132,6 @@ function showPerson()
 
 function editPerson($pid = null)
 {
-    global $database, $my, $acl;
-
     if ($pid != null) {
         $person = PersonDAO::getPersonByID($pid);
 
@@ -153,9 +151,9 @@ function editPerson($pid = null)
         $person = new Person();
         $person->PE_status = Person::STATUS_PASSIVE;
         $person->PE_birthdate = DateUtil::DB_NULL_DATE;
-        $hasRoles = array();
-        $hasCharges = array();
-        $hasIps = array();
+        $hasRoles = [];
+        $hasCharges = [];
+        $hasIps = [];
     }
     // get available groups
     //
@@ -175,7 +173,7 @@ function editPerson($pid = null)
 
 function savePerson($task)
 {
-    global $core, $database, $mainframe, $my, $acl, $appContext;
+    global $core, $database, $appContext;
 
     $person = new Person();
     database::bind($_POST, $person);
@@ -232,9 +230,9 @@ function savePerson($task)
                 $person->PE_password = null;
             }
         } else {
-            $hasRoles = array();
-            $hasIps = array();
-            $hasCharges = array();
+            $hasRoles = [];
+            $hasIps = [];
+            $hasCharges = [];
         }
         // get available groups
         //
@@ -309,17 +307,15 @@ function savePerson($task)
 
 function removePerson($cid)
 {
-    global $database, $mainframe, $my, $acl, $appContext;
+    global $database, $appContext;
     if (count($cid) < 1) {
         Core::backWithAlert(_("Please select record to erase"));
     }
     if (count($cid)) {
-        $deleted = array();
         foreach ($cid as $id) {
             // query person to be deleted
             //
             $person = PersonDAO::getPersonByID($id);
-            $personAccount = PersonAccountDAO::getPersonAccountByID($person->PE_personaccountid);
             // query for person's network and alert when some
             //
             $networks = NetworkDAO::getNetworkArrayByPersonID($id);
@@ -401,14 +397,13 @@ function removePerson($cid)
 
 function addRole($pid, $rid)
 {
-    global $database, $mainframe, $my, $acl, $appContext;
+    global $database, $appContext;
 
     if ($pid == null) {
         savePerson('apply');
     }
 
     if ($rid != null) {
-        $role = new Role();
         // query for person
         //
         $person = PersonDAO::getPersonByID($pid);
@@ -433,10 +428,9 @@ function addRole($pid, $rid)
 
 function removeRole($pid, $rmid)
 {
-    global $database, $mainframe, $my, $acl, $appContext;
+    global $database, $appContext;
 
     if ($rmid != null) {
-        $role = new Role();
         // get rolemember by ID
         //
         $rolemember = RolememberDAO::getRolememberByID($rmid);
@@ -465,8 +459,6 @@ function removeRole($pid, $rmid)
  */
 function editHasCharge($hcid = null, $chid = null, $pid = null)
 {
-    global $database, $my, $acl;
-
     if ($pid == null) {
         savePerson('apply');
     }
@@ -508,7 +500,7 @@ function editHasCharge($hcid = null, $chid = null, $pid = null)
  */
 function removeHasCharge($hcid = null)
 {
-    global $database, $my, $acl, $appContext;
+    global $database, $appContext;
 
     $hasCharge = HasChargeDAO::getHasChargeByID($hcid);
 
@@ -558,7 +550,7 @@ function removeHasCharge($hcid = null)
  */
 function saveHasCharge($task)
 {
-    global $database, $mainframe, $my, $acl, $appContext;
+    global $database, $appContext;
 
     $hasCharge = new HasCharge();
     database::bind($_POST, $hasCharge);
@@ -571,8 +563,6 @@ function saveHasCharge($task)
     $person = PersonDAO::getPersonByID($hasCharge->HC_personid);
     $storedCharge = ChargeDAO::getChargeByID($hasCharge->HC_chargeid);
     if (!$isNew) {
-        $storedHasCharge = HasChargeDAO::getHasChargeByID($hasCharge->HC_haschargeid);
-
         if ($storedCharge->CH_period == Charge::PERIOD_MONTHLY) {
             $dateEnd = new DateUtil();
             try {
@@ -581,7 +571,7 @@ function saveHasCharge($task)
                 } else {
                     $dateEnd->setTime(null);
                 }
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $appContext->insertMessage(_("Date is in incorrect format"));
                 HTML_Person::editHasCharge($person, $hasCharge, $storedCharge, $status);
                 return;
@@ -597,7 +587,7 @@ function saveHasCharge($task)
             $dateEnd = new DateUtil();
             try {
                 $dateStart->parseDate($hasCharge->HC_datestart, DateUtil::FORMAT_MONTHLY);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $appContext->insertMessage(_("Date is in incorrect format"));
                 HTML_Person::editHasCharge($person, $hasCharge, $storedCharge, $status);
                 return;
@@ -609,7 +599,7 @@ function saveHasCharge($task)
                 } else {
                     $dateEnd->setTime(null);
                 }
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $appContext->insertMessage(_("Date is in incorrect format"));
                 HTML_Person::editHasCharge($person, $hasCharge, $storedCharge, $status);
                 return;

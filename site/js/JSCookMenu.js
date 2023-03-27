@@ -107,14 +107,14 @@ var _cmIDName = 'cmSubMenuID';		// for creating submenu id
 var _cmTimeOut = null;				// how long the menu would stay
 var _cmCurrentItem = null;			// the current menu item being selected;
 
-var _cmNoAction = new Object();	// indicate that the item cannot be hovered.
-var _cmNoClick = new Object();		// similar to _cmNoAction but does not respond to mouseup/mousedown events
-var _cmSplit = new Object();		// indicate that the item is a menu split
+var _cmNoAction = {};	// indicate that the item cannot be hovered.
+var _cmNoClick = {};		// similar to _cmNoAction but does not respond to mouseup/mousedown events
+var _cmSplit = {};		// indicate that the item is a menu split
 
-var _cmMenuList = new Array();		// a list of the current menus
-var _cmItemList = new Array();		// a simple list of items
+var _cmMenuList = [];		// a list of the current menus
+var _cmItemList = [];		// a simple list of items
 
-var _cmFrameList = new Array();	// a pool of reusable iframes
+var _cmFrameList = [];	// a pool of reusable iframes
 var _cmFrameListSize = 0;			// keep track of the actual size
 var _cmFrameIDCount = 0;			// keep track of the frame id
 var _cmFrameMasking = true;			// use the frame masking
@@ -146,7 +146,7 @@ var _cmHideObjects = 0;
 
 // Utility function to do a shallow copy a node property
 function cmClone(nodeProperties) {
-    var returnVal = new Object();
+    var returnVal = {};
     for (v in nodeProperties)
         returnVal[v] = nodeProperties[v];
     return returnVal;
@@ -156,7 +156,7 @@ function cmClone(nodeProperties) {
 // store the new menu information into a structure to retrieve it later
 //
 function cmAllocMenu(id, menu, orient, nodeProperties, prefix) {
-    var info = new Object();
+    var info = {};
     info.div = id;
     info.menu = menu;
     info.orient = orient;
@@ -500,7 +500,7 @@ function cmDrawFromText(id, orient, nodeProperties, prefix) {
 // a recursive function that build menu tree structure
 //
 function cmDrawFromTextSubMenu(domMenu) {
-    var items = new Array();
+    var items = [];
     for (var currentDomItem = domMenu.firstChild; currentDomItem; currentDomItem = currentDomItem.nextSibling) {
         if (!currentDomItem.tagName || currentDomItem.tagName.toLowerCase() != 'li')
             continue;
@@ -508,7 +508,7 @@ function cmDrawFromTextSubMenu(domMenu) {
             items[items.length] = _cmSplit;
             continue;
         }
-        var item = new Array();
+        var item = [];
         var currentItem = currentDomItem.firstChild;
         var hasAction = false;
         for (; currentItem; currentItem = currentItem.nextSibling) {
@@ -712,7 +712,7 @@ function cmItemMouseOver(obj, isMain, idSub, menuID, index, calledByOpenSub) {
 
     // insert obj into cmItems if cmItems doesn't have obj
     if (!thisMenu.cmItems)
-        thisMenu.cmItems = new Array();
+        thisMenu.cmItems = [];
     var i;
     for (i = 0; i < thisMenu.cmItems.length; ++i) {
         if (thisMenu.cmItems[i] == obj)
@@ -997,7 +997,7 @@ function cmShowSubMenu(obj, isMain, subMenu, menuInfo) {
         var thisMenu = cmGetThisMenu(obj, prefix);
         subMenu.cmParentMenu = thisMenu;
         if (!thisMenu.cmSubMenu)
-            thisMenu.cmSubMenu = new Array();
+            thisMenu.cmSubMenu = [];
         thisMenu.cmSubMenu[thisMenu.cmSubMenu.length] = subMenu;
     }
 
@@ -1045,7 +1045,7 @@ function cmShowSubMenu(obj, isMain, subMenu, menuInfo) {
 
     if (_cmHideObjects == 1) {
         if (!subMenu.cmOverlap)
-            subMenu.cmOverlap = new Array();
+            subMenu.cmOverlap = [];
         cmHideControl("IFRAME", subMenu);
         cmHideControl("OBJECT", subMenu);
     }

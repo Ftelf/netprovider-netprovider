@@ -172,8 +172,8 @@ function getSelected(allbuttons) {
 
 // LTrim(string) : Returns a copy of a string without leading spaces.
 function ltrim(str) {
-    var whitespace = new String(" \t\n\r");
-    var s = new String(str);
+    var whitespace = String(" \t\n\r");
+    var s = String(str);
     if (whitespace.indexOf(s.charAt(0)) != -1) {
         var j = 0, i = s.length;
         while (j < i && whitespace.indexOf(s.charAt(j)) != -1)
@@ -185,8 +185,8 @@ function ltrim(str) {
 
 //RTrim(string) : Returns a copy of a string without trailing spaces.
 function rtrim(str) {
-    var whitespace = new String(" \t\n\r");
-    var s = new String(str);
+    var whitespace = String(" \t\n\r");
+    var s = String(str);
     if (whitespace.indexOf(s.charAt(s.length - 1)) != -1) {
         var i = s.length - 1;       // Get length of string
         while (i >= 0 && whitespace.indexOf(s.charAt(i)) != -1)
@@ -217,7 +217,7 @@ function MM_findObj(n, d) { //v4.01
 
 function MM_swapImage() { //v3.0
     var i, j = 0, x, a = MM_swapImage.arguments;
-    document.MM_sr = new Array;
+    document.MM_sr = [];
     for (i = 0; i < (a.length - 2); i += 3)
         if ((x = MM_findObj(a[i])) != null) {
             document.MM_sr[j++] = x;
@@ -234,7 +234,7 @@ function MM_swapImgRestore() { //v3.0
 function MM_preloadImages() { //v3.0
     var d = document;
     if (d.images) {
-        if (!d.MM_p) d.MM_p = new Array();
+        if (!d.MM_p) d.MM_p = [];
         var i, j = d.MM_p.length, a = MM_preloadImages.arguments;
         for (i = 0; i < a.length; i++)
             if (a[i].indexOf("#") != 0) {

@@ -136,7 +136,7 @@ class RouterOSCommander
         foreach ($ipArray as $key => $ipResult) {
             try {
                 $ip = IpDAO::getIpByIP($key);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 throw new Exception(sprintf("there is no IP %s in database", $key));
             }
 
@@ -147,7 +147,7 @@ class RouterOSCommander
 
             try {
                 $ipAccountAbs = IpAccountAbsDAO::getIpAccountAbsByIpID($ip->IP_ipid);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $ipAccountAbs = new IpAccountAbs();
                 $ipAccountAbs->IB_ipid = $ip->IP_ipid;
                 $ipAccountAbs->IB_bytes_in = $inBytes;
@@ -200,8 +200,6 @@ class RouterOSCommander
                     }
 
                     $ipAddressMap[$ipAddress] = $this->diacriticsUtil->removeDiacritic($internetService['PE_firstname'] . " " . $internetService['PE_surname'] . ", " . $ip['IP_dns']);
-                    $a = $this->diacriticsUtil->removeDiacritic($internetService['PE_firstname'] . " " . $internetService['PE_surname'] . ", " . $ip['IP_dns']);
-                    $b = $this->diacriticsUtil->removeDiacritic("{$internetService['PE_firstname']} {$internetService['PE_surname']}, {$ip['IP_dns']}");
                 }
             }
         }

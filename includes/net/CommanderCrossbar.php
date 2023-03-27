@@ -75,7 +75,7 @@ class CommanderCrossbar
         } elseif ($platform === "ROUTEROS") {
             $this->commander = new RouterOSCommander($networks);
         } else {
-            throw new Exception("Unknown platform in configuration ini file: \"${platform}\"");
+            throw new Exception("Unknown platform in configuration ini file: \"$platform\"");
         }
     }
 

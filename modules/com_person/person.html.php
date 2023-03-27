@@ -25,8 +25,7 @@ class HTML_person
      * @param $persons array of users
      * @param $groups
      * @param $pageNav
-     * @param $filter_search
-     * @param $filter_group
+     * @param $filter
      */
     static function showPersons(&$persons, &$groups, &$pageNav, &$filter)
     {
@@ -293,7 +292,6 @@ class HTML_person
      * @param $roles
      * @param $charges
      * @param $hasCharges
-     * @param $internets
      */
     static function editPerson(&$person, &$groups, &$hasRoles, &$hasIps, &$roles, &$charges, &$hasCharges)
     {
@@ -405,7 +403,7 @@ class HTML_person
         </script>
 
         <div id="caldiv"
-             style="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;z-index:999;"></div>
+             style="position:absolute;visibility:hidden;background-color:white;z-index:999;"></div>
 
         <div id="content-box">
             <div class="padding">
@@ -744,12 +742,10 @@ class HTML_person
                                                     $dateStartObj = new DateUtil($hasCharge->HC_datestart);
                                                     $dateEndObj = new DateUtil($hasCharge->HC_dateend);
 
-                                                    switch ($hasCharge->CH_period) {
-                                                        case Charge::PERIOD_MONTHLY:
-                                                            $format = DateUtil::FORMAT_MONTHLY;
-                                                            break;
-                                                        default:
-                                                            $format = DateUtil::FORMAT_FULL;
+                                                    if ($hasCharge->CH_period == Charge::PERIOD_MONTHLY) {
+                                                        $format = DateUtil::FORMAT_MONTHLY;
+                                                    } else {
+                                                        $format = DateUtil::FORMAT_FULL;
                                                     }
 
                                                     $dateStart = $dateStartObj->getFormattedDate($format);
@@ -904,10 +900,12 @@ class HTML_person
 
     /**
      * editHasCharge
+     * @param $person
      * @param $hascharge
      * @param $charge
+     * @param $status
      */
-    static function editHasCharge(&$person, &$hascharge, &$charge, &$status)
+    public static function editHasCharge(&$person, &$hascharge, &$charge, &$status): void
     {
         global $core;
         $enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
@@ -936,7 +934,7 @@ class HTML_person
         </script>
 
         <div id="caldiv"
-             STYLE="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;z-index:999;"></div>
+             STYLE="position:absolute;visibility:hidden;background-color:white;z-index:999;"></div>
 
         <div id="content-box">
             <div class="padding">

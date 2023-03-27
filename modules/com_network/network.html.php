@@ -24,14 +24,13 @@ class HTML_Network
      * @param $subNetworks
      * @param $ipList
      * @param $ipShowList
-     * @param $allNetworks
      * @param $persons
      * @param $pageNav
+     * @param $filter
      * @param $flags
      */
     static function showNetwork(&$networkTree, &$selectedNetwork, &$subNetworks, &$ipList, &$ipShowList, &$persons, &$pageNav, &$filter, &$flags)
     {
-        global $core;
         $ipv4 = new Net_IPv4();
         $selectedNetworkParsed = $ipv4->parseAddress($selectedNetwork->NE_net);
         ?>
@@ -360,27 +359,27 @@ class HTML_Network
                                                             <tbody>
                                                             <tr>
                                                                 <td width="15%" class="title"
-                                                                    style="background: none; background-color: #d5d5d5;">
-                                                                    <strong><a href="<?php echo $link; ?>"><?php echo $subNetworkParsed->network . " / " . $subNetworkParsed->bitmask; ?></a></strong>
+                                                                    style="background-color: #d5d5d5;">
+                                                                    <strong>XX<a href="<?php echo $link; ?>"><?php echo $subNetworkParsed->network . " / " . $subNetworkParsed->bitmask; ?></a></strong>
                                                                 </td>
                                                                 <td width="15%" class="title"
-                                                                    style="background: none; background-color: #d5d5d5;">
+                                                                    style="background-color: #d5d5d5;">
                                                                     <strong><?php echo $subNetworkParsed->netmask; ?></strong>
                                                                 </td>
                                                                 <td width="15%" class="title"
-                                                                    style="background: none; background-color: #d5d5d5;">
+                                                                    style="background-color: #d5d5d5;">
                                                                     <strong><?php echo $subNetworkParsed->broadcast; ?></strong>
                                                                 </td>
                                                                 <td width="15%" class="title"
-                                                                    style="background: none; background-color: #d5d5d5;">
+                                                                    style="background-color: #d5d5d5;">
                                                                     <strong><?php echo $freeip . " z " . $maxip . " IP volných"; ?></strong>
                                                                 </td>
                                                                 <td width="20%" class="title"
-                                                                    style="background: none; background-color: #d5d5d5;">
+                                                                    style="background-color: #d5d5d5;">
                                                                     <strong><?php echo $subNetwork->NE_description; ?></strong>
                                                                 </td>
                                                                 <td width="20%" class="title"
-                                                                    style="background: none; background-color: #d5d5d5;">
+                                                                    style="background-color: #d5d5d5;">
                                                                     <strong><?php echo $persons[$subNetwork->NE_personid]->PE_firstname . " " . $persons[$subNetwork->NE_personid]->PE_surname; ?></strong>
                                                                 </td>
                                                             </tr>
@@ -453,7 +452,6 @@ class HTML_Network
      */
     static function editIP($ip, $network, $addresses, $persons)
     {
-        global $core;
         $ipv4 = new Net_IPv4();
 
         $net = $ipv4->parseAddress($network->NE_net);
@@ -668,13 +666,12 @@ class HTML_Network
      * @param $network
      * @param $parentNetwork
      * @param $possibleNetworkArray
-     * @param $subNetworks
+     * @param $directSubNetworks
      * @param $persons
      * @param $flags
      */
     static function editNet($network, $parentNetwork, $possibleNetworkArray, $directSubNetworks, $persons, &$flags)
     {
-        global $core;
         $ipv4 = new Net_IPv4();
         $parentNetworkParsed = $ipv4->parseAddress($parentNetwork->NE_net);
         ?>

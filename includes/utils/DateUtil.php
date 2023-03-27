@@ -20,7 +20,7 @@ class DateUtil
     /**
      * @var timestamp
      */
-    private $_timestamp;
+    private ?int $_timestamp;
     private $_date;
     private $_isDebug;
 
@@ -254,7 +254,7 @@ class DateUtil
      *
      * @return the current time.
      */
-    public function getTime()
+    public function getTime(): ?int
     {
         return $this->_timestamp;
     }
@@ -264,7 +264,7 @@ class DateUtil
      *
      * @param date - the given Date.
      */
-    public function setTime($timestamp)
+    public function setTime(?int $timestamp)
     {
         $this->_timestamp = $timestamp;
 
@@ -311,7 +311,7 @@ class DateUtil
      * @param  $dateUtil
      * @return the value 0 if the argument Date is equal to this Date; a value less than 0 if this Date is before the Date argument; and a value greater than 0 if this Date is after the Date argument.
      */
-    public function compareTo($dateUtil)
+    public function compareTo($dateUtil): ?int
     {
         if (!$dateUtil instanceof DateUtil) {
             return null;
@@ -384,4 +384,3 @@ class DateUtil
         return $this->getFormattedDate(self::DB_DATETIME);
     }
 } // End of DateUtil class
-?>

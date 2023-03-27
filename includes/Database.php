@@ -27,7 +27,7 @@ class Database
      */
     var $_sql = '';
     /**
-     * @var Internal variable to hold the connector resource
+     * @var mysqli Internal variable to hold the connector resource
      */
     var $_mysqli;
 
@@ -166,7 +166,7 @@ class Database
      */
     function &retrieveResults($key = '', $max = 0, $result_type = 'row')
     {
-        $results = array();
+        $results = [];
         $sql_method = 'fetch_' . $result_type;
         $result = $this->query();
         while ($row = $result->$sql_method()) {
@@ -186,7 +186,7 @@ class Database
     /**
      * This method loads the first field of the first row returned by the query.
      *
-     * @return The value returned in the query or null if the query failed.
+     * @return array The value returned in the query or null if the query failed.
      */
     function loadResult()
     {
@@ -203,9 +203,7 @@ class Database
      * only existing properties of object are filled. when undefined in hash, properties wont be deleted
      *
      * @param array the input array
-     * @param obj byref the object to fill of any class
-     * @param string
-     * @param boolean
+     * @param Object byref the object to fill of any class
      */
     static function bindArrayToObject($array, &$obj)
     {
@@ -272,7 +270,7 @@ class Database
     function insertObject($table, &$object, $keyName = null, $verbose = false)
     {
         $fmtsql = "INSERT INTO `$table` ( %s ) VALUES ( %s ) ";
-        $fields = array();
+        $fields = [];
         foreach (get_object_vars($object) as $k => $v) {
             if (is_array($v) || is_object($v) || $v === null || $k[0] == '_') {
                 continue;
@@ -307,7 +305,7 @@ class Database
     function updateObject($table, &$object, $keyName, $updateNulls = true, $verbose = false)
     {
         $fmtsql = "UPDATE `$table` SET %s WHERE %s";
-        $tmp = array();
+        $tmp = [];
         foreach (get_object_vars($object) as $k => $v) {
             if (is_array($v) || is_object($v) || $k[0] == '_' or ($v === null and !$updateNulls)) {
                 continue;
@@ -366,4 +364,3 @@ class Database
         $this->insertObject("log", $log, "LO_logid", false);
     }
 } // End of Database class
-?>
