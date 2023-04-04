@@ -260,7 +260,7 @@ class Mail_mimeDecode extends PEAR
     function _decode($headers, $body, $default_ctype = 'text/plain')
     {
         $return = new stdClass;
-        $return->headers = array();
+        $return->headers = [];
         $headers = $this->_parseHeaders($headers);
 
         foreach ($headers as $value) {
@@ -404,7 +404,7 @@ class Mail_mimeDecode extends PEAR
      */
     function &getMimeNumbers(&$structure, $no_refs = false, $mime_number = '', $prepend = '')
     {
-        $return = array();
+        $return = [];
         if (!empty($structure->parts)) {
             if ($mime_number != '') {
                 $structure->mime_id = $prepend . $mime_number;
@@ -506,7 +506,7 @@ class Mail_mimeDecode extends PEAR
                 );
             }
         } else {
-            $return = array();
+            $return = [];
         }
 
         return $return;
@@ -655,7 +655,7 @@ class Mail_mimeDecode extends PEAR
         }
 
 
-        $clean_others = array();
+        $clean_others = [];
         // merge added values. eg. *1[*]
         foreach ($return['other'] as $key => $val) {
             if (preg_match('/\*[0-9]+\**$/', $key)) {
@@ -680,7 +680,7 @@ class Mail_mimeDecode extends PEAR
             $key = substr($key, 0, -1);
             //extended-initial-value := [charset] "'" [language] "'"
             //              extended-other-values
-            $match = array();
+            $match = [];
             $info = preg_match("/^([^']+)'([^']*)'(.*)$/", $val, $match);
 
             $clean_others[$key] = urldecode($match[3]);
@@ -715,7 +715,7 @@ class Mail_mimeDecode extends PEAR
      */
     function _boundarySplit($input, $boundary, $eatline = false)
     {
-        $parts = array();
+        $parts = [];
 
         $bs_possible = substr($boundary, 2, -2);
         $bs_check = '\"' . $bs_possible . '\"';

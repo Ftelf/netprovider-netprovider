@@ -22,9 +22,9 @@ require_once 'handleevent.html.php';
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $heid = Utils::getParam($_REQUEST, 'HE_handleeventid', null);
-$cid = Utils::getParam($_REQUEST, 'cid', array(0));
+$cid = Utils::getParam($_REQUEST, 'cid', []);
 if (!is_array($cid)) {
-    $cid = array(0);
+    $cid = [];
 }
 
 switch ($task) {
@@ -94,7 +94,7 @@ function editHandleEvent($pid = null)
 
     $templateDirectory = opendir($core->getAppRoot() . "templates/events/");
 
-    $templates = array();
+    $templates = [];
 
     while ($entryName = readdir($templateDirectory)) {
         if (EndsWith($entryName, ".txt")) {

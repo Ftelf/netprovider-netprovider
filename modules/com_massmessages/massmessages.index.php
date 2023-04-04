@@ -29,9 +29,9 @@ require_once 'Net/IPv4.php';
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $nid = Utils::getParam($_REQUEST, 'NE_networkid', null);
-$cid = Utils::getParam($_REQUEST, 'cid', array());
+$cid = Utils::getParam($_REQUEST, 'cid', []);
 if (!is_array($cid)) {
-    $cid = array();
+    $cid = [];
 }
 
 switch ($task) {
@@ -58,7 +58,7 @@ function showNetwork()
 {
     global $database;
 
-    $filter = array();
+    $filter = [];
     // default settings if no setting in session
     $filter['NE_networkid'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_massmessages']['filter'], 'NE_networkid', null);
     $nid = $filter['NE_networkid'];
@@ -85,7 +85,7 @@ function showNetwork()
     $networkTree = buildNetworkTree(0, $allNetworks);
 
     // Build array of arrays with networkid keys containing array of IPs in this network
-    $ipList = array();
+    $ipList = [];
     foreach ($allIps as $ip) {
         $ipList[$ip->IP_networkid][ip2long($ip->IP_address)] = $ip;
 
@@ -105,7 +105,7 @@ function showNetwork()
     $isLeafNetwork = NetworkDAO::isLeafNetwork($nid);
 
     // According to, if we highlight leaf network or not
-    $leafSubNetworks = array();
+    $leafSubNetworks = [];
     if ($isLeafNetwork) {
         $leafSubNetworks[$nid] = $selectedNetwork;
     } else {
@@ -131,7 +131,7 @@ function showNetwork()
  */
 function newMessage($cid)
 {
-    $persons = array();
+    $persons = [];
     foreach ($cid as $ipId) {
         $person = PersonDAO::getPersonByIPId($ipId);
         $person->_IP = IpDAO::getIpByID($ipId);
@@ -174,7 +174,7 @@ function sendMessage()
     global $database, $appContext, $core;
 
     $message = Utils::getParam($_REQUEST, 'message', '');
-    $pid = Utils::getParam($_REQUEST, 'pid', array());
+    $pid = Utils::getParam($_REQUEST, 'pid', []);
 
     $username = $core->getProperty(Core::SMS_USERNAME);
     $password = $core->getProperty(Core::SMS_PASSWORD);
@@ -221,7 +221,7 @@ function sendMessage()
  */
 function buildNetworkTree($id, $netA)
 {
-    $arr = array();
+    $arr = [];
     $ipv4 = new Net_IPv4();
     foreach ($netA as $net) {
         if ($net->NE_parent_networkid == $id) {

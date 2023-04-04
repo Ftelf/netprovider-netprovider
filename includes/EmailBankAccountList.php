@@ -28,7 +28,7 @@ require_once $core->getAppRoot() . "includes/billing/bankParser/BankParserFactor
 class EmailBankAccountList
 {
     private $_bankAccount;
-    private $_messages = array();
+    private $_messages = [];
     private $_dbEmailListNamesMap;
 
     /**

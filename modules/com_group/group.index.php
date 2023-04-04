@@ -24,9 +24,9 @@ require_once 'group.html.php';
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $gid = Utils::getParam($_REQUEST, 'GR_groupid', null);
-$cid = Utils::getParam($_REQUEST, 'cid', array(0));
+$cid = Utils::getParam($_REQUEST, 'cid', []);
 if (!is_array($cid)) {
-    $cid = array(0);
+    $cid = [];
 }
 
 switch ($task) {

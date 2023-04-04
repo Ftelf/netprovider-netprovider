@@ -19,7 +19,7 @@ class ApiXml30
         $this->login = $login;
         $this->password = $password;
         $this->encoding = $encoding;
-        $this->params = array();
+        $this->params = [];
     }
 
     public function confirm_message($params)
@@ -29,7 +29,7 @@ class ApiXml30
         return $this->send_request($handle);
     }
 
-    public function get_incoming_messages($types = array())
+    public function get_incoming_messages($types = [])
     {
         $query_string = http_build_query($types);
         $handle = fopen($this->get_url(API_SENDER) . "&" . $query_string, 'rb', false);

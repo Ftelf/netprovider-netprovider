@@ -23,9 +23,9 @@ require_once "internet.html.php";
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $iid = Utils::getParam($_REQUEST, 'IN_internetid', null);
-$cid = Utils::getParam($_REQUEST, 'cid', array(0));
+$cid = Utils::getParam($_REQUEST, 'cid', []);
 if (!is_array($cid)) {
-    $cid = array(0);
+    $cid = [];
 }
 
 switch ($task) {

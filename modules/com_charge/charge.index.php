@@ -25,9 +25,9 @@ require_once "charge.html.php";
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $chid = Utils::getParam($_REQUEST, 'CH_chargeid', null);
-$cid = Utils::getParam($_REQUEST, 'cid', array(0));
+$cid = Utils::getParam($_REQUEST, 'cid', []);
 if (!is_array($cid)) {
-    $cid = array(0);
+    $cid = [];
 }
 
 switch ($task) {
@@ -229,7 +229,7 @@ function removeCharge($cid)
  */
 function getToleranceArray()
 {
-    $toleranceArray = array();
+    $toleranceArray = [];
 
     for ($i = 0; $i <= 360; $i++) {
         $toleranceArray[] = sprintf(ngettext("%s day", "%s days", $i), $i);

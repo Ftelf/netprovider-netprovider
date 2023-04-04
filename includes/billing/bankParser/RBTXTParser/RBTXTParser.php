@@ -20,7 +20,7 @@ require_once $core->getAppRoot() . "includes/tables/BankAccountEntry.php";
  */
 class RBTXTParser
 {
-    private $fcontents = array();
+    private $fcontents = [];
     private $p;
     private $count;
 
@@ -99,8 +99,8 @@ class RBTXTParser
     function parse()
     {
         $this->p = 0;
-        $this->document = array();
-        $this->document['LIST'] = array();
+        $this->document = [];
+        $this->document['LIST'] = [];
 
         $hardDelimeter = 0;
         $matches = null;
@@ -186,7 +186,7 @@ class RBTXTParser
             if ($this->hasNext()) {
                 $line_3 = $this->getNext();
             }
-            $line_4 = array();
+            $line_4 = [];
             while ($this->hasNext()) {
                 $line = $this->getNext();
                 if (mb_ereg_match(self::ACCOUNT_DELIMETER, $line)) {
@@ -197,7 +197,7 @@ class RBTXTParser
                 }
             }
 
-            $acc = array();
+            $acc = [];
             $bae = new BankAccountEntry();
             // validate date
             $date = mb_substr($line_1, 5, 6);

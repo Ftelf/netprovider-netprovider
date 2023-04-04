@@ -42,7 +42,7 @@ function showTrafficReport()
     global $database, $mainframe, $acl, $core;
     require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
-    $filter = array();
+    $filter = [];
 
     // get filters
     $search = $filter['search'] = Utils::getParam($_SESSION['UI_SETTINGS']['com_iptrafficreport']['filter'], 'search', "");
@@ -69,9 +69,9 @@ function showTrafficReport()
         $pageNav = new PageNav($count, $limitstart, $limit);
     }
 
-    $report = array();
-    $report['intervals'] = array();
-    $report['options'] = array();
+    $report = [];
+    $report['intervals'] = [];
+    $report['options'] = [];
     $report['options']['HOURS'] = _("Hours");
     $report['options']['DAYS'] = _("Days");
     $report['options']['MONTHS'] = _("Months");

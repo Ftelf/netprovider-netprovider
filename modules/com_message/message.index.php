@@ -26,9 +26,9 @@ require_once "message.html.php";
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $mid = Utils::getParam($_REQUEST, 'ME_messageid', null);
-$cid = Utils::getParam($_REQUEST, 'cid', array(0));
+$cid = Utils::getParam($_REQUEST, 'cid', []);
 if (!is_array($cid)) {
-    $cid = array(0);
+    $cid = [];
 }
 
 switch ($task) {
@@ -91,7 +91,7 @@ function showMessage()
 
     foreach ($messages as &$message) {
         $attachments = MessageAttachmentDAO::getMessageAttachmentNamesArrayForAttachmentForMessageID($message->ME_messageid);
-        $attachmentArray = array();
+        $attachmentArray = [];
         foreach ($attachments as &$attachment) {
             $attachmentArray[] = $attachment->MA_name . ' (' . floor($attachment->MA_attachment_length / 1000) . 'KB)<br/>';
         }

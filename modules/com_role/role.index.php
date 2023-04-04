@@ -24,9 +24,9 @@ require_once "role.html.php";
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $rid = Utils::getParam($_REQUEST, 'RO_roleid', null);
-$cid = Utils::getParam($_REQUEST, 'cid', array(0));
+$cid = Utils::getParam($_REQUEST, 'cid', []);
 if (!is_array($cid)) {
-    $cid = array(0);
+    $cid = [];
 }
 
 switch ($task) {
@@ -142,7 +142,7 @@ function removeRole($cid)
                 Core::redirect("index2.php?option=com_role");
             }
             if (($rolemembers = RolememberDAO::getRolememberAndPersonsArrayByRoleID($id)) == null) {
-                $rolemembers = array();
+                $rolemembers = [];
             }
 
             if (count($rolemembers)) {

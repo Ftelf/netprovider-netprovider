@@ -136,7 +136,7 @@ class LinuxCommander
             throw new Exception("parameter must be array");
         }
 
-        $results = array();
+        $results = [];
 
         foreach ($commands as $command) {
             $results[] = $this->execute($command);

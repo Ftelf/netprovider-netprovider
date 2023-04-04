@@ -80,7 +80,7 @@ class SessionDAO
         $query = "SELECT * FROM `session` WHERE `SE_time`<'$past'";
         $database->setQuery($query);
         if (($sessions = $database->loadObjectList("SE_sessionid")) == null) {
-            $sessions = array();
+            $sessions = [];
         }
         //then remove them from session table
         //

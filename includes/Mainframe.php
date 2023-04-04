@@ -63,7 +63,7 @@ class MainFrame
         $this->_option = $option;
         $this->_path = $basePath;
         $this->_action = $action;
-        $this->_msg = array();
+        $this->_msg = [];
     }
 
     function getPath()

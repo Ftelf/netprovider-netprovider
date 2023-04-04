@@ -24,9 +24,9 @@ require_once "log.html.php";
 
 $task = Utils::getParam($_REQUEST, 'task', null);
 $lid = Utils::getParam($_REQUEST, 'LO_logid', null);
-$cid = Utils::getParam($_REQUEST, 'cid', array(0));
+$cid = Utils::getParam($_REQUEST, 'cid', []);
 if (!is_array($cid)) {
-    $cid = array(0);
+    $cid = [];
 }
 
 switch ($task) {

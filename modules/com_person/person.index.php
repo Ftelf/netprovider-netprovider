@@ -465,7 +465,7 @@ function editHasCharge($hcid = null, $chid = null, $pid = null)
 
     $person = PersonDAO::getPersonByID($pid);
 
-    $status = array();
+    $status = [];
     $status['HC_datestart'] = false;
     $status['HC_dateend'] = false;
 
@@ -556,7 +556,7 @@ function saveHasCharge($task)
     database::bind($_POST, $hasCharge);
     $isNew = !$hasCharge->HC_haschargeid;
 
-    $status = array();
+    $status = [];
     $status['HC_datestart'] = false;
     $status['HC_dateend'] = false;
 

@@ -87,13 +87,13 @@ function showPerson()
     $networks = NetworkDAO::getNetworkArrayByPersonID($pid);
     $messages = MessageDAO::getMessageArray($pid);
 
-    $traffic = array();
+    $traffic = [];
 
     $dateMonthTemp = Utils::getParam($_SESSION['UI_SETTINGS']['com_myprofile']['filter'], 'date_month', null);
     $dateDayTemp = Utils::getParam($_SESSION['UI_SETTINGS']['com_myprofile']['filter'], 'date_day', null);
 
     $dateFrom = new DateUtil();
-    $traffic['TRAFFIC_MONTH'] = array();
+    $traffic['TRAFFIC_MONTH'] = [];
 
     try {
         $dateFrom->parseDate($dateMonthTemp, DateUtil::FORMAT_MONTHLY);

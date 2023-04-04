@@ -24,8 +24,8 @@ class AppContext
     public function __construct()
     {
         $this->option = 'com_admin';
-        $this->params = array();
-        $this->messages = array();
+        $this->params = [];
+        $this->messages = [];
     }
 
     public function setOption($option)
@@ -50,7 +50,7 @@ class AppContext
 
     public function cleanParams()
     {
-        $this->params = array();
+        $this->params = [];
     }
 
     public function insertMessage($message)
@@ -70,7 +70,7 @@ class AppContext
 
     public function cleanMessages()
     {
-        $this->messages = array();
+        $this->messages = [];
     }
 } // End of AppContext class
 ?>

@@ -25,7 +25,7 @@ require_once "Mail/mime.php";
 class EmailUtil
 {
     private $_database;
-    private $_messages = array();
+    private $_messages = [];
     private $_smtp_server;
     private $_smtp_port;
     private $_smtp_auth;

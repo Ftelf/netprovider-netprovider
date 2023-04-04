@@ -148,7 +148,7 @@ class RouterosAPI
     public function parseResponse($response)
     {
         if (is_array($response)) {
-            $PARSED = array();
+            $PARSED = [];
             $CURRENT = null;
             $singlevalue = null;
             foreach ($response as $x) {
@@ -159,7 +159,7 @@ class RouterosAPI
                         $CURRENT =& $PARSED[$x][];
                     }
                 } elseif ($x != '!done') {
-                    $MATCHES = array();
+                    $MATCHES = [];
                     if (preg_match_all('/[^=]+/i', $x, $MATCHES)) {
                         if ($MATCHES[0][0] == 'ret') {
                             $singlevalue = $MATCHES[0][1];
@@ -175,7 +175,7 @@ class RouterosAPI
 
             return $PARSED;
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -190,7 +190,7 @@ class RouterosAPI
     public function parseResponse4Smarty($response)
     {
         if (is_array($response)) {
-            $PARSED = array();
+            $PARSED = [];
             $CURRENT = null;
             $singlevalue = null;
             foreach ($response as $x) {
@@ -201,7 +201,7 @@ class RouterosAPI
                         $CURRENT =& $PARSED[$x][];
                     }
                 } elseif ($x != '!done') {
-                    $MATCHES = array();
+                    $MATCHES = [];
                     if (preg_match_all('/[^=]+/i', $x, $MATCHES)) {
                         if ($MATCHES[0][0] == 'ret') {
                             $singlevalue = $MATCHES[0][1];
@@ -218,7 +218,7 @@ class RouterosAPI
                 $PARSED = $singlevalue;
             }
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -258,7 +258,7 @@ class RouterosAPI
      */
     public function read($parse = true)
     {
-        $RESPONSE = array();
+        $RESPONSE = [];
         $receiveddone = false;
         while (true) {
             // Read the first byte of input which gives us some or all of the length
@@ -375,7 +375,7 @@ class RouterosAPI
      *
      * @return array                  Array with parsed
      */
-    public function comm($com, $arr = array())
+    public function comm($com, $arr = [])
     {
         $count = count($arr);
         $this->write($com, !$arr);

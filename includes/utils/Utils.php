@@ -50,7 +50,7 @@ class Utils
 
     public static function stringAsLineArray($text)
     {
-        $arr = array();
+        $arr = [];
         $tok = strtok($text, "\r\n");
         while ($tok) {
             $arr[] = $tok;

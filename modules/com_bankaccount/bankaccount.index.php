@@ -31,9 +31,9 @@ $task = Utils::getParam($_REQUEST, 'task', null);
 $bid = Utils::getParam($_REQUEST, 'BA_bankaccountid', null);
 $eid = Utils::getParam($_REQUEST, 'BE_bankaccountentryid', null);
 $lid = Utils::getParam($_REQUEST, 'EL_emaillistid', null);
-$cid = Utils::getParam($_REQUEST, 'cid', array(0));
+$cid = Utils::getParam($_REQUEST, 'cid', []);
 if (!is_array($cid)) {
-    $cid = array(0);
+    $cid = [];
 }
 
 switch ($task) {
@@ -109,7 +109,7 @@ function showBankAccount($bid = null)
     global $database, $mainframe, $acl, $core;
     require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
-    $filter = array();
+    $filter = [];
     // get filters
     //
     if ($bid) {
@@ -141,7 +141,7 @@ function showBankAccount($bid = null)
     }
     // compute bank account report
     //
-    $report = array();
+    $report = [];
     $report['GLOBAL']['START'] = $bankAccounts[$bid]->BA_startbalance;
     $report['LIST']['START'] = "-";
 
@@ -185,7 +185,7 @@ function showBankAccount($bid = null)
     $filter['date_from'] = $dateFrom->getFormattedDate(DateUtil::FORMAT_DATE);
     $filter['date_to'] = $dateTo->getFormattedDate(DateUtil::FORMAT_DATE);
 
-    $bankAccountEntries = array();
+    $bankAccountEntries = [];
     foreach ($allBankAccountEntries as $k => $allBankAccountEntry) {
         if ($allBankAccountEntry->BE_amount > 0) {
             $report['GLOBAL']['INCOME'] += $allBankAccountEntry->BE_amount;
@@ -256,7 +256,7 @@ function editBankAccount($bid = null)
     global $database, $my, $acl;
     // flags to disable certain fields
     //
-    $flags = array();
+    $flags = [];
     if ($bid != null) {
         // edit, some fields will be disabled
         //
@@ -302,7 +302,7 @@ function saveBankAccount($task)
             $bankAccount->BA_startbalance = NumberFormat::parseMoney($bankAccount->BA_startbalance);
         } catch (Exception $e) {
             Core::alert('Nesprávný fomát počátečního zůstatku');
-            $flags = array();
+            $flags = [];
             if ($isNew) {
                 $flags['BA_bankname'] = true;
                 $flags['BA_banknumber'] = true;
@@ -571,7 +571,7 @@ function editBankAccountEntries($cid = null)
         return;
     }
 
-    $bankAccountEntries = array();
+    $bankAccountEntries = [];
     foreach ($cid as $id) {
         $eid = intval($id);
         $bankAccountEntry = BankAccountEntryDAO::getBankAccountEntryByID($eid);
