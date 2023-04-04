@@ -27,38 +27,47 @@ class AppContext
         $this->params = array();
         $this->messages = array();
     }
+
     public function setOption($option)
     {
         $this->option = $option;
     }
+
     public function getOption()
     {
         return $this->option;
     }
+
     public function setParam($key, $value)
     {
         $this->params[$key] = $value;
     }
+
     public function getParam($key)
     {
         return $this->params[$key];
     }
+
     public function cleanParams()
     {
         $this->params = array();
     }
+
     public function insertMessage($message)
     {
         $this->messages[] = $message;
     }
+
     public function insertMessages($messages)
     {
         $this->messages = array_merge($this->messages, $messages);
     }
+
     public function getMessages()
     {
         return $this->messages;
     }
+
     public function cleanMessages()
     {
         $this->messages = array();

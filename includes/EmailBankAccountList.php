@@ -62,10 +62,12 @@ class EmailBankAccountList
 
 
     }
+
     function getMessages()
     {
         return $this->_messages;
     }
+
     /**
      * updateAccountListArray
      * will download EmailList from email server and insert them into database
@@ -89,13 +91,13 @@ class EmailBankAccountList
         foreach ($msgs as $msgi) {
             $email = $_pop3->getMsg($msgi['msg_id']);
             $params = array(
-                            'input'           => $email,
-                            'crlf'            => "\r\n",
-                            'include_bodies'  => true,
-                            'decode_headers'  => true,
-                            'decode_bodies'   => true,
-                            'output_encoding' => 'UTF-8//IGNORE'
-                            );
+                'input' => $email,
+                'crlf' => "\r\n",
+                'include_bodies' => true,
+                'decode_headers' => true,
+                'decode_bodies' => true,
+                'output_encoding' => 'UTF-8//IGNORE'
+            );
             $decode = new Mail_mimeDecode($email);
             $msgDecoded = $decode->decode($params);
 
@@ -107,7 +109,7 @@ class EmailBankAccountList
             ) {
 
                 foreach ($msgDecoded->parts as $part) {
-                    if (isset($part->ctype_parameters) && isset($part->ctype_parameters['name']) ) {
+                    if (isset($part->ctype_parameters) && isset($part->ctype_parameters['name'])) {
                         $filename = $part->ctype_parameters['name'];
 
                         $emailList = new EmailList();
@@ -201,6 +203,7 @@ class EmailBankAccountList
             $database->log($msg, Log::LEVEL_INFO);
         }
     }
+
     /**
      * Imports BankAccountEntries
      */
@@ -480,4 +483,5 @@ function endsWithCaseInsensitive($FullStr, $EndStr)
     // If it matches, it does end with EndStr
     return strcasecmp($FullStrEnd, $EndStr) === 0;
 }
+
 ?>

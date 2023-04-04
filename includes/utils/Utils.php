@@ -20,7 +20,7 @@ class Utils
     /**
      * Utility function to return a value from a named array or a specified default
      */
-    public static function getParam(&$arr, $name, $def=null)
+    public static function getParam(&$arr, $name, $def = null)
     {
         if (isset($arr[$name])) {
             if (is_string($arr[$name])) {
@@ -40,10 +40,10 @@ class Utils
 
     public static function is_email($email)
     {
-        $rBool=false;
+        $rBool = false;
 
         if (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $email)) {
-            $rBool=true;
+            $rBool = true;
         }
         return $rBool;
     }

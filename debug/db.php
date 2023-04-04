@@ -24,11 +24,11 @@ try {
         $core->getProperty(Core::DATABASE_NAME)
     );
 } catch (Exception $e) {
-    echo (_("Cannot connect to database"));
+    echo(_("Cannot connect to database"));
     exit();
 }
 
-    echo "connected";
+echo "connected";
 
 
 ?>

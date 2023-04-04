@@ -20,7 +20,7 @@ class DateUtil
     /**
      * @var timestamp
      */
-    private $_timestamp;
+    private ?int $_timestamp;
     private $_date;
     private $_isDebug;
 
@@ -49,7 +49,7 @@ class DateUtil
     /**
      * @param $date sets timestamp or parse database date format to timestamp
      */
-    public function __construct($date=null)
+    public function __construct($date = null)
     {
         global $core;
 
@@ -69,6 +69,7 @@ class DateUtil
             $this->_date = $this->getFormattedDate(self::DB_DATETIME);
         }
     }
+
     /**
      * Gets the value for a given time field.
      *
@@ -94,6 +95,7 @@ class DateUtil
             return intval(date("s", $this->_timestamp));
         }
     }
+
     /**
      * Sets the time field with the given value.
      *
@@ -169,6 +171,7 @@ class DateUtil
             $this->_date = $this->getFormattedDate(self::DB_DATETIME);
         }
     }
+
     /**
      * Date Arithmetic function. Adds the specified (signed) amount of time to the given time field, based on the calendar's rules. For example, to subtract 5 days from the current time of the calendar, you can achieve it by calling:
      *
@@ -245,21 +248,23 @@ class DateUtil
             $this->_date = $this->getFormattedDate(self::DB_DATETIME);
         }
     }
+
     /**
      * Gets this Calendar's current time.
      *
      * @return the current time.
      */
-    public function getTime()
+    public function getTime(): ?int
     {
         return $this->_timestamp;
     }
+
     /**
      * Sets this Calendar's current time with the given Date.
      *
      * @param date - the given Date.
      */
-    public function setTime($timestamp)
+    public function setTime(?int $timestamp)
     {
         $this->_timestamp = $timestamp;
 
@@ -267,6 +272,7 @@ class DateUtil
             $this->_date = $this->getFormattedDate(self::DB_DATETIME);
         }
     }
+
     /**
      * Compares the time field records. Equivalent to comparing result of conversion to UTC.
      *
@@ -283,6 +289,7 @@ class DateUtil
         }
         return ($this->_timestamp > $when->_timestamp);
     }
+
     /**
      * Compares the time field records. Equivalent to comparing result of conversion to UTC.
      *
@@ -299,11 +306,12 @@ class DateUtil
         }
         return ($this->_timestamp < $when->_timestamp);
     }
+
     /**
      * @param  $dateUtil
      * @return the value 0 if the argument Date is equal to this Date; a value less than 0 if this Date is before the Date argument; and a value greater than 0 if this Date is after the Date argument.
      */
-    public function compareTo($dateUtil)
+    public function compareTo($dateUtil): ?int
     {
         if (!$dateUtil instanceof DateUtil) {
             return null;
@@ -316,6 +324,7 @@ class DateUtil
             return 1;
         }
     }
+
     public function getFormattedDate($format)
     {
         if ($format == null) {
@@ -329,11 +338,13 @@ class DateUtil
         } else if ($this->_timestamp == null) {
             return "";
         } else {
-            if (!($dateString = date($format, $this->_timestamp))) { $dateString = "";
+            if (!($dateString = date($format, $this->_timestamp))) {
+                $dateString = "";
             }
             return $dateString;
         }
     }
+
     public function parseDate($dateString, $format)
     {
         $matches = null;
@@ -373,4 +384,3 @@ class DateUtil
         return $this->getFormattedDate(self::DB_DATETIME);
     }
 } // End of DateUtil class
-?>

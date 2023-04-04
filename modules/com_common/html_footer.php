@@ -12,15 +12,15 @@
  * @link     https://www.ovjih.net
  */
 
-  global $mainframe;
-  $seconds = round($mainframe->getTimer(), 3);
+global $mainframe;
+$seconds = round($mainframe->getTimer(), 3);
 ?>
 
-  <div id="footer">
+<div id="footer">
     <p class="copyright">
-      COPYRIGHT &copy; 2023 Lukáš Dziadkowiec ALL RIGHTS RESERVED
+        COPYRIGHT &copy; 2023 Lukáš Dziadkowiec ALL RIGHTS RESERVED
     </p>
     <p class="statistics">
-      <?php printf(gettext("Page generated in %s seconds"), $seconds); ?>
+        <?php printf(gettext("Page generated in %s seconds"), $seconds); ?>
     </p>
-  </div>
+</div>

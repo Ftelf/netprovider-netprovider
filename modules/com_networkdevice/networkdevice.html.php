@@ -29,7 +29,7 @@ class HTML_NetworkDevice
         ?>
         <script type="text/javascript">
             function submitbutton(pressbutton) {
-                if (pressbutton == 'testLogin'){
+                if (pressbutton == 'testLogin') {
                     submitform(pressbutton);
 
                 }
@@ -51,7 +51,8 @@ class HTML_NetworkDevice
                                 <tr>
                                     <td id="toolbar-test-login">
                                         <a href="javascript:submitbutton('testLogin');">
-                                            <span title="<?php echo _("Test login"); ?>" class="icon-32-test-login"></span>
+                                            <span title="<?php echo _("Test login"); ?>"
+                                                  class="icon-32-test-login"></span>
                                             <?php echo _("Test login"); ?>
                                         </a>
                                     </td>
@@ -123,8 +124,8 @@ class HTML_NetworkDevice
                                 </td>
                             </tr>
                         </table>
-                        <input type="hidden" name="option" value="com_networkdevice" />
-                        <input type="hidden" name="task" value="" />
+                        <input type="hidden" name="option" value="com_networkdevice"/>
+                        <input type="hidden" name="task" value=""/>
                     </form>
                 </div>
 

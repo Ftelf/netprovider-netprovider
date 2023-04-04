@@ -39,7 +39,7 @@ function showPaymentReport()
     global $database, $mainframe, $acl, $core, $appContext;
     require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
-    $filter =[];
+    $filter = [];
 
     // get filters
     $filter['search'] = $filter_search = $_SESSION['UI_SETTINGS']['com_paymentreport']['filter']['search'] ?? "";
@@ -64,7 +64,7 @@ function showPaymentReport()
     );
 
     if (!is_array($filter_CH_chargeid)) {
-        $filter['CH_chargeid'] = $filter_CH_chargeid =[];
+        $filter['CH_chargeid'] = $filter_CH_chargeid = [];
     }
 
     $selectedCharges = array_filter(
@@ -73,10 +73,10 @@ function showPaymentReport()
         }, ARRAY_FILTER_USE_BOTH
     );
 
-    $paymentReport =[];
+    $paymentReport = [];
 
-    $report =[];
-    $report['dates'] =[];
+    $report = [];
+    $report['dates'] = [];
 
     $dateFrom = new DateUtil();
     $dateTo = new DateUtil();
@@ -124,15 +124,15 @@ function showPaymentReport()
         }
     }
 
-    $messages =[];
+    $messages = [];
 
     $iDate = $dateFrom;
     while (!$iDate->after($dateTo)) {
-        $report['dates'][$iDate->getTime()] =[];
+        $report['dates'][$iDate->getTime()] = [];
         $report['dates'][$iDate->getTime()]['DateUtil'] = clone $iDate;
         $report['dates'][$iDate->getTime()]['DATE_STRING'] = $iDate->getFormattedDate(DateUtil::FORMAT_MONTHLY);
 
-        $report['dates'][$iDate->getTime()]['summary'] =[];
+        $report['dates'][$iDate->getTime()]['summary'] = [];
         $report['dates'][$iDate->getTime()]['summary']['payed'] = 0;
         $report['dates'][$iDate->getTime()]['summary']['payedWithDelay'] = 0;
         $report['dates'][$iDate->getTime()]['summary']['delayed'] = 0;
@@ -144,14 +144,14 @@ function showPaymentReport()
 
     foreach ($paymentReport as $key => &$personReport) {
         foreach ($personReport->_hasCharge as $haschargeid => &$hasCharge) {
-            $hasCharge->_dates =[];
+            $hasCharge->_dates = [];
             $foundAnyEntry = false;
 
             reset($report['dates']);
             foreach ($report['dates'] as &$date) {
                 $dbDate = $date['DateUtil']->getFormattedDate(DateUtil::DB_DATE);
 
-                $info =[];
+                $info = [];
                 $info['date'] = $dbDate;
                 $info['colspan'] = 1;
 

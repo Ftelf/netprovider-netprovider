@@ -1,64 +1,214 @@
-body { margin: 0; padding: 0; color: #333; background-color: #FFF; font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
+body {
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #FFF;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
 
-#wrapper { min-width: 960px; margin: 0px; padding: 0px; height: 95%; }
+#wrapper {
+    min-width: 960px;
+    margin: 0px;
+    padding: 0px;
+    height: 95%;
+}
 
-#header-top { background-color: #FFF; background: url(../images/header.png) #30569D no-repeat; background-position: top right; width: 100%; height: 29px; margin: 0px; padding: 0px; border-bottom: 4px solid #80B5D7; }
-#header-top .title { font-size: 22px; font-weight: bold; font-style: italic; color: #fff; line-height: 29px; padding-left: 10px; }
-#header-top .version { display: block; float: right; color: #fff; padding: 12px 5px 0 0; font-size: 12px;  }
+#header-top {
+    background-color: #FFF;
+    background: url(../images/header.png) #30569D no-repeat;
+    background-position: top right;
+    width: 100%;
+    height: 29px;
+    margin: 0px;
+    padding: 0px;
+    border-bottom: 4px solid #80B5D7;
+}
+
+#header-top .title {
+    font-size: 22px;
+    font-weight: bold;
+    font-style: italic;
+    color: #fff;
+    line-height: 29px;
+    padding-left: 10px;
+}
+
+#header-top .version {
+    display: block;
+    float: right;
+    color: #fff;
+    padding: 12px 5px 0 0;
+    font-size: 12px;
+}
 
 
+div.t, div.b {
+    height: 6px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
 
-div.t, div.b { height: 6px; padding: 0; margin: 0; overflow: hidden; }
-div.m { border-left: 1px solid #ccc;  border-right: 1px solid #ccc; padding: 0 8px; }
-
-
-
-div#login-box { margin-left: auto; margin-right: auto; margin-top: 6em; width: 430px; background: #fbfbfb; }
-div#login-box div.m { padding: 5px 10px; }
-div#login-box { }
-div#login-box div.t { background: url(../images/b_h.png) 0 0 repeat-x; }
-div#login-box div.t div.t { background: url(../images/b_tr.png) 100% 0 no-repeat; }
-div#login-box div.t div.t div.t { background: url(../images/b_tl.png) 0 0 no-repeat; }
-div#login-box div.b { background: url(../images/b_h.png) 0 100% repeat-x; }
-div#login-box div.b div.b { background: url(../images/b_br.png) 100% 0 no-repeat; }
-div#login-box div.b div.b div.b { background: url(../images/b_bl.png) 0 0 no-repeat; }
+div.m {
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    padding: 0 8px;
+}
 
 
-div#form-box { background: #fbfbfb; }
-div#form-box div.m { padding: 5px 10px; }
-div#form-box { }
-div#form-box div.t { background: url(../images/b_h.png) 0 0 repeat-x; }
-div#form-box div.t div.t { background: url(../images/b_tr.png) 100% 0 no-repeat; }
-div#form-box div.t div.t div.t { background: url(../images/b_tl.png) 0 0 no-repeat; }
-div#form-box div.b { background: url(../images/b_h.png) 0 100% repeat-x; }
-div#form-box div.b div.b { background: url(../images/b_br.png) 100% 0 no-repeat; }
-div#form-box div.b div.b div.b { background: url(../images/b_bl.png) 0 0 no-repeat; }
+div#login-box {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 6em;
+    width: 430px;
+    background: #fbfbfb;
+}
+
+div#login-box div.m {
+    padding: 5px 10px;
+}
+
+div#login-box {
+}
+
+div#login-box div.t {
+    background: url(../images/b_h.png) 0 0 repeat-x;
+}
+
+div#login-box div.t div.t {
+    background: url(../images/b_tr.png) 100% 0 no-repeat;
+}
+
+div#login-box div.t div.t div.t {
+    background: url(../images/b_tl.png) 0 0 no-repeat;
+}
+
+div#login-box div.b {
+    background: url(../images/b_h.png) 0 100% repeat-x;
+}
+
+div#login-box div.b div.b {
+    background: url(../images/b_br.png) 100% 0 no-repeat;
+}
+
+div#login-box div.b div.b div.b {
+    background: url(../images/b_bl.png) 0 0 no-repeat;
+}
 
 
+div#form-box {
+    background: #fbfbfb;
+}
 
-#break { height: 50px; }
+div#form-box div.m {
+    padding: 5px 10px;
+}
 
-form { margin: 0px; }
+div#form-box {
+}
 
-.button { border: solid 1px #cccccc; background: #E9ECEF; color: #666666; font-weight: bold; font-size: 11px; padding: 4px; cursor: pointer; }
+div#form-box div.t {
+    background: url(../images/b_h.png) 0 0 repeat-x;
+}
 
-.login { margin-left: auto; margin-right: auto; margin-top: 6em; padding: 15px; border: 1px solid #cccccc; width: 400px; background: #F1F3F5; }
+div#form-box div.t div.t {
+    background: url(../images/b_tr.png) 100% 0 no-repeat;
+}
 
-.login p { padding: 0 1em 0 1em; }
+div#form-box div.t div.t div.t {
+    background: url(../images/b_tl.png) 0 0 no-repeat;
+}
 
-.form-block { border: 1px solid #cccccc; background: #E9ECEF; padding-top: 15px; padding-left: 10px; padding-bottom: 10px; padding-right: 10px; }
+div#form-box div.b {
+    background: url(../images/b_h.png) 0 100% repeat-x;
+}
 
-.login-form { text-align: left; float: right; width: 45%; }
+div#form-box div.b div.b {
+    background: url(../images/b_br.png) 100% 0 no-repeat;
+}
 
-.login-text { text-align: left; width: 55%; float: left; }
+div#form-box div.b div.b div.b {
+    background: url(../images/b_bl.png) 0 0 no-repeat;
+}
 
-.inputlabel { font-weight: bold; text-align: left; }
 
-.inputbox { width: 150px; margin: 0 0 1em 0; border: 1px solid #cccccc; }
-.inputbox:focus { background-color: #ffd }
+#break {
+    height: 50px;
+}
 
-.clr { clear: both; }
+form {
+    margin: 0px;
+}
 
-.ctr { text-align: center; }
+.button {
+    border: solid 1px #cccccc;
+    background: #E9ECEF;
+    color: #666666;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 4px;
+    cursor: pointer;
+}
 
-.footer { font-size: 0.8em; }
+.login {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 6em;
+    padding: 15px;
+    border: 1px solid #cccccc;
+    width: 400px;
+    background: #F1F3F5;
+}
+
+.login p {
+    padding: 0 1em 0 1em;
+}
+
+.form-block {
+    border: 1px solid #cccccc;
+    background: #E9ECEF;
+    padding-top: 15px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
+.login-form {
+    text-align: left;
+    float: right;
+    width: 45%;
+}
+
+.login-text {
+    text-align: left;
+    width: 55%;
+    float: left;
+}
+
+.inputlabel {
+    font-weight: bold;
+    text-align: left;
+}
+
+.inputbox {
+    width: 150px;
+    margin: 0 0 1em 0;
+    border: 1px solid #cccccc;
+}
+
+.inputbox:focus {
+    background-color: #ffd
+}
+
+.clr {
+    clear: both;
+}
+
+.ctr {
+    text-align: center;
+}
+
+.footer {
+    font-size: 0.8em;
+}

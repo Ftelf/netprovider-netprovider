@@ -85,7 +85,7 @@ function showNetwork()
     $networkTree = buildNetworkTree(0, $allNetworks);
 
     // Build array of arrays with networkid keys containing array of IPs in this network
-    $ipList = Array();
+    $ipList = array();
     foreach ($allIps as $ip) {
         $ipList[$ip->IP_networkid][ip2long($ip->IP_address)] = $ip;
 
@@ -97,7 +97,8 @@ function showNetwork()
     }
 
     // sort ips for each network
-    foreach ($ipList as &$ipL) { ksort($ipL);
+    foreach ($ipList as &$ipL) {
+        ksort($ipL);
     }
 
     // find out if current highlighted network is also leaf network
@@ -124,6 +125,7 @@ function showNetwork()
 
     HTML_massmessages::showNetwork($networkTree, $selectedNetwork, $leafSubNetworks, $ipShowList, $persons);
 }
+
 /**
  * newMessage
  */
@@ -163,6 +165,7 @@ function newMessage($cid)
 
     HTML_massmessages::newMessage($personsWithoutMobile, $persons, $inactivePersons);
 }
+
 /**
  * newMessage
  */
@@ -207,6 +210,7 @@ function sendMessage()
 
     Core::redirect("index2.php?option=com_massmessages");
 }
+
 /**
  * buildNetworkTree
  * will return network as tree
@@ -225,7 +229,8 @@ function buildNetworkTree($id, $netA)
             $arr[ip2long($netParse->network)] = clone $net;
         }
     }
-    if (count($arr) == 0) { return null;
+    if (count($arr) == 0) {
+        return null;
     }
     ksort($arr);
 
@@ -235,6 +240,7 @@ function buildNetworkTree($id, $netA)
     }
     return $arr;
 }
+
 /**
  * findSubnets
  * will return all leaf subnetworks as array from network with $nid NE_networkid
@@ -247,7 +253,8 @@ function buildNetworkTree($id, $netA)
  */
 function findLeafSubnets(&$nid, &$networkTree, &$foundSubnets, $found)
 {
-    if ($networkTree == null) { return;
+    if ($networkTree == null) {
+        return;
     }
 
     foreach ($networkTree as $net) {
@@ -261,4 +268,3 @@ function findLeafSubnets(&$nid, &$networkTree, &$foundSubnets, $found)
         findLeafSubnets($nid, $net->child, $foundSubnets, $found | $net->NE_networkid == $nid);
     }
 }
-?>

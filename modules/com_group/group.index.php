@@ -26,7 +26,7 @@ $task = Utils::getParam($_REQUEST, 'task', null);
 $gid = Utils::getParam($_REQUEST, 'GR_groupid', null);
 $cid = Utils::getParam($_REQUEST, 'cid', array(0));
 if (!is_array($cid)) {
-    $cid = array (0);
+    $cid = array(0);
 }
 
 switch ($task) {
@@ -76,10 +76,11 @@ function showGroup()
     $pageNav = new PageNav($total, $limitstart, $limit);
     HTML_group::showGroups($groups, $pageNav);
 }
+
 /**
  * @param $pid
  */
-function editGroup($pid=null)
+function editGroup($pid = null)
 {
     global $database, $my, $acl;
 
@@ -91,6 +92,7 @@ function editGroup($pid=null)
 
     HTML_group::editGroup($group);
 }
+
 /**
  * @param $task
  */
@@ -101,7 +103,7 @@ function saveGroup($task)
     $group = new Group();
     database::bind($_POST, $group);
 
-    $isNew  = !$group->GR_groupid;
+    $isNew = !$group->GR_groupid;
 
     //
     //Acl not yet implemented
@@ -129,6 +131,7 @@ function saveGroup($task)
         Core::redirect("index2.php?option=com_group");
     }
 }
+
 /**
  * @param $cid
  */
@@ -151,10 +154,12 @@ function removeGroup($cid)
                 $limit = 10;
                 foreach ($persons as $person) {
                     $msg .= "\\n'" . $person->PE_firstname . " " . $person->PE_surname . "'";
-                    if (!--$limit) { break;
+                    if (!--$limit) {
+                        break;
                     }
                 }
-                if (count($persons) > $limit) { $msg .= '\n...';
+                if (count($persons) > $limit) {
+                    $msg .= '\n...';
                 }
                 Core::backWithAlert($msg);
             } else {
@@ -167,4 +172,3 @@ function removeGroup($cid)
         Core::redirect("index2.php?option=com_group");
     }
 }
-?>

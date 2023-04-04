@@ -38,4 +38,3 @@ function show()
 
     HTML_changelog::showChangelog($changelogText);
 }
-?>

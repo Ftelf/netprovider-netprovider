@@ -93,13 +93,13 @@ class NumberFormat
                 $times = 1000;
                 break;
             case "M":
-                $times = 1000*1000;
+                $times = 1000 * 1000;
                 break;
             case "G":
-                $times = 1000*1000*1000;
+                $times = 1000 * 1000 * 1000;
                 break;
             case "T":
-                $times = 1000*1000*1000*1000;
+                $times = 1000 * 1000 * 1000 * 1000;
                 break;
             default:
                 return null;

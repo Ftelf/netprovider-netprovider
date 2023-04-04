@@ -33,7 +33,7 @@ $eid = Utils::getParam($_REQUEST, 'BE_bankaccountentryid', null);
 $lid = Utils::getParam($_REQUEST, 'EL_emaillistid', null);
 $cid = Utils::getParam($_REQUEST, 'cid', array(0));
 if (!is_array($cid)) {
-    $cid = array (0);
+    $cid = array(0);
 }
 
 switch ($task) {
@@ -187,37 +187,46 @@ function showBankAccount($bid = null)
 
     $bankAccountEntries = array();
     foreach ($allBankAccountEntries as $k => $allBankAccountEntry) {
-        if ($allBankAccountEntry->BE_amount > 0) { $report['GLOBAL']['INCOME'] += $allBankAccountEntry->BE_amount;
+        if ($allBankAccountEntry->BE_amount > 0) {
+            $report['GLOBAL']['INCOME'] += $allBankAccountEntry->BE_amount;
         }
-        if ($allBankAccountEntry->BE_amount < 0) { $report['GLOBAL']['EXPENSE'] += $allBankAccountEntry->BE_amount;
+        if ($allBankAccountEntry->BE_amount < 0) {
+            $report['GLOBAL']['EXPENSE'] += $allBankAccountEntry->BE_amount;
         }
         $report['GLOBAL']['BALANCE'] += $allBankAccountEntry->BE_amount + $allBankAccountEntry->BE_charge;
         $report['GLOBAL']['CHARGE'] += $allBankAccountEntry->BE_charge;
 
         if ($filter['entryTypeOfTransaction'] != -1) {
-            if ($allBankAccountEntry->BE_typeoftransaction != $filter['entryTypeOfTransaction']) { continue;
+            if ($allBankAccountEntry->BE_typeoftransaction != $filter['entryTypeOfTransaction']) {
+                continue;
             }
         }
         if ($filter['entryStatusOfTransaction'] != -1) {
-            if ($allBankAccountEntry->BE_status != $filter['entryStatusOfTransaction']) { continue;
+            if ($allBankAccountEntry->BE_status != $filter['entryStatusOfTransaction']) {
+                continue;
             }
         }
         if ($filter['entryIdentifyCodeOfTransaction'] != -1) {
-            if ($allBankAccountEntry->BE_identifycode != $filter['entryIdentifyCodeOfTransaction']) { continue;
+            if ($allBankAccountEntry->BE_identifycode != $filter['entryIdentifyCodeOfTransaction']) {
+                continue;
             }
         }
         $dateTime = new DateUtil($allBankAccountEntry->BE_datetime);
         try {
-            if ($dateFrom->getTime() != null && $dateTime->before($dateFrom)) { continue;
+            if ($dateFrom->getTime() != null && $dateTime->before($dateFrom)) {
+                continue;
             }
-            if ($dateTo->getTime() != null && $dateTime->after($dateTo)) { continue;
+            if ($dateTo->getTime() != null && $dateTime->after($dateTo)) {
+                continue;
             }
         } catch (Exception $e) {
         }
 
-        if ($allBankAccountEntry->BE_amount > 0) { $report['LIST']['INCOME'] += $allBankAccountEntry->BE_amount;
+        if ($allBankAccountEntry->BE_amount > 0) {
+            $report['LIST']['INCOME'] += $allBankAccountEntry->BE_amount;
         }
-        if ($allBankAccountEntry->BE_amount < 0) { $report['LIST']['EXPENSE'] += $allBankAccountEntry->BE_amount;
+        if ($allBankAccountEntry->BE_amount < 0) {
+            $report['LIST']['EXPENSE'] += $allBankAccountEntry->BE_amount;
         }
         $report['LIST']['CHARGE'] += $allBankAccountEntry->BE_charge;
         $bankAccountEntries[$k] = $allBankAccountEntry;
@@ -242,7 +251,7 @@ function showBankAccount($bid = null)
     HTML_BankAccount::showEntries($bankAccounts, $bid, $bankAccountEntries, $report, $filter, $pageNav);
 }
 
-function editBankAccount($bid=null)
+function editBankAccount($bid = null)
 {
     global $database, $my, $acl;
     // flags to disable certain fields
@@ -275,6 +284,7 @@ function editBankAccount($bid=null)
     }
     HTML_BankAccount::editBankAccount($bankAccount, $flags);
 }
+
 /**
  *
  */
@@ -315,8 +325,8 @@ function saveBankAccount($task)
         }
         $database->insertObject("bankaccount", $bankAccount, "BA_bankaccountid", false);
 
-        $accountName = $bankAccount->BA_bankname.": ".$bankAccount->BA_accountname;
-        $accountNumber = $bankAccount->BA_accountnumber."/".$bankAccount->BA_banknumber;
+        $accountName = $bankAccount->BA_bankname . ": " . $bankAccount->BA_accountname;
+        $accountNumber = $bankAccount->BA_accountnumber . "/" . $bankAccount->BA_banknumber;
     } else {
         $bankAccount->BA_bankname = null;
         $bankAccount->BA_banknumber = null;
@@ -329,8 +339,8 @@ function saveBankAccount($task)
 
         $storedBankAccount = BankAccountDAO::getBankAccountByID($bankAccount->BA_bankaccountid);
 
-        $accountName = $storedBankAccount->BA_bankname.": ".$storedBankAccount->BA_accountname;
-        $accountNumber = $storedBankAccount->BA_accountnumber."/".$storedBankAccount->BA_banknumber;
+        $accountName = $storedBankAccount->BA_bankname . ": " . $storedBankAccount->BA_accountname;
+        $accountNumber = $storedBankAccount->BA_accountnumber . "/" . $storedBankAccount->BA_banknumber;
     }
 
     switch ($task) {
@@ -349,6 +359,7 @@ function saveBankAccount($task)
         break;
     }
 }
+
 /**
  *
  */
@@ -376,6 +387,7 @@ function showBankList($bid)
 
     HTML_BankAccount::showBankList($bankAccount, $slicedEmailLists, $pageNav);
 }
+
 /**
  *
  */
@@ -392,6 +404,7 @@ function uploadBankLists($bid)
 
     HTML_BankAccount::uploadBankLists($bankAccount);
 }
+
 /**
  *
  */
@@ -421,6 +434,7 @@ function downloadBankLists($bid)
     }
     Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
 }
+
 /**
  *
  */
@@ -450,6 +464,7 @@ function processBankLists($bid)
 
     Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
 }
+
 /**
  *
  */
@@ -478,6 +493,7 @@ function proceedAccountEntries($bid)
 
     Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
 }
+
 /**
  *
  */
@@ -524,10 +540,11 @@ function doUploadBankLists($bid)
 
     Core::redirect("index2.php?option=com_bankaccount&task=uploadBankLists&BA_bankaccountid=$bid&hidemainmenu=1");
 }
+
 /**
  *
  */
-function editBankAccountEntry($eid=null)
+function editBankAccountEntry($eid = null)
 {
     global $database, $my, $acl;
 
@@ -541,10 +558,11 @@ function editBankAccountEntry($eid=null)
 
     HTML_BankAccount::editBankAccountEntry($bankAccountEntry, $persons);
 }
+
 /**
  *
  */
-function editBankAccountEntries($cid=null)
+function editBankAccountEntries($cid = null)
 {
     global $database, $my, $acl;
 
@@ -562,7 +580,7 @@ function editBankAccountEntries($cid=null)
         if ($bankAccountEntry->BE_status == BankAccountEntry::STATUS_PROCESSED) {
             continue;
         }
-        $bankAccountEntries[$eid] =  $bankAccountEntry;
+        $bankAccountEntries[$eid] = $bankAccountEntry;
     }
 
     if (!count($bankAccountEntries)) {
@@ -571,6 +589,7 @@ function editBankAccountEntries($cid=null)
 
     HTML_BankAccount::editBankAccountEntries($bankAccountEntries);
 }
+
 /**
  *
  */
@@ -644,7 +663,7 @@ function saveBankAccountEntry($task)
                 $database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", false, false);
 
                 $person = PersonDAO::getPersonByPersonAccountID($personAccount->PA_personaccountid);
-                $msg = sprintf(_("Bank entry %s %s %s %s amount %s credited person account '%s' with %s"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $storedBankAccountEntry->BE_accountnumber."/".$storedBankAccountEntry->BE_banknumber, $storedBankAccountEntry->BE_accountname, $storedBankAccountEntry->BE_message, $storedBankAccountEntry->BE_amount, $person->PE_firstname." ".$person->PE_surname, $personAccountEntry->PN_amount);
+                $msg = sprintf(_("Bank entry %s %s %s %s amount %s credited person account '%s' with %s"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $storedBankAccountEntry->BE_accountnumber . "/" . $storedBankAccountEntry->BE_banknumber, $storedBankAccountEntry->BE_accountname, $storedBankAccountEntry->BE_message, $storedBankAccountEntry->BE_amount, $person->PE_firstname . " " . $person->PE_surname, $personAccountEntry->PN_amount);
                 $appContext->insertMessage($msg);
                 $database->log($msg, Log::LEVEL_INFO);
             }
@@ -659,13 +678,14 @@ function saveBankAccountEntry($task)
 
     switch ($task) {
     default:
-        $msg = sprintf(_("Bank entry %s %s %s %s amount %s proceed"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $storedBankAccountEntry->BE_accountnumber."/".$storedBankAccountEntry->BE_banknumber, $storedBankAccountEntry->BE_accountname, $storedBankAccountEntry->BE_message, $storedBankAccountEntry->BE_amount);
+        $msg = sprintf(_("Bank entry %s %s %s %s amount %s proceed"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $storedBankAccountEntry->BE_accountnumber . "/" . $storedBankAccountEntry->BE_banknumber, $storedBankAccountEntry->BE_accountname, $storedBankAccountEntry->BE_message, $storedBankAccountEntry->BE_amount);
         $appContext->insertMessage($msg);
         $database->log($msg, Log::LEVEL_INFO);
         Core::redirect("index2.php?option=com_bankaccount&task=show&BA_bankaccountid=$storedBankAccountEntry->BE_bankaccountid");
         break;
     }
 }
+
 /**
  *
  */
@@ -690,7 +710,7 @@ function saveBankAccountEntries($cid, $task)
         $database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", false, false);
 
         $dateTime = new DateUtil($bankAccountEntry->BE_datetime);
-        $msg = sprintf(_("Bank entry %s %s %s %s amount %s proceed"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $bankAccountEntry->BE_accountnumber."/".$bankAccountEntry->BE_banknumber, $bankAccountEntry->BE_accountname, $bankAccountEntry->BE_message, $bankAccountEntry->BE_amount);
+        $msg = sprintf(_("Bank entry %s %s %s %s amount %s proceed"), $dateTime->getFormattedDate(DateUtil::FORMAT_DATE), $bankAccountEntry->BE_accountnumber . "/" . $bankAccountEntry->BE_banknumber, $bankAccountEntry->BE_accountname, $bankAccountEntry->BE_message, $bankAccountEntry->BE_amount);
         $appContext->insertMessage($msg);
         $database->log($msg, Log::LEVEL_INFO);
 

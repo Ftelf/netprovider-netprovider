@@ -30,9 +30,9 @@ $task = Utils::getParam($_REQUEST, 'task', null);
 $nid = Utils::getParam($_REQUEST, 'NE_networkid', null);
 $inid = Utils::getParam($_REQUEST, 'IP_networkid', null);
 $iid = Utils::getParam($_REQUEST, 'IP_ipid', null);
-$cid = Utils::getParam($_REQUEST, 'cid', array(0));
+$cid = Utils::getParam($_REQUEST, 'cid', []);
 if (!is_array($cid)) {
-    $cid = array(0);
+    $cid = [];
 }
 
 switch ($task) {
@@ -83,15 +83,13 @@ default:
 /**
  * showNetwork
  * will show network with particular $nid NE_networkid highlighted
- *
- * @param $nid NE_networkid of network to highlight
  */
 function showNetwork()
 {
     global $database, $core;
     require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
-    $filter = array();
+    $filter = [];
     // default settings if no setting in session
     // do we want Network headers for IPs to be shown ?
     //
@@ -126,7 +124,7 @@ function showNetwork()
     $networkTree = buildNetworkTree(0, $allNetworks);
     // Build array of arrays with networkid keys containing array of IPs in this network
     //
-    $ipList = Array();
+    $ipList = [];
     foreach ($allIps as $ip) {
         $ipList[$ip->IP_networkid][ip2long($ip->IP_address)] = $ip;
 
@@ -137,14 +135,15 @@ function showNetwork()
         }
     }
     // sort ips for each network
-    foreach ($ipList as &$ipL) { ksort($ipL);
+    foreach ($ipList as &$ipL) {
+        ksort($ipL);
     }
     // find out if current highlighted network is also leaf network
     //
     $isLeafNetwork = NetworkDAO::isLeafNetwork($nid);
     // According to, if we highlight leaf network or not
     //
-    $leafSubNetworks = array();
+    $leafSubNetworks = [];
     if ($isLeafNetwork) {
         $leafSubNetworks[$nid] = $selectedNetwork;
         $canAddNetwork = ($selectedNetworkParsed->bitmask < 30);
@@ -158,7 +157,7 @@ function showNetwork()
         $directSubNetworks = NetworkDAO::getNetworkArrayByParentNetworkID($selectedNetwork->NE_networkid);
         // Sort direct subNetworks
         //
-        $directSubNetworksSorted = array();
+        $directSubNetworksSorted = [];
         foreach ($directSubNetworks as $directSubNetwork) {
             $directSubNetworkParsed = $ipv4->parseAddress($directSubNetwork->NE_net);
             $directSubNetworksSorted[ip2long($directSubNetworkParsed->network)] = $directSubNetwork;
@@ -167,7 +166,7 @@ function showNetwork()
         $directSubNetworks = $directSubNetworksSorted;
         // Make list of plain direct subnets
         //
-        $plainDirectSubNetworks = array();
+        $plainDirectSubNetworks = [];
         foreach ($directSubNetworks as $directSubNetwork) {
             $plainDirectSubNetworks[] = $directSubNetwork->NE_net;
         }
@@ -187,7 +186,7 @@ function showNetwork()
     //
     $ipShowList = array_slice($ipShowList, $limitstart, $limit);
 
-    $flags = array();
+    $flags = [];
     if ($selectedNetwork->NE_parent_networkid == 0) { // root network selected
         $flags['net_new'] = $canAddNetwork;
         $flags['net_edit'] = false;
@@ -217,8 +216,9 @@ function showNetwork()
     $flags['ip_edit'] = true;
     $flags['ip_delete'] = true;
 
-    HTML_network::showNetwork($networkTree, $selectedNetwork, $leafSubNetworks, $ipList, $ipShowList, $persons, $pageNav, $filter, $flags);
+    HTML_Network::showNetwork($networkTree, $selectedNetwork, $leafSubNetworks, $ipList, $ipShowList, $persons, $pageNav, $filter, $flags);
 }
+
 /**
  * editIP
  *
@@ -262,7 +262,7 @@ function editIP($ipid, $nid): void
     if ($networkParsed->bitmask >= 24) {
         // This ipList will contain available options to select
         //
-        $availableIpList = Array();
+        $availableIpList = [];
         $broadcastIP = ip2long($networkParsed->broadcast);
         for ($iip = ip2long($networkParsed->network) + 1; $iip < $broadcastIP; $iip++) {
             $availableIpList[$iip] = long2ip($iip);
@@ -278,15 +278,16 @@ function editIP($ipid, $nid): void
         $availableIpList = null;
     }
 
-    HTML_network::editIP($ip, $network, $availableIpList, $persons);
+    HTML_Network::editIP($ip, $network, $availableIpList, $persons);
 }
+
 /**
  * editNetwork
  *
  * @param $task
- * @param $id
+ * @param $nid
  */
-function editNetwork($task, $nid=null)
+function editNetwork($task, $nid = null)
 {
     global $database, $appContext;
     $ipv4 = new Net_IPv4();
@@ -314,21 +315,21 @@ function editNetwork($task, $nid=null)
     // Sort direct subNetworks
     //
 
-    $directSubNetworksSorted = array();
+    $directSubNetworksSorted = [];
     foreach ($directSubNetworks as $directSubNetwork) {
         $subNetworkParsed = $ipv4->parseAddress($directSubNetwork->NE_net);
         $directSubNetworksSorted[ip2long($subNetworkParsed->network)] = $directSubNetwork;
     }
     ksort($directSubNetworksSorted);
     $directSubNetworks = $directSubNetworksSorted;
-    $plainSubNetworks = array();
+    $plainSubNetworks = [];
     foreach ($directSubNetworks as $directSubNetwork) {
         $plainSubNetworks[] = $directSubNetwork->NE_net;
     }
     // load Person list
     //
     $persons = PersonDAO::getPersonArray();
-    $flags = array();
+    $flags = [];
     // Get list of all possible subnetwork combinations if we create new network
     //
     if ($task == 'newN') {
@@ -356,8 +357,9 @@ function editNetwork($task, $nid=null)
         $possibleNetworkArray = null;
     }
 
-    HTML_network::editNet($network, $parentNetwork, $possibleNetworkArray, $directSubNetworks, $persons, $flags);
+    HTML_Network::editNet($network, $parentNetwork, $possibleNetworkArray, $directSubNetworks, $persons, $flags);
 }
+
 /**
  * saveIP
  *
@@ -370,8 +372,8 @@ function saveIP($task, $iid, $nid)
     global $database, $appContext;
 
     $ip = new Ip();
-    database::bind($_POST, $ip);
-    $isNew  = !$ip->IP_ipid;
+    Database::bind($_POST, $ip);
+    $isNew = !$ip->IP_ipid;
 
     // in this network we will create new ip
     //
@@ -396,13 +398,13 @@ function saveIP($task, $iid, $nid)
 
     switch ($task) {
     case 'applyI':
-        $msg = sprintf(_("IP: %s in network %s assigned to person '%s'"), $ip->IP_address, $network->NE_net, $person->PE_firstname." ".$person->PE_surname);
+        $msg = sprintf(_("IP: %s in network %s assigned to person '%s'"), $ip->IP_address, $network->NE_net, $person->PE_firstname . " " . $person->PE_surname);
         $appContext->insertMessage($msg);
         $database->log($msg, Log::LEVEL_INFO);
         Core::redirect("index2.php?option=com_network&task=editI&IP_ipid=$ip->IP_ipid&NE_networkid=$nid&hidemainmenu=1");
         break;
     case 'saveI':
-        $msg = sprintf(_("IP: %s in network %s assigned to person '%s'"), $ip->IP_address, $network->NE_net, $person->PE_firstname." ".$person->PE_surname);
+        $msg = sprintf(_("IP: %s in network %s assigned to person '%s'"), $ip->IP_address, $network->NE_net, $person->PE_firstname . " " . $person->PE_surname);
         $appContext->insertMessage($msg);
         $database->log($msg, Log::LEVEL_INFO);
     default:
@@ -410,6 +412,7 @@ function saveIP($task, $iid, $nid)
         break;
     }
 }
+
 /**
  * saveNetwork
  *
@@ -422,8 +425,8 @@ function saveNetwork($task)
     $ipv4 = new Net_IPv4();
     $network = new Network();
     $person = new Person();
-    database::bind($_POST, $network);
-    $isNew  = !$network->NE_networkid;
+    Database::bind($_POST, $network);
+    $isNew = !$network->NE_networkid;
 
     // Validate network format
     //
@@ -445,18 +448,19 @@ function saveNetwork($task)
             if (($parentNetworkParsed->long <= $networkParsed->long) && ($ipv4->ip2double($networkParsed->broadcast) <= $ipv4->ip2double($parentNetworkParsed->broadcast))) {
                 // Load all direct subNetworks
                 //
-                if (($directSubNetworks = NetworkDAO::getNetworkArrayByParentNetworkID($parentNetwork->NE_networkid)) == null) { $subNetworks = array();
+                if (($directSubNetworks = NetworkDAO::getNetworkArrayByParentNetworkID($parentNetwork->NE_networkid)) == null) {
+                    $subNetworks = [];
                 }
                 //  Sort direct subNetworks
                 //
-                $directSubNetworksSorted = array();
+                $directSubNetworksSorted = [];
                 foreach ($directSubNetworks as $directSubNetwork) {
                     $subNetworkParsed = $ipv4->parseAddress($directSubNetwork->NE_net);
                     $directSubNetworksSorted[ip2long($subNetworkParsed->network)] = $directSubNetwork;
                 }
                 ksort($directSubNetworksSorted);
                 $directSubNetworks = $directSubNetworksSorted;
-                $plainSubNetworks = array();
+                $plainSubNetworks = [];
                 foreach ($directSubNetworks as $directSubNetwork) {
                     $plainSubNetworks[] = $directSubNetwork->NE_net;
                 }
@@ -470,7 +474,7 @@ function saveNetwork($task)
     } else {
         // security, if someone try to POST changed form
         //
-        if (($networkFromDatabase = NetworkDAO::getNetworkByID($network->NE_networkid)) == null ) {
+        if (($networkFromDatabase = NetworkDAO::getNetworkByID($network->NE_networkid)) == null) {
             Core::redirect("index2.php?option=com_network");
         }
         if ($networkFromDatabase->NE_net != $network->NE_net) {
@@ -492,13 +496,13 @@ function saveNetwork($task)
     }
     switch ($task) {
     case 'applyN':
-        $msg = sprintf(_("Network %s assigned to user '%s'"), $network->NE_net, $person->PE_firstname." ".$person->PE_surname);
+        $msg = sprintf(_("Network %s assigned to user '%s'"), $network->NE_net, $person->PE_firstname . " " . $person->PE_surname);
         $appContext->insertMessage($msg);
         $database->log($msg, Log::LEVEL_INFO);
         Core::redirect("index2.php?option=com_network&task=editN&NE_networkid=$network->NE_networkid&hidemainmenu=1");
         break;
     case 'saveN':
-        $msg = sprintf(_("Network %s assigned to user '%s'"), $network->NE_net, $person->PE_firstname." ".$person->PE_surname);
+        $msg = sprintf(_("Network %s assigned to user '%s'"), $network->NE_net, $person->PE_firstname . " " . $person->PE_surname);
         $appContext->insertMessage($msg);
         $database->log($msg, Log::LEVEL_INFO);
     default:
@@ -506,6 +510,7 @@ function saveNetwork($task)
         break;
     }
 }
+
 /**
  * removeIp
  *
@@ -528,13 +533,14 @@ function removeIp($cid)
             IpDAO::removeIpByID($id);
             IpAccountDAO::removeIpAccountByIPID($id);
             IpAccountAbsDAO::removeIpAccountAbsByIPID($id);
-            $msg = sprintf(_("IP %s from user %s was deleted"), $ip->IP_address, $person->PE_firstname." ".$person->PE_surname);
+            $msg = sprintf(_("IP %s from user %s was deleted"), $ip->IP_address, $person->PE_firstname . " " . $person->PE_surname);
             $appContext->insertMessage($msg);
             $database->log($msg, Log::LEVEL_INFO);
         }
         Core::redirect("index2.php?option=com_network");
     }
 }
+
 /**
  * removeNetwork
  *
@@ -563,7 +569,7 @@ function removeNetwork($nid)
         Core::redirect("index2.php?option=com_network&NE_networkid=$network->NE_parent_networkid");
     }
     NetworkDAO::removeNetworkByID($nid);
-    $msg = sprintf(_("Network %s from user %s was deleted"), $network->NE_net, $person->PE_firstname." ".$person->PE_surname);
+    $msg = sprintf(_("Network %s from user %s was deleted"), $network->NE_net, $person->PE_firstname . " " . $person->PE_surname);
     $appContext->insertMessage($msg);
     $database->log($msg, Log::LEVEL_INFO);
     // select parent network
@@ -571,6 +577,7 @@ function removeNetwork($nid)
     $_SESSION['UI_SETTINGS']['com_network']['filter']['NE_networkid'] = $network->NE_parent_networkid;
     Core::redirect("index2.php?option=com_network");
 }
+
 /**
  * buildNetworkTree
  * will return network as tree
@@ -581,7 +588,7 @@ function removeNetwork($nid)
  */
 function buildNetworkTree($id, $netA)
 {
-    $arr = array();
+    $arr = [];
     $ipv4 = new Net_IPv4();
     foreach ($netA as $net) {
         if ($net->NE_parent_networkid == $id) {
@@ -589,7 +596,8 @@ function buildNetworkTree($id, $netA)
             $arr[ip2long($netParse->network)] = clone $net;
         }
     }
-    if (count($arr) == 0) { return null;
+    if (count($arr) == 0) {
+        return null;
     }
     ksort($arr);
 
@@ -599,6 +607,7 @@ function buildNetworkTree($id, $netA)
     }
     return $arr;
 }
+
 /**
  * findSubnets
  * will return all leaf subnetworks as array from network with $nid NE_networkid
@@ -611,7 +620,8 @@ function buildNetworkTree($id, $netA)
  */
 function findLeafSubnets(&$nid, &$networkTree, &$foundSubnets, $found)
 {
-    if ($networkTree == null) { return;
+    if ($networkTree == null) {
+        return;
     }
 
     foreach ($networkTree as $net) {
@@ -625,6 +635,7 @@ function findLeafSubnets(&$nid, &$networkTree, &$foundSubnets, $found)
         findLeafSubnets($nid, $net->child, $foundSubnets, $found | $net->NE_networkid == $nid);
     }
 }
+
 /**
  * getFreeSubNetworks
  * substract all subnetworks specified by $n2Array from parent network $n1
@@ -644,22 +655,22 @@ function getFreeSubNetworks(&$n1, &$n2Array)
     }
     // Include only subnetworks, will be remove afterwoods
     //
-    $innerNets = array();
+    $innerNets = [];
     $countBefore = count($n2Array);
     foreach ($n2Array as $n2) {
         $np2 = $ipv4->parseAddress($n2);
-        if (($np1->long <= $np2->long) && ($ipv4->ip2double($np2->broadcast) <= $ipv4->ip2double($np1->broadcast)) ) {
+        if (($np1->long <= $np2->long) && ($ipv4->ip2double($np2->broadcast) <= $ipv4->ip2double($np1->broadcast))) {
             $innerNets[] = $np2;
         }
     }
     $countAfter = count($innerNets);
     if ($countAfter != $countBefore) {
         $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", Log::LEVEL_ERROR);
-        return array();
+        return [];
     }
     if (count($innerNets) == 0) {
         $database->log("ERROR: Síť '$n1' obsahuje nekonzistentní subsítě. Databáze '$countBefore', po filtru '$countAfter'", Log::LEVEL_ERROR);
-        return array();
+        return [];
     }
     $lastAnchor = $np1->long;
     $freeNetsTemp = [];
@@ -678,16 +689,17 @@ function getFreeSubNetworks(&$n1, &$n2Array)
     }
     return $freeNets;
 }
+
 /**
  * subNetworkPermutation
  *
- * @param  $network
+ * @param  $networkParsed
  * @param  $self    return this network in permutation or just subnetworks
  * @return array of available permutations
  */
 function subNetworkPermutation($networkParsed, $self)
 {
-    $networkPermutations = array();
+    $networkPermutations = [];
     $netStart = ip2long($networkParsed->network);
     $netEnd = ip2long($networkParsed->broadcast) + 1;
     if ($self) {
@@ -695,14 +707,15 @@ function subNetworkPermutation($networkParsed, $self)
     } else {
         $add = 1;
     }
-    for ($bitmask = $networkParsed->bitmask + $add; $bitmask < 31; $bitmask++ ) {
+    for ($bitmask = $networkParsed->bitmask + $add; $bitmask < 31; $bitmask++) {
         $step = pow(2, 32 - $bitmask);
-        for ($wip = $netStart ; $wip < $netEnd; $wip+=$step) {
+        for ($wip = $netStart; $wip < $netEnd; $wip += $step) {
             $networkPermutations[] = long2ip($wip) . "/" . $bitmask;
         }
     }
     return $networkPermutations;
 }
+
 /**
  * subNetworkPermutation
  *
@@ -719,7 +732,7 @@ function subNetworkPermutationByRange($n1, $n2, $self)
     $nl2 = ip2long($n2);
     $bm = 32 - ceil(log($nl2 - $nl1) / log(2));
 
-    $networkPermutations = array();
+    $networkPermutations = [];
     $n1Parsed = $ipv4->parseAddress($n1 . "/" . $bm);
 
     $netStart = ip2long($n1Parsed->network);
@@ -729,10 +742,10 @@ function subNetworkPermutationByRange($n1, $n2, $self)
     } else {
         $add = 1;
     }
-    for ($bitmask = $n1Parsed->bitmask + $add; $bitmask < 31; $bitmask++ ) {
+    for ($bitmask = $n1Parsed->bitmask + $add; $bitmask < 31; $bitmask++) {
         $step = pow(2, 32 - $bitmask);
-        for ($wip = $netStart ; $wip < $netEnd; $wip+=$step) {
-            if (($wip >= $nl1) && ($wip + $step <= $nl2) ) {
+        for ($wip = $netStart; $wip < $netEnd; $wip += $step) {
+            if (($wip >= $nl1) && ($wip + $step <= $nl2)) {
                 $networkPermutations[] = long2ip($wip) . "/" . $bitmask;
             }
         }
@@ -760,11 +773,11 @@ function isAnyFreeSubNetworks(&$n1, &$n2Array)
     }
     // Include only subnetworks, will be remove afterwoods
     //
-    $innerNets = array();
+    $innerNets = [];
     $countBefore = count($n2Array);
     foreach ($n2Array as $n2) {
         $np2 = $ipv4->parseAddress($n2);
-        if (($np1->long <= $np2->long) && ($ipv4->ip2double($np2->broadcast) <= $ipv4->ip2double($np1->broadcast)) ) {
+        if (($np1->long <= $np2->long) && ($ipv4->ip2double($np2->broadcast) <= $ipv4->ip2double($np1->broadcast))) {
             $innerNets[] = $np2;
         }
     }
@@ -811,17 +824,17 @@ function isSpaceForSubNetwork(&$n1, &$n2Array, &$nn)
     $np1 = $ipv4->parseAddress($n1);
     $nnp = $ipv4->parseAddress($nn);
     if (count($n2Array) == 0) {
-        if (($np1->long <= $nnp->long) && ($ipv4->ip2double($nnp->broadcast) <= $ipv4->ip2double($np1->broadcast)) ) {
+        if (($np1->long <= $nnp->long) && ($ipv4->ip2double($nnp->broadcast) <= $ipv4->ip2double($np1->broadcast))) {
             return true;
         }
     }
     // Include only subnetworks, will be remove afterwoods
     //
-    $innerNets = array();
+    $innerNets = [];
     $countBefore = count($n2Array);
     foreach ($n2Array as $n2) {
         $np2 = $ipv4->parseAddress($n2);
-        if (($np1->long <= $np2->long) && ($ipv4->ip2double($np2->broadcast) <= $ipv4->ip2double($np1->broadcast)) ) {
+        if (($np1->long <= $np2->long) && ($ipv4->ip2double($np2->broadcast) <= $ipv4->ip2double($np1->broadcast))) {
             $innerNets[] = $np2;
         }
     }
@@ -838,7 +851,7 @@ function isSpaceForSubNetwork(&$n1, &$n2Array, &$nn)
     foreach ($innerNets as $np2) {
         $n2long = $np2->long;
         if ($n2long > $lastAnchor) {
-            if (($lastAnchor <= $nnp->long) && (($ipv4->ip2double($nnp->broadcast) + 1) <= $ipv4->ip2double($np2->network)) ) {
+            if (($lastAnchor <= $nnp->long) && (($ipv4->ip2double($nnp->broadcast) + 1) <= $ipv4->ip2double($np2->network))) {
                 return true;
             }
         }
@@ -847,10 +860,9 @@ function isSpaceForSubNetwork(&$n1, &$n2Array, &$nn)
     // Finally try last one
     //
     if ($ipv4->ip2double($np2->broadcast) < $ipv4->ip2double($np1->broadcast)) {
-        if (($lastAnchor <= $nnp->long) && ($ipv4->ip2double($nnp->broadcast) <= $ipv4->ip2double($np1->broadcast)) ) {
+        if (($lastAnchor <= $nnp->long) && ($ipv4->ip2double($nnp->broadcast) <= $ipv4->ip2double($np1->broadcast))) {
             return true;
         }
     }
     return false;
 }
-?>

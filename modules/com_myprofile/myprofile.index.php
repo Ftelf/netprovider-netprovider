@@ -208,10 +208,9 @@ function savePerson()
 
     $database->updateObject("person", $person, "PE_personid", false, false);
 
-    $msg = sprintf(_("User '%s' actualized his profile"), $person->PE_firstname." ".$person->PE_surname);//$msg = "Uživatel: '$person->PE_firstname $person->PE_surname' aktualizoval svůj profil";
+    $msg = sprintf(_("User '%s' actualized his profile"), $person->PE_firstname . " " . $person->PE_surname);//$msg = "Uživatel: '$person->PE_firstname $person->PE_surname' aktualizoval svůj profil";
     $appContext->insertMessage($msg);
     $database->log($msg, Log::LEVEL_INFO);
 
     Core::redirect("index2.php?option=com_myprofile");
 }
-?>

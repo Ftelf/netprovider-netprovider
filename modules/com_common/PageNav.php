@@ -36,7 +36,7 @@ class PageNav
     var $total = null;
     var $suffix = null;
 
-    public function __construct( $total, $limitstart, $limit, $suffix="" )
+    public function __construct($total, $limitstart, $limit, $suffix = "")
     {
         $this->total = intval($total);
         $this->limitstart = max($limitstart, 0);
@@ -44,11 +44,12 @@ class PageNav
         if ($this->limit > $this->total) {
             $this->limitstart = 0;
         }
-        if (($this->limit-1)*$this->limitstart > $this->total) {
+        if (($this->limit - 1) * $this->limitstart > $this->total) {
             $this->limitstart -= $this->limitstart % $this->limit;
         }
         $this->suffix = $suffix;
     }
+
     /**
      * @return string The html for the limit # input box
      */
@@ -56,7 +57,7 @@ class PageNav
     {
         $limits = array(5, 10, 15, 20, 25, 30, 50, 100, 200, 500);
         $ohtml = "";
-        for ($i=0, $n = count($limits); $i < $n; $i++) {
+        for ($i = 0, $n = count($limits); $i < $n; $i++) {
             if ($limits[$i] == $this->limit) {
                 $ohtml .= "<option value=\"$limits[$i]\" selected=\"selected\">$limits[$i]</option>\n";
             } else {
@@ -65,19 +66,20 @@ class PageNav
         }
 
         // build the html select list
-        $html  = "\n<select name=\"limit".$this->suffix."\" class=\"inputbox\" size=\"1\" onchange=\"document.adminForm.submit();\">\n";
+        $html = "\n<select name=\"limit" . $this->suffix . "\" class=\"inputbox\" size=\"1\" onchange=\"document.adminForm.submit();\">\n";
         $html .= $ohtml;
         $html .= "</select>\n";
-        $html .= "<input type=\"hidden\" name=\"limitstart".$this->suffix."\" value=\"0\" />\n";
+        $html .= "<input type=\"hidden\" name=\"limitstart" . $this->suffix . "\" value=\"0\" />\n";
         return $html;
     }
+
     /**
      * @return string The html for the pages counter, eg, Results 1-10 of x
      */
     function getPagesCounter()
     {
         $html = '';
-        $from_result = $this->limitstart+1;
+        $from_result = $this->limitstart + 1;
         if ($this->limitstart + $this->limit < $this->total) {
             $to_result = $this->limitstart + $this->limit;
         } else {
@@ -90,6 +92,7 @@ class PageNav
         }
         return $html;
     }
+
     /**
      * @return string The html links for pages, eg, previous, next, 1 2 3 ... x
      */
@@ -106,8 +109,8 @@ class PageNav
         ";
         $displayed_pages = 10;
         $total_pages = ceil($this->total / $this->limit);
-        $this_page = ceil(($this->limitstart+1) / $this->limit);
-        $start_loop = (floor(($this_page-1)/$displayed_pages))*$displayed_pages+1;
+        $this_page = ceil(($this->limitstart + 1) / $this->limit);
+        $start_loop = (floor(($this_page - 1) / $displayed_pages)) * $displayed_pages + 1;
         if ($start_loop + $displayed_pages - 1 < $total_pages) {
             $stop_loop = $start_loop + $displayed_pages - 1;
         } else {
@@ -116,14 +119,14 @@ class PageNav
 
         if ($this_page > 1) {
             $page = ($this_page - 2) * $this->limit;
-            $html .= "\n<a href=\"#beg\" class=\"pagenav\" title=\""._("First page")."\" onclick=\"goPage('{$this->suffix}', 0);\">&lt;&lt; "._("First")."</a>";
-            $html .= "\n<a href=\"#prev\" class=\"pagenav\" title=\""._("Previous page")."\" onclick=\"goPage('{$this->suffix}', {$page});\">&lt; "._("Previous")."</a>";
+            $html .= "\n<a href=\"#beg\" class=\"pagenav\" title=\"" . _("First page") . "\" onclick=\"goPage('{$this->suffix}', 0);\">&lt;&lt; " . _("First") . "</a>";
+            $html .= "\n<a href=\"#prev\" class=\"pagenav\" title=\"" . _("Previous page") . "\" onclick=\"goPage('{$this->suffix}', {$page});\">&lt; " . _("Previous") . "</a>";
         } else {
-            $html .= "\n<span class=\"pagenav\">&lt;&lt; "._("First")."</span>";
-            $html .= "\n<span class=\"pagenav\">&lt; "._("Previous")."</span>";
+            $html .= "\n<span class=\"pagenav\">&lt;&lt; " . _("First") . "</span>";
+            $html .= "\n<span class=\"pagenav\">&lt; " . _("Previous") . "</span>";
         }
 
-        for ($i=$start_loop; $i <= $stop_loop; $i++) {
+        for ($i = $start_loop; $i <= $stop_loop; $i++) {
             $page = ($i - 1) * $this->limit;
             if ($i == $this_page) {
                 $html .= "\n<span class=\"pagenav\"> $i </span>";
@@ -134,12 +137,12 @@ class PageNav
 
         if ($this_page < $total_pages) {
             $page = $this_page * $this->limit;
-            $end_page = ($total_pages-1) * $this->limit;
-            $html .= "\n<a href=\"#next\" class=\"pagenav\" title=\""._("Next page")."\" onclick=\"goPage('{$this->suffix}', {$page});\">"._("Next")." &gt;</a>";
-            $html .= "\n<a href=\"#end\" class=\"pagenav\" title=\""._("Last page")."\" onclick=\"goPage('{$this->suffix}', {$end_page});\">"._("Last")." &gt;&gt;</a>";
+            $end_page = ($total_pages - 1) * $this->limit;
+            $html .= "\n<a href=\"#next\" class=\"pagenav\" title=\"" . _("Next page") . "\" onclick=\"goPage('{$this->suffix}', {$page});\">" . _("Next") . " &gt;</a>";
+            $html .= "\n<a href=\"#end\" class=\"pagenav\" title=\"" . _("Last page") . "\" onclick=\"goPage('{$this->suffix}', {$end_page});\">" . _("Last") . " &gt;&gt;</a>";
         } else {
-            $html .= "\n<span class=\"pagenav\">"._("Next")." &gt;</span>";
-            $html .= "\n<span class=\"pagenav\">"._("Last")." &gt;&gt;</span>";
+            $html .= "\n<span class=\"pagenav\">" . _("Next") . " &gt;</span>";
+            $html .= "\n<span class=\"pagenav\">" . _("Last") . " &gt;&gt;</span>";
         }
         return $html;
     }
@@ -149,19 +152,21 @@ class PageNav
         $html = '<div style="text-align: center; padding: 2px;">';
         $html .= $this->getPagesLinks();
         $html .= '</div>';
-        $html .= '<div style="text-align: center; padding: 2px;">'._("Show").' #';
+        $html .= '<div style="text-align: center; padding: 2px;">' . _("Show") . ' #';
         $html .= $this->getLimitBox();
         $html .= $this->getPagesCounter();
         $html .= '</div>';
         return $html;
     }
+
     /**
-     @param  int The row index
-     @return int
+     * @param  int The row index
+     * @return int
      */
-    function rowNumber( $i )
+    function rowNumber($i)
     {
         return $i + 1 + $this->limitstart;
     }
 }
+
 ?>

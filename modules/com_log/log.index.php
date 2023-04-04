@@ -26,7 +26,7 @@ $task = Utils::getParam($_REQUEST, 'task', null);
 $lid = Utils::getParam($_REQUEST, 'LO_logid', null);
 $cid = Utils::getParam($_REQUEST, 'cid', array(0));
 if (!is_array($cid)) {
-    $cid = array (0);
+    $cid = array(0);
 }
 
 switch ($task) {
@@ -91,6 +91,7 @@ function showLog()
     $pageNav = new PageNav($total, $limitstart, $limit);
     HTML_log::showLog($logs, $persons, $pageNav, $filter);
 }
+
 /**
  * @param array $cid LogID
  */
@@ -107,4 +108,3 @@ function removeLog($cid)
         Core::redirect("index2.php?option=com_log");
     }
 }
-?>
