@@ -52,14 +52,13 @@ class Message
         self::STATUS_CANNOT_BE_SEND
     ];
 
-    public static array $statusLocalization = [
-        self::STATUS_PENDING => "Pending",
-        self::STATUS_SENDED => "Sent",
-        self::STATUS_CANNOT_BE_SEND => "Cannot be sent"
-    ];
-
     public static function getLocalizedStatus($status): string
     {
-        return _(self::$statusLocalization[$status] ?? '');
+        return match ($status) {
+            self::STATUS_PENDING => "Pending",
+            self::STATUS_SENDED => "Sent",
+            self::STATUS_CANNOT_BE_SEND => "Cannot be sent",
+            default => "",
+        };
     }
 } // End of Message class

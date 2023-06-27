@@ -1,3 +1,23 @@
+# Language cz translations for PACKAGE package.
+# Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: QOSNG-1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-06-27 22:39+0200\n"
+"PO-Revision-Date: 2023-03-09 22:59+0100\n"
+"Last-Translator: \n"
+"Language-Team: Stealth\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>=2 && n<=4 ? 1 : 2;\n"
+"X-Generator: Poedit 3.2.2\n"
+
 #: debug/db.php:27 site/index.php:31 site/index2.php:36
 msgid "Cannot connect to database"
 msgstr "Nelze se připojit do databáze"
@@ -46,52 +66,23 @@ msgstr "Příloha RB PDF"
 msgid "ISO SEPA XML"
 msgstr "ISO SEPA XML"
 
-# Language cz translations for PACKAGE package.
-# Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# Automatically generated, 2008.
-#
-#: includes/tables/BankAccountEntry.php:199
-#: includes/tables/BankAccountEntry.php:217
-#: includes/tables/BankAccountEntry.php:241 includes/tables/ChargeEntry.php:92
-#: includes/tables/EmailList.php:85 includes/tables/EmailList.php:102
-#: includes/tables/Group.php:55 includes/tables/HandleEvent.php:72
-#: includes/tables/HandleEvent.php:90 includes/tables/HasCharge.php:70
-#: includes/tables/HasCharge.php:88 includes/tables/Log.php:73
-#: includes/tables/Message.php:63 includes/tables/Person.php:154
-#: includes/tables/PersonAccountEntry.php:71
-msgid ""
-msgstr ""
-"Project-Id-Version: QOSNG-1.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-27 22:21+0200\n"
-"PO-Revision-Date: 2023-03-09 22:59+0100\n"
-"Last-Translator: \n"
-"Language-Team: Stealth\n"
-"Language: cs\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>=2 && n<=4 ? 1 : 2;\n"
-"X-Generator: Poedit 3.2.2\n"
-
-#: includes/tables/Charge.php:83
+#: includes/tables/Charge.php:82
 msgid "Monthly"
 msgstr "Měsičně"
 
-#: includes/tables/Charge.php:105
+#: includes/tables/Charge.php:102
 msgid "Unspecified"
 msgstr "Nespecifikováno"
 
-#: includes/tables/Charge.php:107
+#: includes/tables/Charge.php:103
 msgid "Internet payment"
 msgstr "Platba internetu"
 
-#: includes/tables/Charge.php:109
+#: includes/tables/Charge.php:104
 msgid "Entry fee"
 msgstr "Vstupní poplatek"
 
-#: includes/tables/Charge.php:111
+#: includes/tables/Charge.php:105
 msgid "Penalty"
 msgstr "Pokuta"
 

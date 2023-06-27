@@ -78,17 +78,16 @@ class ChargeEntry
         self::STATUS_ERROR
     ];
 
-    public static array $statusLocalization = [
-        self::STATUS_FINISHED => "Finished",
-        self::STATUS_PENDING => "Pending",
-        self::STATUS_PENDING_INSUFFICIENTFUNDS => "Pending, insufficient funds",
-        self::STATUS_TESTINGFREEOFCHARGE => "Testing, free of charge",
-        self::STATUS_DISABLED => "Disabled for this period",
-        self::STATUS_ERROR => "Error"
-    ];
-
     public static function getLocalizedStatus($status): string
     {
-        return _(self::$statusLocalization[$status] ?? '');
+        return match ($status) {
+            self::STATUS_FINISHED => "Finished",
+            self::STATUS_PENDING => "Pending",
+            self::STATUS_PENDING_INSUFFICIENTFUNDS => "Pending, insufficient funds",
+            self::STATUS_TESTINGFREEOFCHARGE => "Testing, free of charge",
+            self::STATUS_DISABLED => "Disabled for this period",
+            self::STATUS_ERROR => "Error",
+            default => "",
+        };
     }
 } // End of ChargeEntry class

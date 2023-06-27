@@ -60,14 +60,13 @@ class PersonAccountEntry
         self::SOURCE_DISCOUNT
     ];
 
-    public static array $sourceLocalization = [
-        self::SOURCE_BANKACCOUNT => "Bank transaction",
-        self::SOURCE_CASH => "Cash",
-        self::SOURCE_DISCOUNT => "Discount"
-    ];
-
     public static function getLocalizedSource($source): string
     {
-        return _(self::$sourceLocalization[$source] ?? '');
+        return match ($source) {
+            self::SOURCE_BANKACCOUNT => "Bank transaction",
+            self::SOURCE_CASH => "Cash",
+            self::SOURCE_DISCOUNT => "Discount",
+            default => "",
+        };
     }
 } // End of PersonAccountEntry class

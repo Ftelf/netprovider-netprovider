@@ -143,14 +143,13 @@ class Person
         self::STATUS_DISCARTED
     ];
 
-    public static array $statusLocalization = [
-        self::STATUS_PASSIVE => "Passive",
-        self::STATUS_ACTIVE => "Active",
-        self::STATUS_DISCARTED => "Discarted"
-    ];
-
     public static function getLocalizedStatus($status): string
     {
-        return _(self::$statusLocalization[$status] ?? '');
+        return match ($status) {
+            self::STATUS_PASSIVE => "Passive",
+            self::STATUS_ACTIVE => "Active",
+            self::STATUS_DISCARTED => "Discarted",
+            default => "",
+        };
     }
 } // End of Person class

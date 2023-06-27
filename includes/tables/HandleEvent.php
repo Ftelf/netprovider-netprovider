@@ -62,14 +62,13 @@ class HandleEvent
         self::STATUS_ENABLED
     ];
 
-    public static array $statusLocalization = [
-        self::STATUS_DISABLED => "Disabled",
-        self::STATUS_ENABLED => "Enabled"
-    ];
-
     public static function getLocalizedStatus($status): string
     {
-        return _(self::$statusLocalization[$status] ?? '');
+        return match ($status) {
+            self::STATUS_DISABLED => "Disabled",
+            self::STATUS_ENABLED => "Enabled",
+            default => "",
+        };
     }
 
     public const TYPE_CHARGE_PAYMENT_DEADLINE = 1;
@@ -80,13 +79,12 @@ class HandleEvent
 //        self::TYPE_PAYMENT_RECEIVED
     ];
 
-    public static array $typeLocalization = [
-        self::TYPE_CHARGE_PAYMENT_DEADLINE => "Charge payment deadline"
-//        self::TYPE_PAYMENT_RECEIVED => "Payment received"
-    ];
-
     public static function getLocalizedType($type): string
     {
-        return _(self::$typeLocalization[$type] ?? '');
+        return match ($type) {
+            self::TYPE_CHARGE_PAYMENT_DEADLINE => "Charge payment deadline",
+//            self::TYPE_PAYMENT_RECEIVED => "Payment received"
+            default => "",
+        };
     }
 } // End of HandleEvent class

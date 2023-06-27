@@ -34,6 +34,18 @@ msgstr ""
 msgid "EMail content"
 msgstr ""
 
+#: includes/tables/BankAccount.php:131
+msgid "RB TXT attachment"
+msgstr ""
+
+#: includes/tables/BankAccount.php:132
+msgid "RB PDF attachment"
+msgstr ""
+
+#: includes/tables/BankAccount.php:133
+msgid "ISO SEPA XML"
+msgstr ""
+
 # Language C translations for PACKAGE package.
 # Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
@@ -52,7 +64,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-27 21:56+0200\n"
+"POT-Creation-Date: 2023-06-27 22:21+0200\n"
 "PO-Revision-Date: 2008-01-24 12:18+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"

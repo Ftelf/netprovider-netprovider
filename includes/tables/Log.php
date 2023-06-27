@@ -57,19 +57,18 @@ class Log
         self::LEVEL_SECURITY
     ];
 
-    public static array $levelLocalization = [
-        self::LEVEL_UNSPECIFIED => "Unspecified",
-        self::LEVEL_LOG => "Log",
-        self::LEVEL_DEBUG => "Debug",
-        self::LEVEL_INFO => "Info",
-        self::LEVEL_WARNING => "Warning",
-        self::LEVEL_ERROR => "Error",
-        self::LEVEL_CRITICAL => "Critical",
-        self::LEVEL_SECURITY => "Security"
-    ];
-
     public static function getLocalizedLevel($level): string
     {
-        return _(self::$levelLocalization[$level] ?? '');
+        return match ($level) {
+            self::LEVEL_UNSPECIFIED => "Unspecified",
+            self::LEVEL_LOG => "Log",
+            self::LEVEL_DEBUG => "Debug",
+            self::LEVEL_INFO => "Info",
+            self::LEVEL_WARNING => "Warning",
+            self::LEVEL_ERROR => "Error",
+            self::LEVEL_CRITICAL => "Critical",
+            self::LEVEL_SECURITY => "Security",
+            default => "",
+        };
     }
 } // End of Log class

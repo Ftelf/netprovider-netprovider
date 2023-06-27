@@ -74,15 +74,14 @@ class EmailList
     public const STATUS_ERROR = 2;
     public const STATUS_COMPLETED = 3;
 
-    public static array $statusLocalization = [
-        self::STATUS_PENDING => "Waiting for process",
-        self::STATUS_ERROR => "Error",
-        self::STATUS_COMPLETED => "Completed"
-    ];
-
     public static function getLocalizedStatus($status): string
     {
-        return _(self::$statusLocalization[$status] ?? '');
+        return match ($status) {
+            self::STATUS_PENDING => "Waiting for process",
+            self::STATUS_ERROR => "Error",
+            self::STATUS_COMPLETED => "Completed",
+            default => "",
+        };
     }
 
     public const LISTTYPE_NONE = 1;
@@ -90,15 +89,14 @@ class EmailList
     public const LISTTYPE_PDF = 3;
     public const LISTTYPE_SEPA_XML = 5;
 
-    public static array $listTypeLocalization = [
-        self::LISTTYPE_NONE => "No attachment",
-        self::LISTTYPE_TXT => "TXT file",
-        self::LISTTYPE_PDF => "PDF file",
-        self::LISTTYPE_SEPA_XML => "ISO SEPA XML file"
-    ];
-
     public static function getLocalizedListType($listType): string
     {
-        return _(self::$listTypeLocalization[$listType] ?? '');
+        return match ($listType) {
+            self::LISTTYPE_NONE => "No attachment",
+            self::LISTTYPE_TXT => "TXT file",
+            self::LISTTYPE_PDF => "PDF file",
+            self::LISTTYPE_SEPA_XML => "ISO SEPA XML file",
+            default => "",
+        };
     }
 } // End of EmailList class

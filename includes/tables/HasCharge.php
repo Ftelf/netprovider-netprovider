@@ -58,16 +58,15 @@ class HasCharge
         self::STATUS_FORCE_ENABLED
     ];
 
-    public static array $statusLocalization = [
-        self::STATUS_DISABLED => "Deactivated",
-        self::STATUS_ENABLED => "Activated",
-        self::STATUS_FORCE_DISABLED => "Service is always deactivated",
-        self::STATUS_FORCE_ENABLED => "Service is always activated"
-    ];
-
     public static function getLocalizedStatus($status): string
     {
-        return _(self::$statusLocalization[$status] ?? '');
+        return match ($status) {
+            self::STATUS_DISABLED => "Deactivated",
+            self::STATUS_ENABLED => "Activated",
+            self::STATUS_FORCE_DISABLED => "Service is always deactivated",
+            self::STATUS_FORCE_ENABLED => "Service is always activated",
+            default => "",
+        };
     }
 
     public const ACTUALSTATE_DISABLED = 0;
@@ -78,13 +77,12 @@ class HasCharge
         self::ACTUALSTATE_ENABLED
     ];
 
-    public static array $actualStateLocalization = [
-        self::ACTUALSTATE_DISABLED => "Deactivated",
-        self::ACTUALSTATE_ENABLED => "Activated"
-    ];
-
     public static function getLocalizedActualState($actualState): string
     {
-        return _(self::$actualStateLocalization[$actualState] ?? '');
+        return match ($actualState) {
+            self::ACTUALSTATE_DISABLED => "Deactivated",
+            self::ACTUALSTATE_ENABLED => "Activated",
+            default => "",
+        };
     }
 } // End of HasCharge class

@@ -44,14 +44,13 @@ class Group
         self::SUPER_ADMINISTRATOR
     ];
 
-    public static array $levelLocalization = [
-        self::USER => "User",
-        self::ADMINISTRATOR => "Administrator",
-        self::SUPER_ADMINISTRATOR => "Super administrator"
-    ];
-
     public static function getLocalizedLevel($level): string
     {
-        return _(self::$levelLocalization[$level] ?? '');
+        return match ($level) {
+            self::USER => "User",
+            self::ADMINISTRATOR => "Administrator",
+            self::SUPER_ADMINISTRATOR => "Super administrator",
+            default => "",
+        };
     }
 } // End of Group class

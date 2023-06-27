@@ -78,12 +78,10 @@ class Charge
 
     public static function getLocalizedPeriod($period): string
     {
-        switch ($period) {
-            case self::PERIOD_MONTHLY:
-                return _("Monthly");
-            default:
-                return "";
-        }
+        return match ($period) {
+            self::PERIOD_MONTHLY => _("Monthly"),
+            default => "",
+        };
     }
 
     public const TYPE_UNSPECIFIED = 1;
@@ -100,17 +98,12 @@ class Charge
 
     public static function getLocalizedType($type): string
     {
-        switch ($type) {
-            case self::TYPE_UNSPECIFIED:
-                return _("Unspecified");
-            case self::TYPE_INTERNET_PAYMENT:
-                return _("Internet payment");
-            case self::TYPE_ENTRY_FEE:
-                return _("Entry fee");
-            case self::TYPE_PENALTY:
-                return _("Penalty");
-            default:
-                return "";
-        }
+        return match ($type) {
+            self::TYPE_UNSPECIFIED => _("Unspecified"),
+            self::TYPE_INTERNET_PAYMENT => _("Internet payment"),
+            self::TYPE_ENTRY_FEE => _("Entry fee"),
+            self::TYPE_PENALTY => _("Penalty"),
+            default => "",
+        };
     }
 } // End of Charge class
