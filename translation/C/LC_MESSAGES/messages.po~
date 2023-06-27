@@ -39,7 +39,7 @@ msgstr ""
 # This file is distributed under the same license as the PACKAGE package.
 # Automatically generated, 2008.
 #
-#: includes/tables/BankAccount.php:136 includes/tables/BankAccountEntry.php:199
+#: includes/tables/BankAccountEntry.php:199
 #: includes/tables/BankAccountEntry.php:217
 #: includes/tables/BankAccountEntry.php:241 includes/tables/ChargeEntry.php:92
 #: includes/tables/EmailList.php:85 includes/tables/EmailList.php:102
@@ -52,7 +52,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-26 22:40+0200\n"
+"POT-Creation-Date: 2023-06-27 21:56+0200\n"
 "PO-Revision-Date: 2008-01-24 12:18+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"

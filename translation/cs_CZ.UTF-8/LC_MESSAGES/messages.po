@@ -34,6 +34,18 @@ msgstr "Ručně"
 msgid "EMail content"
 msgstr "Obsah E-mailu"
 
+#: includes/tables/BankAccount.php:131
+msgid "RB TXT attachment"
+msgstr "Příloha RB TXT"
+
+#: includes/tables/BankAccount.php:132
+msgid "RB PDF attachment"
+msgstr "Příloha RB PDF"
+
+#: includes/tables/BankAccount.php:133
+msgid "ISO SEPA XML"
+msgstr "ISO SEPA XML"
+
 # Language cz translations for PACKAGE package.
 # Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
@@ -52,7 +64,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-27 21:56+0200\n"
+"POT-Creation-Date: 2023-06-27 22:21+0200\n"
 "PO-Revision-Date: 2023-03-09 22:59+0100\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
@@ -3033,15 +3045,6 @@ msgstr "Správce byl informován"
 
 #~ msgid "Script"
 #~ msgstr "Skript"
-
-#~ msgid "RB TXT attachment"
-#~ msgstr "Příloha RB TXT"
-
-#~ msgid "RB PDF attachment"
-#~ msgstr "Příloha RB PDF"
-
-#~ msgid "ISO SEPA XML"
-#~ msgstr "ISO SEPA XML"
 
 #~ msgid "Transfer"
 #~ msgstr "Převod"
