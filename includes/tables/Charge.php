@@ -78,7 +78,7 @@ class Charge
 
     public static function getLocalizedPeriod($period): string
     {
-        return match ($period) {
+        return match ((int)$period) {
             self::PERIOD_MONTHLY => _("Monthly"),
             default => "",
         };
