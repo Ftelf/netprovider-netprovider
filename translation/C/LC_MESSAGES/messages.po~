@@ -26,16 +26,22 @@ msgstr ""
 msgid "Email notification sent"
 msgstr ""
 
+#: includes/tables/BankAccount.php:112
+msgid "Manual"
+msgstr ""
+
+#: includes/tables/BankAccount.php:113
+msgid "EMail content"
+msgstr ""
+
 # Language C translations for PACKAGE package.
 # Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Automatically generated, 2008.
 #
-#: includes/tables/BankAccount.php:116 includes/tables/BankAccount.php:137
-#: includes/tables/BankAccountEntry.php:199
+#: includes/tables/BankAccount.php:136 includes/tables/BankAccountEntry.php:199
 #: includes/tables/BankAccountEntry.php:217
-#: includes/tables/BankAccountEntry.php:241 includes/tables/Charge.php:85
-#: includes/tables/Charge.php:109 includes/tables/ChargeEntry.php:92
+#: includes/tables/BankAccountEntry.php:241 includes/tables/ChargeEntry.php:92
 #: includes/tables/EmailList.php:85 includes/tables/EmailList.php:102
 #: includes/tables/Group.php:55 includes/tables/HandleEvent.php:72
 #: includes/tables/HandleEvent.php:90 includes/tables/HasCharge.php:70
@@ -46,7 +52,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-26 22:14+0200\n"
+"POT-Creation-Date: 2023-06-26 22:40+0200\n"
 "PO-Revision-Date: 2008-01-24 12:18+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -55,6 +61,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: includes/tables/Charge.php:83
+msgid "Monthly"
+msgstr ""
+
+#: includes/tables/Charge.php:105
+msgid "Unspecified"
+msgstr ""
+
+#: includes/tables/Charge.php:107
+msgid "Internet payment"
+msgstr ""
+
+#: includes/tables/Charge.php:109
+msgid "Entry fee"
+msgstr ""
+
+#: includes/tables/Charge.php:111
+msgid "Penalty"
+msgstr ""
 
 #: modules/com_admin/admin.html.php:18 modules/com_admin/admin.index.php:18
 #: modules/com_bankaccount/bankaccount.html.php:16

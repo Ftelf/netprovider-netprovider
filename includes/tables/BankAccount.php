@@ -108,11 +108,13 @@ class BankAccount
 
     public static function getLocalizedDatasource($datasource): string
     {
-        return match ($datasource) {
+        $a = match ($datasource) {
             self::DATASOURCE_MANUAL => _("Manual"),
             self::DATASOURCE_EMAIL_CONTENT => _("EMail content"),
             default => "",
         };
+
+        return $a;
     }
 
     public const DATASOURCE_TYPE_RB_ATTACHMENT_TXT = 1;

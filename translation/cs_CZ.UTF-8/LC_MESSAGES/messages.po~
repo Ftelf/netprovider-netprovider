@@ -26,16 +26,22 @@ msgstr "Selhalo přihlášení k RouterOS pomocí API selhalo na %s@%s"
 msgid "Email notification sent"
 msgstr "Emailové upozornění posláno"
 
+#: includes/tables/BankAccount.php:112
+msgid "Manual"
+msgstr "Ručně"
+
+#: includes/tables/BankAccount.php:113
+msgid "EMail content"
+msgstr "Obsah E-mailu"
+
 # Language cz translations for PACKAGE package.
 # Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Automatically generated, 2008.
 #
-#: includes/tables/BankAccount.php:116 includes/tables/BankAccount.php:137
-#: includes/tables/BankAccountEntry.php:199
+#: includes/tables/BankAccount.php:136 includes/tables/BankAccountEntry.php:199
 #: includes/tables/BankAccountEntry.php:217
-#: includes/tables/BankAccountEntry.php:241 includes/tables/Charge.php:85
-#: includes/tables/Charge.php:109 includes/tables/ChargeEntry.php:92
+#: includes/tables/BankAccountEntry.php:241 includes/tables/ChargeEntry.php:92
 #: includes/tables/EmailList.php:85 includes/tables/EmailList.php:102
 #: includes/tables/Group.php:55 includes/tables/HandleEvent.php:72
 #: includes/tables/HandleEvent.php:90 includes/tables/HasCharge.php:70
@@ -46,7 +52,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-26 22:14+0200\n"
+"POT-Creation-Date: 2023-06-26 22:40+0200\n"
 "PO-Revision-Date: 2023-03-09 22:59+0100\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
@@ -56,6 +62,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n>=2 && n<=4 ? 1 : 2;\n"
 "X-Generator: Poedit 3.2.2\n"
+
+#: includes/tables/Charge.php:83
+msgid "Monthly"
+msgstr "Měsičně"
+
+#: includes/tables/Charge.php:105
+msgid "Unspecified"
+msgstr "Nespecifikováno"
+
+#: includes/tables/Charge.php:107
+msgid "Internet payment"
+msgstr "Platba internetu"
+
+#: includes/tables/Charge.php:109
+msgid "Entry fee"
+msgstr "Vstupní poplatek"
+
+#: includes/tables/Charge.php:111
+msgid "Penalty"
+msgstr "Pokuta"
 
 #: modules/com_admin/admin.html.php:18 modules/com_admin/admin.index.php:18
 #: modules/com_bankaccount/bankaccount.html.php:16
@@ -3008,12 +3034,6 @@ msgstr "Správce byl informován"
 #~ msgid "Script"
 #~ msgstr "Skript"
 
-#~ msgid "Manual"
-#~ msgstr "Ručně"
-
-#~ msgid "EMail content"
-#~ msgstr "Obsah E-mailu"
-
 #~ msgid "RB TXT attachment"
 #~ msgstr "Příloha RB TXT"
 
@@ -3127,21 +3147,6 @@ msgstr "Správce byl informován"
 
 #~ msgid "Internal transaction"
 #~ msgstr "Interní transakce"
-
-#~ msgid "Monthly"
-#~ msgstr "Měsičně"
-
-#~ msgid "Unspecified"
-#~ msgstr "Nespecifikováno"
-
-#~ msgid "Internet payment"
-#~ msgstr "Platba internetu"
-
-#~ msgid "Entry fee"
-#~ msgstr "Vstupní poplatek"
-
-#~ msgid "Penalty"
-#~ msgstr "Pokuta"
 
 #~ msgid "Finished"
 #~ msgstr "Zpracováno"
