@@ -60,14 +60,14 @@ class Log
     public static function getLocalizedLevel($level): string
     {
         return match ($level) {
-            self::LEVEL_UNSPECIFIED => "Unspecified",
-            self::LEVEL_LOG => "Log",
-            self::LEVEL_DEBUG => "Debug",
-            self::LEVEL_INFO => "Info",
-            self::LEVEL_WARNING => "Warning",
-            self::LEVEL_ERROR => "Error",
-            self::LEVEL_CRITICAL => "Critical",
-            self::LEVEL_SECURITY => "Security",
+            self::LEVEL_UNSPECIFIED => _("Unspecified"),
+            self::LEVEL_LOG => _("Log"),
+            self::LEVEL_DEBUG => _("Debug"),
+            self::LEVEL_INFO => _("Info"),
+            self::LEVEL_WARNING => _("Warning"),
+            self::LEVEL_ERROR => _("Error"),
+            self::LEVEL_CRITICAL => _("Critical"),
+            self::LEVEL_SECURITY => _("Security"),
             default => "",
         };
     }

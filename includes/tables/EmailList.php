@@ -77,9 +77,9 @@ class EmailList
     public static function getLocalizedStatus($status): string
     {
         return match ($status) {
-            self::STATUS_PENDING => "Waiting for process",
-            self::STATUS_ERROR => "Error",
-            self::STATUS_COMPLETED => "Completed",
+            self::STATUS_PENDING => _("Waiting for process"),
+            self::STATUS_ERROR => _("Error"),
+            self::STATUS_COMPLETED => _("Completed"),
             default => "",
         };
     }
@@ -92,10 +92,10 @@ class EmailList
     public static function getLocalizedListType($listType): string
     {
         return match ($listType) {
-            self::LISTTYPE_NONE => "No attachment",
-            self::LISTTYPE_TXT => "TXT file",
-            self::LISTTYPE_PDF => "PDF file",
-            self::LISTTYPE_SEPA_XML => "ISO SEPA XML file",
+            self::LISTTYPE_NONE => _("No attachment"),
+            self::LISTTYPE_TXT => _("TXT file"),
+            self::LISTTYPE_PDF => _("PDF file"),
+            self::LISTTYPE_SEPA_XML => _("ISO SEPA XML file"),
             default => "",
         };
     }

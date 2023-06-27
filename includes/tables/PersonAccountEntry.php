@@ -63,9 +63,9 @@ class PersonAccountEntry
     public static function getLocalizedSource($source): string
     {
         return match ($source) {
-            self::SOURCE_BANKACCOUNT => "Bank transaction",
-            self::SOURCE_CASH => "Cash",
-            self::SOURCE_DISCOUNT => "Discount",
+            self::SOURCE_BANKACCOUNT => _("Bank transaction"),
+            self::SOURCE_CASH => _("Cash"),
+            self::SOURCE_DISCOUNT => _("Discount"),
             default => "",
         };
     }

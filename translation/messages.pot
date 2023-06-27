@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-27 22:39+0200\n"
+"POT-Creation-Date: 2023-06-27 22:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,11 +66,162 @@ msgstr ""
 msgid "ISO SEPA XML"
 msgstr ""
 
+#: includes/tables/BankAccountEntry.php:166
+#: modules/com_paymentreport/paymentreport.html.php:605
+msgid "Other"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:167
+msgid "Transfer"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:168
+msgid "Incoming payment"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:169
+msgid "Cash deposit"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:170
+msgid "Continuing transfer"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:171
+msgid "Other transaction fee"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:172
+msgid "Positive increase"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:173
+msgid "Cash dispencer draft"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:174
+msgid "Credit card payment"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:175
+msgid "Account list generation"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:176
+msgid "Credit card administration fee"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:177
+msgid "Distribution of bank list"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:178
+msgid "Pool transfer"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:179
+msgid "Using and managing of Internet"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:180
+msgid "Loan increase"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:181
+msgid "Loan payment"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:182
+msgid "Using and managing of Account"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:183
+msgid "External fee"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:184
+msgid "Bank certificate"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:185
+msgid "Dissaving investment"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:186
+msgid "Transaction fee"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:187
+msgid "Cash withdraw"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:188
+msgid "Foreign SEPA"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:189
+msgid "Outgoing Payment"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:190
+msgid "Interest tax"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:191
+msgid "Permanent payment"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:192
+msgid "One time payment"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:193
+msgid "Incoming payment #2"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:194
+msgid "One time payment #2"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:195
+msgid "Permanent Order"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:196
+msgid "Outgoing Charge"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:212 includes/tables/ChargeEntry.php:85
+#: includes/tables/Message.php:58
+msgid "Pending"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:213
+msgid "Processed"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:233
+msgid "Waiting for identification"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:234
+msgid "Person account"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:235
+msgid "Internal transaction"
+msgstr ""
+
+#: includes/tables/BankAccountEntry.php:236
+#: modules/com_personaccount/personaccount.html.php:716
+msgid "Ignore"
+msgstr ""
+
 #: includes/tables/Charge.php:82
 msgid "Monthly"
 msgstr ""
 
-#: includes/tables/Charge.php:102
+#: includes/tables/Charge.php:102 includes/tables/Log.php:63
 msgid "Unspecified"
 msgstr ""
 
@@ -84,6 +235,158 @@ msgstr ""
 
 #: includes/tables/Charge.php:105
 msgid "Penalty"
+msgstr ""
+
+#: includes/tables/ChargeEntry.php:84
+msgid "Finished"
+msgstr ""
+
+#: includes/tables/ChargeEntry.php:86
+msgid "Pending, insufficient funds"
+msgstr ""
+
+#: includes/tables/ChargeEntry.php:87
+msgid "Testing, free of charge"
+msgstr ""
+
+#: includes/tables/ChargeEntry.php:88
+msgid "Disabled for this period"
+msgstr ""
+
+#: includes/tables/ChargeEntry.php:89 includes/tables/EmailList.php:81
+#: includes/tables/Log.php:68
+msgid "Error"
+msgstr ""
+
+#: includes/tables/EmailList.php:80
+msgid "Waiting for process"
+msgstr ""
+
+#: includes/tables/EmailList.php:82
+msgid "Completed"
+msgstr ""
+
+#: includes/tables/EmailList.php:95
+msgid "No attachment"
+msgstr ""
+
+#: includes/tables/EmailList.php:96
+msgid "TXT file"
+msgstr ""
+
+#: includes/tables/EmailList.php:97
+msgid "PDF file"
+msgstr ""
+
+#: includes/tables/EmailList.php:98
+msgid "ISO SEPA XML file"
+msgstr ""
+
+#: includes/tables/Group.php:50
+msgid "User"
+msgstr ""
+
+#: includes/tables/Group.php:51
+msgid "Administrator"
+msgstr ""
+
+#: includes/tables/Group.php:52
+msgid "Super administrator"
+msgstr ""
+
+#: includes/tables/HandleEvent.php:68
+#: modules/com_myprofile/myprofile.html.php:327
+#: modules/com_paymentreport/paymentreport.html.php:342
+#: modules/com_paymentreport/paymentreport.html.php:348
+msgid "Disabled"
+msgstr ""
+
+#: includes/tables/HandleEvent.php:69
+#: modules/com_handleevent/handleevent.html.php:127
+#: modules/com_myprofile/myprofile.html.php:324
+#: modules/com_paymentreport/paymentreport.html.php:345
+msgid "Enabled"
+msgstr ""
+
+#: includes/tables/HandleEvent.php:85
+msgid "Charge payment deadline"
+msgstr ""
+
+#: includes/tables/HasCharge.php:64 includes/tables/HasCharge.php:83
+msgid "Deactivated"
+msgstr ""
+
+#: includes/tables/HasCharge.php:65 includes/tables/HasCharge.php:84
+msgid "Activated"
+msgstr ""
+
+#: includes/tables/HasCharge.php:66
+msgid "Service is always deactivated"
+msgstr ""
+
+#: includes/tables/HasCharge.php:67
+msgid "Service is always activated"
+msgstr ""
+
+#: includes/tables/Log.php:64 modules/com_admin/admin.html.php:220
+#: modules/com_common/html_mainmenu.php:51
+msgid "Log"
+msgstr ""
+
+#: includes/tables/Log.php:65
+msgid "Debug"
+msgstr ""
+
+#: includes/tables/Log.php:66
+msgid "Info"
+msgstr ""
+
+#: includes/tables/Log.php:67
+msgid "Warning"
+msgstr ""
+
+#: includes/tables/Log.php:69
+msgid "Critical"
+msgstr ""
+
+#: includes/tables/Log.php:70
+msgid "Security"
+msgstr ""
+
+#: includes/tables/Message.php:59
+msgid "Sent"
+msgstr ""
+
+#: includes/tables/Message.php:60
+msgid "Cannot be sent"
+msgstr ""
+
+#: includes/tables/Person.php:149
+#: modules/com_paymentreport/paymentreport.html.php:324
+#: modules/com_person/person.html.php:199
+msgid "Passive"
+msgstr ""
+
+#: includes/tables/Person.php:150
+#: modules/com_paymentreport/paymentreport.html.php:329
+#: modules/com_person/person.html.php:204
+msgid "Active"
+msgstr ""
+
+#: includes/tables/Person.php:151
+msgid "Discarted"
+msgstr ""
+
+#: includes/tables/PersonAccountEntry.php:66
+msgid "Bank transaction"
+msgstr ""
+
+#: includes/tables/PersonAccountEntry.php:67
+msgid "Cash"
+msgstr ""
+
+#: includes/tables/PersonAccountEntry.php:68
+msgid "Discount"
 msgstr ""
 
 #: modules/com_admin/admin.html.php:18 modules/com_admin/admin.index.php:18
@@ -203,10 +506,6 @@ msgstr[1] ""
 
 #: modules/com_admin/admin.html.php:204 modules/com_admin/admin.html.php:205
 msgid "Force logout"
-msgstr ""
-
-#: modules/com_admin/admin.html.php:220 modules/com_common/html_mainmenu.php:51
-msgid "Log"
 msgstr ""
 
 #: modules/com_admin/admin.html.php:227
@@ -1497,12 +1796,6 @@ msgstr[1] ""
 msgid "User group '%s' deleted"
 msgstr ""
 
-#: modules/com_handleevent/handleevent.html.php:127
-#: modules/com_myprofile/myprofile.html.php:324
-#: modules/com_paymentreport/paymentreport.html.php:345
-msgid "Enabled"
-msgstr ""
-
 #: modules/com_handleevent/handleevent.html.php:129
 msgid "Event handler name"
 msgstr ""
@@ -2026,12 +2319,6 @@ msgstr ""
 msgid "Not limited"
 msgstr ""
 
-#: modules/com_myprofile/myprofile.html.php:327
-#: modules/com_paymentreport/paymentreport.html.php:342
-#: modules/com_paymentreport/paymentreport.html.php:348
-msgid "Disabled"
-msgstr ""
-
 #: modules/com_myprofile/myprofile.html.php:381
 #: modules/com_personaccount/personaccount.html.php:630
 msgid "Date/period"
@@ -2430,16 +2717,6 @@ msgstr ""
 msgid "Actual state"
 msgstr ""
 
-#: modules/com_paymentreport/paymentreport.html.php:324
-#: modules/com_person/person.html.php:199
-msgid "Passive"
-msgstr ""
-
-#: modules/com_paymentreport/paymentreport.html.php:329
-#: modules/com_person/person.html.php:204
-msgid "Active"
-msgstr ""
-
 #: modules/com_paymentreport/paymentreport.html.php:334
 #: modules/com_person/person.html.php:209
 msgid "Removed"
@@ -2493,10 +2770,6 @@ msgstr ""
 
 #: modules/com_paymentreport/paymentreport.html.php:601
 msgid "Has no charge"
-msgstr ""
-
-#: modules/com_paymentreport/paymentreport.html.php:605
-msgid "Other"
 msgstr ""
 
 #: modules/com_paymentreport/paymentreport.index.php:179
@@ -2833,10 +3106,6 @@ msgstr ""
 
 #: modules/com_personaccount/personaccount.html.php:715
 msgid "Excuse"
-msgstr ""
-
-#: modules/com_personaccount/personaccount.html.php:716
-msgid "Ignore"
 msgstr ""
 
 #: modules/com_personaccount/personaccount.html.php:837

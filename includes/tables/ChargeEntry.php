@@ -81,12 +81,12 @@ class ChargeEntry
     public static function getLocalizedStatus($status): string
     {
         return match ($status) {
-            self::STATUS_FINISHED => "Finished",
-            self::STATUS_PENDING => "Pending",
-            self::STATUS_PENDING_INSUFFICIENTFUNDS => "Pending, insufficient funds",
-            self::STATUS_TESTINGFREEOFCHARGE => "Testing, free of charge",
-            self::STATUS_DISABLED => "Disabled for this period",
-            self::STATUS_ERROR => "Error",
+            self::STATUS_FINISHED => _("Finished"),
+            self::STATUS_PENDING => _("Pending"),
+            self::STATUS_PENDING_INSUFFICIENTFUNDS => _("Pending, insufficient funds"),
+            self::STATUS_TESTINGFREEOFCHARGE => _("Testing, free of charge"),
+            self::STATUS_DISABLED => _("Disabled for this period"),
+            self::STATUS_ERROR => _("Error"),
             default => "",
         };
     }

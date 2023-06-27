@@ -65,8 +65,8 @@ class HandleEvent
     public static function getLocalizedStatus($status): string
     {
         return match ($status) {
-            self::STATUS_DISABLED => "Disabled",
-            self::STATUS_ENABLED => "Enabled",
+            self::STATUS_DISABLED => _("Disabled"),
+            self::STATUS_ENABLED => _("Enabled"),
             default => "",
         };
     }
@@ -82,8 +82,8 @@ class HandleEvent
     public static function getLocalizedType($type): string
     {
         return match ($type) {
-            self::TYPE_CHARGE_PAYMENT_DEADLINE => "Charge payment deadline",
-//            self::TYPE_PAYMENT_RECEIVED => "Payment received"
+            self::TYPE_CHARGE_PAYMENT_DEADLINE => _("Charge payment deadline"),
+//            self::TYPE_PAYMENT_RECEIVED => _("Payment received")
             default => "",
         };
     }

@@ -163,37 +163,37 @@ class BankAccountEntry
     public static function getLocalizedType($type): string
     {
         return match ($type) {
-            self::TYPE_OTHER => "Other",
-            self::TYPE_TRANSACTION => "Transfer",
-            self::TYPE_INCOMEPAYMENT => "Incoming payment",
-            self::TYPE_CASHDEPOSIT => "Cash deposit",
-            self::TYPE_CONTINUINGTRANSFER => "Continuing transfer",
-            self::TYPE_DIFFENTTRANSACTIONCHARGE => "Other transaction fee",
-            self::TYPE_POSITIVEINCREASE => "Positive increase",
-            self::TYPE_CASHDISPENCERDRAFT => "Cash dispencer draft",
-            self::TYPE_BANKCARDPAYMENT => "Credit card payment",
-            self::TYPE_GENERATEBANK => "Account list generation",
-            self::TYPE_CREDITCARDYEARLYFEE => "Credit card administration fee",
-            self::TYPE_DISTRIBUTION_OF_BANK_LIST => "Distribution of bank list",
-            self::TYPE_POOL_TRANSACTION => "Pool transfer",
-            self::TYPE_USING_AND_MANAGING_INTERNET => "Using and managing of Internet",
-            self::TYPE_INCREASE_OF_LOAN => "Loan increase",
-            self::TYPE_LOAN_PAYMENT => "Loan payment",
-            self::TYPE_USING_AND_MANAGING_ACCOUNT => "Using and managing of Account",
-            self::TYPE_EXTERNAL_FEE => "External fee",
-            self::TYPE_BANK_CERTIFICATE => "Bank certificate",
-            self::TYPE_DISSAVING_INVESTMENT => "Dissaving investment",
-            self::TYPE_TRANSACTION_FEE => "Transaction fee",
-            self::TYPE_CASH_WITHDRAW => "Cash withdraw",
-            self::TYPE_FOREIGN_SEPA => "Foreign SEPA",
-            self::TYPE_OUTCOME => "Outgoing Payment",
-            self::TYPE_INTEREST_TAX => "Interest tax",
-            self::TYPE_PERMANENT => "Permanent payment",
-            self::TYPE_ONETIME => "One time payment",
-            self::TYPE_INCOMEPAYMENT2 => "Incoming payment #2",
-            self::TYPE_ONETIME2 => "One time payment #2",
-            self::TYPE_PERMANENT_ORDER => "Permanent Order",
-            self::TYPE_OUTGOING_CHARGE => "Outgoing Charge",
+            self::TYPE_OTHER => _("Other"),
+            self::TYPE_TRANSACTION => _("Transfer"),
+            self::TYPE_INCOMEPAYMENT => _("Incoming payment"),
+            self::TYPE_CASHDEPOSIT => _("Cash deposit"),
+            self::TYPE_CONTINUINGTRANSFER => _("Continuing transfer"),
+            self::TYPE_DIFFENTTRANSACTIONCHARGE => _("Other transaction fee"),
+            self::TYPE_POSITIVEINCREASE => _("Positive increase"),
+            self::TYPE_CASHDISPENCERDRAFT => _("Cash dispencer draft"),
+            self::TYPE_BANKCARDPAYMENT => _("Credit card payment"),
+            self::TYPE_GENERATEBANK => _("Account list generation"),
+            self::TYPE_CREDITCARDYEARLYFEE => _("Credit card administration fee"),
+            self::TYPE_DISTRIBUTION_OF_BANK_LIST => _("Distribution of bank list"),
+            self::TYPE_POOL_TRANSACTION => _("Pool transfer"),
+            self::TYPE_USING_AND_MANAGING_INTERNET => _("Using and managing of Internet"),
+            self::TYPE_INCREASE_OF_LOAN => _("Loan increase"),
+            self::TYPE_LOAN_PAYMENT => _("Loan payment"),
+            self::TYPE_USING_AND_MANAGING_ACCOUNT => _("Using and managing of Account"),
+            self::TYPE_EXTERNAL_FEE => _("External fee"),
+            self::TYPE_BANK_CERTIFICATE => _("Bank certificate"),
+            self::TYPE_DISSAVING_INVESTMENT => _("Dissaving investment"),
+            self::TYPE_TRANSACTION_FEE => _("Transaction fee"),
+            self::TYPE_CASH_WITHDRAW => _("Cash withdraw"),
+            self::TYPE_FOREIGN_SEPA => _("Foreign SEPA"),
+            self::TYPE_OUTCOME => _("Outgoing Payment"),
+            self::TYPE_INTEREST_TAX => _("Interest tax"),
+            self::TYPE_PERMANENT => _("Permanent payment"),
+            self::TYPE_ONETIME => _("One time payment"),
+            self::TYPE_INCOMEPAYMENT2 => _("Incoming payment #2"),
+            self::TYPE_ONETIME2 => _("One time payment #2"),
+            self::TYPE_PERMANENT_ORDER => _("Permanent Order"),
+            self::TYPE_OUTGOING_CHARGE => _("Outgoing Charge"),
             default => ""
         };
     }
@@ -209,8 +209,8 @@ class BankAccountEntry
     public static function getLocalizedStatus($status): string
     {
         return match ($status) {
-            self::STATUS_PENDING => "Pending",
-            self::STATUS_PROCESSED => "Processed",
+            self::STATUS_PENDING => _("Pending"),
+            self::STATUS_PROCESSED => _("Processed"),
             default => "",
         };
     }
@@ -230,10 +230,10 @@ class BankAccountEntry
     public static function getLocalizedIdentification($identification): string
     {
         return match ($identification) {
-            self::IDENTIFY_UNIDENTIFIED => "Waiting for identification",
-            self::IDENTIFY_PERSONACCOUNT => "Person account",
-            self::IDENTIFY_INTERNALTRANSACTION => "Internal transaction",
-            self::IDENTIFY_IGNORE => "Ignore",
+            self::IDENTIFY_UNIDENTIFIED => _("Waiting for identification"),
+            self::IDENTIFY_PERSONACCOUNT => _("Person account"),
+            self::IDENTIFY_INTERNALTRANSACTION => _("Internal transaction"),
+            self::IDENTIFY_IGNORE => _("Ignore"),
             default => "",
         };
     }
