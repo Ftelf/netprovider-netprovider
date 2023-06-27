@@ -76,7 +76,7 @@ class EmailList
 
     public static function getLocalizedStatus($status): string
     {
-        return match ($status) {
+        return match ((int)$status) {
             self::STATUS_PENDING => _("Waiting for process"),
             self::STATUS_ERROR => _("Error"),
             self::STATUS_COMPLETED => _("Completed"),
@@ -91,7 +91,7 @@ class EmailList
 
     public static function getLocalizedListType($listType): string
     {
-        return match ($listType) {
+        return match ((int)$listType) {
             self::LISTTYPE_NONE => _("No attachment"),
             self::LISTTYPE_TXT => _("TXT file"),
             self::LISTTYPE_PDF => _("PDF file"),

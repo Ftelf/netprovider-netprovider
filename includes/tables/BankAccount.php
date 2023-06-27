@@ -108,7 +108,7 @@ class BankAccount
 
     public static function getLocalizedDatasource($datasource): string
     {
-        return match ($datasource) {
+        return match ((int)$datasource) {
             self::DATASOURCE_MANUAL => _("Manual"),
             self::DATASOURCE_EMAIL_CONTENT => _("EMail content"),
             default => "",
@@ -127,7 +127,7 @@ class BankAccount
 
     public static function getLocalizedDatasourceType($datasourceType): string
     {
-        return match ($datasourceType) {
+        return match ((int)$datasourceType) {
             self::DATASOURCE_TYPE_RB_ATTACHMENT_TXT => _("RB TXT attachment"),
             self::DATASOURCE_TYPE_RB_ATTACHMENT_PDF => _("RB PDF attachment"),
             self::DATASOURCE_TYPE_ISO_SEPA_XML => _("ISO SEPA XML"),

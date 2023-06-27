@@ -46,7 +46,7 @@ class Group
 
     public static function getLocalizedLevel($level): string
     {
-        return match ($level) {
+        return match ((int)$level) {
             self::USER => _("User"),
             self::ADMINISTRATOR => _("Administrator"),
             self::SUPER_ADMINISTRATOR => _("Super administrator"),

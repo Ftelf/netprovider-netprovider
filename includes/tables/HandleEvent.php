@@ -64,7 +64,7 @@ class HandleEvent
 
     public static function getLocalizedStatus($status): string
     {
-        return match ($status) {
+        return match ((int)$status) {
             self::STATUS_DISABLED => _("Disabled"),
             self::STATUS_ENABLED => _("Enabled"),
             default => "",
@@ -81,7 +81,7 @@ class HandleEvent
 
     public static function getLocalizedType($type): string
     {
-        return match ($type) {
+        return match ((int)$type) {
             self::TYPE_CHARGE_PAYMENT_DEADLINE => _("Charge payment deadline"),
 //            self::TYPE_PAYMENT_RECEIVED => _("Payment received")
             default => "",

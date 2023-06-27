@@ -60,7 +60,7 @@ class HasCharge
 
     public static function getLocalizedStatus($status): string
     {
-        return match ($status) {
+        return match ((int)$status) {
             self::STATUS_DISABLED => _("Deactivated"),
             self::STATUS_ENABLED => _("Activated"),
             self::STATUS_FORCE_DISABLED => _("Service is always deactivated"),
@@ -79,7 +79,7 @@ class HasCharge
 
     public static function getLocalizedActualState($actualState): string
     {
-        return match ($actualState) {
+        return match ((int)$actualState) {
             self::ACTUALSTATE_DISABLED => _("Deactivated"),
             self::ACTUALSTATE_ENABLED => _("Activated"),
             default => "",

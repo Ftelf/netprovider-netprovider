@@ -162,7 +162,7 @@ class BankAccountEntry
 
     public static function getLocalizedType($type): string
     {
-        return match ($type) {
+        return match ((int)$type) {
             self::TYPE_OTHER => _("Other"),
             self::TYPE_TRANSACTION => _("Transfer"),
             self::TYPE_INCOMEPAYMENT => _("Incoming payment"),
@@ -208,7 +208,7 @@ class BankAccountEntry
 
     public static function getLocalizedStatus($status): string
     {
-        return match ($status) {
+        return match ((int)$status) {
             self::STATUS_PENDING => _("Pending"),
             self::STATUS_PROCESSED => _("Processed"),
             default => "",
@@ -229,7 +229,7 @@ class BankAccountEntry
 
     public static function getLocalizedIdentification($identification): string
     {
-        return match ($identification) {
+        return match ((int)$identification) {
             self::IDENTIFY_UNIDENTIFIED => _("Waiting for identification"),
             self::IDENTIFY_PERSONACCOUNT => _("Person account"),
             self::IDENTIFY_INTERNALTRANSACTION => _("Internal transaction"),

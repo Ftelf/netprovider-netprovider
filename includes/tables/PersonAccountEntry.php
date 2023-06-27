@@ -62,7 +62,7 @@ class PersonAccountEntry
 
     public static function getLocalizedSource($source): string
     {
-        return match ($source) {
+        return match ((int)$source) {
             self::SOURCE_BANKACCOUNT => _("Bank transaction"),
             self::SOURCE_CASH => _("Cash"),
             self::SOURCE_DISCOUNT => _("Discount"),

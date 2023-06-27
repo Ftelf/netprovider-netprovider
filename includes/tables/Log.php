@@ -59,7 +59,7 @@ class Log
 
     public static function getLocalizedLevel($level): string
     {
-        return match ($level) {
+        return match ((int)$level) {
             self::LEVEL_UNSPECIFIED => _("Unspecified"),
             self::LEVEL_LOG => _("Log"),
             self::LEVEL_DEBUG => _("Debug"),

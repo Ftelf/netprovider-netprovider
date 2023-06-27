@@ -98,7 +98,7 @@ class Charge
 
     public static function getLocalizedType($type): string
     {
-        return match ($type) {
+        return match ((int)$type) {
             self::TYPE_UNSPECIFIED => _("Unspecified"),
             self::TYPE_INTERNET_PAYMENT => _("Internet payment"),
             self::TYPE_ENTRY_FEE => _("Entry fee"),

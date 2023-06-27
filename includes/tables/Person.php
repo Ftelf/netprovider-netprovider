@@ -145,7 +145,7 @@ class Person
 
     public static function getLocalizedStatus($status): string
     {
-        return match ($status) {
+        return match ((int)$status) {
             self::STATUS_PASSIVE => _("Passive"),
             self::STATUS_ACTIVE => _("Active"),
             self::STATUS_DISCARTED => _("Discarted"),

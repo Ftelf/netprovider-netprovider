@@ -54,7 +54,7 @@ class Message
 
     public static function getLocalizedStatus($status): string
     {
-        return match ($status) {
+        return match ((int)$status) {
             self::STATUS_PENDING => _("Pending"),
             self::STATUS_SENDED => _("Sent"),
             self::STATUS_CANNOT_BE_SEND => _("Cannot be sent"),

@@ -80,7 +80,7 @@ class ChargeEntry
 
     public static function getLocalizedStatus($status): string
     {
-        return match ($status) {
+        return match ((int)$status) {
             self::STATUS_FINISHED => _("Finished"),
             self::STATUS_PENDING => _("Pending"),
             self::STATUS_PENDING_INSUFFICIENTFUNDS => _("Pending, insufficient funds"),
