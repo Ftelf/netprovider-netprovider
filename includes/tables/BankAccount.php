@@ -125,15 +125,14 @@ class BankAccount
         self::DATASOURCE_TYPE_ISO_SEPA_XML
     ];
 
-    public static array $datasourceTypeLocalization = [
-        self::DATASOURCE_TYPE_RB_ATTACHMENT_TXT => "RB TXT attachment",
-        self::DATASOURCE_TYPE_RB_ATTACHMENT_PDF => "RB PDF attachment",
-        self::DATASOURCE_TYPE_ISO_SEPA_XML => "ISO SEPA XML"
-    ];
-
     public static function getLocalizedDatasourceType($datasourceType): string
     {
-        return _(self::$datasourceTypeLocalization[$datasourceType] ?? '');
+        return match ($datasourceType) {
+            self::DATASOURCE_TYPE_RB_ATTACHMENT_TXT => "RB TXT attachment",
+            self::DATASOURCE_TYPE_RB_ATTACHMENT_PDF => "RB PDF attachment",
+            self::DATASOURCE_TYPE_ISO_SEPA_XML => "ISO SEPA XML",
+            default => "",
+        };
     }
 
     public static array $CURRENCY_ARRAY = [
