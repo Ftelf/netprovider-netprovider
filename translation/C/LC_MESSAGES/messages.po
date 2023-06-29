@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-27 22:49+0200\n"
+"POT-Creation-Date: 2023-06-29 21:24+0200\n"
 "PO-Revision-Date: 2008-01-24 12:18+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -848,8 +848,8 @@ msgstr ""
 #: modules/com_handleevent/handleevent.html.php:260
 #: modules/com_internet/internet.html.php:287
 #: modules/com_internet/internet.html.php:288
-#: modules/com_massmessages/massmessages.html.php:293
-#: modules/com_massmessages/massmessages.html.php:294
+#: modules/com_massmessages/massmessages.html.php:309
+#: modules/com_massmessages/massmessages.html.php:310
 #: modules/com_myprofile/myprofile.html.php:784
 #: modules/com_myprofile/myprofile.html.php:785
 #: modules/com_network/network.html.php:512
@@ -1683,7 +1683,7 @@ msgstr ""
 
 #: modules/com_common/html_mainmenu.php:54
 #: modules/com_massmessages/massmessages.html.php:78
-#: modules/com_massmessages/massmessages.html.php:302
+#: modules/com_massmessages/massmessages.html.php:318
 msgid "Mass messages"
 msgstr ""
 
@@ -2038,8 +2038,8 @@ msgstr ""
 
 #: modules/com_massmessages/massmessages.html.php:68
 #: modules/com_massmessages/massmessages.html.php:70
-#: modules/com_massmessages/massmessages.html.php:285
-#: modules/com_massmessages/massmessages.html.php:287
+#: modules/com_massmessages/massmessages.html.php:301
+#: modules/com_massmessages/massmessages.html.php:303
 msgid "New mass message"
 msgstr ""
 
@@ -2068,9 +2068,10 @@ msgid "Owner"
 msgstr ""
 
 #: modules/com_massmessages/massmessages.html.php:141
-#: modules/com_massmessages/massmessages.html.php:333
-#: modules/com_massmessages/massmessages.html.php:381
-#: modules/com_massmessages/massmessages.html.php:424
+#: modules/com_massmessages/massmessages.html.php:349
+#: modules/com_massmessages/massmessages.html.php:397
+#: modules/com_massmessages/massmessages.html.php:440
+#: modules/com_massmessages/massmessages.html.php:483
 #: modules/com_network/network.html.php:326
 msgid "IP"
 msgstr ""
@@ -2081,36 +2082,48 @@ msgid "DNS"
 msgstr ""
 
 #: modules/com_massmessages/massmessages.html.php:143
-#: modules/com_massmessages/massmessages.html.php:334
-#: modules/com_massmessages/massmessages.html.php:382
-#: modules/com_massmessages/massmessages.html.php:425
+#: modules/com_massmessages/massmessages.html.php:350
+#: modules/com_massmessages/massmessages.html.php:398
+#: modules/com_massmessages/massmessages.html.php:441
+#: modules/com_massmessages/massmessages.html.php:484
 #: modules/com_message/message.html.php:184
 msgid "Recipient"
 msgstr ""
 
 #: modules/com_massmessages/massmessages.html.php:144
-#: modules/com_massmessages/massmessages.html.php:335
-#: modules/com_massmessages/massmessages.html.php:383
-#: modules/com_massmessages/massmessages.html.php:426
+#: modules/com_massmessages/massmessages.html.php:351
+#: modules/com_massmessages/massmessages.html.php:399
+#: modules/com_massmessages/massmessages.html.php:442
+#: modules/com_massmessages/massmessages.html.php:485
 msgid "E-Mail"
 msgstr ""
 
 #: modules/com_massmessages/massmessages.html.php:145
-#: modules/com_massmessages/massmessages.html.php:336
-#: modules/com_massmessages/massmessages.html.php:384
-#: modules/com_massmessages/massmessages.html.php:427
+#: modules/com_massmessages/massmessages.html.php:352
+#: modules/com_massmessages/massmessages.html.php:400
+#: modules/com_massmessages/massmessages.html.php:443
+#: modules/com_massmessages/massmessages.html.php:486
 msgid "Cell phone number"
 msgstr ""
 
-#: modules/com_massmessages/massmessages.html.php:326
+#: modules/com_massmessages/massmessages.html.php:293
+#: modules/com_massmessages/massmessages.html.php:295
+msgid "Copy E-Mails to clipboard"
+msgstr ""
+
+#: modules/com_massmessages/massmessages.html.php:342
 msgid "Recipients to be notified"
 msgstr ""
 
-#: modules/com_massmessages/massmessages.html.php:377
+#: modules/com_massmessages/massmessages.html.php:393
 msgid "Recipients without valid mobile contact"
 msgstr ""
 
-#: modules/com_massmessages/massmessages.html.php:420
+#: modules/com_massmessages/massmessages.html.php:436
+msgid "Recipients without valid e-mail contact"
+msgstr ""
+
+#: modules/com_massmessages/massmessages.html.php:479
 msgid "Inactive recipients"
 msgstr ""
 

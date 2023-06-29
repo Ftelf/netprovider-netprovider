@@ -251,7 +251,7 @@ class HTML_massmessages
         <?php
     }
 
-    static function newMessage(&$personsWithoutMobile, &$persons, &$inactivePersons)
+    static function newMessage(&$personsWithoutMobile, &$personsWithoutEmail, &$persons, &$inactivePersons, $emails)
     {
         global $core;
         $ipv4 = new Net_IPv4();
@@ -264,6 +264,14 @@ class HTML_massmessages
 
             function cancel() {
                 submitbutton('cancel');
+            }
+
+            function copyToClipboard() {
+                navigator.clipboard.writeText("<?php echo $emails; ?>").then(() => {
+                    console.log('Content copied to clipboard');
+                },() => {
+                    console.error('Failed to copy');
+                });
             }
         </script>
 
@@ -280,6 +288,14 @@ class HTML_massmessages
                         <div id="toolbar" class="toolbar">
                             <table class="toolbar">
                                 <tr>
+                                    <td id="toolbar-copy-emails-to-clipboard">
+                                        <a href="javascript:copyToClipboard();">
+                                            <span title="<?php echo _("Copy E-Mails to clipboard"); ?>"
+                                                  class="icon-32-copy-to-clipboard"></span>
+                                            <?php echo _("Copy E-Mails to clipboard"); ?>
+                                        </a>
+                                    </td>
+
                                     <td id="toolbar-send-message">
                                         <a href="javascript:sendMessage();">
                                             <span title="<?php echo _("New mass message"); ?>"
@@ -389,6 +405,49 @@ class HTML_massmessages
                                         $k = 0;
                                         $iip = 0;
                                         foreach ($personsWithoutMobile as $person) {
+                                            ?>
+                                            <tr class="<?php echo "row$k"; ?>">
+                                                <td>
+                                                    <?php echo $iip + 1; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $person->_IP->IP_address; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $person->PE_firstname . " " . $person->PE_surname; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $person->PE_email; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $person->PE_tel; ?>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            $k = 1 - $k;
+                                            $iip++;
+                                        }
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                    <table class="adminlist">
+                                        <thead>
+                                        <tr>
+                                            <th colspan="6"><?php echo _("Recipients without valid e-mail contact"); ?></th>
+                                        </tr>
+                                        <tr>
+                                            <th width="2%" class="title">#</th>
+                                            <th width="23%" class="title"><?php echo _("IP"); ?></th>
+                                            <th width="23%" class="title"><?php echo _("Recipient"); ?></th>
+                                            <th width="20%" class="title"><?php echo _("E-Mail"); ?></th>
+                                            <th width="20%" class="title"><?php echo _("Cell phone number"); ?></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        $k = 0;
+                                        $iip = 0;
+                                        foreach ($personsWithoutEmail as $person) {
                                             ?>
                                             <tr class="<?php echo "row$k"; ?>">
                                                 <td>
