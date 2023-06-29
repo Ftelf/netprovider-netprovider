@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-27 22:39+0200\n"
+"POT-Creation-Date: 2023-06-27 22:49+0200\n"
 "PO-Revision-Date: 2023-03-09 22:59+0100\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
@@ -66,11 +66,162 @@ msgstr "Příloha RB PDF"
 msgid "ISO SEPA XML"
 msgstr "ISO SEPA XML"
 
+#: includes/tables/BankAccountEntry.php:166
+#: modules/com_paymentreport/paymentreport.html.php:605
+msgid "Other"
+msgstr "Jíný"
+
+#: includes/tables/BankAccountEntry.php:167
+msgid "Transfer"
+msgstr "Převod"
+
+#: includes/tables/BankAccountEntry.php:168
+msgid "Incoming payment"
+msgstr "Příchozí platba"
+
+#: includes/tables/BankAccountEntry.php:169
+msgid "Cash deposit"
+msgstr "Vklad hotovosti"
+
+#: includes/tables/BankAccountEntry.php:170
+msgid "Continuing transfer"
+msgstr "Trvalý převod"
+
+#: includes/tables/BankAccountEntry.php:171
+msgid "Other transaction fee"
+msgstr "Jiný trans. poplatek"
+
+#: includes/tables/BankAccountEntry.php:172
+msgid "Positive increase"
+msgstr "Kladný úrok"
+
+#: includes/tables/BankAccountEntry.php:173
+msgid "Cash dispencer draft"
+msgstr "Výběr z bankomatu"
+
+#: includes/tables/BankAccountEntry.php:174
+msgid "Credit card payment"
+msgstr "Platba kreditní kartou"
+
+#: includes/tables/BankAccountEntry.php:175
+msgid "Account list generation"
+msgstr "Generování výpisu účtu"
+
+#: includes/tables/BankAccountEntry.php:176
+msgid "Credit card administration fee"
+msgstr "Poplatek za vedení karty"
+
+#: includes/tables/BankAccountEntry.php:177
+msgid "Distribution of bank list"
+msgstr "Distribuce bankovního výpisu"
+
+#: includes/tables/BankAccountEntry.php:178
+msgid "Pool transfer"
+msgstr "Poolovací převod"
+
+#: includes/tables/BankAccountEntry.php:179
+msgid "Using and managing of Internet"
+msgstr "Využívání a správa Internetového bankovnictví"
+
+#: includes/tables/BankAccountEntry.php:180
+msgid "Loan increase"
+msgstr "Úročení úvěru"
+
+#: includes/tables/BankAccountEntry.php:181
+msgid "Loan payment"
+msgstr "Splácení úvěru"
+
+#: includes/tables/BankAccountEntry.php:182
+msgid "Using and managing of Account"
+msgstr "Využívání a správa Konta"
+
+#: includes/tables/BankAccountEntry.php:183
+msgid "External fee"
+msgstr "Poplatek za externí zpracování"
+
+#: includes/tables/BankAccountEntry.php:184
+msgid "Bank certificate"
+msgstr "Vydání dávkového certifikátu"
+
+#: includes/tables/BankAccountEntry.php:185
+msgid "Dissaving investment"
+msgstr "Čerpání Investičního"
+
+#: includes/tables/BankAccountEntry.php:186
+msgid "Transaction fee"
+msgstr "Transakční poplatek"
+
+#: includes/tables/BankAccountEntry.php:187
+msgid "Cash withdraw"
+msgstr "Výběr hotovosti"
+
+#: includes/tables/BankAccountEntry.php:188
+msgid "Foreign SEPA"
+msgstr "Odchozí ZPS SEPA plat"
+
+#: includes/tables/BankAccountEntry.php:189
+msgid "Outgoing Payment"
+msgstr "Odchozí platba"
+
+#: includes/tables/BankAccountEntry.php:190
+msgid "Interest tax"
+msgstr "Srážka daně z úroků"
+
+#: includes/tables/BankAccountEntry.php:191
+msgid "Permanent payment"
+msgstr "Trvalá platba"
+
+#: includes/tables/BankAccountEntry.php:192
+msgid "One time payment"
+msgstr "Jednorázová platba"
+
+#: includes/tables/BankAccountEntry.php:193
+msgid "Incoming payment #2"
+msgstr "Příchozí platba #2"
+
+#: includes/tables/BankAccountEntry.php:194
+msgid "One time payment #2"
+msgstr "Jednorázová platba #2"
+
+#: includes/tables/BankAccountEntry.php:195
+msgid "Permanent Order"
+msgstr "Trvalý příkaz"
+
+#: includes/tables/BankAccountEntry.php:196
+msgid "Outgoing Charge"
+msgstr "Odchozí úhrada"
+
+#: includes/tables/BankAccountEntry.php:212 includes/tables/ChargeEntry.php:85
+#: includes/tables/Message.php:58
+msgid "Pending"
+msgstr "Čeká na zpracování"
+
+#: includes/tables/BankAccountEntry.php:213
+msgid "Processed"
+msgstr "Zpracováno"
+
+#: includes/tables/BankAccountEntry.php:233
+msgid "Waiting for identification"
+msgstr "Čeká na identifikaci"
+
+#: includes/tables/BankAccountEntry.php:234
+msgid "Person account"
+msgstr "Uživatelský účet"
+
+#: includes/tables/BankAccountEntry.php:235
+msgid "Internal transaction"
+msgstr "Interní transakce"
+
+#: includes/tables/BankAccountEntry.php:236
+#: modules/com_personaccount/personaccount.html.php:716
+msgid "Ignore"
+msgstr "Ignorovat"
+
 #: includes/tables/Charge.php:82
 msgid "Monthly"
 msgstr "Měsičně"
 
-#: includes/tables/Charge.php:102
+#: includes/tables/Charge.php:102 includes/tables/Log.php:63
 msgid "Unspecified"
 msgstr "Nespecifikováno"
 
@@ -85,6 +236,158 @@ msgstr "Vstupní poplatek"
 #: includes/tables/Charge.php:105
 msgid "Penalty"
 msgstr "Pokuta"
+
+#: includes/tables/ChargeEntry.php:84
+msgid "Finished"
+msgstr "Zpracováno"
+
+#: includes/tables/ChargeEntry.php:86
+msgid "Pending, insufficient funds"
+msgstr "Čeká na zaplacení"
+
+#: includes/tables/ChargeEntry.php:87
+msgid "Testing, free of charge"
+msgstr "Zkušební doba, zdarma"
+
+#: includes/tables/ChargeEntry.php:88
+msgid "Disabled for this period"
+msgstr "Vypnuto pro toto období"
+
+#: includes/tables/ChargeEntry.php:89 includes/tables/EmailList.php:81
+#: includes/tables/Log.php:68
+msgid "Error"
+msgstr "Chyba"
+
+#: includes/tables/EmailList.php:80
+msgid "Waiting for process"
+msgstr "Čeká na zpracování"
+
+#: includes/tables/EmailList.php:82
+msgid "Completed"
+msgstr "Dokončeno"
+
+#: includes/tables/EmailList.php:95
+msgid "No attachment"
+msgstr "Žádná příloha"
+
+#: includes/tables/EmailList.php:96
+msgid "TXT file"
+msgstr "Soubor TXT"
+
+#: includes/tables/EmailList.php:97
+msgid "PDF file"
+msgstr "Soubor PDF"
+
+#: includes/tables/EmailList.php:98
+msgid "ISO SEPA XML file"
+msgstr "Soubor ISO SEPA XML"
+
+#: includes/tables/Group.php:50
+msgid "User"
+msgstr "Uživatel"
+
+#: includes/tables/Group.php:51
+msgid "Administrator"
+msgstr "Administrátor"
+
+#: includes/tables/Group.php:52
+msgid "Super administrator"
+msgstr "Super administátor"
+
+#: includes/tables/HandleEvent.php:68
+#: modules/com_myprofile/myprofile.html.php:327
+#: modules/com_paymentreport/paymentreport.html.php:342
+#: modules/com_paymentreport/paymentreport.html.php:348
+msgid "Disabled"
+msgstr "Zakázáno"
+
+#: includes/tables/HandleEvent.php:69
+#: modules/com_handleevent/handleevent.html.php:127
+#: modules/com_myprofile/myprofile.html.php:324
+#: modules/com_paymentreport/paymentreport.html.php:345
+msgid "Enabled"
+msgstr "Povoleno"
+
+#: includes/tables/HandleEvent.php:85
+msgid "Charge payment deadline"
+msgstr "Termín pro zaplacení platby"
+
+#: includes/tables/HasCharge.php:64 includes/tables/HasCharge.php:83
+msgid "Deactivated"
+msgstr "Neaktivní"
+
+#: includes/tables/HasCharge.php:65 includes/tables/HasCharge.php:84
+msgid "Activated"
+msgstr "Aktivní"
+
+#: includes/tables/HasCharge.php:66
+msgid "Service is always deactivated"
+msgstr "Služba je vždy neaktivní"
+
+#: includes/tables/HasCharge.php:67
+msgid "Service is always activated"
+msgstr "Služba je vždy aktivní"
+
+#: includes/tables/Log.php:64 modules/com_admin/admin.html.php:220
+#: modules/com_common/html_mainmenu.php:51
+msgid "Log"
+msgstr "Log"
+
+#: includes/tables/Log.php:65
+msgid "Debug"
+msgstr "Ladění"
+
+#: includes/tables/Log.php:66
+msgid "Info"
+msgstr "Info"
+
+#: includes/tables/Log.php:67
+msgid "Warning"
+msgstr "Varování"
+
+#: includes/tables/Log.php:69
+msgid "Critical"
+msgstr "Kritické"
+
+#: includes/tables/Log.php:70
+msgid "Security"
+msgstr "Bezpečnost"
+
+#: includes/tables/Message.php:59
+msgid "Sent"
+msgstr "Posláno"
+
+#: includes/tables/Message.php:60
+msgid "Cannot be sent"
+msgstr "Nelze poslat"
+
+#: includes/tables/Person.php:149
+#: modules/com_paymentreport/paymentreport.html.php:324
+#: modules/com_person/person.html.php:199
+msgid "Passive"
+msgstr "Pasivní"
+
+#: includes/tables/Person.php:150
+#: modules/com_paymentreport/paymentreport.html.php:329
+#: modules/com_person/person.html.php:204
+msgid "Active"
+msgstr "Aktivní"
+
+#: includes/tables/Person.php:151
+msgid "Discarted"
+msgstr "Vyřazen"
+
+#: includes/tables/PersonAccountEntry.php:66
+msgid "Bank transaction"
+msgstr "Bankovní transakce"
+
+#: includes/tables/PersonAccountEntry.php:67
+msgid "Cash"
+msgstr "Hotově"
+
+#: includes/tables/PersonAccountEntry.php:68
+msgid "Discount"
+msgstr "Sleva"
 
 #: modules/com_admin/admin.html.php:18 modules/com_admin/admin.index.php:18
 #: modules/com_bankaccount/bankaccount.html.php:16
@@ -205,10 +508,6 @@ msgstr[2] "%s sekund"
 #: modules/com_admin/admin.html.php:204 modules/com_admin/admin.html.php:205
 msgid "Force logout"
 msgstr "Násilně odhlásit"
-
-#: modules/com_admin/admin.html.php:220 modules/com_common/html_mainmenu.php:51
-msgid "Log"
-msgstr "Log"
 
 #: modules/com_admin/admin.html.php:227
 msgid "Last 10 entries"
@@ -1501,12 +1800,6 @@ msgstr[2] "Nelze smazat skupinu '%s', jelikož má asociováno '%s' uživatelů"
 msgid "User group '%s' deleted"
 msgstr "Uživatelská skupina '%s' smazána"
 
-#: modules/com_handleevent/handleevent.html.php:127
-#: modules/com_myprofile/myprofile.html.php:324
-#: modules/com_paymentreport/paymentreport.html.php:345
-msgid "Enabled"
-msgstr "Povoleno"
-
 #: modules/com_handleevent/handleevent.html.php:129
 msgid "Event handler name"
 msgstr "Jméno správce událostí"
@@ -2031,12 +2324,6 @@ msgstr "Aktuální status"
 msgid "Not limited"
 msgstr "Nelimitováno"
 
-#: modules/com_myprofile/myprofile.html.php:327
-#: modules/com_paymentreport/paymentreport.html.php:342
-#: modules/com_paymentreport/paymentreport.html.php:348
-msgid "Disabled"
-msgstr "Zakázáno"
-
 #: modules/com_myprofile/myprofile.html.php:381
 #: modules/com_personaccount/personaccount.html.php:630
 msgid "Date/period"
@@ -2435,16 +2722,6 @@ msgstr "St.Služby"
 msgid "Actual state"
 msgstr "Aktuální status"
 
-#: modules/com_paymentreport/paymentreport.html.php:324
-#: modules/com_person/person.html.php:199
-msgid "Passive"
-msgstr "Pasivní"
-
-#: modules/com_paymentreport/paymentreport.html.php:329
-#: modules/com_person/person.html.php:204
-msgid "Active"
-msgstr "Aktivní"
-
 #: modules/com_paymentreport/paymentreport.html.php:334
 #: modules/com_person/person.html.php:209
 msgid "Removed"
@@ -2499,10 +2776,6 @@ msgstr "Zkušební doba, zdarma"
 #: modules/com_paymentreport/paymentreport.html.php:601
 msgid "Has no charge"
 msgstr "Nemá platbu"
-
-#: modules/com_paymentreport/paymentreport.html.php:605
-msgid "Other"
-msgstr "Jíný"
 
 #: modules/com_paymentreport/paymentreport.index.php:179
 msgid "Has unterminated payment"
@@ -2843,10 +3116,6 @@ msgstr "Zpoždění ve dnech"
 msgid "Excuse"
 msgstr "Prominout"
 
-#: modules/com_personaccount/personaccount.html.php:716
-msgid "Ignore"
-msgstr "Ignorovat"
-
 #: modules/com_personaccount/personaccount.html.php:837
 msgid "User's account edit"
 msgstr "Editace uživatelského učtu"
@@ -3037,189 +3306,6 @@ msgstr "Správce byl informován"
 #~ msgid "Script"
 #~ msgstr "Skript"
 
-#~ msgid "Transfer"
-#~ msgstr "Převod"
-
-#~ msgid "Incoming payment"
-#~ msgstr "Příchozí platba"
-
-#~ msgid "Cash deposit"
-#~ msgstr "Vklad hotovosti"
-
-#~ msgid "Continuing transfer"
-#~ msgstr "Trvalý převod"
-
-#~ msgid "Other transaction fee"
-#~ msgstr "Jiný trans. poplatek"
-
-#~ msgid "Positive increase"
-#~ msgstr "Kladný úrok"
-
-#~ msgid "Cash dispencer draft"
-#~ msgstr "Výběr z bankomatu"
-
-#~ msgid "Credit card payment"
-#~ msgstr "Platba kreditní kartou"
-
-#~ msgid "Account list generation"
-#~ msgstr "Generování výpisu účtu"
-
-#~ msgid "Credit card administration fee"
-#~ msgstr "Poplatek za vedení karty"
-
-#~ msgid "Distribution of bank list"
-#~ msgstr "Distribuce bankovního výpisu"
-
-#~ msgid "Pool transfer"
-#~ msgstr "Poolovací převod"
-
-#~ msgid "Using and managing of Internet"
-#~ msgstr "Využívání a správa Internetového bankovnictví"
-
-#~ msgid "Loan increase"
-#~ msgstr "Úročení úvěru"
-
-#~ msgid "Loan payment"
-#~ msgstr "Splácení úvěru"
-
-#~ msgid "Using and managing of Account"
-#~ msgstr "Využívání a správa Konta"
-
-#~ msgid "External fee"
-#~ msgstr "Poplatek za externí zpracování"
-
-#~ msgid "Bank certificate"
-#~ msgstr "Vydání dávkového certifikátu"
-
-#~ msgid "Dissaving investment"
-#~ msgstr "Čerpání Investičního"
-
-#~ msgid "Transaction fee"
-#~ msgstr "Transakční poplatek"
-
-#~ msgid "Cash withdraw"
-#~ msgstr "Výběr hotovosti"
-
-#~ msgid "Foreign SEPA"
-#~ msgstr "Odchozí ZPS SEPA plat"
-
-#~ msgid "Outgoing Payment"
-#~ msgstr "Odchozí platba"
-
-#~ msgid "Interest tax"
-#~ msgstr "Srážka daně z úroků"
-
-#~ msgid "Permanent payment"
-#~ msgstr "Trvalá platba"
-
-#~ msgid "One time payment"
-#~ msgstr "Jednorázová platba"
-
-#~ msgid "Incoming payment #2"
-#~ msgstr "Příchozí platba #2"
-
-#~ msgid "One time payment #2"
-#~ msgstr "Jednorázová platba #2"
-
-#~ msgid "Permanent Order"
-#~ msgstr "Trvalý příkaz"
-
-#~ msgid "Outgoing Charge"
-#~ msgstr "Odchozí úhrada"
-
-#~ msgid "Pending"
-#~ msgstr "Čeká na zpracování"
-
-#~ msgid "Processed"
-#~ msgstr "Zpracováno"
-
-#~ msgid "Waiting for identification"
-#~ msgstr "Čeká na identifikaci"
-
-#~ msgid "Person account"
-#~ msgstr "Uživatelský účet"
-
-#~ msgid "Internal transaction"
-#~ msgstr "Interní transakce"
-
-#~ msgid "Finished"
-#~ msgstr "Zpracováno"
-
-#~ msgid "Pending, insufficient funds"
-#~ msgstr "Čeká na zaplacení"
-
-#~ msgid "Testing, free of charge"
-#~ msgstr "Zkušební doba, zdarma"
-
-#~ msgid "Disabled for this period"
-#~ msgstr "Vypnuto pro toto období"
-
-#~ msgid "Error"
-#~ msgstr "Chyba"
-
-#~ msgid "Waiting for process"
-#~ msgstr "Čeká na zpracování"
-
-#~ msgid "Completed"
-#~ msgstr "Dokončeno"
-
-#~ msgid "No attachment"
-#~ msgstr "Žádná příloha"
-
-#~ msgid "TXT file"
-#~ msgstr "Soubor TXT"
-
-#~ msgid "PDF file"
-#~ msgstr "Soubor PDF"
-
-#~ msgid "ISO SEPA XML file"
-#~ msgstr "Soubor ISO SEPA XML"
-
-#~ msgid "User"
-#~ msgstr "Uživatel"
-
-#~ msgid "Administrator"
-#~ msgstr "Administrátor"
-
-#~ msgid "Super administrator"
-#~ msgstr "Super administátor"
-
-#~ msgid "Charge payment deadline"
-#~ msgstr "Termín pro zaplacení platby"
-
-#~ msgid "Deactivated"
-#~ msgstr "Neaktivní"
-
-#~ msgid "Activated"
-#~ msgstr "Aktivní"
-
-#~ msgid "Service is always deactivated"
-#~ msgstr "Služba je vždy neaktivní"
-
-#~ msgid "Service is always activated"
-#~ msgstr "Služba je vždy aktivní"
-
-#~ msgid "Debug"
-#~ msgstr "Ladění"
-
-#~ msgid "Info"
-#~ msgstr "Info"
-
-#~ msgid "Warning"
-#~ msgstr "Varování"
-
-#~ msgid "Critical"
-#~ msgstr "Kritické"
-
-#~ msgid "Security"
-#~ msgstr "Bezpečnost"
-
-#~ msgid "Sent"
-#~ msgstr "Posláno"
-
-#~ msgid "Cannot be sent"
-#~ msgstr "Nelze poslat"
-
 #~ msgid "GNU Linux Debian"
 #~ msgstr "GNU/Linux Debian"
 
@@ -3261,18 +3347,6 @@ msgstr "Správce byl informován"
 
 #~ msgid "WDS bridge"
 #~ msgstr "WDS bridge"
-
-#~ msgid "Discarted"
-#~ msgstr "Vyřazen"
-
-#~ msgid "Bank transaction"
-#~ msgstr "Bankovní transakce"
-
-#~ msgid "Cash"
-#~ msgstr "Hotově"
-
-#~ msgid "Discount"
-#~ msgstr "Sleva"
 
 #~ msgid "Network devices"
 #~ msgstr "Síťová zařízení"
