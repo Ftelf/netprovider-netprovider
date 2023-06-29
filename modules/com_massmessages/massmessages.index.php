@@ -149,9 +149,19 @@ function newMessage($cid)
         return isNullOrEmptyString($person->PE_tel) && $person->PE_status == Person::STATUS_ACTIVE;
     }
 
+    function personsWithoutEmail($person)
+    {
+        return isNullOrEmptyString($person->PE_email) && $person->PE_status == Person::STATUS_ACTIVE;
+    }
+
     function personsWithMobile($person)
     {
         return !isNullOrEmptyString($person->PE_tel) && $person->PE_status == Person::STATUS_ACTIVE;
+    }
+
+    function personsWithEmail($person)
+    {
+        return !isNullOrEmptyString($person->PE_email) && $person->PE_status == Person::STATUS_ACTIVE;
     }
 
     function inactivePersons($person)
@@ -161,9 +171,12 @@ function newMessage($cid)
 
     $inactivePersons = array_filter($persons, "inactivePersons");
     $personsWithoutMobile = array_filter($persons, "personsWithoutMobile");
+    $personsWithoutEmail = array_filter($persons, "personsWithoutEmail");
     $persons = array_filter($persons, "personsWithMobile");
+    $personsWithEmail = array_filter($persons, "personsWithEmail");
+    $emails = implode(', ', array_column($personsWithEmail, 'PE_email'));
 
-    HTML_massmessages::newMessage($personsWithoutMobile, $persons, $inactivePersons);
+    HTML_massmessages::newMessage($personsWithoutMobile, $personsWithoutEmail, $persons, $inactivePersons, $emails);
 }
 
 /**
