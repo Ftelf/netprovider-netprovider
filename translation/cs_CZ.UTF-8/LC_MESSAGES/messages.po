@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: QOSNG-1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-29 21:24+0200\n"
-"PO-Revision-Date: 2023-06-29 21:25+0200\n"
+"PO-Revision-Date: 2023-07-03 21:57+0200\n"
 "Last-Translator: \n"
 "Language-Team: Stealth\n"
 "Language: cs\n"
@@ -2127,7 +2127,7 @@ msgstr "Příjemci bez validního telefonního kontaktu"
 
 #: modules/com_massmessages/massmessages.html.php:436
 msgid "Recipients without valid e-mail contact"
-msgstr "Příjemci bez validního telefonního kontaktu"
+msgstr "Příjemci bez validního emailového kontaktu"
 
 #: modules/com_massmessages/massmessages.html.php:479
 msgid "Inactive recipients"
