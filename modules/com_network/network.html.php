@@ -360,7 +360,7 @@ class HTML_Network
                                                             <tr>
                                                                 <td width="15%" class="title"
                                                                     style="background-color: #d5d5d5;">
-                                                                    <strong>XX<a href="<?php echo $link; ?>"><?php echo $subNetworkParsed->network . " / " . $subNetworkParsed->bitmask; ?></a></strong>
+                                                                    <strong><a href="<?php echo $link; ?>"><?php echo $subNetworkParsed->network . " / " . $subNetworkParsed->bitmask; ?></a></strong>
                                                                 </td>
                                                                 <td width="15%" class="title"
                                                                     style="background-color: #d5d5d5;">
