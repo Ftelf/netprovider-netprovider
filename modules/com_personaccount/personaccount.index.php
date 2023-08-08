@@ -16,14 +16,14 @@
 defined('VALID_MODULE') or die(_("Direct access into this section is not allowed"));
 
 global $core;
-require_once($core->getAppRoot() . "includes/dao/PersonAccountDAO.php");
-require_once($core->getAppRoot() . "includes/tables/PersonAccount.php");
-require_once($core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php");
-require_once($core->getAppRoot() . "includes/dao/ChargeEntryDAO.php");
-require_once($core->getAppRoot() . "includes/billing/ChargesUtil.php");
-require_once($core->getAppRoot() . "includes/utils/DateUtil.php");
-require_once('personaccount.html.php');
+require_once $core->getAppRoot() . "includes/dao/PersonAccountDAO.php";
+require_once $core->getAppRoot() . "includes/tables/PersonAccount.php";
+require_once $core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php";
+require_once $core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php";
+require_once $core->getAppRoot() . "includes/dao/ChargeEntryDAO.php";
+require_once $core->getAppRoot() . "includes/billing/ChargesUtil.php";
+require_once $core->getAppRoot() . "includes/utils/DateUtil.php";
+require_once 'personaccount.html.php';
 
 $task = Utils::getParam($_REQUEST, 'task');
 $pid = Utils::getParam($_REQUEST, 'PE_personid');
@@ -110,7 +110,7 @@ switch ($task) {
 function showPersonAccount(): void
 {
     global $core;
-    require_once($core->getAppRoot() . 'modules/com_common/PageNav.php');
+    require_once $core->getAppRoot() . 'modules/com_common/PageNav.php';
 
     $filter = [];
     // default settings if no setting in session
@@ -123,22 +123,22 @@ function showPersonAccount(): void
     $limitstart = Utils::getParam($_SESSION['UI_SETTINGS']['com_personaccount'], 'limitstart', 0);
 
     $persons = PersonDAO::getPersonArray($filter['search'], 0, $filter['status']);
+    $allPersons = PersonDAO::getPersonArray();
     $personAccounts = PersonAccountDAO::getPersonAccountArray();
     $vss = [];
     $msgs = [];
 
-    foreach ($persons as $k => $person) {
+    foreach ($allPersons as $k => $person) {
         if (!isset($personAccounts[$person->PE_personaccountid])) {
             $msgs[] = sprintf(_("%s has no account"), $person->PE_firstname . " " . $person->PE_surname);
         }
         $personAccount = $personAccounts[$person->PE_personaccountid];
         if ($personAccount->PA_variablesymbol != null && $personAccount->PA_variablesymbol != 0) {
-            if (isset($vss[$personAccount->PA_variablesymbol])) {
-                $personTemp = $vss[$personAccount->PA_variablesymbol];
-                $msgs[] = sprintf(_("%s %s VS: %s"), $personTemp->PE_firstname, $personTemp->PE_surname, $personAccounts[$personTemp->PE_personaccountid]->PA_variablesymbol);
-                $msgs[] = sprintf(_("%s %s VS: %s"), $person->PE_firstname, $person->PE_surname, $personAccount->PA_variablesymbol);
+            if (!isset($vss[$personAccount->PA_variablesymbol])) {
+                $vss[$personAccount->PA_variablesymbol] = [];
             }
-            $vss[$personAccount->PA_variablesymbol] = $person;
+
+            $vss[$personAccount->PA_variablesymbol][] = $person;
         }
         if ($filter['bilance'] != -1) {
             if ($filter['bilance'] == 1 && $personAccount->PA_balance >= 0) {
@@ -150,6 +150,20 @@ function showPersonAccount(): void
             }
         }
     }
+
+    $duplicateVSPersons = array_filter(
+        $vss,
+        function($val){
+            return count($val) > 1;
+        }
+    );
+
+    foreach($duplicateVSPersons as $personsWithDuplicateVS) {
+        foreach($personsWithDuplicateVS as $person) {
+            $msgs[] = sprintf(_("%s %s VS: %s"), $person->PE_firstname, $person->PE_surname, $personAccounts[$person->PE_personaccountid]->PA_variablesymbol);
+        }
+    }
+
     $pageNav = new PageNav(count($persons), $limitstart, $limit);
     $personsView = array_slice($persons, $limitstart, $limit);
     HTML_PersonAccount::showEntries($personsView, $personAccounts, $pageNav, $filter, $msgs);

@@ -810,15 +810,12 @@ class Mail_mimeDecode extends PEAR
         switch (strtolower($encoding)) {
         case '7bit':
             return $input;
-                break;
 
         case 'quoted-printable':
             return $this->_quotedPrintableDecode($input);
-                break;
 
         case 'base64':
             return base64_decode($input);
-                break;
 
         default:
             return $input;
