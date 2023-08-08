@@ -98,19 +98,19 @@ class Person
      */
     public $PE_zip;
     /**
-     * @var int status
+     * @var int ic
      */
     public $PE_ic;
     /**
-     * @var int status
+     * @var int dic
      */
     public $PE_dic;
     /**
-     * @var int status
+     * @var int shortcompanyname
      */
     public $PE_shortcompanyname;
     /**
-     * @var int status
+     * @var int companyname
      */
     public $PE_companyname;
     /**

@@ -171,6 +171,22 @@ class PersonDAO
         return $database->loadObjectList('PE_personid');
     }
 
+    public static function getPersonWithAccountArrayForAccounting($variablesymbol, $constantsymbol = '', $specificsymbol = ''): array
+    {
+        global $database;
+
+        $query = "SELECT * FROM `person` as pe, `personaccount` as pa WHERE pe.PE_personaccountid=pa.PA_personaccountid AND `PA_variablesymbol`='$variablesymbol'";
+
+        $query .= " AND (`PA_constantsymbol`='0' OR `PA_constantsymbol`='$constantsymbol')";
+
+        $query .= " AND (`PA_specificsymbol`='0' OR `PA_specificsymbol`='$specificsymbol')";
+
+        $query .= " ORDER BY pe.PE_surname, pe.PE_firstname, PE_nick";
+
+        $database->setQuery($query);
+        return $database->loadObjectList('PE_personid');
+    }
+
     /**
      * @param  $username
      * @return null

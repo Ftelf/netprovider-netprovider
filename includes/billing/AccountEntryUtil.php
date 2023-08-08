@@ -17,6 +17,8 @@ require_once $core->getAppRoot() . "includes/dao/BankAccountEntryDAO.php";
 require_once $core->getAppRoot() . "includes/dao/PersonAccountDAO.php";
 require_once $core->getAppRoot() . "includes/dao/PersonAccountEntryDAO.php";
 require_once $core->getAppRoot() . "includes/dao/PersonDAO.php";
+require_once $core->getAppRoot() . "includes/dao/ChargeDAO.php";
+require_once $core->getAppRoot() . "includes/net/email/EmailUtil.php";
 
 /**
  * AccountEntryUtil
@@ -26,10 +28,13 @@ class AccountEntryUtil
     private $_bankAccount;
     private array $_messages;
 
+    private $emailUtil;
+
     public function __construct($bankAccount)
     {
         $this->_bankAccount = $bankAccount;
         $this->_messages = [];
+        $this->emailUtil = new EmailUtil();
     }
 
     public function getMessages(): array
@@ -39,74 +44,101 @@ class AccountEntryUtil
 
     public function proceedAccountEntries(): void
     {
-        global $database;
+        global $database, $core;
 
         $bankAccountEntries = BankAccountEntryDAO::getBankAccountEntryArrayByBankAccountID($this->_bankAccount->BA_bankaccountid);
-        $persons = PersonDAO::getPersonWithAccountArray();
+        $chargeEntries = ChargeDAO::getChargeArray();
 
         foreach ($bankAccountEntries as $bankAccountEntry) {
-
             // Proceed only pending BankAccountEntry
             if ($bankAccountEntry->BE_status != BankAccountEntry::STATUS_PENDING) {
                 continue;
             }
-            if ($bankAccountEntry->BE_typeoftransaction == BankAccountEntry::TYPE_DIFFENTTRANSACTIONCHARGE
-                || $bankAccountEntry->BE_typeoftransaction == BankAccountEntry::TYPE_POSITIVEINCREASE /*||
-                $bankAccountEntry->BE_typeoftransaction == BankAccountEntry::TYPE_CASHDISPENCERDRAFT ||
-                $bankAccountEntry->BE_typeoftransaction == BankAccountEntry::TYPE_BANKCARDPAYMENT*/
-            ) {
-
+            if ($bankAccountEntry->BE_typeoftransaction == BankAccountEntry::TYPE_DIFFENTTRANSACTIONCHARGE || $bankAccountEntry->BE_typeoftransaction == BankAccountEntry::TYPE_POSITIVEINCREASE) {
                 $bankAccountEntry->BE_identifycode = BankAccountEntry::IDENTIFY_INTERNALTRANSACTION;
                 $bankAccountEntry->BE_status = BankAccountEntry::STATUS_PROCESSED;
                 $database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", false);
+
                 continue;
             }
-            if ($bankAccountEntry->BE_variablesymbol) {
-                // try find person by variable symbol
-                foreach ($persons as $person) {
-                    if ($person->PE_status == Person::STATUS_ACTIVE
-                        && $person->PA_variablesymbol && $person->PA_variablesymbol == $bankAccountEntry->BE_variablesymbol
-                        && (!$person->PA_constantsymbol || $person->PA_constantsymbol == $bankAccountEntry->BE_constantsymbol)
-                        && (!$person->PA_specificsymbol || $person->PA_specificsymbol == $bankAccountEntry->BE_specificsymbol)
-                    ) {
-                        // this payment is for this person and variable and-or constant and-or specific symbol matches
-                        $bankAccountEntry->BE_identifycode = BankAccountEntry::IDENTIFY_PERSONACCOUNT;
-                        $bankAccountEntry->BE_status = BankAccountEntry::STATUS_PROCESSED;
+            if (empty($bankAccountEntry->BE_variablesymbol)) {
+                continue;
+            }
 
-                        // new incoming payment for PersonAccount;
-                        $personAccountEntry = new PersonAccountEntry();
-                        $personAccountEntry->PN_bankaccountentryid = $bankAccountEntry->BE_bankaccountentryid;
-                        $personAccountEntry->PN_personaccountid = $person->PA_personaccountid;
-                        $personAccountEntry->PN_date = $bankAccountEntry->BE_datetime;
-                        $personAccountEntry->PN_amount = $bankAccountEntry->BE_amount;
-                        $personAccountEntry->PN_source = PersonAccountEntry::SOURCE_BANKACCOUNT;
-                        $personAccountEntry->PN_comment = $bankAccountEntry->BE_message;
+            // try find person by variable symbol
+            $persons = PersonDAO::getPersonWithAccountArrayForAccounting($bankAccountEntry->BE_variablesymbol, $bankAccountEntry->BE_constantsymbol, $bankAccountEntry->BE_specificsymbol);
 
-                        // Get PersonAccount from database and update balance
-                        $personAccount = PersonAccountDAO::getPersonAccountByID($person->PA_personaccountid);
-                        $personAccount->PA_balance += $personAccountEntry->PN_amount;
-                        $personAccount->PA_income += $personAccountEntry->PN_amount;
+            if (count($persons) > 1) {
+                $concatenatedArray = array_map(function($person) {
+                    return "$person->PE_firstname $person->PE_surname";
+                }, $persons);
+                $userNames = implode(', ', $concatenatedArray);
 
-                        try {
-                            $database->startTransaction();
-                            $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false);
+                $message = "Platba z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, částka: $bankAccountEntry->BE_amount, variabilní symbol: $bankAccountEntry->BE_variablesymbol identifikována duplicitním uživatelům: $userNames";
+                $this->_messages[] = $message;
+                $this->emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), "Příchozí platba duplicitním uživatelům", $message);
 
-                            // Insert PersonAccountEntry into database
-                            $database->insertObject("personaccountentry", $personAccountEntry, "PN_personaccountentryid");
+                continue;
+            }
+            if (empty($persons)) {
+                foreach ($chargeEntries as $charge) {
+                    if ($bankAccountEntry->BE_amount == $charge->CH_amount) {
+                        $message = "Platba z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, jméno účtu: $bankAccountEntry->BE_accountname, částka: $bankAccountEntry->BE_amount, variabilní symbol: $bankAccountEntry->BE_variablesymbol nebyla nikomu přiřazena. Pravděpodobně platba za: $charge->CH_name";
+                        $this->_messages[] = $message;
+                        $this->emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), "Neznámá příchozí platba", $message);
 
-                            // Update BankAccountEntry
-                            $bankAccountEntry->BE_personaccountentryid = $personAccountEntry->PN_personaccountentryid;
-                            $database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", false);
-                            $database->commit();
-                            $this->_messages[] = "Platba z účtu $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, částka $bankAccountEntry->BE_amount identifikována od uživatele $person->PE_firstname $person->PE_surname";
-                        } catch (Exception $e) {
-                            $database->rollback();
-                            $msg = "Platba z účtu $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, částka $bankAccountEntry->BE_amount identifikována od uživatele $person->PE_firstname $person->PE_surname nemohla být uložena: " . $e->getMessage();
-                            $this->_messages[] = $msg;
-                            $database->log($msg, Log::LEVEL_ERROR);
-                        }
+                        break;
                     }
                 }
+
+                continue;
+            }
+
+            $person = $persons[array_key_first($persons)];
+
+            if ($person->PE_status != Person::STATUS_ACTIVE) {
+                $message = "Platba z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, částka: $bankAccountEntry->BE_amount, variabilní symbol: $bankAccountEntry->BE_variablesymbol identifikována od neaktivního uživatele: $person->PE_firstname $person->PE_surname";
+                $this->_messages[] = $message;
+                $this->emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), "Příchozí platba neaktivnímu uživateli", $message);
+
+                continue;
+            }
+
+            // this payment is for this person and variable and-or constant and-or specific symbol matches
+            $bankAccountEntry->BE_identifycode = BankAccountEntry::IDENTIFY_PERSONACCOUNT;
+            $bankAccountEntry->BE_status = BankAccountEntry::STATUS_PROCESSED;
+
+            // new incoming payment for PersonAccount;
+            $personAccountEntry = new PersonAccountEntry();
+            $personAccountEntry->PN_bankaccountentryid = $bankAccountEntry->BE_bankaccountentryid;
+            $personAccountEntry->PN_personaccountid = $person->PA_personaccountid;
+            $personAccountEntry->PN_date = $bankAccountEntry->BE_datetime;
+            $personAccountEntry->PN_amount = $bankAccountEntry->BE_amount;
+            $personAccountEntry->PN_source = PersonAccountEntry::SOURCE_BANKACCOUNT;
+            $personAccountEntry->PN_comment = $bankAccountEntry->BE_message;
+
+            // Get PersonAccount from database and update balance
+            $personAccount = PersonAccountDAO::getPersonAccountByID($person->PA_personaccountid);
+            $personAccount->PA_balance += $personAccountEntry->PN_amount;
+            $personAccount->PA_income += $personAccountEntry->PN_amount;
+
+            try {
+                $database->startTransaction();
+                $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false);
+
+                // Insert PersonAccountEntry into database
+                $database->insertObject("personaccountentry", $personAccountEntry, "PN_personaccountentryid");
+
+                // Update BankAccountEntry
+                $bankAccountEntry->BE_personaccountentryid = $personAccountEntry->PN_personaccountentryid;
+                $database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", false);
+                $database->commit();
+                $this->_messages[] = "Platba z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, částka: $bankAccountEntry->BE_amount identifikována od uživatele: $person->PE_firstname $person->PE_surname";
+            } catch (Exception $e) {
+                $database->rollback();
+                $msg = "Platba z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, částka: $bankAccountEntry->BE_amount identifikována od uživatele: $person->PE_firstname $person->PE_surname nemohla být uložena: " . $e->getMessage();
+                $this->_messages[] = $msg;
+                $database->log($msg, Log::LEVEL_ERROR);
             }
         }
     }

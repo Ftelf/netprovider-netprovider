@@ -470,7 +470,7 @@ function processBankLists($bid)
  */
 function proceedAccountEntries($bid)
 {
-    global $database, $my, $acl, $appContext;
+    global $database, $my, $appContext;
 
     if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
         Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
@@ -499,7 +499,7 @@ function proceedAccountEntries($bid)
  */
 function doUploadBankLists($bid)
 {
-    global $database, $my, $acl, $appContext;
+    global $database, $my, $appContext;
 
     if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
         $appContext->insertMessage(_("Insuficient rights"));
@@ -510,9 +510,9 @@ function doUploadBankLists($bid)
     // upload new BankAccountLists
     if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_TXT) {
         $fileType = "text/plain";
-    } else if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_PDF) {
+    } elseif ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_RB_ATTACHMENT_PDF) {
         $fileType = "application/pdf";
-    } else if ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_ISO_SEPA_XML) {
+    } elseif ($bankAccount->BA_datasourcetype == BankAccount::DATASOURCE_TYPE_ISO_SEPA_XML) {
         $fileType = "text/xml";
     } else {
         Core::redirect("index2.php?option=com_bankaccount&task=uploadBankLists&BA_bankaccountid=$bid&hidemainmenu=1");
@@ -546,8 +546,6 @@ function doUploadBankLists($bid)
  */
 function editBankAccountEntry($eid = null)
 {
-    global $database, $my, $acl;
-
     $bankAccountEntry = BankAccountEntryDAO::getBankAccountEntryByID($eid);
     // Do not allow edit proceeded entries
     //
@@ -564,8 +562,6 @@ function editBankAccountEntry($eid = null)
  */
 function editBankAccountEntries($cid = null)
 {
-    global $database, $my, $acl;
-
     if (count($cid) === 1) {
         editBankAccountEntry(intval($cid[0]));
         return;
@@ -595,7 +591,7 @@ function editBankAccountEntries($cid = null)
  */
 function saveBankAccountEntry($task)
 {
-    global $database, $mainframe, $my, $acl, $appContext;
+    global $database, $appContext;
 
     $bankAccountEntry = new BankAccountEntry();
     database::bind($_POST, $bankAccountEntry);
