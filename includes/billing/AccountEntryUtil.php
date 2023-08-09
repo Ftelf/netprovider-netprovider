@@ -65,6 +65,8 @@ class AccountEntryUtil
                 continue;
             }
 
+            $dateString = (new DateUtil($bankAccountEntry->BE_datetime))->getFormattedDate(DateUtil::FORMAT_DATE);
+
             // try find person by variable symbol
             $persons = PersonDAO::getPersonWithAccountArrayForAccounting($bankAccountEntry->BE_variablesymbol, $bankAccountEntry->BE_constantsymbol, $bankAccountEntry->BE_specificsymbol);
 
@@ -74,7 +76,7 @@ class AccountEntryUtil
                 }, $persons);
                 $userNames = implode(', ', $concatenatedArray);
 
-                $message = "Platba z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, částka: $bankAccountEntry->BE_amount, variabilní symbol: $bankAccountEntry->BE_variablesymbol identifikována duplicitním uživatelům: $userNames";
+                $message = "Platba příchozí: $dateString, z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, jméno účtu: $bankAccountEntry->BE_accountname, částka: $bankAccountEntry->BE_amount, variabilní symbol: $bankAccountEntry->BE_variablesymbol identifikována duplicitním uživatelům: $userNames";
                 $this->_messages[] = $message;
                 $this->emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), "Příchozí platba duplicitním uživatelům", $message);
 
@@ -83,7 +85,7 @@ class AccountEntryUtil
             if (empty($persons)) {
                 foreach ($chargeEntries as $charge) {
                     if ($bankAccountEntry->BE_amount == $charge->CH_amount) {
-                        $message = "Platba z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, jméno účtu: $bankAccountEntry->BE_accountname, částka: $bankAccountEntry->BE_amount, variabilní symbol: $bankAccountEntry->BE_variablesymbol nebyla nikomu přiřazena. Pravděpodobně platba za: $charge->CH_name";
+                        $message = "Platba příchozí: $dateString, z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, jméno účtu: $bankAccountEntry->BE_accountname, částka: $bankAccountEntry->BE_amount, variabilní symbol: $bankAccountEntry->BE_variablesymbol nebyla nikomu přiřazena. Pravděpodobně platba za: $charge->CH_name";
                         $this->_messages[] = $message;
                         $this->emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), "Neznámá příchozí platba", $message);
 
@@ -97,7 +99,7 @@ class AccountEntryUtil
             $person = $persons[array_key_first($persons)];
 
             if ($person->PE_status != Person::STATUS_ACTIVE) {
-                $message = "Platba z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, částka: $bankAccountEntry->BE_amount, variabilní symbol: $bankAccountEntry->BE_variablesymbol identifikována od neaktivního uživatele: $person->PE_firstname $person->PE_surname";
+                $message = "Platba příchozí: $dateString, z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, jméno účtu: $bankAccountEntry->BE_accountname, částka: $bankAccountEntry->BE_amount, variabilní symbol: $bankAccountEntry->BE_variablesymbol identifikována od neaktivního uživatele: $person->PE_firstname $person->PE_surname";
                 $this->_messages[] = $message;
                 $this->emailUtil->sendEmailMessage($core->getProperty(Core::SUPERVISOR_EMAIL), "Příchozí platba neaktivnímu uživateli", $message);
 
@@ -133,10 +135,10 @@ class AccountEntryUtil
                 $bankAccountEntry->BE_personaccountentryid = $personAccountEntry->PN_personaccountentryid;
                 $database->updateObject("bankaccountentry", $bankAccountEntry, "BE_bankaccountentryid", false);
                 $database->commit();
-                $this->_messages[] = "Platba z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, částka: $bankAccountEntry->BE_amount identifikována od uživatele: $person->PE_firstname $person->PE_surname";
+                $this->_messages[] = "Platba příchozí: $dateString, z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, částka: $bankAccountEntry->BE_amount identifikována od uživatele: $person->PE_firstname $person->PE_surname";
             } catch (Exception $e) {
                 $database->rollback();
-                $msg = "Platba z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, částka: $bankAccountEntry->BE_amount identifikována od uživatele: $person->PE_firstname $person->PE_surname nemohla být uložena: " . $e->getMessage();
+                $msg = "Platba příchozí: $dateString, z účtu: $bankAccountEntry->BE_accountnumber/$bankAccountEntry->BE_banknumber, částka: $bankAccountEntry->BE_amount identifikována od uživatele: $person->PE_firstname $person->PE_surname nemohla být uložena: " . $e->getMessage();
                 $this->_messages[] = $msg;
                 $database->log($msg, Log::LEVEL_ERROR);
             }
