@@ -1,0 +1,11 @@
+Vážený člene Spolku OVJih.NET |PERSON_NAME|,
+Váš členský příspěvek za |CHARGE_NAME| ve výši |CHARGE_AMOUNT|Kč je v prodlení. Příspěvek by měl být uhrazen do |CHARGE_SWITCH_OFF|.
+
+Příspěvek za období: |CHARGE_PERIOD_DATE|
+Datum splatnosti příspěvku: |CHARGE_WRITE_OFF|
+Nejzazší datum platby příspěvku: |CHARGE_SWITCH_OFF|
+
+Toto je automaticky generovaná zpráva, pokud se domníváte že je chybná, kontaktujte prosím neprodleně správce Spolku OVJih.NET (https://ovjih.net/kontakt).
+
+S pozdravem,
+Spolek OVJih.NET
