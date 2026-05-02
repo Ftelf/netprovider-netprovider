@@ -162,6 +162,7 @@ Scans every `.php` file with `xgettext`, refreshes `translation/messages.pot`, m
 | **[docs/TECHNICAL.md](docs/TECHNICAL.md)**                        | Developers / SREs — architecture, data model, billing engine, security |
 | **[CHANGELOG.md](CHANGELOG.md)**                                  | Historical release notes (Czech)                                     |
 | **[CLAUDE.md](CLAUDE.md)**                                        | AI tooling guidance for working in the repo                          |
+| **[TESTING.md](TESTING.md)**                                      | Test suite — install, run, layout, conventions                       |
 
 ---
 
