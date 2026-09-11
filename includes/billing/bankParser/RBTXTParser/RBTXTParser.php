@@ -166,6 +166,9 @@ class RBTXTParser
         while (true) {
             if ($this->hasNext()) {
                 $line_1 = $this->getNext();
+            } else {
+                // No more lines: end of input terminates parsing.
+                return $this->document;
             }
             if (!mb_strlen(trim($line_1))) {
                 return $this->document;

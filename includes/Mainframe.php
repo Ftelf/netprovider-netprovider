@@ -72,12 +72,12 @@ class MainFrame
         $indexFile = str_replace("com_", "", $this->_option);
         $path = $core->getAppRoot() . "modules/" . $this->_option . "/" . $indexFile . ".index.php";
         if (file_exists($path)) {
-            define("VALID_MODULE", 1);
+            defined("VALID_MODULE") || define("VALID_MODULE", 1);
             return $path;
         } else {
             $this->_option = "com_admin";
             $indexFile = str_replace("com_", "", $this->_option);
-            define("VALID_MODULE", 1);
+            defined("VALID_MODULE") || define("VALID_MODULE", 1);
             $path = $core->getAppRoot() . "modules/" . $this->_option . "/" . $indexFile . ".index.php";
             return $path;
         }
