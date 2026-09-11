@@ -23,7 +23,8 @@ class IsoSepaXmlParserTest extends TestCase
         $this->assertSame('42',  (string) $doc['LIST_NO']);
         $this->assertSame('CZK', $doc['CURRENCY']);
         $this->assertSame('CZ5555000000001234567890', $doc['IBAN']);
-        $this->assertSame('5555', $doc['BANK_NUMBER']);
+        // Bank code is IBAN chars 5-8 (after country + 2 check digits): CZ|55|5500|...
+        $this->assertSame('5500', $doc['BANK_NUMBER']);
         $this->assertCount(2, $doc['LIST']);
 
         $credit = $doc['LIST'][0];

@@ -4,12 +4,16 @@
  *
  * Strategy: real Database connects to MySQL in its constructor. Tests
  * use ReflectionClass::newInstanceWithoutConstructor() and inject a
- * Mockery-mocked mysqli, then assert SQL/object behaviour.
+ * lightweight FakeMysqli double, then assert SQL/object behaviour.
+ *
+ * A hand-rolled fake is used rather than a Mockery mock of \mysqli:
+ * mysqli exposes errno/error/insert_id as native (read-only to userland
+ * writes) properties, so a mock can't set them to drive error paths.
  */
 
 class DatabaseTest extends TestCase
 {
-    private function newDatabaseWithMockedMysqli(\mysqli $m): Database
+    private function newDatabaseWithMockedMysqli(object $m): Database
     {
         $r = new \ReflectionClass(Database::class);
         $db = $r->newInstanceWithoutConstructor();
@@ -21,24 +25,20 @@ class DatabaseTest extends TestCase
 
     public function testQuoteEscapesAndWraps(): void
     {
-        $m = Mockery::mock(\mysqli::class);
-        $m->shouldReceive('escape_string')->with("O'Brien")->andReturn("O\\'Brien");
-        $db = $this->newDatabaseWithMockedMysqli($m);
+        $db = $this->newDatabaseWithMockedMysqli(new FakeMysqli());
         $this->assertSame("'O\\'Brien'", $db->quote("O'Brien"));
     }
 
     public function testSetQueryStoresSql(): void
     {
-        $m = Mockery::mock(\mysqli::class);
-        $db = $this->newDatabaseWithMockedMysqli($m);
+        $db = $this->newDatabaseWithMockedMysqli(new FakeMysqli());
         $db->setQuery('SELECT 1');
         $this->assertStringContainsString('SELECT 1', $db->getQuery());
     }
 
     public function testQueryThrowsOnFailure(): void
     {
-        $m = Mockery::mock(\mysqli::class);
-        $m->shouldReceive('query')->andReturn(false);
+        $m = new FakeMysqli(false);
         $m->errno = 1064;
         $m->error = 'syntax error';
         $db = $this->newDatabaseWithMockedMysqli($m);
@@ -79,9 +79,7 @@ class DatabaseTest extends TestCase
 
     public function testInsertObjectBuildsExpectedSqlAndAssignsKey(): void
     {
-        $m = Mockery::mock(\mysqli::class);
-        $m->shouldReceive('escape_string')->andReturnUsing(fn($s) => addslashes((string) $s));
-        $m->shouldReceive('query')->andReturn(true);
+        $m = new FakeMysqli(true);
         $m->insert_id = 42;
         $db = $this->newDatabaseWithMockedMysqli($m);
 
@@ -99,22 +97,22 @@ class DatabaseTest extends TestCase
         $sql = $r->getValue($db);
 
         $this->assertStringContainsString('INSERT INTO `mytable`', $sql);
-        $this->assertStringContainsString('`id`',   $sql);
         $this->assertStringContainsString('`name`', $sql);
-        $this->assertStringContainsString('NULL',   $sql);
         $this->assertStringContainsString("'Foo'",  $sql);
+        // Null-valued fields (incl. the null PK `id`) are skipped entirely,
+        // so the DB auto-assigns the key — hence no `id` column and no NULL.
+        $this->assertStringNotContainsString('`id`', $sql);
+        $this->assertStringNotContainsString('NULL', $sql);
         $this->assertStringNotContainsString('_internal', $sql);
         $this->assertStringNotContainsString('arrField', $sql);
         $this->assertStringNotContainsString('nullField', $sql);
+        // insert_id is written back onto the key field afterwards.
         $this->assertSame(42, $obj->id);
     }
 
     public function testUpdateObjectBuildsExpectedSql(): void
     {
-        $m = Mockery::mock(\mysqli::class);
-        $m->shouldReceive('escape_string')->andReturnUsing(fn($s) => addslashes((string) $s));
-        $m->shouldReceive('query')->andReturn(true);
-        $db = $this->newDatabaseWithMockedMysqli($m);
+        $db = $this->newDatabaseWithMockedMysqli(new FakeMysqli(true));
 
         $obj = new class {
             public $id   = 10;
@@ -133,9 +131,7 @@ class DatabaseTest extends TestCase
 
     public function testUpdateObjectThrowsWhenNoKey(): void
     {
-        $m = Mockery::mock(\mysqli::class);
-        $m->shouldReceive('escape_string')->andReturnUsing(fn($s) => addslashes((string) $s));
-        $db = $this->newDatabaseWithMockedMysqli($m);
+        $db = $this->newDatabaseWithMockedMysqli(new FakeMysqli(true));
         $obj = new class { public $name = 'Bar'; };
         $this->expectException(Exception::class);
         $db->updateObject('mytable', $obj, 'id');
@@ -143,15 +139,55 @@ class DatabaseTest extends TestCase
 
     public function testQueryBatchRollsBackOnFailure(): void
     {
-        $m = Mockery::mock(\mysqli::class);
         // START TRANSACTION ok, first stmt ok, second fails, ROLLBACK ok
-        $m->shouldReceive('query')->with('START TRANSACTION;')->andReturn(true);
-        $m->shouldReceive('query')->with('OK;')->andReturn(true);
-        $m->shouldReceive('query')->with('BAD;')->andReturn(false);
-        $m->shouldReceive('query')->with('ROLLBACK;')->andReturn(true);
-        $m->errno = 1; $m->error = 'fail';
+        $m = new FakeMysqli([
+            'START TRANSACTION;' => true,
+            'OK;'                => true,
+            'BAD;'               => false,
+            'ROLLBACK;'          => true,
+        ]);
+        $m->errno = 1;
+        $m->error = 'fail';
         $db = $this->newDatabaseWithMockedMysqli($m);
         $this->expectException(Exception::class);
         $db->query_batch(['OK;', 'BAD;']);
+    }
+}
+
+/**
+ * Minimal stand-in for \mysqli usable by Database via reflection injection.
+ * Provides writable error/insert_id fields (which native mysqli forbids)
+ * and a query() whose result is either a fixed bool or a per-SQL map.
+ */
+class FakeMysqli
+{
+    public int $errno = 0;
+    public string $error = '';
+    public int $insert_id = 0;
+
+    /** @var array<int,string> SQL passed to query(), in order. */
+    public array $queries = [];
+
+    /** @var bool|array<string,bool> */
+    private $queryReturn;
+
+    /** @param bool|array<string,bool> $queryReturn */
+    public function __construct($queryReturn = true)
+    {
+        $this->queryReturn = $queryReturn;
+    }
+
+    public function escape_string($text): string
+    {
+        return addslashes((string) $text);
+    }
+
+    public function query($sql)
+    {
+        $this->queries[] = $sql;
+        if (is_array($this->queryReturn)) {
+            return $this->queryReturn[$sql] ?? false;
+        }
+        return $this->queryReturn;
     }
 }

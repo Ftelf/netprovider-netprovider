@@ -83,14 +83,17 @@ spl_autoload_register(function ($class) {
         foreach ($dirs as $dir) {
             if (!is_dir($dir)) continue;
             foreach (glob("$dir/*.php") as $file) {
-                $name = basename($file, '.php');
+                // Key by lower-case name: filenames don't always match class
+                // casing (e.g. Mainframe.php defines class MainFrame).
+                $name = strtolower(basename($file, '.php'));
                 if (!isset($cache[$name])) {
                     $cache[$name] = $file;
                 }
             }
         }
     }
-    if (isset($cache[$class])) {
-        require_once $cache[$class];
+    $key = strtolower($class);
+    if (isset($cache[$key])) {
+        require_once $cache[$key];
     }
 });

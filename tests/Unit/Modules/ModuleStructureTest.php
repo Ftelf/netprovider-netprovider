@@ -9,12 +9,21 @@
 
 class ModuleStructureTest extends TestCase
 {
+    /**
+     * Shared-helper directories that are NOT routable modules and therefore
+     * carry no <base>.index.php / <base>.html.php pair.
+     */
+    private const NON_ROUTABLE = ['com_common'];
+
     public static function modules(): array
     {
         $root = realpath(__DIR__ . '/../../../') . '/modules';
         $cases = [];
         foreach (glob($root . '/com_*', GLOB_ONLYDIR) ?: [] as $dir) {
             $name = basename($dir);
+            if (in_array($name, self::NON_ROUTABLE, true)) {
+                continue;
+            }
             $cases[$name] = [$name, $dir];
         }
         return $cases;
