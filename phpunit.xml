@@ -33,11 +33,12 @@
             <file>includes/net/email/MimeDecode.php</file>
         </exclude>
     </source>
-    <coverage includeUncoveredFiles="true">
-        <report>
-            <text outputFile="php://stdout" showUncoveredFiles="false"/>
-        </report>
-    </coverage>
+    <!--
+      No coverage report block here on purpose: a report block makes every
+      run attempt coverage collection, which warns (and returns exit 1) when
+      no driver is installed. Coverage is opt-in via `composer test:coverage`,
+      which requests it with CLI coverage flags and honours the source scope.
+    -->
     <php>
         <env name="APP_ENV" value="testing"/>
     </php>
