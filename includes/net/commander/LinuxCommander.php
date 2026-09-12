@@ -62,6 +62,12 @@ class LinuxCommander
 
     private $isIPFilterEnabled;
 
+    // Legacy/obsolete: LinuxCommander is dead code — RouterOSCommander is the
+    // deployed path and this class was never kept current. Declared only to
+    // silence an undefined-property access at setupIPFilter(); left false to
+    // preserve the historical (fail-open) behavior of this unused path.
+    private $rejectUnknownIP = false;
+
     public function __construct($networks, $isExecutionEnabled)
     {
         global $core;
