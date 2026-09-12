@@ -1,39 +1,17 @@
 <?php
 /**
- * CoreStub sanity tests — confirms the test stub honours Core's
- * contract well enough to substitute it across test cases.
+ * The only thing worth asserting about CoreStub in isolation: that it stays
+ * substitutable for the real Core, so every `Core` type hint across the
+ * codebase accepts it. If the stub stopped extending Core, this fails and
+ * explains why the rest of the suite would break.
+ *
+ * The stub's getters/defaults are deliberately NOT tested here — they are
+ * exercised indirectly by every test that uses the stub; asserting them
+ * directly would just test the double, not any production behavior.
  */
 
 class CoreStubTest extends TestCase
 {
-    public function testGetAppRootReturnsTrailingSlash(): void
-    {
-        $core = new CoreStub('/some/path');
-        $this->assertSame('/some/path/', $core->getAppRoot());
-    }
-
-    public function testGetPropertyReturnsConfiguredValue(): void
-    {
-        $core = new CoreStub(NP_PROJECT_ROOT);
-        $this->assertSame('LINUX', $core->getProperty(Core::NETWORK_DEVICE_PLATFORM));
-    }
-
-    public function testGetPropertyThrowsOnUnknownKey(): void
-    {
-        $core = new CoreStub(NP_PROJECT_ROOT);
-        $this->expectException(PropertyException::class);
-        $core->getProperty('No Such Property');
-    }
-
-    public function testGetBooleanProperty(): void
-    {
-        $core = new CoreStub(NP_PROJECT_ROOT);
-        $core->setProperty(Core::SMTP_AUTH, 1);
-        $this->assertTrue($core->getBooleanProperty(Core::SMTP_AUTH));
-        $core->setProperty(Core::SMTP_AUTH, 0);
-        $this->assertFalse($core->getBooleanProperty(Core::SMTP_AUTH));
-    }
-
     public function testIsInstanceOfCoreSoTypeHintsHold(): void
     {
         $this->assertInstanceOf(Core::class, new CoreStub(NP_PROJECT_ROOT));
