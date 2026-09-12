@@ -339,6 +339,15 @@ class ChargesUtil
                             // Calculate overdue of payment in days
                             $overdue = intval(($now->getTime() - $writeOffDate->getTime()) / (24 * 60 * 60));
 
+                            // Snapshot state that the block below mutates in memory,
+                            // so a rolled-back transaction can be fully reverted and
+                            // never leaks a phantom balance into the next entry (D2).
+                            $accountBalanceBefore = $personAccount->PA_balance;
+                            $accountOutcomeBefore = $personAccount->PA_outcome;
+                            $entryStatusBefore    = $chargeEntry->CE_status;
+                            $entryOverdueBefore   = $chargeEntry->CE_overdue;
+                            $entryRealizeBefore   = $chargeEntry->CE_realize_date;
+
                             // check if enough money on PersonAccount
                             if ($personAccount->PA_balance < $chargeEntry->CE_amount) {
                                 // There is no enough money on account
@@ -370,6 +379,15 @@ class ChargesUtil
                                 $database->commit();
                             } catch (Exception $e) {
                                 $database->rollback();
+
+                                // Revert the in-memory mutations so the rolled-back
+                                // deduction does not survive into the next entry (D2).
+                                $personAccount->PA_balance = $accountBalanceBefore;
+                                $personAccount->PA_outcome = $accountOutcomeBefore;
+                                $chargeEntry->CE_status       = $entryStatusBefore;
+                                $chargeEntry->CE_overdue      = $entryOverdueBefore;
+                                $chargeEntry->CE_realize_date = $entryRealizeBefore;
+
                                 $msg = "Error processing ChargeEntry: " . $e->getMessage();
                                 $this->_messages[] = $msg;
                                 $database->log($msg, Log::LEVEL_ERROR);
