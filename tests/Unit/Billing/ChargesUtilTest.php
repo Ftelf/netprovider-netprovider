@@ -151,6 +151,15 @@ class ChargesUtilTest extends TestCase
         ));
         $this->assertNotEmpty($entryUpdates);
         $this->assertSame(ChargeEntry::STATUS_FINISHED, $entryUpdates[0]['object']->CE_status);
+
+        // First-attempt payment: overdue recorded as 0 (no prior failed attempt),
+        // realize date stamped today, and the charged amount added to outcome.
+        $this->assertSame(0, $entryUpdates[0]['object']->CE_overdue);
+        $this->assertSame(date('Y-m-d'), $entryUpdates[0]['object']->CE_realize_date);
+        $this->assertEqualsWithDelta(50.0, $accountUpdates[0]['object']->PA_outcome, 0.001);
+        // Money movement committed, never rolled back.
+        $this->assertSame(1, $this->db->commits);
+        $this->assertSame(0, $this->db->rollbacks);
     }
 
     public function testProceedChargesForPersonWithExactBalance(): void
@@ -240,6 +249,12 @@ class ChargesUtilTest extends TestCase
         ));
         $this->assertNotEmpty($accountUpdates);
         $this->assertEqualsWithDelta(10.0, $accountUpdates[0]['object']->PA_balance, 0.001);
+
+        // Late but unpaid: overdue is recorded, but no money moved —
+        // outcome untouched and realize date still the null-date.
+        $this->assertGreaterThan(0, $entryUpdates[0]['object']->CE_overdue);
+        $this->assertEqualsWithDelta(0.0, $accountUpdates[0]['object']->PA_outcome, 0.001);
+        $this->assertSame(DateUtil::DB_NULL_DATE, $entryUpdates[0]['object']->CE_realize_date);
     }
 
     public function testProceedChargesForPersonDisablesPassivePersonsCharges(): void
@@ -258,6 +273,107 @@ class ChargesUtilTest extends TestCase
         ));
         $this->assertNotEmpty($updates);
         $this->assertSame(HasCharge::ACTUALSTATE_DISABLED, $updates[0]['object']->HC_actualstate);
+    }
+
+    public function testRetryAfterInsufficientFundsKeepsComputedOverdueOnPayment(): void
+    {
+        // An entry that previously failed for lack of funds is now payable.
+        // The retry path must record the *actual* lateness, not reset to 0
+        // (the first-attempt PENDING branch pays with overdue 0 — see above).
+        $charge = $this->makeCharge(1, 50.0, 0, 14);
+        $util   = $this->newChargesUtilWithChargeMap([$charge]);
+
+        $person    = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01');
+
+        $entry = new ChargeEntry();
+        $entry->CE_chargeentryid  = 100;
+        $entry->CE_haschargeid    = 1;
+        $entry->CE_amount         = 50.0;
+        $entry->CE_period_date    = '2020-01-01';   // write-off long past
+        $entry->CE_writeoffoffset = 0;
+        $entry->CE_status         = ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS;
+        $entry->CE_realize_date   = DateUtil::DB_NULL_DATE;
+        $entry->CE_overdue        = 5;              // stale prior value
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 200.0));
+        $this->db->seedObjectList([$entry]);
+
+        $util->proceedChargesForPerson($person);
+
+        $entryUpdates = array_values(array_filter(
+            $this->db->updates,
+            fn($u) => $u['table'] === 'chargeentry'
+        ));
+        $this->assertNotEmpty($entryUpdates);
+        $this->assertSame(ChargeEntry::STATUS_FINISHED, $entryUpdates[0]['object']->CE_status);
+        // Overdue recomputed to the real lateness — neither 0 nor the stale 5.
+        $this->assertGreaterThan(5, $entryUpdates[0]['object']->CE_overdue);
+    }
+
+    public function testWriteOffInFutureLeavesEntryUnprocessed(): void
+    {
+        // Write-off date not yet reached: no collection, entry untouched.
+        $charge = $this->makeCharge(1, 50.0, 0, 14);
+        $util   = $this->newChargesUtilWithChargeMap([$charge]);
+
+        $person    = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01');
+
+        $entry = new ChargeEntry();
+        $entry->CE_chargeentryid  = 100;
+        $entry->CE_haschargeid    = 1;
+        $entry->CE_amount         = 50.0;
+        $entry->CE_period_date    = date('Y-m-01', strtotime('+2 months')); // future
+        $entry->CE_writeoffoffset = 0;
+        $entry->CE_status         = ChargeEntry::STATUS_PENDING;
+        $entry->CE_realize_date   = DateUtil::DB_NULL_DATE;
+        $entry->CE_overdue        = 0;
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 200.0));
+        $this->db->seedObjectList([$entry]);
+
+        $util->proceedChargesForPerson($person);
+
+        // No collection happened: neither the entry nor the account was written.
+        $this->assertSame([], array_values(array_filter(
+            $this->db->updates, fn($u) => $u['table'] === 'chargeentry')));
+        $this->assertSame([], array_values(array_filter(
+            $this->db->updates, fn($u) => $u['table'] === 'personaccount')));
+    }
+
+    public function testAlreadyFinishedEntryIsNotChargedAgain(): void
+    {
+        // A FINISHED entry is never re-collected on a subsequent run.
+        $charge = $this->makeCharge(1, 50.0, 0, 14);
+        $util   = $this->newChargesUtilWithChargeMap([$charge]);
+
+        $person    = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01');
+
+        $entry = new ChargeEntry();
+        $entry->CE_chargeentryid  = 100;
+        $entry->CE_haschargeid    = 1;
+        $entry->CE_amount         = 50.0;
+        $entry->CE_period_date    = '2020-01-01';
+        $entry->CE_writeoffoffset = 0;
+        $entry->CE_status         = ChargeEntry::STATUS_FINISHED;
+        $entry->CE_realize_date   = '2020-01-05';
+        $entry->CE_overdue        = 0;
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 200.0));
+        $this->db->seedObjectList([$entry]);
+
+        $util->proceedChargesForPerson($person);
+
+        // Not in {PENDING, INSUFFICIENT} → skipped: no money movement.
+        $this->assertSame([], array_values(array_filter(
+            $this->db->updates, fn($u) => $u['table'] === 'chargeentry')));
+        $this->assertSame([], array_values(array_filter(
+            $this->db->updates, fn($u) => $u['table'] === 'personaccount')));
     }
 
     public function testGetMessagesReturnsAccumulator(): void
