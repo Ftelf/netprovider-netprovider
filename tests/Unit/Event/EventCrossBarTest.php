@@ -56,7 +56,7 @@ class EventCrossBarTest extends TestCase
         $he->HE_status = HandleEvent::STATUS_ENABLED;
         $he->HE_templatepath = 'this_template_does_not_exist.txt';
         $he->HE_emailsubject = 'Test';
-        $he->HE_notifydaysbeforeturnoff = null;
+        $he->HE_notifydaysbeforeturnoff = 5;
         $he->HE_notifypersonid = null;
 
         $this->db->seedObjectList([$he]);   // HandleEventDAO::getHandleEventArray
@@ -74,7 +74,11 @@ class EventCrossBarTest extends TestCase
         $he->HE_type   = HandleEvent::TYPE_CHARGE_PAYMENT_DEADLINE;
         $he->HE_status = HandleEvent::STATUS_ENABLED;
         $he->HE_emailsubject = 'Reminder';
-        $he->HE_notifydaysbeforeturnoff = null;
+        // Schema is `tinyint NOT NULL`; use a real threshold. dispatchEvent uses
+        // the real "now", so build the switch-off relative to today (≈40 days out)
+        // and keep the threshold (60) comfortably above it so the handler fires
+        // deterministically regardless of when the suite runs.
+        $he->HE_notifydaysbeforeturnoff = 60;
         $he->HE_notifypersonid = null;
 
         $crossBar = $this->newCrossBarWithTemplate($template, [$he]);
@@ -95,12 +99,14 @@ class EventCrossBarTest extends TestCase
         $now = new DateUtil('2026-05-01');
         $period = new DateUtil('2026-05-01');
         $writeOff = new DateUtil('2026-05-15');
-        $tolerance = new DateUtil('2026-05-30');
+        $tolerance = new DateUtil();
+        $tolerance->add(DateUtil::DAY, 40);
+        $expectedSwitchOff = $tolerance->getFormattedDate(DateUtil::FORMAT_DATE);
 
         $event = new ChargePaymentDeadlineEvent($now, $person, 'msg', $charge, $period, $writeOff, $tolerance);
 
         $this->mockEmail->shouldReceive('queueMessage')->once()
-            ->withArgs(function ($p, $subj, $body, $attach) {
+            ->withArgs(function ($p, $subj, $body, $attach) use ($expectedSwitchOff) {
                 $this->assertSame('Reminder', $subj);
                 $this->assertStringContainsString('Hi Anna Novakova', $body);
                 $this->assertStringContainsString('Internet 100/100', $body);
@@ -108,13 +114,55 @@ class EventCrossBarTest extends TestCase
                 $this->assertStringContainsString('currency=CZK', $body);
                 $this->assertStringContainsString('date=01.05.2026', $body);
                 $this->assertStringContainsString('writeOff=15.05.2026', $body);
-                $this->assertStringContainsString('switchOff=30.05.2026', $body);
+                $this->assertStringContainsString('switchOff=' . $expectedSwitchOff, $body);
                 $this->assertStringNotContainsString('|', $body, 'all placeholders interpolated');
                 return true;
             });
         $this->mockEmail->shouldReceive('sendMessages')->once();
 
         $crossBar->dispatchEvent($event);
+    }
+
+    public function testDispatchSkipsWhenThresholdBelowWindow(): void
+    {
+        $he = new HandleEvent();
+        $he->HE_handleeventid = 1;
+        $he->HE_type   = HandleEvent::TYPE_CHARGE_PAYMENT_DEADLINE;
+        $he->HE_status = HandleEvent::STATUS_ENABLED;
+        $he->HE_emailsubject = 'Reminder';
+        // Switch-off is ~40 days out; a 5-day threshold must NOT fire yet.
+        $he->HE_notifydaysbeforeturnoff = 5;
+        $he->HE_notifypersonid = null;
+
+        $crossBar = $this->newCrossBarWithTemplate('hi |PERSON_NAME|', [$he]);
+
+        $this->mockEmail->shouldNotReceive('queueMessage');
+
+        $person = new Person();
+        $person->PE_personid = 1;
+        $person->PE_firstname = 'A';
+        $person->PE_surname   = 'B';
+        $charge = new Charge();
+        $charge->CH_name = 'X';
+        $charge->CH_baseamount = 0;
+        $charge->CH_vat = 0;
+        $charge->CH_amount = 0;
+        $charge->CH_currency = 'CZK';
+        $charge->CH_period = Charge::PERIOD_MONTHLY;
+
+        $tolerance = new DateUtil();
+        $tolerance->add(DateUtil::DAY, 40);
+
+        $event = new ChargePaymentDeadlineEvent(
+            new DateUtil('2026-05-01'),
+            $person, 'm', $charge,
+            new DateUtil('2026-05-01'),
+            new DateUtil('2026-05-15'),
+            $tolerance
+        );
+
+        $crossBar->dispatchEvent($event);
+        $this->assertTrue(true);
     }
 
     public function testDispatchSkipsDisabledHandlers(): void
