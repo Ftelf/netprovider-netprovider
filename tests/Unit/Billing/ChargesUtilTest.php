@@ -109,6 +109,44 @@ class ChargesUtilTest extends TestCase
         return date('Y-m-01');
     }
 
+    /**
+     * First day of the month `$offset` months from the current month, as 'Y-m-d'.
+     * Anchored to day-1 so `+/- N months` never overflows (no 31st→next-month skew),
+     * matching the projection walk which only ever steps day-1 dates.
+     */
+    private function monthStart(int $offset): string
+    {
+        return (new DateTimeImmutable('first day of this month'))
+            ->modify(sprintf('%+d months', $offset))
+            ->format('Y-m-d');
+    }
+
+    /** ChargeEntry rows inserted during the call, in insertion order. */
+    private function chargeEntryInserts(): array
+    {
+        return array_values(array_filter(
+            $this->db->inserts,
+            fn($i) => $i['table'] === 'chargeentry'
+        ));
+    }
+
+    /** The PersonAccount captured by the last personaccount update, or null if none. */
+    private function lastPersonAccountUpdate(): ?PersonAccount
+    {
+        $pa = array_values(array_filter(
+            $this->db->updates,
+            fn($u) => $u['table'] === 'personaccount'
+        ));
+        return $pa ? end($pa)['object'] : null;
+    }
+
+    /** Pins the projection horizon so month counts are deterministic per test. */
+    private function setAdvanceMonths(int $months): void
+    {
+        global $core;
+        $core->setProperty(Core::BLANK_CHARGES_ADVANCE_COUNT, $months);
+    }
+
     public function testConstructorLoadsChargeMap(): void
     {
         $util = $this->newChargesUtilWithChargeMap([$this->makeCharge(1)]);
@@ -687,5 +725,208 @@ class ChargesUtilTest extends TestCase
     {
         $util = $this->newChargesUtilWithChargeMap([]);
         $this->assertSame([], $util->getMessages());
+    }
+
+    // ---------------------------------------------------------------------
+    // Projection — createOrRemoveChargeEntriesForPerson (§4)
+    //
+    // Consumption order per call:
+    //   1. HasChargeDAO::getHasChargeArrayByPersonID()      → seedObjectList()
+    //   2. per passing monthly HasCharge:
+    //      a. ChargeEntryDAO::getChargeEntryArrayByHasChargeID() → seedObjectList()
+    //      b. PersonAccountDAO::getPersonAccountByID() (removal step) → seedObject()
+    // ---------------------------------------------------------------------
+
+    public function testProjectionCreatesMonthlyEntriesUpToAdvanceCap(): void
+    {
+        // Open-ended charge, no existing entries: expect this month + advance months.
+        $this->setAdvanceMonths(2);
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 7, 14)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, $this->monthStart(0), null);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObjectList([]);                 // no existing ChargeEntries
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+
+        $util->createOrRemoveChargeEntriesForPerson($person);
+
+        $inserts = $this->chargeEntryInserts();
+        $this->assertCount(3, $inserts);
+        $this->assertSame(
+            [$this->monthStart(0), $this->monthStart(1), $this->monthStart(2)],
+            array_map(fn($i) => $i['object']->CE_period_date, $inserts)
+        );
+        foreach ($inserts as $i) {
+            $this->assertSame(ChargeEntry::STATUS_PENDING, $i['object']->CE_status);
+            $this->assertSame(50.0, $i['object']->CE_amount);
+            $this->assertSame(7, $i['object']->CE_writeoffoffset);
+            $this->assertSame(DateUtil::DB_NULL_DATE, $i['object']->CE_realize_date);
+            $this->assertSame(0, $i['object']->CE_overdue);
+        }
+    }
+
+    public function testProjectionIsIdempotentForExistingPeriods(): void
+    {
+        // Two of the three in-window months already exist → only the gap is inserted.
+        $this->setAdvanceMonths(2);
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, $this->monthStart(0), null);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObjectList([
+            $this->makeEntry(100, 1, 50.0, $this->monthStart(0), ChargeEntry::STATUS_PENDING),
+            $this->makeEntry(101, 1, 50.0, $this->monthStart(1), ChargeEntry::STATUS_PENDING),
+        ]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+
+        $util->createOrRemoveChargeEntriesForPerson($person);
+
+        $inserts = $this->chargeEntryInserts();
+        $this->assertCount(1, $inserts);
+        $this->assertSame($this->monthStart(2), $inserts[0]['object']->CE_period_date);
+    }
+
+    public function testProjectionIsCappedByAdvanceNotByFarDateEnd(): void
+    {
+        // dateEnd a year out, advance only 2 → horizon wins, not dateEnd.
+        $this->setAdvanceMonths(2);
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, $this->monthStart(0), $this->monthStart(12));
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObjectList([]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+
+        $util->createOrRemoveChargeEntriesForPerson($person);
+
+        $inserts = $this->chargeEntryInserts();
+        $this->assertCount(3, $inserts);
+        $this->assertSame($this->monthStart(2), end($inserts)['object']->CE_period_date);
+    }
+
+    public function testProjectionStopsAtDateEndWhenBeforeCap(): void
+    {
+        // dateEnd (this month + 1) is nearer than the 6-month horizon → dateEnd wins.
+        $this->setAdvanceMonths(6);
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, $this->monthStart(0), $this->monthStart(1));
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObjectList([]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+
+        $util->createOrRemoveChargeEntriesForPerson($person);
+
+        $this->assertSame(
+            [$this->monthStart(0), $this->monthStart(1)],
+            array_map(fn($i) => $i['object']->CE_period_date, $this->chargeEntryInserts())
+        );
+    }
+
+    public function testOutOfScopeEntryBeforeStartIsDeleted(): void
+    {
+        // An entry two months before datestart is outside the window → DELETEd.
+        $this->setAdvanceMonths(0);
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, $this->monthStart(0), null);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObjectList([
+            $this->makeEntry(200, 1, 50.0, $this->monthStart(-2), ChargeEntry::STATUS_PENDING), // out of scope
+            $this->makeEntry(201, 1, 50.0, $this->monthStart(0), ChargeEntry::STATUS_PENDING),  // in scope (idempotent)
+        ]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+
+        $util->createOrRemoveChargeEntriesForPerson($person);
+
+        $this->assertCount(0, $this->chargeEntryInserts()); // in-window month already present
+        $this->assertContains(
+            "DELETE FROM `chargeentry` WHERE `CE_chargeentryid`='200' LIMIT 1",
+            $this->db->recordedQueries
+        );
+    }
+
+    public function testFinishedOutOfScopeEntryIsRefunded(): void
+    {
+        // §4.5 / product-owner ruling: window-shrink refunds a collected month.
+        $this->setAdvanceMonths(0);
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, $this->monthStart(0), null);
+
+        $account = $this->makeAccount(1, 100.0);
+        $account->PA_outcome = 50.0;
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObjectList([
+            $this->makeEntry(300, 1, 50.0, $this->monthStart(-1), ChargeEntry::STATUS_FINISHED), // out of scope, paid
+        ]);
+        $this->db->seedObject($account);
+
+        $util->createOrRemoveChargeEntriesForPerson($person);
+
+        $this->assertContains(
+            "DELETE FROM `chargeentry` WHERE `CE_chargeentryid`='300' LIMIT 1",
+            $this->db->recordedQueries
+        );
+        $updated = $this->lastPersonAccountUpdate();
+        $this->assertNotNull($updated);
+        $this->assertSame(150.0, $updated->PA_balance); // refunded
+        $this->assertSame(0.0, $updated->PA_outcome);   // reversed
+    }
+
+    public function testNonFinishedOutOfScopeEntryIsRemovedWithoutRefund(): void
+    {
+        // An unpaid out-of-scope entry moved no money → removal reverses nothing.
+        $this->setAdvanceMonths(0);
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, $this->monthStart(0), null);
+
+        $account = $this->makeAccount(1, 100.0);
+        $account->PA_outcome = 50.0;
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObjectList([
+            $this->makeEntry(400, 1, 50.0, $this->monthStart(-1), ChargeEntry::STATUS_PENDING), // out of scope, unpaid
+        ]);
+        $this->db->seedObject($account);
+
+        $util->createOrRemoveChargeEntriesForPerson($person);
+
+        $this->assertContains(
+            "DELETE FROM `chargeentry` WHERE `CE_chargeentryid`='400' LIMIT 1",
+            $this->db->recordedQueries
+        );
+        $updated = $this->lastPersonAccountUpdate();
+        $this->assertNotNull($updated);
+        $this->assertSame(100.0, $updated->PA_balance); // unchanged
+        $this->assertSame(50.0, $updated->PA_outcome);  // unchanged
+    }
+
+    public function testProjectionSkipsHasChargeWithNonDayOneStart(): void
+    {
+        // A start date not on day-1 is logged and skipped before any insert or removal.
+        $this->setAdvanceMonths(2);
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-15', null); // 15th, not 1st
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObjectList([]); // entry list still loaded (line 101) before the day-1 guard
+
+        $util->createOrRemoveChargeEntriesForPerson($person);
+
+        $this->assertCount(0, $this->chargeEntryInserts());
+        $this->assertNull($this->lastPersonAccountUpdate()); // removal step never reached
+        $this->assertNotEmpty(array_filter(
+            $util->getMessages(),
+            fn($m) => str_contains($m, 'invalid start date')
+        ));
     }
 }
