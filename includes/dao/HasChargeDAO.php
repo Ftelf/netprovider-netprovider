@@ -35,7 +35,7 @@ class HasChargeDAO
         global $database;
         $query = "SELECT * FROM `hascharge`";
         if ($limitstart !== null && $limit !== null) {
-            $query = " LIMIT $limitstart,$limit";
+            $query .= " LIMIT $limitstart,$limit";
         }
         $database->setQuery($query);
         return $database->loadObjectList("HC_haschargeid");

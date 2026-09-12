@@ -59,7 +59,10 @@ class EventCrossBar
 
                     $daysBeforeTurnOff = ($event->getToleranceDate()->getTime() - $now->getTime()) / 3600 / 24;
 
-                    if ($handleEvent->HE_notifydaysbeforeturnoff == null || $handleEvent->HE_notifydaysbeforeturnoff >= $daysBeforeTurnOff) {
+                    // HE_notifydaysbeforeturnoff is `tinyint NOT NULL` in schema, so it
+                    // can never be null; notify when the switch-off is within the
+                    // configured threshold (>= days remaining).
+                    if ($handleEvent->HE_notifydaysbeforeturnoff >= $daysBeforeTurnOff) {
                         $template = $this->templateArray[$handleEvent->HE_handleeventid];
                         $template = mb_ereg_replace("\|PERSON_NAME\|", $event->getPerson()->PE_firstname . " " . $event->getPerson()->PE_surname, $template);
                         $template = mb_ereg_replace("\|CHARGE_NAME\|", $event->getCharge()->CH_name, $template);

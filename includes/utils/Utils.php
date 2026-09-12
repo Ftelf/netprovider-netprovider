@@ -42,7 +42,7 @@ class Utils
     {
         $rBool = false;
 
-        if (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $email)) {
+        if (preg_match("/^[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}$/", $email)) {
             $rBool = true;
         }
         return $rBool;
@@ -52,7 +52,7 @@ class Utils
     {
         $arr = array();
         $tok = strtok($text, "\r\n");
-        while ($tok) {
+        while ($tok !== false) {
             $arr[] = $tok;
             $tok = strtok("\r\n");
         }

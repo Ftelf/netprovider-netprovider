@@ -43,10 +43,10 @@ class BankAccountEntryDAO
     {
         global $database;
         $query = "SELECT * FROM `bankaccountentry` WHERE `BE_bankaccountid`='$bankaccountid'";
-        if ($limitstart != null && $limit != null) {
+        $query .= " ORDER BY `BE_datetime` ASC";
+        if ($limitstart !== null && $limit !== null) {
             $query .= " LIMIT $limitstart,$limit";
         }
-        $query .= " ORDER BY `BE_datetime` ASC";
         $database->setQuery($query);
         return $database->loadObjectList("BE_bankaccountentryid");
     }
