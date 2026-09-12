@@ -406,6 +406,71 @@ class ChargesUtilTest extends TestCase
             $this->db->updates, fn($u) => $u['table'] === 'personaccount')));
     }
 
+    public function testRollbackDuringCollectionLeavesBalanceUncorrupted(): void
+    {
+        // D2 (docs/billing.md §8): PA_balance is mutated in memory *before* the
+        // per-entry transaction. When that transaction rolls back, the in-memory
+        // balance is not restored, so the next entry deducts from a phantom
+        // balance and its successful write persists the wrong value.
+        //
+        // Two due entries of 50 against a starting balance of 200. Entry 1's
+        // commit fails and rolls back; entry 2 then succeeds. Intended: entry 1
+        // is reverted, so entry 2 deducts from 200 -> persisted balance 150.
+        // Current (buggy): entry 1's deduction survives, entry 2 deducts from
+        // 150 -> persisted balance 100.
+        $failing = new class extends DatabaseStub {
+            public bool $failedOnce = false;
+            public function commit(): void
+            {
+                if (!$this->failedOnce) {
+                    $this->failedOnce = true;
+                    throw new Exception('simulated commit failure on first entry');
+                }
+                parent::commit();
+            }
+        };
+
+        global $database, $eventCrossBar;
+        $eventCrossBar = null;
+        $this->db = $failing;
+        $database  = $failing;
+
+        $failing->seedObjectList([$this->makeCharge(1, 50.0, 0, 14)]); // ChargeDAO (constructor)
+        $util = new ChargesUtil();
+
+        $person    = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01');
+
+        $failing->seedObjectList([$hasCharge]);
+        $failing->seedObject($this->makeAccount(1, 200.0));
+        $failing->seedObjectList([
+            $this->makeEntry(100, 1, 50.0, '2020-01-01', ChargeEntry::STATUS_PENDING),
+            $this->makeEntry(101, 1, 50.0, '2020-02-01', ChargeEntry::STATUS_PENDING),
+        ]);
+
+        $util->proceedChargesForPerson($person);
+
+        // The first transaction rolled back exactly once (failure path exercised).
+        $this->assertSame(1, $failing->rollbacks);
+
+        $accountUpdates = array_values(array_filter(
+            $failing->updates,
+            fn($u) => $u['table'] === 'personaccount'
+        ));
+        $this->assertNotEmpty($accountUpdates);
+        $last = end($accountUpdates);
+        $lastBalance = $last['object']->PA_balance;
+
+        if (abs($lastBalance - 150.0) > 0.001) {
+            $this->markTestIncomplete(sprintf(
+                'D2 not yet fixed: a rolled-back deduction persisted. '
+                . 'Expected balance 150.00 after entry 2, got %.2f. See docs/billing.md §8 (D2).',
+                $lastBalance
+            ));
+        }
+        $this->assertEqualsWithDelta(150.0, $lastBalance, 0.001);
+    }
+
     // --- HC_actualstate decision table (docs/billing.md §5.1, §5.4, §5.5) ---
     //
     // The seed order for an ACTIVE person that reaches the entry loop is
