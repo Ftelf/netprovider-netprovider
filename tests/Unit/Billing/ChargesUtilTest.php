@@ -79,6 +79,36 @@ class ChargesUtilTest extends TestCase
         return $a;
     }
 
+    private function makeEntry(int $id, int $hasChargeId, float $amount, string $periodDate, int $status, int $overdue = 0, int $writeOff = 0): ChargeEntry
+    {
+        $e = new ChargeEntry();
+        $e->CE_chargeentryid  = $id;
+        $e->CE_haschargeid    = $hasChargeId;
+        $e->CE_amount         = $amount;
+        $e->CE_period_date    = $periodDate;
+        $e->CE_writeoffoffset = $writeOff;
+        $e->CE_status         = $status;
+        $e->CE_realize_date   = DateUtil::DB_NULL_DATE;
+        $e->CE_overdue        = $overdue;
+        return $e;
+    }
+
+    /** The HasCharge captured by the last hascharge update, or null if none was written. */
+    private function lastHasChargeUpdate(): ?HasCharge
+    {
+        $hc = array_values(array_filter(
+            $this->db->updates,
+            fn($u) => $u['table'] === 'hascharge'
+        ));
+        return $hc ? $hc[0]['object'] : null;
+    }
+
+    /** First day of the current month — an unambiguously "present" monthly period. */
+    private function currentPeriod(): string
+    {
+        return date('Y-m-01');
+    }
+
     public function testConstructorLoadsChargeMap(): void
     {
         $util = $this->newChargesUtilWithChargeMap([$this->makeCharge(1)]);
@@ -374,6 +404,218 @@ class ChargesUtilTest extends TestCase
             $this->db->updates, fn($u) => $u['table'] === 'chargeentry')));
         $this->assertSame([], array_values(array_filter(
             $this->db->updates, fn($u) => $u['table'] === 'personaccount')));
+    }
+
+    // --- HC_actualstate decision table (docs/billing.md §5.1, §5.4, §5.5) ---
+    //
+    // The seed order for an ACTIVE person that reaches the entry loop is
+    // HasCharge list -> PersonAccount -> ChargeEntry list. Charges that hit an
+    // early pre-filter (HC_status DISABLED, not-yet-started) return before the
+    // ChargeEntry query, so those tests must NOT seed an entry list.
+    //
+    // Accumulator tests set writeoffoffset high so the collection block is
+    // skipped (write-off date in the future); the seeded CE_status / CE_overdue
+    // then reach the state machine unchanged, isolating the decision from
+    // collection side effects.
+
+    public function testEnabledCleanPresentBecomesEnabled(): void
+    {
+        // ENABLED + clean current period + clean sequence -> ENABLED.
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 60, 14)]);
+        $person = $this->makePerson(1, 1);
+        // actual starts DISABLED, so flipping to ENABLED produces a write.
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01', null, HasCharge::STATUS_ENABLED, HasCharge::ACTUALSTATE_DISABLED);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+        $this->db->seedObjectList([$this->makeEntry(100, 1, 50.0, $this->currentPeriod(), ChargeEntry::STATUS_PENDING, 0, 60)]);
+
+        $util->proceedChargesForPerson($person);
+
+        $this->assertSame(HasCharge::ACTUALSTATE_ENABLED, $this->lastHasChargeUpdate()->HC_actualstate);
+    }
+
+    public function testPresentInsufficientWithinToleranceStaysEnabled(): void
+    {
+        // Current period unpaid but within tolerance days of overdue -> ENABLED.
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 60, 14)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01', null, HasCharge::STATUS_ENABLED, HasCharge::ACTUALSTATE_DISABLED);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+        $this->db->seedObjectList([$this->makeEntry(100, 1, 50.0, $this->currentPeriod(), ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS, 5, 60)]);
+
+        $util->proceedChargesForPerson($person);
+
+        $this->assertSame(HasCharge::ACTUALSTATE_ENABLED, $this->lastHasChargeUpdate()->HC_actualstate);
+    }
+
+    public function testPresentInsufficientBeyondToleranceBecomesDisabled(): void
+    {
+        // Current period unpaid and past tolerance -> DISABLED.
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 60, 14)]);
+        $person = $this->makePerson(1, 1);
+        // actual starts ENABLED so dropping to DISABLED produces a write.
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01', null, HasCharge::STATUS_ENABLED, HasCharge::ACTUALSTATE_ENABLED);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+        $this->db->seedObjectList([$this->makeEntry(100, 1, 50.0, $this->currentPeriod(), ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS, 20, 60)]);
+
+        $util->proceedChargesForPerson($person);
+
+        $this->assertSame(HasCharge::ACTUALSTATE_DISABLED, $this->lastHasChargeUpdate()->HC_actualstate);
+    }
+
+    public function testPresentDisabledEntryForcesDisabled(): void
+    {
+        // A per-period DISABLED entry in the current period -> DISABLED.
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 60, 14)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01', null, HasCharge::STATUS_ENABLED, HasCharge::ACTUALSTATE_ENABLED);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+        $this->db->seedObjectList([$this->makeEntry(100, 1, 50.0, $this->currentPeriod(), ChargeEntry::STATUS_DISABLED, 0, 60)]);
+
+        $util->proceedChargesForPerson($person);
+
+        $this->assertSame(HasCharge::ACTUALSTATE_DISABLED, $this->lastHasChargeUpdate()->HC_actualstate);
+    }
+
+    public function testPastUnpaidBeyondToleranceBreaksSequence(): void
+    {
+        // A long-overdue unpaid past period makes the sequence dirty -> DISABLED,
+        // even though there is no problem with the current period.
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 0, 14)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01', null, HasCharge::STATUS_ENABLED, HasCharge::ACTUALSTATE_ENABLED);
+
+        $this->db->seedObjectList([$hasCharge]);
+        // Low balance: collection keeps the entry INSUFFICIENT and recomputes an
+        // overdue of thousands of days (2020 period), which exceeds tolerance.
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+        $this->db->seedObjectList([$this->makeEntry(100, 1, 50.0, '2020-01-01', ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS, 0, 0)]);
+
+        $util->proceedChargesForPerson($person);
+
+        $this->assertSame(HasCharge::ACTUALSTATE_DISABLED, $this->lastHasChargeUpdate()->HC_actualstate);
+    }
+
+    public function testForceEnabledOverridesEvenWithNoEntries(): void
+    {
+        // FORCE_ENABLED wins regardless of entries -> ENABLED.
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 0, 14)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01', null, HasCharge::STATUS_FORCE_ENABLED, HasCharge::ACTUALSTATE_DISABLED);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+        $this->db->seedObjectList([]); // no entries at all
+
+        $util->proceedChargesForPerson($person);
+
+        $this->assertSame(HasCharge::ACTUALSTATE_ENABLED, $this->lastHasChargeUpdate()->HC_actualstate);
+    }
+
+    public function testForceDisabledOverridesCleanCurrentPeriod(): void
+    {
+        // FORCE_DISABLED wins even when the current period is fully paid -> DISABLED.
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 0, 14)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01', null, HasCharge::STATUS_FORCE_DISABLED, HasCharge::ACTUALSTATE_ENABLED);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+        // FINISHED entry is clean and not re-collected, so it would otherwise enable.
+        $this->db->seedObjectList([$this->makeEntry(100, 1, 50.0, $this->currentPeriod(), ChargeEntry::STATUS_FINISHED, 0, 0)]);
+
+        $util->proceedChargesForPerson($person);
+
+        $this->assertSame(HasCharge::ACTUALSTATE_DISABLED, $this->lastHasChargeUpdate()->HC_actualstate);
+    }
+
+    public function testEnabledWithNoEntriesBecomesDisabled(): void
+    {
+        // ENABLED but the charge has no ChargeEntry rows -> DISABLED.
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 0, 14)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01', null, HasCharge::STATUS_ENABLED, HasCharge::ACTUALSTATE_ENABLED);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+        $this->db->seedObjectList([]); // no entries
+
+        $util->proceedChargesForPerson($person);
+
+        $this->assertSame(HasCharge::ACTUALSTATE_DISABLED, $this->lastHasChargeUpdate()->HC_actualstate);
+    }
+
+    public function testChargeAfterEndDateBecomesDisabled(): void
+    {
+        // Charge whose window has ended is never in the present -> DISABLED.
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 0, 14)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2019-01-01', '2019-06-01', HasCharge::STATUS_ENABLED, HasCharge::ACTUALSTATE_ENABLED);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+        $this->db->seedObjectList([]); // entries irrelevant once the charge has ended
+
+        $util->proceedChargesForPerson($person);
+
+        $this->assertSame(HasCharge::ACTUALSTATE_DISABLED, $this->lastHasChargeUpdate()->HC_actualstate);
+    }
+
+    public function testNotYetStartedChargeBecomesDisabled(): void
+    {
+        // Charge whose start date is in the future -> DISABLED, before entries load.
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 0, 14)]);
+        $person = $this->makePerson(1, 1);
+        $future = date('Y-m-01', strtotime('+1 year'));
+        $hasCharge = $this->makeHasCharge(1, 1, 1, $future, null, HasCharge::STATUS_ENABLED, HasCharge::ACTUALSTATE_ENABLED);
+
+        // No ChargeEntry list seeded: the not-started pre-filter returns first.
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+
+        $util->proceedChargesForPerson($person);
+
+        $this->assertSame(HasCharge::ACTUALSTATE_DISABLED, $this->lastHasChargeUpdate()->HC_actualstate);
+    }
+
+    public function testStatusDisabledChargeIsForcedDisabled(): void
+    {
+        // HC_status DISABLED -> actualstate DISABLED via the earliest pre-filter,
+        // before the ChargeEntry query.
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 0, 14)]);
+        $person = $this->makePerson(1, 1);
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01', null, HasCharge::STATUS_DISABLED, HasCharge::ACTUALSTATE_ENABLED);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+
+        $util->proceedChargesForPerson($person);
+
+        $this->assertSame(HasCharge::ACTUALSTATE_DISABLED, $this->lastHasChargeUpdate()->HC_actualstate);
+    }
+
+    public function testNoStateWriteWhenActualStateUnchanged(): void
+    {
+        // When the computed state already equals the stored one, no write occurs.
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 60, 14)]);
+        $person = $this->makePerson(1, 1);
+        // Clean present period would compute ENABLED; actual is already ENABLED.
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01', null, HasCharge::STATUS_ENABLED, HasCharge::ACTUALSTATE_ENABLED);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+        $this->db->seedObjectList([$this->makeEntry(100, 1, 50.0, $this->currentPeriod(), ChargeEntry::STATUS_PENDING, 0, 60)]);
+
+        $util->proceedChargesForPerson($person);
+
+        $this->assertNull($this->lastHasChargeUpdate());
     }
 
     public function testGetMessagesReturnsAccumulator(): void
