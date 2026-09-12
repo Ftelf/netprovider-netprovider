@@ -32,7 +32,7 @@ class RoleDAO
     {
         global $database;
         $query = "SELECT * FROM `role`";
-        if ($limitstart != null && $limit != null) {
+        if ($limitstart !== null && $limit !== null) {
             $query .= " LIMIT $limitstart,$limit";
         }
         $database->setQuery($query);
