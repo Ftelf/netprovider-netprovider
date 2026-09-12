@@ -81,7 +81,7 @@ class ChargesUtil
                     $this->_messages[] = $msg;
                     $database->log($msg);
 
-                    return;
+                    continue;
                 }
 
                 $charge = $this->_charges[$hasCharge->HC_chargeid];

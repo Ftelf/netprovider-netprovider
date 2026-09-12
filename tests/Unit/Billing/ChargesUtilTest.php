@@ -930,11 +930,10 @@ class ChargesUtilTest extends TestCase
         ));
     }
 
-    public function testBadChargeIdMustNotAbandonRemainingCharges(): void
+    public function testBadChargeIdSkipsOnlyThatChargeNotTheRest(): void
     {
-        // D1: a HasCharge referencing a missing chargeid should skip only that
-        // charge (continue), leaving the person's other charges to project. The
-        // code `return`s instead, so the valid charge below is never reached.
+        // D1 (fixed): a HasCharge referencing a missing chargeid is skipped
+        // (continue), and the person's remaining valid charges still project.
         $this->setAdvanceMonths(1);
         $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(2, 50.0)]); // only charge 2 exists
         $person = $this->makePerson(1, 1);
@@ -947,23 +946,15 @@ class ChargesUtilTest extends TestCase
 
         $util->createOrRemoveChargeEntriesForPerson($person);
 
-        $inserts = $this->chargeEntryInserts();
-        if (count($inserts) === 0) {
-            $this->assertNotEmpty(array_filter(
-                $util->getMessages(),
-                fn($m) => str_contains($m, 'non-existent chargeID')
-            ));
-            $this->markTestIncomplete(
-                'D1 not yet fixed: a missing chargeid `return`s and abandons the '
-                . "person's remaining charges. Expected the valid charge (id 2) to "
-                . 'still project 2 entries; got 0. See docs/billing.md §8 (D1).'
-            );
-        }
-
-        // Once D1 is fixed (return → continue) this becomes a hard pass.
+        // The bad charge is logged...
+        $this->assertNotEmpty(array_filter(
+            $util->getMessages(),
+            fn($m) => str_contains($m, 'non-existent chargeID')
+        ));
+        // ...and the valid charge that follows it still projects its entries.
         $this->assertSame(
             [$this->monthStart(0), $this->monthStart(1)],
-            array_map(fn($i) => $i['object']->CE_period_date, $inserts)
+            array_map(fn($i) => $i['object']->CE_period_date, $this->chargeEntryInserts())
         );
     }
 }

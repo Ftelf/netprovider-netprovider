@@ -171,7 +171,7 @@ Suspected bugs / smells where the **code** deviates from, or is fragile against,
 
 | ID | Location | Observed behavior | Intended behavior | Impact |
 |---|---|---|---|---|
-| **D1** | `createOrRemoveChargeEntriesForPerson`, `ChargesUtil.php:84` | On a `HasCharge` referencing a non-existent `chargeid`, the method `return`s, abandoning **all remaining** `HasCharge` rows of that person. | Skip only the offending charge (`continue`), like the sibling code at `:275`. | One bad `chargeid` silently halts projection for the rest of that customer's services. |
+| **D1** | `createOrRemoveChargeEntriesForPerson`, `ChargesUtil.php:84` | ✅ **FIXED** — was `return` (abandoned **all remaining** `HasCharge` rows of the person); now `continue`, matching the sibling code at `:275`. | Skip only the offending charge (`continue`). | Resolved: one bad `chargeid` no longer halts projection for the rest of the customer's services. |
 | **D2** | `proceedChargesForPerson`, `ChargesUtil.php:357-376` | `PA_balance`/`PA_outcome` are mutated in PHP memory *before* the per-entry transaction. On rollback the in-memory object is **not** reverted, so the next entry computes against a phantom balance and the next successful write persists it. | Balance changes must not survive a rolled-back transaction; per-person collection should be atomic (or re-read after failure). | After any mid-loop DB failure, subsequent charges use an incorrect balance and can overwrite the DB with wrong values. |
 | **D3** | `proceedChargesForPerson`, `ChargesUtil.php:368` | `personaccount` is UPDATEd once **per entry** inside the loop, even on the insufficient-funds path where the balance did not change. | One account write per person after the entry walk. | N redundant writes per person; harder to reason about atomicity. Efficiency, not correctness. |
 | **D4** | `removeChangeEntriesOutOfScope`, `ChargesUtil.php:215` | The "Removing … not between %s and %s" message formats `dateEnd` even when it is open (`null` timestamp), yielding a misleading placeholder date. | Format an open end as "∞"/blank, or omit. | Log/UI cosmetic only. |
@@ -188,5 +188,6 @@ Resolved on 2026-09-12:
 
 1. **Refund on window-shrink (§4.5): CONFIRMED intended.** Reducing a charge's `dateEnd` (or advancing `dateStart`) refunds already-collected `FINISHED` months back to `PA_balance` and reverses `PA_outcome`. The current code is correct; this is now a locked rule, and a green test.
 2. **D8 — `ERROR` neutrality:** confirmed that `STATUS_ERROR` is never assigned by any code path, so neutral handling is the documented current behavior. Fail-safe conversion to `DISABLED` is deferred as optional defensive hardening, not a required fix.
+3. **D1 — abandon-remaining-charges: FIXED.** `ChargesUtil.php:84` changed from `return` to `continue`; a missing `chargeid` now skips only that charge. Covered by `testBadChargeIdSkipsOnlyThatChargeNotTheRest`.
 
 This document is now the oracle for the `ChargesUtil` test suite.
