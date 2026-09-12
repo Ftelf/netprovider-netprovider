@@ -39,6 +39,21 @@ class SimpleDAOsTest extends TestCase
         $this->assertStringContainsString("SELECT * FROM `$table`", $this->db->lastQuery());
     }
 
+    /**
+     * @dataProvider simpleDaoSpecs
+     *
+     * Guards the LIMIT-append path: the clause must be concatenated onto the
+     * base SELECT, not assigned over it. This is the exact bug fixed in
+     * HasChargeDAO::getHasChargeArray ($query = -> $query .=); asserting the
+     * full string here would catch the same regression in any of these DAOs.
+     */
+    public function testListAppendsLimitWhenProvided(string $dao, string $table, string $pk, string $byId, string $list, string $count, string $remove): void
+    {
+        $this->db->seedObjectList([]);
+        $dao::$list(0, 20);
+        $this->assertSame("SELECT * FROM `$table` LIMIT 0,20", $this->db->lastQuery());
+    }
+
     /** @dataProvider simpleDaoSpecs */
     public function testByIDThrowsWithoutId(string $dao, string $table, string $pk, string $byId, string $list, string $count, string $remove): void
     {

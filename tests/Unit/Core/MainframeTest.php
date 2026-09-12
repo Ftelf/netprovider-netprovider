@@ -20,13 +20,19 @@ class MainframeTest extends TestCase
         $this->assertStringContainsString('com_admin', $path);
     }
 
-    public function testTimerStartStopProducesNonNegativeValue(): void
+    public function testTimerStartStopMeasuresElapsedSeconds(): void
     {
         $mf = new MainFrame($this->db, 'com_admin', '', null);
         $mf->timerStart();
-        usleep(1000);
+        usleep(2000); // 2 ms
         $mf->timerStop();
-        $this->assertGreaterThanOrEqual(0.0, $mf->getTimer());
+        $elapsed = $mf->getTimer();
+        // >= 0 is near-tautological (time never runs backwards). Assert the real
+        // contract instead: a strictly-positive float, in seconds. The < 1.0
+        // upper bound guards a units bug (e.g. returning microseconds).
+        $this->assertIsFloat($elapsed);
+        $this->assertGreaterThan(0.0, $elapsed);
+        $this->assertLessThan(1.0, $elapsed);
     }
 
     public function testSetGetMessages(): void

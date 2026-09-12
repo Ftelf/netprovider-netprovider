@@ -37,7 +37,10 @@ class SessionDAOTest extends TestCase
         $s->SE_username = 'lukas';
         $s->SE_personid = 1;
         $this->db->seedResult(1);
-        SessionDAO::checkSession($s);
+        $result = SessionDAO::checkSession($s);
+        // checkSession returns the COUNT(*) result; verify it propagates, not
+        // just that the right SQL was built.
+        $this->assertSame(1, $result);
         $sql = $this->db->lastQuery();
         $this->assertStringContainsString("`SE_sessionid`='abc'", $sql);
         $this->assertStringContainsString("`SE_username`='lukas'", $sql);
