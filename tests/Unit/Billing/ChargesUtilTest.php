@@ -310,18 +310,17 @@ class ChargesUtilTest extends TestCase
         $this->assertNotEmpty($entryUpdates);
         $this->assertSame(ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS, $entryUpdates[0]['object']->CE_status);
 
-        // Balance should not change.
+        // Balance did not move, so the account is not written at all (D3): the
+        // insufficient-funds path persists only the chargeentry status/overdue.
         $accountUpdates = array_values(array_filter(
             $this->db->updates,
             fn($u) => $u['table'] === 'personaccount'
         ));
-        $this->assertNotEmpty($accountUpdates);
-        $this->assertEqualsWithDelta(10.0, $accountUpdates[0]['object']->PA_balance, 0.001);
+        $this->assertSame([], $accountUpdates);
 
         // Late but unpaid: overdue is recorded, but no money moved —
-        // outcome untouched and realize date still the null-date.
+        // realize date still the null-date.
         $this->assertGreaterThan(0, $entryUpdates[0]['object']->CE_overdue);
-        $this->assertEqualsWithDelta(0.0, $accountUpdates[0]['object']->PA_outcome, 0.001);
         $this->assertSame(DateUtil::DB_NULL_DATE, $entryUpdates[0]['object']->CE_realize_date);
     }
 
