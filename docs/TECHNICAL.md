@@ -39,7 +39,7 @@ This document complements the higher-level [User Guide](USER_GUIDE.md). It cover
 | PHP extensions   | `mysqli`, `mbstring`, `gettext`, `zip` (SEPA ZIP statements), `openssl` (TLS to RouterOS API)                      |
 | PEAR packages    | `Mail`, `Mail_Mime`, `Net_POP3`, `Net_SMTP`, `Net_IPv4`                                                            |
 | Build tools      | `make` + GNU `gettext` (`xgettext`, `msginit`, `msgmerge`, `msgfmt`) for translation maintenance                   |
-| External devices | Either a Linux host reachable via SSH (with `iptables` + `tc`) or a MikroTik router with the API service enabled  |
+| External devices | Either a Linux host reachable via SSH (with `iptables`) or a MikroTik router with the API service enabled          |
 
 ---
 
@@ -222,7 +222,7 @@ $db->query_batch(array $sqlArray);          // wrapped in START TRANSACTION/COMM
 $db->startTransaction(); $db->commit(); $db->rollback();
 $db->loadObject(&$obj);                     // first row -> $obj (existing properties only)
 $db->loadObjectList($keyField = '');        // list of stdClass / typed objects
-$db->insertObject($table, &$obj, $pkField); // INSERT … RETURNING; updates $obj->$pkField
+$db->insertObject($table, &$obj, $pkField); // plain INSERT, then reads mysqli insert_id into $obj->$pkField
 $db->updateObject($table, &$obj, $pkField, $updateNulls = true);
 $db->log($text, $level = 0);                // INSERT into `log` table
 $db->quote($text);                          // single-quoted, escaped
@@ -503,21 +503,23 @@ Public surface:
 | `synchronizeFilter()` | `array`          | Diff and reconcile rules (used by accounting path)         |
 | `ipFilterUp()`        | `array` (echoed) | Apply rules so paid customers are accepted                 |
 | `ipFilterDown()`      | `array` (echoed) | Tear down all rules                                        |
-| `accountIP()`         | `void`           | Read counters, write `ipaccount` rows                      |
+| `accountIP()`         | `void`           | Read counters, write `ipaccount` rows (ROUTEROS only — see below) |
+
+Only accept/reject IP filtering is implemented. `CommanderCrossbar` gathers per-customer rate/ceiling values (`IN_dnl_*` / `IN_upl_*`) into an in-memory map, but **neither commander consumes them** — there is no `tc`, HTB, or `/queue` traffic shaping anywhere in `includes/net/`.
 
 ### `LinuxCommander`
 
 - Connects via SSH (`includes/net/SSH2.php`, which uses the `phpseclib`/`ssh2` extension idioms).
 - Uses two iptables chains: `FILTER-IN` (downstream) and `FILTER-OUT` (upstream).
-- For each customer IP, emits an ACCEPT rule plus a `tc class` and `tc filter` for HTB shaping using the `IN_dnl_*` / `IN_upl_*` numbers.
-- Counters are read with `iptables -L -v -x -n` and parsed against `IPTABLES_LIST_ENTRY` regex.
+- For each customer IP, emits an ACCEPT rule via `iptables`. The rate/ceiling values are ignored — no `tc` class/filter or HTB shaping is emitted.
 - Requires the configured user to run `Network Device Command sudo Network Device Command iptables` without password.
+- `accountIP()` is commented out on this platform, so `--ip-account` on `LINUX` calls an undefined method and fatals. IP accounting works only on `ROUTEROS`.
 
 ### `RouterOSCommander`
 
 - Pure-PHP `RouterosApi` client with TLS (`ssl = true`) on port 8729.
-- Uses two firewall chains `FILTER-IN` / `FILTER-OUT` (constants `RouterOSCommander::FILTER_IN` / `FILTER_OUT`).
-- Reads counters with `/ip/firewall/filter/print ?=chain=FILTER-IN ?=action=accept =stats=`.
+- Uses two firewall chains `FILTER-IN` / `FILTER-OUT` (constants `RouterOSCommander::FILTER_IN` / `FILTER_OUT`) under `/ip/firewall/filter` — accept/reject rules only, no queue tree.
+- Reads counters with `/ip/firewall/filter/print ?=chain=FILTER-IN ?=action=accept =stats=` (this is what backs `accountIP()`).
 - Writes rules in batches via `routerosApi->write()` / `read()`.
 - Login throws `Exception` with a localized message on failure; missing config keys also throw with explicit messages.
 
@@ -734,7 +736,7 @@ See [Event system → Adding a new event type](#event-system).
 
 ## Database schema
 
-The reference schema is `localhost.sql` (a phpMyAdmin dump from MySQL 5.0; the shape is still current). The 21 tables are:
+The reference schema is `localhost.sql` (a phpMyAdmin dump from MySQL 5.0). It ships **21 tables**:
 
 ```
 bankaccount, bankaccountentry,
@@ -748,7 +750,9 @@ network, person, personaccount, personaccountentry,
 role, rolemember, session
 ```
 
-Naming is consistent with the table classes — see the [Table objects](#table-objects-includestablesphp) section. To regenerate from a fresh database:
+> **The dump is incomplete.** Two tables that the code expects are **not** in `localhost.sql`: `handleevent` and `messageattachment` (their table classes are listed under [Table objects](#table-objects-includestablesphp)). `EventCrossBar::__construct()` reads `handleevent` on **every web request**, so a database loaded from the quick-start will error until `handleevent` is created. Create both tables manually before running the app.
+
+Naming is otherwise consistent with the table classes — see the [Table objects](#table-objects-includestablesphp) section. To regenerate from a fresh database:
 
 ```bash
 mysql -u root -p -e "CREATE DATABASE netprovider DEFAULT CHARACTER SET utf8 COLLATE utf8_czech_ci"

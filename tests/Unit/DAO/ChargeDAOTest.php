@@ -44,6 +44,7 @@ class ChargeDAOTest extends TestCase
         $charge = ChargeDAO::getChargeByID(9);
         $this->assertSame(9, $charge->CH_chargeid);
         $this->assertSame('Internet 100/100', $charge->CH_name);
+        $this->assertStringContainsString("WHERE `CH_chargeid`='9'", $this->db->lastQuery());
     }
 
     public function testGetChargeByIDThrowsWithoutId(): void

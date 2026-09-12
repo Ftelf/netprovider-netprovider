@@ -4,9 +4,9 @@
 [![License: LGPL-2.1](https://img.shields.io/badge/license-LGPL--2.1-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html)
 [![i18n: en, cs](https://img.shields.io/badge/i18n-en%20%7C%20cs-brightgreen)](translation/)
 
-> Self-hosted ISP back-office: customers, subscriptions, payments, QoS — in one PHP web app.
+> Self-hosted ISP back-office: customers, subscriptions, payments, network access control — in one PHP web app.
 
-NetProvider is a small but complete operational system for an Internet Service Provider. It manages customer records, subscription plans, recurring charges, bank-statement-based payment matching, and pushes IP filter and traffic-shaping rules to a Linux gateway or a MikroTik RouterOS router. The UI is available in English and Czech.
+NetProvider is a small but complete operational system for an Internet Service Provider. It manages customer records, subscription plans, recurring charges, bank-statement-based payment matching, and pushes IP filter (accept/reject) rules to a Linux gateway or a MikroTik RouterOS router. The UI is available in English and Czech.
 
 ---
 
@@ -30,7 +30,7 @@ NetProvider is a small but complete operational system for an Internet Service P
 - **Flexible billing** — payment templates with VAT, tolerance windows and write-off offsets; monthly subscriptions, entry fees, penalties.
 - **Customer ledger** — running balance, total income / outcome, manual cash and discount entries.
 - **Bank-statement ingestion** — pulls statements over POP3, parses Raiffeisenbank TXT/PDF and ISO-SEPA XML, matches incoming payments to customers by variable / constant / specific symbols.
-- **Network QoS control** — rebuilds firewall + traffic-shaping rules on Linux (iptables + tc over SSH) or MikroTik (RouterOS API/TLS).
+- **Network access control** — rebuilds IP filter (accept/reject) rules on Linux (iptables over SSH) or MikroTik (`/ip/firewall/filter` over RouterOS API/TLS). Per-customer rate/ceiling values are collected but not enforced — there is no traffic shaping.
 - **IP traffic accounting** — collects per-IP byte/packet counters, compacts them into long-term rollups for reports.
 - **Event-driven email notifications** — payment-deadline reminders rendered from configurable templates with `|TOKEN|` substitution.
 - **Audit log** — every administrative action lands in the `log` table with severity levels from `INFO` to `SECURITY`.
@@ -134,7 +134,7 @@ For the full reference (every key, every module, every cron command) see [docs/T
 | Flag                    | What it does                                                                |
 | ----------------------- | --------------------------------------------------------------------------- |
 | `--proceed-payments`    | Pull statements, match payments, run billing                                |
-| `--proceed-networking`  | Push current state to the QoS device                                        |
+| `--proceed-networking`  | Push current IP filter state to the network device                          |
 | `--ip-filter-up`        | Force every customer rule on (without billing)                              |
 | `--ip-filter-down`      | Tear down every customer rule                                                |
 | `--ip-account`          | Sample per-IP traffic counters into `ipaccount`                             |

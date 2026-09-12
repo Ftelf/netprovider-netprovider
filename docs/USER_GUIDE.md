@@ -35,8 +35,8 @@ NetProvider is a self-hosted PHP web application that runs the back-office of a 
 - **Subscriptions and one-off charges** — recurring monthly fees, entry fees, penalties; per-customer activation windows.
 - **Customer-account ledger** — every customer has a virtual account with running balance, total income and total outcome.
 - **Bank-statement import** — pulls statements over POP3 (Raiffeisenbank TXT/PDF or ISO-SEPA XML), parses them, and matches incoming payments to customers by variable symbol.
-- **Network QoS control** — pushes IP filter and traffic-shaping rules to the WAN device so service for paid-up customers is allowed and the rest is shaped or dropped. Supports two platforms: Linux (`iptables` / `tc` over SSH) and MikroTik RouterOS (RouterOS API).
-- **IP traffic accounting** — collects per-IP byte/packet counters from the network device for usage reports.
+- **Network access control** — pushes IP filter (accept/reject) rules to the WAN device so service for paid-up customers is allowed and the rest is dropped. Supports two platforms: Linux (`iptables` over SSH) and MikroTik RouterOS (RouterOS API). Per-customer rate/ceiling values are collected but not enforced — there is no traffic shaping.
+- **IP traffic accounting** — collects per-IP byte/packet counters from the network device for usage reports (RouterOS only; not implemented on Linux).
 - **Event-driven email notifications** — sends pre-deadline reminders, late-payment notices and similar messages from configurable templates.
 - **Internationalisation** — full UI in English (`en_US.UTF-8`) and Czech (`cs_CZ.UTF-8`).
 
@@ -96,7 +96,7 @@ The top-bar menu is generated in `modules/com_common/html_mainmenu.php`. The str
 |                        | Payment templates             | `?option=com_charge`                 | Define charges (subscriptions, one-offs, penalties)                  |
 | **Services**           | Internet services             | `?option=com_internet`               | Define service tiers (down/up rates, ceiling, priority)              |
 | **Network**            | IP networks                   | `?option=com_network`                | Define IP ranges and assign IPs to customers                         |
-|                        | Network device                | `?option=com_networkdevice`          | View status / sync rules to the QoS device                           |
+|                        | Network device                | `?option=com_networkdevice`          | View status / sync IP filter rules to the network device             |
 | **Administration**     | Scripts                       | `?option=com_scripts`                | Run on-demand maintenance scripts                                    |
 |                        | Configuration                 | `?option=com_configuration`          | View `netprovider.ini` settings                                      |
 |                        | Log                           | `?option=com_log`                    | Browse the audit/event log                                           |
@@ -129,7 +129,7 @@ The customer can now log in to their profile, but no service is active yet — t
 
 A customer becomes "billable" for a service via a `HasCharge` record (subscription assignment).
 
-1. Define the **Internet service** once under **Services → Internet services** — name, download rate / ceiling, upload rate / ceiling, priority. The numbers are in kbit/s and are passed verbatim to `tc` (Linux) or to a queue tree entry (RouterOS).
+1. Define the **Internet service** once under **Services → Internet services** — name, download rate / ceiling, upload rate / ceiling, priority. The numbers are in kbit/s, but note they are **not enforced**: NetProvider only builds accept/reject IP filter rules. The rate/ceiling values are collected by `CommanderCrossbar` and stored, yet neither commander applies traffic shaping (no `tc`/HTB on Linux, no queue tree on RouterOS).
 2. Define a **Payment template** (`Charge`) under **Financial → Payment templates** — period (currently only **Monthly** is supported in the schema), base amount, VAT, total amount, currency, tolerance days, write-off offset days, type (`Internet payment`, `Entry fee`, `Penalty`, etc.). Optionally link the charge to an Internet service (`CH_internetid`).
 3. Open the customer's profile → **Charges** tab and click **New charge assignment**. Pick the charge template, the **start date** (day must be `1` for monthly charges) and optionally the **end date** (also day `1`, or leave empty for open-ended). Set status:
    - `Activated` (`STATUS_ENABLED`) — normal mode; the system enables/disables the service based on whether the customer has paid.
@@ -193,8 +193,8 @@ php services/service.php --proceed-networking
 
 Internally this calls `CommanderCrossbar::ipFilterUp()`, which delegates to the platform-specific commander selected by `Network Device Platform` in the config:
 
-- `LINUX` → `LinuxCommander`: opens an SSH connection and runs `iptables` + `tc` to build accept-rules and HTB classes for every IP that belongs to a customer with at least one currently `ENABLED` Internet `HasCharge`.
-- `ROUTEROS` → `RouterOSCommander`: connects to the MikroTik over the RouterOS API on port 8729 (TLS) and rewrites `/ip/firewall/filter` chains plus the queue tree.
+- `LINUX` → `LinuxCommander`: opens an SSH connection and runs `iptables` to build accept rules for every IP that belongs to a customer with at least one currently `ENABLED` Internet `HasCharge`. No `tc`/HTB shaping is applied.
+- `ROUTEROS` → `RouterOSCommander`: connects to the MikroTik over the RouterOS API on port 8729 (TLS) and rewrites the `/ip/firewall/filter` accept/reject chains. No queue tree is created.
 
 The recommended cron entry for the network sync is **every few minutes**:
 
@@ -305,10 +305,10 @@ End-customers cannot see other customers, the audit log, or the configuration.
 | Task                                   | How                                                                                                                          |
 | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | Pull statements + run billing          | `php services/service.php --proceed-payments` (cron daily)                                                                   |
-| Push current state to the QoS device   | `php services/service.php --proceed-networking` (cron every 5 min)                                                           |
+| Push current IP filter state to the device | `php services/service.php --proceed-networking` (cron every 5 min)                                                        |
 | Force everything off                   | `php services/service.php --ip-filter-down`                                                                                  |
 | Force everything on                    | `php services/service.php --ip-filter-up`                                                                                    |
-| Sample IP traffic counters             | `php services/service.php --ip-account` (cron hourly)                                                                        |
+| Sample IP traffic counters             | `php services/service.php --ip-account` (cron hourly) — **ROUTEROS only**; on `LINUX` this fatals (`accountIP()` is commented out) |
 | Compact old IP-accounting samples      | `php services/service.php --clean-up` (cron weekly)                                                                          |
 | Recompile UI translations              | `make locales`                                                                                                                |
 | Force-log-out a session                | **Administration → Log/Sessions** → click *Force logout*                                                                     |

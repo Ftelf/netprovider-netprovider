@@ -14,9 +14,10 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        global $database, $core;
+        global $database, $core, $eventCrossBar;
         $this->db = new DatabaseStub();
         $database = $this->db;
+        $eventCrossBar = null;
         if (!isset($core)) {
             $core = new CoreStub(NP_PROJECT_ROOT);
         } elseif ($core instanceof CoreStub) {

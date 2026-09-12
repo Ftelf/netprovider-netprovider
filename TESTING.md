@@ -56,7 +56,7 @@ tests/
 │   ├── MailStubs.php              # PEAR Mail / Mail_mime stand-ins
 │   └── pear-shim/                 # files reachable via include_path: Mail.php, Mail/mime.php, Net/IPv4.php
 ├── Fixtures/
-│   └── bank/                      # XML and TXT statement samples
+│   └── bank/                      # ISO-SEPA (camt.053) XML statement samples
 └── Unit/
     ├── Utils/                     # DateUtil, NumberFormat, DiacriticsUtil, Utils
     ├── Core/                      # AppContext, MainFrame, CoreStub

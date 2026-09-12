@@ -153,6 +153,53 @@ class ChargesUtilTest extends TestCase
         $this->assertSame(ChargeEntry::STATUS_FINISHED, $entryUpdates[0]['object']->CE_status);
     }
 
+    public function testProceedChargesForPersonWithExactBalance(): void
+    {
+        // Charge: 50 CZK, write-off offset 0 days, tolerance 14
+        $charge = $this->makeCharge(1, 50.0, 0, 14);
+        $util   = $this->newChargesUtilWithChargeMap([$charge]);
+
+        $person = $this->makePerson(1, 1);
+
+        // Past write-off date so payment must be deducted now.
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01');
+
+        $entry = new ChargeEntry();
+        $entry->CE_chargeentryid = 100;
+        $entry->CE_haschargeid   = 1;
+        $entry->CE_amount        = 50.0;
+        $entry->CE_period_date   = '2020-01-01';
+        $entry->CE_writeoffoffset = 0;
+        $entry->CE_status         = ChargeEntry::STATUS_PENDING;
+        $entry->CE_realize_date   = DateUtil::DB_NULL_DATE;
+        $entry->CE_overdue        = 0;
+
+        $account = $this->makeAccount(1, 50.0); // exactly the charge amount
+
+        $this->db->seedObjectList([$hasCharge]);   // HasChargeDAO
+        $this->db->seedObject($account);           // PersonAccountDAO
+        $this->db->seedObjectList([$entry]);       // ChargeEntryDAO
+
+        $util->proceedChargesForPerson($person);
+
+        // Boundary: balance == amount takes the else branch:
+        //   - ChargeEntry status: FINISHED
+        //   - PersonAccount balance: 50 - 50 = 0
+        $entryUpdates = array_values(array_filter(
+            $this->db->updates,
+            fn($u) => $u['table'] === 'chargeentry'
+        ));
+        $this->assertNotEmpty($entryUpdates);
+        $this->assertSame(ChargeEntry::STATUS_FINISHED, $entryUpdates[0]['object']->CE_status);
+
+        $accountUpdates = array_values(array_filter(
+            $this->db->updates,
+            fn($u) => $u['table'] === 'personaccount'
+        ));
+        $this->assertNotEmpty($accountUpdates);
+        $this->assertEqualsWithDelta(0.0, $accountUpdates[0]['object']->PA_balance, 0.001);
+    }
+
     public function testProceedChargesForPersonMarksInsufficientFundsWhenBalanceLow(): void
     {
         $charge = $this->makeCharge(1, 100.0, 0, 14);
