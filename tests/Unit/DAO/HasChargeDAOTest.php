@@ -58,6 +58,25 @@ class HasChargeDAOTest extends TestCase
         HasChargeDAO::getHasChargeReportArray(0, [1]);
     }
 
+    public function testGetHasChargeArrayWithoutLimitSelectsAll(): void
+    {
+        $this->db->seedObjectList([]);
+        HasChargeDAO::getHasChargeArray();
+        $this->assertSame('SELECT * FROM `hascharge`', $this->db->lastQuery());
+    }
+
+    /**
+     * Regression: the LIMIT clause must be appended to the base SELECT, not
+     * assigned over it. Assigning (`=`) dropped the table entirely, producing
+     * the invalid query " LIMIT 5,10".
+     */
+    public function testGetHasChargeArrayAppendsLimit(): void
+    {
+        $this->db->seedObjectList([]);
+        HasChargeDAO::getHasChargeArray(5, 10);
+        $this->assertSame('SELECT * FROM `hascharge` LIMIT 5,10', $this->db->lastQuery());
+    }
+
     public function testRemoveHasChargeByID(): void
     {
         HasChargeDAO::removeHasChargeByID(99);

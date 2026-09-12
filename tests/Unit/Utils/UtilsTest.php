@@ -44,6 +44,18 @@ class UtilsTest extends TestCase
         $this->assertFalse(Utils::is_email(''));
     }
 
+    /**
+     * Regression: the pattern is anchored (^...$), so a valid address embedded
+     * in surrounding junk must NOT validate. An unanchored pattern would match
+     * the substring and wrongly accept these.
+     */
+    public function testIsEmailRejectsEmbeddedAddress(): void
+    {
+        $this->assertFalse(Utils::is_email('user@example.com is my address'));
+        $this->assertFalse(Utils::is_email('see <user@example.com>'));
+        $this->assertFalse(Utils::is_email("first@a.com\nsecond@b.com"));
+    }
+
     public function testStringAsLineArray(): void
     {
         $text = "line1\nline2\r\nline3\n\nline4";
@@ -54,5 +66,16 @@ class UtilsTest extends TestCase
     public function testStringAsLineArrayEmpty(): void
     {
         $this->assertSame([], Utils::stringAsLineArray(''));
+    }
+
+    /**
+     * Regression: a "0" line is falsy in PHP. The loop condition must test
+     * `$tok !== false` (not truthiness), otherwise a lone "0" line — or every
+     * line after it — is silently dropped.
+     */
+    public function testStringAsLineArrayKeepsZeroLines(): void
+    {
+        $this->assertSame(['0'], Utils::stringAsLineArray('0'));
+        $this->assertSame(['a', '0', 'b'], Utils::stringAsLineArray("a\n0\nb"));
     }
 }
