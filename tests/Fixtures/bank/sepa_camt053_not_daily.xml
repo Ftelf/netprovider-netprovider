@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">
+    <BkToCstmrStmt>
+        <GrpHdr>
+            <MsgId>STMT-0001</MsgId>
+            <CreDtTm>2026-05-01T08:00:00</CreDtTm>
+            <AddtlInf>Měsíční</AddtlInf>
+        </GrpHdr>
+        <Stmt>
+            <Id>X</Id>
+            <LglSeqNb>1</LglSeqNb>
+            <CreDtTm>2026-05-01T08:00:00</CreDtTm>
+            <FrToDt>
+                <FrDtTm>2026-04-01T00:00:00</FrDtTm>
+                <ToDtTm>2026-04-30T23:59:59</ToDtTm>
+            </FrToDt>
+            <Acct><Id><IBAN>CZ5555000000001234567890</IBAN></Id><Ccy>CZK</Ccy></Acct>
+            <TxsSummry><TtlNtries><NbOfNtries>0</NbOfNtries></TtlNtries></TxsSummry>
+        </Stmt>
+    </BkToCstmrStmt>
+</Document>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">
+    <BkToCstmrStmt>
+        <GrpHdr>
+            <MsgId>STMT-0001</MsgId>
+            <CreDtTm>2026-05-01T08:00:00</CreDtTm>
+            <AddtlInf>Denní</AddtlInf>
+        </GrpHdr>
+        <Stmt>
+            <Id>STMT-0001</Id>
+            <ElctrncSeqNb>1</ElctrncSeqNb>
+            <LglSeqNb>42</LglSeqNb>
+            <CreDtTm>2026-05-01T08:00:00</CreDtTm>
+            <FrToDt>
+                <FrDtTm>2026-04-30T00:00:00</FrDtTm>
+                <ToDtTm>2026-04-30T23:59:59</ToDtTm>
+            </FrToDt>
+            <Acct>
+                <Id><IBAN>CZ5555000000001234567890</IBAN></Id>
+                <Ccy>CZK</Ccy>
+            </Acct>
+            <TxsSummry>
+                <TtlNtries>
+                    <NbOfNtries>2</NbOfNtries>
+                </TtlNtries>
+            </TxsSummry>
+            <Ntry>
+                <Amt Ccy="CZK">500.00</Amt>
+                <CdtDbtInd>CRDT</CdtDbtInd>
+                <BookgDt><DtTm>2026-04-30T10:00:00</DtTm></BookgDt>
+                <ValDt><DtTm>2026-04-30T10:00:00</DtTm></ValDt>
+                <NtryDtls>
+                    <TxDtls>
+                        <Refs>
+                            <EndToEndId>1234</EndToEndId>
+                            <InstrId>308</InstrId>
+                            <PmtInfId>0</PmtInfId>
+                        </Refs>
+                        <RltdPties>
+                            <DbtrAcct>
+                                <Id><Othr><Id>9876543210</Id></Othr></Id>
+                                <Nm>Anna Novakova</Nm>
+                            </DbtrAcct>
+                        </RltdPties>
+                        <RltdAgts>
+                            <DbtrAgt>
+                                <FinInstnId><Othr><Id>5500</Id></Othr></FinInstnId>
+                            </DbtrAgt>
+                        </RltdAgts>
+                        <AddtlTxInf>Internet payment</AddtlTxInf>
+                    </TxDtls>
+                </NtryDtls>
+            </Ntry>
+            <Ntry>
+                <Amt Ccy="CZK">99.50</Amt>
+                <CdtDbtInd>DBIT</CdtDbtInd>
+                <BookgDt><DtTm>2026-04-30T11:00:00</DtTm></BookgDt>
+                <ValDt><DtTm>2026-04-30T11:00:00</DtTm></ValDt>
+                <NtryDtls>
+                    <TxDtls>
+                        <Refs>
+                            <EndToEndId>5678</EndToEndId>
+                            <InstrId>0</InstrId>
+                            <PmtInfId>0</PmtInfId>
+                        </Refs>
+                        <RltdPties>
+                            <CdtrAcct>
+                                <Id><Othr><Id>1122334455</Id></Othr></Id>
+                                <Nm>Outgoing Payee</Nm>
+                            </CdtrAcct>
+                        </RltdPties>
+                        <RltdAgts>
+                            <CdtrAgt>
+                                <FinInstnId><Othr><Id>0100</Id></Othr></FinInstnId>
+                            </CdtrAgt>
+                        </RltdAgts>
+                    </TxDtls>
+                </NtryDtls>
+            </Ntry>
+        </Stmt>
+    </BkToCstmrStmt>
+</Document>
