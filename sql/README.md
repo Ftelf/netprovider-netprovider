@@ -57,5 +57,5 @@ Then re-attach the header/footer from the current `schema.sql`, drop the dead
 - `grep -c 'CREATE TABLE' sql/schema.sql` → 22
 - `grep -c 'utf8mb3\|AUTO_INCREMENT=' sql/schema.sql` → 0
 
-**Never commit the raw production dump** — it contains customer PII and is
-git-ignored (`daily_netprovider_*.sql`).
+**Never commit the raw production dump** — it contains customer PII. Keep dumps
+in `dumps/`, where everything is git-ignored (see `dumps/README.md`).
