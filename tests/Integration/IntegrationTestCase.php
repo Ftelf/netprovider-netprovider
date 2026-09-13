@@ -14,11 +14,12 @@
  *   NP_IT_DB_USER   user (default root)
  *   NP_IT_DB_PASS   password (default empty)
  *   NP_IT_SCHEMA    optional path to a schema .sql loaded once per process
- *                   (CREATE TABLE DDL). Omit if the target DB is pre-seeded.
+ *                   (CREATE TABLE DDL). Defaults to the committed sql/schema.sql;
+ *                   set to a non-file value if the target DB is pre-seeded.
  *
- * No schema or dump ships in the repo: the DDL is supplied at run time via
- * NP_IT_SCHEMA. The current schema can be produced from a mysqldump with
- * `--no-data`, or by extracting the CREATE TABLE blocks from an existing dump.
+ * The canonical DDL ships in the repo at sql/schema.sql (data-free, derived from
+ * the production dump — see sql/README.md). The integration tier loads it by
+ * default, so only a database host is required to run.
  *
  * Isolation: the production code under test commits its own transactions, so an
  * outer-rollback strategy cannot revert it. Instead each test declares the
@@ -85,8 +86,14 @@ abstract class IntegrationTestCase extends PHPUnitTestCase
         }
         self::$schemaLoaded = true; // set first so a missing/failed schema is not retried per test
 
+        // Default to the committed canonical schema; override with NP_IT_SCHEMA
+        // to point at a different DDL, or set it to a non-file value to assume
+        // the target DB is already seeded.
         $schemaPath = getenv('NP_IT_SCHEMA');
-        if ($schemaPath === false || $schemaPath === '' || !is_file($schemaPath)) {
+        if ($schemaPath === false || $schemaPath === '') {
+            $schemaPath = dirname(__DIR__, 2) . '/sql/schema.sql';
+        }
+        if (!is_file($schemaPath)) {
             return; // target DB is assumed pre-seeded
         }
 

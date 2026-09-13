@@ -54,11 +54,16 @@ NetProvider is a small but complete operational system for an Internet Service P
 git clone https://example.com/netprovider.git
 cd netprovider
 
-# 2. Create the database and load the reference schema
-mysql -u root -p -e "CREATE DATABASE netprovider DEFAULT CHARACTER SET utf8 COLLATE utf8_czech_ci"
+# 2. Create the database and load the canonical schema (run the schema import as
+#    root — CREATE TABLE needs privileges the app user is not granted)
+mysql -u root -p -e "CREATE DATABASE netprovider DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci"
 mysql -u root -p -e "CREATE USER 'netprovider'@'localhost' IDENTIFIED BY 'netprovider'"
 mysql -u root -p -e "GRANT ALL ON netprovider.* TO 'netprovider'@'localhost'"
-mysql -u netprovider -p netprovider < localhost.sql
+mysql -u root -p netprovider < sql/schema.sql      # structure (all 22 tables)
+mysql -u root -p netprovider < sql/seed.sql        # minimal admin login — see below
+
+# (versioned alternative) instead of the two files above:
+#   composer db:migrate && composer db:seed         # Phinx — see sql/README.md
 
 # 3. Configure
 cp config/netprovider.ini config/netprovider.ini.bak     # keep an unmodified copy
@@ -67,7 +72,7 @@ $EDITOR config/netprovider.ini                           # at minimum set DB / S
 # 4. Point your web server at site/ and open http://<host>/
 ```
 
-Create your first super-administrator account by inserting a row in `person` with `MD5(<password>)` as `PE_password` and a `groupid` whose `GR_level = 9`. After the first login, manage users from the web UI.
+`sql/seed.sql` creates a super-administrator login out of the box — username `admin`, password `changeme` (**change it immediately after first login**). To create one manually instead, insert a row in `person` with `MD5(<password>)` as `PE_password`, a `groupid` whose `GR_level = 9`, and a backing `personaccount` row. After the first login, manage users from the web UI.
 
 > **Heads up.** Passwords are hashed with `MD5` and the session ID is also a short MD5. Both are unsuitable for any internet-facing deployment without a hardening pass — see [TECHNICAL.md → Security model](docs/TECHNICAL.md#security-model).
 
@@ -84,7 +89,8 @@ site/                     Web document root (index.php login, index2.php app)
 templates/events/         Email body templates with |TOKEN| substitution
 translation/              gettext catalogs
 docs/                     User and technical documentation
-localhost.sql             Reference schema dump
+sql/                      Canonical schema.sql + seed.sql (see sql/README.md)
+db/migrations, db/seeds   Phinx migrations & seeders
 Makefile                  `make locales` — translation pipeline
 CHANGELOG.md              Czech changelog
 LICENSE.md                LGPL-2.1

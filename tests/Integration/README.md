@@ -19,33 +19,19 @@ MySQL. The tests run only when a database is configured via env vars.
 | `NP_IT_DB_NAME`| no       | `netprovider_test` | Database/schema name.                          |
 | `NP_IT_DB_USER`| no       | `root`             | User.                                          |
 | `NP_IT_DB_PASS`| no       | *(empty)*          | Password.                                      |
-| `NP_IT_SCHEMA` | no       | —                  | Path to a schema `.sql` loaded once per run. Omit if the DB is pre-seeded. |
+| `NP_IT_SCHEMA` | no       | `sql/schema.sql`   | Path to a schema `.sql` loaded once per run. Set to a non-file value if the DB is pre-seeded. |
 
-No schema or dump is committed to the repo. Supply `NP_IT_SCHEMA` at run time.
-The target MySQL should allow the legacy `0000-00-00` zero-dates the schema stores
-(the tests set `sql_mode='NO_AUTO_VALUE_ON_ZERO'` on their own session; if you
-pre-load the schema yourself, load it under the same relaxed mode).
-
-## Producing a schema file
-
-Generate structure-only DDL (no customer data) from any current database or dump:
-
-```bash
-# from a live database:
-mysqldump --no-data -u <user> -p <database> > /tmp/np_it_schema.sql
-
-# or extract just the CREATE TABLE blocks from an existing dump (byte-safe):
-LC_ALL=C awk '
-  /^DROP TABLE IF EXISTS/ { print; next }
-  /^CREATE TABLE/ { inblock=1 }
-  inblock { print }
-  /^) ENGINE/ { inblock=0; print "" }
-' <some-dump>.sql > /tmp/np_it_schema.sql
-```
+The canonical schema `sql/schema.sql` is committed and loaded by default, so the
+tier needs only a database host. The target MySQL should allow the legacy
+`0000-00-00` zero-dates the schema stores (the tests set
+`sql_mode='NO_AUTO_VALUE_ON_ZERO'` on their own session; if you pre-load the
+schema yourself, load it under the same relaxed mode). To regenerate the schema
+from a fresh production dump, see `sql/README.md`.
 
 ## Running
 
-Disposable MySQL via Docker, then the suite:
+Disposable MySQL via Docker, then the suite (no `NP_IT_SCHEMA` needed — it
+defaults to the committed `sql/schema.sql`):
 
 ```bash
 docker run -d --name np-it-mysql \
@@ -53,7 +39,7 @@ docker run -d --name np-it-mysql \
   -p 33066:3306 mysql:8.0 --sql-mode=NO_AUTO_VALUE_ON_ZERO
 
 NP_IT_DB_HOST=127.0.0.1 NP_IT_DB_PORT=33066 NP_IT_DB_NAME=netprovider_test \
-NP_IT_DB_USER=root NP_IT_DB_PASS=root NP_IT_SCHEMA=/tmp/np_it_schema.sql \
+NP_IT_DB_USER=root NP_IT_DB_PASS=root \
 composer test:integration
 
 docker rm -f np-it-mysql

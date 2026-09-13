@@ -3,3 +3,8 @@
 /vendor/
 /build/
 /.phpunit.cache/
+
+# Production database dumps — contain customer PII, must never be committed.
+# The stripped, data-free schema lives in sql/schema.sql instead.
+/daily_netprovider_*.sql
+/*.dump
