@@ -82,3 +82,28 @@ Each module has two files:
 ### Internationalization
 
 All user-facing strings wrapped in `_("...")`. Compiled `.mo` files live in `translation/<locale>/LC_MESSAGES/messages.mo`. Locale set from `UI.Locale` in config.
+
+## Coding conventions
+
+### Explicit branch per case in state/status logic
+
+When code branches on a state or status enum (e.g. the `CE_status` accumulator in `ChargesUtil::proceedChargesForPerson`), keep **one explicit branch per case — including cases that do nothing**. Do not merge distinct statuses into a shared branch and do not delete a no-op branch in favour of a single catch-all comment. The per-case structure documents that every state was considered and lets a reader see all path variations at a glance; it should mirror the relevant decision table 1:1 (see `docs/billing.md §5.4`).
+
+Express a "does nothing" case as a **real verdict**, not an empty body:
+
+```php
+// Good — the verdict is visible per status, flags stay bool
+if ($status == FINISHED || $status == PENDING || $status == FREE) {
+    $enabled = $enabled && true;                 // this status does not disable
+} elseif ($status == INSUFFICIENT) {
+    $enabled = $enabled && ($overdue <= $tolerance);
+} elseif ($status == DISABLED) {
+    $enabled = $enabled && false;                // forces off
+}
+// Unmatched statuses (e.g. ERROR) are intentionally neutral — flag unchanged.
+```
+
+Rules:
+- Use explicit boolean logic — `$flag = $flag && <verdict>`. **Never** bitwise `&=` on logical flags (it makes them `int` and reads as intent); PHP has no `&&=`.
+- A `&& true` branch is a deliberate "this case has no negative effect" verdict, kept for readability. Prefer this even where a linter would flag it as redundant.
+- Leave unhandled statuses to fall through as neutral only when that is the documented intent, and say so in a comment.

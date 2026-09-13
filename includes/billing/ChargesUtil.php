@@ -81,7 +81,7 @@ class ChargesUtil
                     $this->_messages[] = $msg;
                     $database->log($msg);
 
-                    return;
+                    continue;
                 }
 
                 $charge = $this->_charges[$hasCharge->HC_chargeid];
@@ -212,7 +212,12 @@ class ChargesUtil
                 $ceDate = new DateUtil($chargeEntry->CE_period_date);
 
                 if ($ceDate->before($dateStart) || ($dateEnd->getTime() != null && $ceDate->after($dateEnd))) {
-                    $msg = sprintf(_("Removing payment entry for user %s with date %s not between %s and %s"), "$person->PE_firstname $person->PE_surname", $ceDate->getFormattedDate(DateUtil::FORMAT_MONTHLY), $dateStart->getFormattedDate(DateUtil::FORMAT_MONTHLY), $dateEnd->getFormattedDate(DateUtil::FORMAT_MONTHLY));
+                    // An open-ended charge has no upper bound; show it as such
+                    // instead of the empty string getFormattedDate() returns (D4).
+                    $dateEndDisplay = $dateEnd->getTime() != null
+                        ? $dateEnd->getFormattedDate(DateUtil::FORMAT_MONTHLY)
+                        : "\u{221E}"; // ∞
+                    $msg = sprintf(_("Removing payment entry for user %s with date %s not between %s and %s"), "$person->PE_firstname $person->PE_surname", $ceDate->getFormattedDate(DateUtil::FORMAT_MONTHLY), $dateStart->getFormattedDate(DateUtil::FORMAT_MONTHLY), $dateEndDisplay);
                     $this->_messages[] = $msg;
                     $database->log($msg);
 
@@ -339,10 +344,20 @@ class ChargesUtil
                             // Calculate overdue of payment in days
                             $overdue = intval(($now->getTime() - $writeOffDate->getTime()) / (24 * 60 * 60));
 
+                            // Snapshot state that the block below mutates in memory,
+                            // so a rolled-back transaction can be fully reverted and
+                            // never leaks a phantom balance into the next entry (D2).
+                            $accountBalanceBefore = $personAccount->PA_balance;
+                            $accountOutcomeBefore = $personAccount->PA_outcome;
+                            $entryStatusBefore    = $chargeEntry->CE_status;
+                            $entryOverdueBefore   = $chargeEntry->CE_overdue;
+                            $entryRealizeBefore   = $chargeEntry->CE_realize_date;
+
                             // check if enough money on PersonAccount
                             if ($personAccount->PA_balance < $chargeEntry->CE_amount) {
                                 // There is no enough money on account
                                 // Payment is pending, so mark that we can't get payment and compute overdue
+                                $fundsSufficient = false;
                                 $chargeEntry->CE_status = ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS;
                                 $chargeEntry->CE_overdue = $overdue;
 
@@ -354,6 +369,7 @@ class ChargesUtil
                                     $eventCrossBar->dispatchEvent($event);
                                 }
                             } else {
+                                $fundsSufficient = true;
                                 $personAccount->PA_balance -= $chargeEntry->CE_amount;
                                 $personAccount->PA_outcome += $chargeEntry->CE_amount;
                                 $chargeEntry->CE_realize_date = $now->getFormattedDate(DateUtil::DB_DATE);
@@ -365,11 +381,25 @@ class ChargesUtil
 
                             try {
                                 $database->startTransaction();
-                                $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false, false);
+                                // Only the successful-collection path moves money, so
+                                // persist the account only then — the insufficient-funds
+                                // path left the balance untouched (D3).
+                                if ($fundsSufficient) {
+                                    $database->updateObject("personaccount", $personAccount, "PA_personaccountid", false, false);
+                                }
                                 $database->updateObject("chargeentry", $chargeEntry, "CE_chargeentryid", false, false);
                                 $database->commit();
                             } catch (Exception $e) {
                                 $database->rollback();
+
+                                // Revert the in-memory mutations so the rolled-back
+                                // deduction does not survive into the next entry (D2).
+                                $personAccount->PA_balance = $accountBalanceBefore;
+                                $personAccount->PA_outcome = $accountOutcomeBefore;
+                                $chargeEntry->CE_status       = $entryStatusBefore;
+                                $chargeEntry->CE_overdue      = $entryOverdueBefore;
+                                $chargeEntry->CE_realize_date = $entryRealizeBefore;
+
                                 $msg = "Error processing ChargeEntry: " . $e->getMessage();
                                 $this->_messages[] = $msg;
                                 $database->log($msg, Log::LEVEL_ERROR);
@@ -389,41 +419,45 @@ class ChargesUtil
                             $periodIsInPresent = $now->before($endPeriodDate);
                         }
                         if ($periodIsInPresent) {
-                            // We should take in place only ChargeEntries which are actual now
+                            // Current period: each status contributes a verdict that is
+                            // AND-accumulated into actualEntryToBeEnabled. Every status
+                            // is listed explicitly so the mapping to the §5.4 decision
+                            // table stays visible — a `&& true` branch is a real "this
+                            // status does not disable" verdict, not a forgotten no-op.
                             if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED
                                 || $chargeEntry->CE_status == ChargeEntry::STATUS_PENDING
                                 || $chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE
                             ) {
-
-                                // If chargeEntry is finished, pending or free, it should be enabled
-                                $actualEntryToBeEnabled &= true;
+                                // Paid, still-open or free: current period is fine.
+                                $actualEntryToBeEnabled = $actualEntryToBeEnabled && true;
                             } elseif ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS) {
-
-                                // If chargeEntry is pending with insufficient funds and in tolerance margin it should be enabled
-                                $actualEntryToBeEnabled &= ($chargeEntry->CE_overdue <= $charge->CH_tolerance);
+                                // Unpaid: acceptable only while inside the tolerance window.
+                                $actualEntryToBeEnabled = $actualEntryToBeEnabled && ($chargeEntry->CE_overdue <= $charge->CH_tolerance);
                             } elseif ($chargeEntry->CE_status == ChargeEntry::STATUS_DISABLED) {
-
-                                // If chargeEntry is ignored/disabled it should be disabled
-                                $actualEntryToBeEnabled &= false;
+                                // Explicitly disabled: forces the current period off.
+                                $actualEntryToBeEnabled = $actualEntryToBeEnabled && false;
                             }
+                            // Any other status (e.g. ERROR) matches no branch and is
+                            // neutral — the flag is left unchanged. See §8 (D8).
                         } else {
-                            //proceed sequence of charge entries
+                            // Past period: each status contributes a verdict that is
+                            // AND-accumulated into sequencePayed. Same table mapping —
+                            // every status kept as its own branch for readability.
                             if ($chargeEntry->CE_status == ChargeEntry::STATUS_FINISHED
                                 || $chargeEntry->CE_status == ChargeEntry::STATUS_PENDING
                                 || $chargeEntry->CE_status == ChargeEntry::STATUS_TESTINGFREEOFCHARGE
                             ) {
-
-                                // If chargeEntry is finished, pending or free it is clear sequence
-                                $sequencePayed &= true;
+                                // Paid, still-open or free: sequence stays clean.
+                                $sequencePayed = $sequencePayed && true;
                             } elseif ($chargeEntry->CE_status == ChargeEntry::STATUS_DISABLED) {
-
-                                // if chargeEntry is disabled it is clean sequence
-                                $sequencePayed &= true;
+                                // Excluded from billing: counts as clean, never breaks
+                                // the paid sequence.
+                                $sequencePayed = $sequencePayed && true;
                             } elseif ($chargeEntry->CE_status == ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS) {
-
-                                // If chargeEntry is pending with insufficient funds and in tolerance margin is is clear sequence, otherwise not
-                                $sequencePayed &= ($chargeEntry->CE_overdue <= $charge->CH_tolerance);
+                                // Unpaid: clean only while inside the tolerance window.
+                                $sequencePayed = $sequencePayed && ($chargeEntry->CE_overdue <= $charge->CH_tolerance);
                             }
+                            // Any other status (e.g. ERROR) is neutral — flag unchanged. §8 (D8).
                         }
                     }
                 }
