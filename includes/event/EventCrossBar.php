@@ -36,7 +36,11 @@ class EventCrossBar
 
         foreach ($this->handleEventArray as $handleEvent) {
             $path = $core->getAppRoot() . "templates/events/" . $handleEvent->HE_templatepath;
-            if (!($template = file_get_contents($path))) {
+            // Guard the existence check before reading: file_get_contents() on a
+            // missing path emits a PHP warning before returning false. is_file()
+            // short-circuits that so the suite can run under failOnWarning, while
+            // the throw (missing or empty template is fatal) is unchanged.
+            if (!is_file($path) || !($template = file_get_contents($path))) {
                 throw new Exception("Cannot open event template file: " . $path);
             }
             $this->templateArray[$handleEvent->HE_handleeventid] = $template;
@@ -61,7 +65,11 @@ class EventCrossBar
 
                     // HE_notifydaysbeforeturnoff is `tinyint NOT NULL` in schema, so it
                     // can never be null; notify when the switch-off is within the
-                    // configured threshold (>= days remaining).
+                    // configured threshold (threshold >= days remaining). The boundary
+                    // is inclusive: threshold == daysBeforeTurnOff still notifies. Note
+                    // the reachable value 0 now means "notify on/after the turn-off day"
+                    // (0 >= daysBeforeTurnOff), not the pre-042a3b5 "always notify" that
+                    // the removed `== null ||` guard produced for 0.
                     if ($handleEvent->HE_notifydaysbeforeturnoff >= $daysBeforeTurnOff) {
                         $template = $this->templateArray[$handleEvent->HE_handleeventid];
                         $template = mb_ereg_replace("\|PERSON_NAME\|", $event->getPerson()->PE_firstname . " " . $event->getPerson()->PE_surname, $template);

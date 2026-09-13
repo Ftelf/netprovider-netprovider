@@ -165,6 +165,61 @@ class EventCrossBarTest extends TestCase
         $this->assertTrue(true);
     }
 
+    public function testDispatchNotifiesOnInclusiveThresholdBoundary(): void
+    {
+        // Switch-off is exactly `threshold` days out, so threshold == daysBeforeTurnOff.
+        // The comparison is inclusive (threshold >= daysBeforeTurnOff), so it must fire
+        // on the boundary day. Pins that inclusive `>=`: flipping it to `>` reds this.
+        // Determinism: the suite runs in UTC (no DST), and both `now` (zeroed inside
+        // dispatchEvent) and the tolerance date below are anchored to midnight, so
+        // daysBeforeTurnOff is exactly 14.0 regardless of the run's wall-clock time.
+        $he = new HandleEvent();
+        $he->HE_handleeventid = 1;
+        $he->HE_type   = HandleEvent::TYPE_CHARGE_PAYMENT_DEADLINE;
+        $he->HE_status = HandleEvent::STATUS_ENABLED;
+        $he->HE_emailsubject = 'Reminder';
+        $he->HE_notifydaysbeforeturnoff = 14;
+        $he->HE_notifypersonid = null;
+
+        $crossBar = $this->newCrossBarWithTemplate('hi |PERSON_NAME|', [$he]);
+
+        $person = new Person();
+        $person->PE_personid = 1;
+        $person->PE_firstname = 'A';
+        $person->PE_surname   = 'B';
+        $charge = new Charge();
+        $charge->CH_name = 'X';
+        $charge->CH_baseamount = 0;
+        $charge->CH_vat = 0;
+        $charge->CH_amount = 0;
+        $charge->CH_currency = 'CZK';
+        $charge->CH_period = Charge::PERIOD_MONTHLY;
+
+        // Switch-off (tolerance) = midnight today + exactly 14 days.
+        $tolerance = new DateUtil();
+        $tolerance->set(DateUtil::HOUR, 0);
+        $tolerance->set(DateUtil::MINUTES, 0);
+        $tolerance->set(DateUtil::SECONDS, 0);
+        $tolerance->add(DateUtil::DAY, 14);
+
+        $event = new ChargePaymentDeadlineEvent(
+            new DateUtil('2026-05-01'),
+            $person, 'm', $charge,
+            new DateUtil('2026-05-01'),
+            new DateUtil('2026-05-15'),
+            $tolerance
+        );
+
+        $queued = false;
+        $this->mockEmail->shouldReceive('queueMessage')->once()
+            ->withArgs(function () use (&$queued) { $queued = true; return true; });
+        $this->mockEmail->shouldReceive('sendMessages')->once();
+
+        $crossBar->dispatchEvent($event);
+
+        $this->assertTrue($queued, 'notification fires on the inclusive boundary day (threshold == daysBeforeTurnOff)');
+    }
+
     public function testDispatchSkipsDisabledHandlers(): void
     {
         $he = new HandleEvent();

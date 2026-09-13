@@ -45,6 +45,18 @@ class UtilsTest extends TestCase
     }
 
     /**
+     * Regression: the TLD segment allows 2+ chars, so modern long TLDs
+     * (.store, .travel, .email) validate. The old `\w{1,4}` cap wrongly
+     * rejected any TLD of 5+ characters.
+     */
+    public function testIsEmailAcceptsLongTlds(): void
+    {
+        $this->assertTrue(Utils::is_email('user@foo.store'));
+        $this->assertTrue(Utils::is_email('user@foo.travel'));
+        $this->assertTrue(Utils::is_email('user@foo.email'));
+    }
+
+    /**
      * Regression: the pattern is anchored (^...$), so a valid address embedded
      * in surrounding junk must NOT validate. An unanchored pattern would match
      * the substring and wrongly accept these.

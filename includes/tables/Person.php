@@ -133,6 +133,14 @@ class Person
      */
     public $PE_uistate;
 
+    /**
+     * @var int personaccount id (PA_personaccountid column). Carried on the
+     * Person object only when loaded via the person⋈personaccount accounting
+     * join (PersonDAO::getPersonWithAccountArrayForAccounting) and read by
+     * AccountEntryUtil. Declared so assigning it is not a dynamic property.
+     */
+    public $PA_personaccountid;
+
     public const STATUS_PASSIVE = 0;
     public const STATUS_ACTIVE = 1;
     public const STATUS_DISCARTED = 9;

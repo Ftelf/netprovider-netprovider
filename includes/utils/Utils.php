@@ -42,7 +42,7 @@ class Utils
     {
         $rBool = false;
 
-        if (preg_match("/^[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}$/", $email)) {
+        if (preg_match("/^[\w\.\-]+@\w+[\w\.\-]*?\.\w{2,}$/", $email)) {
             $rBool = true;
         }
         return $rBool;
