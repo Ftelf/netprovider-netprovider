@@ -170,9 +170,11 @@ class EventCrossBarTest extends TestCase
         // Switch-off is exactly `threshold` days out, so threshold == daysBeforeTurnOff.
         // The comparison is inclusive (threshold >= daysBeforeTurnOff), so it must fire
         // on the boundary day. Pins that inclusive `>=`: flipping it to `>` reds this.
-        // Determinism: the suite runs in UTC (no DST), and both `now` (zeroed inside
-        // dispatchEvent) and the tolerance date below are anchored to midnight, so
-        // daysBeforeTurnOff is exactly 14.0 regardless of the run's wall-clock time.
+        // Determinism: bootstrap.php pins the timezone to UTC (no DST), and both `now`
+        // (zeroed inside dispatchEvent) and the tolerance date below are anchored to
+        // midnight, so daysBeforeTurnOff is exactly 14.0 regardless of the run's
+        // wall-clock time. Without the UTC pin, a DST fall-back inside the 14-day
+        // window would make it 14.041667 and the inclusive `>=` guard would not fire.
         $he = new HandleEvent();
         $he->HE_handleeventid = 1;
         $he->HE_type   = HandleEvent::TYPE_CHARGE_PAYMENT_DEADLINE;
