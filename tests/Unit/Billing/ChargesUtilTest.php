@@ -559,6 +559,27 @@ class ChargesUtilTest extends TestCase
         $this->assertSame(HasCharge::ACTUALSTATE_DISABLED, $this->lastHasChargeUpdate()->HC_actualstate);
     }
 
+    public function testPresentInsufficientAtExactToleranceBoundaryStaysEnabled(): void
+    {
+        // Current period unpaid with overdue == tolerance exactly. The §5.4 window
+        // is inclusive (overdue <= tolerance), so the boundary day still -> ENABLED.
+        // Pins that inclusive comparison: flipping it to `<` reds this test.
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 60, 14)]);
+        $person = $this->makePerson(1, 1);
+        // actual starts DISABLED, so an ENABLED verdict produces a write.
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01', null, HasCharge::STATUS_ENABLED, HasCharge::ACTUALSTATE_DISABLED);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+        // writeoff 60 keeps collection in the future, so the seeded overdue (14,
+        // exactly equal to tolerance) reaches the state machine unchanged.
+        $this->db->seedObjectList([$this->makeEntry(100, 1, 50.0, $this->currentPeriod(), ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS, 14, 60)]);
+
+        $util->proceedChargesForPerson($person);
+
+        $this->assertSame(HasCharge::ACTUALSTATE_ENABLED, $this->lastHasChargeUpdate()->HC_actualstate);
+    }
+
     public function testPresentDisabledEntryForcesDisabled(): void
     {
         // A per-period DISABLED entry in the current period -> DISABLED.
@@ -592,6 +613,30 @@ class ChargesUtilTest extends TestCase
         $util->proceedChargesForPerson($person);
 
         $this->assertSame(HasCharge::ACTUALSTATE_DISABLED, $this->lastHasChargeUpdate()->HC_actualstate);
+    }
+
+    public function testPastUnpaidAtExactToleranceBoundaryKeepsSequenceClean(): void
+    {
+        // A past unpaid period with overdue == tolerance exactly. The §5.4 sequence
+        // window is inclusive (overdue <= tolerance), so the boundary keeps the
+        // sequence clean; with a clean current period the charge stays ENABLED.
+        // Pins that inclusive comparison: flipping it to `<` reds this test.
+        $util   = $this->newChargesUtilWithChargeMap([$this->makeCharge(1, 50.0, 120, 14)]);
+        $person = $this->makePerson(1, 1);
+        // actual starts DISABLED, so an ENABLED verdict produces a write.
+        $hasCharge = $this->makeHasCharge(1, 1, 1, '2020-01-01', null, HasCharge::STATUS_ENABLED, HasCharge::ACTUALSTATE_DISABLED);
+
+        $this->db->seedObjectList([$hasCharge]);
+        $this->db->seedObject($this->makeAccount(1, 0.0));
+        // Period two months back is unambiguously "past"; writeoff 120 keeps its
+        // collection date in the future (regardless of today's day-of-month), so
+        // the seeded overdue (14, exactly equal to tolerance) survives to the
+        // sequencePayed branch. No present-period entry -> current period stays clean.
+        $this->db->seedObjectList([$this->makeEntry(100, 1, 50.0, $this->monthStart(-2), ChargeEntry::STATUS_PENDING_INSUFFICIENTFUNDS, 14, 120)]);
+
+        $util->proceedChargesForPerson($person);
+
+        $this->assertSame(HasCharge::ACTUALSTATE_ENABLED, $this->lastHasChargeUpdate()->HC_actualstate);
     }
 
     public function testForceEnabledOverridesEvenWithNoEntries(): void
