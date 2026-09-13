@@ -3,3 +3,10 @@
 /vendor/
 /build/
 /.phpunit.cache/
+
+# Production database dumps — contain customer PII, must never be committed.
+# Drop them in dumps/ (ignored wholesale there); the stripped, data-free
+# schema lives in sql/schema.sql instead. Generic guards below catch stray
+# dumps left outside dumps/.
+/*.sql
+/*.dump

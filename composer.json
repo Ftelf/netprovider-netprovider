@@ -13,7 +13,8 @@
     "require-dev": {
         "phpunit/phpunit": "^10.5",
         "mockery/mockery": "^1.6",
-        "phpunit/php-code-coverage": "^10.1"
+        "phpunit/php-code-coverage": "^10.1",
+        "robmorgan/phinx": "^0.16"
     },
     "autoload-dev": {
         "psr-4": {
@@ -30,6 +31,9 @@
         "test:unit": "phpunit --testsuite=unit",
         "test:integration": "phpunit --testsuite=integration",
         "test:coverage": "XDEBUG_MODE=coverage phpunit --coverage-html=build/coverage --coverage-text",
-        "test:testdox": "phpunit --testdox"
+        "test:testdox": "phpunit --testdox",
+        "db:migrate": "phinx migrate",
+        "db:seed": "phinx seed:run -s AdminSeeder",
+        "db:status": "phinx status"
     }
 }

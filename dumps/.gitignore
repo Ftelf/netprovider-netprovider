@@ -1,0 +1,6 @@
+# Production database dumps contain customer PII and must never be committed.
+# Ignore everything in this folder except the two tracking files below, so any
+# dump dropped here is git-ignored regardless of its filename.
+*
+!.gitignore
+!README.md

@@ -48,8 +48,12 @@ class Database
             throw new Exception("Connect failed: " . mysqli_connect_error());
         }
 
-        $this->query('SET CHARACTER SET utf8');
-        $this->query("SET NAMES 'utf8'");
+        // Match the utf8mb4 schema (sql/schema.sql). set_charset() is used rather
+        // than a raw "SET NAMES" query because it also updates the charset mysqli
+        // uses for escape_string(), keeping getEscaped() quoting correct.
+        if (!$this->_mysqli->set_charset('utf8mb4')) {
+            throw new Exception("Failed setting connection charset to utf8mb4: " . $this->_mysqli->error);
+        }
     }
 
     /**

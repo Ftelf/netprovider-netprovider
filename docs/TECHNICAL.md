@@ -52,7 +52,8 @@ netprovider-netprovider/
 ├── LICENSE.md                    LGPL 2.1 (file kept as a placeholder)
 ├── Makefile                      Translation pipeline only
 ├── README.md                     Project front-matter
-├── localhost.sql                 Reference schema dump (MySQL 5.0)
+├── sql/                          Canonical schema.sql + seed.sql (see sql/README.md)
+├── db/                           Phinx migrations (db/migrations) & seeders (db/seeds)
 ├── config/
 │   └── netprovider.ini           Single source of runtime config
 ├── debug/                        Ad-hoc debug scripts (developer-only)
@@ -736,32 +737,49 @@ See [Event system → Adding a new event type](#event-system).
 
 ## Database schema
 
-The reference schema is `localhost.sql` (a phpMyAdmin dump from MySQL 5.0). It ships **21 tables**:
+The canonical schema is `sql/schema.sql` — data-free DDL derived from the final
+production dump (MySQL 8.0) and normalised to `utf8mb4` / `utf8mb4_czech_ci`. It
+ships **22 tables**:
 
 ```
 bankaccount, bankaccountentry,
 charge, chargeentry,
-configuration,
 emaillist,
-group, hascharge,
+group, handleevent, hascharge,
 internet, ip, ipaccount, ipaccountabs,
-log, message,
+log, message, messageattachment,
 network, person, personaccount, personaccountentry,
 role, rolemember, session
 ```
 
-> **The dump is incomplete.** Two tables that the code expects are **not** in `localhost.sql`: `handleevent` and `messageattachment` (their table classes are listed under [Table objects](#table-objects-includestablesphp)). `EventCrossBar::__construct()` reads `handleevent` on **every web request**, so a database loaded from the quick-start will error until `handleevent` is created. Create both tables manually before running the app.
+This is the single source of truth: the quick-start, the integration tier
+(default `NP_IT_SCHEMA`), and Phinx migration `001` all apply this file. It
+includes `handleevent` and `messageattachment` — both required by the code
+(`EventCrossBar::__construct()` reads `handleevent` on every web request) — and
+drops the dead `configuration` table (no code reference). Naming is consistent
+with the table classes; see [Table objects](#table-objects-includestablesphp).
 
-Naming is otherwise consistent with the table classes — see the [Table objects](#table-objects-includestablesphp) section. To regenerate from a fresh database:
+Schema evolution is versioned with [Phinx](https://phinx.org): migration `001`
+seeds from `sql/schema.sql`, and each subsequent change is a new forward-only
+migration under `db/migrations`. To set up or regenerate, see `sql/README.md`:
 
 ```bash
-mysql -u root -p -e "CREATE DATABASE netprovider DEFAULT CHARACTER SET utf8 COLLATE utf8_czech_ci"
-mysql -u root -p netprovider < localhost.sql
+mysql -u root -p -e "CREATE DATABASE netprovider DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci"
+mysql -u root -p netprovider < sql/schema.sql       # or: composer db:migrate
+mysql -u root -p netprovider < sql/seed.sql         # or: composer db:seed
 ```
 
-The dump targets `utf8_czech_ci`. On modern MySQL/MariaDB you can use `utf8mb4_czech_ci` instead — make sure the application connection is also `utf8mb4` (currently `Database::__construct` runs `SET CHARACTER SET utf8` and `SET NAMES 'utf8'`).
+The schema targets `utf8mb4_czech_ci`, and `Database::__construct` matches it by
+calling `mysqli::set_charset('utf8mb4')` (throwing on failure). `set_charset` is
+used rather than a raw `SET NAMES` query because it also updates the charset
+mysqli uses for `escape_string()`, keeping `Database::quote()` correct.
 
-After loading, create at least one `person` row with a known `MD5(password)` hashed password, group with `GR_level = 9`, and a `personaccount` row to log in as a super-administrator.
+`sql/seed.sql` creates a super-administrator (`admin`) with its group and backing
+`personaccount`, but with **no password** — the account is not loginable until one
+is set, so no credential is committed. `composer db:seed` generates a random
+password and prints it once; a manual load requires setting the password by hand.
+To seed manually from scratch, insert a `person` row with a known `MD5(password)`,
+a group with `GR_level = 9`, and a `personaccount` row.
 
 ---
 
