@@ -21,6 +21,7 @@ require_once $core->getAppRoot() . "includes/tables/BankAccountEntry.php";
 class IsoSepaXmlParser
 {
     private $xml = null;
+    private $document = null;
 
     /**
      * Constructor IsoSepaXmlParser
