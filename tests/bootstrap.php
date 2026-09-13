@@ -45,6 +45,7 @@ if (!function_exists('_')) {
 require_once NP_TESTS_ROOT . 'Stubs/CoreStub.php';
 require_once NP_TESTS_ROOT . 'Stubs/DatabaseStub.php';
 require_once NP_TESTS_ROOT . 'TestCase.php';
+require_once NP_TESTS_ROOT . 'Integration/IntegrationTestCase.php';
 
 // Boot global $core (needed by classes that `require_once $core->getAppRoot()`)
 global $core;
