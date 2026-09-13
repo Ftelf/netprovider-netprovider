@@ -72,6 +72,26 @@ $EDITOR config/netprovider.ini                           # at minimum set DB / S
 # 4. Point your web server at site/ and open http://<host>/
 ```
 
+### Run with Docker
+
+The repo ships a `Dockerfile` (PHP 8.1 + Apache, document root `site/`) and a
+`docker-compose.yml` that adds a MySQL 8.0 service:
+
+```bash
+docker compose up --build            # build the image, start db + app
+#   the app entrypoint waits for MySQL, then runs `phinx migrate` (idempotent)
+docker compose exec app composer db:seed   # one-time: create admin, prints its password
+```
+
+Then open <http://localhost:8080/> and log in as `admin` with the password
+`db:seed` printed. Notes:
+
+- App config comes from `config/netprovider.docker.ini` (non-secret dev values,
+  `Database Host = db`), bind-mounted over the container's ini. Edit it or mount
+  your own; the real `config/netprovider.ini` is kept out of the image.
+- `docker compose exec app composer db:seed` is a *one-time* step — it regenerates
+  the admin password on each run, so don't wire it into startup.
+
 `sql/seed.sql` creates a super-administrator (`admin`) with its group and backing account, but **with no password** — the account is not loginable until one is set, so no credential ships in the repo. Run `composer db:seed`, which generates a strong random password and prints it once (record it, then change it after first login). If you loaded `sql/seed.sql` manually, set the password yourself: `UPDATE person SET PE_password = MD5('<password>') WHERE PE_username = 'admin'`. After the first login, manage users from the web UI.
 
 > **Heads up.** Passwords are hashed with `MD5` and the session ID is also a short MD5. Both are unsuitable for any internet-facing deployment without a hardening pass — see [TECHNICAL.md → Security model](docs/TECHNICAL.md#security-model).
