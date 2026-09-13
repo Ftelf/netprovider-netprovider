@@ -769,14 +769,17 @@ mysql -u root -p netprovider < sql/schema.sql       # or: composer db:migrate
 mysql -u root -p netprovider < sql/seed.sql         # or: composer db:seed
 ```
 
-The schema targets `utf8mb4_czech_ci`; note `Database::__construct` still runs
-`SET CHARACTER SET utf8` / `SET NAMES 'utf8'`, so the application connection has
-not yet been moved to `utf8mb4` (tracked by the i18n modernization CR).
+The schema targets `utf8mb4_czech_ci`, and `Database::__construct` matches it by
+calling `mysqli::set_charset('utf8mb4')` (throwing on failure). `set_charset` is
+used rather than a raw `SET NAMES` query because it also updates the charset
+mysqli uses for `escape_string()`, keeping `Database::quote()` correct.
 
-`sql/seed.sql` creates a ready-to-use super-administrator (`admin` / `changeme`)
-with its group and backing `personaccount`; change the password immediately. To
-seed manually, insert a `person` row with a known `MD5(password)`, a group with
-`GR_level = 9`, and a `personaccount` row.
+`sql/seed.sql` creates a super-administrator (`admin`) with its group and backing
+`personaccount`, but with **no password** — the account is not loginable until one
+is set, so no credential is committed. `composer db:seed` generates a random
+password and prints it once; a manual load requires setting the password by hand.
+To seed manually from scratch, insert a `person` row with a known `MD5(password)`,
+a group with `GR_level = 9`, and a `personaccount` row.
 
 ---
 

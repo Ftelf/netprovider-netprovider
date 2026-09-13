@@ -98,13 +98,20 @@ abstract class IntegrationTestCase extends PHPUnitTestCase
         }
 
         $sql = file_get_contents($schemaPath);
+        if ($sql === false) {
+            throw new RuntimeException('NP_IT_SCHEMA load: cannot read ' . $schemaPath);
+        }
         // Multi-statement DDL needs mysqli::multi_query, which the Database wrapper
         // does not expose; use a throwaway raw connection just for the load.
         $m = new mysqli($host, $user, $pass, $name, $port);
         if ($m->connect_errno) {
             throw new RuntimeException('NP_IT_SCHEMA load: connect failed: ' . $m->connect_error);
         }
-        $m->query("SET SESSION sql_mode='NO_AUTO_VALUE_ON_ZERO'");
+        if (!$m->query("SET SESSION sql_mode='NO_AUTO_VALUE_ON_ZERO'")) {
+            $err = $m->error;
+            $m->close();
+            throw new RuntimeException('NP_IT_SCHEMA load: SET sql_mode failed: ' . $err);
+        }
         if (!$m->multi_query($sql)) {
             $err = $m->error;
             $m->close();

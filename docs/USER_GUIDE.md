@@ -69,7 +69,7 @@ Before you can log in for the first time:
 1. The PHP web server must be running and serving `site/` as the document root for the public URL.
 2. `config/netprovider.ini` must point at a reachable MySQL database.
 3. The database must be loaded from `sql/schema.sql` — its structure — (or restored from a backup).
-4. At least one `Person` with `GR_level = 9` (super-administrator) must exist with a known password. Loading `sql/seed.sql` creates one (`admin` / `changeme`; change it immediately).
+4. At least one `Person` with `GR_level = 9` (super-administrator) must exist with a known password. `composer db:seed` creates the `admin` account and prints a generated password once; or load `sql/seed.sql` and set the admin password yourself (it ships with none).
 
 ### Logging in
 

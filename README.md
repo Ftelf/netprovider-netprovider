@@ -72,7 +72,7 @@ $EDITOR config/netprovider.ini                           # at minimum set DB / S
 # 4. Point your web server at site/ and open http://<host>/
 ```
 
-`sql/seed.sql` creates a super-administrator login out of the box — username `admin`, password `changeme` (**change it immediately after first login**). To create one manually instead, insert a row in `person` with `MD5(<password>)` as `PE_password`, a `groupid` whose `GR_level = 9`, and a backing `personaccount` row. After the first login, manage users from the web UI.
+`sql/seed.sql` creates a super-administrator (`admin`) with its group and backing account, but **with no password** — the account is not loginable until one is set, so no credential ships in the repo. Run `composer db:seed`, which generates a strong random password and prints it once (record it, then change it after first login). If you loaded `sql/seed.sql` manually, set the password yourself: `UPDATE person SET PE_password = MD5('<password>') WHERE PE_username = 'admin'`. After the first login, manage users from the web UI.
 
 > **Heads up.** Passwords are hashed with `MD5` and the session ID is also a short MD5. Both are unsuitable for any internet-facing deployment without a hardening pass — see [TECHNICAL.md → Security model](docs/TECHNICAL.md#security-model).
 

@@ -13,7 +13,7 @@ all apply `schema.sql`.
 
 ```bash
 mysql -u root -p netprovider < sql/schema.sql   # structure
-mysql -u root -p netprovider < sql/seed.sql     # admin/changeme login (change it!)
+mysql -u root -p netprovider < sql/seed.sql     # admin account (no password; set one — see seed.sql header)
 ```
 
 ## Via Phinx (versioned)
