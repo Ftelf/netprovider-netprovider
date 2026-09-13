@@ -12,7 +12,6 @@
 --   * per-table AUTO_INCREMENT offsets removed (every table starts clean)
 --   * charset normalised utf8mb3 -> utf8mb4 / utf8mb4_czech_ci
 --     (the deprecated `session`.`SE_sessionid` ASCII column is intentionally kept)
---   * the dead `configuration` table (no code reference) is not included
 --
 -- Regenerate from a fresh dump: see sql/README.md.
 --
