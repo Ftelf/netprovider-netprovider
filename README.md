@@ -92,6 +92,23 @@ Then open <http://localhost:8080/> and log in as `admin` with the password
 - `docker compose exec app composer db:seed` is a *one-time* step — it regenerates
   the admin password on each run, so don't wire it into startup.
 
+#### Restore a production dump into the stack
+
+To work against real data instead of the empty seeded schema, pipe a dump into
+the `db` container over stdin (dumps live in `dumps/`, which is git-ignored and
+deliberately *not* mounted into the container). Run from the repo root:
+
+```bash
+docker compose exec -T db mysql -uroot -proot netprovider < dumps/<your-dump>.sql
+```
+
+The dump's `DROP TABLE` + `CREATE TABLE` replaces the seeded app tables with the
+production ones, so **you then log in with the production credentials, not the
+`db:seed` password**. Phinx's `phinxlog` table isn't in the dump, so it survives
+and migration 001 stays marked as applied. `-T` is required for the redirect;
+`-uroot -proot` sidesteps any privilege edge case (the `netprovider` user also
+works).
+
 `sql/seed.sql` creates a super-administrator (`admin`) with its group and backing account, but **with no password** — the account is not loginable until one is set, so no credential ships in the repo. Run `composer db:seed`, which generates a strong random password and prints it once (record it, then change it after first login). If you loaded `sql/seed.sql` manually, set the password yourself: `UPDATE person SET PE_password = MD5('<password>') WHERE PE_username = 'admin'`. After the first login, manage users from the web UI.
 
 > **Heads up.** Passwords are hashed with `MD5` and the session ID is also a short MD5. Both are unsuitable for any internet-facing deployment without a hardening pass — see [TECHNICAL.md → Security model](docs/TECHNICAL.md#security-model).
