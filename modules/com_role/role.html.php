@@ -158,10 +158,10 @@ class HTML_role
                                                onclick="isChecked(this.checked);"/>
                                     </td>
                                     <td>
-                                        <a href="<?php echo $link; ?>"><?php echo $role->RO_name; ?></a>
+                                        <a href="<?php echo $link; ?>"><?php echo htmlspecialchars($role->RO_name, ENT_QUOTES); ?></a>
                                     </td>
                                     <td>
-                                        <a href="<?php echo $link; ?>"><?php echo $role->RO_description; ?></a>
+                                        <a href="<?php echo $link; ?>"><?php echo htmlspecialchars($role->RO_description, ENT_QUOTES); ?></a>
                                     </td>
                                 </tr>
                                 <?php
@@ -277,13 +277,13 @@ class HTML_role
                                         <tr>
                                             <td width="150"><?php echo _("Role name:"); ?></td>
                                             <td width="205"><input type="text" name="RO_name" class="width-form"
-                                                                   size="40" value="<?php echo $role->RO_name ?>"
+                                                                   size="40" value="<?php echo htmlspecialchars($role->RO_name, ENT_QUOTES) ?>"
                                                                    maxlength="255"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Description:"); ?></td>
                                             <td><input type="text" name="RO_description" class="width-form" size="40"
-                                                       value="<?php echo $role->RO_description ?>" maxlength="255"/>
+                                                       value="<?php echo htmlspecialchars($role->RO_description, ENT_QUOTES) ?>" maxlength="255"/>
                                             </td>
                                         </tr>
                                         </tbody>

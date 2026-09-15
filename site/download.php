@@ -30,12 +30,12 @@ try {
         $core->getProperty(Core::DATABASE_NAME)
     );
 } catch (Exception $e) {
-    $core::alert('_("Cannot connect to database")');
+    $core::alert(_("Cannot connect to database"));
     exit();
 }
 
 $option = $_REQUEST['option'] ??= 'com_admin';
-$task = $_REQUEST['task'];
+$task = $_REQUEST['task'] ?? '';
 
 // must start the session before we create the mainframe object
 session_name("NETPROVIDER");
@@ -74,7 +74,7 @@ try {
 $my = $_SESSION['USER'];
 
 if ($option === 'com_bankaccount' && $task === 'download') {
-    $lid = $_REQUEST['EL_emaillistid'];
+    $lid = $_REQUEST['EL_emaillistid'] ?? null;
 
     try {
         $emailList = EmailListDAO::getEmailListByID($lid);

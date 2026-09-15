@@ -149,13 +149,14 @@ function removeRole($cid)
                 $msg = sprintf(ngettext("Cannot delete user role '%s', because it has binded %s user", "Cannot delete user role '%s', because it has binded %s users", count($rolemembers)), $role->RO_name, count($rolemembers));
                 $database->log($msg, Log::LEVEL_WARNING);
                 $limit = 10;
+                $cap = $limit;
                 foreach ($rolemembers as $rolemember) {
                     $msg .= "\\n'" . $rolemember->PE_firstname . " " . $rolemember->PE_surname . "'";
                     if (!--$limit) {
                         break;
                     }
                 }
-                if (count($rolemembers) > $limit) {
+                if (count($rolemembers) > $cap) {
                     $msg .= '\n...';
                 }
                 Core::backWithAlert($msg);

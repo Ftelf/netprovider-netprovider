@@ -60,12 +60,15 @@ class HTML_Configuration
                                 $k = 0;
                                 foreach ($v as $name => $value) {
                                     ?>
+                                    <?php
+                                    $isSecret = preg_match('/pass|password|secret|token|key|pwd/i', $name);
+                                    ?>
                                     <tr class="<?php echo "row$k"; ?>">
                                         <td width="10%">
-                                            <?php echo $name; ?>
+                                            <?php echo htmlspecialchars($name, ENT_QUOTES); ?>
                                         </td>
                                         <td>
-                                            '<?php echo $value; ?>'
+                                            '<?php echo $isSecret ? "********" : htmlspecialchars($value, ENT_QUOTES); ?>'
                                         </td>
                                     </tr>
                                     <?php

@@ -158,7 +158,7 @@ class HTML_group
                                                onclick="isChecked(this.checked);"/>
                                     </td>
                                     <td>
-                                        <a href="<?php echo $link; ?>"><?php echo $group->GR_name; ?></a>
+                                        <a href="<?php echo $link; ?>"><?php echo htmlspecialchars($group->GR_name, ENT_QUOTES); ?></a>
                                     </td>
                                     <?php /*     <td>
                                     <a href="<?php echo $link; ?>"><?php echo $group->GR_acl; ?></a>
@@ -280,7 +280,7 @@ class HTML_group
                                         <tr>
                                             <td width="150"><?php echo _("Group name:"); ?></td>
                                             <td width="205"><input type="text" name="GR_name" class="width-form"
-                                                                   size="40" value="<?php echo $group->GR_name ?>"
+                                                                   size="40" value="<?php echo htmlspecialchars($group->GR_name, ENT_QUOTES) ?>"
                                                                    maxlength="255"/></td>
                                         </tr>
                                         <?php /*        <tr>

@@ -158,7 +158,7 @@ class HTML_internet
                                                onclick="isChecked(this.checked);"/>
                                     </td>
                                     <td>
-                                        <a href="<?php echo $link; ?>"><?php echo $internet->IN_name; ?></a>
+                                        <a href="<?php echo $link; ?>"><?php echo htmlspecialchars($internet->IN_name, ENT_QUOTES); ?></a>
                                     </td>
                                     <td>
                                         <?php echo ($internet->IN_dnl_rate == -1) ? "AUTO" : $internet->IN_dnl_rate . " kbps"; ?>
@@ -176,7 +176,7 @@ class HTML_internet
                                         <?php echo $internet->IN_prio; ?>
                                     </td>
                                     <td>
-                                        <?php echo $internet->IN_description; ?>
+                                        <?php echo htmlspecialchars($internet->IN_description, ENT_QUOTES); ?>
                                     </td>
                                 </tr>
                                 <?php
@@ -235,7 +235,7 @@ class HTML_internet
                     alert("<?php echo _("Please enter template description"); ?>");
                 } else if (!form.IN_dnl_rate_cb.checked && (String(IN_dnl_rate_temp) != form.IN_dnl_rate.value || IN_dnl_rate_temp < 0)) {
                     alert("<?php echo _("Guaranteed download is not in proper number format"); ?>");
-                } else if (String(IN_dnl_ceil_temp) != form.IN_dnl_ceil.value || IN_dnl_rate_temp <= 0) {
+                } else if (String(IN_dnl_ceil_temp) != form.IN_dnl_ceil.value || IN_dnl_ceil_temp <= 0) {
                     alert("<?php echo _("Maximum download is not in proper number format"); ?>");
                 } else if (!form.IN_upl_rate_cb.checked && (String(IN_upl_rate_temp) != form.IN_upl_rate.value || IN_upl_rate_temp < 0)) {
                     alert("<?php echo _("Guaranteed upload is not in proper number format"); ?>");
@@ -322,13 +322,13 @@ class HTML_internet
                                         <tr>
                                             <td width="250"><?php echo _("Template name:"); ?></td>
                                             <td colspan="3"><input type="text" name="IN_name" class="inputbox" size="40"
-                                                                   value="<?php echo $internet->IN_name; ?>"/></td>
+                                                                   value="<?php echo htmlspecialchars($internet->IN_name, ENT_QUOTES); ?>"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Description:"); ?></td>
                                             <td colspan="3"><input type="text" name="IN_description" class="inputbox"
                                                                    size="40"
-                                                                   value="<?php echo $internet->IN_description; ?>"/>
+                                                                   value="<?php echo htmlspecialchars($internet->IN_description, ENT_QUOTES); ?>"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -340,7 +340,7 @@ class HTML_internet
                                             <td><input type="checkbox" name="IN_dnl_rate_cb" value="1"
                                                        onclick="dnl_cb(this.checked);" <?php if ($internet->IN_dnl_rate == -1) echo 'checked="checked"'; ?>/>
                                             </td>
-                                            <td>Auto</td>
+                                            <td><?php echo _("Auto"); ?></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Guaranteed upload (kbps):"); ?></td>
@@ -350,7 +350,7 @@ class HTML_internet
                                             <td><input type="checkbox" name="IN_upl_rate_cb" value="1"
                                                        onclick="upl_cb(this.checked);" <?php if ($internet->IN_upl_rate == -1) echo 'checked="checked"'; ?>/>
                                             </td>
-                                            <td>Auto</td>
+                                            <td><?php echo _("Auto"); ?></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Maximum download (kbps):"); ?></td>

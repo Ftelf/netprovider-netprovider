@@ -131,6 +131,7 @@ function showPersonAccount(): void
     foreach ($allPersons as $k => $person) {
         if (!isset($personAccounts[$person->PE_personaccountid])) {
             $msgs[] = sprintf(_("%s has no account"), $person->PE_firstname . " " . $person->PE_surname);
+            continue;
         }
         $personAccount = $personAccounts[$person->PE_personaccountid];
         if ($personAccount->PA_variablesymbol != null && $personAccount->PA_variablesymbol != 0) {

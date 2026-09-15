@@ -155,7 +155,7 @@ class HTML_BankAccount
                                                         onchange="document.adminForm.submit( );">
                                                     <?php
                                                     if (count($bankAccounts) == 0) {
-                                                        echo '<option value="0" selected="selected">' . _("- No bank account defined -") . '- Není definován žádný bankovní účet -</option>' . "\n";
+                                                        echo '<option value="0" selected="selected">' . _("- No bank account defined -") . '</option>' . "\n";
                                                     } else {
                                                         foreach ($bankAccounts as $bankAccount) {
                                                             echo '<option value="' . $bankAccount->BA_bankaccountid . '"';
@@ -272,23 +272,23 @@ class HTML_BankAccount
                                             <tbody>
                                             <tr>
                                                 <td width="150"><?php echo _("Bank name:"); ?></td>
-                                                <td><?php echo $bankAccounts[$bid]->BA_bankname; ?></td>
+                                                <td><?php echo htmlspecialchars($bankAccounts[$bid]->BA_bankname, ENT_QUOTES); ?></td>
                                             </tr>
                                             <tr>
                                                 <td><?php echo _("Account name:"); ?></td>
-                                                <td><?php echo $bankAccounts[$bid]->BA_accountname ?></td>
+                                                <td><?php echo htmlspecialchars($bankAccounts[$bid]->BA_accountname, ENT_QUOTES) ?></td>
                                             </tr>
                                             <tr>
                                                 <td><?php echo _("Account number:"); ?></td>
-                                                <td><?php echo $bankAccounts[$bid]->BA_accountnumber . '/' . $bankAccounts[$bid]->BA_banknumber; ?></td>
+                                                <td><?php echo htmlspecialchars($bankAccounts[$bid]->BA_accountnumber, ENT_QUOTES) . '/' . htmlspecialchars($bankAccounts[$bid]->BA_banknumber, ENT_QUOTES); ?></td>
                                             </tr>
                                             <tr>
                                                 <td><?php echo _("IBAN:"); ?></td>
-                                                <td><?php echo $bankAccounts[$bid]->BA_iban; ?></td>
+                                                <td><?php echo htmlspecialchars($bankAccounts[$bid]->BA_iban, ENT_QUOTES); ?></td>
                                             </tr>
                                             <tr>
                                                 <td><?php echo _("Currency:"); ?></td>
-                                                <td><?php echo $bankAccounts[$bid]->BA_currency; ?></td>
+                                                <td><?php echo htmlspecialchars($bankAccounts[$bid]->BA_currency, ENT_QUOTES); ?></td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -428,9 +428,9 @@ class HTML_BankAccount
                                                         ?>
                                                     </td>
                                                     <td width="5%"><?php echo $datetime->getFormattedDate(DateUtil::FORMAT_SHORTDATE); ?></td>
-                                                    <td width="29%"><?php echo $bankAccountEntry->BE_accountname; ?></td>
+                                                    <td width="29%"><?php echo htmlspecialchars($bankAccountEntry->BE_accountname, ENT_QUOTES); ?></td>
                                                     <td width="10%"><?php echo $writeoffDate->getFormattedDate(DateUtil::FORMAT_DATE); ?></td>
-                                                    <td width="10%"><?php echo $bankAccountEntry->BE_variablesymbol; ?></td>
+                                                    <td width="10%"><?php echo htmlspecialchars($bankAccountEntry->BE_variablesymbol, ENT_QUOTES); ?></td>
                                                     <td width="20%"><?php echo BankAccountEntry::getLocalizedType($bankAccountEntry->BE_typeoftransaction); ?></td>
                                                     <td width="10%"><?php echo NumberFormat::formatMoney($bankAccountEntry->BE_amount); ?></td>
                                                     <td width="10%"><?php echo NumberFormat::formatMoney($bankAccountEntry->BE_charge); ?></td>
@@ -450,7 +450,7 @@ class HTML_BankAccount
                                                     <td>&nbsp;</td>
                                                     <td>&nbsp;</td>
                                                     <td>&nbsp;</td>
-                                                    <td><?php echo $bankAccountEntry->BE_message; ?></td>
+                                                    <td><?php echo htmlspecialchars($bankAccountEntry->BE_message, ENT_QUOTES); ?></td>
                                                     <td>&nbsp;</td>
                                                     <td><?php echo $bankAccountEntry->BE_specificsymbol; ?></td>
                                                     <td><?php echo BankAccountEntry::getLocalizedIdentification($bankAccountEntry->BE_identifycode); ?></td>
@@ -462,9 +462,9 @@ class HTML_BankAccount
                                                     <td class="last">&nbsp;</td>
                                                     <td class="last">&nbsp;</td>
                                                     <td class="last"
-                                                        colspan="3"><?php echo $bankAccountEntry->BE_note; ?></td>
+                                                        colspan="3"><?php echo htmlspecialchars($bankAccountEntry->BE_note, ENT_QUOTES); ?></td>
                                                     <td class="last"
-                                                        colspan="3"><?php echo $bankAccountEntry->userAccountName; ?></td>
+                                                        colspan="3"><?php echo htmlspecialchars($bankAccountEntry->userAccountName, ENT_QUOTES); ?></td>
                                                     <td class="last">&nbsp;</td>
                                                 </tr>
                                                 </tbody>
@@ -509,7 +509,7 @@ class HTML_BankAccount
             function submitbutton(pressbutton) {
                 var form = document.adminForm;
                 if (pressbutton == 'cancel') {
-                    submitform('cancelHasCharge');
+                    submitform('cancel');
                 } else if (pressbutton == 'apply') {
                     hideMainMenu();
                     submitform('applyBA');
@@ -590,13 +590,13 @@ class HTML_BankAccount
                                             <td width="150"><?php echo _("Bank name:"); ?></td>
                                             <td width="205"><input type="text" name="BA_bankname" class="width-form"
                                                                    size="40"
-                                                                   value="<?php echo $bankAccount->BA_bankname; ?>"<?php if (!$flags['BA_bankname']) echo ' disabled="disabled"'; ?> />
+                                                                   value="<?php echo htmlspecialchars($bankAccount->BA_bankname, ENT_QUOTES); ?>"<?php if (!$flags['BA_bankname']) echo ' disabled="disabled"'; ?> />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Bank registration number:"); ?></td>
                                             <td><input type="text" name="BA_banknumber" class="width-form" size="40"
-                                                       value="<?php echo $bankAccount->BA_banknumber; ?>"<?php if (!$flags['BA_banknumber']) echo ' disabled="disabled"'; ?> />
+                                                       value="<?php echo htmlspecialchars($bankAccount->BA_banknumber, ENT_QUOTES); ?>"<?php if (!$flags['BA_banknumber']) echo ' disabled="disabled"'; ?> />
                                             </td>
                                         </tr>
                                         </tbody>
@@ -615,19 +615,19 @@ class HTML_BankAccount
                                             <td width="150"><?php echo _("Account name:"); ?></td>
                                             <td width="205"><input type="text" name="BA_accountname" class="width-form"
                                                                    size="40"
-                                                                   value="<?php echo $bankAccount->BA_accountname; ?>"<?php if (!$flags['BA_accountname']) echo ' disabled="disabled"'; ?> />
+                                                                   value="<?php echo htmlspecialchars($bankAccount->BA_accountname, ENT_QUOTES); ?>"<?php if (!$flags['BA_accountname']) echo ' disabled="disabled"'; ?> />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Account number:"); ?></td>
                                             <td><input type="text" name="BA_accountnumber" class="width-form" size="40"
-                                                       value="<?php echo $bankAccount->BA_accountnumber; ?>"<?php if (!$flags['BA_accountname']) echo ' disabled="disabled"'; ?> />
+                                                       value="<?php echo htmlspecialchars($bankAccount->BA_accountnumber, ENT_QUOTES); ?>"<?php if (!$flags['BA_accountname']) echo ' disabled="disabled"'; ?> />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("IBAN:"); ?></td>
                                             <td><input type="text" name="BA_iban" class="width-form" size="40"
-                                                       value="<?php echo $bankAccount->BA_iban; ?>"<?php if (!$flags['BA_iban']) echo ' disabled="disabled"'; ?> />
+                                                       value="<?php echo htmlspecialchars($bankAccount->BA_iban, ENT_QUOTES); ?>"<?php if (!$flags['BA_iban']) echo ' disabled="disabled"'; ?> />
                                             </td>
                                         </tr>
                                         <tr>
@@ -975,7 +975,7 @@ class HTML_BankAccount
                                     <td><?php echo $emailList->EL_year; ?></td>
                                     <td><?php echo $emailList->EL_no; ?></td>
                                     <td><a href="<?php echo $link; ?>"
-                                           target="_blank"><?php echo $emailList->EL_name; ?></a></td>
+                                           target="_blank"><?php echo htmlspecialchars($emailList->EL_name, ENT_QUOTES); ?></a></td>
                                     <td><?php echo EmailList::getLocalizedListType($emailList->EL_listtype); ?></td>
                                     <td><?php echo $emailList->EL_entrycount; ?></td>
                                     <td><?php echo $dateFrom->getFormattedDate(DateUtil::FORMAT_DATE); ?></td>
@@ -1232,19 +1232,19 @@ class HTML_BankAccount
                                         <tr>
                                             <td><?php echo _("Note:"); ?></td>
                                             <td><input type="text" name="BE_note" class="width-form" size="40"
-                                                       value="<?php echo $bankAccountEntry->BE_note; ?>"
+                                                       value="<?php echo htmlspecialchars($bankAccountEntry->BE_note, ENT_QUOTES); ?>"
                                                        disabled="disabled"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Account name:"); ?></td>
                                             <td><input type="text" name="BE_accountname" class="width-form" size="40"
-                                                       value="<?php echo $bankAccountEntry->BE_accountname; ?>"
+                                                       value="<?php echo htmlspecialchars($bankAccountEntry->BE_accountname, ENT_QUOTES); ?>"
                                                        disabled="disabled"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Account number:"); ?></td>
                                             <td><input type="text" name="BE_accountnumber" class="width-form" size="40"
-                                                       value="<?php echo $bankAccountEntry->BE_accountnumber; ?>"
+                                                       value="<?php echo htmlspecialchars($bankAccountEntry->BE_accountnumber, ENT_QUOTES); ?>"
                                                        disabled="disabled"/></td>
                                         </tr>
                                         <tr>
@@ -1256,7 +1256,7 @@ class HTML_BankAccount
                                         <tr>
                                             <td><?php echo _("Variable symbol:"); ?></td>
                                             <td><input type="text" name="BE_variablesymbol" class="width-form" size="40"
-                                                       value="<?php echo $bankAccountEntry->BE_variablesymbol; ?>"
+                                                       value="<?php echo htmlspecialchars($bankAccountEntry->BE_variablesymbol, ENT_QUOTES); ?>"
                                                        disabled="disabled"/></td>
                                         </tr>
                                         <tr>
@@ -1286,7 +1286,7 @@ class HTML_BankAccount
                                         <tr>
                                             <td><?php echo _("Message:"); ?></td>
                                             <td><input type="text" name="BE_message" class="width-form" size="40"
-                                                       value="<?php echo $bankAccountEntry->BE_message; ?>"
+                                                       value="<?php echo htmlspecialchars($bankAccountEntry->BE_message, ENT_QUOTES); ?>"
                                                        disabled="disabled"/></td>
                                         </tr>
                                         <tr>
@@ -1299,7 +1299,7 @@ class HTML_BankAccount
                                         <tr>
                                             <td><?php echo _("Comment:"); ?></td>
                                             <td><input type="text" name="BE_comment" class="width-form" size="40"
-                                                       value="<?php echo $bankAccountEntry->BE_comment; ?>"/></td>
+                                                       value="<?php echo htmlspecialchars($bankAccountEntry->BE_comment, ENT_QUOTES); ?>"/></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -1505,7 +1505,7 @@ class HTML_BankAccount
                                                 <td><?php echo _("Account name:"); ?></td>
                                                 <td><input type="text" name="BE_accountname" class="width-form"
                                                            size="40"
-                                                           value="<?php echo $bankAccountEntry->BE_accountname; ?>"
+                                                           value="<?php echo htmlspecialchars($bankAccountEntry->BE_accountname, ENT_QUOTES); ?>"
                                                            disabled="disabled"/></td>
                                             </tr>
                                             <tr>
@@ -1557,7 +1557,7 @@ class HTML_BankAccount
                                             <tr>
                                                 <td><?php echo _("Message:"); ?></td>
                                                 <td><input type="text" name="BE_message" class="width-form" size="40"
-                                                           value="<?php echo $bankAccountEntry->BE_message; ?>"
+                                                           value="<?php echo htmlspecialchars($bankAccountEntry->BE_message, ENT_QUOTES); ?>"
                                                            disabled="disabled"/></td>
                                             </tr>
                                             <tr>
@@ -1719,7 +1719,7 @@ class HTML_BankAccount
                                         </tr>
                                         <tr>
                                             <td width="20%" class="title"><input type="file" name="banklistFile"/></td>
-                                            <td width="20%" class="title"><input type="submit" value="Nahrát výpis"
+                                            <td width="20%" class="title"><input type="submit" value="<?php echo _("Upload statement"); ?>"
                                                                                  onclick="submitbutton('doUploadBankLists');"/>
                                             </td>
                                         </tr>

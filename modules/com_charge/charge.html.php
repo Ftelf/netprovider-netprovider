@@ -172,7 +172,7 @@ class HTML_charge
                                                onclick="isChecked(this.checked);"/>
                                     </td>
                                     <td>
-                                        <a href="<?php echo $link; ?>"><?php echo $charge->CH_name; ?></a>
+                                        <a href="<?php echo $link; ?>"><?php echo htmlspecialchars($charge->CH_name, ENT_QUOTES); ?></a>
                                     </td>
                                     <td>
                                         <?php echo Charge::getLocalizedPeriod($charge->CH_period); ?>
@@ -208,7 +208,7 @@ class HTML_charge
                                         <?php echo $charge->CH_priority; ?>
                                     </td>
                                     <td>
-                                        <?php echo $charge->CH_description; ?>
+                                        <?php echo htmlspecialchars($charge->CH_description, ENT_QUOTES); ?>
                                     </td>
                                 </tr>
                                 <?php
@@ -261,7 +261,7 @@ class HTML_charge
                 echo "IN_description[$k]='$internet->IN_description';\n";
                 echo ($internet->IN_dnl_rate == -1) ? "IN_dnl_rate[$k]='AUTO';" : "IN_dnl_rate[$k]='$internet->IN_dnl_rate';\n";
                 echo "IN_dnl_ceil[$k]='$internet->IN_dnl_ceil';\n";
-                echo ($internet->IN_upl_rate == -1) ? "IN_upl_rate[$k]='AUTO';" : "IN_dnl_rate[$k]='$internet->IN_upl_rate';\n";
+                echo ($internet->IN_upl_rate == -1) ? "IN_upl_rate[$k]='AUTO';" : "IN_upl_rate[$k]='$internet->IN_upl_rate';\n";
                 echo "IN_upl_ceil[$k]='$internet->IN_upl_ceil';\n";
                 echo "IN_prio[$k]='$internet->IN_prio';\n";
             }
@@ -280,7 +280,7 @@ class HTML_charge
                 if (trim(form.CH_name.value) == "") {
                     alert("<?php echo _("Please enter template name"); ?>");
                 } else if (trim(form.CH_description.value) == "") {
-                    alert("<?php echo _("Please enter template desctiption"); ?>");
+                    alert("<?php echo _("Please enter template description"); ?>");
                 } else {
                     submitform(pressbutton);
                 }
@@ -384,13 +384,13 @@ class HTML_charge
                                         <tr>
                                             <td width="150"><?php echo _("Template name:"); ?></td>
                                             <td width="205"><input type="text" name="CH_name" class="width-form"
-                                                                   size="40" value="<?php echo $charge->CH_name; ?>"/>
+                                                                   size="40" value="<?php echo htmlspecialchars($charge->CH_name, ENT_QUOTES); ?>"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Template description:"); ?></td>
                                             <td><input type="text" name="CH_description" class="width-form" size="40"
-                                                       value="<?php echo $charge->CH_description; ?>"/></td>
+                                                       value="<?php echo htmlspecialchars($charge->CH_description, ENT_QUOTES); ?>"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Priority:"); ?></td>
@@ -559,12 +559,12 @@ class HTML_charge
                                                            size="40" value="" disabled="disabled"/></td>
                                             </tr>
                                             <tr>
-                                                <td><?php echo _("Garanteed download:"); ?></td>
+                                                <td><?php echo _("Guaranteed download:"); ?></td>
                                                 <td><input type="text" name="_IN_dnl_rate" class="width-form" size="40"
                                                            value="" disabled="disabled"/></td>
                                             </tr>
                                             <tr>
-                                                <td><?php echo _("Garanteed upload:"); ?></td>
+                                                <td><?php echo _("Guaranteed upload:"); ?></td>
                                                 <td><input type="text" name="_IN_upl_rate" class="width-form" size="40"
                                                            value="" disabled="disabled"/></td>
                                             </tr>

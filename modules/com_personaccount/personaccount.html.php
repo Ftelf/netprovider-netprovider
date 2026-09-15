@@ -135,7 +135,7 @@ class HTML_PersonAccount
                         <table>
                             <tr>
                                 <td valign="middle"><?php echo _("Filter:"); ?></td>
-                                <td><input type="text" name="filter[search]" value="<?php echo $filter['search']; ?>"
+                                <td><input type="text" name="filter[search]" value="<?php echo htmlspecialchars($filter['search'], ENT_QUOTES); ?>"
                                            class="width-form" onchange="document.adminForm.submit();"/></td>
                                 <td align="right">
                                     <select name="filter[status]" class="width-form" size="1"
@@ -207,10 +207,10 @@ class HTML_PersonAccount
                                                onclick="isChecked(this.checked);"/>
                                     </td>
                                     <td>
-                                        <a href="<?php echo $link; ?>"><?php echo $person->PE_firstname; ?></a>
+                                        <a href="<?php echo $link; ?>"><?php echo htmlspecialchars($person->PE_firstname, ENT_QUOTES); ?></a>
                                     </td>
                                     <td>
-                                        <a href="<?php echo $link; ?>"><?php echo $person->PE_surname; ?></a>
+                                        <a href="<?php echo $link; ?>"><?php echo htmlspecialchars($person->PE_surname, ENT_QUOTES); ?></a>
                                     </td>
                                     <td>
                                         <?php echo NumberFormat::formatMoney($personAccount->PA_startbalance) . " " . $personAccount->PA_currency; ?>
@@ -354,7 +354,7 @@ class HTML_PersonAccount
 
                                     <td id="toolbar-edit">
                                         <a href="javascript:submitbutton('edit');">
-                                            <span title="<?php echo _("Edit"); ?>>" class="icon-32-edit"></span>
+                                            <span title="<?php echo _("Edit"); ?>" class="icon-32-edit"></span>
                                             <?php echo _("Edit"); ?>
                                         </a>
                                     </td>
@@ -399,7 +399,7 @@ class HTML_PersonAccount
                                         <tbody>
                                         <tr>
                                             <td width="250"><?php echo _("Name:"); ?></td>
-                                            <td width="205"><?php echo $person->PE_firstname . " " . $person->PE_surname; ?></td>
+                                            <td width="205"><?php echo htmlspecialchars($person->PE_firstname . " " . $person->PE_surname, ENT_QUOTES); ?></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Currency:"); ?></td>

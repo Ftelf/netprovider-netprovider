@@ -134,7 +134,7 @@ class HTML_handleevent
                             </thead>
                             <tfoot>
                             <tr>
-                                <td colspan="11">
+                                <td colspan="8">
                                     <?php
                                     echo $pageNav->getListFooter();
                                     ?>
@@ -170,7 +170,7 @@ class HTML_handleevent
                                         <?php echo HandleEvent::getLocalizedType($handleevent->HE_type); ?>
                                     </td>
                                     <td>
-                                        <a href="<?php echo $link; ?>"><?php echo $handleevent->HE_name; ?></a>
+                                        <a href="<?php echo $link; ?>"><?php echo htmlspecialchars($handleevent->HE_name, ENT_QUOTES); ?></a>
                                     </td>
                                     <td>
                                         <?php echo $personName; ?>
@@ -303,6 +303,7 @@ class HTML_handleevent
                                                     }
                                                     ?>
                                                 </select>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Type:"); ?></td>
@@ -321,7 +322,7 @@ class HTML_handleevent
                                         <tr>
                                             <td><?php echo _("Name:"); ?></td>
                                             <td><input type="text" name="HE_name" class="width-form" size="40"
-                                                       value="<?php echo $handleEvent->HE_name ?>" maxlength="255"/>
+                                                       value="<?php echo htmlspecialchars($handleEvent->HE_name, ENT_QUOTES) ?>" maxlength="255"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -334,7 +335,7 @@ class HTML_handleevent
                                                     <?php
                                                     foreach ($persons as $person) {
                                                         ?>
-                                                        <option value="<?php echo $person->PE_personid; ?>"<?php echo ($handleEvent->HE_notifypersonid == $person->PE_personid) ? ' selected="selected"' : ""; ?>><?php echo $person->PE_surname . " " . $person->PE_firstname . " (" . $person->PE_nick . ")"; ?></option>
+                                                        <option value="<?php echo $person->PE_personid; ?>"<?php echo ($handleEvent->HE_notifypersonid == $person->PE_personid) ? ' selected="selected"' : ""; ?>><?php echo htmlspecialchars($person->PE_surname, ENT_QUOTES) . " " . htmlspecialchars($person->PE_firstname, ENT_QUOTES) . " (" . htmlspecialchars($person->PE_nick, ENT_QUOTES) . ")"; ?></option>
                                                         <?php
                                                     }
                                                     ?>
@@ -358,7 +359,7 @@ class HTML_handleevent
                                         <tr>
                                             <td><?php echo _("Email subject:"); ?></td>
                                             <td><input type="text" name="HE_emailsubject" class="width-form" size="40"
-                                                       value="<?php echo $handleEvent->HE_emailsubject ?>"
+                                                       value="<?php echo htmlspecialchars($handleEvent->HE_emailsubject, ENT_QUOTES) ?>"
                                                        maxlength="255"/></td>
                                         </tr>
                                         <tr>
@@ -378,7 +379,7 @@ class HTML_handleevent
                                         <tr>
                                             <td><?php echo _("Description:"); ?></td>
                                             <td><input type="text" name="HE_description" class="width-form" size="40"
-                                                       value="<?php echo $handleEvent->HE_description ?>"
+                                                       value="<?php echo htmlspecialchars($handleEvent->HE_description, ENT_QUOTES) ?>"
                                                        maxlength="255"/></td>
                                         </tr>
                                         </tbody>

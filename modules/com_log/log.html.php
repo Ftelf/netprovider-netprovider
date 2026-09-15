@@ -39,7 +39,7 @@ class HTML_log
 
             function remove() {
                 if (document.adminForm.boxchecked.value == 0) {
-                    alert('<?php echo _("Please select record to edit"); ?>');
+                    alert('<?php echo _("Please select record to delete"); ?>');
                 } else {
                     var confirm = window.confirm("<?php echo _("Do you really want to delete selected records ?"); ?>");
                     if (confirm) {
@@ -122,7 +122,7 @@ class HTML_log
                                 <td><?php echo _("Filter:"); ?></td>
                                 <td align="right">
                                     <select name="filter[log_level]" size="1" onchange="document.adminForm.submit( );">
-                                        <option value="0" <?php if ($filter['log_level'] == -1) echo ' selected="selected"'; ?>><?php echo _("- Log level -"); ?></option>
+                                        <option value="0" <?php if ($filter['log_level'] == 0) echo ' selected="selected"'; ?>><?php echo _("- Log level -"); ?></option>
                                         <?php
                                         foreach (Log::$LEVEL_ARRAY as $logLevel) {
                                             echo '<option value="' . $logLevel . '"';
@@ -146,7 +146,7 @@ class HTML_log
                                                                           style="width: 16px; height: 16px; vertical-align: middle; position: relative; top: -2px; cursor: pointer;"
                                                                           alt="<?php echo _("Calendar"); ?>"/></a></td>
                                 <td><input type="hidden" name="filter[date_to]" id="date_tox"
-                                           value="<?php $filter['date_to']; ?>"/><input type="text" name="date_to"
+                                           value="<?php echo $filter['date_to']; ?>"/><input type="text" name="date_to"
                                                                                         class="inputbox"
                                                                                         value="<?php echo $filter['date_to']; ?>"
                                                                                         size="10"
@@ -188,7 +188,7 @@ class HTML_log
                             </thead>
                             <tfoot>
                             <tr>
-                                <td colspan="11">
+                                <td colspan="6">
                                     <?php
                                     echo $pageNav->getListFooter();
                                     ?>
@@ -224,9 +224,9 @@ class HTML_log
                                         <a href="<?php echo $linkPerson; ?>"><?php echo Log::getLocalizedLevel($log->LO_level); ?></a>
                                     </td>
                                     <td>
-                                        <a href="<?php echo $linkPerson; ?>"><?php echo $loggerName; ?></a>
+                                        <a href="<?php echo $linkPerson; ?>"><?php echo htmlspecialchars($loggerName, ENT_QUOTES); ?></a>
                                     </td>
-                                    <td><?php echo $log->LO_log; ?>
+                                    <td><?php echo htmlspecialchars($log->LO_log, ENT_QUOTES); ?>
                                     </td>
                                 </tr>
                                 <?php

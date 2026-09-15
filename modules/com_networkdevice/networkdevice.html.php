@@ -89,35 +89,35 @@ class HTML_NetworkDevice
                                         <tbody>
                                         <tr>
                                             <td width="150"><?php echo _("Platform:"); ?></td>
-                                            <td width="205"><?php echo $networkDevice[Core::NETWORK_DEVICE_PLATFORM]; ?></td>
+                                            <td width="205"><?php echo htmlspecialchars($networkDevice[Core::NETWORK_DEVICE_PLATFORM], ENT_QUOTES); ?></td>
                                         </tr>
                                         <tr>
                                             <td width="150"><?php echo _("Host:"); ?></td>
-                                            <td width="205"><?php echo $networkDevice[Core::NETWORK_DEVICE_HOST]; ?></td>
+                                            <td width="205"><?php echo htmlspecialchars($networkDevice[Core::NETWORK_DEVICE_HOST], ENT_QUOTES); ?></td>
                                         </tr>
                                         <tr>
                                             <td width="150"><?php echo _("Port:"); ?></td>
-                                            <td width="205"><?php echo $networkDevice[Core::NETWORK_DEVICE_PORT]; ?></td>
+                                            <td width="205"><?php echo htmlspecialchars($networkDevice[Core::NETWORK_DEVICE_PORT], ENT_QUOTES); ?></td>
                                         </tr>
                                         <tr>
                                             <td width="150"><?php echo _("Login:"); ?></td>
-                                            <td width="205"><?php echo $networkDevice[Core::NETWORK_DEVICE_LOGIN]; ?></td>
+                                            <td width="205"><?php echo htmlspecialchars($networkDevice[Core::NETWORK_DEVICE_LOGIN], ENT_QUOTES); ?></td>
                                         </tr>
                                         <tr>
                                             <td width="150"><?php echo _("Password:"); ?></td>
-                                            <td width="205"><?php echo $networkDevice[Core::NETWORK_DEVICE_PASSWORD]; ?></td>
+                                            <td width="205"><?php echo (isset($networkDevice[Core::NETWORK_DEVICE_PASSWORD]) && $networkDevice[Core::NETWORK_DEVICE_PASSWORD] !== '') ? '********' : ''; ?></td>
                                         </tr>
                                         <tr>
                                             <td width="150"><?php echo _("WAN Interface:"); ?></td>
-                                            <td width="205"><?php echo $networkDevice[Core::NETWORK_DEVICE_WAN_INTERFACE]; ?></td>
+                                            <td width="205"><?php echo htmlspecialchars($networkDevice[Core::NETWORK_DEVICE_WAN_INTERFACE], ENT_QUOTES); ?></td>
                                         </tr>
                                         <tr>
                                             <td width="150"><?php echo _("Command sudo:"); ?></td>
-                                            <td width="205"><?php echo $networkDevice[Core::NETWORK_DEVICE_COMMAND_SUDO]; ?></td>
+                                            <td width="205"><?php echo htmlspecialchars($networkDevice[Core::NETWORK_DEVICE_COMMAND_SUDO], ENT_QUOTES); ?></td>
                                         </tr>
                                         <tr>
                                             <td width="150"><?php echo _("Command iptables:"); ?></td>
-                                            <td width="205"><?php echo $networkDevice[Core::NETWORK_DEVICE_COMMAND_IPTABLES]; ?></td>
+                                            <td width="205"><?php echo htmlspecialchars($networkDevice[Core::NETWORK_DEVICE_COMMAND_IPTABLES], ENT_QUOTES); ?></td>
                                         </tr>
                                         </tbody>
                                     </table>

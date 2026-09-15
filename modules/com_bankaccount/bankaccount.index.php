@@ -142,7 +142,7 @@ function showBankAccount($bid = null)
     // compute bank account report
     //
     $report = array();
-    $report['GLOBAL']['START'] = $bankAccounts[$bid]->BA_startbalance;
+    $report['GLOBAL']['START'] = isset($bankAccounts[$bid]) ? $bankAccounts[$bid]->BA_startbalance : 0;
     $report['LIST']['START'] = "-";
 
     $report['GLOBAL']['INCOME'] = 0;
@@ -154,7 +154,7 @@ function showBankAccount($bid = null)
     $report['GLOBAL']['CHARGE'] = 0;
     $report['LIST']['CHARGE'] = 0;
 
-    $report['GLOBAL']['BALANCE'] = $bankAccounts[$bid]->BA_startbalance;
+    $report['GLOBAL']['BALANCE'] = isset($bankAccounts[$bid]) ? $bankAccounts[$bid]->BA_startbalance : 0;
     $report['LIST']['BALANCE'] = "-";
 
     $allBankAccountEntries = [];
@@ -301,7 +301,7 @@ function saveBankAccount($task)
         try {
             $bankAccount->BA_startbalance = NumberFormat::parseMoney($bankAccount->BA_startbalance);
         } catch (Exception $e) {
-            Core::alert('Nesprávný fomát počátečního zůstatku');
+            Core::alert(_("Invalid starting-balance format"));
             $flags = array();
             if ($isNew) {
                 $flags['BA_bankname'] = true;
@@ -396,7 +396,7 @@ function uploadBankLists($bid)
     global $database, $my, $acl, $appContext;
 
     if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
-        $appContext->insertMessage(_("Insuficient rights"));
+        $appContext->insertMessage(_("Insufficient rights"));
         Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
     }
 
@@ -413,7 +413,7 @@ function downloadBankLists($bid)
     global $database, $my, $acl, $appContext;
 
     if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
-        $appContext->insertMessage(_("Insuficient rights"));
+        $appContext->insertMessage(_("Insufficient rights"));
         Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
     }
 
@@ -443,7 +443,7 @@ function processBankLists($bid)
     global $database, $my, $acl, $appContext;
 
     if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
-        $appContext->insertMessage("Insuficient rights");
+        $appContext->insertMessage(_("Insufficient rights"));
         Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
     }
 
@@ -502,7 +502,7 @@ function doUploadBankLists($bid)
     global $database, $my, $appContext;
 
     if ($my->GR_level != Group::SUPER_ADMINISTRATOR) {
-        $appContext->insertMessage(_("Insuficient rights"));
+        $appContext->insertMessage(_("Insufficient rights"));
         Core::redirect("index2.php?option=com_bankaccount&task=showBankList&BA_bankaccountid=$bid&hidemainmenu=1");
     }
 
