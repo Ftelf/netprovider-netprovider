@@ -1,0 +1,48 @@
+# netprovider local stack: PHP/Apache app + MySQL 8.0.
+#   docker compose up --build          # build image, start db + app
+#   docker compose exec app composer db:seed   # one-time: create admin, prints password
+# App: http://localhost:8080/
+services:
+  db:
+    image: mysql:8.0
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_czech_ci
+    environment:
+      MYSQL_DATABASE: netprovider
+      MYSQL_USER: netprovider
+      MYSQL_PASSWORD: netprovider
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      # App waits on this via depends_on: condition: service_healthy.
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    # Uncomment to reach MySQL from the host (e.g. a GUI client):
+    # ports:
+    #   - "3306:3306"
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # Consumed by the entrypoint wait-loop and by phinx.php (env takes precedence
+      # over the ini). Must match the [Database] block in netprovider.docker.ini.
+      NP_IT_DB_HOST: db
+      NP_IT_DB_PORT: "3306"
+      NP_IT_DB_NAME: netprovider
+      NP_IT_DB_USER: netprovider
+      NP_IT_DB_PASS: netprovider
+    volumes:
+      # The app (Core) reads the ini directly; give it the container config.
+      - ./config/netprovider.docker.ini:/var/www/html/config/netprovider.ini:ro
+    ports:
+      - "8080:80"
+
+volumes:
+  db-data:

@@ -1,0 +1,24 @@
+# Keep build context small and — critically — keep secrets/PII out of image layers.
+.git/
+.gitignore
+
+# Never bake the production DB dumps (customer PII) into an image.
+dumps/
+
+# Real config carries live secrets; the container gets config/netprovider.docker.ini instead.
+config/netprovider.ini
+
+# Reinstalled inside the image / not needed at runtime.
+vendor/
+build/
+.phpunit.cache/
+
+# Editor / local cruft.
+**/.idea/
+*.iml
+**/*.po~
+
+# Docker's own files don't belong in the context.
+Dockerfile
+.dockerignore
+docker-compose.yml
