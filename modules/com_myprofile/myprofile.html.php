@@ -62,8 +62,7 @@ class HTML_myprofile
 
             function myMonthReturn1x(y, m) {
                 if (m < 10) m = '0' + m;
-                document.adminForm.date_month.value = m + "/" + y;
-                document.getElementById('date_monthx').value = document.adminForm.date_month.value;
+                document.getElementById('date_monthx').value = m + "/" + y;
                 document.adminForm.submit();
             }
         </script>
@@ -651,9 +650,7 @@ class HTML_myprofile
                                                 <thead>
                                                 <tr>
                                                     <th width="20%" class="title"><?php echo _("Month period:"); ?>
-                                                        <input type="hidden" name="filter[date_month]" id="date_monthx"
-                                                               value="<?php echo $traffic['DATE_MONTH']->getFormattedDate(DateUtil::FORMAT_MONTHLY); ?>"/>
-                                                        <input type="text" name="date_month"
+                                                        <input type="text" name="filter[date_month]" id="date_monthx"
                                                                value="<?php echo $traffic['DATE_MONTH']->getFormattedDate(DateUtil::FORMAT_MONTHLY); ?>"
                                                                class="width-form-button" style="width: 60px;" size="35"
                                                                maxlength="10"/>
