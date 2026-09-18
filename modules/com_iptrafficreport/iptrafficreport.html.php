@@ -45,7 +45,7 @@ class HTML_IpTrafficReport
             var cal1x = new CalendarPopup("caldiv");
             cal1x.setMonthNames("<?php echo _("January"); ?>", "<?php echo _("February"); ?>", "<?php echo _("March"); ?>", "<?php echo _("April"); ?>", "<?php echo _("May"); ?>", "<?php echo _("June"); ?>", "<?php echo _("July"); ?>", "<?php echo _("August"); ?>", "<?php echo _("September"); ?>", "<?php echo _("October"); ?>", "<?php echo _("November"); ?>", "<?php echo _("December"); ?>");
             cal1x.showYearNavigation(true);
-            cal1x.setDayHeaders("<?php echo _("S"); ?>", "<?php echo _("M"); ?>", "<?php echo _("T"); ?>", "<?php echo _("W"); ?>", "<?php echo _("T"); ?>", "<?php echo _("F"); ?>", "<?php echo _("S"); ?>");
+            cal1x.setDayHeaders("<?php echo _("Sun"); ?>", "<?php echo _("Mon"); ?>", "<?php echo _("Tue"); ?>", "<?php echo _("Wed"); ?>", "<?php echo _("Thu"); ?>", "<?php echo _("Fri"); ?>", "<?php echo _("Sat"); ?>");
             cal1x.setWeekStartDay(1);
             cal1x.setTodayText("<?php echo _("Today"); ?>");
             cal1x.offsetX = -125;
@@ -54,7 +54,7 @@ class HTML_IpTrafficReport
             var cal2x = new CalendarPopup("caldiv");
             cal2x.setMonthNames("<?php echo _("January"); ?>", "<?php echo _("February"); ?>", "<?php echo _("March"); ?>", "<?php echo _("April"); ?>", "<?php echo _("May"); ?>", "<?php echo _("June"); ?>", "<?php echo _("July"); ?>", "<?php echo _("August"); ?>", "<?php echo _("September"); ?>", "<?php echo _("October"); ?>", "<?php echo _("November"); ?>", "<?php echo _("December"); ?>");
             cal2x.showYearNavigation(true);
-            cal2x.setDayHeaders("<?php echo _("S"); ?>", "<?php echo _("M"); ?>", "<?php echo _("T"); ?>", "<?php echo _("W"); ?>", "<?php echo _("T"); ?>", "<?php echo _("F"); ?>", "<?php echo _("S"); ?>");
+            cal2x.setDayHeaders("<?php echo _("Sun"); ?>", "<?php echo _("Mon"); ?>", "<?php echo _("Tue"); ?>", "<?php echo _("Wed"); ?>", "<?php echo _("Thu"); ?>", "<?php echo _("Fri"); ?>", "<?php echo _("Sat"); ?>");
             cal2x.setWeekStartDay(1);
             cal2x.setTodayText("<?php echo _("Today"); ?>");
             cal2x.offsetX = -125;
