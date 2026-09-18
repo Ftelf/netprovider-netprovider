@@ -198,7 +198,7 @@ class HTML_charge
                                         <?php
                                         if ($charge->CH_type == Charge::TYPE_INTERNET_PAYMENT) {
                                             $internet = $internets[$charge->CH_internetid];
-                                            echo "onmouseover=\"return overlib('<strong>" . _("Internet service name:") . "</strong> $internet->IN_name<br /><strong>" . _("Description:") . "</strong> $internet->IN_description<br /><strong>" . _("Maximum download:") . "</strong> $internet->IN_dnl_ceil<br /><strong>" . _("Maximum upload:") . "</strong> $internet->IN_upl_ceil');\" onmouseout=\"return nd();\"";
+                                            echo "onmouseover=\"return overlib('<strong>" . _("Internet service name:") . "</strong> " . htmlspecialchars(addslashes($internet->IN_name), ENT_QUOTES) . "<br /><strong>" . _("Description:") . "</strong> " . htmlspecialchars(addslashes($internet->IN_description), ENT_QUOTES) . "<br /><strong>" . _("Maximum download:") . "</strong> $internet->IN_dnl_ceil<br /><strong>" . _("Maximum upload:") . "</strong> $internet->IN_upl_ceil');\" onmouseout=\"return nd();\"";
                                         }
                                         ?>
                                     >
@@ -257,8 +257,8 @@ class HTML_charge
             var IN_prio = [];
             <?php
             foreach ($internets as $k => $internet) {
-                echo "IN_name[$k]='$internet->IN_name';\n";
-                echo "IN_description[$k]='$internet->IN_description';\n";
+                echo "IN_name[$k]=" . json_encode($internet->IN_name) . ";\n";
+                echo "IN_description[$k]=" . json_encode($internet->IN_description) . ";\n";
                 echo ($internet->IN_dnl_rate == -1) ? "IN_dnl_rate[$k]='AUTO';" : "IN_dnl_rate[$k]='$internet->IN_dnl_rate';\n";
                 echo "IN_dnl_ceil[$k]='$internet->IN_dnl_ceil';\n";
                 echo ($internet->IN_upl_rate == -1) ? "IN_upl_rate[$k]='AUTO';" : "IN_upl_rate[$k]='$internet->IN_upl_rate';\n";
@@ -526,7 +526,7 @@ class HTML_charge
                                                             if ($charge->CH_internetid == $internet->IN_internetid) {
                                                                 echo ' selected="selected"';
                                                             }
-                                                            echo ">$internet->IN_name</option>\n";
+                                                            echo ">" . htmlspecialchars($internet->IN_name, ENT_QUOTES) . "</option>\n";
                                                         }
                                                         ?>
                                                     </select>
