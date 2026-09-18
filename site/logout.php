@@ -31,22 +31,7 @@ unset(
     $_SESSION["SE_acl"], $_SESSION["SE_logintime"], $_SESSION["SE_ip"]
 );
 
-if (isset($_SESSION["SE_sessionid"])) {
-    session_destroy();
-}
-if (isset($_SESSION["SE_personid"])) {
-    session_destroy();
-}
-if (isset($_SESSION["SE_username"])) {
-    session_destroy();
-}
-if (isset($_SESSION["SE_acl"])) {
-    session_destroy();
-}
-if (isset($_SESSION["SE_logintime"])) {
-    session_destroy();
-}
-if (isset($_SESSION["SE_ip"])) {
+if (session_status() === PHP_SESSION_ACTIVE) {
     session_destroy();
 }
 echo "<script>document.location.href='index.php';</script>\n";
