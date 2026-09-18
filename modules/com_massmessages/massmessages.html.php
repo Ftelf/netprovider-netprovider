@@ -368,16 +368,16 @@ class HTML_massmessages
                                                            onclick="isChecked(this.checked);"/>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->_IP->IP_address; ?>
+                                                    <?php echo htmlspecialchars($person->_IP->IP_address, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_firstname . " " . $person->PE_surname; ?>
+                                                    <?php echo htmlspecialchars($person->PE_firstname . " " . $person->PE_surname, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_email; ?>
+                                                    <?php echo htmlspecialchars($person->PE_email, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_tel; ?>
+                                                    <?php echo htmlspecialchars($person->PE_tel, ENT_QUOTES); ?>
                                                 </td>
                                             </tr>
                                             <?php
@@ -411,16 +411,16 @@ class HTML_massmessages
                                                     <?php echo $iip + 1; ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->_IP->IP_address; ?>
+                                                    <?php echo htmlspecialchars($person->_IP->IP_address, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_firstname . " " . $person->PE_surname; ?>
+                                                    <?php echo htmlspecialchars($person->PE_firstname . " " . $person->PE_surname, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_email; ?>
+                                                    <?php echo htmlspecialchars($person->PE_email, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_tel; ?>
+                                                    <?php echo htmlspecialchars($person->PE_tel, ENT_QUOTES); ?>
                                                 </td>
                                             </tr>
                                             <?php
@@ -454,16 +454,16 @@ class HTML_massmessages
                                                     <?php echo $iip + 1; ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->_IP->IP_address; ?>
+                                                    <?php echo htmlspecialchars($person->_IP->IP_address, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_firstname . " " . $person->PE_surname; ?>
+                                                    <?php echo htmlspecialchars($person->PE_firstname . " " . $person->PE_surname, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_email; ?>
+                                                    <?php echo htmlspecialchars($person->PE_email, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_tel; ?>
+                                                    <?php echo htmlspecialchars($person->PE_tel, ENT_QUOTES); ?>
                                                 </td>
                                             </tr>
                                             <?php
@@ -497,16 +497,16 @@ class HTML_massmessages
                                                     <?php echo $iip + 1; ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->_IP->IP_address; ?>
+                                                    <?php echo htmlspecialchars($person->_IP->IP_address, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_firstname . " " . $person->PE_surname; ?>
+                                                    <?php echo htmlspecialchars($person->PE_firstname . " " . $person->PE_surname, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_email; ?>
+                                                    <?php echo htmlspecialchars($person->PE_email, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_tel; ?>
+                                                    <?php echo htmlspecialchars($person->PE_tel, ENT_QUOTES); ?>
                                                 </td>
                                             </tr>
                                             <?php
