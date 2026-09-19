@@ -562,6 +562,11 @@ Adding a new event type:
 
 ## Modules (web UI)
 
+> **Per-module reference:** see [modules/README.md](modules/README.md) for a
+> `file:line`-anchored developer reference on every module (task tables, DAO →
+> table → view traceability, forms/fields). The shared render layer and
+> client-side assets are documented in [frontend.md](frontend.md).
+
 ### Conventions
 
 Each module lives in `modules/com_<feature>/` and consists of two files:
