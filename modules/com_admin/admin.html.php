@@ -189,10 +189,10 @@ class HTML_admin
                                                         <tr class="<?php echo "row$k"; ?>">
                                                             <td width="5%"><?php echo $n; ?>.</td>
                                                             <td><a href="<?php echo $link1; ?>"
-                                                                   title="<?php echo _("Edit user"); ?>"><?php echo $session->SE_username; ?></a>
+                                                                   title="<?php echo _("Edit user"); ?>"><?php echo htmlspecialchars($session->SE_username, ENT_QUOTES); ?></a>
                                                             </td>
-                                                            <td><?php echo $session->SE_ip; ?></td>
-                                                            <td><?php echo $session->SE_acl; ?></td>
+                                                            <td><?php echo htmlspecialchars($session->SE_ip, ENT_QUOTES); ?></td>
+                                                            <td><?php echo htmlspecialchars($session->SE_acl, ENT_QUOTES); ?></td>
                                                             <td><?php printf(ngettext("%s second", "%s seconds", $seconds), $seconds); ?></td>
                                                             <td>
                                                                 <?php
@@ -236,14 +236,14 @@ class HTML_admin
                                                         if ($log->LO_personid == 0) {
                                                             $loggerName = "Cron";
                                                         } else {
-                                                            $loggerName = $persons[$log->LO_personid]->PE_firstname . " " . $persons[$log->LO_personid]->PE_surname;
+                                                            $loggerName = isset($persons[$log->LO_personid]) ? $persons[$log->LO_personid]->PE_firstname . " " . $persons[$log->LO_personid]->PE_surname : _("(unknown)");
                                                         }
                                                         ?>
                                                         <tr class="<?php echo "row$k"; ?>">
                                                             <td width="5%"><?php echo $n; ?>.</td>
                                                             <td><?php echo $loggerName; ?></td>
                                                             <td><?php echo $logDate->getFormattedDate(DateUtil::FORMAT_FULL); ?></td>
-                                                            <td><?php echo $log->LO_log; ?></td>
+                                                            <td><?php echo htmlspecialchars($log->LO_log, ENT_QUOTES); ?></td>
                                                         </tr>
                                                         <?php
                                                         $n++;

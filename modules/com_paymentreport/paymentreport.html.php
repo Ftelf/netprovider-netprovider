@@ -133,7 +133,7 @@ class HTML_PaymentReport
                                                         onchange="document.adminForm.submit();" multiple>
                                                     <?php
                                                     if (count($charges) == 0) {
-                                                        echo '<option value="0" selected="selected">' . _("- No payment defined -") . '- Není definována žádná platba -</option>' . "\n";
+                                                        echo '<option value="0" selected="selected">' . _("- No payment defined -") . '</option>' . "\n";
                                                     } else {
                                                         foreach ($charges as $charge) {
                                                             echo '<option value="' . $charge->CH_chargeid . '"';
@@ -153,7 +153,7 @@ class HTML_PaymentReport
                                         </tr>
                                         <tr>
                                             <td><input type="text" name="filter[search]"
-                                                       value="<?php echo $filter['search']; ?>" class="width-form"
+                                                       value="<?php echo htmlspecialchars($filter['search'], ENT_QUOTES); ?>" class="width-form"
                                                        onchange="document.adminForm.submit();"/></td>
                                             <td>
                                                 <select name="filter[PE_status]" class="width-form" size="1"
@@ -357,8 +357,8 @@ class HTML_PaymentReport
                                                     <?php echo $i + 1 + $pageNav->limitstart;
                                                     $i++; ?>
                                                 </td>
-                                                <td rowspan="<?php echo $rowspan; ?>"><?php echo $person->PE_surname; ?></td>
-                                                <td rowspan="<?php echo $rowspan; ?>"><?php echo $person->PE_firstname; ?></td>
+                                                <td rowspan="<?php echo $rowspan; ?>"><?php echo htmlspecialchars($person->PE_surname, ENT_QUOTES); ?></td>
+                                                <td rowspan="<?php echo $rowspan; ?>"><?php echo htmlspecialchars($person->PE_firstname, ENT_QUOTES); ?></td>
                                                 <td rowspan="<?php echo $rowspan; ?>"><?php echo $person->PA_balance; ?></td>
                                                 <td rowspan="<?php echo $rowspan; ?>"><?php echo $person->PA_variablesymbol; ?></td>
                                                 <?php
@@ -368,7 +368,7 @@ class HTML_PaymentReport
                                                 <?php
                                             }
                                             ?>
-                                            <td><?php echo $hasCharge->CH_name; ?></td>
+                                            <td><?php echo htmlspecialchars($hasCharge->CH_name, ENT_QUOTES); ?></td>
                                             <td><?php echo Charge::getLocalizedPeriod($hasCharge->CH_period); ?></td>
                                             <td style="border-right: 1px solid #c5c5c5;"><?php echo $hasCharge->CH_amount . '&nbsp;' . $hasCharge->CH_currency; ?></td>
                                             <?php
@@ -430,7 +430,6 @@ class HTML_PaymentReport
                                 </tr>
                                 <tr>
                                     <td class="overflow"><?php echo _("Payed with delay"); ?></td>
-                                    </td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -455,7 +454,6 @@ class HTML_PaymentReport
                                 </tr>
                                 <tr>
                                     <td class="overflow"><?php echo _("Pending payments"); ?></td>
-                                    </td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -480,7 +478,6 @@ class HTML_PaymentReport
                                 </tr>
                                 <tr>
                                     <td class="overflow"><?php echo _("Delayed payments"); ?></td>
-                                    </td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -505,7 +502,6 @@ class HTML_PaymentReport
                                 </tr>
                                 <tr>
                                     <td class="overflow"><?php echo _("Number of excused payments"); ?></td>
-                                    </td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -528,7 +524,6 @@ class HTML_PaymentReport
                                 </tr>
                                 <tr>
                                     <td class="overflow"><?php echo _("Total income"); ?></td>
-                                    </td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -590,7 +585,7 @@ class HTML_PaymentReport
                                         </tr>
                                         <tr>
                                             <td class="<?php echo PaymentReportStyles::STATUS_PENDING_INSUFFICIENT_FUNDS_OVERDUE; ?>"></td>
-                                            <td><?php echo _("Delayes payment out of tolerance, number describer NO of delayed days"); ?></td>
+                                            <td><?php echo _("Delayed payment out of tolerance, number described NO of delayed days"); ?></td>
                                         </tr>
                                         <tr>
                                             <td class="<?php echo PaymentReportStyles::STATUS_FREE_OF_CHARGE; ?>"></td>

@@ -176,7 +176,7 @@ function showPaymentReport()
                 $hasCharge->_dates[$date['DateUtil']->getTime()] = $info;
             }
             if (!$foundAnyEntry) {
-                $messages[] = '<a href="/index2.php?option=com_person&task=edit&hidemainmenu=1&PE_personid=' . $personReport->PE_personid . '">' . $personReport->PE_firstname . ' ' . $personReport->PE_surname . '</a>: ' . _('Has unterminated payment');
+                $messages[] = '<a href="/index2.php?option=com_person&task=edit&hidemainmenu=1&PE_personid=' . $personReport->PE_personid . '">' . htmlspecialchars($personReport->PE_firstname, ENT_QUOTES) . ' ' . htmlspecialchars($personReport->PE_surname, ENT_QUOTES) . '</a>: ' . _('Has unterminated payment');
 
                 unset($paymentReport[$key]);
             }

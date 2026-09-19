@@ -124,7 +124,7 @@ class HTML_person
                         <table>
                             <tr>
                                 <td><?php echo _("Filter:"); ?></td>
-                                <td><input type="text" name="filter[search]" value="<?php echo $filter['search']; ?>"
+                                <td><input type="text" name="filter[search]" value="<?php echo htmlspecialchars($filter['search'], ENT_QUOTES); ?>"
                                            onchange="document.adminForm.submit();" maxlength="255"/></td>
                                 <td align="right">
                                     <select name="filter[group]" size="1" onchange="document.adminForm.submit( );">
@@ -221,20 +221,20 @@ class HTML_person
                                     </td>
                                     <?php if ($allowFirmRegistration) { ?>
                                         <td>
-                                            <a href="<?php echo $link; ?>"><?php echo $person->PE_shortcompanyname; ?></a>
+                                            <a href="<?php echo $link; ?>"><?php echo htmlspecialchars($person->PE_shortcompanyname, ENT_QUOTES); ?></a>
                                         </td>
                                     <?php } ?>
                                     <td>
-                                        <a href="<?php echo $link; ?>"><?php echo $person->PE_firstname; ?></a>
+                                        <a href="<?php echo $link; ?>"><?php echo htmlspecialchars($person->PE_firstname, ENT_QUOTES); ?></a>
                                     </td>
                                     <td>
-                                        <a href="<?php echo $link; ?>"><?php echo $person->PE_surname; ?></a>
+                                        <a href="<?php echo $link; ?>"><?php echo htmlspecialchars($person->PE_surname, ENT_QUOTES); ?></a>
                                     </td>
                                     <td>
-                                        <a href="<?php echo $link; ?>"><?php echo $person->PE_nick; ?></a>
+                                        <a href="<?php echo $link; ?>"><?php echo htmlspecialchars($person->PE_nick, ENT_QUOTES); ?></a>
                                     </td>
                                     <td>
-                                        <?php echo $groups[$person->PE_groupid]->GR_name; ?>
+                                        <?php echo isset($groups[$person->PE_groupid]) ? htmlspecialchars($groups[$person->PE_groupid]->GR_name, ENT_QUOTES) : ''; ?>
                                     </td>
                                     <td>
                                         <?php echo $person->PE_tel; ?>
@@ -243,10 +243,10 @@ class HTML_person
                                         <?php echo $person->PE_secondary_phone_number; ?>
                                     </td>
                                     <td>
-                                        <?php echo $person->PE_address; ?>
+                                        <?php echo htmlspecialchars($person->PE_address, ENT_QUOTES); ?>
                                     </td>
                                     <td>
-                                        <?php echo $person->PE_email; ?>
+                                        <?php echo htmlspecialchars($person->PE_email, ENT_QUOTES); ?>
                                     </td>
                                     <td nowrap="nowrap">
                                         <?php echo $registerDateFormatted; ?>
@@ -380,7 +380,7 @@ class HTML_person
                 hideMainMenu();
                 var form = document.adminForm;
                 if (form.CH_chargeid.value == 0) {
-                    alert("<?php echo _("Please select payment want to add"); ?>");
+                    alert("<?php echo _("Please select the payment you want to add"); ?>");
                 } else {
                     submitform('newHasCharge');
                 }
@@ -616,7 +616,7 @@ class HTML_person
                                     <div class="tab-page" id="modules-cpanel-person">
                                         <script type="text/javascript">var tabPanePerson1 = new WebFXTabPane(document.getElementById("modules-cpanel-person"), 1);</script>
                                         <div class="tab-page" id="module01"><h2
-                                                    class="tab"><?php echo _("Login creditials"); ?></h2>
+                                                    class="tab"><?php echo _("Login credentials"); ?></h2>
                                             <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module01"));</script>
                                             <table class="adminform">
                                                 <thead>
@@ -841,6 +841,7 @@ class HTML_person
                                                     <tr class="<?php echo "row$k"; ?>">
                                                         <td width="150">
                                                             <a href="<?php echo $link; ?>"><?php echo $ip->IP_address; ?></a>
+                                                        </td>
                                                         <td>
                                                             <?php echo $ip->IP_dns; ?>
                                                         </td>
@@ -909,6 +910,7 @@ class HTML_person
     {
         global $core;
         $enableVatPayerSpecifics = $core->getProperty(Core::ENABLE_VAT_PAYER_SPECIFICS);
+        $jsFormat = 'MM/yyyy';
         switch ($charge->CH_period) {
             case Charge::PERIOD_MONTHLY:
                 $jsFormat = 'MM/yyyy';

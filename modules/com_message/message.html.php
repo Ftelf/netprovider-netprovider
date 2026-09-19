@@ -129,7 +129,7 @@ class HTML_message
                     <form action="index2.php" method="post" name="adminForm">
                         <table>
                             <tr>
-                                <td>Filtr:</td>
+                                <td><?php echo _("Filter:"); ?></td>
                                 <td><input type="hidden" name="filter[date_from]" id="date_fromx"
                                            value="<?php echo $filter['date_from']; ?>"/><input type="text"
                                                                                                name="date_from"
@@ -144,7 +144,7 @@ class HTML_message
                                                                           style="width: 16px; height: 16px; vertical-align: middle; position: relative; top: -2px; cursor: pointer;"
                                                                           alt="<?php echo _("Calendar"); ?>"/></a></td>
                                 <td><input type="hidden" name="filter[date_to]" id="date_tox"
-                                           value="<?php $filter['date_to']; ?>"/><input type="text" name="date_to"
+                                           value="<?php echo $filter['date_to']; ?>"/><input type="text" name="date_to"
                                                                                         class="inputbox"
                                                                                         value="<?php echo $filter['date_to']; ?>"
                                                                                         size="10"
@@ -159,13 +159,13 @@ class HTML_message
                                     <select name="filter[personid]" class="inputbox" size="1"
                                             onchange="document.adminForm.submit( );">
                                         <option value="0" <?php if ($filter['personid'] == 0) echo 'selected="selected"'; ?>>
-                                            - Uživatel -
+                                            <?php echo _("- User -"); ?>
                                         </option>
                                         <?php
                                         foreach ($persons as $person) {
                                             echo '<option value="' . $person->PE_personid . '"';
                                             if ($filter['personid'] == $person->PE_personid) echo 'selected="selected"';
-                                            echo ">$person->PE_surname $person->PE_firstname</option>";
+                                            echo ">" . htmlspecialchars($person->PE_surname, ENT_QUOTES) . " " . htmlspecialchars($person->PE_firstname, ENT_QUOTES) . "</option>";
                                         }
                                         ?>
                                     </select>
@@ -190,7 +190,7 @@ class HTML_message
                             </thead>
                             <tfoot>
                             <tr>
-                                <td colspan="11">
+                                <td colspan="8">
                                     <?php
                                     echo $pageNav->getListFooter();
                                     ?>
@@ -223,10 +223,10 @@ class HTML_message
                                     <td><?php echo $dateTime->getFormattedDate(DateUtil::FORMAT_FULL); ?>
                                     </td>
                                     <td>
-                                        <a href="<?php echo $linkPerson; ?>"><?php echo $personName; ?></a>
+                                        <a href="<?php echo $linkPerson; ?>"><?php echo htmlspecialchars($personName, ENT_QUOTES); ?></a>
                                     </td>
                                     <td>
-                                        <?php echo $message->ME_subject; ?>
+                                        <?php echo htmlspecialchars($message->ME_subject, ENT_QUOTES); ?>
                                     </td>
                                     <td>
                                         <?php echo $message->ME_body; ?>

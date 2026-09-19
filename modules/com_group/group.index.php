@@ -152,13 +152,14 @@ function removeGroup($cid)
                 $msg = sprintf(ngettext("Cannot delete user group '%s', because it has binded %s user", "Cannot delete user group '%s', because it has binded %s users", count($persons)), $group->GR_name, count($persons));
                 $database->log($msg, Log::LEVEL_WARNING);
                 $limit = 10;
+                $cap = $limit;
                 foreach ($persons as $person) {
                     $msg .= "\\n'" . $person->PE_firstname . " " . $person->PE_surname . "'";
                     if (!--$limit) {
                         break;
                     }
                 }
-                if (count($persons) > $limit) {
+                if (count($persons) > $cap) {
                     $msg .= '\n...';
                 }
                 Core::backWithAlert($msg);

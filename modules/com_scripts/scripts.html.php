@@ -60,35 +60,35 @@ class HTML_scripts
                         <div id="toolbar" class="toolbar">
                             <table class="toolbar">
                                 <tr>
-                                    <th id="toolbar-ip-filter-on">
+                                    <td id="toolbar-ip-filter-on">
                                         <a href="javascript:submitbutton('ipfilteron');">
                                             <span title="<?php echo _("IP filter on"); ?>"
                                                   class="icon-32-ip-filter-on"></span>
                                             <?php echo _("IP filter on"); ?>
                                         </a>
-                                    </th>
+                                    </td>
 
-                                    <th id="toolbar-ip-filter-off">
+                                    <td id="toolbar-ip-filter-off">
                                         <a href="javascript:submitbutton('ipfilteroff');">
                                             <span title="<?php echo _("IP filter off"); ?>"
                                                   class="icon-32-ip-filter-off"></span>
                                             <?php echo _("IP filter off"); ?>
                                         </a>
-                                    </th>
+                                    </td>
 
-                                    <th id="toolbar-synchronize-ip-filter">
+                                    <td id="toolbar-synchronize-ip-filter">
                                         <a href="javascript:submitbutton('synchronizeFilter');">
                                             <span title="<?php echo _("Synchronize IP filter"); ?>"
                                                   class="icon-32-synchronize-ip-filter"></span>
                                             <?php echo _("Synchronize IP filter"); ?>
                                         </a>
-                                    </th>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
 
                         <div class="header icon-48-person">
-                            <?php echo _("Script:"); ?><?php echo ($command) ? _($command) : "N/A"; ?>
+                            <?php echo _("Script:"); ?><?php echo ($command) ? $command : "N/A"; ?>
                         </div>
 
                         <div class="clr"></div>

@@ -29,7 +29,7 @@ $task = Utils::getParam($_REQUEST, 'task', null);
 
 switch ($task) {
 case 'trafficReport':
-    showBankList();
+    showTrafficReport();
     break;
 
 default:

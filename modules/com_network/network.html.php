@@ -310,11 +310,12 @@ class HTML_Network
                                             <td><?php echo $selectedNetworkParsed->network . " / " . $selectedNetworkParsed->bitmask; ?></td>
                                             <td><?php echo $selectedNetworkParsed->netmask; ?></td>
                                             <td><?php echo $selectedNetworkParsed->broadcast; ?></td>
-                                            <td><?php echo $selectedNetwork->NE_description; ?></td>
+                                            <td><?php echo htmlspecialchars($selectedNetwork->NE_description, ENT_QUOTES); ?></td>
                                             <td>
-                                                <a href="<?php echo $linkPerson; ?>"><?php echo $persons[$selectedNetwork->NE_personid]->PE_firstname . " " . $persons[$selectedNetwork->NE_personid]->PE_surname; ?></a>
+                                                <a href="<?php echo $linkPerson; ?>"><?php echo htmlspecialchars($persons[$selectedNetwork->NE_personid]->PE_firstname . " " . $persons[$selectedNetwork->NE_personid]->PE_surname, ENT_QUOTES); ?></a>
                                             </td>
                                         </tr>
+                                        </tbody>
                                     </table>
                                     <table class="adminlist">
                                         <thead>
@@ -330,7 +331,7 @@ class HTML_Network
                                         </thead>
                                         <tfoot>
                                         <tr>
-                                            <td colspan="6">
+                                            <td colspan="5">
                                                 <?php
                                                 echo $pageNav->getListFooter();
                                                 ?>
@@ -372,15 +373,15 @@ class HTML_Network
                                                                 </td>
                                                                 <td width="15%" class="title"
                                                                     style="background-color: #d5d5d5;">
-                                                                    <strong><?php echo $freeip . " z " . $maxip . " IP volných"; ?></strong>
+                                                                    <strong><?php echo sprintf(_("%d of %d IP free"), $freeip, $maxip); ?></strong>
                                                                 </td>
                                                                 <td width="20%" class="title"
                                                                     style="background-color: #d5d5d5;">
-                                                                    <strong><?php echo $subNetwork->NE_description; ?></strong>
+                                                                    <strong><?php echo htmlspecialchars($subNetwork->NE_description, ENT_QUOTES); ?></strong>
                                                                 </td>
                                                                 <td width="20%" class="title"
                                                                     style="background-color: #d5d5d5;">
-                                                                    <strong><?php echo $persons[$subNetwork->NE_personid]->PE_firstname . " " . $persons[$subNetwork->NE_personid]->PE_surname; ?></strong>
+                                                                    <strong><?php echo htmlspecialchars($persons[$subNetwork->NE_personid]->PE_firstname . " " . $persons[$subNetwork->NE_personid]->PE_surname, ENT_QUOTES); ?></strong>
                                                                 </td>
                                                             </tr>
                                                             </tbody>
@@ -401,14 +402,14 @@ class HTML_Network
                                                            onclick="isChecked(this.checked);"/>
                                                 </td>
                                                 <td>
-                                                    <a href="<?php echo $iPAddressLink; ?>"><?php echo $ip->IP_address; ?></a>
+                                                    <a href="<?php echo $iPAddressLink; ?>"><?php echo htmlspecialchars($ip->IP_address, ENT_QUOTES); ?></a>
                                                 </td>
                                                 <td>
-                                                    <?php echo $ip->IP_dns; ?>
+                                                    <?php echo htmlspecialchars($ip->IP_dns, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
                                                     <a href="<?php echo $linkPerson; ?>">
-                                                        <?php echo $persons[$ip->IP_personid]->PE_firstname . " " . $persons[$ip->IP_personid]->PE_surname; ?>
+                                                        <?php echo htmlspecialchars($persons[$ip->IP_personid]->PE_firstname . " " . $persons[$ip->IP_personid]->PE_surname, ENT_QUOTES); ?>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -465,7 +466,7 @@ class HTML_Network
                 }
 
                 // do field validation
-                if (trim(form.IP_address.value) == "0") {
+                if (trim(form.IP_address.value) == "") {
                     alert("<?php echo _("Please select IP address"); ?>");
                 } else if (form.IP_personid.value == "0") {
                     alert("<?php echo _("Please select owner"); ?>");
@@ -547,18 +548,18 @@ class HTML_Network
                                         <tbody>
                                         <tr>
                                             <td width="150"><?php echo _("Network address:"); ?></td>
-                                            <td width="205"><input type="text" name="PE_firstname" class="width-form"
+                                            <td width="205"><input type="text" name="void_netaddr" class="width-form"
                                                                    size="40" value="<?php echo $net->network; ?>"
                                                                    disabled="disabled"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Netmask:"); ?></td>
-                                            <td><input type="text" name="PE_surname" class="width-form" size="40"
+                                            <td><input type="text" name="void_netmask" class="width-form" size="40"
                                                        value="<?php echo $net->netmask; ?>" disabled="disabled"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Owner:"); ?></td>
-                                            <td><input type="text" name="PE_surname" class="width-form" size="40"
+                                            <td><input type="text" name="void_owner" class="width-form" size="40"
                                                        value="<?php echo $persons[$network->NE_personid]->PE_firstname . ' ' . $persons[$network->NE_personid]->PE_surname; ?>"
                                                        disabled="disabled"/></td>
                                         </tr>
@@ -629,7 +630,7 @@ class HTML_Network
                                                     <?php
                                                     foreach ($persons as $person) {
                                                         ?>
-                                                        <option value="<?php echo $person->PE_personid; ?>"<?php echo ($ip->IP_personid == $person->PE_personid) ? ' selected="selected"' : ""; ?>><?php echo $person->PE_surname . " " . $person->PE_firstname . " " . ($person->PE_nick); ?></option>
+                                                        <option value="<?php echo $person->PE_personid; ?>"<?php echo ($ip->IP_personid == $person->PE_personid) ? ' selected="selected"' : ""; ?>><?php echo htmlspecialchars($person->PE_surname . " " . $person->PE_firstname . " " . ($person->PE_nick), ENT_QUOTES); ?></option>
                                                         <?php
                                                     }
                                                     ?>
@@ -814,7 +815,7 @@ class HTML_Network
                                                     ?>
                                                     <select name="NE_net" class="width-form">
                                                         <?php if ($network->NE_networkid == null) { ?>
-                                                            <option value="0" selected="selected">- Vyber síť -
+                                                            <option value="0" selected="selected"><?php echo _("- Choose network -"); ?>
                                                             </option><?php echo "\n";
                                                         }
                                                         foreach ($possibleNetworkArray as $possibleNetwork) {
@@ -846,7 +847,7 @@ class HTML_Network
                                                     foreach ($persons as $person) {
                                                         echo '<option value="' . $person->PE_personid . '"';
                                                         if ($network->NE_personid == $person->PE_personid) echo ' selected="selected"';
-                                                        echo ">$person->PE_surname $person->PE_firstname ($person->PE_nick)</option>\n";
+                                                        echo ">" . htmlspecialchars("$person->PE_surname $person->PE_firstname ($person->PE_nick)", ENT_QUOTES) . "</option>\n";
                                                     }
                                                     ?>
                                                 </select>
@@ -877,10 +878,10 @@ class HTML_Network
                                             $subNetworkParsed = $ipv4->parseAddress($subNetwork->NE_net);
                                             ?>
                                             <tr>
-                                                <td><?php echo $subNetwork->NE_net; ?></td>
+                                                <td><?php echo htmlspecialchars($subNetwork->NE_net, ENT_QUOTES); ?></td>
                                                 <td><?php echo $subNetworkParsed->netmask; ?></td>
-                                                <td><?php echo $subNetwork->NE_description; ?></td>
-                                                <td><?php echo $persons[$subNetwork->NE_personid]->PE_surname . " " . $persons[$subNetwork->NE_personid]->PE_firstname; ?></td>
+                                                <td><?php echo htmlspecialchars($subNetwork->NE_description, ENT_QUOTES); ?></td>
+                                                <td><?php echo htmlspecialchars($persons[$subNetwork->NE_personid]->PE_surname . " " . $persons[$subNetwork->NE_personid]->PE_firstname, ENT_QUOTES); ?></td>
                                             </tr>
                                             <?php
                                         }
@@ -918,7 +919,7 @@ class HTML_Network
             $pId = $network->NE_parent_networkid;
             if ($pId == 0) $pId = -1;
 
-            echo $treeClassName . ".add($network->NE_networkid, $pId, '$network->NE_net', 'javascript:show($network->NE_networkid);', '$network->NE_description');\n";
+            echo $treeClassName . ".add($network->NE_networkid, $pId, " . json_encode($network->NE_net) . ", 'javascript:show($network->NE_networkid);', " . json_encode($network->NE_description) . ");\n";
 
             if ($network->child != null) HTML_Network::buildTree($treeClassName, $network->child);
         }

@@ -68,7 +68,7 @@ class HTML_changelog
                             </tr>
                             </tbody>
                         </table>
-                        <input type="hidden" name="option" value="com_scripts"/>
+                        <input type="hidden" name="option" value="com_changelog"/>
                         <input type="hidden" name="task" value=""/>
                         <input type="hidden" name="hidemainmenu" value="0"/>
                         <input type="hidden" name="filter[void]" value="0"/>

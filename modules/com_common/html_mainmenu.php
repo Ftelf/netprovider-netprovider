@@ -13,7 +13,7 @@ if ($my->GR_level != Group::USER) {
       <a href="index2.php?option=logout"><?php echo _("Logout"); ?></a>
     </span>
         <span class="loggedin-name">
-    <?php echo $my->PE_firstname . " " . $my->PE_surname . " / " . $my->PE_nick; ?>
+    <?php echo htmlspecialchars($my->PE_firstname . " " . $my->PE_surname . " / " . $my->PE_nick, ENT_QUOTES); ?>
     </span>
     </div>
 
@@ -32,16 +32,16 @@ if ($my->GR_level != Group::USER) {
                     ['<img src="images/22x22/apps/personal.png" />', '<?php echo addslashes(_("My profile")); ?>', 'index2.php?option=com_myprofile', null, '<?php echo addslashes(_("Manage my profile")); ?>']
                 ],
                 _cmSplit,
-                [null, '<?php echo addslashes(_("Financial")); ?>', null, null, '<?php echo addslashes(_("Financial Managenent")); ?>',
+                [null, '<?php echo addslashes(_("Financial")); ?>', null, null, '<?php echo addslashes(_("Financial Management")); ?>',
                     ['<img src="images/22x22/apps/business.png" />', '<?php echo addslashes(_("Bank accounts")); ?>', 'index2.php?option=com_bankaccount', null, '<?php echo addslashes(_("Manage bank accounts")); ?>'],
                     ['<img src="images/22x22/apps/kspread.png" />', '<?php echo addslashes(_("User's accounts")); ?>', 'index2.php?option=com_personaccount', null, '<?php echo addslashes(_("Manage user accounts")); ?>'],
                     ['<img src="images/22x22/apps/kword.png" />', '<?php echo addslashes(_("Payment templates")); ?>', 'index2.php?option=com_charge', null, '<?php echo addslashes(_("Manage payment templates")); ?>']
                 ],
                 _cmSplit,
-                [null, '<?php echo addslashes(_("Services")); ?>', null, null, '<?php echo addslashes(_("Services Managenent")); ?>',
+                [null, '<?php echo addslashes(_("Services")); ?>', null, null, '<?php echo addslashes(_("Services Management")); ?>',
                     ['<img src="images/22x22/apps/Internet Connection Tools.png" />', '<?php echo addslashes(_("Internet services")); ?>', 'index2.php?option=com_internet', null, '<?php echo addslashes(_("Manage Internet services")); ?>']
                 ],
-                [null, '<?php echo addslashes(_("Network")); ?>', null, null, '<?php echo addslashes(_("Network Managenent")); ?>',
+                [null, '<?php echo addslashes(_("Network")); ?>', null, null, '<?php echo addslashes(_("Network Management")); ?>',
                     ['<img src="images/22x22/filesystems/network.png" />', '<?php echo addslashes(_("IP networks")); ?>', 'index2.php?option=com_network', null, '<?php echo addslashes(_("Manage IP networks")); ?>'],
                     ['<img src="images/22x22/apps/Network Connection Manager.png" />', '<?php echo addslashes(_("Network device")); ?>', 'index2.php?option=com_networkdevice', null, '<?php echo addslashes(_("Manage network device")); ?>']
                 ],
@@ -57,7 +57,7 @@ if ($my->GR_level != Group::USER) {
                     ['<img src="images/22x22/apps/icons.png" />', '<?php echo addslashes(_("Payment report")); ?>', 'index2.php?option=com_paymentreport', null, '<?php echo addslashes(_("Create payment report")); ?>'],
                     ['<img src="images/22x22/filesystems/network_local.png" />', '<?php echo addslashes(_("IP data traffic report")); ?>', 'index2.php?option=com_iptrafficreport', null, '<?php echo addslashes(_("Create IP data traffic report")); ?>']
                 ],
-                [null, '<?php echo addslashes(_("Help")); ?>', null, null, '<?php echo addslashes(_("View reports")); ?>',
+                [null, '<?php echo addslashes(_("Help")); ?>', null, null, '<?php echo addslashes(_("View help")); ?>',
                     ['<img src="images/22x22/apps/antivirus.png" />', '<?php echo addslashes(_("Changelog")); ?>', 'index2.php?option=com_changelog', null, '<?php echo addslashes(_("View changelog")); ?>']
                 ]
             ];

@@ -72,12 +72,20 @@ class EventCrossBar
                     // the removed `== null ||` guard produced for 0.
                     if ($handleEvent->HE_notifydaysbeforeturnoff >= $daysBeforeTurnOff) {
                         $template = $this->templateArray[$handleEvent->HE_handleeventid];
-                        $template = mb_ereg_replace("\|PERSON_NAME\|", $event->getPerson()->PE_firstname . " " . $event->getPerson()->PE_surname, $template);
-                        $template = mb_ereg_replace("\|CHARGE_NAME\|", $event->getCharge()->CH_name, $template);
-                        $template = mb_ereg_replace("\|CHARGE_BASEAMOUNT\|", $event->getCharge()->CH_baseamount, $template);
-                        $template = mb_ereg_replace("\|CHARGE_VAT\|", $event->getCharge()->CH_vat, $template);
-                        $template = mb_ereg_replace("\|CHARGE_AMOUNT\|", $event->getCharge()->CH_amount, $template);
-                        $template = mb_ereg_replace("\|CHARGE_CURRENCY\|", $event->getCharge()->CH_currency, $template);
+                        // Escape every attacker-controllable value at the source: person
+                        // names and all charge fields originate from user-editable records
+                        // and are rendered raw as ME_body (com_message / com_myprofile), so
+                        // an unescaped name/string could inject stored XSS into the admin's
+                        // session. htmlspecialchars(..., ENT_QUOTES) neutralizes it while
+                        // preserving the template's own HTML structure.
+                        $template = mb_ereg_replace("\|PERSON_NAME\|", htmlspecialchars($event->getPerson()->PE_firstname . " " . $event->getPerson()->PE_surname, ENT_QUOTES), $template);
+                        $template = mb_ereg_replace("\|CHARGE_NAME\|", htmlspecialchars($event->getCharge()->CH_name, ENT_QUOTES), $template);
+                        $template = mb_ereg_replace("\|CHARGE_BASEAMOUNT\|", htmlspecialchars($event->getCharge()->CH_baseamount, ENT_QUOTES), $template);
+                        $template = mb_ereg_replace("\|CHARGE_VAT\|", htmlspecialchars($event->getCharge()->CH_vat, ENT_QUOTES), $template);
+                        $template = mb_ereg_replace("\|CHARGE_AMOUNT\|", htmlspecialchars($event->getCharge()->CH_amount, ENT_QUOTES), $template);
+                        $template = mb_ereg_replace("\|CHARGE_CURRENCY\|", htmlspecialchars($event->getCharge()->CH_currency, ENT_QUOTES), $template);
+                        // CHARGE_PERIOD is a localized system enum (Charge::getLocalizedPeriod);
+                        // not attacker-controllable, left unescaped.
                         $template = mb_ereg_replace("\|CHARGE_PERIOD\|", Charge::getLocalizedPeriod($event->getCharge()->CH_period), $template);
                         $template = mb_ereg_replace("\|CHARGE_PERIOD_DATE\|", $event->getPeriodDate()->getFormattedDate(DateUtil::FORMAT_DATE), $template);
                         $template = mb_ereg_replace("\|CHARGE_WRITE_OFF\|", $event->getWriteOffDate()->getFormattedDate(DateUtil::FORMAT_DATE), $template);

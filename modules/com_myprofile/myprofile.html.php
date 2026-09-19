@@ -62,8 +62,7 @@ class HTML_myprofile
 
             function myMonthReturn1x(y, m) {
                 if (m < 10) m = '0' + m;
-                document.adminForm.date_month.value = m + "/" + y;
-                document.getElementById('date_monthx').value = document.adminForm.date_month.value;
+                document.getElementById('date_monthx').value = m + "/" + y;
                 document.adminForm.submit();
             }
         </script>
@@ -134,7 +133,7 @@ class HTML_myprofile
                                         </tr>
                                         <tr>
                                             <td><?php echo _("User group:"); ?></td>
-                                            <td><?php echo $group->GR_name; ?></td>
+                                            <td><?php echo htmlspecialchars($group->GR_name, ENT_QUOTES); ?></td>
                                         </tr>
                                         <?php if ($allowFirmRegistration) { ?>
                                             <tr>
@@ -236,7 +235,7 @@ class HTML_myprofile
                                     <div class="tab-page" id="modules-cpanel-myperson">
                                         <script type="text/javascript">var tabPanePerson1 = new WebFXTabPane(document.getElementById("modules-cpanel-myperson"), 1);</script>
                                         <div class="tab-page" id="module01"><h2
-                                                    class="tab"><?php echo _("Login creditials"); ?></h2>
+                                                    class="tab"><?php echo _("Login credentials"); ?></h2>
                                             <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module01"));</script>
                                             <table class="adminform">
                                                 <thead>
@@ -271,7 +270,7 @@ class HTML_myprofile
                                                 foreach ($roles as $role) { ?>
                                                     <tr class="<?php echo "row$k"; ?>">
                                                         <td align="left">
-                                                            <?php echo $role->RO_name; ?>
+                                                            <?php echo htmlspecialchars($role->RO_name, ENT_QUOTES); ?>
                                                         </td>
                                                     </tr>
                                                     <?php
@@ -525,7 +524,7 @@ class HTML_myprofile
                                                         <td align="left">
                                                             <?php
                                                             if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_BANKACCOUNT) {
-                                                                echo $bankAccountEntries[$personAccountEntry->PN_bankaccountentryid]->BE_accountname;
+                                                                echo htmlspecialchars($bankAccountEntries[$personAccountEntry->PN_bankaccountentryid]->BE_accountname, ENT_QUOTES);
                                                             } else {
                                                                 echo "n/a";
                                                             }
@@ -534,7 +533,7 @@ class HTML_myprofile
                                                         <td align="left">
                                                             <?php
                                                             if ($personAccountEntry->PN_source == PersonAccountEntry::SOURCE_BANKACCOUNT) {
-                                                                echo $bankAccountEntries[$personAccountEntry->PN_bankaccountentryid]->BE_accountnumber . "/" . $bankAccountEntries[$personAccountEntry->PN_bankaccountentryid]->BE_banknumber;
+                                                                echo htmlspecialchars($bankAccountEntries[$personAccountEntry->PN_bankaccountentryid]->BE_accountnumber . "/" . $bankAccountEntries[$personAccountEntry->PN_bankaccountentryid]->BE_banknumber, ENT_QUOTES);
                                                             } else {
                                                                 echo "n/a";
                                                             }
@@ -591,7 +590,7 @@ class HTML_myprofile
                                                 foreach ($networks as $network) { ?>
                                                     <tr class="<?php echo "row$k"; ?>">
                                                         <td align="left"><?php echo $network->NE_net; ?></td>
-                                                        <td align="left"><?php echo $network->NE_description; ?></td>
+                                                        <td align="left"><?php echo htmlspecialchars($network->NE_description, ENT_QUOTES); ?></td>
                                                     </tr>
                                                     <?php
                                                     $k = 1 - $k;
@@ -627,7 +626,7 @@ class HTML_myprofile
                                                         <td align="left"><?php echo $dateTime->getFormattedDate(DateUtil::FORMAT_FULL); ?>
                                                         </td>
                                                         <td align="left">
-                                                            <?php echo $message->ME_subject; ?>
+                                                            <?php echo htmlspecialchars($message->ME_subject, ENT_QUOTES); ?>
                                                         </td>
                                                         <td align="left">
                                                             <?php echo $message->ME_body; ?>
@@ -651,9 +650,7 @@ class HTML_myprofile
                                                 <thead>
                                                 <tr>
                                                     <th width="20%" class="title"><?php echo _("Month period:"); ?>
-                                                        <input type="hidden" name="filter[date_month]" id="date_monthx"
-                                                               value="<?php echo $traffic['DATE_MONTH']->getFormattedDate(DateUtil::FORMAT_MONTHLY); ?>"/>
-                                                        <input type="text" name="date_month"
+                                                        <input type="text" name="filter[date_month]" id="date_monthx"
                                                                value="<?php echo $traffic['DATE_MONTH']->getFormattedDate(DateUtil::FORMAT_MONTHLY); ?>"
                                                                class="width-form-button" style="width: 60px;" size="35"
                                                                maxlength="10"/>
@@ -820,23 +817,23 @@ class HTML_myprofile
                                             <tr>
                                                 <td><?php echo _("IČ:"); ?></td>
                                                 <td><input type="text" name="PE_ic" class="width-form" size="40"
-                                                           value="<?php echo $person->PE_ic; ?>" maxlength="255"/></td>
+                                                           value="<?php echo htmlspecialchars($person->PE_ic, ENT_QUOTES); ?>" maxlength="255"/></td>
                                             </tr>
                                             <tr>
                                                 <td><?php echo _("DIČ:"); ?></td>
                                                 <td><input type="text" name="PE_dic" class="width-form" size="40"
-                                                           value="<?php echo $person->PE_dic; ?>" maxlength="255"/></td>
+                                                           value="<?php echo htmlspecialchars($person->PE_dic, ENT_QUOTES); ?>" maxlength="255"/></td>
                                             </tr>
                                             <tr>
                                                 <td><?php echo _("Company short name:"); ?></td>
                                                 <td><input type="text" name="PE_shortcompanyname" class="width-form"
-                                                           size="40" value="<?php echo $person->PE_shortcompanyname; ?>"
+                                                           size="40" value="<?php echo htmlspecialchars($person->PE_shortcompanyname, ENT_QUOTES); ?>"
                                                            maxlength="255"/></td>
                                             </tr>
                                             <tr>
                                                 <td><?php echo _("Company name:"); ?></td>
                                                 <td><input type="text" name="PE_companyname" class="width-form"
-                                                           size="40" value="<?php echo $person->PE_companyname; ?>"
+                                                           size="40" value="<?php echo htmlspecialchars($person->PE_companyname, ENT_QUOTES); ?>"
                                                            maxlength="255"/></td>
                                             </tr>
                                         <?php } ?>
@@ -844,18 +841,18 @@ class HTML_myprofile
                                             <td width="150"><?php echo _("Firstname:"); ?></td>
                                             <td width="205"><input type="text" name="PE_firstname" class="width-form"
                                                                    size="40"
-                                                                   value="<?php echo $person->PE_firstname; ?>"
+                                                                   value="<?php echo htmlspecialchars($person->PE_firstname, ENT_QUOTES); ?>"
                                                                    maxlength="255"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Surname:"); ?></td>
                                             <td><input type="text" name="PE_surname" class="width-form" size="40"
-                                                       value="<?php echo $person->PE_surname; ?>" maxlength="255"/></td>
+                                                       value="<?php echo htmlspecialchars($person->PE_surname, ENT_QUOTES); ?>" maxlength="255"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Nickname:"); ?></td>
                                             <td><input type="text" name="PE_nick" class="width-form" size="40"
-                                                       value="<?php echo $person->PE_nick; ?>" maxlength="255"/></td>
+                                                       value="<?php echo htmlspecialchars($person->PE_nick, ENT_QUOTES); ?>" maxlength="255"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Sex:"); ?></td>
@@ -863,11 +860,11 @@ class HTML_myprofile
                                                 <select name="PE_gender" class="width-form">
                                                     <option value="muž" <?php if ($person->PE_gender == "muž") {
                                                         echo 'selected="selected"';
-                                                                        } ?>>muž
+                                                                        } ?>><?php echo _("male"); ?>
                                                     </option>
                                                     <option value="žena" <?php if ($person->PE_gender == "žena") {
                                                         echo 'selected="selected"';
-                                                                         } ?>>žena
+                                                                         } ?>><?php echo _("female"); ?>
                                                     </option>
                                                 </select>
                                             </td>
@@ -875,13 +872,13 @@ class HTML_myprofile
                                         <tr>
                                             <td><?php echo _("Degree before name:"); ?></td>
                                             <td><input type="text" name="PE_degree_prefix" class="width-form" size="40"
-                                                       value="<?php echo $person->PE_degree_prefix; ?>" maxlength="20"/>
+                                                       value="<?php echo htmlspecialchars($person->PE_degree_prefix, ENT_QUOTES); ?>" maxlength="20"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Degree after name:"); ?></td>
                                             <td><input type="text" name="PE_degree_suffix" class="width-form" size="40"
-                                                       value="<?php echo $person->PE_degree_suffix; ?>" maxlength="20"/>
+                                                       value="<?php echo htmlspecialchars($person->PE_degree_suffix, ENT_QUOTES); ?>" maxlength="20"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -901,39 +898,39 @@ class HTML_myprofile
                                         <tr>
                                             <td><?php echo _("E-mail"); ?></td>
                                             <td><input type="text" name="PE_email" class="width-form" size="40"
-                                                       value="<?php echo $person->PE_email; ?>" maxlength="255"/></td>
+                                                       value="<?php echo htmlspecialchars($person->PE_email, ENT_QUOTES); ?>" maxlength="255"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("ICQ:"); ?></td>
                                             <td><input type="text" name="PE_icq" class="width-form" size="40"
-                                                       value="<?php echo $person->PE_icq; ?>" maxlength="50"/></td>
+                                                       value="<?php echo htmlspecialchars($person->PE_icq, ENT_QUOTES); ?>" maxlength="50"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Phone:"); ?></td>
                                             <td><input type="text" name="PE_tel" class="width-form" size="40"
-                                                       value="<?php echo $person->PE_tel; ?>" maxlength="50"/></td>
+                                                       value="<?php echo htmlspecialchars($person->PE_tel, ENT_QUOTES); ?>" maxlength="50"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Secondary Phone:"); ?></td>
                                             <td><input type="text" name="PE_secondary_phone_number" class="width-form"
                                                        size="40"
-                                                       value="<?php echo $person->PE_secondary_phone_number; ?>"
+                                                       value="<?php echo htmlspecialchars($person->PE_secondary_phone_number, ENT_QUOTES); ?>"
                                                        maxlength="50"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("Address:"); ?></td>
                                             <td><input type="text" name="PE_address" class="width-form" size="40"
-                                                       value="<?php echo $person->PE_address; ?>" maxlength="255"/></td>
+                                                       value="<?php echo htmlspecialchars($person->PE_address, ENT_QUOTES); ?>" maxlength="255"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("City:"); ?></td>
                                             <td><input type="text" name="PE_city" class="width-form" size="40"
-                                                       value="<?php echo $person->PE_city; ?>" maxlength="255"/></td>
+                                                       value="<?php echo htmlspecialchars($person->PE_city, ENT_QUOTES); ?>" maxlength="255"/></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo _("ZIP:"); ?></td>
                                             <td><input type="text" name="PE_zip" class="width-form" size="40"
-                                                       value="<?php echo $person->PE_zip; ?>" maxlength="255"/></td>
+                                                       value="<?php echo htmlspecialchars($person->PE_zip, ENT_QUOTES); ?>" maxlength="255"/></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -945,7 +942,7 @@ class HTML_myprofile
                                     <div class="tab-page" id="modules-cpanel-editmyprofile">
                                         <script type="text/javascript">var tabPanePerson1 = new WebFXTabPane(document.getElementById("modules-cpanel-editmyprofile"), 1);</script>
                                         <div class="tab-page" id="module01"><h2
-                                                    class="tab"><?php echo _("Login creditials"); ?></h2>
+                                                    class="tab"><?php echo _("Login credentials"); ?></h2>
                                             <script type="text/javascript">tabPanePerson1.addTabPage(document.getElementById("module01"));</script>
                                             <table class="adminform">
                                                 <thead>

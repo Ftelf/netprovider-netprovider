@@ -127,8 +127,8 @@ class HTML_massmessages
                                             <td><?php echo $selectedNetworkParsed->network . " / " . $selectedNetworkParsed->bitmask; ?></td>
                                             <td><?php echo $selectedNetworkParsed->netmask; ?></td>
                                             <td><?php echo $selectedNetworkParsed->broadcast; ?></td>
-                                            <td><?php echo $selectedNetwork->NE_description; ?></td>
-                                            <td><?php echo $persons[$selectedNetwork->NE_personid]->PE_firstname . " " . $persons[$selectedNetwork->NE_personid]->PE_surname; ?></td>
+                                            <td><?php echo htmlspecialchars($selectedNetwork->NE_description, ENT_QUOTES); ?></td>
+                                            <td><?php echo htmlspecialchars($persons[$selectedNetwork->NE_personid]->PE_firstname, ENT_QUOTES) . " " . htmlspecialchars($persons[$selectedNetwork->NE_personid]->PE_surname, ENT_QUOTES); ?></td>
                                         </tr>
                                     </table>
                                     <table class="adminlist">
@@ -176,11 +176,11 @@ class HTML_massmessages
                                                                 </td>
                                                                 <td width="10%" class="title"
                                                                     style="background: none; background-color: #d5d5d5;">
-                                                                    <strong><?php echo $subNetwork->NE_description; ?></strong>
+                                                                    <strong><?php echo htmlspecialchars($subNetwork->NE_description, ENT_QUOTES); ?></strong>
                                                                 </td>
                                                                 <td width="10%" class="title"
                                                                     style="background: none; background-color: #d5d5d5;">
-                                                                    <strong><?php echo $networkOwner->PE_firstname . " " . $networkOwner->PE_surname; ?></strong>
+                                                                    <strong><?php echo htmlspecialchars($networkOwner->PE_firstname, ENT_QUOTES) . " " . htmlspecialchars($networkOwner->PE_surname, ENT_QUOTES); ?></strong>
                                                                 </td>
                                                                 <td width="70%" class="title"
                                                                     style="background: none; background-color: #d5d5d5;">
@@ -205,19 +205,19 @@ class HTML_massmessages
                                                            onclick="isChecked(this.checked);"/>
                                                 </td>
                                                 <td>
-                                                    <?php echo $ip->IP_address; ?>
+                                                    <?php echo htmlspecialchars($ip->IP_address, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $ip->IP_dns; ?>
+                                                    <?php echo htmlspecialchars($ip->IP_dns, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_firstname . " " . $person->PE_surname; ?>
+                                                    <?php echo htmlspecialchars($person->PE_firstname, ENT_QUOTES) . " " . htmlspecialchars($person->PE_surname, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_email; ?>
+                                                    <?php echo htmlspecialchars($person->PE_email, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_tel; ?>
+                                                    <?php echo htmlspecialchars($person->PE_tel, ENT_QUOTES); ?>
                                                 </td>
                                             </tr>
                                             <?php
@@ -267,7 +267,7 @@ class HTML_massmessages
             }
 
             function copyToClipboard() {
-                navigator.clipboard.writeText("<?php echo $emails; ?>").then(() => {
+                navigator.clipboard.writeText(<?php echo json_encode($emails); ?>).then(() => {
                     console.log('Content copied to clipboard');
                 },() => {
                     console.error('Failed to copy');
@@ -333,7 +333,7 @@ class HTML_massmessages
                     <form action="index2.php" method="post" name="adminForm">
                         <table class="adminform">
                             <tbody>
-                            <tr><textarea cols="40" rows="3" name="message" style="width: 99%;"></textarea></tr>
+                            <tr><td><textarea cols="40" rows="3" name="message" style="width: 99%;"></textarea></td></tr>
                             <tr>
                                 <td valign="top">
                                     <table class="adminlist">
@@ -368,16 +368,16 @@ class HTML_massmessages
                                                            onclick="isChecked(this.checked);"/>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->_IP->IP_address; ?>
+                                                    <?php echo htmlspecialchars($person->_IP->IP_address, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_firstname . " " . $person->PE_surname; ?>
+                                                    <?php echo htmlspecialchars($person->PE_firstname . " " . $person->PE_surname, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_email; ?>
+                                                    <?php echo htmlspecialchars($person->PE_email, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_tel; ?>
+                                                    <?php echo htmlspecialchars($person->PE_tel, ENT_QUOTES); ?>
                                                 </td>
                                             </tr>
                                             <?php
@@ -411,16 +411,16 @@ class HTML_massmessages
                                                     <?php echo $iip + 1; ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->_IP->IP_address; ?>
+                                                    <?php echo htmlspecialchars($person->_IP->IP_address, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_firstname . " " . $person->PE_surname; ?>
+                                                    <?php echo htmlspecialchars($person->PE_firstname . " " . $person->PE_surname, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_email; ?>
+                                                    <?php echo htmlspecialchars($person->PE_email, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_tel; ?>
+                                                    <?php echo htmlspecialchars($person->PE_tel, ENT_QUOTES); ?>
                                                 </td>
                                             </tr>
                                             <?php
@@ -454,16 +454,16 @@ class HTML_massmessages
                                                     <?php echo $iip + 1; ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->_IP->IP_address; ?>
+                                                    <?php echo htmlspecialchars($person->_IP->IP_address, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_firstname . " " . $person->PE_surname; ?>
+                                                    <?php echo htmlspecialchars($person->PE_firstname . " " . $person->PE_surname, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_email; ?>
+                                                    <?php echo htmlspecialchars($person->PE_email, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_tel; ?>
+                                                    <?php echo htmlspecialchars($person->PE_tel, ENT_QUOTES); ?>
                                                 </td>
                                             </tr>
                                             <?php
@@ -497,16 +497,16 @@ class HTML_massmessages
                                                     <?php echo $iip + 1; ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->_IP->IP_address; ?>
+                                                    <?php echo htmlspecialchars($person->_IP->IP_address, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_firstname . " " . $person->PE_surname; ?>
+                                                    <?php echo htmlspecialchars($person->PE_firstname . " " . $person->PE_surname, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_email; ?>
+                                                    <?php echo htmlspecialchars($person->PE_email, ENT_QUOTES); ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $person->PE_tel; ?>
+                                                    <?php echo htmlspecialchars($person->PE_tel, ENT_QUOTES); ?>
                                                 </td>
                                             </tr>
                                             <?php
@@ -549,7 +549,7 @@ class HTML_massmessages
                 $pId = -1;
             }
 
-            echo $treeClassName . ".add($network->NE_networkid, $pId, '$network->NE_net', 'javascript:show($network->NE_networkid);', '$network->NE_description');\n";
+            echo $treeClassName . ".add($network->NE_networkid, $pId, " . json_encode($network->NE_net) . ", 'javascript:show($network->NE_networkid);', " . json_encode($network->NE_description) . ");\n";
 
             if ($network->child != null) {
                 HTML_massmessages::buildTree($treeClassName, $network->child);

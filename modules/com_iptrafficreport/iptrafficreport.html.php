@@ -43,20 +43,20 @@ class HTML_IpTrafficReport
             }
 
             var cal1x = new CalendarPopup("caldiv");
-            cal1x.setMonthNames("Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec");
+            cal1x.setMonthNames("<?php echo _("January"); ?>", "<?php echo _("February"); ?>", "<?php echo _("March"); ?>", "<?php echo _("April"); ?>", "<?php echo _("May"); ?>", "<?php echo _("June"); ?>", "<?php echo _("July"); ?>", "<?php echo _("August"); ?>", "<?php echo _("September"); ?>", "<?php echo _("October"); ?>", "<?php echo _("November"); ?>", "<?php echo _("December"); ?>");
             cal1x.showYearNavigation(true);
-            cal1x.setDayHeaders("N", "P", "Ú", "S", "Č", "P", "S");
+            cal1x.setDayHeaders("<?php echo _("Sun"); ?>", "<?php echo _("Mon"); ?>", "<?php echo _("Tue"); ?>", "<?php echo _("Wed"); ?>", "<?php echo _("Thu"); ?>", "<?php echo _("Fri"); ?>", "<?php echo _("Sat"); ?>");
             cal1x.setWeekStartDay(1);
-            cal1x.setTodayText("Dnes");
+            cal1x.setTodayText("<?php echo _("Today"); ?>");
             cal1x.offsetX = -125;
             cal1x.offsetY = 25;
             cal1x.setFireFunctionOnHide('filterChange();');
             var cal2x = new CalendarPopup("caldiv");
-            cal2x.setMonthNames("Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec");
+            cal2x.setMonthNames("<?php echo _("January"); ?>", "<?php echo _("February"); ?>", "<?php echo _("March"); ?>", "<?php echo _("April"); ?>", "<?php echo _("May"); ?>", "<?php echo _("June"); ?>", "<?php echo _("July"); ?>", "<?php echo _("August"); ?>", "<?php echo _("September"); ?>", "<?php echo _("October"); ?>", "<?php echo _("November"); ?>", "<?php echo _("December"); ?>");
             cal2x.showYearNavigation(true);
-            cal2x.setDayHeaders("N", "P", "Ú", "S", "Č", "P", "S");
+            cal2x.setDayHeaders("<?php echo _("Sun"); ?>", "<?php echo _("Mon"); ?>", "<?php echo _("Tue"); ?>", "<?php echo _("Wed"); ?>", "<?php echo _("Thu"); ?>", "<?php echo _("Fri"); ?>", "<?php echo _("Sat"); ?>");
             cal2x.setWeekStartDay(1);
-            cal2x.setTodayText("Dnes");
+            cal2x.setTodayText("<?php echo _("Today"); ?>");
             cal2x.offsetX = -125;
             cal2x.offsetY = 25;
             cal2x.setFireFunctionOnHide('filterChange();');
@@ -94,8 +94,7 @@ class HTML_IpTrafficReport
                         <table>
                             <tr>
                                 <td rowspan="3" valign="middle"><?php echo _("Filter:"); ?></td>
-                                <td align="right">
-                                <td><input type="text" name="filter[search]" value="<?php echo $filter['search']; ?>"
+                                <td><input type="text" name="filter[search]" value="<?php echo htmlspecialchars($filter['search'], ENT_QUOTES); ?>"
                                            class="width-form" onchange="document.adminForm.submit();"/></td>
                                 <td align="right">
                                     <select name="filter[period]" class="width-form" size="1"
@@ -203,10 +202,10 @@ class HTML_IpTrafficReport
                                     <td width="20">
                                         <?php echo $i + 1 + $pageNav->limitstart; ?>
                                     </td>
-                                    <td width="100"><?php echo $ip->PE_surname; ?></td>
-                                    <td width="100"><?php echo $ip->PE_firstname; ?></td>
-                                    <td width="100"><?php echo $ip->PE_nick; ?></td>
-                                    <td><?php echo $ip->IP_address; ?></td>
+                                    <td width="100"><?php echo htmlspecialchars($ip->PE_surname, ENT_QUOTES); ?></td>
+                                    <td width="100"><?php echo htmlspecialchars($ip->PE_firstname, ENT_QUOTES); ?></td>
+                                    <td width="100"><?php echo htmlspecialchars($ip->PE_nick, ENT_QUOTES); ?></td>
+                                    <td><?php echo htmlspecialchars($ip->IP_address, ENT_QUOTES); ?></td>
                                     <?php
                                     foreach ($report['intervals'] as $column) {
                                         if (!isset($ip->data[$column])) {
@@ -242,9 +241,9 @@ class HTML_IpTrafficReport
                         <input type="hidden" name="boxchecked" value="0"/>
                         <input type="hidden" name="hidemainmenu" value="0"/>
                         <input type="hidden" name="filter[sort_key]" id="sort_key"
-                               value="<?php echo $filter['sort_key'] ?>"/>
+                               value="<?php echo htmlspecialchars($filter['sort_key'], ENT_QUOTES) ?>"/>
                         <input type="hidden" name="filter[sort_direction]" id="sort_direction"
-                               value="<?php echo $filter['sort_direction'] ?>"/>
+                               value="<?php echo htmlspecialchars($filter['sort_direction'], ENT_QUOTES) ?>"/>
                     </form>
                 </div>
 
